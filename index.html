@@ -233,11 +233,17 @@ const RENJA25 = {
   unit: "07 — Badan Pengawas Perdagangan Berjangka Komoditi",
   sumber: "REKAP 2A · Renja K/L TA 2025 (KRISNA)",
   totalAlokasi: 16_467_953_000, // Rp (dok. 16.467.953 ribu)
-  ssDidukung: [
+  /* SS yang DIDUKUNG oleh SP & IKP Renja 2025: Sasaran Strategis 05 (anchor cascade). */
+  ssAnchor: {
+    kode: "05",
+    nama: "Mengoptimalkan Peranan Perdagangan Berjangka Komoditi (PBK), Sistem Resi Gudang (SRG), dan Pasar Lelang Komoditas (PLK)",
+    warna: "#7c2d12",
+  },
+  /* SS lain yang tercantum sebagai didukung di tingkat program pada dokumen Rekap 2A. */
+  ssDidukungLain: [
     "02 — Mewujudkan Stabilisasi Harga dan Ketersediaan Pasokan Bahan Pangan",
     "03 — Mewujudkan Konsumen Berdaya dan Pelaku Usaha yang Bertanggung Jawab",
     "04 — Meningkatnya Pasar Produk Dalam Negeri",
-    "05 — Mengoptimalkan Peranan PBK, SRG, dan PLK",
   ],
   sp: [
     {
@@ -246,10 +252,10 @@ const RENJA25 = {
       alokasi:9_540_000_000, // Rp (dok. 9.540.000 ribu)
       warna:"#a16207",
       ikp:[
-        { kode:"04.01", nama:"Pertumbuhan Implementasi Perdagangan Berjangka Komoditi", target:"14" },
-        { kode:"04.02", nama:"Pertumbuhan Implementasi Sistem Resi Gudang",            target:"20" },
-        { kode:"04.03", nama:"Pertumbuhan Implementasi Pasar Lelang Komoditas",        target:"25" },
-        { kode:"04.04", nama:"Pertumbuhan Pengembangan Perdagangan Aset Kripto",       target:"59" },
+        { kode:"04.01", nama:"Pertumbuhan Implementasi Perdagangan Berjangka Komoditi", target:"14", satuan:"%" },
+        { kode:"04.02", nama:"Pertumbuhan Implementasi Sistem Resi Gudang",            target:"20", satuan:"%" },
+        { kode:"04.03", nama:"Pertumbuhan Implementasi Pasar Lelang Komoditas",        target:"25", satuan:"%" },
+        { kode:"04.04", nama:"Pertumbuhan Pengembangan Perdagangan Aset Kripto",       target:"59", satuan:"%" },
       ],
     },
     {
@@ -258,10 +264,10 @@ const RENJA25 = {
       alokasi:6_927_953_000, // Rp (dok. 6.927.953 ribu)
       warna:"#2563eb",
       ikp:[
-        { kode:"09.01", nama:"Indeks Kepuasan Layanan Publik", target:"85" },
-        { kode:"09.02", nama:"Kepatuhan Pelaku Usaha Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas", target:"95" },
-        { kode:"09.03", nama:"Pemenuhan Konsultasi Hukum dan Litigasi", target:"85" },
-        { kode:"09.04", nama:"Persentase Kepatuhan Pelaku Usaha Aset Kripto", target:"95" },
+        { kode:"09.01", nama:"Indeks Kepuasan Layanan Publik", target:"85", satuan:"nilai" },
+        { kode:"09.02", nama:"Kepatuhan Pelaku Usaha Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas", target:"95", satuan:"%" },
+        { kode:"09.03", nama:"Pemenuhan Konsultasi Hukum dan Litigasi", target:"85", satuan:"%" },
+        { kode:"09.04", nama:"Persentase Kepatuhan Pelaku Usaha Aset Kripto", target:"95", satuan:"%" },
       ],
     },
   ],
@@ -755,6 +761,9 @@ const fmtRp = (n)=>{
   return `Rp ${n.toLocaleString('id-ID')}`;
 };
 const totalAnggaran = KEGIATAN.reduce((s,k)=>s+k.anggaran,0);
+/* Total Pagu TA 2025 = RKAKL Rev.9 (DOWNLOAD POK, ALOKASI Satker 412492) — pagu terakhir/terkini.
+   EF Perdagangan Dalam Negeri 16.467.953.000 + WA Dukungan Manajemen 15.584.598.000. */
+const PAGU_RKAKL_REV9_2025 = 32_052_551_000;
 const pnCount = RO.filter(r=>r.isPN).length;
 const nonPnCount = RO.length-pnCount;
 const pnBudget = RO.filter(r=>r.isPN).reduce((s,r)=>s+r.anggaran,0);
@@ -1369,7 +1378,9 @@ function Tabs({active,onChange}){
 function MetricStrip(){
   const year = useYear();
   const yroList = roForYear(year);
-  const paguYear = yearHasOwnRO(year) ? yroList.reduce((s,r)=>s+r.anggaran,0) : totalAnggaran;
+  const paguYear = year===2025 ? PAGU_RKAKL_REV9_2025
+                 : yearHasOwnRO(year) ? yroList.reduce((s,r)=>s+r.anggaran,0)
+                 : totalAnggaran;
   const roCount = yroList.length;
   const roSub = year===2027 ? `${yroList.filter(r=>r.isPN).length} PN · RANWAL`
               : year===2025 ? `${roCount} RO · Renja 2025`
@@ -1381,7 +1392,7 @@ function MetricStrip(){
     {label:"Kegiatan",          value:KEGIATAN.length, sub:"unit eselon II"},
     {label:"KRO",               value:KRO.length, sub:"klasifikasi output"},
     {label:"Rincian Output",    value:roCount, sub:roSub},
-    {label:"Total Pagu",        value:fmtRp(paguYear), sub:year===2027?'TA 2027 · RANWAL *':(year===2025?'TA 2025 · Renja':'TA 2026'), big:true},
+    {label:"Total Pagu",        value:fmtRp(paguYear), sub:year===2027?'TA 2027 · RANWAL *':(year===2025?'TA 2025 · RKAKL Rev.9':'TA 2026'), big:true},
   ];
   return (
     <div className="max-w-[1400px] mx-auto px-8 mb-8">
@@ -1398,7 +1409,7 @@ function MetricStrip(){
         <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">
           {year===2027
             ? <>* <b>TA 2027</b>: angka bersifat <b>RANWAL</b> (rencana awal). Target IKK mengikuti Renja/Renstra 2027. Renja 2027 dimuat untuk <b>seluruh 5 Kegiatan</b> (3758–3762) pada Pohon Kinerja, Total Pagu & SPBE. Tagging <b>Prioritas Nasional</b> mengikuti pola RO TA 2026 (tema Hilirisasi). Telaah efektivitas–efisiensi tiap RO ada di tab <b>Analisis Anggaran</b>. Realisasi (SAKTI) tetap bersumber data TA 2026 (tahun berjalan).</>
-            : <><b>TA 2025</b>: angka bersumber dari <b>Renja K/L (Rekap 3 KRISNA) TA 2025</b> untuk seluruh 5 Kegiatan (3758–3762), tertanggal 24 Desember 2024. Pagu, RO, target IKK, dan kerangka logika ditampilkan sesuai dokumen Renja TA 2025; TA 2025 belum memuat tagging <b>Prioritas Nasional</b>. Realisasi (SAKTI) & clearance SPBE mengikuti tahun berjalan (TA 2026).</>}
+            : <><b>TA 2025</b>: <b>Total Pagu</b> mengacu <b>RKAKL Rev.9</b> (DOWNLOAD POK) sebesar <b>{fmtRp(PAGU_RKAKL_REV9_2025)}</b> — pagu terakhir/terkini TA 2025 (EF Rp 16,47 M + WA Rp 15,58 M). Rincian Output, target IKK, dan kerangka logika ditampilkan sesuai dokumen <b>Renja K/L (Rekap 3 KRISNA) TA 2025</b> untuk seluruh 5 Kegiatan (3758–3762). Selisih <b>Rp 7,00 M</b> terhadap total RO Renja (Rp 25,05 M) diasumsikan sebagai <b>penambahan anggaran</b> pada revisi, tersebar di kelima Kegiatan (terbesar pada 3762 PBK +Rp 2,42 M dan 3761 Hukum +Rp 1,49 M). TA 2025 belum memuat tagging <b>Prioritas Nasional</b>. Realisasi (SAKTI) & clearance SPBE mengikuti tahun berjalan (TA 2026).</>}
         </div>
       )}
     </div>
@@ -1655,16 +1666,32 @@ function RenjaSP2025(){
             </div>
           </div>
 
-          {/* SS K/L yang didukung */}
-          <div className="card-2 p-3 mt-4">
+          {/* SS 05 — Sasaran Strategis yang didukung SP & IKP Renja 2025 (anchor cascade) */}
+          <div className="card-2 p-4 mt-4" style={{borderColor:"rgba(124,45,18,0.40)",background:"rgba(124,45,18,0.05)"}}>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Sasaran Strategis K/L yang Didukung</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
-              {RENJA25.ssDidukung.map((s,i)=>(
-                <div key={i} className="text-[11px] text-[var(--text-2)] leading-snug flex gap-1.5">
-                  <span className="text-[var(--text-3)]">•</span><span>{s}</span>
+            <div className="flex items-start gap-3">
+              <span className="w-1.5 h-10 rounded-full shrink-0" style={{background:RENJA25.ssAnchor.warna}}></span>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="pill mono" style={{background:`${RENJA25.ssAnchor.warna}1a`,color:RENJA25.ssAnchor.warna,borderColor:"transparent"}}>SS {RENJA25.ssAnchor.kode}</span>
+                  <span className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Sasaran Strategis K/L</span>
                 </div>
-              ))}
+                <div className="serif text-sm leading-snug text-balance">{RENJA25.ssAnchor.nama}</div>
+                <div className="text-[10px] text-[var(--text-2)] mt-2 leading-relaxed">
+                  Seluruh Sasaran Program (SP 04 &amp; SP 09) beserta IKP-nya pada Renja TA 2025 <b>mendukung / berkontribusi langsung</b> pada Sasaran Strategis ini.
+                </div>
+              </div>
             </div>
+            <div className="text-[9px] text-[var(--text-3)] italic mt-3 leading-snug">
+              Pada dokumen Rekap 2A, di tingkat program juga tercantum SS yang didukung lainnya: {RENJA25.ssDidukungLain.map(s=>s.split(" — ")[0]).join(", ")}. Untuk pohon kinerja, SP &amp; IKP Bappebti diturunkan dari SS {RENJA25.ssAnchor.kode}.
+            </div>
+          </div>
+
+          {/* Penanda cascade SS 05 → SP → IKP */}
+          <div className="flex items-center gap-2 mt-3 text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">
+            <span style={{color:RENJA25.ssAnchor.warna}}>SS {RENJA25.ssAnchor.kode}</span>
+            <span>↓</span><span>Sasaran Program</span>
+            <span>↓</span><span>Indikator Kinerja Program</span>
           </div>
 
           {/* SP & IKP */}
@@ -1689,7 +1716,10 @@ function RenjaSP2025(){
                         <div className="flex-1 text-[12px] leading-snug">{ik.nama}</div>
                         <div className="text-right shrink-0">
                           <div className="text-[10px] text-[var(--text-3)]">Target 2025</div>
-                          <div className="text-sm mono text-[var(--gold)]">{ik.target}</div>
+                          <div className="text-sm mono text-[var(--gold)]">
+                            {ik.satuan==='%' ? `${ik.target}%` : ik.target}
+                            {ik.satuan && ik.satuan!=='%' && <span className="text-[9px] text-[var(--text-3)] ml-1">{ik.satuan}</span>}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -1699,7 +1729,7 @@ function RenjaSP2025(){
             ))}
           </div>
           <div className="text-[9px] text-[var(--text-3)] italic mt-3">
-            Catatan: REKAP 2A Renja tidak mencetak kolom satuan; angka target ditampilkan apa adanya sesuai dokumen sumber.
+            Catatan: REKAP 2A Renja tidak mencetak kolom satuan. Satuan ditetapkan sesuai jenis indikator — seluruh IKP bersatuan persentase (%), kecuali <b>Indeks Kepuasan Layanan Publik</b> (09.01) yang bersatuan nilai.
           </div>
         </div>
       </div>
