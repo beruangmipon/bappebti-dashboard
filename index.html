@@ -548,7 +548,8 @@ const PAGU_2027 = {
    (3758 Sekretariat, 3759 Pengawasan, 3760 SRG/PLK, 3761 Hukum, 3762 PBK),
    tertanggal 24 Desember 2024. Nilai anggaran = pagu riil (rupiah); pada
    dokumen tertera dalam ribuan rupiah. Total Bappebti TA 2025 = Rp25.052.551.000.
-   TA 2025 belum memuat tagging Prioritas Nasional (isPN:false). Skor
+   TA 2025: tagging Prioritas Nasional (isPN) ditetapkan dari kode KRO (lihat PN_KRO_BY_KEG);
+   pagu valid agregat mengacu RKAKL Rev.9. Skor
    impact/alignment/urgency/leverage = estimasi analitik awal (silakan dikoreksi). */
 const RO_2025 = [
   /* ===== 3759 — Renja TA 2025 ===== */
@@ -617,13 +618,35 @@ const RO_2025 = [
   { id:"RO25-3758-EBD953", kode:"EBD.953", kro:"KRO-3758-EBD", nama:"Layanan Pemantauan & Evaluasi", anggaran:834_264_000, target:"4 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:58, leverage:52 },
   { id:"RO25-3758-EBD955", kode:"EBD.955", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan", anggaran:321_000_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:56, leverage:50 },
 ];
+/* PAGU VALID TA 2025 = RKAKL Rev.9 (DOWNLOAD POK / ALOKASI Satker 412492) per Kegiatan.
+   Sumber: RKAKL Rev.9. Total EF 16.467.953.000 + WA 15.584.598.000 = 32.052.551.000. */
 const PAGU_2025 = {
-  "K-3758": 14_590_966_000,
-  "K-3759":  2_115_000_000,
-  "K-3760":  3_846_585_000,
-  "K-3761":  2_250_000_000,
-  "K-3762":  2_250_000_000,
+  "K-3758": 15_584_598_000,
+  "K-3759":  3_189_228_000,
+  "K-3760":  4_865_504_000,
+  "K-3761":  3_738_725_000,
+  "K-3762":  4_674_496_000,
 };
+/* ===== REALISASI TA 2025 — per Kegiatan =====
+   paguRev9   = Pagu RKAKL Rev.9 (DOWNLOAD POK / alokasi awal).
+   paguSakti  = Pagu (SAKTI · Pagu Revisi) — PAGU YANG DIPAKAI sebagai acuan serapan.
+   real       = Realisasi s.d. periode Desember 2025 (SAKTI, kolom "s.d. Periode").
+   sisa       = Sisa anggaran (SAKTI).
+   Serapan dihitung thd paguSakti (sesuai SAKTI). Blokir/Efisiensi = paguRev9 - paguSakti.
+   Total: Pagu Rev.9 32.052.551.000 · Blokir/Efisiensi 13.529.125.000 · Pagu SAKTI 18.523.426.000 ·
+          Realisasi 18.355.018.549 · Serapan 99,09% · Sisa 168.407.451. */
+const REALISASI_2025 = [
+  { keg:"K-3759", paguRev9: 3_189_228_000,  paguSakti: 1_197_909_000,  real: 1_192_988_119,  sisa:  4_920_881 },
+  { keg:"K-3760", paguRev9: 4_865_504_000,  paguSakti: 2_330_643_000,  real: 2_295_322_730,  sisa: 35_320_270 },
+  { keg:"K-3761", paguRev9: 3_738_725_000,  paguSakti: 1_650_805_000,  real: 1_642_682_333,  sisa:  8_122_667 },
+  { keg:"K-3762", paguRev9: 4_674_496_000,  paguSakti: 1_925_932_000,  real: 1_894_561_311,  sisa: 31_370_689 },
+  { keg:"K-3758", paguRev9:15_584_598_000,  paguSakti:11_418_137_000,  real:11_329_464_056,  sisa: 88_672_944 },
+];
+const PAGU_SAKTI_2025      = REALISASI_2025.reduce((s,r)=>s+r.paguSakti,0); // 18.523.426.000
+const REALISASI_TOTAL_2025 = REALISASI_2025.reduce((s,r)=>s+r.real,0);      // 18.355.018.549
+const SISA_TOTAL_2025      = REALISASI_2025.reduce((s,r)=>s+r.sisa,0);      // 168.407.451
+const BLOKIR_TOTAL_2025    = REALISASI_2025.reduce((s,r)=>s+(r.paguRev9-r.paguSakti),0); // 13.529.125.000
+const getRealisasi2025 = (kegId)=> REALISASI_2025.find(r=>r.keg===kegId);
 const RO_2027_ALL = RO_2027.concat(RO_2027_KL);
 const roForYear = (year)=> year===2027 ? RO_2027_ALL : (year===2025 ? RO_2025 : RO);
 const has2027 = (kegId)=> ["K-3758","K-3759","K-3760","K-3761","K-3762"].includes(kegId);
@@ -780,6 +803,27 @@ const impactColor = (v)=>{
 const getProgram = (id)=>PROGRAM.find(p=>p.id===id);
 const getKegiatan = (id)=>KEGIATAN.find(k=>k.id===id);
 const getKRO = (id)=>KRO.find(k=>k.id===id);
+
+/* ===== PRIORITAS NASIONAL (PN) DITENTUKAN DARI KODE KRO =====
+   PN/Non-PN tidak di-tag di dokumen RKAKL; penetapan mengikuti kode KRO sesuai tagging
+   RKP (tema Hilirisasi/Ketahanan Pangan). KRO PN Bappebti = output pengembangan ekosistem
+   SRG/PLK (Kegiatan 3760) dan kelembagaan/kebijakan PBK (Kegiatan 3762). Daftar KRO PN di
+   bawah dapat disunting bila peraturan/tagging RKP berbeda. */
+const PN_KRO_BY_KEG = {
+  "K-3760": ["PBB","PEA","QDB","QDC","UAB"],
+  "K-3762": ["ABB","QDH"],
+};
+const isPNbyKRO = (kegId, kroKode)=> (PN_KRO_BY_KEG[kegId]||[]).includes(kroKode);
+/* Terapkan tagging PN-by-KRO ke RO TA 2025 (menggantikan isPN:false bawaan). */
+RO_2025.forEach(r=>{
+  const kr = getKRO(r.kro);
+  if(!kr) return;
+  const pn = isPNbyKRO(kr.kegiatan, kr.kode);
+  r.isPN = pn;
+  if(pn) r.pnLabel = "PN — Hilirisasi/Ketahanan Pangan";
+});
+const pnCount2025    = RO_2025.filter(r=>r.isPN).length;
+const nonPnCount2025 = RO_2025.length - pnCount2025;
 
 /* Indeks target lintas tahun per RO. Key = `${kegiatan}|${kode}` agar konsisten 2025/2026/2027.
    TA 2025 dari RO_2025 (Renja KRISNA TA 2025), TA 2026 dari RO, TA 2027 dari RANWAL. */
@@ -1383,7 +1427,7 @@ function MetricStrip(){
                  : totalAnggaran;
   const roCount = yroList.length;
   const roSub = year===2027 ? `${yroList.filter(r=>r.isPN).length} PN · RANWAL`
-              : year===2025 ? `${roCount} RO · Renja 2025`
+              : year===2025 ? `${pnCount2025} PN · ${nonPnCount2025} Non-PN`
               : `${pnCount} PN · ${nonPnCount} Non-PN`;
   const items = [
     {label:"Sasaran Strategis", value:"SS1", sub:"Kementerian Perdagangan"},
@@ -1409,7 +1453,7 @@ function MetricStrip(){
         <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">
           {year===2027
             ? <>* <b>TA 2027</b>: angka bersifat <b>RANWAL</b> (rencana awal). Target IKK mengikuti Renja/Renstra 2027. Renja 2027 dimuat untuk <b>seluruh 5 Kegiatan</b> (3758–3762) pada Pohon Kinerja, Total Pagu & SPBE. Tagging <b>Prioritas Nasional</b> mengikuti pola RO TA 2026 (tema Hilirisasi). Telaah efektivitas–efisiensi tiap RO ada di tab <b>Analisis Anggaran</b>. Realisasi (SAKTI) tetap bersumber data TA 2026 (tahun berjalan).</>
-            : <><b>TA 2025</b>: <b>Total Pagu</b> mengacu <b>RKAKL Rev.9</b> (DOWNLOAD POK) sebesar <b>{fmtRp(PAGU_RKAKL_REV9_2025)}</b> — pagu terakhir/terkini TA 2025 (EF Rp 16,47 M + WA Rp 15,58 M). Rincian Output, target IKK, dan kerangka logika ditampilkan sesuai dokumen <b>Renja K/L (Rekap 3 KRISNA) TA 2025</b> untuk seluruh 5 Kegiatan (3758–3762). Selisih <b>Rp 7,00 M</b> terhadap total RO Renja (Rp 25,05 M) diasumsikan sebagai <b>penambahan anggaran</b> pada revisi, tersebar di kelima Kegiatan (terbesar pada 3762 PBK +Rp 2,42 M dan 3761 Hukum +Rp 1,49 M). TA 2025 belum memuat tagging <b>Prioritas Nasional</b>. Realisasi (SAKTI) & clearance SPBE mengikuti tahun berjalan (TA 2026).</>}
+            : <><b>TA 2025</b>: <b>Total Pagu (alokasi)</b> RKAKL Rev.9 (DOWNLOAD POK) sebesar <b>{fmtRp(PAGU_RKAKL_REV9_2025)}</b>. <b>Pagu yang dipakai</b> (acuan serapan) mengikuti <b>SAKTI</b> sebesar <b>{fmtRp(PAGU_SAKTI_2025)}</b>; selisih <b>{fmtRp(BLOKIR_TOTAL_2025)}</b> (±42%) thd RKAKL Rev.9 merupakan <b>blokir/efisiensi</b>. Realisasi s/d Des 2025 <b>{fmtRp(REALISASI_TOTAL_2025)}</b> — <b>serapan 99,09%</b> sesuai SAKTI (sisa {fmtRp(SISA_TOTAL_2025)}). Tagging <b>Prioritas Nasional</b> ditetapkan dari <b>kode KRO</b> ({pnCount2025} RO PN: KRO PBB/PEA/QDB/QDC/UAB di 3760 & ABB/QDH di 3762). Capaian & serapan rinci ada di tab <b>Capaian</b>.</>}
         </div>
       )}
     </div>
@@ -2929,27 +2973,144 @@ function Capaian(){
     setAILoading(false);
   };
 
+  /* ===== Agregat REALISASI TA 2025 (RKAKL Rev.9 vs SAKTI Des 2025) ===== */
+  const cap2025rows = REALISASI_2025.map(r=>{
+    const k = getKegiatan(r.keg);
+    const blokir = r.paguRev9 - r.paguSakti;
+    return {
+      ...r, nama:k.nama, kode:k.kode, blokir,
+      ser:    r.paguSakti ? r.real/r.paguSakti*100 : 0,   // serapan thd pagu SAKTI (acuan)
+      serRev9:r.paguRev9  ? r.real/r.paguRev9*100  : 0,   // serapan thd pagu Rev.9 (info)
+    };
+  }).sort((a,b)=>b.paguRev9-a.paguRev9);
+  const pct2 = (n)=> n.toFixed(2).replace('.',',');       // 99.0905 -> "99,09"
+  const c25 = {
+    paguRev9: REALISASI_2025.reduce((s,r)=>s+r.paguRev9,0),
+    paguSakti: PAGU_SAKTI_2025,
+    real: REALISASI_TOTAL_2025,
+    blokir: BLOKIR_TOTAL_2025,
+    sisa: SISA_TOTAL_2025,
+  };
+  c25.ser     = c25.real/c25.paguSakti*100;   // 99,09%
+  c25.serRev9 = c25.real/c25.paguRev9*100;    // thd Rev.9
+  c25.blokirPct = Math.round(c25.blokir/c25.paguRev9*100);
+  /* PN vs Non-PN TA 2025 (tagging dari kode KRO) — pagu pakai RKAKL Rev.9 per RO. */
+  const pnRO25 = RO_2025.filter(r=>r.isPN), nonpnRO25 = RO_2025.filter(r=>!r.isPN);
+  const pnPagu25 = pnRO25.reduce((s,r)=>s+r.anggaran,0), nonpnPagu25 = nonpnRO25.reduce((s,r)=>s+r.anggaran,0);
+
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       {year===2025 ? (
         <>
           <div className="flex items-center gap-2 mb-4 flex-wrap">
-            <span className="pill pill-blue mono text-[10px]">TA 2025 · RENJA</span>
-            <span className="text-xs text-[var(--text-3)]">Tahun anggaran telah berakhir — realisasi TA 2025 tidak dimuat pada dataset ini.</span>
+            <span className="pill pill-blue mono text-[10px]">TA 2025 · REALISASI</span>
+            <span className="text-xs text-[var(--text-3)]">Tahun anggaran berakhir — realisasi s/d Desember 2025 (sumber: SAKTI · Laporan Ketersediaan Dana Detail). Pagu valid: RKAKL Rev.9.</span>
           </div>
-          <div className="card p-5 mb-6" style={{borderColor:"var(--border-strong)"}}>
+
+          {/* Catatan metodologi efisiensi/blokir */}
+          <div className="card p-5 mb-6" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.06)"}}>
             <div className="flex items-start gap-3">
-              <span className="text-[var(--text-3)] text-lg leading-none mt-0.5">ⓘ</span>
+              <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
               <div>
-                <div className="serif text-lg">Capaian & realisasi TA 2025 tidak dimuat</div>
+                <div className="serif text-lg">Realisasi anggaran TA 2025 sudah dimuat (sumber: SAKTI, Des 2025)</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Dashboard memuat <b>perencanaan TA 2025</b> (pagu, RO, target IKK dari Renja K/L KRISNA),
-                  namun <b>realisasi anggaran (SAKTI)</b> yang tersedia hanya untuk <b>tahun berjalan TA 2026</b>.
-                  Untuk melihat capaian & serapan, pilih <b>TA 2026</b> pada pemilih tahun di header. Struktur
-                  perencanaan TA 2025 dapat ditelusuri pada tab <b>Pohon Kinerja</b>.
+                  <b>Pagu yang dipakai</b> mengikuti <b>SAKTI</b> (Pagu Revisi) sebesar <b>{fmtRp(c25.paguSakti)}</b>, sehingga
+                  <b>serapan {pct2(c25.ser)}%</b> sesuai SAKTI (realisasi {fmtRp(c25.real)}, sisa {fmtRp(c25.sisa)}).
+                  Selisih terhadap <b>RKAKL Rev.9</b> ({fmtRp(c25.paguRev9)}) sebesar <b>{fmtRp(c25.blokir)}</b> ({c25.blokirPct}%)
+                  merupakan <b>blokir/efisiensi</b>. Tagging <b>PN/Non-PN</b> ditetapkan dari <b>kode KRO</b>.
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Metrik utama */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+            {[
+              {l:"Pagu RKAKL Rev.9", v:fmtRp(c25.paguRev9), s:"alokasi awal (POK)", c:"var(--text)"},
+              {l:"Blokir / Efisiensi", v:fmtRp(c25.blokir),   s:`${c25.blokirPct}% · Rev.9 − SAKTI`, c:"var(--red)"},
+              {l:"Pagu (SAKTI)",       v:fmtRp(c25.paguSakti),s:"pagu acuan serapan", c:"var(--text)"},
+              {l:"Realisasi",          v:fmtRp(c25.real),     s:`s/d Des 2025 · sisa ${fmtRp(c25.sisa)}`, c:"var(--emerald)"},
+              {l:"Serapan",            v:`${pct2(c25.ser)}%`, s:"thd pagu SAKTI", c:statusCapaian(Math.round(c25.ser)).color},
+            ].map((m,i)=>(
+              <div key={i} className="card p-5">
+                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{m.l}</div>
+                <div className="serif text-2xl mt-2" style={{color:m.c}}>{m.v}</div>
+                <div className="text-[10px] text-[var(--text-3)] mt-1">{m.s}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Serapan per Kegiatan + tabel efisiensi/blokir */}
+          <div className="card p-5 mb-6">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Serapan Anggaran per Kegiatan</div>
+            <div className="serif text-lg mb-3">Realisasi thd pagu SAKTI · blokir/efisiensi = Rev.9 − SAKTI</div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] text-right" style={{borderBottom:"1px solid var(--border)"}}>
+                    <th className="text-left py-2 font-normal">Kegiatan</th>
+                    <th className="py-2 font-normal">Pagu Rev.9</th>
+                    <th className="py-2 font-normal">Blokir/Efisiensi</th>
+                    <th className="py-2 font-normal">Pagu SAKTI</th>
+                    <th className="py-2 font-normal">Realisasi</th>
+                    <th className="py-2 font-normal pl-3">Serapan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cap2025rows.map(r=>{
+                    const st = statusCapaian(Math.round(r.ser));
+                    return (
+                      <tr key={r.keg} style={{borderBottom:"1px solid var(--border)"}}>
+                        <td className="py-2 text-left">
+                          <span className="pill pill-muted mono text-[9px] mr-2">{r.kode}</span>
+                          <span className="text-[var(--text-2)]">{r.nama}</span>
+                        </td>
+                        <td className="py-2 text-right mono text-[var(--text-3)]">{fmtRp(r.paguRev9)}</td>
+                        <td className="py-2 text-right mono" style={{color:"var(--red)"}}>{fmtRp(r.blokir)}</td>
+                        <td className="py-2 text-right mono text-[var(--text-2)]">{fmtRp(r.paguSakti)}</td>
+                        <td className="py-2 text-right mono text-[var(--text-2)]">{fmtRp(r.real)}</td>
+                        <td className="py-2 pl-3" style={{minWidth:140}}>
+                          <div className="flex items-center gap-2 justify-end">
+                            <div className="impact-bar flex-1"><div className="impact-fill" style={{width:`${r.ser}%`,background:st.color}}></div></div>
+                            <span className="mono" style={{color:st.color,minWidth:42,textAlign:"right"}}>{pct2(r.ser)}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="text-[var(--text)]" style={{borderTop:"2px solid var(--border-strong)"}}>
+                    <td className="py-2 text-left serif">TOTAL Bappebti</td>
+                    <td className="py-2 text-right mono">{fmtRp(c25.paguRev9)}</td>
+                    <td className="py-2 text-right mono" style={{color:"var(--red)"}}>{fmtRp(c25.blokir)}</td>
+                    <td className="py-2 text-right mono">{fmtRp(c25.paguSakti)}</td>
+                    <td className="py-2 text-right mono">{fmtRp(c25.real)}</td>
+                    <td className="py-2 pl-3 text-right mono" style={{color:statusCapaian(Math.round(c25.ser)).color}}>{pct2(c25.ser)}%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]">
+              Realisasi tahun penuh (s.d. Desember 2025, sumber SAKTI). Serapan dihitung thd <b>pagu SAKTI</b> (total {pct2(c25.ser)}%). Sebagai konteks, thd <b>pagu RKAKL Rev.9</b> serapan setara {pct2(c25.serRev9)}% — selisihnya mencerminkan porsi yang ter-blokir/efisiensi.
+            </div>
+          </div>
+
+          {/* PN vs Non-PN (dari kode KRO) */}
+          <div className="card p-5 mb-6">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Komposisi Prioritas Nasional (PN) — dari kode KRO</div>
+            <div className="serif text-lg mb-4">{pnRO25.length} RO PN · {nonpnRO25.length} RO Non-PN</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="card-2 p-4">
+                <div className="flex items-center gap-2 mb-1"><span className="pill pill-gold text-[9px]">PN</span><span className="text-xs text-[var(--text-2)]">Hilirisasi / Ketahanan Pangan</span></div>
+                <div className="serif text-2xl" style={{color:"var(--gold)"}}>{fmtRp(pnPagu25)}</div>
+                <div className="text-[10px] text-[var(--text-3)] mt-1">{pnRO25.length} RO · KRO PBB/PEA/QDB/QDC/UAB (3760) & ABB/QDH (3762)</div>
+              </div>
+              <div className="card-2 p-4">
+                <div className="flex items-center gap-2 mb-1"><span className="pill pill-muted text-[9px]">Non-PN</span><span className="text-xs text-[var(--text-2)]">Reguler</span></div>
+                <div className="serif text-2xl text-[var(--text)]">{fmtRp(nonpnPagu25)}</div>
+                <div className="text-[10px] text-[var(--text-3)] mt-1">{nonpnRO25.length} RO · pagu indikatif (struktur RO TA 2025)</div>
+              </div>
+            </div>
+            <div className="text-[10px] text-[var(--text-3)] mt-3">Penetapan PN/Non-PN mengikuti <b>kode KRO</b> sesuai tagging RKP; daftar KRO PN dapat disesuaikan bila peraturan berbeda. Nilai pagu per RO bersifat indikatif (struktur RO TA 2025); pagu valid agregat mengacu RKAKL Rev.9.</div>
           </div>
         </>
       ) : year===2027 ? (
