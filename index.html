@@ -370,8 +370,8 @@ const RO = [
 
   /* ===== 3758 — Dukungan Manajemen ===== */
   { id:"RO-3758-CAN1", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Tugas Bappebti", anggaran:115_200_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:52, leverage:42 },
-  { id:"RO-3758-EBA1", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:4_449_293_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO-3758-EBA2", kode:"EBA.Z08", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:398_370_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-5","ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
+  { id:"RO-3758-EBA1", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:4_449_293_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO-3758-EBA2", kode:"EBA.Z08", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:398_370_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-5","ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
 ];
 
 /* Realisasi per RO s/d Mei 2026 (SAKTI — Laporan Ketersediaan Dana Detail).
@@ -421,9 +421,9 @@ const RO_2027 = [
 const RO_2027_KL = [
   /* ===== 3758 — Dukungan Manajemen & Dukungan Teknis (Total Rp 13.860.586.000) ===== */
   { id:"RO27-3758-CAN1",  kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti", anggaran:715_200_000, target:"17 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:52, leverage:42 },
-  { id:"RO27-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan Kantor)", anggaran:8_536_386_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO27-3758-EBAZ03", kode:"EBA.Z03", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi (Humas, Penyebarluasan PBK/SRG/PLK, MoU)", anggaran:1_350_000_000, target:"3 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:50, leverage:46 },
-  { id:"RO27-3758-EBAZ07", kode:"EBA.Z07", kro:"KRO-3758-EBA", nama:"Layanan BMN (Penatausahaan & Pemindahtanganan)", anggaran:300_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:44, alignment:42, urgency:46, leverage:40 },
+  { id:"RO27-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan Kantor)", anggaran:8_536_386_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO27-3758-EBAZ03", kode:"EBA.Z03", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi (Humas, Penyebarluasan PBK/SRG/PLK, MoU)", anggaran:1_350_000_000, target:"3 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:50, leverage:46 },
+  { id:"RO27-3758-EBAZ07", kode:"EBA.Z07", kro:"KRO-3758-EBA", nama:"Layanan BMN (Penatausahaan & Pemindahtanganan)", anggaran:300_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:44, alignment:42, urgency:46, leverage:40 },
   { id:"RO27-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Layanan Sarana Internal (Perlengkapan Penunjang Informasi Publik)", anggaran:60_000_000, target:"10 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:42, alignment:40, urgency:44, leverage:38 },
   { id:"RO27-3758-EBCZ10", kode:"EBC.Z10", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM (Organisasi, Kepegawaian & Ketatausahaan)", anggaran:900_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-5","ISP-6"], impact:54, alignment:50, urgency:54, leverage:48 },
   { id:"RO27-3758-EBDZ27", kode:"EBD.Z27", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan (Perencanaan, Penganggaran & Pengelolaan Keuangan)", anggaran:1_055_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:50, alignment:46, urgency:52, leverage:44 },
@@ -1372,7 +1372,14 @@ function BottomUpDiagram(){
   const W = n*colW;
   const ikkX = {}; ikks.forEach((k,idx)=> ikkX[k.id]= colW*idx + colW/2);
   const ikpX = {}; ikps.forEach(p=>{ const kids=ikks.filter(k=>k.ikpLinked===p.id); ikpX[p.id]= kids.length? kids.reduce((s,k)=>s+ikkX[k.id],0)/kids.length : W/2; });
-  const roByIkk = {}; let maxRO=1; ikks.forEach(k=>{ roByIkk[k.id]=roForYear(year).filter(r=>r.ikkLinked===k.id); maxRO=Math.max(maxRO,roByIkk[k.id].length); });
+  // RO masuk ke group IKK bila primary (ikkLinked) ATAU extended (ikkLinkedExt) cocok.
+  // Field ikkLinkedExt menggambarkan kontribusi RO ke IKK selain primary (mis. RO EBA Dukungan
+  // Manajemen mempengaruhi WTA · IKPA · Survei Kepuasan secara bersamaan).
+  const roByIkk = {}; let maxRO=1;
+  ikks.forEach(k=>{
+    roByIkk[k.id] = roForYear(year).filter(r=> r.ikkLinked===k.id || (r.ikkLinkedExt||[]).includes(k.id));
+    maxRO = Math.max(maxRO, roByIkk[k.id].length);
+  });
 
   const Y_ISP=46, Y_IKK=210, RO_TOP=320, RO_RH=22;
   const H = RO_TOP + Math.ceil(maxRO/2)*RO_RH + 30;
@@ -1446,10 +1453,17 @@ function BottomUpDiagram(){
             return ros.map((r,idx)=>{
               const col=idx%2, rowi=Math.floor(idx/2);
               const rx=x-30+col*30, ry=RO_TOP+rowi*RO_RH;
+              const isPrimary = r.ikkLinked===k.id;
+              const linkLabel = isPrimary ? r.kode : `${r.kode} (kontribusi sekunder)`;
               return (
-                <g key={r.id}>
-                  <rect x={rx} y={ry} width={26} height={16} rx="3" fill={r.isPN?"rgba(202,138,4,0.16)":"rgba(15,23,42,0.05)"} stroke={r.isPN?"#ca8a04":"#cbd5e1"} strokeWidth="0.8"/>
-                  <text x={rx+13} y={ry+11} textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{r.kode} — {r.nama}{r.isPN?' (PN)':''}</title>{r.kode.split('.')[0]}</text>
+                <g key={`${k.id}|${r.id}`}>
+                  <rect x={rx} y={ry} width={26} height={16} rx="3"
+                    fill={r.isPN?"rgba(202,138,4,0.16)":"rgba(15,23,42,0.05)"}
+                    stroke={r.isPN?"#ca8a04":"#cbd5e1"}
+                    strokeWidth="0.8"
+                    strokeDasharray={isPrimary?"":"3 2"}
+                    opacity={isPrimary?1:0.78}/>
+                  <text x={rx+13} y={ry+11} textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{r.kode.split('.')[0]}</text>
                 </g>
               );
             });
@@ -1459,6 +1473,7 @@ function BottomUpDiagram(){
       <div className="flex items-center gap-4 mt-2 text-[10px] mono text-[var(--text-3)] flex-wrap">
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{background:"rgba(202,138,4,0.16)",border:"1px solid #ca8a04"}}></span>RO Prioritas Nasional</span>
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{background:"rgba(15,23,42,0.05)",border:"1px solid #cbd5e1"}}></span>RO reguler</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{background:"rgba(15,23,42,0.05)",border:"1px dashed #cbd5e1"}}></span>kontribusi sekunder (ikkLinkedExt)</span>
         <span>· panah ↑ = arah pengaruh · {spObj.nama}</span>
       </div>
     </div>
