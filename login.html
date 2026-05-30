@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk — Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layar-tengah">
+    <div class="kartu">
+      <div class="merek">
+        <div class="titik">D</div>
+        <div>
+          <b>Dashboard</b>
+          <span>Akses Internal</span>
+        </div>
+      </div>
+
+      <h1>Masuk</h1>
+      <p class="sub">Silakan masuk dengan akun yang sudah disetujui admin.</p>
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="nama@contoh.go.id" autocomplete="email" />
+
+      <label for="sandi">Kata Sandi</label>
+      <input id="sandi" type="password" placeholder="••••••••" autocomplete="current-password" />
+
+      <button class="tombol" id="tombolMasuk">Masuk</button>
+
+      <div class="pesan" id="pesan"></div>
+
+      <p class="tautan">Belum punya akun? <a href="register.html">Daftar di sini</a></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, signInWithEmailAndPassword, signOut, doc, getDoc }
+      from "./auth.js";
+
+    const elPesan = document.getElementById("pesan");
+    const tombol = document.getElementById("tombolMasuk");
+
+    function tampilkan(teks, jenis) {
+      elPesan.textContent = teks;
+      elPesan.className = "pesan tampil " + jenis;
+    }
+
+    async function masuk() {
+      const email = document.getElementById("email").value.trim();
+      const sandi = document.getElementById("sandi").value;
+      if (!email || !sandi) { tampilkan("Email dan kata sandi wajib diisi.", "gagal"); return; }
+
+      tombol.disabled = true;
+      tombol.textContent = "Memproses...";
+      try {
+        // 1) Cek email & sandi
+        const kredensial = await signInWithEmailAndPassword(auth, email, sandi);
+
+        // 2) Ambil data status & peran pengguna
+        const snap = await getDoc(doc(db, "users", kredensial.user.uid));
+        const data = snap.exists() ? snap.data() : null;
+
+        // 3) Tentukan boleh masuk atau tidak
+        if (!data || data.status === "pending") {
+          await signOut(auth);
+          tampilkan("Akun Anda masih menunggu persetujuan admin.", "info");
+        } else if (data.status === "rejected") {
+          await signOut(auth);
+          tampilkan("Maaf, pendaftaran Anda ditolak. Hubungi admin.", "gagal");
+        } else if (data.status === "approved") {
+          // Admin diarahkan ke halaman admin, pengguna biasa ke dashboard
+          window.location.href = (data.role === "admin") ? "admin.html" : "dashboard.html";
+        } else {
+          await signOut(auth);
+          tampilkan("Status akun tidak dikenali. Hubungi admin.", "gagal");
+        }
+      } catch (e) {
+        tampilkan("Email atau kata sandi salah.", "gagal");
+      } finally {
+        tombol.disabled = false;
+        tombol.textContent = "Masuk";
+      }
+    }
+
+    tombol.addEventListener("click", masuk);
+    document.getElementById("sandi").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") masuk();
+    });
+  </script>
+</body>
+</html>

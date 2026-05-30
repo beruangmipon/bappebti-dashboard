@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar — Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layar-tengah">
+    <div class="kartu">
+      <div class="merek">
+        <div class="titik">D</div>
+        <div>
+          <b>Dashboard</b>
+          <span>Akses Internal</span>
+        </div>
+      </div>
+
+      <h1>Daftar Akun</h1>
+      <p class="sub">Akun Anda akan aktif setelah disetujui oleh admin.</p>
+
+      <label for="nama">Nama Lengkap</label>
+      <input id="nama" type="text" placeholder="Nama Anda" autocomplete="name" />
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="nama@contoh.go.id" autocomplete="email" />
+
+      <label for="sandi">Kata Sandi (min. 6 karakter)</label>
+      <input id="sandi" type="password" placeholder="••••••••" autocomplete="new-password" />
+
+      <button class="tombol" id="tombolDaftar">Daftar</button>
+
+      <div class="pesan" id="pesan"></div>
+
+      <p class="tautan">Sudah punya akun? <a href="login.html">Masuk di sini</a></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, createUserWithEmailAndPassword, signOut, doc, setDoc, serverTimestamp }
+      from "./auth.js";
+
+    const elPesan = document.getElementById("pesan");
+    const tombol = document.getElementById("tombolDaftar");
+
+    function tampilkan(teks, jenis) {
+      elPesan.textContent = teks;
+      elPesan.className = "pesan tampil " + jenis;
+    }
+
+    async function daftar() {
+      const nama = document.getElementById("nama").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const sandi = document.getElementById("sandi").value;
+
+      if (!nama || !email || !sandi) { tampilkan("Semua kolom wajib diisi.", "gagal"); return; }
+      if (sandi.length < 6) { tampilkan("Kata sandi minimal 6 karakter.", "gagal"); return; }
+
+      tombol.disabled = true;
+      tombol.textContent = "Memproses...";
+      try {
+        // 1) Buat akun
+        const kredensial = await createUserWithEmailAndPassword(auth, email, sandi);
+
+        // 2) Simpan data pengguna dengan status "pending" (menunggu admin)
+        await setDoc(doc(db, "users", kredensial.user.uid), {
+          nama: nama,
+          email: email,
+          status: "pending",   // <- belum bisa masuk sampai admin setujui
+          role: "user",
+          createdAt: serverTimestamp()
+        });
+
+        // 3) Keluarkan dulu (belum boleh masuk) & beri info
+        await signOut(auth);
+        document.getElementById("nama").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("sandi").value = "";
+        tampilkan("Pendaftaran berhasil! Tunggu persetujuan admin sebelum bisa masuk.", "sukses");
+      } catch (e) {
+        if (e.code === "auth/email-already-in-use") {
+          tampilkan("Email ini sudah terdaftar.", "gagal");
+        } else {
+          tampilkan("Gagal mendaftar. Periksa kembali data Anda.", "gagal");
+        }
+      } finally {
+        tombol.disabled = false;
+        tombol.textContent = "Daftar";
+      }
+    }
+
+    tombol.addEventListener("click", daftar);
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Sembunyikan seluruh isi sampai status login dipastikan -->
+  <div id="terkunci" class="memuat" style="min-height:100vh;display:grid;place-items:center;">
+    Memeriksa akses...
+  </div>
+
+  <div id="konten" style="display:none;">
+    <div class="atas">
+      <div class="merek" style="margin:0;">
+        <div class="titik">D</div>
+        <div><b>Dashboard</b><span>Akses Internal</span></div>
+      </div>
+      <div class="kanan">
+        <span class="email-kecil" id="emailUser"></span>
+        <a class="keluar" id="linkAdmin" href="admin.html" style="display:none;text-decoration:none;">Panel Admin</a>
+        <button class="keluar" id="keluar">Keluar</button>
+      </div>
+    </div>
+
+    <div class="isi">
+      <h2 class="judul-halaman">Selamat datang 👋</h2>
+      <p class="ket">Anda berhasil masuk. Konten dashboard Anda ada di bawah ini.</p>
+
+      <!-- ============================================================= -->
+      <!--  TEMPEL ISI DASHBOARD ANDA YANG SUDAH ADA DI BAGIAN INI       -->
+      <!--  (grafik, tabel, dsb. dari file lama Anda)                    -->
+      <!-- ============================================================= -->
+      <div class="kosong">Di sinilah konten dashboard Anda yang lama akan tampil.</div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db, signOut, onAuthStateChanged, doc, getDoc } from "./auth.js";
+
+    // Jika belum login atau belum disetujui, lempar ke halaman login
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "login.html"; return; }
+      const snap = await getDoc(doc(db, "users", user.uid));
+      const data = snap.exists() ? snap.data() : null;
+
+      if (!data || data.status !== "approved") {
+        await signOut(auth);
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Lolos: tampilkan konten
+      document.getElementById("emailUser").textContent = data.email;
+      if (data.role === "admin") document.getElementById("linkAdmin").style.display = "inline-block";
+      document.getElementById("terkunci").style.display = "none";
+      document.getElementById("konten").style.display = "block";
+    });
+
+    document.getElementById("keluar").onclick = async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    };
+  </script>
+</body>
+</html>

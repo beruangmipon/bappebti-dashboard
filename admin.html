@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persetujuan Anggota — Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="atas">
+    <div class="merek" style="margin:0;">
+      <div class="titik">D</div>
+      <div><b>Dashboard</b><span>Panel Admin</span></div>
+    </div>
+    <div class="kanan">
+      <span class="email-kecil" id="emailAdmin"></span>
+      <button class="keluar" id="keluar">Keluar</button>
+    </div>
+  </div>
+
+  <div class="isi">
+    <h2 class="judul-halaman">Persetujuan Anggota</h2>
+    <p class="ket">Daftar orang yang sudah mendaftar dan menunggu persetujuan Anda.</p>
+
+    <div id="memuat" class="memuat">Memuat...</div>
+    <div class="daftar" id="daftar"></div>
+
+    <p class="tautan" style="margin-top:28px;text-align:left;">
+      <a href="dashboard.html">→ Buka dashboard</a>
+    </p>
+  </div>
+
+  <script type="module">
+    import { auth, db, signOut, onAuthStateChanged, doc, getDoc, updateDoc,
+             collection, query, where, getDocs } from "./auth.js";
+
+    const elMemuat = document.getElementById("memuat");
+    const elDaftar = document.getElementById("daftar");
+
+    // Pastikan hanya admin yang sudah disetujui yang boleh membuka halaman ini
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "login.html"; return; }
+      const snap = await getDoc(doc(db, "users", user.uid));
+      const data = snap.exists() ? snap.data() : null;
+      if (!data || data.role !== "admin" || data.status !== "approved") {
+        alert("Halaman ini khusus admin.");
+        window.location.href = "login.html";
+        return;
+      }
+      document.getElementById("emailAdmin").textContent = data.email;
+      muatPending();
+    });
+
+    async function muatPending() {
+      elMemuat.style.display = "block";
+      elDaftar.innerHTML = "";
+      const q = query(collection(db, "users"), where("status", "==", "pending"));
+      const hasil = await getDocs(q);
+      elMemuat.style.display = "none";
+
+      if (hasil.empty) {
+        elDaftar.innerHTML = '<div class="kosong">Tidak ada pendaftar yang menunggu persetujuan. 🎉</div>';
+        return;
+      }
+
+      hasil.forEach((d) => {
+        const u = d.data();
+        const baris = document.createElement("div");
+        baris.className = "baris";
+        baris.innerHTML = `
+          <div>
+            <div class="nama"></div>
+            <div class="e"></div>
+          </div>
+          <div class="aksi">
+            <button class="btn-setuju">Setujui</button>
+            <button class="btn-tolak">Tolak</button>
+          </div>`;
+        baris.querySelector(".nama").textContent = u.nama || "(tanpa nama)";
+        baris.querySelector(".e").textContent = u.email || "";
+        baris.querySelector(".btn-setuju").onclick = () => ubahStatus(d.id, "approved", baris);
+        baris.querySelector(".btn-tolak").onclick = () => ubahStatus(d.id, "rejected", baris);
+        elDaftar.appendChild(baris);
+      });
+    }
+
+    async function ubahStatus(uid, status, baris) {
+      try {
+        await updateDoc(doc(db, "users", uid), { status: status });
+        baris.remove();
+        if (!elDaftar.children.length) {
+          elDaftar.innerHTML = '<div class="kosong">Tidak ada pendaftar yang menunggu persetujuan. 🎉</div>';
+        }
+      } catch (e) {
+        alert("Gagal memperbarui. Coba lagi.");
+      }
+    }
+
+    document.getElementById("keluar").onclick = async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    };
+  </script>
+</body>
+</html>
