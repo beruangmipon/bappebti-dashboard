@@ -2415,8 +2415,17 @@ function SebaranSRG(){
                 <circle key={i} cx={g.mx} cy={g.my} r="3" fill={statusStyle[g.status].color} opacity="0.55"/>
               ))}
 
-              {/* Penanda provinsi (ukuran ~ jumlah gudang) */}
-              {PROVINSI_SRG.map(p=>{
+              {/* Penanda provinsi (ukuran ~ jumlah gudang).
+                  Sort by visible count DESCENDING: marker besar di-render dulu (bawah), kecil di atas
+                  supaya marker kecil (mis. DKI Jakarta) tidak tertutup tetangganya (mis. Jawa Barat).
+                  Provinsi terpilih selalu paling akhir (paling atas) agar highlight tidak tertimpa. */}
+              {PROVINSI_SRG.slice().sort((a,b)=>{
+                if(a.id===selected) return 1;  // selected always last (on top)
+                if(b.id===selected) return -1;
+                const va=a.gudang.filter(g=>filter==="all"||g.status===filter).length;
+                const vb=b.gudang.filter(g=>filter==="all"||g.status===filter).length;
+                return vb-va; // descending: large first → drawn first → small on top
+              }).map(p=>{
                 const visG = p.gudang.filter(g=>filter==="all"||g.status===filter);
                 if(!visG.length || p.x==null) return null;
                 const r = 5 + Math.sqrt(visG.length) * 3.2;
@@ -2424,9 +2433,9 @@ function SebaranSRG(){
                 return (
                   <g key={p.id} onClick={()=>setSelected(p.id)} style={{cursor:"pointer"}}>
                     {isSel && <circle cx={p.x} cy={p.y} r={r+7} fill="none" stroke="#a16207" strokeWidth="1" strokeDasharray="4 3" opacity="0.6"/>}
-                    <circle cx={p.x} cy={p.y} r={r} fill="rgba(161,98,7,0.10)" stroke="#a16207" strokeWidth={isSel?2:1}/>
-                    <text x={p.x} y={p.y+r+11} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fill={isSel?"#a16207":"#6b7280"}>{p.nama.length>14?p.nama.slice(0,12)+'…':p.nama}</text>
-                    <text x={p.x} y={p.y+3} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fontWeight="600" fill="#a16207">{visG.length}</text>
+                    <circle cx={p.x} cy={p.y} r={r} fill="rgba(161,98,7,0.18)" stroke="#a16207" strokeWidth={isSel?2:1}/>
+                    <text x={p.x} y={p.y+r+11} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fill={isSel?"#a16207":"#6b7280"} style={{pointerEvents:"none"}}>{p.nama.length>14?p.nama.slice(0,12)+'…':p.nama}</text>
+                    <text x={p.x} y={p.y+3} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fontWeight="600" fill="#a16207" style={{pointerEvents:"none"}}>{visG.length}</text>
                   </g>
                 );
               })}
@@ -2438,7 +2447,32 @@ function SebaranSRG(){
                 <span className="w-2 h-2 rounded-full" style={{background:v.color}}></span>{v.label}
               </span>
             ))}
-            <span className="text-[var(--text-3)]">· Klik provinsi untuk detail · titik = posisi gudang sebenarnya</span>
+            <span className="text-[var(--text-3)]">· Klik provinsi pada peta atau daftar di bawah · titik = posisi gudang sebenarnya</span>
+          </div>
+
+          {/* Pilih Provinsi (grid 30 provinsi — fallback bila marker peta tertutup tetangganya) */}
+          <div className="mt-4 pt-4 border-t" style={{borderColor:"var(--border)"}}>
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Daftar 30 Provinsi (Klik untuk Detail)</div>
+              <div className="text-[10px] text-[var(--text-3)]">Urut berdasarkan jumlah gudang</div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1.5">
+              {PROVINSI_SRG.slice().sort((a,b)=>b.gudang.length-a.gudang.length).map(p=>{
+                const visG = p.gudang.filter(g=>filter==="all"||g.status===filter);
+                const isSel = selected===p.id;
+                const total = p.gudang.length;
+                const aktif = p.gudang.filter(g=>g.status==="aktif").length;
+                return (
+                  <button key={p.id} onClick={()=>setSelected(p.id)} title={`${p.nama} — ${total} gudang (${aktif} aktif)`}
+                    className={`text-left px-2 py-1.5 rounded-md text-[10px] transition border ${isSel?'border-[var(--gold)] bg-[rgba(212,164,55,0.12)] text-[var(--gold)]':'border-[var(--border)] hover:border-[var(--gold-soft)] hover:bg-[rgba(212,164,55,0.04)] text-[var(--text-2)]'}`}>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-medium truncate">{p.nama.replace("Daerah Istimewa ","DI ").replace("Kepulauan ","Kep. ")}</span>
+                      <span className="mono text-[9px] shrink-0" style={{color:isSel?"var(--gold)":"var(--text-3)"}}>{visG.length}/{total}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
