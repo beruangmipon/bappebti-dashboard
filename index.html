@@ -221,6 +221,52 @@ const IKSS = [
   { id:"ISP-6", ss:"SP-02", nama:"Nilai Akuntabilitas Kinerja (SAKIP) Bappebti",        target:"82,50", t:{2027:"82,75"}, baseline:"82,56" },
 ];
 
+/* ===== RENJA TA 2025 — SASARAN PROGRAM & IKP (DI LUAR KERANGKA RENSTRA 2025–2029) =====
+   Sumber: REKAP 2A Program K/L — Rencana Kerja K/L (RENJA K/L) TA 2025, KRISNA.
+   Program Perdagangan Dalam Negeri, Unit Org 07 — Bappebti.
+   Nomenklatur SP/IKP Renja 2025 BERBEDA dari Renstra (ISP-1..ISP-6) sehingga disajikan
+   sebagai data tahun 2025 tersendiri TANPA mengubah cascade Renstra. Alokasi & target SESUAI dokumen.
+   Catatan: REKAP 2A tidak mencetak kolom satuan; angka target ditampilkan apa adanya. */
+const RENJA25 = {
+  tahun: 2025,
+  program: "Program Perdagangan Dalam Negeri",
+  unit: "07 — Badan Pengawas Perdagangan Berjangka Komoditi",
+  sumber: "REKAP 2A · Renja K/L TA 2025 (KRISNA)",
+  totalAlokasi: 16_467_953_000, // Rp (dok. 16.467.953 ribu)
+  ssDidukung: [
+    "02 — Mewujudkan Stabilisasi Harga dan Ketersediaan Pasokan Bahan Pangan",
+    "03 — Mewujudkan Konsumen Berdaya dan Pelaku Usaha yang Bertanggung Jawab",
+    "04 — Meningkatnya Pasar Produk Dalam Negeri",
+    "05 — Mengoptimalkan Peranan PBK, SRG, dan PLK",
+  ],
+  sp: [
+    {
+      kode:"04",
+      nama:"Meningkatnya Implementasi Pemanfaatan Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas",
+      alokasi:9_540_000_000, // Rp (dok. 9.540.000 ribu)
+      warna:"#a16207",
+      ikp:[
+        { kode:"04.01", nama:"Pertumbuhan Implementasi Perdagangan Berjangka Komoditi", target:"14" },
+        { kode:"04.02", nama:"Pertumbuhan Implementasi Sistem Resi Gudang",            target:"20" },
+        { kode:"04.03", nama:"Pertumbuhan Implementasi Pasar Lelang Komoditas",        target:"25" },
+        { kode:"04.04", nama:"Pertumbuhan Pengembangan Perdagangan Aset Kripto",       target:"59" },
+      ],
+    },
+    {
+      kode:"09",
+      nama:"Meningkatnya Perlindungan kepada Masyarakat dalam Pelaksanaan Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas",
+      alokasi:6_927_953_000, // Rp (dok. 6.927.953 ribu)
+      warna:"#2563eb",
+      ikp:[
+        { kode:"09.01", nama:"Indeks Kepuasan Layanan Publik", target:"85" },
+        { kode:"09.02", nama:"Kepatuhan Pelaku Usaha Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas", target:"95" },
+        { kode:"09.03", nama:"Pemenuhan Konsultasi Hukum dan Litigasi", target:"85" },
+        { kode:"09.04", nama:"Persentase Kepatuhan Pelaku Usaha Aset Kripto", target:"95" },
+      ],
+    },
+  ],
+};
+
 /* TINGKAT ANTARA — Sasaran Kegiatan (SK) & Indikator Kinerja Kegiatan (IKK).
    Sumber: Renstra Tabel 4.3 (target kolom 2026). Tiap SK milik satu Kegiatan.
    ikpLinked = Indikator Sasaran Program (ISP) yang DIDORONG oleh IKK ini (jalur bottom-up). */
@@ -331,11 +377,6 @@ const KRO = [
   { id:"KRO-3761-BIC", kode:"BIC", nama:"Pengawasan & Pengendalian Lembaga (Penindakan)",   kegiatan:"K-3761" },
   { id:"KRO-3761-FAC", kode:"FAC", nama:"Peningkatan Kapasitas Aparatur Negara",            kegiatan:"K-3761" },
   { id:"KRO-3758-CCL", kode:"CCL", nama:"OP Sarana Bidang TIK",                             kegiatan:"K-3758" },
-  // KRO tambahan — RKAKL Rev.9 TA 2025 (RO baru)
-  { id:"KRO-3759-CAN", kode:"CAN", nama:"Sarana Bidang TIK (Mekanisasi CCTV Gudang)",       kegiatan:"K-3759" },
-  { id:"KRO-3760-FBA", kode:"FBA", nama:"Pasar Lelang Komoditas (Daerah Baru)",             kegiatan:"K-3760" },
-  { id:"KRO-3758-AEC", kode:"AEC", nama:"Kerja Sama Bidang PBK, SRG & PLK",                 kegiatan:"K-3758" },
-  { id:"KRO-3758-AEF", kode:"AEF", nama:"Sosialisasi & Diseminasi",                         kegiatan:"K-3758" },
 ];
 
 /* RO (Rincian Output) — dari RKAKL Rev.5 TA 2026. Pagu = JUMLAH BIAYA riil (rupiah).
@@ -400,11 +441,8 @@ const REALISASI_RO = {
   "RO-3762-FAB1":5_860_000, "RO-3762-PBB1":31_305_430, "RO-3762-QDH1":28_885_000,
   "RO-3758-CAN1":28_480_507, "RO-3758-EBA1":2_613_957_776, "RO-3758-EBA2":127_230_668,
 };
-const getReal = (roId, year)=> year===2025 ? (REALISASI_RO_2025[roId] ? REALISASI_RO_2025[roId].real : null) : (REALISASI_RO[roId] ?? null);
-const serapanRO = (r, year)=>{
-  if(year===2025){ const o=REALISASI_RO_2025[r.id]; if(!o) return null; return o.paguOp ? Math.round(o.real/o.paguOp*100) : 0; }
-  const v=REALISASI_RO[r.id]; return v==null||!r.anggaran ? null : Math.round(v/r.anggaran*100);
-};
+const getReal = (roId)=> REALISASI_RO[roId] ?? null;
+const serapanRO = (r)=>{ const v=getReal(r.id); return v==null||!r.anggaran ? null : Math.round(v/r.anggaran*100); };
 
 /* RO Kegiatan 3760 — Renja TA 2027 (RANWAL, sumber: Rekap 3 KRISNA 3760 2027).
    Total pagu 3760 naik ke Rp 5.293.800.000. Belum ada tagging PN pada RANWAL ini. */
@@ -499,99 +537,86 @@ const PAGU_2027 = {
 /* RO untuk tahun terpilih: 2027 → seluruh 5 Kegiatan pakai data RANWAL 2027
    (3760 dari RO_2027; 3758/3759/3761/3762 dari RO_2027_KL). Tahun lain pakai RO (TA 2026). */
 /* ============================================================
-   RO (Rincian Output) — RKAKL TA 2025 (Revisi 9 / POK SAKTI).
-   Sumber: DOWNLOAD POK RKA-K/L Bappebti Revisi 9 TA 2025 — 5 Kegiatan
-   (3758 Sekretariat, 3759 Pengawasan, 3760 SRG/PLK, 3761 Hukum, 3762 PBK)
-   pada 2 Program (090.07.EF Perdagangan Dalam Negeri & 090.07.WA Dukungan
-   Manajemen). Nilai anggaran = pagu riil (rupiah). Total Bappebti TA 2025
-   (Rev.9) = Rp32.052.551.000 (EF Rp16.467.953.000 + WA Rp15.584.598.000).
-   Tagging Prioritas Nasional (isPN) ditentukan dari kode awal KRO sesuai aturan
-   DJA/Bappenas: KRO berkode awal P s.d. Y = Prioritas Nasional; A s.d. O = Non-PN.
-   (Ref: SatuDJA RSPP). Skor
+   RO (Rincian Output) — Renja TA 2025.
+   Sumber: Rekap 3 KEGIATAN K/L (Renja K/L) KRISNA TA 2025 — 5 unit Eselon II
+   (3758 Sekretariat, 3759 Pengawasan, 3760 SRG/PLK, 3761 Hukum, 3762 PBK),
+   tertanggal 24 Desember 2024. Nilai anggaran = pagu riil (rupiah); pada
+   dokumen tertera dalam ribuan rupiah. Total Bappebti TA 2025 = Rp25.052.551.000.
+   TA 2025 belum memuat tagging Prioritas Nasional (isPN:false). Skor
    impact/alignment/urgency/leverage = estimasi analitik awal (silakan dikoreksi). */
 const RO_2025 = [
-  /* ===== 3759 — RKAKL Rev.9 TA 2025 ===== */
-  { id:"RO25-3759-BIC001", kode:"BIC.001", kro:"KRO-3759-BIC", nama:"Pengawasan Transaksi Pelaku Usaha PBK", anggaran:396_040_000, target:"20 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:82, leverage:70 },
-  { id:"RO25-3759-BIC002", kode:"BIC.002", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan APU-PPT Pelaku Usaha PBK", anggaran:125_225_000, target:"12 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:74, alignment:72, urgency:78, leverage:68 },
-  { id:"RO25-3759-BIC003", kode:"BIC.003", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan Kegiatan Pelaku Usaha PBK", anggaran:238_074_000, target:"19 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:72, urgency:80, leverage:68 },
-  { id:"RO25-3759-BIC004", kode:"BIC.004", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan Pelaporan & Verifikasi Laporan Keuangan", anggaran:282_099_000, target:"23 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:74, urgency:80, leverage:70 },
-  { id:"RO25-3759-BIC005", kode:"BIC.005", kro:"KRO-3759-BIC", nama:"Audit Pelaku Usaha PBK", anggaran:332_781_000, target:"19 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:82, leverage:72 },
-  { id:"RO25-3759-BIC006", kode:"BIC.006", kro:"KRO-3759-BIC", nama:"Pengawasan Lembaga & Transaksi SRG", anggaran:437_011_000, target:"13 Lembaga", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:74, urgency:78, leverage:70 },
-  { id:"RO25-3759-BIC007", kode:"BIC.007", kro:"KRO-3759-BIC", nama:"Pengawasan Penyelenggara Pasar Lelang Komoditas", anggaran:158_078_000, target:"5 Lembaga", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:72, alignment:70, urgency:74, leverage:66 },
-  { id:"RO25-3759-FAB001", kode:"FAB.001", kro:"KRO-3759-FAB", nama:"Pemeliharaan Sistem Penunjang Pengawasan PBK, SRG & PLK", anggaran:60_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:60, alignment:58, urgency:60, leverage:64 },
-  { id:"RO25-3759-CAN001", kode:"CAN.001", kro:"KRO-3759-CAN", nama:"Mekanisasi Sistem Pengawasan pada Gudang (CCTV)", anggaran:289_920_000, target:"36 Unit", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:70, alignment:68, urgency:72, leverage:72 },
-  { id:"RO25-3759-BIC009", kode:"BIC.009", kro:"KRO-3759-BIC", nama:"Penilaian Tingkat Risiko Pelaku Usaha PBK & SRG", anggaran:70_000_000, target:"2 Laporan", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:72, alignment:70, urgency:74, leverage:68 },
-  { id:"RO25-3759-FAB002", kode:"FAB.002", kro:"KRO-3759-FAB", nama:"Sistem Informasi Pengawasan PBK", anggaran:800_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:66, alignment:64, urgency:66, leverage:70 },
-  /* ===== 3760 — RKAKL Rev.9 TA 2025 ===== */
+  /* ===== 3759 — Renja TA 2025 ===== */
+  { id:"RO25-3759-BIC001", kode:"BIC.001", kro:"KRO-3759-BIC", nama:"Pengawasan Transaksi Pelaku Usaha PBK", anggaran:357_040_000, target:"18 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:82, leverage:70 },
+  { id:"RO25-3759-BIC002", kode:"BIC.002", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan APU-PPT Pelaku Usaha PBK", anggaran:94_733_000, target:"9 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:74, alignment:72, urgency:78, leverage:68 },
+  { id:"RO25-3759-BIC003", kode:"BIC.003", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan Kegiatan Pelaku Usaha PBK", anggaran:211_604_000, target:"16 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:72, urgency:80, leverage:68 },
+  { id:"RO25-3759-BIC004", kode:"BIC.004", kro:"KRO-3759-BIC", nama:"Pengawasan Kepatuhan Pelaporan & Verifikasi Laporan Keuangan", anggaran:255_099_000, target:"20 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:74, urgency:80, leverage:70 },
+  { id:"RO25-3759-BIC005", kode:"BIC.005", kro:"KRO-3759-BIC", nama:"Audit Pelaku Usaha PBK", anggaran:295_281_000, target:"16 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:82, leverage:72 },
+  { id:"RO25-3759-BIC006", kode:"BIC.006", kro:"KRO-3759-BIC", nama:"Pengawasan Lembaga & Transaksi SRG", anggaran:323_752_000, target:"12 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:76, alignment:74, urgency:78, leverage:70 },
+  { id:"RO25-3759-BIC007", kode:"BIC.007", kro:"KRO-3759-BIC", nama:"Pengawasan Penyelenggara Pasar Lelang Komoditas", anggaran:127_491_000, target:"5 Lembaga", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:72, alignment:70, urgency:74, leverage:66 },
+  { id:"RO25-3759-BIC008", kode:"BIC.008", kro:"KRO-3759-BIC", nama:"Mekanisasi Sistem Pengawasan pada Gudang (CCTV)", anggaran:290_000_000, target:"36 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:70, alignment:68, urgency:72, leverage:72 },
+  { id:"RO25-3759-FAB001", kode:"FAB.001", kro:"KRO-3759-FAB", nama:"Pemeliharaan Sistem Penunjang Pengawasan PBK, SRG & PLK", anggaran:160_000_000, target:"5 Sistem Informasi", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:60, alignment:58, urgency:60, leverage:64 },
+  /* ===== 3760 — Renja TA 2025 ===== */
   { id:"RO25-3760-ACD001", kode:"ACD.001", kro:"KRO-3760-ACD", nama:"Persetujuan Lembaga SRG", anggaran:286_368_000, target:"12 Institusi", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:70, alignment:68, urgency:66, leverage:72 },
   { id:"RO25-3760-ACD002", kode:"ACD.002", kro:"KRO-3760-ACD", nama:"Persetujuan Lembaga PLK", anggaran:27_002_000, target:"2 Institusi", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:55, leverage:62 },
   { id:"RO25-3760-AFA001", kode:"AFA.001", kro:"KRO-3760-AFA", nama:"Penyusunan SKKNI Pengelola Gudang SRG", anggaran:321_320_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:66, alignment:68, urgency:60, leverage:72 },
   { id:"RO25-3760-BDB001", kode:"BDB.001", kro:"KRO-3760-BDB", nama:"Pembinaan Penyalur Skema Subsidi Resi Gudang", anggaran:206_915_000, target:"5 Lembaga", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:76, alignment:78, urgency:72, leverage:80 },
   { id:"RO25-3760-BDB002", kode:"BDB.002", kro:"KRO-3760-BDB", nama:"Pemantauan Pembiayaan Skema Subsidi Resi Gudang", anggaran:101_682_000, target:"4 Lembaga", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:72, alignment:74, urgency:70, leverage:76 },
   { id:"RO25-3760-BMA003", kode:"BMA.003", kro:"KRO-3760-BMA", nama:"Data & Informasi Harga Komoditi SRG & PLK", anggaran:86_450_000, target:"8 Dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:64, alignment:62, urgency:60, leverage:68 },
-  { id:"RO25-3760-FAB001", kode:"FAB.001", kro:"KRO-3760-FAB", nama:"Pemeliharaan Sistem Pengolahan Data Transaksi", anggaran:100_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:60, leverage:64 },
-  { id:"RO25-3760-PBB001", kode:"PBB.001", kro:"KRO-3760-PBB", nama:"Pengumpulan Data & Analisis Pengembangan Kelembagaan & Produk SRG/PLK", anggaran:449_954_000, target:"2 Rekomendasi", isPN:true, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:70, leverage:78 },
-  { id:"RO25-3760-PBB002", kode:"PBB.002", kro:"KRO-3760-PBB", nama:"Analisis Pengembangan Kelembagaan & Potensi Komoditi SRG/PLK", anggaran:296_268_000, target:"1 Rekomendasi", isPN:true, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:72, alignment:74, urgency:68, leverage:76 },
-  { id:"RO25-3760-PEA001", kode:"PEA.001", kro:"KRO-3760-PEA", nama:"Pertemuan Teknis SRG di Daerah dengan Pemangku Kepentingan", anggaran:359_266_000, target:"7 Kegiatan", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:78, alignment:76, urgency:74, leverage:80 },
-  { id:"RO25-3760-PEA002", kode:"PEA.002", kro:"KRO-3760-PEA", nama:"Asistensi Implementasi SRG di Daerah", anggaran:200_000_000, target:"2 Kegiatan", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:76, alignment:74, urgency:74, leverage:78 },
-  { id:"RO25-3760-QDB001", kode:"QDB.001", kro:"KRO-3760-QDB", nama:"Bimtek Peningkatan Kapasitas Pengelola Gudang SRG", anggaran:123_759_000, target:"7 Lembaga", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:80, alignment:82, urgency:76, leverage:84 },
-  { id:"RO25-3760-QDB002", kode:"QDB.002", kro:"KRO-3760-QDB", nama:"Bimtek Penyiapan Calon Pengelola Gudang SRG", anggaran:48_400_000, target:"5 Lembaga", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:70, leverage:78 },
-  { id:"RO25-3760-QDC001", kode:"QDC.001", kro:"KRO-3760-QDC", nama:"Pertemuan Teknis PLK di Daerah", anggaran:242_840_000, target:"100 Orang", isPN:true, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:72, alignment:74, urgency:70, leverage:76 },
-  { id:"RO25-3760-QDC002", kode:"QDC.002", kro:"KRO-3760-QDC", nama:"Asistensi & Evaluasi PLK", anggaran:256_020_000, target:"120 Orang", isPN:true, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:72, alignment:74, urgency:70, leverage:76 },
-  { id:"RO25-3760-QDC003", kode:"QDC.003", kro:"KRO-3760-QDC", nama:"Bimtek SRG & PLK kepada Pelaku Usaha & Petani", anggaran:314_206_000, target:"440 Orang", isPN:true, ikkLinked:"IKK-10", ikuLinked:["ISP-2"], impact:82, alignment:84, urgency:80, leverage:86 },
-  { id:"RO25-3760-RAH001", kode:"RAH.001", kro:"KRO-3760-RAH", nama:"Pelatihan Operasionalisasi Sistem (Gudang SRG ber-WMS)", anggaran:295_054_000, target:"10 Unit", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:72, leverage:78 },
-  { id:"RO25-3760-UAB001", kode:"UAB.001", kro:"KRO-3760-UAB", nama:"Pemeliharaan Sistem Pasar Lelang Terpadu (SPLT)", anggaran:170_000_000, target:"1 Sistem", isPN:true, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:64, leverage:70 },
-  { id:"RO25-3760-UAB002", kode:"UAB.002", kro:"KRO-3760-UAB", nama:"Pemeliharaan & Penerapan WMS di Gudang SRG", anggaran:180_000_000, target:"1 Sistem", isPN:true, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:70, alignment:68, urgency:68, leverage:74 },
-  { id:"RO25-3760-FBA001", kode:"FBA.001", kro:"KRO-3760-FBA", nama:"Daerah Baru yang Mengimplementasikan Pasar Lelang Komoditas", anggaran:800_000_000, target:"4 Daerah", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:74, alignment:76, urgency:70, leverage:78 },
-  /* ===== 3761 — RKAKL Rev.9 TA 2025 ===== */
+  { id:"RO25-3760-FAB001", kode:"FAB.001", kro:"KRO-3760-FAB", nama:"Pemeliharaan Sistem Pengolahan Data Transaksi", anggaran:100_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:60, leverage:64 },
+  { id:"RO25-3760-PBB001", kode:"PBB.001", kro:"KRO-3760-PBB", nama:"Pengumpulan Data & Analisis Pengembangan Kelembagaan & Produk SRG/PLK", anggaran:271_503_000, target:"3 Laporan", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:70, leverage:78 },
+  { id:"RO25-3760-PBB002", kode:"PBB.002", kro:"KRO-3760-PBB", nama:"Analisis Pengembangan Kelembagaan & Potensi Komoditi SRG/PLK", anggaran:241_800_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:72, alignment:74, urgency:68, leverage:76 },
+  { id:"RO25-3760-PBB003", kode:"PBB.003", kro:"KRO-3760-PBB", nama:"Evaluasi Pelaksanaan Kelembagaan & Komoditi SRG/PLK", anggaran:14_000_000, target:"1 Dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:62, alignment:64, urgency:58, leverage:66 },
+  { id:"RO25-3760-PEA001", kode:"PEA.001", kro:"KRO-3760-PEA", nama:"Pertemuan Teknis SRG di Daerah dengan Pemangku Kepentingan", anggaran:301_876_000, target:"9 Daerah", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:78, alignment:76, urgency:74, leverage:80 },
+  { id:"RO25-3760-PEA002", kode:"PEA.002", kro:"KRO-3760-PEA", nama:"Asistensi Implementasi SRG di Daerah", anggaran:128_318_000, target:"11 Kali", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:76, alignment:74, urgency:74, leverage:78 },
+  { id:"RO25-3760-PEA003", kode:"PEA.003", kro:"KRO-3760-PEA", nama:"Monitoring Tindak Lanjut Hasil Pertemuan Teknis (Daring)", anggaran:129_072_000, target:"8 Daerah", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:66, alignment:64, urgency:64, leverage:68 },
+  { id:"RO25-3760-QDB001", kode:"QDB.001", kro:"KRO-3760-QDB", nama:"Bimtek Peningkatan Kapasitas Pengelola Gudang SRG", anggaran:123_759_000, target:"7 Lembaga", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:80, alignment:82, urgency:76, leverage:84 },
+  { id:"RO25-3760-QDB002", kode:"QDB.002", kro:"KRO-3760-QDB", nama:"Bimtek Penyiapan Calon Pengelola Gudang SRG", anggaran:48_400_000, target:"5 Lembaga", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:70, leverage:78 },
+  { id:"RO25-3760-QDC001", kode:"QDC.001", kro:"KRO-3760-QDC", nama:"Pertemuan Teknis PLK di Daerah", anggaran:242_840_000, target:"100 Orang", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:72, alignment:74, urgency:70, leverage:76 },
+  { id:"RO25-3760-QDC002", kode:"QDC.002", kro:"KRO-3760-QDC", nama:"Asistensi & Evaluasi PLK", anggaran:256_020_000, target:"120 Orang", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:72, alignment:74, urgency:70, leverage:76 },
+  { id:"RO25-3760-QDC003", kode:"QDC.003", kro:"KRO-3760-QDC", nama:"Bimtek SRG & PLK kepada Pelaku Usaha & Petani", anggaran:314_206_000, target:"440 Orang", isPN:false, ikkLinked:"IKK-10", ikuLinked:["ISP-2"], impact:82, alignment:84, urgency:80, leverage:86 },
+  { id:"RO25-3760-RAH001", kode:"RAH.001", kro:"KRO-3760-RAH", nama:"Pelatihan Operasionalisasi Sistem (Gudang SRG ber-WMS)", anggaran:295_054_000, target:"10 Daerah", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:74, alignment:76, urgency:72, leverage:78 },
+  { id:"RO25-3760-UAB001", kode:"UAB.001", kro:"KRO-3760-UAB", nama:"Pemeliharaan Sistem Pasar Lelang Terpadu (SPLT)", anggaran:170_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:64, leverage:70 },
+  { id:"RO25-3760-UAB002", kode:"UAB.002", kro:"KRO-3760-UAB", nama:"Pemeliharaan & Penerapan WMS di Gudang SRG", anggaran:180_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:70, alignment:68, urgency:68, leverage:74 },
+  /* ===== 3761 — Renja TA 2025 ===== */
   { id:"RO25-3761-AAH001", kode:"AAH.001", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Uji Publik Regulasi Bappebti Bidang PBK", anggaran:284_910_000, target:"4 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:74, alignment:76, urgency:70, leverage:78 },
   { id:"RO25-3761-AAH002", kode:"AAH.002", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Penyusunan Regulasi Bappebti Bidang SRG & PLK", anggaran:47_005_000, target:"1 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:72, alignment:76, urgency:66, leverage:78 },
-  { id:"RO25-3761-AEA001", kode:"AEA.001", kro:"KRO-3761-AEA", nama:"Koordinasi dengan Instansi/Lembaga Terkait (termasuk Satgas PASTI)", anggaran:220_380_000, target:"11 Kegiatan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:70, alignment:72, urgency:70, leverage:74 },
+  { id:"RO25-3761-AEA001", kode:"AEA.001", kro:"KRO-3761-AEA", nama:"Koordinasi dengan Instansi/Lembaga Terkait (termasuk Satgas PASTI)", anggaran:187_520_000, target:"11 Kegiatan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:70, alignment:72, urgency:70, leverage:74 },
   { id:"RO25-3761-AEF001", kode:"AEF.001", kro:"KRO-3761-AEF", nama:"Sosialisasi Peraturan Bappebti Bidang PBK, SRG & PLK", anggaran:19_634_000, target:"60 Orang", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:62, alignment:64, urgency:58, leverage:66 },
   { id:"RO25-3761-BBA001", kode:"BBA.001", kro:"KRO-3761-BBA", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG & PLK", anggaran:217_210_000, target:"10 Orang", isPN:false, ikkLinked:"IKK-15", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:72, leverage:64 },
   { id:"RO25-3761-BBB001", kode:"BBB.001", kro:"KRO-3761-BBB", nama:"Layanan Hukum Berperkara & Penyelesaian Perselisihan", anggaran:131_241_000, target:"8 Institusi", isPN:false, ikkLinked:"IKK-14", ikuLinked:["ISP-3"], impact:70, alignment:68, urgency:74, leverage:66 },
   { id:"RO25-3761-BIC001", kode:"BIC.001", kro:"KRO-3761-BIC", nama:"Penegakan Hukum di Bidang PBK, SRG & PLK sesuai Ketentuan", anggaran:700_000_000, target:"33 Lembaga", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:80, alignment:78, urgency:84, leverage:72 },
-  { id:"RO25-3761-BIC002", kode:"BIC.002", kro:"KRO-3761-BIC", nama:"Penegakan Hukum terhadap Entitas Ilegal di Bidang PBK, SRG & PLK", anggaran:569_400_000, target:"28 Lembaga", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:82, alignment:80, urgency:86, leverage:74 },
-  { id:"RO25-3761-FAC001", kode:"FAC.001", kro:"KRO-3761-FAC", nama:"Peningkatan Kapasitas Penyidik PNS Bappebti", anggaran:1_348_945_000, target:"50 Orang", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:66, alignment:64, urgency:70, leverage:62 },
-  { id:"RO25-3761-ABB001", kode:"ABB.001", kro:"KRO-3761-ABB", nama:"Audit Peraturan di Bidang PBK", anggaran:200_000_000, target:"1 Rekomendasi", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:68, alignment:70, urgency:64, leverage:72 },
-  /* ===== 3762 — RKAKL Rev.9 TA 2025 ===== */
+  { id:"RO25-3761-BIC002", kode:"BIC.002", kro:"KRO-3761-BIC", nama:"Penegakan Hukum terhadap Entitas Ilegal di Bidang PBK, SRG & PLK", anggaran:569_400_000, target:"29 Lembaga", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:82, alignment:80, urgency:86, leverage:74 },
+  { id:"RO25-3761-FAC001", kode:"FAC.001", kro:"KRO-3761-FAC", nama:"Peningkatan Kapasitas Penyidik PNS Bappebti", anggaran:93_080_000, target:"20 Orang", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:66, alignment:64, urgency:70, leverage:62 },
+  /* ===== 3762 — Renja TA 2025 ===== */
+  { id:"RO25-3762-ABB001", kode:"ABB.001", kro:"KRO-3762-ABB", nama:"Analisa Pengembangan Kelembagaan & Produk PBK (Desk Research, Analisis & Evaluasi)", anggaran:596_136_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:68, leverage:76 },
   { id:"RO25-3762-ACD001", kode:"ACD.001", kro:"KRO-3762-ACD", nama:"Perizinan Lembaga Pelaku Usaha PBK", anggaran:365_685_000, target:"500 Institusi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:70, alignment:68, urgency:66, leverage:72 },
   { id:"RO25-3762-ADI001", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang & Wakil Penasihat Berjangka (RM & PNBP)", anggaran:157_764_000, target:"300 Orang", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:72, alignment:70, urgency:68, leverage:74 },
   { id:"RO25-3762-AFA001", kode:"AFA.001", kro:"KRO-3762-AFA", nama:"Perumusan SKKNI Wakil Penasihat Berjangka (Inisiatif Baru)", anggaran:347_896_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:66, alignment:70, urgency:60, leverage:72 },
   { id:"RO25-3762-BIC001", kode:"BIC.001", kro:"KRO-3762-BIC", nama:"Monitoring Sistem Perdagangan Pelaku Usaha PBK (Onsite)", anggaran:74_220_000, target:"2 Lembaga", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:64, alignment:62, urgency:66, leverage:60 },
   { id:"RO25-3762-BMA001", kode:"BMA.001", kro:"KRO-3762-BMA", nama:"Data & Informasi Harga Komoditi PBK", anggaran:214_189_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:62, leverage:68 },
   { id:"RO25-3762-CCL001", kode:"CCL.001", kro:"KRO-3762-CCL", nama:"Pemeliharaan Perangkat Teknologi Informasi Bappebti", anggaran:158_550_000, target:"4 Unit", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:58, alignment:56, urgency:58, leverage:60 },
-  { id:"RO25-3762-FAB001", kode:"FAB.001", kro:"KRO-3762-FAB", nama:"Sistem Perizinan Online & Profiling Pelaku Usaha PBK", anggaran:254_560_000, target:"2 Sistem", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:72 },
-  { id:"RO25-3762-FAB005", kode:"FAB.005", kro:"KRO-3762-FAB", nama:"Pengembangan Integrasi Aplikasi Bappebti", anggaran:81_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
-  { id:"RO25-3762-BMA002", kode:"BMA.002", kro:"KRO-3762-BMA", nama:"Layanan Data & Informasi Pasar Fisik Aset Kripto", anggaran:823_325_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:72, alignment:70, urgency:72, leverage:74 },
-  { id:"RO25-3762-CCL002", kode:"CCL.002", kro:"KRO-3762-CCL", nama:"Peningkatan Keamanan Teknologi Informasi", anggaran:680_450_000, target:"7 Unit", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:64, alignment:62, urgency:68, leverage:66 },
-  { id:"RO25-3762-FAB002", kode:"FAB.002", kro:"KRO-3762-FAB", nama:"Sistem Informasi Pendukung Publikasi Informasi PBK", anggaran:212_700_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
-  { id:"RO25-3762-FAB003", kode:"FAB.003", kro:"KRO-3762-FAB", nama:"Sistem Informasi Pendukung Layanan Hukum", anggaran:150_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:60, leverage:64 },
-  { id:"RO25-3762-PBB001", kode:"PBB.001", kro:"KRO-3762-PBB", nama:"Analisa Pengembangan Kelembagaan & Produk PBK", anggaran:874_937_000, target:"3 Rekomendasi", isPN:true, ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:68, leverage:76 },
-  { id:"RO25-3762-QDH001", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Pembinaan Pelaku Usaha PBK", anggaran:279_220_000, target:"60 Badan Usaha", isPN:true, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:72, alignment:72, urgency:68, leverage:74 },
-  /* ===== 3758 — RKAKL Rev.9 TA 2025 ===== */
+  { id:"RO25-3762-FAB001", kode:"FAB.001", kro:"KRO-3762-FAB", nama:"Sistem Perizinan Online & Profiling Pelaku Usaha PBK", anggaran:254_560_000, target:"2 Sistem Informasi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:72 },
+  { id:"RO25-3762-FAB005", kode:"FAB.005", kro:"KRO-3762-FAB", nama:"Pengembangan Integrasi Aplikasi Bappebti", anggaran:81_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
+  /* ===== 3758 — Renja TA 2025 ===== */
   { id:"RO25-3758-CAN001", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan & Mesin (Sarana Bidang TIK)", anggaran:731_700_000, target:"41 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:50, alignment:46, urgency:52, leverage:44 },
-  { id:"RO25-3758-CCL001", kode:"CCL.001", kro:"KRO-3758-CCL", nama:"Operasional & Pemeliharaan Kantor (Sarana TIK)", anggaran:167_400_000, target:"195 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:50, leverage:42 },
-  { id:"RO25-3758-EBA956", kode:"EBA.956", kro:"KRO-3758-EBA", nama:"Layanan BMN", anggaran:283_784_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:46, alignment:42, urgency:48, leverage:40 },
-  { id:"RO25-3758-EBA958", kode:"EBA.958", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi", anggaran:788_629_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:56, leverage:50 },
-  { id:"RO25-3758-EBA960", kode:"EBA.960", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:741_472_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
-  { id:"RO25-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:8_536_386_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO25-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Pengadaan Kendaraan Listrik (Sarana & Prasarana Internal)", anggaran:1_066_804_000, target:"11 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:48, leverage:42 },
-  { id:"RO25-3758-EBC954", kode:"EBC.954", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM", anggaran:260_610_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:54, alignment:50, urgency:52, leverage:48 },
-  { id:"RO25-3758-EBC996", kode:"EBC.996", kro:"KRO-3758-EBC", nama:"Layanan Pendidikan & Pelatihan", anggaran:253_000_000, target:"196 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:54, leverage:50 },
+  { id:"RO25-3758-CCL001", kode:"CCL.001", kro:"KRO-3758-CCL", nama:"Operasional & Pemeliharaan Kantor (Sarana TIK)", anggaran:142_650_000, target:"195 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:50, leverage:42 },
+  { id:"RO25-3758-EBA956", kode:"EBA.956", kro:"KRO-3758-EBA", nama:"Layanan BMN", anggaran:129_999_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:46, alignment:42, urgency:48, leverage:40 },
+  { id:"RO25-3758-EBA958", kode:"EBA.958", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi", anggaran:1_123_360_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:56, leverage:50 },
+  { id:"RO25-3758-EBA960", kode:"EBA.960", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:289_335_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
+  { id:"RO25-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:9_216_094_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO25-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Pengadaan Kendaraan Listrik (Sarana & Prasarana Internal)", anggaran:966_804_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:48, leverage:42 },
+  { id:"RO25-3758-EBC954", kode:"EBC.954", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM", anggaran:228_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:54, alignment:50, urgency:52, leverage:48 },
+  { id:"RO25-3758-EBC996", kode:"EBC.996", kro:"KRO-3758-EBC", nama:"Layanan Pendidikan & Pelatihan", anggaran:141_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:54, leverage:50 },
   { id:"RO25-3758-EBD952", kode:"EBD.952", kro:"KRO-3758-EBD", nama:"Layanan Perencanaan & Penganggaran", anggaran:466_760_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:56, leverage:52 },
-  { id:"RO25-3758-EBD953", kode:"EBD.953", kro:"KRO-3758-EBD", nama:"Layanan Pemantauan & Evaluasi", anggaran:1_126_264_000, target:"4 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:58, leverage:52 },
-  { id:"RO25-3758-EBD955", kode:"EBD.955", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan", anggaran:445_620_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:56, leverage:50 },
-  { id:"RO25-3758-AEC001", kode:"AEC.001", kro:"KRO-3758-AEC", nama:"Pengembangan Kerjasama Bidang PBK, SRG & PLK", anggaran:98_110_000, target:"2 Dokumen", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:54, alignment:52, urgency:54, leverage:52 },
-  { id:"RO25-3758-AEF001", kode:"AEF.001", kro:"KRO-3758-AEF", nama:"Sosialisasi Perdagangan Berjangka Komoditi", anggaran:202_500_000, target:"600 Orang", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:56, alignment:54, urgency:54, leverage:52 },
-  { id:"RO25-3758-EBA963", kode:"EBA.963", kro:"KRO-3758-EBA", nama:"Layanan Data & Informasi", anggaran:415_559_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:56, leverage:50 },
+  { id:"RO25-3758-EBD953", kode:"EBD.953", kro:"KRO-3758-EBD", nama:"Layanan Pemantauan & Evaluasi", anggaran:834_264_000, target:"4 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:58, leverage:52 },
+  { id:"RO25-3758-EBD955", kode:"EBD.955", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan", anggaran:321_000_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:56, leverage:50 },
 ];
 const PAGU_2025 = {
-  "K-3758": 15_584_598_000,
-  "K-3759": 3_189_228_000,
-  "K-3760": 4_865_504_000,
-  "K-3761": 3_738_725_000,
-  "K-3762": 4_674_496_000,
+  "K-3758": 14_590_966_000,
+  "K-3759":  2_115_000_000,
+  "K-3760":  3_846_585_000,
+  "K-3761":  2_250_000_000,
+  "K-3762":  2_250_000_000,
 };
 const RO_2027_ALL = RO_2027.concat(RO_2027_KL);
 const roForYear = (year)=> year===2027 ? RO_2027_ALL : (year===2025 ? RO_2025 : RO);
@@ -719,100 +744,6 @@ const KURVA_S = [
   { q:"Q3", rencana:76,  anggaran:null, fisik:null },
   { q:"Q4", rencana:100, anggaran:null, fisik:null },
 ];
-
-/* ===== REALISASI TA 2025 — SAKTI (Laporan Ketersediaan Dana Detail, Periode Desember 2025 / TAHUNAN).
-   PENTING: pagu operatif DIPA final TA 2025 = Rp18.523.426.000 (pasca-efisiensi/blokir 2025),
-   jauh di bawah pagu RKAKL Rev.9 (Rp32.052.551.000). Serapan TA 2025 dihitung terhadap pagu
-   OPERATIF (DIPA final per RO), bukan terhadap pagu Rev.9. real=realisasi s.d. Des 2025; paguOp=pagu
-   revisi operatif. RO dengan paguOp:0 = dipangkas habis pada DIPA final (real 0). */
-const REALISASI_RO_2025 = {
-  "RO25-3758-AEC001":{real:40_541_050, paguOp:40_600_000},
-  "RO25-3758-AEF001":{real:0, paguOp:0},
-  "RO25-3758-CAN001":{real:484_349_991, paguOp:486_700_000},
-  "RO25-3758-CCL001":{real:167_400_000, paguOp:167_400_000},
-  "RO25-3758-EBA956":{real:272_233_370, paguOp:273_784_000},
-  "RO25-3758-EBA958":{real:783_487_516, paguOp:788_629_000},
-  "RO25-3758-EBA960":{real:393_289_438, paguOp:399_968_000},
-  "RO25-3758-EBA963":{real:123_898_322, paguOp:123_983_000},
-  "RO25-3758-EBA994":{real:7_126_887_117, paguOp:7_161_768_000},
-  "RO25-3758-EBB951":{real:64_358_000, paguOp:65_600_000},
-  "RO25-3758-EBC954":{real:74_009_755, paguOp:74_061_000},
-  "RO25-3758-EBC996":{real:67_481_116, paguOp:100_622_000},
-  "RO25-3758-EBD952":{real:312_640_374, paguOp:313_220_000},
-  "RO25-3758-EBD953":{real:974_856_618, paguOp:976_200_000},
-  "RO25-3758-EBD955":{real:444_031_389, paguOp:445_602_000},
-  "RO25-3759-BIC001":{real:226_451_540, paguOp:226_772_000},
-  "RO25-3759-BIC002":{real:91_358_830, paguOp:91_890_000},
-  "RO25-3759-BIC003":{real:149_784_000, paguOp:150_014_000},
-  "RO25-3759-BIC004":{real:183_313_700, paguOp:184_239_000},
-  "RO25-3759-BIC005":{real:153_023_480, paguOp:153_369_000},
-  "RO25-3759-BIC006":{real:310_787_816, paguOp:311_899_000},
-  "RO25-3759-BIC007":{real:32_529_240, paguOp:32_732_000},
-  "RO25-3759-BIC009":{real:0, paguOp:0},
-  "RO25-3759-CAN001":{real:45_739_513, paguOp:46_994_000},
-  "RO25-3759-FAB001":{real:0, paguOp:0},
-  "RO25-3759-FAB002":{real:0, paguOp:0},
-  "RO25-3760-ACD001":{real:263_735_047, paguOp:265_968_000},
-  "RO25-3760-ACD002":{real:794_000, paguOp:794_000},
-  "RO25-3760-AFA001":{real:54_433_000, paguOp:54_790_000},
-  "RO25-3760-BDB001":{real:165_986_850, paguOp:170_311_000},
-  "RO25-3760-BDB002":{real:68_220_440, paguOp:68_247_000},
-  "RO25-3760-BMA003":{real:4_800_000, paguOp:4_800_000},
-  "RO25-3760-FAB001":{real:0, paguOp:0},
-  "RO25-3760-FBA001":{real:120_945_720, paguOp:122_282_000},
-  "RO25-3760-PBB001":{real:206_187_000, paguOp:206_949_000},
-  "RO25-3760-PBB002":{real:162_145_207, paguOp:174_920_000},
-  "RO25-3760-PEA001":{real:322_733_534, paguOp:325_785_000},
-  "RO25-3760-PEA002":{real:103_731_700, paguOp:105_950_000},
-  "RO25-3760-QDB001":{real:120_658_450, paguOp:123_759_000},
-  "RO25-3760-QDB002":{real:38_412_536, paguOp:39_400_000},
-  "RO25-3760-QDC001":{real:125_178_810, paguOp:126_866_000},
-  "RO25-3760-QDC002":{real:194_716_250, paguOp:195_340_000},
-  "RO25-3760-QDC003":{real:90_456_700, paguOp:91_504_000},
-  "RO25-3760-RAH001":{real:159_195_016, paguOp:159_978_000},
-  "RO25-3760-UAB001":{real:32_996_970, paguOp:33_000_000},
-  "RO25-3760-UAB002":{real:59_995_500, paguOp:60_000_000},
-  "RO25-3761-AAH001":{real:284_464_899, paguOp:284_910_000},
-  "RO25-3761-AAH002":{real:46_997_090, paguOp:47_005_000},
-  "RO25-3761-ABB001":{real:198_922_607, paguOp:200_000_000},
-  "RO25-3761-AEA001":{real:157_684_735, paguOp:159_727_000},
-  "RO25-3761-AEF001":{real:19_359_800, paguOp:19_634_000},
-  "RO25-3761-BBA001":{real:217_181_500, paguOp:217_210_000},
-  "RO25-3761-BBB001":{real:130_967_100, paguOp:131_241_000},
-  "RO25-3761-BIC001":{real:401_412_901, paguOp:401_853_000},
-  "RO25-3761-BIC002":{real:148_781_701, paguOp:151_835_000},
-  "RO25-3761-FAC001":{real:36_910_000, paguOp:37_390_000},
-  "RO25-3762-ACD001":{real:351_165_722, paguOp:360_305_000},
-  "RO25-3762-ADI001":{real:130_332_500, paguOp:137_900_000},
-  "RO25-3762-AFA001":{real:188_835_300, paguOp:189_348_000},
-  "RO25-3762-BIC001":{real:46_221_799, paguOp:48_720_000},
-  "RO25-3762-BMA001":{real:194_103_640, paguOp:194_890_000},
-  "RO25-3762-BMA002":{real:0, paguOp:500_000},
-  "RO25-3762-CCL001":{real:91_750_080, paguOp:95_141_000},
-  "RO25-3762-CCL002":{real:305_127_560, paguOp:306_750_000},
-  "RO25-3762-FAB001":{real:94_937_000, paguOp:95_860_000},
-  "RO25-3762-FAB002":{real:2_500_000, paguOp:2_500_000},
-  "RO25-3762-FAB003":{real:56_683_500, paguOp:56_800_000},
-  "RO25-3762-FAB005":{real:0, paguOp:0},
-  "RO25-3762-PBB001":{real:296_860_880, paguOp:298_458_000},
-  "RO25-3762-QDH001":{real:136_043_330, paguOp:138_760_000},
-};
-/* Pagu operatif (DIPA final) & realisasi per Kegiatan TA 2025 (SAKTI). */
-const PAGU_OPERATIF_2025 = {
-  "K-3758":11_418_137_000,
-  "K-3759":1_197_909_000,
-  "K-3760":2_330_643_000,
-  "K-3761":1_650_805_000,
-  "K-3762":1_925_932_000,
-};
-const REAL_KEG_2025 = {
-  "K-3758":11_329_464_056,
-  "K-3759":1_192_988_119,
-  "K-3760":2_295_322_730,
-  "K-3761":1_642_682_333,
-  "K-3762":1_894_561_311,
-};
-const META_REAL_2025 = { per:"Desember 2025 (Tahunan)", paguRev9:32_052_551_000, paguOperatif:18_523_426_000, real:18_355_018_549, serapan:99.09 };
 
 /* ======================================================================== */
 /* HELPERS                                                                  */
@@ -1441,7 +1372,7 @@ function MetricStrip(){
   const paguYear = yearHasOwnRO(year) ? yroList.reduce((s,r)=>s+r.anggaran,0) : totalAnggaran;
   const roCount = yroList.length;
   const roSub = year===2027 ? `${yroList.filter(r=>r.isPN).length} PN · RANWAL`
-              : year===2025 ? `${roCount} RO · RKAKL Rev.9 2025`
+              : year===2025 ? `${roCount} RO · Renja 2025`
               : `${pnCount} PN · ${nonPnCount} Non-PN`;
   const items = [
     {label:"Sasaran Strategis", value:"SS1", sub:"Kementerian Perdagangan"},
@@ -1450,7 +1381,7 @@ function MetricStrip(){
     {label:"Kegiatan",          value:KEGIATAN.length, sub:"unit eselon II"},
     {label:"KRO",               value:KRO.length, sub:"klasifikasi output"},
     {label:"Rincian Output",    value:roCount, sub:roSub},
-    {label:"Total Pagu",        value:fmtRp(paguYear), sub:year===2027?'TA 2027 · RANWAL *':(year===2025?'TA 2025 · RKAKL Rev.9':'TA 2026'), big:true},
+    {label:"Total Pagu",        value:fmtRp(paguYear), sub:year===2027?'TA 2027 · RANWAL *':(year===2025?'TA 2025 · Renja':'TA 2026'), big:true},
   ];
   return (
     <div className="max-w-[1400px] mx-auto px-8 mb-8">
@@ -1467,7 +1398,7 @@ function MetricStrip(){
         <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">
           {year===2027
             ? <>* <b>TA 2027</b>: angka bersifat <b>RANWAL</b> (rencana awal). Target IKK mengikuti Renja/Renstra 2027. Renja 2027 dimuat untuk <b>seluruh 5 Kegiatan</b> (3758–3762) pada Pohon Kinerja, Total Pagu & SPBE. Tagging <b>Prioritas Nasional</b> mengikuti pola RO TA 2026 (tema Hilirisasi). Telaah efektivitas–efisiensi tiap RO ada di tab <b>Analisis Anggaran</b>. Realisasi (SAKTI) tetap bersumber data TA 2026 (tahun berjalan).</>
-            : <><b>TA 2025</b>: angka bersumber dari <b>RKAKL Revisi 9 (POK SAKTI) TA 2025</b> untuk seluruh 5 Kegiatan (3758–3762) pada 2 Program (Perdagangan Dalam Negeri & Dukungan Manajemen). Pagu perencanaan sesuai RKAKL Rev.9 (total <b>Rp32,05 M</b>); tagging <b>Prioritas Nasional</b> ditentukan dari kode KRO (P–Y = PN) sesuai aturan DJA/Bappenas. <b>Realisasi (SAKTI)</b> TA 2025 sudah dimuat — final per Desember 2025 sebesar <b>Rp18,36 M (99,09%)</b> terhadap <b>pagu operatif DIPA Rp18,52 M</b> yang lebih rendah dari Rev.9 akibat efisiensi 2025; lihat tab <b>Capaian</b>.</>}
+            : <><b>TA 2025</b>: angka bersumber dari <b>Renja K/L (Rekap 3 KRISNA) TA 2025</b> untuk seluruh 5 Kegiatan (3758–3762), tertanggal 24 Desember 2024. Pagu, RO, target IKK, dan kerangka logika ditampilkan sesuai dokumen Renja TA 2025; TA 2025 belum memuat tagging <b>Prioritas Nasional</b>. Realisasi (SAKTI) & clearance SPBE mengikuti tahun berjalan (TA 2026).</>}
         </div>
       )}
     </div>
@@ -1543,7 +1474,7 @@ function ROScores({ro}){
     {l:"Leverage",  v:ro.leverage,  d:"Daya ungkit terhadap anggaran"},
   ];
   const composite = Math.round((ro.impact+ro.alignment+ro.urgency+ro.leverage)/4);
-  const ser = serapanRO(ro, year);
+  const ser = serapanRO(ro);
   const tel = (year===2026||year===2027) ? penelaahan2027(ro) : null;
   const bs  = tel ? tel.bs : null;
   return (
@@ -1697,6 +1628,85 @@ function BottomUpDiagram(){
   );
 }
 
+/* Panel terpisah: Sasaran Program & IKP versi Renja TA 2025 (di luar kerangka Renstra).
+   Tampil hanya saat tahun aktif = 2025. Tidak terhubung ke cascade ISP-1..ISP-6. */
+function RenjaSP2025(){
+  return (
+    <div className="mb-6">
+      <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">
+        Sasaran Program &amp; IKP — Renja TA 2025 · di luar kerangka Renstra 2025–2029
+      </div>
+      <div className="card overflow-hidden" style={{borderColor:"rgba(217,119,6,0.30)",background:"linear-gradient(135deg,rgba(217,119,6,0.05) 0%,rgba(217,119,6,0.01) 100%)"}}>
+        <div className="p-5">
+          <div className="flex items-start gap-3 flex-wrap">
+            <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
+            <div className="flex-1 min-w-[260px]">
+              <div className="serif text-base leading-snug">Nomenklatur Sasaran Program &amp; Indikator Kinerja Program TA 2025</div>
+              <p className="text-[11px] text-[var(--text-2)] leading-relaxed mt-1">
+                Diambil langsung dari <b>{RENJA25.sumber}</b> — <b>{RENJA25.program}</b> (Unit Org {RENJA25.unit}).
+                Kerangka ini <b>berbeda</b> dari Sasaran Program Renstra (SP-01/SP-02 · ISP-1…ISP-6) dan disajikan
+                sebagai data 2025 tersendiri, sehingga cascade Renstra di bawah tetap utuh.
+              </p>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <span className="pill pill-gold mono">RENJA 2025</span>
+                <span className="pill pill-muted">Total alokasi {fmtRp(RENJA25.totalAlokasi)}</span>
+                <span className="pill pill-muted">{RENJA25.sp.reduce((s,p)=>s+p.ikp.length,0)} IKP</span>
+              </div>
+            </div>
+          </div>
+
+          {/* SS K/L yang didukung */}
+          <div className="card-2 p-3 mt-4">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Sasaran Strategis K/L yang Didukung</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+              {RENJA25.ssDidukung.map((s,i)=>(
+                <div key={i} className="text-[11px] text-[var(--text-2)] leading-snug flex gap-1.5">
+                  <span className="text-[var(--text-3)]">•</span><span>{s}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SP & IKP */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+            {RENJA25.sp.map(sp=>(
+              <div key={sp.kode} className="card-2 overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-1 h-12 rounded-full shrink-0" style={{background:sp.warna}}></div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="pill mono" style={{background:`${sp.warna}1a`,color:sp.warna,borderColor:"transparent"}}>SP {sp.kode}</span>
+                        <span className="text-[10px] mono text-[var(--text-3)]">{sp.ikp.length} IKP · alokasi {fmtRp(sp.alokasi)}</span>
+                      </div>
+                      <div className="serif text-sm leading-snug text-balance">{sp.nama}</div>
+                    </div>
+                  </div>
+                  <div className="space-y-1.5 mt-3">
+                    {sp.ikp.map(ik=>(
+                      <div key={ik.kode} className="rounded p-2.5 flex items-center gap-3" style={{border:"1px solid var(--border)",background:"var(--card)"}}>
+                        <span className="pill pill-blue mono">{ik.kode}</span>
+                        <div className="flex-1 text-[12px] leading-snug">{ik.nama}</div>
+                        <div className="text-right shrink-0">
+                          <div className="text-[10px] text-[var(--text-3)]">Target 2025</div>
+                          <div className="text-sm mono text-[var(--gold)]">{ik.target}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] italic mt-3">
+            Catatan: REKAP 2A Renja tidak mencetak kolom satuan; angka target ditampilkan apa adanya sesuai dokumen sumber.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PohonKinerja(){
   const year = useYear();
   const [expandedSS,setExpandedSS] = useState(new Set(["SP-01"]));
@@ -1708,6 +1718,16 @@ function PohonKinerja(){
 
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
+      {year===2025 && (
+        <div className="card p-4 mb-6" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.06)"}}>
+          <div className="flex items-start gap-3">
+            <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
+            <p className="text-sm text-[var(--text-2)] leading-relaxed">
+              <b>TA 2025 (Renja).</b> Di bawah Sasaran Program Renstra (SP-01/SP-02), ditambahkan panel <b>Sasaran Program &amp; IKP versi Renja TA 2025</b> (SP 04 &amp; SP 09, 8 IKP) sesuai REKAP 2A — disajikan sebagai data 2025 tersendiri <b>di luar kerangka Renstra 2025–2029</b>; cascade ISP-1…ISP-6 tidak berubah.
+            </p>
+          </div>
+        </div>
+      )}
       {year===2027 && (
         <div className="card p-4 mb-6" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.06)"}}>
           <div className="flex items-start gap-3">
@@ -1823,6 +1843,9 @@ function PohonKinerja(){
         })}
       </div>
 
+      {/* Sasaran Program & IKP versi Renja TA 2025 — tampil hanya pada tahun 2025 */}
+      {year===2025 && <RenjaSP2025 />}
+
       {/* Bottom-up arrow diagram: RO -> IKK -> ISP */}
       <BottomUpDiagram />
 
@@ -1887,7 +1910,7 @@ function KegiatanBranch({kegiatan}){
         <span className="pill pill-emerald mono">{kegiatan.kode}</span>
         <span className="text-sm flex-1">{kegiatan.nama}</span>
         {year===2027 && <span className={`pill text-[9px] ${isY27?'pill-gold':'pill-muted'}`}>{isY27?'RANWAL 2027':'data 2026'}</span>}
-        {year===2025 && <span className={`pill text-[9px] ${isY25?'pill-blue':'pill-muted'}`}>{isY25?'RKAKL Rev.9 2025':'data 2026'}</span>}
+        {year===2025 && <span className={`pill text-[9px] ${isY25?'pill-blue':'pill-muted'}`}>{isY25?'RENJA 2025':'data 2026'}</span>}
         <span className="text-xs mono text-[var(--gold)]">{fmtRp(kegPagu)}</span>
       </button>
       {open && (
@@ -1965,11 +1988,11 @@ function SebabAkibat(){
   // Build bottom-up chains for selected SP (RO -> IKK -> IKP), mengikuti RO tahun terpilih
   const chains = useMemo(()=>{
     const linkedIKP_ids = IKSS.filter(i=>i.ss===selectedSS).map(i=>i.id);
-    const ros = roForYear(year).filter(r=>{ const ik=getIKK(r.ikkLinked); return ik && linkedIKP_ids.includes(ik.ikpLinked) && getKRO(r.kro); });
+    const ros = roForYear(year).filter(r=>{ const ik=getIKK(r.ikkLinked); return ik && linkedIKP_ids.includes(ik.ikpLinked); });
     return ros.map(r=>{
       const kr  = getKRO(r.kro);
-      const keg = kr ? getKegiatan(kr.kegiatan) : null;
-      const prg = keg ? getProgram(keg.program) : null;
+      const keg = getKegiatan(kr.kegiatan);
+      const prg = getProgram(keg.program);
       const ikk = getIKK(r.ikkLinked);
       const ikp = ikk ? getIKSS(ikk.ikpLinked) : null;
       const sk  = ikk ? getSK(ikk.sk) : null;
@@ -2069,17 +2092,7 @@ function SebabAkibat(){
               </div>
             </div>
             <div className="space-y-3">
-              {chains.length===0 ? (
-                <div className="card-2 p-6 text-center">
-                  <div className="text-[var(--text-3)] text-2xl mb-2">&#9888;</div>
-                  <div className="serif text-base mb-1">Indikator belum lengkap sehingga tidak dapat dianalisa</div>
-                  <div className="text-[12px] text-[var(--text-2)] leading-relaxed max-w-md mx-auto">
-                    Belum ada Rincian Output TA {year} pada Sasaran Program ini yang tertaut lengkap ke rantai
-                    indikator (RO &rarr; IKK &rarr; IKP). Pilih Sasaran Program lain, atau lengkapi keterkaitan
-                    indikator pada dataset agar analisa sebab&ndash;akibat dapat ditampilkan.
-                  </div>
-                </div>
-              ) : chains.map((c,i)=>(
+              {chains.map((c,i)=>(
                 <ChainRow key={c.ro.id} chain={c} ssColor={getSS(selectedSS).warna} index={i+1} />
               ))}
             </div>
@@ -2888,146 +2901,28 @@ function Capaian(){
 
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
-      {year===2025 ? (() => {
-        const kegRows = ["K-3759","K-3760","K-3761","K-3762","K-3758"].map(id=>{
-          const k=getKegiatan(id); const pagu=PAGU_OPERATIF_2025[id]; const real=REAL_KEG_2025[id];
-          return {id, kode:k.kode, nama:k.nama, pagu, real, pct: pagu? real/pagu*100 : 0,
-                  paguRev9: PAGU_2025[id]};
-        });
-        const M=META_REAL_2025;
-        const ros2025 = roForYear(2025);
-        const cut = ros2025.filter(r=>{const o=REALISASI_RO_2025[r.id]; return o && o.paguOp===0;});
-        const affected = ros2025.filter(r=>{const o=REALISASI_RO_2025[r.id]; return o && o.paguOp < r.anggaran;});
-        const efisiensi = M.paguRev9 - M.paguOperatif;
-        const efisiensiPct = efisiensi / M.paguRev9 * 100;
-        const fmtPct=(x)=>x.toFixed(2)+"%";
-        return (
+      {year===2025 ? (
         <>
           <div className="flex items-center gap-2 mb-4 flex-wrap">
-            <span className="pill pill-emerald mono text-[10px]">TA 2025 · REALISASI (SAKTI)</span>
-            <span className="pill pill-muted mono text-[10px]">Periode {M.per}</span>
-            <span className="text-xs text-[var(--text-3)]">Tahun anggaran berakhir — realisasi final dari SAKTI (Laporan Ketersediaan Dana Detail).</span>
+            <span className="pill pill-blue mono text-[10px]">TA 2025 · RENJA</span>
+            <span className="text-xs text-[var(--text-3)]">Tahun anggaran telah berakhir — realisasi TA 2025 tidak dimuat pada dataset ini.</span>
           </div>
-
-          <div className="card p-5 mb-6" style={{borderColor:"var(--amber)",background:"rgba(217,119,6,0.06)"}}>
+          <div className="card p-5 mb-6" style={{borderColor:"var(--border-strong)"}}>
             <div className="flex items-start gap-3">
-              <span className="text-[var(--amber)] text-lg leading-none mt-0.5">&#9888;</span>
+              <span className="text-[var(--text-3)] text-lg leading-none mt-0.5">ⓘ</span>
               <div>
-                <div className="serif text-lg">Pagu operatif (DIPA final) jauh di bawah pagu RKAKL Rev.9 &mdash; dampak efisiensi 2025</div>
+                <div className="serif text-lg">Capaian & realisasi TA 2025 tidak dimuat</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Pagu perencanaan <b>RKAKL Rev.9</b> sebesar <b>{fmtRp(M.paguRev9)}</b>, namun <b>pagu operatif DIPA final</b> yang
-                  benar-benar dieksekusi hanya <b>{fmtRp(M.paguOperatif)}</b> &mdash; selisih <b>{fmtRp(M.paguRev9-M.paguOperatif)}</b> akibat
-                  kebijakan <b>efisiensi/blokir anggaran TA 2025</b>. Terhadap pagu operatif itu, realisasi mencapai
-                  <b> {fmtRp(M.real)} ({fmtPct(M.serapan)})</b>. Karena itu, <b>serapan TA 2025 dihitung terhadap pagu operatif (DIPA final)</b>,
-                  bukan terhadap pagu Rev.9. Sebanyak <b>{cut.length} RO</b> dipangkas habis (pagu 0) pada DIPA final.
+                  Dashboard memuat <b>perencanaan TA 2025</b> (pagu, RO, target IKK dari Renja K/L KRISNA),
+                  namun <b>realisasi anggaran (SAKTI)</b> yang tersedia hanya untuk <b>tahun berjalan TA 2026</b>.
+                  Untuk melihat capaian & serapan, pilih <b>TA 2026</b> pada pemilih tahun di header. Struktur
+                  perencanaan TA 2025 dapat ditelusuri pada tab <b>Pohon Kinerja</b>.
                 </p>
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-            <div className="card p-5">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu RKAKL Rev.9</div>
-              <div className="serif text-2xl mt-2 text-[var(--text-3)]">{fmtRp(M.paguRev9)}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">perencanaan</div>
-            </div>
-            <div className="card p-5">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu Operatif (DIPA)</div>
-              <div className="serif text-2xl mt-2">{fmtRp(M.paguOperatif)}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">pasca-efisiensi</div>
-            </div>
-            <div className="card p-5">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Realisasi</div>
-              <div className="serif text-2xl mt-2 text-[var(--emerald)]">{fmtRp(M.real)}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">s.d. {M.per}</div>
-            </div>
-            <div className="card p-5 ring-gold">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Serapan Anggaran</div>
-              <div className="serif text-3xl mt-2" style={{color:statusCapaian(M.serapan).color}}>{fmtPct(M.serapan)}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">thd pagu operatif</div>
-            </div>
-            <div className="card p-5">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Dipangkas Habis</div>
-              <div className="serif text-3xl mt-2 text-[var(--red)]">{cut.length}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">pagu 0 di DIPA final</div>
-            </div>
-          </div>
-
-          <div className="card p-5 mb-6" style={{borderColor:"var(--red-soft)",background:"rgba(127,29,29,0.04)"}}>
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Efisiensi / Blokir Anggaran TA 2025</div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-              <div className="card-2 p-4">
-                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Anggaran Terblokir/Efisiensi</div>
-                <div className="serif text-2xl mt-1 text-[var(--red)]">{fmtRp(efisiensi)}</div>
-                <div className="text-[10px] text-[var(--text-3)] mt-1">{fmtPct(efisiensiPct)} dari pagu Rev.9</div>
-              </div>
-              <div className="card-2 p-4">
-                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Terdampak Efisiensi</div>
-                <div className="serif text-2xl mt-1 text-[var(--amber)]">{affected.length}<span className="text-base text-[var(--text-3)]">/{ros2025.length}</span></div>
-                <div className="text-[10px] text-[var(--text-3)] mt-1">pagu dipangkas sebagian/penuh</div>
-              </div>
-              <div className="card-2 p-4">
-                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Dipangkas Habis</div>
-                <div className="serif text-2xl mt-1 text-[var(--red)]">{cut.length}</div>
-                <div className="text-[10px] text-[var(--text-3)] mt-1">pagu menjadi Rp0 di DIPA final</div>
-              </div>
-              <div className="card-2 p-4">
-                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Serapan thd Pagu Operatif</div>
-                <div className="serif text-2xl mt-1 text-[var(--emerald)]">{fmtPct(M.serapan)}</div>
-                <div className="text-[10px] text-[var(--text-3)] mt-1">Rp{(M.real/1e9).toFixed(2)} M / Rp{(M.paguOperatif/1e9).toFixed(2)} M</div>
-              </div>
-            </div>
-            <div className="rounded p-3" style={{background:"rgba(127,29,29,0.06)",border:"1px solid rgba(127,29,29,0.18)"}}>
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--red-soft)] mb-1">Kesimpulan</div>
-              <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
-                Perbedaan antara pagu perencanaan dan realisasi <b>bukan disebabkan rendahnya serapan</b>, melainkan
-                oleh <b>efisiensi/blokir anggaran TA 2025</b>. Pagu RKAKL Rev.9 sebesar <b>{fmtRp(M.paguRev9)}</b> dipangkas
-                sebesar <b>{fmtRp(efisiensi)}</b> ({fmtPct(efisiensiPct)}) sehingga pagu operatif (DIPA final) hanya
-                <b> {fmtRp(M.paguOperatif)}</b>. Efisiensi ini berdampak pada <b>{affected.length} RO</b> (pagu turun),
-                <b> {cut.length}</b> di antaranya dipangkas habis menjadi Rp0. Terhadap pagu operatif tersebut, realisasi
-                justru <b>sangat tinggi yaitu {fmtRp(M.real)} ({fmtPct(M.serapan)})</b>. Dengan kata lain, satker pada
-                dasarnya <b>menyerap hampir seluruh anggaran yang tersedia</b>; selisih besar terhadap angka Rev.9 murni
-                berasal dari pemangkasan pagu, bukan kegagalan eksekusi.
-              </p>
-            </div>
-          </div>
-
-          <div className="card p-5 mb-6">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Serapan Anggaran per Kegiatan &mdash; TA 2025 (thd pagu operatif DIPA)</div>
-            <div className="space-y-2">
-              {kegRows.map(r=>(
-                <div key={r.id} className="focus-row rounded px-2 py-2">
-                  <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                    <span className="pill pill-muted mono text-[9px]">{r.kode}</span>
-                    <span className="flex-1 text-[12px] text-[var(--text-2)] leading-snug min-w-[180px]">{r.nama}</span>
-                    <span className="mono text-[10px] text-[var(--text-3)]">Rev.9 {fmtRp(r.paguRev9)}</span>
-                    <span className="mono text-[10px] text-[var(--text-2)]">DIPA {fmtRp(r.pagu)}</span>
-                    <span className="mono text-[10px] text-[var(--emerald)]">real {fmtRp(r.real)}</span>
-                    <span className="pill text-[9px]" style={{background:r.pct<90?'rgba(217,119,6,0.1)':'rgba(5,150,105,0.1)',color:r.pct<90?'#d97706':'#059669',borderColor:'transparent'}}>{fmtPct(r.pct)}</span>
-                  </div>
-                  <div className="impact-bar"><div className="impact-fill" style={{width:Math.min(r.pct,100)+'%',background:r.pct<90?'var(--amber)':'var(--emerald)'}}></div></div>
-                </div>
-              ))}
-            </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3">Sumber: SAKTI &mdash; Laporan Ketersediaan Dana Detail TA 2025, Periode {M.per}. Pagu operatif = DIPA final pasca-efisiensi; Rev.9 = pagu perencanaan.</div>
-          </div>
-
-          <div className="card p-5">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">RO yang Dipangkas Habis (pagu 0 pada DIPA final TA 2025)</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5">
-              {cut.map(r=>(
-                <div key={r.id} className="flex items-center gap-2 text-[12px] py-1 border-b" style={{borderColor:"var(--border)"}}>
-                  <span className="pill pill-muted mono text-[9px] shrink-0">{r.kode}</span>
-                  {r.isPN && <span className="pill pill-gold text-[9px] shrink-0">PN</span>}
-                  <span className="flex-1 text-[var(--text-2)] leading-snug">{r.nama}</span>
-                  <span className="mono text-[var(--text-3)] shrink-0">Rev.9 {fmtRp(r.anggaran)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </>
-        );
-      })() : year===2027 ? (
+      ) : year===2027 ? (
         <>
           <div className="flex items-center gap-2 mb-4 flex-wrap">
             <span className="pill pill-gold mono text-[10px]">TA 2027 · RANWAL</span>
