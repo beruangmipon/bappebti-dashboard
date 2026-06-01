@@ -773,13 +773,49 @@ const CAPAIAN_IKK_TW1 = [
 ];
 const KEG_NAMA_TW1 = {"3758":"Dukungan Manajemen & Teknis","3759":"Pengawasan & Penindakan PBK/SRG/PLK","3760":"Pembinaan & Pengembangan SRG dan PLK","3761":"Peningkatan Efektivitas Kebijakan & Pelayanan Hukum","3762":"Pembinaan & Pengembangan PBK"};
 const CAPAIAN_IKK_SUMBER = "Realisasi Indikator Kinerja Triwulan I TA 2026 (Satker 412492)";
+const CAPAIAN_RO_TW1 = [
+  {id:"RO-3759-1",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK (Audit)",pagu:302670000,real:87365000,target:"32",sat:"Badan Usaha",cap:"8",persen:50.1},
+  {id:"RO-3759-2",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:171600000,real:34538462,target:"6",sat:"Badan Usaha",cap:"4",persen:66.1},
+  {id:"RO-3759-3",keg:"3759",uraian:"Penindakan PBK/SRG/PLK (legal/ilegal)",pagu:96490000,real:25154590,target:"8",sat:"Badan Usaha",cap:"4",persen:66.1},
+  {id:"RO-3760-ACD1",keg:"3760",uraian:"Perizinan Lembaga SRG",pagu:50000000,real:449000,target:"2",sat:"Lembaga",cap:"0",persen:3.2},
+  {id:"RO-3760-ACD2",keg:"3760",uraian:"Perizinan Lembaga PLK",pagu:16000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
+  {id:"RO-3760-AFA1",keg:"3760",uraian:"Rancangan NSPK SKKNI Pengelola Gudang SRG",pagu:50000000,real:0,target:"1",sat:"NSPK",cap:"0",persen:0.3},
+  {id:"RO-3760-BDB1",keg:"3760",uraian:"Fasilitasi & Pembinaan Lembaga Penyalur Subsidi RG",pagu:82000000,real:14278401,target:"2",sat:"Lembaga",cap:"1",persen:60.1},
+  {id:"RO-3760-BMA1",keg:"3760",uraian:"Data & Informasi Harga Komoditi SRG/PLK",pagu:29000000,real:290000,target:"8",sat:"dokumen",cap:"0",persen:2.2},
+  {id:"RO-3760-FAB1",keg:"3760",uraian:"Sistem Informasi Persetujuan SRG & PLK",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
+  {id:"RO-3760-PBB2",keg:"3760",uraian:"Rekomendasi Kebijakan Kelembagaan/Komoditi SRG/PLK",pagu:24451000,real:3400000,target:"1",sat:"Rekomendasi",cap:"0",persen:14.2},
+  {id:"RO-3760-PEA1",keg:"3760",uraian:"Koordinasi Pemangku Kepentingan SRG",pagu:35000000,real:13261238,target:"1",sat:"kegiatan",cap:"0",persen:40.1},
+  {id:"RO-3760-QDB1",keg:"3760",uraian:"Peningkatan Kompetensi Pengelola Gudang SRG",pagu:18000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
+  {id:"RO-3760-QDB2",keg:"3760",uraian:"Fasilitasi Calon Pengelola Gudang SRG",pagu:10000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
+  {id:"RO-3760-QDB3",keg:"3760",uraian:"Pendampingan WMS Pengelola Gudang SRG",pagu:87903000,real:0,target:"5",sat:"Lembaga",cap:"0",persen:0.3},
+  {id:"RO-3760-QDC1",keg:"3760",uraian:"Pertemuan Teknis Pelaku Usaha PLK",pagu:40000000,real:8825000,target:"15",sat:"Orang",cap:"5",persen:25.2},
+  {id:"RO-3760-QDC2",keg:"3760",uraian:"Fasilitasi Pelaku Usaha & Petani SRG",pagu:55000000,real:0,target:"75",sat:"Orang",cap:"0",persen:0.3},
+  {id:"RO-3760-QDC3",keg:"3760",uraian:"Asistensi Pelaku Usaha PLK",pagu:35000000,real:0,target:"15",sat:"Orang",cap:"0",persen:0.3},
+  {id:"RO-3760-UAB1",keg:"3760",uraian:"Sistem Aplikasi SPLT",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
+  {id:"RO-3760-UAB2",keg:"3760",uraian:"Sistem Aplikasi WMS",pagu:60000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
+  {id:"RO-3761-AAH1",keg:"3761",uraian:"Peraturan Bappebti bidang PBK",pagu:77905000,real:18664400,target:"4",sat:"peraturan",cap:"0",persen:29.1},
+  {id:"RO-3761-AAH2",keg:"3761",uraian:"Peraturan Bappebti bidang SRG & PLK",pagu:20420000,real:4579780,target:"1",sat:"peraturan",cap:"0",persen:23.1},
+  {id:"RO-3761-AEA1",keg:"3761",uraian:"Uji Publik & Harmonisasi Kebijakan",pagu:80000000,real:1722800,target:"3",sat:"kegiatan",cap:"0",persen:2.2},
+  {id:"RO-3761-BBA1",keg:"3761",uraian:"Layanan Asistensi Hukum PBK/SRG/PLK",pagu:131250000,real:59211730,target:"6",sat:"Orang",cap:"1",persen:50.0},
+  {id:"RO-3761-BCB1",keg:"3761",uraian:"Penanganan Perkara/Penyelesaian Perselisihan",pagu:131250000,real:5595200,target:"5",sat:"Perkara",cap:"1",persen:30.2},
+  {id:"RO-3762-ACB1",keg:"3762",uraian:"Perizinan Wakil Pialang & Wakil Penasihat",pagu:24250000,real:17880000,target:"500",sat:"Orang",cap:"187",persen:37.4},
+  {id:"RO-3762-ACD1",keg:"3762",uraian:"Perizinan Pelaku Usaha PBK",pagu:78980000,real:34730000,target:"500",sat:"Badan Usaha",cap:"114",persen:30.0},
+  {id:"RO-3762-ADI1",keg:"3762",uraian:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat",pagu:129878000,real:5246000,target:"200",sat:"Orang",cap:"0",persen:14.0},
+  {id:"RO-3762-BMA1",keg:"3762",uraian:"Data & Informasi Harga Komoditi PBK",pagu:38410000,real:3620000,target:"1",sat:"dokumen",cap:"0",persen:21.0},
+  {id:"RO-3762-FAB1",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:2010000,target:"1",sat:"Sistem",cap:"0",persen:7.1},
+  {id:"RO-3762-PBB1",keg:"3762",uraian:"Rekomendasi Kebijakan Kelembagaan/Produk PBK",pagu:150496000,real:25340430,target:"1",sat:"Rekomendasi",cap:"0",persen:17.0},
+  {id:"RO-3762-QDH1",keg:"3762",uraian:"Pembinaan Pelaku Usaha PBK",pagu:151660000,real:11000000,target:"60",sat:"Badan Usaha",cap:"0",persen:8.1},
+  {id:"RO-3758-CAN1",keg:"3758",uraian:"Peralatan TIK Penunjang Tugas Bappebti",pagu:115200000,real:9500500,target:"1",sat:"Unit",cap:"0",persen:25.01},
+  {id:"RO-3758-EBA1",keg:"3758",uraian:"Layanan Perkantoran",pagu:5163077000,real:791727345,target:"1",sat:"Layanan",cap:"0",persen:25.16},
+  {id:"RO-3758-EBA2",keg:"3758",uraian:"Layanan Organisasi & Tata Kelola Internal",pagu:504034000,real:58730400,target:"1",sat:"Layanan",cap:"0",persen:25.16},
+];
 const CAPAIAN_IKSS = [
-  { id:"ISP-1", realNow:"—", cap:[null,null,null,null] },
-  { id:"ISP-2", realNow:"—", cap:[null,null,null,null] },
-  { id:"ISP-3", realNow:"—", cap:[null,null,null,null] },
-  { id:"ISP-4", realNow:"—", cap:[null,null,null,null] },
-  { id:"ISP-5", realNow:"—", cap:[null,null,null,null] },
-  { id:"ISP-6", realNow:"—", cap:[null,null,null,null] },
+  { id:"ISP-1", realNow:"25% · agr. IKK", cap:[25,null,null,null] },
+  { id:"ISP-2", realNow:"17% · agr. IKK", cap:[17,null,null,null] },
+  { id:"ISP-3", realNow:"102% · agr. IKK", cap:[102,null,null,null] },
+  { id:"ISP-4", realNow:"blm diukur",    cap:[null,null,null,null] },
+  { id:"ISP-5", realNow:"blm diukur",    cap:[null,null,null,null] },
+  { id:"ISP-6", realNow:"38% · agr. IKK", cap:[38,null,null,null] },
 ];
 /* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Mei 2026, ditaruh di slot Q2). */
 const SERAPAN = [
@@ -791,7 +827,7 @@ const SERAPAN = [
 ];
 /* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Mei = 52,8% (slot Q2). */
 const KURVA_S = [
-  { q:"Q1", rencana:22,  anggaran:null, fisik:null },
+  { q:"Q1", rencana:22,  anggaran:19,   fisik:26 },
   { q:"Q2", rencana:48,  anggaran:53,   fisik:null },
   { q:"Q3", rencana:76,  anggaran:null, fisik:null },
   { q:"Q4", rencana:100, anggaran:null, fisik:null },
@@ -1346,7 +1382,7 @@ Rekomendasi: pertama, percepat penyelesaian clearance dan submit EGA seluruh 15 
 /* ======================================================================== */
 /* HEADER                                                                   */
 /* ======================================================================== */
-function Header({onSettings, proxySet, year, setYear}){
+function Header({onSettings, proxySet, year, setYear, activeTab}){
   return (
     <header className="border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md sticky top-0 z-20">
       <div className="max-w-[1400px] mx-auto px-8 py-5 flex items-end justify-between">
@@ -1385,7 +1421,7 @@ function Header({onSettings, proxySet, year, setYear}){
           <button onClick={()=>window.print()} className="no-print px-3 py-1.5 rounded-md border border-[var(--border-strong)] hover:border-[var(--gold-soft)] hover:bg-[rgba(161,98,7,0.08)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition">
             ⎙ Print / PDF
           </button>
-          <button onClick={exportMatrix} className="no-print px-3 py-1.5 rounded-md border border-[var(--gold-soft)] bg-[rgba(161,98,7,0.10)] hover:bg-[rgba(161,98,7,0.18)] text-[10px] mono uppercase tracking-wider text-[var(--gold)] transition">
+          <button onClick={()=>exportMatrix(activeTab)} className="no-print px-3 py-1.5 rounded-md border border-[var(--gold-soft)] bg-[rgba(161,98,7,0.10)] hover:bg-[rgba(161,98,7,0.18)] text-[10px] mono uppercase tracking-wider text-[var(--gold)] transition">
             ▦ Ekspor Matriks
           </button>
         </div>
@@ -3023,6 +3059,7 @@ function Capaian(){
   const year = useYear();
   const [aiOut,setAIOut] = useState(null);
   const [aiLoading,setAILoading] = useState(false);
+  const [bukaIKK,setBukaIKK] = useState(true);
 
   const qLabel = `Q${CURRENT_Q} ${META.fy.replace('Tahun Anggaran ','')}`;
   const lastValN = (arr)=>{ for(let i=arr.length-1;i>=0;i--){ if(arr[i]!=null) return arr[i]; } return null; };
@@ -3042,6 +3079,7 @@ function Capaian(){
   const totalPagu = serapanRows.reduce((s,r)=>s+r.pagu,0);
   const serapanTertimbang = Math.round(serapanRows.reduce((s,r)=>s+r.pagu*r.pct,0)/totalPagu);
   const avgIKK = Math.round(CAPAIAN_IKK_TW1.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW1.length);
+  const avgFisikRO = Math.round(CAPAIAN_RO_TW1.reduce((s,r)=>s+r.pagu*r.persen,0)/CAPAIAN_RO_TW1.reduce((s,r)=>s+r.pagu,0));
 
   const cntOntrack = rows.filter(r=>r.st.key==="ontrack").length;
   const cntAtrisk  = rows.filter(r=>r.st.key==="atrisk").length;
@@ -3272,8 +3310,8 @@ function Capaian(){
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian Fisik</div>
-          <div className="serif text-3xl mt-2" style={{color:statusCapaian(avgIKK).color}}>{avgIKK}%</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">rata-rata 18 IKK · TW I 2026</div>
+          <div className="serif text-3xl mt-2" style={{color:statusCapaian(avgFisikRO).color}}>{avgFisikRO}%</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">tertimbang pagu · capaian RO TW I</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Serapan Anggaran</div>
@@ -3299,9 +3337,12 @@ function Capaian(){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Indikator Kinerja Kegiatan (IKK)</div>
             <div className="serif text-xl">Capaian Target — Triwulan I TA 2026</div>
           </div>
-          <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_SUMBER}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_SUMBER}</span>
+            <button onClick={()=>setBukaIKK(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{bukaIKK?"▾ Tutup":"▸ Buka"}</button>
+          </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={{display:bukaIKK?undefined:"none"}}>
           <table className="w-full text-[12px]" style={{borderCollapse:"collapse"}}>
             <thead>
               <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
@@ -3341,8 +3382,61 @@ function Capaian(){
             </tbody>
           </table>
         </div>
-        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]">
+        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]" style={{display:bukaIKK?undefined:"none"}}>
           Capaian dihitung terhadap <b>target tahunan</b>. Indikator 0% umumnya <b>belum diukur pada TW I</b> (dijadwalkan TW II/III), bukan keterlambatan. Rata-rata capaian 18 IKK pada TW I: <b>{avgIKK}%</b>.
+        </div>
+      </div>
+
+      {/* Matriks Capaian Fisik RO — TW I 2026 */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Fisik Rincian Output (RO)</div>
+            <div className="serif text-xl">Capaian Fisik Output — Triwulan I TA 2026</div>
+          </div>
+          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Laporan Kinerja Satker TW I 2026</span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[12px]" style={{borderCollapse:"collapse"}}>
+            <thead>
+              <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                <th className="text-left py-2 px-2">Rincian Output</th>
+                <th className="text-right py-2 px-2" style={{width:"15%"}}>Pagu</th>
+                <th className="text-right py-2 px-2" style={{width:"15%"}}>Realisasi</th>
+                <th className="text-center py-2 px-2" style={{width:"15%"}}>Capaian / Target</th>
+                <th className="text-center py-2 px-2" style={{width:"9%"}}>% Kinerja</th>
+                <th className="text-center py-2 px-2" style={{width:"11%"}}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(KEG_NAMA_TW1).map(keg=>{
+                const items=CAPAIAN_RO_TW1.filter(r=>r.keg===keg);
+                return (
+                  <React.Fragment key={keg}>
+                    <tr style={{background:"rgba(161,98,7,0.07)"}}>
+                      <td colSpan={6} className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
+                    </tr>
+                    {items.map((r,i)=>{
+                      const stt = r.persen>=50 ? {label:"Tinggi",color:"#059669"} : r.persen>=20 ? {label:"Sedang",color:"#d97706"} : {label:"Rendah",color:"#dc2626"};
+                      return (
+                        <tr key={i} style={{borderBottom:"1px solid var(--border)"}}>
+                          <td className="py-2 px-2 text-[var(--text-2)] leading-snug">{r.uraian}</td>
+                          <td className="py-2 px-2 text-right mono text-[var(--text-3)]">{fmtRp(r.pagu)}</td>
+                          <td className="py-2 px-2 text-right mono">{fmtRp(r.real)}</td>
+                          <td className="py-2 px-2 text-center mono">{r.cap} / {r.target} <span className="text-[var(--text-3)]">{r.sat}</span></td>
+                          <td className="py-2 px-2 text-center mono" style={{color:stt.color,fontWeight:600}}>{r.persen.toFixed(2)}%</td>
+                          <td className="py-2 px-2 text-center"><span className="pill text-[9px]" style={{background:stt.color+'1a',color:stt.color,borderColor:stt.color+'55'}}>{stt.label}</span></td>
+                        </tr>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]">
+          "% Kinerja" mengikuti nilai SAKTI (gabungan realisasi anggaran &amp; capaian output). Pada Triwulan I capaian output sebagian besar masih rendah karena kegiatan substantif terkonsentrasi pada TW II–IV. Capaian fisik tertimbang (per pagu): <b>{avgFisikRO}%</b>.
         </div>
       </div>
 
@@ -3397,6 +3491,7 @@ function Capaian(){
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian per Indikator Kinerja</div>
             <div className="serif text-lg">Target tahunan vs realisasi {qLabel}</div>
+            <div className="text-[10px] text-[var(--text-3)] mt-1">Nilai ISP merupakan agregat (rata-rata) capaian IKK Triwulan I yang terkait. Indikator survei/penilaian (ISP-4 &amp; ISP-5) belum diukur pada TW I (dijadwalkan TW II/III).</div>
           </div>
           <div className="flex items-center gap-3 text-[10px] mono text-[var(--text-3)]">
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{background:"#059669"}}></span>ON TRACK</span>
@@ -4129,70 +4224,56 @@ function AnalisisAnggaran2027(){
 /* ======================================================================== */
 /* APP                                                                      */
 /* ======================================================================== */
-/* ============ EKSPOR MATRIKS (cetak PDF tabel baris-kolom) ============ */
-function buildMatrixHTML(){
-  const tgl = new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-
-  // Matriks 1: Realisasi Anggaran per Kegiatan
-  const realByKeg = {};
-  Object.entries(REALISASI_RO).forEach(([k,v])=>{ const m=k.match(/RO-(\d{4})/); if(m) realByKeg[m[1]]=(realByKeg[m[1]]||0)+v; });
-  let pTot=0,rTot=0;
-  const r1 = KEGIATAN.map(k=>{ const pagu=k.anggaran, real=realByKeg[k.kode]||0, sisa=pagu-real, ser=pagu?(real/pagu*100):0; pTot+=pagu; rTot+=real;
-    return `<tr><td class="c">${k.kode}</td><td class="l">${k.nama}</td><td class="n">${fmtRp(pagu)}</td><td class="n">${fmtRp(real)}</td><td class="n">${fmtRp(sisa)}</td><td class="c">${ser.toFixed(1)}%</td></tr>`; }).join('');
-  const m1 = `<tr class="tot"><td></td><td class="l">JUMLAH SELURUHNYA</td><td class="n">${fmtRp(pTot)}</td><td class="n">${fmtRp(rTot)}</td><td class="n">${fmtRp(pTot-rTot)}</td><td class="c">${(pTot?rTot/pTot*100:0).toFixed(1)}%</td></tr>`;
-
-  // Matriks 2: Sebaran Gudang SRG per Provinsi
-  const provRows = PROVINSI_SRG.map(p=>{ const g=p.gudang;
-    return {nama:p.nama, tot:g.length, aktif:g.filter(x=>x.status==='aktif').length, belum:g.filter(x=>x.status==='belum').length, batal:g.filter(x=>x.status==='batal').length, kap:g.reduce((s,x)=>s+(x.kapasitas||0),0)};
-  }).sort((a,b)=>b.tot-a.tot);
-  const gT={tot:0,aktif:0,belum:0,batal:0,kap:0};
-  const r2 = provRows.map((p,i)=>{ gT.tot+=p.tot;gT.aktif+=p.aktif;gT.belum+=p.belum;gT.batal+=p.batal;gT.kap+=p.kap;
-    return `<tr><td class="c">${i+1}</td><td class="l">${p.nama}</td><td class="c">${p.tot}</td><td class="c">${p.aktif}</td><td class="c">${p.belum}</td><td class="c">${p.batal}</td><td class="n">${p.kap.toLocaleString('id-ID')}</td></tr>`; }).join('');
-  const m2 = `<tr class="tot"><td></td><td class="l">TOTAL</td><td class="c">${gT.tot}</td><td class="c">${gT.aktif}</td><td class="c">${gT.belum}</td><td class="c">${gT.batal}</td><td class="n">${gT.kap.toLocaleString('id-ID')}</td></tr>`;
-
-  // Matriks 3: Pengelola SRG
-  const pStatus = PENGELOLA_SRG.status.map(s=>`<tr><td class="l">${s.k}</td><td class="c">${s.n}</td></tr>`).join('');
-  const pBadan  = PENGELOLA_SRG.badanHukumAktif.map(b=>`<tr><td class="l">${b.k}</td><td class="c">${b.n}</td></tr>`).join('');
-  const pProv   = PENGELOLA_SRG.provAktif.map((p,i)=>`<tr><td class="c">${i+1}</td><td class="l">${p.prov}</td><td class="c">${p.n}</td></tr>`).join('');
-
-  // Matriks 4: RO x Kriteria PN/PKPN (TA 2027)
-  const r4 = RO_2027.map(r=>{ const km=r.id.match(/(37\d\d)/); const keg=km?('K-'+km[1]):''; const pk=PKPN_KLASTER_MAP[`${keg}|${r.kode}`];
-    return `<tr><td class="c">${r.kode}</td><td class="l">${r.nama}</td><td class="n">${fmtRp(r.anggaran)}</td><td class="c">${r.isPN?'Ya':'–'}</td><td class="l">${pk?pk.klaster:'–'}</td><td class="c">${r.impact}</td><td class="c">${r.alignment}</td><td class="c">${r.urgency}</td><td class="c">${r.leverage}</td></tr>`; }).join('');
-
-  const css = `@page{size:A4 landscape;margin:1.2cm;}*{box-sizing:border-box;}body{font-family:'Times New Roman',serif;color:#111;margin:0;padding:18px;font-size:11px;}.kop{text-align:center;border-bottom:3px double #111;padding-bottom:8px;margin-bottom:14px;}.kop .k1{font-size:13px;font-weight:bold;}.kop .k2{font-size:15px;font-weight:bold;}.kop .k3{font-size:10px;}h2{font-size:12px;margin:18px 0 6px;border-left:4px solid #a16207;padding-left:8px;}.meta{font-size:9px;color:#444;margin-bottom:4px;}table{width:100%;border-collapse:collapse;margin-bottom:6px;}th,td{border:1px solid #555;padding:3px 5px;font-size:10px;vertical-align:top;}th{background:#ece4cf;font-weight:bold;text-align:center;}td.n{text-align:right;white-space:nowrap;}td.c{text-align:center;}td.l{text-align:left;}tr.tot td{background:#f3eddc;font-weight:bold;}.sect{page-break-inside:avoid;}.two{display:flex;gap:14px;}.two>div{flex:1;}@media print{.btn{display:none;}}`;
-
-  return `<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Matriks Bappebti</title><style>${css}</style></head><body>
-    <div class="btn" style="margin-bottom:12px;"><button onclick="window.print()" style="padding:8px 16px;font-size:13px;cursor:pointer;">⎙ Cetak / Simpan sebagai PDF</button></div>
-    <div class="kop">
-      <div class="k1">KEMENTERIAN PERDAGANGAN REPUBLIK INDONESIA</div>
-      <div class="k2">BADAN PENGAWAS PERDAGANGAN BERJANGKA KOMODITI</div>
-      <div class="k3">Matriks Kinerja Anggaran &amp; Sebaran Sistem Resi Gudang</div>
-      <div class="k3">Dicetak: ${tgl}</div>
-    </div>
-    <div class="sect"><h2>Matriks 1 — Realisasi Anggaran per Kegiatan (TA 2026)</h2>
-      <div class="meta">Sumber: SAKTI — Laporan Ketersediaan Dana Detail · realisasi s.d. ${META.realisasiPer}</div>
-      <table><thead><tr><th style="width:8%">Kode</th><th>Kegiatan</th><th style="width:16%">Pagu (Rp)</th><th style="width:16%">Realisasi (Rp)</th><th style="width:16%">Sisa (Rp)</th><th style="width:8%">Serapan</th></tr></thead><tbody>${r1}${m1}</tbody></table></div>
-    <div class="sect"><h2>Matriks 2 — Sebaran Gudang SRG per Provinsi</h2>
-      <div class="meta">Sumber: Direktori Gudang SRG Bappebti · per ${SRG_DATA_UPDATE} · ${gT.tot} gudang</div>
-      <table><thead><tr><th style="width:5%">No</th><th>Provinsi</th><th style="width:9%">Total</th><th style="width:9%">Aktif</th><th style="width:9%">Belum</th><th style="width:9%">Batal</th><th style="width:16%">Kapasitas (Ton)</th></tr></thead><tbody>${r2}${m2}</tbody></table></div>
-    <div class="sect"><h2>Matriks 3 — Pengelola Gudang SRG</h2>
-      <div class="meta">Sumber: Direktori Pengelola SRG Bappebti · per ${SRG_DATA_UPDATE} · ${PENGELOLA_SRG.total} pengelola (${PENGELOLA_SRG.aktif} aktif)</div>
-      <div class="two"><div>
-        <table><thead><tr><th>Status Persetujuan</th><th style="width:30%">Jumlah</th></tr></thead><tbody>${pStatus}</tbody></table>
-        <table style="margin-top:6px"><thead><tr><th>Badan Hukum (Aktif)</th><th style="width:30%">Jumlah</th></tr></thead><tbody>${pBadan}</tbody></table>
-      </div><div>
-        <table><thead><tr><th style="width:12%">No</th><th>Provinsi (Pengelola Aktif)</th><th style="width:24%">Jumlah</th></tr></thead><tbody>${pProv}</tbody></table>
-      </div></div></div>
-    <div class="sect"><h2>Matriks 4 — RO Kegiatan 3760 × Kriteria PN/PKPN (TA 2027 — RANWAL)</h2>
-      <div class="meta">Skor 0–100 (Impact/Alignment/Urgency/Leverage) estimasi internal; Klaster PKPN mengacu dokumen Bappenas RKP 2027.</div>
-      <table><thead><tr><th style="width:7%">Kode</th><th>Rincian Output</th><th style="width:13%">Pagu (Rp)</th><th style="width:5%">PN</th><th style="width:16%">Klaster PKPN</th><th style="width:7%">Impact</th><th style="width:8%">Align.</th><th style="width:8%">Urgency</th><th style="width:8%">Lever.</th></tr></thead><tbody>${r4}</tbody></table></div>
-  </body></html>`;
+/* ============ EKSPOR MATRIKS → file Excel (.xlsx), per-menu ============ */
+function ensureXLSX(){
+  return new Promise((res,rej)=>{
+    if(window.XLSX) return res();
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload=()=>res(); s.onerror=()=>rej(new Error('load'));
+    document.head.appendChild(s);
+  });
 }
-
-function exportMatrix(){
-  const w = window.open('', '_blank');
-  if(!w){ alert('Mohon izinkan pop-up di browser untuk membuka halaman matriks.'); return; }
-  w.document.open(); w.document.write(buildMatrixHTML()); w.document.close();
+function matrixSheets(tab){
+  const NUM=(v)=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?v:n;};
+  const sheets=[];
+  if(tab==='capaian'){
+    const rb={}; Object.entries(REALISASI_RO).forEach(([k,v])=>{const m=k.match(/RO-(\d{4})/);if(m)rb[m[1]]=(rb[m[1]]||0)+v;});
+    let pT=0,rT=0; const a1=[["Kode","Kegiatan","Pagu (Rp)","Realisasi (Rp)","Sisa (Rp)","Serapan %"]];
+    KEGIATAN.forEach(k=>{const pg=k.anggaran,rl=rb[k.kode]||0;pT+=pg;rT+=rl;a1.push([k.kode,k.nama,pg,rl,pg-rl,+(pg?rl/pg*100:0).toFixed(1)]);});
+    a1.push(["","JUMLAH SELURUHNYA",pT,rT,pT-rT,+(pT?rT/pT*100:0).toFixed(1)]);
+    sheets.push({name:"Realisasi Anggaran",rows:a1});
+    const a2=[["Kegiatan","Indikator Kinerja Kegiatan","Satuan","Target 2026","Realisasi TW I","Capaian %"]];
+    CAPAIAN_IKK_TW1.forEach(r=>a2.push([KEG_NAMA_TW1[r.keg],r.ind,r.sat,NUM(r.target),r.cap===0?"-":NUM(r.real),r.cap]));
+    sheets.push({name:"Capaian IKK TW I",rows:a2});
+    const a3=[["Kegiatan","Rincian Output","Pagu (Rp)","Realisasi (Rp)","Target","Capaian","Satuan","% Kinerja"]];
+    CAPAIAN_RO_TW1.forEach(r=>a3.push([KEG_NAMA_TW1[r.keg],r.uraian,r.pagu,r.real,NUM(r.target),NUM(r.cap),r.sat,r.persen]));
+    sheets.push({name:"Capaian RO TW I",rows:a3});
+  } else if(tab==='sebaran'){
+    const prov=PROVINSI_SRG.map(p=>{const g=p.gudang;return{nama:p.nama,tot:g.length,a:g.filter(x=>x.status==='aktif').length,b:g.filter(x=>x.status==='belum').length,c:g.filter(x=>x.status==='batal').length,kap:g.reduce((s,x)=>s+(x.kapasitas||0),0)};}).sort((x,y)=>y.tot-x.tot);
+    const T={tot:0,a:0,b:0,c:0,kap:0}; const g1=[["No","Provinsi","Total","Aktif","Belum","Batal","Kapasitas (Ton)"]];
+    prov.forEach((p,i)=>{T.tot+=p.tot;T.a+=p.a;T.b+=p.b;T.c+=p.c;T.kap+=p.kap;g1.push([i+1,p.nama,p.tot,p.a,p.b,p.c,p.kap]);});
+    g1.push(["","TOTAL",T.tot,T.a,T.b,T.c,T.kap]);
+    sheets.push({name:"Gudang per Provinsi",rows:g1});
+    const g2=[["Provinsi (Pengelola Aktif)","Jumlah"]]; PENGELOLA_SRG.provAktif.forEach(p=>g2.push([p.prov,p.n]));
+    g2.push([]); g2.push(["Status Persetujuan","Jumlah"]); PENGELOLA_SRG.status.forEach(s=>g2.push([s.k,s.n]));
+    g2.push([]); g2.push(["Badan Hukum (Aktif)","Jumlah"]); PENGELOLA_SRG.badanHukumAktif.forEach(b=>g2.push([b.k,b.n]));
+    sheets.push({name:"Pengelola SRG",rows:g2});
+  } else if(tab==='anggaran'||tab==='pn'){
+    const a=[["Kode","Rincian Output","Pagu (Rp)","PN","Klaster PKPN","Impact","Alignment","Urgency","Leverage"]];
+    RO_2027.forEach(r=>{const km=r.id.match(/(37\d\d)/);const keg=km?('K-'+km[1]):'';const pk=PKPN_KLASTER_MAP[`${keg}|${r.kode}`];a.push([r.kode,r.nama,r.anggaran,r.isPN?"Ya":"-",pk?pk.klaster:"-",r.impact,r.alignment,r.urgency,r.leverage]);});
+    sheets.push({name:"RO x PN-PKPN 2027",rows:a});
+  } else {
+    sheets.push({name:"Info",rows:[["Menu ini belum memiliki matriks untuk diekspor."],["Buka menu Capaian, Sebaran SRG, atau Analisis Anggaran / Analisa PN, lalu klik Ekspor Matriks."]]});
+  }
+  return sheets;
+}
+async function exportMatrix(tab){
+  try{ await ensureXLSX(); }catch(e){ alert('Gagal memuat pustaka Excel (perlu koneksi internet). Coba lagi.'); return; }
+  const XLSX=window.XLSX; const wb=XLSX.utils.book_new();
+  matrixSheets(tab).forEach(s=>{ const ws=XLSX.utils.aoa_to_sheet(s.rows); XLSX.utils.book_append_sheet(wb, ws, String(s.name).slice(0,31)); });
+  const tgl=new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `Matriks_${tab}_${tgl}.xlsx`);
 }
 
 function App(){
@@ -4210,7 +4291,7 @@ function App(){
 
   return (
     <YearContext.Provider value={year}>
-      <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} />
+      <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} activeTab={tab} />
       <Hero />
       <MetricStrip />
       <Tabs active={tab} onChange={setTab} />
@@ -4231,7 +4312,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.01 · +Ekspor Matriks · +Capaian IKK TW I 2026 · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.03 · Ekspor .xlsx per-menu · IKK lipat · Kurva-S & ISP terisi · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
