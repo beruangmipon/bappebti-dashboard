@@ -1298,6 +1298,12 @@ const statusCapaian = (pct)=>{
   if(pct >= expected*0.65) return {label:"At Risk",  color:"#d97706", key:"atrisk"};
   return {label:"Behind", color:"#dc2626", key:"behind"};
 };
+const statusTW1 = (pct)=>{   // ekspektasi linear Triwulan I = 25%
+  const e=25;
+  if(pct >= e*0.9)  return {label:"On Track", color:"#059669", key:"ontrack"};
+  if(pct >= e*0.65) return {label:"At Risk",  color:"#d97706", key:"atrisk"};
+  return {label:"Behind", color:"#dc2626", key:"behind"};
+};
 
 /* ======================================================================== */
 /* ANALISA AI TERTANAM (pre-computed)                                        */
@@ -3060,13 +3066,14 @@ function Capaian(){
   const [aiOut,setAIOut] = useState(null);
   const [aiLoading,setAILoading] = useState(false);
   const [bukaIKK,setBukaIKK] = useState(true);
+  const [bukaRO,setBukaRO] = useState(true);
 
   const qLabel = `Q${CURRENT_Q} ${META.fy.replace('Tahun Anggaran ','')}`;
   const lastValN = (arr)=>{ for(let i=arr.length-1;i>=0;i--){ if(arr[i]!=null) return arr[i]; } return null; };
   const rows = CAPAIAN_IKSS.map(c=>{
     const ik = getIKSS(c.id);
     const pct = lastValN(c.cap);
-    const st = pct==null ? {label:"Belum ada data", color:"#9ca3af", key:"nodata"} : statusCapaian(pct);
+    const st = pct==null ? {label:"Belum ada data", color:"#9ca3af", key:"nodata"} : statusTW1(pct);
     return {...c, nama:ik.nama, target:ik.target, ss:ik.ss, pct, st};
   });
   const fisikVals = rows.filter(r=>r.pct!=null);
@@ -3310,7 +3317,7 @@ function Capaian(){
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian Fisik</div>
-          <div className="serif text-3xl mt-2" style={{color:statusCapaian(avgFisikRO).color}}>{avgFisikRO}%</div>
+          <div className="serif text-3xl mt-2" style={{color:statusTW1(avgFisikRO).color}}>{avgFisikRO}%</div>
           <div className="text-[10px] text-[var(--text-3)] mt-1">tertimbang pagu · capaian RO TW I</div>
         </div>
         <div className="card p-5">
@@ -3394,9 +3401,12 @@ function Capaian(){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Fisik Rincian Output (RO)</div>
             <div className="serif text-xl">Capaian Fisik Output — Triwulan I TA 2026</div>
           </div>
-          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Laporan Kinerja Satker TW I 2026</span>
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] mono text-[var(--text-3)]">sumber: Laporan Kinerja Satker TW I 2026</span>
+            <button onClick={()=>setBukaRO(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{bukaRO?"▾ Tutup":"▸ Buka"}</button>
+          </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" style={{display:bukaRO?undefined:"none"}}>
           <table className="w-full text-[12px]" style={{borderCollapse:"collapse"}}>
             <thead>
               <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
@@ -3435,7 +3445,7 @@ function Capaian(){
             </tbody>
           </table>
         </div>
-        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]">
+        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]" style={{display:bukaRO?undefined:"none"}}>
           "% Kinerja" mengikuti nilai SAKTI (gabungan realisasi anggaran &amp; capaian output). Pada Triwulan I capaian output sebagian besar masih rendah karena kegiatan substantif terkonsentrasi pada TW II–IV. Capaian fisik tertimbang (per pagu): <b>{avgFisikRO}%</b>.
         </div>
       </div>
@@ -3490,7 +3500,7 @@ function Capaian(){
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian per Indikator Kinerja</div>
-            <div className="serif text-lg">Target tahunan vs realisasi {qLabel}</div>
+            <div className="serif text-lg">Target tahunan vs capaian Triwulan I (TW I) 2026</div>
             <div className="text-[10px] text-[var(--text-3)] mt-1">Nilai ISP merupakan agregat (rata-rata) capaian IKK Triwulan I yang terkait. Indikator survei/penilaian (ISP-4 &amp; ISP-5) belum diukur pada TW I (dijadwalkan TW II/III).</div>
           </div>
           <div className="flex items-center gap-3 text-[10px] mono text-[var(--text-3)]">
@@ -3526,8 +3536,10 @@ function Capaian(){
                 ))}
               </div>
               <div className="text-[10px] text-[var(--text-3)] pt-2 border-t border-[var(--border)]">
-                <div className="mb-1">Target output per tahun:</div>
-                <TargetTriple ro={r}/>
+                <div className="flex items-center justify-between gap-2">
+                  <span>Target {META.fy.replace('Tahun Anggaran ','TA ')} <span className="text-[var(--text-3)]">(outcome)</span></span>
+                  <span className="mono text-[var(--text-2)]">{r.target}</span>
+                </div>
               </div>
             </div>
           ))}
@@ -4312,7 +4324,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.03 · Ekspor .xlsx per-menu · IKK lipat · Kurva-S & ISP terisi · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.04 · RO lipat · label TW I · ISP target outcome · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
