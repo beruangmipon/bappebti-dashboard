@@ -171,15 +171,15 @@ const META = {
   // Sasaran Strategis Kementerian Perdagangan (sumber: Permendag 34/2025 ttg Renstra Kemendag 2025-2029,
   // Tabel II.2 — SS1 Meningkatnya Nilai Perdagangan Domestik, Indikator 1.3 Pertumbuhan Transaksi PBK/SRG/PLK).
   // Bappebti berkontribusi langsung pada SS1 melalui indikator 1.3. Target Renstra asli: 17% untuk seluruh
-  // tahun 2025-2029. Target 2026 & 2027 direvisi menjadi 14,93% mengikuti penyesuaian internal.
+  // tahun 2025-2029. Target 2026 direvisi menjadi 14,93% dan 2027 menjadi 15% mengikuti penyesuaian internal.
   ssKemendag: {
     kode: "SS1",
     nama: "Meningkatnya Nilai Perdagangan Domestik",
     iksKode: "1.3",
     iksNama: "Pertumbuhan Transaksi Perdagangan Berjangka Komoditi (PBK), Sistem Resi Gudang (SRG), dan Pasar Lelang Komoditas (PLK)",
     satuan: "%",
-    t: { 2025: "17", 2026: "14,93", 2027: "14,93", 2028: "17", 2029: "17" },
-    catatan: "Target 2025, 2028, 2029 = 17% (Renstra Kemendag). Target 2026 & 2027 direvisi menjadi 14,93% berdasarkan penyesuaian internal.",
+    t: { 2025: "17", 2026: "14,93", 2027: "15", 2028: "17", 2029: "17" },
+    catatan: "Target 2025, 2028, 2029 = 17% (Renstra Kemendag). Target 2026 direvisi menjadi 14,93% dan 2027 menjadi 15% berdasarkan penyesuaian internal.",
     sumber: "Permendag 34/2025 ttg Renstra Kemendag 2025-2029, Tabel II.2 hal. 110",
   },
   pnAlokasi: 318_000_000,   // Alokasi PN "Melanjutkan Hilirisasi" (Renja REKAP 2A)
@@ -199,8 +199,8 @@ const ISS_KMD = {
   ss: "SS1",
   nama: "Pertumbuhan Transaksi PBK, SRG, dan PLK",
   satuan: "%",
-  t: { 2025: "17%", 2026: "14,93%", 2027: "14,93%", 2028: "17%", 2029: "17%" },
-  catatan: "Target 2026 & 2027 = 14,93% (revisi); 2025/2028/2029 = 17% (Renstra Kemendag)",
+  t: { 2025: "17%", 2026: "14,93%", 2027: "15%", 2028: "17%", 2029: "17%" },
+  catatan: "Target 2026 = 14,93% & 2027 = 15% (revisi); 2025/2028/2029 = 17% (Renstra Kemendag)",
 };
 
 /* TINGKAT 1 — Sasaran Program (Outcome). Bappebti punya 2 SP.
@@ -769,6 +769,26 @@ const PENGELOLA_RANK = (function(){
                gudang:o.gudang.sort((a,b)=> a.prov.localeCompare(b.prov) || a.lokasi.localeCompare(b.lokasi)) }))
     .sort((a,b)=> b.n - a.n || b.kapasitas - a.kapasitas || a.pengelola.localeCompare(b.pengelola));
 })();
+
+/* Nama pengelola yang mengoperasikan GUDANG AKTIF, dikelompokkan per provinsi (untuk detail klik pada grafik provinsi). */
+const PROV_AKTIF_NAMES = (function(){
+  const m = {};
+  GUDANG.forEach(g=>{
+    if(g.st !== "aktif") return;
+    const pg = (g.pg||"").trim();
+    if(!pg || pg === "-") return;
+    (m[g.pr] = m[g.pr] || new Set()).add(pg);
+  });
+  const out = {};
+  Object.keys(m).forEach(pr=> out[pr] = [...m[pr]].sort((a,b)=> a.localeCompare(b)));
+  return out;
+})();
+
+/* Peringkat provinsi berbasis data gudang: jumlah pengelola yang mengoperasikan gudang aktif.
+   Konsisten dengan PROV_AKTIF_NAMES (n = jumlah nama), dipakai pada grafik provinsi. */
+const PROV_AKTIF_RANK = Object.entries(PROV_AKTIF_NAMES)
+  .map(([prov,names])=>({prov, n:names.length}))
+  .sort((a,b)=> b.n - a.n || a.prov.localeCompare(b.prov));
 
 /* Capaian/Realisasi — TA 2026. REALISASI ANGGARAN s/d Mei 2026 dari SAKTI sudah dimuat.
    Capaian FISIK indikator (pertumbuhan, indeks) belum tersedia — menunggu e-Monev/laporan tahunan. */
@@ -1987,7 +2007,7 @@ function PohonKinerja(){
                   );
                 })}
               </div>
-              <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Target 2026 & 2027 telah direvisi (warna emas) dari 17% menjadi 14,93%.</div>
+              <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Target 2026 direvisi (warna emas) dari 17% menjadi 14,93%, dan 2027 menjadi 15%.</div>
             </div>
           </div>
         </div>
@@ -2680,6 +2700,44 @@ function AnalisaPN(){
 /* ======================================================================== */
 /* TAB 4 — SEBARAN SRG (Geographic Distribution)                            */
 /* ======================================================================== */
+function ProvinsiPengelolaChart(){
+  const [open,setOpen] = useState(null);
+  const data = PROV_AKTIF_RANK.slice(0,8);
+  const max = PROV_AKTIF_RANK.length ? PROV_AKTIF_RANK[0].n : 1;
+  return (
+    <div className="card-2 p-3">
+      <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Pengelola Gudang Aktif menurut Provinsi (Top 8)</div>
+      <div className="space-y-1">
+        {data.map(p=>{
+          const isOpen = open===p.prov;
+          const names = PROV_AKTIF_NAMES[p.prov] || [];
+          return (
+            <div key={p.prov}>
+              <button onClick={()=>setOpen(isOpen?null:p.prov)} className="w-full flex items-center gap-2 text-[11px] py-0.5 rounded px-1 text-left transition hover:bg-[var(--card)]">
+                <span className="mono text-[7px] text-[var(--text-3)] w-2 shrink-0">{isOpen?"\u25BC":"\u25B6"}</span>
+                <span className="flex-1 text-[var(--text-2)] truncate">{p.prov}</span>
+                <div className="impact-bar w-20 shrink-0"><div className="impact-fill" style={{width:`${Math.round(p.n/max*100)}%`,background:"#a16207"}}></div></div>
+                <span className="mono text-[var(--text-3)] w-6 text-right shrink-0">{p.n}</span>
+              </button>
+              {isOpen && (
+                <div className="pl-4 pr-1 pb-2 pt-1">
+                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Pengelola gudang aktif di {p.prov} ({names.length})</div>
+                  {names.length ? (
+                    <ol className="list-decimal pl-4 space-y-0.5">
+                      {names.map((nm,i)=>(<li key={i} className="text-[11px] text-[var(--text-2)]">{nm}</li>))}
+                    </ol>
+                  ) : <div className="text-[10px] text-[var(--text-3)] italic">Data nama tidak tersedia.</div>}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Berbasis data gudang: jumlah pengelola yang mengoperasikan gudang aktif di tiap provinsi (satu pengelola dihitung di setiap provinsi tempat ia beroperasi). Klik provinsi untuk melihat daftar namanya.</div>
+    </div>
+  );
+}
+
 function PeringkatPengelolaGudang(){
   const [open,setOpen] = useState(null);
   const [showAll,setShowAll] = useState(false);
@@ -2945,18 +3003,7 @@ function SebaranSRG(){
               );})}
             </div>
           </div>
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Pengelola Aktif menurut Provinsi (Top 8)</div>
-            <div className="space-y-1.5">
-              {PENGELOLA_SRG.provAktif.slice(0,8).map(p=>{ const max=PENGELOLA_SRG.provAktif[0].n; return (
-                <div key={p.prov} className="flex items-center gap-2 text-[11px]">
-                  <span className="flex-1 text-[var(--text-2)] truncate">{p.prov}</span>
-                  <div className="impact-bar w-24"><div className="impact-fill" style={{width:`${Math.round(p.n/max*100)}%`,background:"#a16207"}}></div></div>
-                  <span className="mono text-[var(--text-3)] w-6 text-right">{p.n}</span>
-                </div>
-              );})}
-            </div>
-          </div>
+          <ProvinsiPengelolaChart/>
         </div>
         <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: <b>Pengelola Aktif</b> di sini adalah jumlah persetujuan/registrasi pengelola gudang SRG yang berstatus aktif (regulatory licensing), sehingga tidak sama dengan jumlah gudang aktif ({aktifCount}) — satu pengelola dapat mengelola beberapa gudang, dan sebaliknya pengelola berizin aktif belum tentu sedang mengoperasikan gudang. <b>Gudang aktif</b> = gudang yang mengimplementasikan Sistem Resi Gudang. Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
       </div>
@@ -4398,7 +4445,7 @@ function matrixSheets(tab){
     prov.forEach((p,i)=>{T.tot+=p.tot;T.a+=p.a;T.b+=p.b;T.c+=p.c;T.kap+=p.kap;g1.push([i+1,p.nama,p.tot,p.a,p.b,p.c,p.kap]);});
     g1.push(["","TOTAL",T.tot,T.a,T.b,T.c,T.kap]);
     sheets.push({name:"Gudang per Provinsi",rows:g1});
-    const g2=[["Provinsi (Pengelola Aktif)","Jumlah"]]; PENGELOLA_SRG.provAktif.forEach(p=>g2.push([p.prov,p.n]));
+    const g2=[["Pengelola Gudang Aktif per Provinsi (operasional)","Jumlah"]]; PROV_AKTIF_RANK.forEach(p=>g2.push([p.prov,p.n]));
     g2.push([]); g2.push(["Status Persetujuan","Jumlah"]); PENGELOLA_SRG.status.forEach(s=>g2.push([s.k,s.n]));
     g2.push([]); g2.push(["Badan Hukum (Aktif)","Jumlah"]); PENGELOLA_SRG.badanHukumAktif.forEach(b=>g2.push([b.k,b.n]));
     sheets.push({name:"Pengelola SRG",rows:g2});
