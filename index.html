@@ -1586,6 +1586,7 @@ function Tabs({active,onChange}){
     {id:"anggaran",label:"Analisis Anggaran",  sub:"Tagging · Penelaahan RO"},
     {id:"capaian", label:"Capaian",            sub:"Target vs Realisasi"},
     {id:"sebaran", label:"SRG",                sub:"302 gudang"},
+    {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
   ];
   return (
@@ -3235,7 +3236,7 @@ function SebaranSRG({year}){
       </div>
 
       <PenerbitanResiGudang/>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <SebaranPenerbitan/>
         <PembiayaanRG/>
       </div>
@@ -3348,7 +3349,7 @@ function SebaranSRG({year}){
         <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: <b>Pengelola Aktif</b> di sini adalah jumlah persetujuan/registrasi pengelola gudang SRG yang berstatus aktif (regulatory licensing), sehingga tidak sama dengan jumlah gudang aktif ({aktifCount}) — satu pengelola dapat mengelola beberapa gudang, dan sebaliknya pengelola berizin aktif belum tentu sedang mengoperasikan gudang. <b>Gudang aktif</b> = gudang yang mengimplementasikan Sistem Resi Gudang. Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <PeringkatPengelolaGudang year={year}/>
         <PeringkatPengelolaPerTahun year={year}/>
       </div>
@@ -4666,8 +4667,8 @@ function AnalisisAnggaran2027(){
                         <td className="py-1 pr-2 text-right mono text-[var(--gold)] whitespace-nowrap">{fmtRp(r.anggaran)}</td>
                         <td className="py-1 pr-2 text-right mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{t.bs?fmtRp(t.bs):"—"}</td>
                         <td className="py-1 pr-2 text-[9px] text-[var(--text-3)] whitespace-nowrap">{t.jenis}</td>
-                        <td className="py-1 pr-2 text-[9px] whitespace-nowrap" style={{color:t.tags.length?'#7c3aed':'var(--text-3)'}}>
-                          <div>{t.tags.length?t.tags.join(', '):'Non-Tematik'}</div>
+                        <td className="py-1 pr-2 text-[9px] align-top min-w-[120px] max-w-[170px]" style={{color:t.tags.length?'#7c3aed':'var(--text-3)'}}>
+                          <div className="whitespace-normal break-words">{t.tags.length?t.tags.join(', '):'Non-Tematik'}</div>
                           {(()=>{ const p=isRanwal?pkpnKlaster(r):null; return p ? (
                             <div className="mt-1 inline-block px-1.5 py-0.5 rounded text-[9px] mono" style={{background:"rgba(190,24,93,0.10)",color:"#be185d",border:"1px solid rgba(190,24,93,0.25)"}} title={`Identifikasi resmi Bappenas — PKPN Klaster ${p.klaster} · ${p.pnKode} ${p.ppKode}`}>PKPN: {p.klaster}</div>
                           ) : null; })()}
@@ -4772,6 +4773,346 @@ function ensureXLSX(){
     document.head.appendChild(s);
   });
 }
+/* ======================================================================== */
+/* MENU PLK — PASAR LELANG KOMODITAS                                         */
+/* Sumber: paparan Bappebti (DPR Feb 2026, Perteknis Riau Apr 2026,          */
+/* Palembang Des 2025, Transaksi PLK s.d. April 2026).                       */
+/* ======================================================================== */
+const PLK_TRANSAKSI = [
+  {th:"2021", nilai:85.5}, {th:"2022", nilai:52.5}, {th:"2023", nilai:66.1},
+  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.8}, {th:"2026", nilai:12.6, p:true},
+]; /* Rp Miliar; 2026* = s.d. April 2026 */
+const PLK_DAERAH = [
+  {prov:"Aceh", peny:"—"}, {prov:"Sumatera Utara", peny:"—"}, {prov:"Riau", peny:"Koperasi Apkarkusi"},
+  {prov:"Sumatera Barat", peny:"—"}, {prov:"Jambi", peny:"—"}, {prov:"Lampung", peny:"—"}, {prov:"Banten", peny:"—"},
+  {prov:"Jawa Barat", peny:"KPLJB"}, {prov:"Jawa Tengah", peny:"Kop. Wira Agri"}, {prov:"Nusa Tenggara Barat", peny:"—"},
+  {prov:"Sulawesi Tenggara", peny:"—"}, {prov:"Sulawesi Utara", peny:"—"}, {prov:"Bangka Belitung", peny:"Koperasi Lada Babel"},
+  {prov:"DKI Jakarta", peny:"PT KPBN & PT ACM"},
+];
+const PLK_KOM_2024 = [
+  {kom:"Karet", vol:1581739, nilai:27.1}, {kom:"Lada", vol:51000, nilai:7.4},
+  {kom:"Cengkeh", vol:80800, nilai:5.9}, {kom:"Gabah/Beras", vol:302100, nilai:4.5},
+  {kom:"Cangkang Sawit", vol:2000000, nilai:2.4},
+]; /* vol Kg; nilai Rp Miliar; Sumber: paparan Palembang (kinerja 2024) */
+const PLK_KOMODITAS_AKTIF = ["Karet","Teh","Cengkeh","Lada","Gabah/Beras","Kopi"];
+const PLK_DASAR_HUKUM = [
+  "Perpres No. 75 Tahun 2022 (Penataan, Pembinaan & Pengembangan PLK)",
+  "Permendag No. 33 Tahun 2024 (Pelaksanaan Perpres 75/2022)",
+  "UU No. 9 Tahun 2011 (Sistem Resi Gudang)",
+  "UU No. 7 Tahun 2014 (Perdagangan)",
+  "UU No. 23 Tahun 2014 (Pemerintahan Daerah)",
+  "PP No. 19 Tahun 2022 (Dekonsentrasi & Tugas Pembantuan)",
+];
+const PLK_JENIS = [
+  {asp:"Penyerahan komoditas", spot:"Segera", fwd:"Kemudian"},
+  {asp:"Jangka waktu penyerahan", spot:"2 – 7 hari", fwd:"7 hari – 3 bulan (sesuai kesepakatan)"},
+  {asp:"Ketersediaan komoditas", spot:"Sudah tersedia di gudang", fwd:"Belum tersedia"},
+  {asp:"Jaminan bagi penjual", spot:"Komoditas", fwd:"Uang"},
+  {asp:"Jaminan bagi pembeli", spot:"Uang", fwd:"Uang"},
+  {asp:"Lembaga penjamin", spot:"Opsional (dapat dikelola sendiri)", fwd:"Wajib melalui lembaga penjamin"},
+];
+const PLK_KELEMBAGAAN = [
+  {t:"Penyelenggara PLK", d:"Badan usaha berbadan hukum (PT, Koperasi, BUMD) yang disetujui Bappebti untuk menyelenggarakan lelang komoditas.", c:"#1B599B"},
+  {t:"Lembaga Kliring & Penjaminan", d:"Badan hukum yang disetujui Bappebti untuk registrasi dan penjaminan atas transaksi dalam PLK.", c:"#2B777D"},
+  {t:"Pergudangan / Lembaga Penilaian Mutu", d:"Unit pendukung: lokasi serah-terima komoditas dan sertifikasi mutu komoditas yang dilelang.", c:"#409B56"},
+  {t:"Peserta / Anggota Lelang", d:"Perorangan/badan usaha terdaftar sebagai anggota Penyelenggara PLK dan Lembaga Penjaminan.", c:"#595A5C"},
+];
+const PLK_CRITICAL_PATH = [
+  {n:1, fase:"Penguatan Regulasi & NSPK", horizon:"2026 · Jangka Pendek", color:"#1B599B",
+   aksi:["Finalisasi NSPK turunan Permendag 33/2024 (tata cara lelang, penjaminan, PTT).","Penetapan standar mutu komoditas unggulan yang dilelang.","Sosialisasi kerangka hukum ke Pemda & calon penyelenggara."],
+   ind:"NSPK lengkap & PTT baku tersedia"},
+  {n:2, fase:"Penyiapan Ekosistem Kelembagaan Daerah", horizon:"2026–2027", color:"#2B777D",
+   aksi:["Akselerasi persetujuan penyelenggara baru (PT/Koperasi/BUMD) di sentra komoditas.","Pembentukan/penunjukan Lembaga Penjaminan & Lembaga Penilaian Mutu.","Pelatihan & pendampingan SDM (Komite Keanggotaan/Lelang/Komoditas)."],
+   ind:"Daerah penyelenggara aktif bertambah dari 14"},
+  {n:3, fase:"Integrasi SRG – PLK", horizon:"2027", color:"#409B56",
+   aksi:["Kolaborasi pengelola gudang SRG dengan penyelenggara PLK.","Komoditas ber-Resi Gudang dipasarkan melalui PLK (resi sebagai underlying).","Sinkronisasi data gudang, mutu, dan harga antar-sistem."],
+   ind:"Transaksi PLK bersumber komoditas SRG naik"},
+  {n:4, fase:"Digitalisasi & Sistem Informasi", horizon:"2027–2028", color:"#1B599B",
+   aksi:["Platform lelang elektronik terstandar & interoperan.","Publikasi referensi harga komoditas hasil lelang.","Integrasi ke Satu Data Indonesia & sistem pengawasan Bappebti."],
+   ind:"Lelang elektronik & referensi harga beroperasi"},
+  {n:5, fase:"Fasilitasi UMKM & Perluasan Komoditas", horizon:"2027–2029", color:"#2B777D",
+   aksi:["Onboarding UMKM, koperasi, dan kelompok tani sebagai anggota lelang.","Perluasan komoditas (kopi, kakao, sawit, hasil perikanan) sesuai potensi daerah.","Skema insentif & kemitraan pembiayaan."],
+   ind:"Jumlah peserta & ragam komoditas meningkat"},
+  {n:6, fase:"Pengawasan, Monev & Stabilisasi Harga", horizon:"Berkelanjutan", color:"#13182B",
+   aksi:["Pengawasan penyelenggara & lembaga penjamin (onsite/offsite).","Evaluasi kinerja nilai & volume transaksi per daerah.","Penguatan peran PLK pada stabilitas harga & pengendalian inflasi."],
+   ind:"Nilai transaksi tumbuh stabil & terbentuk harga acuan"},
+];
+const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) Bappebti menunjukkan potensi yang nyata namun skala yang masih terbatas dan fluktuatif. Nilai transaksi bergerak dari Rp85,5 miliar (2021) turun ke Rp52,5 miliar (2022), lalu pulih bertahap ke Rp66,1 miliar (2023), Rp97,2 miliar (2024), dan mencapai puncak Rp111,8 miliar pada 2025 (+15,0% dibanding 2024). Capaian s.d. April 2026 baru Rp12,6 miliar, sehingga momentum 2025 perlu dijaga agar tidak kembali melemah. Secara absolut, angka ini masih kecil dibanding potensi komoditas nasional — menandakan PLK belum menjadi kanal pemasaran utama bagi petani dan pelaku usaha.
+
+Diagnosis struktural memperlihatkan tiga keterbatasan. Pertama, konsentrasi komoditas: pada 2024 karet menyumbang Rp27,1 miliar (porsi terbesar), diikuti lada, cengkeh, gabah/beras, dan cangkang sawit; basis komoditas masih sempit. Kedua, sebaran kelembagaan terbatas pada 14 daerah penyelenggara dan sebagian besar belum memiliki penyelenggara berbadan hukum yang teridentifikasi — ekosistem (penyelenggara, lembaga penjaminan, lembaga uji mutu, pergudangan) belum lengkap di banyak daerah. Ketiga, mekanisme lelang sebagian besar masih konvensional dan belum terintegrasi penuh dengan Sistem Resi Gudang maupun sistem informasi harga.
+
+Akar persoalannya bersifat ekosistem, bukan sekadar regulasi. Permendag No. 33/2024 sebagai pelaksana Perpres No. 75/2022 telah menyediakan payung penataan, pembinaan, dan pengembangan; tantangannya ada pada hilir — kesiapan kelembagaan daerah, kualitas SDM penyelenggara, standardisasi mutu komoditas, dan ketiadaan platform lelang digital yang menghasilkan referensi harga yang kredibel.
+
+Langkah kritis (critical path) yang dapat ditempuh Bappebti bersifat berurutan dan saling menjadi prasyarat. (1) Jangka pendek 2026: tuntaskan NSPK turunan Permendag 33/2024, baku standar mutu, dan Peraturan Tata Tertib, lalu sosialisasikan ke Pemda dan calon penyelenggara. (2) 2026–2027: siapkan ekosistem kelembagaan daerah — akselerasi persetujuan penyelenggara baru (PT/Koperasi/BUMD) di sentra komoditas, bentuk lembaga penjaminan dan lembaga penilaian mutu, serta latih SDM penyelenggara.
+
+(3) 2027: integrasikan SRG dengan PLK sehingga komoditas ber-Resi Gudang dipasarkan melalui lelang dengan resi sebagai underlying — ini sekaligus meningkatkan pemanfaatan kedua instrumen. (4) 2027–2028: bangun platform lelang elektronik yang terstandar dan interoperan, publikasikan referensi harga, dan integrasikan ke Satu Data Indonesia serta sistem pengawasan. (5) 2027–2029: fasilitasi UMKM, koperasi, dan kelompok tani sebagai anggota lelang, perluas komoditas (kopi, kakao, sawit, perikanan) sesuai potensi daerah, dan siapkan skema insentif/kemitraan pembiayaan.
+
+(6) Berkelanjutan: perkuat pengawasan penyelenggara dan lembaga penjamin, lakukan monev nilai dan volume transaksi per daerah, serta posisikan PLK sebagai instrumen pembentuk harga acuan dan penstabil harga/inflasi. Indikator keberhasilan yang disarankan: pertumbuhan nilai transaksi yang stabil di atas puncak 2025, bertambahnya daerah penyelenggara aktif dari 14, meningkatnya ragam komoditas dan jumlah peserta, serta terbentuknya referensi harga lelang yang dirujuk pasar. Kunci akselerasi ada pada kolaborasi pusat–daerah (Kemendag bersama Gubernur/Bupati/Wali Kota) dan sinergi erat dengan program SRG.
+
+Catatan: analisis dan critical path bersifat estimasi strategis berbasis paparan kebijakan Bappebti; finalisasi memerlukan validasi data transaksi terkini dan kapasitas kelembagaan tiap daerah.`;
+
+function PlkBarChart({sel}){
+  const data=PLK_TRANSAKSI; const max=Math.max(...data.map(d=>d.nilai));
+  const W=720,H=210,padL=30,padR=10,padT=24,padB=24; const innerW=W-padL-padR,innerH=H-padT-padB;
+  const step=innerW/data.length, bw=step*0.55;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:240}} preserveAspectRatio="xMidYMid meet">
+      {[0,0.25,0.5,0.75,1].map((t,i)=>{const y=padT+innerH*(1-t);return(<g key={i}>
+        <line x1={padL} y1={y} x2={W-padR} y2={y} stroke="var(--border)" strokeWidth="1"/>
+        <text x={padL-4} y={y+3} textAnchor="end" fontSize="8" fill="var(--text-3)" fontFamily="monospace">{Math.round(max*t)}</text>
+      </g>);})}
+      {data.map((d,i)=>{const h=max>0?innerH*(d.nilai/max):0;const x=padL+i*step+(step-bw)/2;const y=padT+innerH-h;
+        const isSel=d.th===String(sel);
+        return(<g key={d.th}>
+          <rect x={x} y={y} width={bw} height={h} rx="2" fill={isSel?"#2C5F2D":"#409B56"} opacity={d.p?0.5:0.92} stroke={isSel?"#d4a437":"none"} strokeWidth={isSel?2:0}><title>{d.th}{d.p?" (s.d. April)":""}: Rp {d.nilai} miliar</title></rect>
+          <text x={x+bw/2} y={y-3} textAnchor="middle" fontSize={isSel?"9":"8"} fill={isSel?"#a16207":"#2C5F2D"} fontFamily="monospace" fontWeight="700" opacity={d.p?0.7:1}>{String(d.nilai).replace(".",",")}</text>
+          <text x={x+bw/2} y={H-padB+13} textAnchor="middle" fontSize="8.5" fill={isSel?"var(--text)":"var(--text-3)"} fontFamily="monospace" fontWeight={isSel?700:400}>{d.th}{d.p?"*":""}</text>
+        </g>);})}
+    </svg>
+  );
+}
+
+function MenuPLK({year}){
+  const fmtMil = n => "Rp "+String(n).replace(".",",")+" M";
+  const idx = PLK_TRANSAKSI.findIndex(d=>d.th===String(year));
+  const rec = idx>=0 ? PLK_TRANSAKSI[idx] : null;
+  const prev = idx>0 ? PLK_TRANSAKSI[idx-1] : null;
+  const yoy = (rec && prev) ? ((rec.nilai/prev.nilai-1)*100).toFixed(1).replace(".",",") : null;
+  const maxKom=Math.max(...PLK_KOM_2024.map(k=>k.nilai));
+  const prompt=`Anda analis kebijakan perdagangan komoditas di Bappebti, Kemendag. Berikan analisis strategis (maks 7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas kinerja Pasar Lelang Komoditas (PLK) dan rumuskan CRITICAL PATH langkah-langkah Bappebti agar PLK berjalan optimal.\\n\\nData nilai transaksi PLK (Rp miliar): 2021=85,5; 2022=52,5; 2023=66,1; 2024=97,2; 2025=111,8; 2026*=12,6 (s.d. April). Komoditas 2024 terbesar: Karet Rp27,1 M (1.581.739 kg), Lada Rp7,4 M, Cengkeh Rp5,9 M, Gabah/Beras Rp4,5 M, Cangkang Sawit Rp2,4 M. Daerah penyelenggara: 14 (a.l. Riau-Kop. Apkarkusi, Jabar-KPLJB, Jateng-Kop. Wira Agri, Babel-Kop. Lada Babel, DKI-PT KPBN & PT ACM). Komoditas aktif 2025–2026: karet, teh, cengkeh, lada, gabah/beras, kopi.\\n\\nDasar hukum: Perpres 75/2022 & Permendag 33/2024 (penataan, pembinaan, pengembangan PLK). Strategi Bappebti: integrasi dengan SRG, digitalisasi & integrasi TI, mekanisme lelang lebih efisien, fasilitasi UMKM/koperasi, kolaborasi pusat–daerah.\\n\\nFokus: 1) diagnosis kinerja & keterbatasan struktural (skala kecil, fluktuatif, konsentrasi komoditas, sebaran kelembagaan terbatas). 2) critical path bertahap (regulasi/NSPK → ekosistem kelembagaan daerah → integrasi SRG-PLK → digitalisasi → fasilitasi UMKM & perluasan komoditas → pengawasan/monev/stabilisasi harga) dengan indikator keberhasilan tiap tahap. 3) peran kolaborasi pusat–daerah & sinergi SRG.`;
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill mono text-[10px]" style={{background:"rgba(64,155,86,0.14)",color:"#2C5F2D",border:"1px solid rgba(64,155,86,0.3)"}}>DATA PLK</span>
+        <span className="text-xs text-[var(--text-3)]">Pasar Lelang Komoditas · sumber: paparan Bappebti (Biro Pembinaan & Pengembangan SRG & PLK) · transaksi s.d. April 2026</span>
+      </div>
+
+      <div className="mb-6">
+        <div className="serif text-2xl">Pasar Lelang Komoditas (PLK)</div>
+        <div className="text-sm text-[var(--text-2)] mt-1 max-w-3xl">Pasar fisik terorganisir tempat pembeli dan penjual bertransaksi melalui sistem lelang dengan penyerahan komoditas — bertujuan mewujudkan perdagangan yang <b>transparan, adil, akuntabel,</b> dan <b>stabil harga</b>.</div>
+      </div>
+
+      {/* Stat callouts */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Transaksi TA {year}</div>
+          {rec
+            ? <><div className="serif text-3xl mt-1" style={{color:"#409B56"}}>{fmtMil(rec.nilai)}{rec.p&&<span className="text-sm">*</span>}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{rec.p?"s.d. April 2026":(yoy?`${yoy.startsWith("-")?"":"+"}${yoy}% dibanding ${prev.th}`:"awal data tersedia")}</div></>
+            : <><div className="serif text-2xl mt-1.5 text-[var(--text-3)]">Belum tersedia</div><div className="text-[10px] text-[var(--text-3)] mt-1">TA {year} = tahun rencana</div></>}
+        </div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Daerah Penyelenggara</div><div className="serif text-3xl mt-1">{PLK_DAERAH.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">provinsi tercatat</div></div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Komoditas Aktif</div><div className="serif text-3xl mt-1">{PLK_KOMODITAS_AKTIF.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">jenis (2025–2026)</div></div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">2026 s.d. April</div><div className="serif text-3xl mt-1">{fmtMil(12.6)}</div><div className="text-[10px] text-[var(--text-3)] mt-1">realisasi berjalan</div></div>
+      </div>
+
+      {/* Tren transaksi */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja Pasar Lelang Komoditas</div>
+            <div className="serif text-xl">Nilai Transaksi PLK 2021–2026 (Rp Miliar)</div>
+          </div>
+          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Bappebti · 2026* s.d. April</span>
+        </div>
+        <PlkBarChart sel={year}/>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Batang transparan (2026*) = data berjalan s.d. April 2026. Puncak transaksi terjadi pada 2025 (Rp111,8 M).</div>
+      </div>
+
+      {/* Dasar hukum + Tujuan */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Dasar Hukum</div>
+          <div className="space-y-2">
+            {PLK_DASAR_HUKUM.map((d,i)=>(
+              <div key={i} className="flex items-start gap-2 text-[12px] text-[var(--text-2)]">
+                <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>{d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Tujuan & Sasaran Ekonomi</div>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {["Transparan","Adil","Akuntabel","Stabil Harga"].map(t=>(<span key={t} className="pill text-[10px]" style={{background:"rgba(27,89,155,0.1)",color:"#1B599B",border:"1px solid rgba(27,89,155,0.25)"}}>{t}</span>))}
+          </div>
+          <div className="space-y-1.5 text-[12px] text-[var(--text-2)]">
+            {["Menciptakan kepastian & perluasan pasar","Mendukung stabilitas ekonomi & harga komoditas","Mendorong komoditas unggulan daerah & UMKM lokal","Memperkuat rantai pasok & akses pasar petani/usaha kecil"].map((t,i)=>(
+              <div key={i} className="flex items-start gap-2"><span className="mono text-[10px] text-[var(--text-3)] shrink-0">0{i+1}</span><span>{t}</span></div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Jenis PLK + Kelembagaan */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Kategori</div>
+          <div className="serif text-lg mb-3">Jenis PLK: Spot vs Forward</div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[11px] border-collapse">
+              <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
+                <th className="py-1.5 pr-2">Aspek</th><th className="py-1.5 pr-2" style={{color:"#1B599B"}}>Spot</th><th className="py-1.5 pr-2" style={{color:"#2B777D"}}>Forward</th>
+              </tr></thead>
+              <tbody>
+                {PLK_JENIS.map((r,i)=>(
+                  <tr key={i} className="border-b border-[var(--border)] last:border-0 align-top">
+                    <td className="py-1.5 pr-2 text-[var(--text-3)]">{r.asp}</td>
+                    <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.spot}</td>
+                    <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.fwd}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Kelembagaan PLK</div>
+          <div className="space-y-3">
+            {PLK_KELEMBAGAAN.map((k,i)=>(
+              <div key={i} className="flex items-start gap-3">
+                <span className="w-2.5 h-2.5 rounded-full shrink-0 mt-1" style={{background:k.c}}></span>
+                <div><div className="text-[12px] font-semibold text-[var(--text)]">{k.t}</div><div className="text-[11px] text-[var(--text-2)] leading-snug">{k.d}</div></div>
+              </div>
+            ))}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Penyelenggara: badan hukum (PT/Koperasi/BUMD); modal min. Koperasi Rp250 jt, PT/PD modal dasar Rp1 M; NIB KBLI 46100 (penyelenggara) / 66124 (lembaga penjaminan).</div>
+        </div>
+      </div>
+
+      {/* Sebaran daerah + Komoditas 2024 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Sebaran (14 daerah)</div>
+          <div className="serif text-lg mb-3">Daerah Penyelenggara PLK</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+            {PLK_DAERAH.map((d,i)=>(
+              <div key={i} className="flex items-center gap-2 text-[11px]">
+                <span className="mono text-[9px] text-[var(--text-3)] w-5 text-right shrink-0">{i+1}</span>
+                <span className="text-[var(--text-2)] flex-1">{d.prov}</span>
+                {d.peny!=="—" && <span className="mono text-[9px] text-[var(--text-3)] truncate" style={{maxWidth:130}}>{d.peny}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Kinerja 2024</div>
+          <div className="serif text-lg mb-3">Peringkat Komoditas dalam PLK</div>
+          <div className="space-y-2">
+            {PLK_KOM_2024.map((k,i)=>(
+              <div key={i} className="flex items-center gap-2 text-[11px]">
+                <span className="mono text-[10px] text-[var(--text-3)] w-4 text-right shrink-0">{i+1}</span>
+                <span className="flex-1 text-[var(--text-2)]">{k.kom}</span>
+                <div className="impact-bar w-24 sm:w-32 shrink-0"><div className="impact-fill" style={{width:`${Math.round(k.nilai/maxKom*100)}%`,background:"#409B56"}}></div></div>
+                <span className="mono text-[10px] text-[var(--text-3)] w-20 text-right shrink-0">{k.vol.toLocaleString("id-ID")} kg</span>
+                <span className="mono text-[11px] w-16 text-right shrink-0" style={{color:"#2C5F2D"}}>Rp {String(k.nilai).replace(".",",")} M</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Komoditas aktif 2025–2026: {PLK_KOMODITAS_AKTIF.join(", ")}. Sumber: paparan Bappebti.</div>
+        </div>
+      </div>
+
+      {/* Transaksi per Daerah (kerangka, TA-aware) */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+          <div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rincian per Daerah</div>
+            <div className="serif text-xl">Transaksi PLK per Daerah — TA {year}</div>
+          </div>
+          <span className="text-[10px] mono text-[var(--text-3)]">{PLK_DAERAH.length} daerah penyelenggara</span>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mb-3">Mengikuti Tahun Anggaran pada header. Nilai &amp; volume transaksi per daerah <b>belum tersedia</b> pada sumber paparan saat ini — kolom disiapkan dan akan terisi begitu data rincian per daerah disampaikan.</div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[11px] border-collapse">
+            <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
+              <th className="py-1.5 pr-2">No</th><th className="py-1.5 pr-2">Daerah</th><th className="py-1.5 pr-2">Penyelenggara</th>
+              <th className="py-1.5 pr-2">Komoditas (indikasi)</th>
+              <th className="py-1.5 pr-2 text-right">Nilai Transaksi TA {year}</th><th className="py-1.5 pr-2 text-right">Volume</th>
+            </tr></thead>
+            <tbody>
+              {PLK_DAERAH.map((d,i)=>{ const kom = d.peny.includes("Apkarkusi")?"Karet":(d.peny.includes("Lada")?"Lada":"—");
+                return (
+                <tr key={i} className="border-b border-[var(--border)] last:border-0">
+                  <td className="py-1.5 pr-2 mono text-[var(--text-3)]">{i+1}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-2)]">{d.prov}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{d.peny}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{kom}</td>
+                  <td className="py-1.5 pr-2 text-right text-[var(--text-3)] italic">belum tersedia</td>
+                  <td className="py-1.5 pr-2 text-right text-[var(--text-3)] italic">belum tersedia</td>
+                </tr>
+              );})}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">"Komoditas (indikasi)" disimpulkan dari nama penyelenggara bila jelas (mis. Koperasi Apkarkusi → Karet; Koperasi Lada Babel → Lada); selebihnya menunggu konfirmasi data. Total nasional per tahun tersedia pada grafik di atas.</div>
+      </div>
+
+      {/* Pembinaan & Pengembangan */}
+      <div className="card p-5 mb-6">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Tata Kelola</div>
+        <div className="serif text-lg mb-3">Pembinaan &amp; Pengembangan PLK (Kemendag bersama Pemda)</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <div className="text-[11px] font-semibold mb-1.5" style={{color:"#1B599B"}}>Kementerian Perdagangan</div>
+            <div className="space-y-1.5 text-[11px] text-[var(--text-2)]">
+              {["Menetapkan & menyempurnakan NSPK penyelenggaraan PLK.","Memberi persetujuan tata kelola, mekanisme transaksi & penjaminan.","Pengawasan, pemantauan & evaluasi penyelenggara dan lembaga penjamin.","Mengembangkan ekosistem, standardisasi komoditas & infrastruktur TI."].map((t,i)=>(
+                <div key={i} className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#1B599B"}}></span><span>{t}</span></div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-[11px] font-semibold mb-1.5" style={{color:"#409B56"}}>Gubernur / Bupati / Wali Kota</div>
+            <div className="space-y-1.5 text-[11px] text-[var(--text-2)]">
+              {["Mengoordinasikan program pembinaan & pengembangan PLK di daerah.","Menyiapkan ekosistem kelembagaan & memperkuat SDM (pelatihan/pendampingan).","Sosialisasi & edukasi kepada masyarakat dan pelaku usaha.","Mendorong perdagangan komoditas unggulan daerah lewat sinergi SRG–PLK."].map((t,i)=>(
+                <div key={i} className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>{t}</span></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Critical Path */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+          <div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Langkah Strategis Bappebti</div>
+            <div className="serif text-xl">Critical Path Optimalisasi PLK</div>
+          </div>
+          <span className="text-[10px] mono text-[var(--text-3)]">6 tahap berurutan</span>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mb-4">Tahap-tahap saling menjadi prasyarat: regulasi → ekosistem kelembagaan → integrasi SRG → digitalisasi → fasilitasi UMKM → pengawasan & stabilisasi.</div>
+        <div className="space-y-3">
+          {PLK_CRITICAL_PATH.map((p,i)=>(
+            <div key={p.n} className="flex items-start gap-3">
+              <div className="flex flex-col items-center shrink-0">
+                <span className="w-7 h-7 rounded-full flex items-center justify-center mono text-[12px] font-bold text-white" style={{background:p.color}}>{p.n}</span>
+                {i<PLK_CRITICAL_PATH.length-1 && <span className="w-px flex-1 min-h-[18px] mt-1" style={{background:"var(--border-strong)"}}></span>}
+              </div>
+              <div className="card-2 p-3 flex-1 mb-1">
+                <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
+                  <span className="text-[13px] font-semibold" style={{color:p.color}}>{p.fase}</span>
+                  <span className="pill pill-muted text-[9px]">{p.horizon}</span>
+                </div>
+                <div className="space-y-1 mb-2">
+                  {p.aksi.map((a,j)=>(<div key={j} className="flex items-start gap-2 text-[11px] text-[var(--text-2)]"><span className="text-[var(--text-3)] shrink-0">›</span><span>{a}</span></div>))}
+                </div>
+                <div className="text-[10px] mono text-[var(--text-3)]">Indikator: <span style={{color:p.color}}>{p.ind}</span></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <AIInsightCard
+        title="Analisa AI — Kinerja & Critical Path Optimalisasi PLK"
+        prompt={prompt}
+        precomputed={PLK_AI_PRECOMPUTED}
+        sources={["Paparan Kebijakan PLK — bahan DPR (Feb 2026)","Paparan Perteknis PLK — Riau (Apr 2026)","Paparan PLK — Palembang (Des 2025)","Data Transaksi PLK s.d. April 2026 (Bappebti)","Perpres 75/2022 & Permendag 33/2024","Strategi Bappebti: integrasi SRG, digitalisasi, fasilitasi UMKM"]}
+      />
+    </div>
+  );
+}
+
+
 function matrixSheets(tab){
   const NUM=(v)=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?v:n;};
   const sheets=[];
@@ -4793,6 +5134,11 @@ function matrixSheets(tab){
     prov.forEach((p,i)=>{T.tot+=p.tot;T.a+=p.a;T.b+=p.b;T.c+=p.c;T.kap+=p.kap;g1.push([i+1,p.nama,p.tot,p.a,p.b,p.c,p.kap]);});
     g1.push(["","TOTAL",T.tot,T.a,T.b,T.c,T.kap]);
     sheets.push({name:"Gudang per Provinsi",rows:g1});
+    // Daftar lengkap 302 gudang (rinci)
+    const ST={aktif:"Aktif",belum:"Belum Aktif",batal:"Terbatalkan"};
+    const gd=[["No","Nama Gudang","Provinsi","Kab/Kota","Status","Komoditas","Kapasitas (Ton)","Tahun Bangun","Pengelola","Lintang","Bujur"]];
+    GUDANG.forEach((g,i)=>gd.push([i+1,g.n,g.pr,g.kb,ST[g.st]||g.st,g.km||"-",g.kp||"",g.th||"",g.pg||"-",g.la??"",g.lo??""]));
+    sheets.push({name:"Daftar Gudang SRG",rows:gd});
     const g2=[["Pengelola Gudang Aktif per Provinsi (operasional)","Jumlah"]]; PROV_AKTIF_RANK.forEach(p=>g2.push([p.prov,p.n]));
     g2.push([]); g2.push(["Status Persetujuan","Jumlah"]); PENGELOLA_SRG.status.forEach(s=>g2.push([s.k,s.n]));
     g2.push([]); g2.push(["Badan Hukum (Aktif)","Jumlah"]); PENGELOLA_SRG.badanHukumAktif.forEach(b=>g2.push([b.k,b.n]));
@@ -4801,7 +5147,55 @@ function matrixSheets(tab){
     RESI_GUDANG_TAHUNAN.forEach(d=>g2.push([d.th+(d.p?"*":""), d.rg, d.vol, d.nilai, d.rgBiaya, d.nilaiBiaya]));
     g2.push(["TOTAL", RESI_GUDANG_TOTAL.rg, RESI_GUDANG_TOTAL.vol, RESI_GUDANG_TOTAL.nilai, RESI_GUDANG_TOTAL.rgBiaya, RESI_GUDANG_TOTAL.nilaiBiaya]);
     sheets.push({name:"Pengelola SRG",rows:g2});
+    // Peringkat pengelola — gudang aktif (operasional)
+    const pr=[["No","Pengelola","Gudang Aktif","Jumlah Provinsi","Total Kapasitas (Ton)"]];
+    PENGELOLA_RANK.forEach((p,i)=>pr.push([i+1,p.pengelola,p.n,p.nProv,p.kapasitas]));
+    sheets.push({name:"Peringkat Pengelola (Gudang)",rows:pr});
+    // Peringkat pengelola — penerbitan kumulatif
+    const pi=[["No","Pengelola","Jumlah RG","Volume (ton)","Nilai Barang (Rp)","RG Dibiayai","Nilai Pembiayaan (Rp)"]];
+    PENGELOLA_ISSUANCE.forEach((p,i)=>pi.push([i+1,p.pg,p.rg,p.vol,p.nilai,p.rgBiaya,p.biaya]));
+    sheets.push({name:"Pengelola — Penerbitan",rows:pi});
+    // Peringkat pengelola per tahun
+    const py=[["Tahun","Peringkat","Pengelola","Jumlah RG","Volume (ton)","Nilai Barang (Rp)","RG Dibiayai","Nilai Pembiayaan (Rp)"]];
+    Object.keys(PENGELOLA_BY_YEAR).forEach(y=>{ PENGELOLA_BY_YEAR[y].forEach((p,i)=>py.push([y,i+1,p.pg,p.rg,p.vol,p.nilai,p.rgBiaya,p.biaya])); py.push([]); });
+    sheets.push({name:"Pengelola per Tahun",rows:py});
+    // Sebaran penerbitan per provinsi / kabupaten / komoditas
+    const sp=[["No","Provinsi","Jumlah RG","Volume (ton)","Nilai Barang (Rp)"]];
+    PENERBITAN_PROV.forEach((d,i)=>sp.push([i+1,d.key,d.rg,d.vol,d.nilai]));
+    sheets.push({name:"Penerbitan per Provinsi",rows:sp});
+    const sk=[["No","Kab/Kota","Provinsi","Jumlah RG","Volume (ton)","Nilai Barang (Rp)"]];
+    PENERBITAN_KAB.forEach((d,i)=>sk.push([i+1,d.key,d.prov||"",d.rg,d.vol,d.nilai]));
+    sheets.push({name:"Penerbitan per Kabupaten",rows:sk});
+    const sko=[["No","Komoditas (Permendag No.1/2025)","Jumlah RG","Volume (ton)","Nilai Barang (Rp)"]];
+    PENERBITAN_KOM.forEach((d,i)=>sko.push([i+1,d.key,d.rg,d.vol,d.nilai]));
+    sheets.push({name:"Penerbitan per Komoditas",rows:sko});
+    // Pembiayaan per lembaga keuangan
+    const pb=[["Total Pembiayaan (Rp)",PEMBIAYAAN_TOTAL.nilai],["RG Dibiayai",PEMBIAYAAN_TOTAL.rgBiaya],["Total RG",PEMBIAYAAN_TOTAL.rgTotal],[]];
+    pb.push(["No","Lembaga Keuangan","RG Dibiayai","Nilai Pembiayaan (Rp)"]);
+    PEMBIAYAAN_BANK.forEach((b,i)=>pb.push([i+1,b.key,b.rg,b.biaya]));
+    sheets.push({name:"Pembiayaan RG",rows:pb});
+  } else if(tab==='plk'){
+    const t1=[["Tahun","Nilai Transaksi (Rp Miliar)","Keterangan"]];
+    PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. April 2026":""]));
+    sheets.push({name:"Transaksi PLK 2021-2026",rows:t1});
+    const t2=[["No","Daerah Penyelenggara","Penyelenggara","Komoditas (indikasi)","Nilai Transaksi (Rp)","Volume"]];
+    PLK_DAERAH.forEach((d,i)=>{const kom=d.peny.includes("Apkarkusi")?"Karet":(d.peny.includes("Lada")?"Lada":"—");t2.push([i+1,d.prov,d.peny,kom,"belum tersedia","belum tersedia"]);});
+    sheets.push({name:"Daerah Penyelenggara",rows:t2});
+    const t3=[["Peringkat","Komoditas","Volume Transaksi (Kg)","Nilai Transaksi (Rp Miliar)"]];
+    PLK_KOM_2024.forEach((k,i)=>t3.push([i+1,k.kom,k.vol,k.nilai]));
+    sheets.push({name:"Komoditas PLK 2024",rows:t3});
+    const t4=[["Critical Path Optimalisasi PLK"],[],["Tahap","Fase","Horizon","Aksi Kunci","Indikator"]];
+    PLK_CRITICAL_PATH.forEach(p=>t4.push([p.n,p.fase,p.horizon,p.aksi.join(" | "),p.ind]));
+    sheets.push({name:"Critical Path PLK",rows:t4});
+    const t5=[["Dasar Hukum PLK"]]; PLK_DASAR_HUKUM.forEach(d=>t5.push([d]));
+    t5.push([]); t5.push(["Jenis PLK","Spot","Forward"]);
+    PLK_JENIS.forEach(r=>t5.push([r.asp,r.spot,r.fwd]));
+    sheets.push({name:"Info PLK",rows:t5});
   } else if(tab==='anggaran'||tab==='pn'){
+    // Matriks penelaahan RKA TA 2027 (5 kriteria) — rinci per RO
+    const pen=[["Kode","Rincian Output","PN","Pagu (Rp)","Jenis Belanja","Biaya Satuan (Rp)","Tematik","K1","K2","K3","K4","K5","Skor","Verdict"]];
+    RO_2027.forEach(r=>{ const t=penelaahan2027(r); pen.push([r.kode,r.nama,r.isPN?"Ya":"-",r.anggaran,t.jenis,t.bs??"",t.tematikLabel,t.K1,t.K2,t.K3,t.K4,t.K5,t.skor,t.verdict.label]); });
+    sheets.push({name:"Penelaahan RKA 2027",rows:pen});
     const a=[["Kode","Rincian Output","Pagu (Rp)","PN","Klaster PKPN","Impact","Alignment","Urgency","Leverage"]];
     RO_2027.forEach(r=>{const km=r.id.match(/(37\d\d)/);const keg=km?('K-'+km[1]):'';const pk=PKPN_KLASTER_MAP[`${keg}|${r.kode}`];a.push([r.kode,r.nama,r.anggaran,r.isPN?"Ya":"-",pk?pk.klaster:"-",r.impact,r.alignment,r.urgency,r.leverage]);});
     sheets.push({name:"RO x PN-PKPN 2027",rows:a});
@@ -4843,6 +5237,7 @@ function App(){
       {tab==="anggaran"&& <AnalisisAnggaran2027 />}
       {tab==="capaian" && <Capaian />}
       {tab==="sebaran" && <SebaranSRG year={year} />}
+      {tab==="plk"     && <MenuPLK year={year} />}
       {tab==="spbe"    && <MenuSPBE />}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
