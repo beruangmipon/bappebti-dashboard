@@ -743,6 +743,33 @@ const kepProv = (nama)=> KEPEMILIKAN_PROV[nama] || {p:0,m:0,k:0,s:0};
 const SRG_DATA_UPDATE = "01 Juni 2026";
 const PENGELOLA_SRG = {"total": 146, "status": [{"k": "Aktif", "n": 70}, {"k": "Terbatalkan", "n": 55}, {"k": "Dibatalkan", "n": 18}, {"k": "Dibekukan", "n": 3}], "aktif": 70, "badanHukumAktif": [{"k": "PT", "n": 34}, {"k": "Koperasi", "n": 27}, {"k": "BUMD", "n": 5}, {"k": "BUMN", "n": 4}], "provAktif": [{"prov": "DKI Jakarta", "n": 16}, {"prov": "Jawa Timur", "n": 12}, {"prov": "Jawa Barat", "n": 10}, {"prov": "Jawa Tengah", "n": 8}, {"prov": "Sulawesi Selatan", "n": 6}, {"prov": "Aceh", "n": 3}, {"prov": "Sumatera Utara", "n": 3}, {"prov": "Kalimantan Utara", "n": 3}, {"prov": "Kalimantan Selatan", "n": 2}, {"prov": "Sumatera Barat", "n": 2}, {"prov": "Lampung", "n": 1}, {"prov": "Sumatera Selatan", "n": 1}, {"prov": "Banten", "n": 1}, {"prov": "DI Yogyakarta", "n": 1}, {"prov": "Bali", "n": 1}]}; // tanggal data terakhir diperbarui (TANGGAL DATA DIINPUT terbaru)
 
+/* PERINGKAT PENGELOLA berdasarkan jumlah GUDANG AKTIF yang dikelola (operasional, dari data gudang).
+   Catatan: "gudang aktif" = gudang yang mengimplementasikan Sistem Resi Gudang.
+   Dipakai untuk grafik peringkat & bahan kebijakan internal (mis. pemberian penghargaan). */
+const PENGELOLA_RANK = (function(){
+  const m = {}; // pengelola -> { pengelola, gudang:[...] }
+  GUDANG.forEach(g=>{
+    if(g.st !== "aktif") return;
+    const pg = (g.pg||"").trim();
+    if(!pg || pg === "-") return;
+    (m[pg] = m[pg] || {pengelola:pg, gudang:[], provSet:new Set(), kapasitas:0});
+    m[pg].gudang.push({
+      nama: g.n,
+      lokasi: g.kb || g.pr || "-",
+      prov: g.pr || "-",
+      komoditas: g.km || "-",
+      kapasitas: g.kp || 0,
+    });
+    m[pg].provSet.add(g.pr || "-");
+    m[pg].kapasitas += (g.kp || 0);
+  });
+  return Object.values(m)
+    .map(o=>({ pengelola:o.pengelola, n:o.gudang.length, nProv:o.provSet.size,
+               kapasitas:o.kapasitas,
+               gudang:o.gudang.sort((a,b)=> a.prov.localeCompare(b.prov) || a.lokasi.localeCompare(b.lokasi)) }))
+    .sort((a,b)=> b.n - a.n || b.kapasitas - a.kapasitas || a.pengelola.localeCompare(b.pengelola));
+})();
+
 /* Capaian/Realisasi — TA 2026. REALISASI ANGGARAN s/d Mei 2026 dari SAKTI sudah dimuat.
    Capaian FISIK indikator (pertumbuhan, indeks) belum tersedia — menunggu e-Monev/laporan tahunan. */
 const CURRENT_Q = 2;
@@ -1496,7 +1523,7 @@ function Tabs({active,onChange}){
     {id:"pn",      label:"Analisa PN",         sub:"PN · PP · KP · ProP"},
     {id:"anggaran",label:"Analisis Anggaran",  sub:"Tagging · Penelaahan RO"},
     {id:"capaian", label:"Capaian",            sub:"Target vs Realisasi"},
-    {id:"sebaran", label:"Sebaran SRG",        sub:"302 gudang"},
+    {id:"sebaran", label:"SRG",                sub:"302 gudang"},
     {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
   ];
   return (
@@ -2653,6 +2680,77 @@ function AnalisaPN(){
 /* ======================================================================== */
 /* TAB 4 — SEBARAN SRG (Geographic Distribution)                            */
 /* ======================================================================== */
+function PeringkatPengelolaGudang(){
+  const [open,setOpen] = useState(null);
+  const [showAll,setShowAll] = useState(false);
+  const data = PENGELOLA_RANK;
+  const max = data.length ? data[0].n : 1;
+  const totalAktif = data.reduce((s,d)=>s+d.n,0);
+  const shown = showAll ? data : data.slice(0,15);
+  return (
+    <div className="card p-5 mb-6">
+      <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja Operasional Pengelola</div>
+          <div className="serif text-xl">Peringkat Pengelola berdasarkan Jumlah Gudang Aktif</div>
+        </div>
+        <span className="text-[10px] mono text-[var(--text-3)]">{data.length} pengelola &middot; {totalAktif} gudang aktif</span>
+      </div>
+      <div className="text-[11px] text-[var(--text-2)] mb-3">Klik nama pengelola untuk melihat rincian gudang aktif yang dikelola beserta lokasinya. Dapat menjadi bahan kebijakan internal, mis. pemberian penghargaan kepada pengelola berkinerja terbaik.</div>
+      <div className="space-y-0.5">
+        {shown.map((d,i)=>{
+          const isOpen = open===d.pengelola;
+          const medal = i===0?"#d4a437":i===1?"#9ca3af":i===2?"#b45309":null;
+          return (
+            <div key={d.pengelola} className="border-b border-[var(--border)] last:border-0">
+              <button onClick={()=>setOpen(isOpen?null:d.pengelola)} className="w-full flex items-center gap-3 py-2 text-left rounded px-1 transition hover:bg-[var(--card-2)]">
+                <span className="mono text-[11px] w-6 text-right shrink-0" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</span>
+                <span className="flex-1 text-[12px] truncate">{d.pengelola}</span>
+                <div className="impact-bar w-28 hidden sm:block shrink-0"><div className="impact-fill" style={{width:`${Math.round(d.n/max*100)}%`,background:"#a16207"}}></div></div>
+                <span className="mono text-[13px] text-[var(--gold)] w-8 text-right font-bold shrink-0">{d.n}</span>
+                <span className="mono text-[8px] text-[var(--text-3)] w-3 text-right shrink-0">{isOpen?"\u25B2":"\u25BC"}</span>
+              </button>
+              {isOpen && (
+                <div className="pb-3 pl-9 pr-1">
+                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">{d.n} gudang aktif &middot; {d.nProv} provinsi &middot; total kapasitas {d.kapasitas.toLocaleString("id-ID")} ton</div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-[11px] border-collapse">
+                      <thead><tr className="text-[var(--text-3)] text-left border-b border-[var(--border)]">
+                        <th className="py-1 pr-2 font-normal">#</th>
+                        <th className="py-1 pr-2 font-normal">Gudang</th>
+                        <th className="py-1 pr-2 font-normal">Lokasi (Kab/Kota)</th>
+                        <th className="py-1 pr-2 font-normal">Provinsi</th>
+                        <th className="py-1 pr-2 font-normal">Komoditas</th>
+                        <th className="py-1 pr-2 font-normal text-right">Kapasitas (ton)</th>
+                      </tr></thead>
+                      <tbody>
+                        {d.gudang.map((g,j)=>(
+                          <tr key={j} className="border-b border-[var(--border)] last:border-0">
+                            <td className="py-1 pr-2 text-[var(--text-3)] mono align-top">{j+1}</td>
+                            <td className="py-1 pr-2 align-top">{g.nama}</td>
+                            <td className="py-1 pr-2 text-[var(--text-2)] align-top">{g.lokasi}</td>
+                            <td className="py-1 pr-2 text-[var(--text-2)] align-top">{g.prov}</td>
+                            <td className="py-1 pr-2 text-[var(--text-2)] align-top">{g.komoditas}</td>
+                            <td className="py-1 pr-2 text-right mono text-[var(--text-2)] align-top">{g.kapasitas? g.kapasitas.toLocaleString("id-ID"):"\u2013"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {data.length>15 && (
+        <button onClick={()=>setShowAll(!showAll)} className="mt-3 text-[11px] text-[var(--gold)] hover:underline">{showAll?"Tampilkan 15 teratas saja":`Tampilkan semua ${data.length} pengelola \u2192`}</button>
+      )}
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">"Gudang aktif" = gudang yang mengimplementasikan Sistem Resi Gudang. Peringkat dihitung dari jumlah gudang aktif yang dikelola; bila jumlahnya seri, diurutkan berdasarkan total kapasitas.</div>
+    </div>
+  );
+}
+
 function SebaranSRG(){
   const [selected,setSelected] = useState("JATIM");
   const [filter,setFilter] = useState("all");
@@ -2822,7 +2920,7 @@ function SebaranSRG(){
           <div className="card-2 p-4">
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Aktif</div>
             <div className="serif text-3xl mt-1 text-[var(--gold)]">{PENGELOLA_SRG.aktif}</div>
-            <div className="text-[10px] text-[var(--text-3)] mt-1">{Math.round(PENGELOLA_SRG.aktif/PENGELOLA_SRG.total*100)}% dari total</div>
+            <div className="text-[10px] text-[var(--text-3)] mt-1">persetujuan/registrasi aktif</div>
           </div>
           {PENGELOLA_SRG.status.filter(s=>s.k!=="Aktif").map(s=>(
             <div key={s.k} className="card-2 p-4">
@@ -2860,8 +2958,10 @@ function SebaranSRG(){
             </div>
           </div>
         </div>
-        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: satu pengelola dapat mengelola lebih dari satu gudang, sehingga jumlah pengelola aktif ({PENGELOLA_SRG.aktif}) tidak sama dengan jumlah gudang aktif ({aktifCount}). Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: <b>Pengelola Aktif</b> di sini adalah jumlah persetujuan/registrasi pengelola gudang SRG yang berstatus aktif (regulatory licensing), sehingga tidak sama dengan jumlah gudang aktif ({aktifCount}) — satu pengelola dapat mengelola beberapa gudang, dan sebaliknya pengelola berizin aktif belum tentu sedang mengoperasikan gudang. <b>Gudang aktif</b> = gudang yang mengimplementasikan Sistem Resi Gudang. Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
       </div>
+
+      <PeringkatPengelolaGudang/>
 
       {/* Map + Detail */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
@@ -4307,7 +4407,7 @@ function matrixSheets(tab){
     RO_2027.forEach(r=>{const km=r.id.match(/(37\d\d)/);const keg=km?('K-'+km[1]):'';const pk=PKPN_KLASTER_MAP[`${keg}|${r.kode}`];a.push([r.kode,r.nama,r.anggaran,r.isPN?"Ya":"-",pk?pk.klaster:"-",r.impact,r.alignment,r.urgency,r.leverage]);});
     sheets.push({name:"RO x PN-PKPN 2027",rows:a});
   } else {
-    sheets.push({name:"Info",rows:[["Menu ini belum memiliki matriks untuk diekspor."],["Buka menu Capaian, Sebaran SRG, atau Analisis Anggaran / Analisa PN, lalu klik Ekspor Matriks."]]});
+    sheets.push({name:"Info",rows:[["Menu ini belum memiliki matriks untuk diekspor."],["Buka menu Capaian, SRG, atau Analisis Anggaran / Analisa PN, lalu klik Ekspor Matriks."]]});
   }
   return sheets;
 }
