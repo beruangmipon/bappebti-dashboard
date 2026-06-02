@@ -4783,12 +4783,20 @@ const PLK_TRANSAKSI = [
   {th:"2024", nilai:97.2}, {th:"2025", nilai:111.8}, {th:"2026", nilai:12.6, p:true},
 ]; /* Rp Miliar; 2026* = s.d. April 2026 */
 const PLK_DAERAH = [
-  {prov:"Aceh", peny:"—"}, {prov:"Sumatera Utara", peny:"—"}, {prov:"Riau", peny:"Koperasi Apkarkusi"},
-  {prov:"Sumatera Barat", peny:"—"}, {prov:"Jambi", peny:"—"}, {prov:"Lampung", peny:"—"}, {prov:"Banten", peny:"—"},
-  {prov:"Jawa Barat", peny:"KPLJB"}, {prov:"Jawa Tengah", peny:"Kop. Wira Agri"}, {prov:"Nusa Tenggara Barat", peny:"—"},
-  {prov:"Sulawesi Tenggara", peny:"—"}, {prov:"Sulawesi Utara", peny:"—"}, {prov:"Bangka Belitung", peny:"Koperasi Lada Babel"},
-  {prov:"DKI Jakarta", peny:"PT KPBN & PT ACM"},
+  {prov:"Aceh", kat:"dinas"}, {prov:"Sumatera Utara", kat:"dinas"}, {prov:"Riau", kat:"revit", peny:"Koperasi Apkarkusi"},
+  {prov:"Sumatera Barat", kat:"dinas"}, {prov:"Jambi", kat:"dinas"}, {prov:"Lampung", kat:"revit", peny:"Swasta (revitalisasi)"},
+  {prov:"Banten", kat:"dinas"}, {prov:"Jawa Barat", kat:"swasta", peny:"KPLJB"}, {prov:"Jawa Tengah", kat:"revit", peny:"Kop. Wira Agri"},
+  {prov:"Nusa Tenggara Barat", kat:"dinas"}, {prov:"Sulawesi Tenggara", kat:"dinas"}, {prov:"Sulawesi Utara", kat:"dinas"},
+  {prov:"Bangka Belitung", kat:"revit", peny:"Koperasi Lada Babel"}, {prov:"DKI Jakarta", kat:"swasta", peny:"PT KPBN & PT ACM"},
 ];
+/* kat: revit = swasta/koperasi hasil revitalisasi binaan Dinas; swasta = swasta murni; dinas = penyelenggara Dinas Perdagangan Provinsi. */
+const PLK_KAT = {
+  revit:{label:"Revitalisasi · Swasta", c:"#409B56", bg:"rgba(64,155,86,0.14)", tx:"#2C5F2D", bd:"rgba(64,155,86,0.3)"},
+  swasta:{label:"Swasta Murni", c:"#1B599B", bg:"rgba(27,89,155,0.12)", tx:"#1B599B", bd:"rgba(27,89,155,0.3)"},
+  dinas:{label:"Dinas Provinsi", c:"#94a3b8", bg:"rgba(148,163,184,0.16)", tx:"#475569", bd:"rgba(148,163,184,0.35)"},
+};
+const plkPenyelenggara = d => d.kat==="dinas" ? ("Dinas Perdagangan Prov. "+d.prov) : d.peny;
+const plkKomoditas = d => (d.peny && d.peny.includes("Apkarkusi")) ? "Karet" : ((d.peny && d.peny.includes("Lada")) ? "Lada" : "—");
 const PLK_KOM_2024 = [
   {kom:"Karet", vol:1581739, nilai:27.1}, {kom:"Lada", vol:51000, nilai:7.4},
   {kom:"Cengkeh", vol:80800, nilai:5.9}, {kom:"Gabah/Beras", vol:302100, nilai:4.5},
@@ -4982,13 +4990,20 @@ function MenuPLK({year}){
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Sebaran (14 daerah)</div>
-          <div className="serif text-lg mb-3">Daerah Penyelenggara PLK</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+          <div className="serif text-lg mb-1">Daerah Penyelenggara PLK</div>
+          <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3 text-[9px]">
+            {["revit","swasta","dinas"].map(k=>(
+              <span key={k} className="inline-flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{background:PLK_KAT[k].c}}></span>{PLK_KAT[k].label} ({PLK_DAERAH.filter(d=>d.kat===k).length})</span>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
             {PLK_DAERAH.map((d,i)=>(
-              <div key={i} className="flex items-center gap-2 text-[11px]">
-                <span className="mono text-[9px] text-[var(--text-3)] w-5 text-right shrink-0">{i+1}</span>
-                <span className="text-[var(--text-2)] flex-1">{d.prov}</span>
-                {d.peny!=="—" && <span className="mono text-[9px] text-[var(--text-3)] truncate" style={{maxWidth:130}}>{d.peny}</span>}
+              <div key={i} className="flex items-start gap-2 text-[11px]">
+                <span className="w-2 h-2 rounded-full shrink-0 mt-1" style={{background:PLK_KAT[d.kat].c}}></span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[var(--text-2)]">{d.prov}</div>
+                  <div className="mono text-[9px] text-[var(--text-3)] truncate">{d.kat==="dinas"?"Dinas Perdagangan Provinsi":d.peny}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -5024,26 +5039,28 @@ function MenuPLK({year}){
         <div className="overflow-x-auto">
           <table className="w-full text-[11px] border-collapse">
             <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
-              <th className="py-1.5 pr-2">No</th><th className="py-1.5 pr-2">Daerah</th><th className="py-1.5 pr-2">Penyelenggara</th>
+              <th className="py-1.5 pr-2">No</th><th className="py-1.5 pr-2">Daerah</th><th className="py-1.5 pr-2">Status</th><th className="py-1.5 pr-2">Penyelenggara</th>
               <th className="py-1.5 pr-2">Komoditas (indikasi)</th>
               <th className="py-1.5 pr-2 text-right">Nilai Transaksi TA {year}</th><th className="py-1.5 pr-2 text-right">Volume</th>
             </tr></thead>
             <tbody>
-              {PLK_DAERAH.map((d,i)=>{ const kom = d.peny.includes("Apkarkusi")?"Karet":(d.peny.includes("Lada")?"Lada":"—");
-                return (
+              {PLK_DAERAH.map((d,i)=>(
                 <tr key={i} className="border-b border-[var(--border)] last:border-0">
                   <td className="py-1.5 pr-2 mono text-[var(--text-3)]">{i+1}</td>
                   <td className="py-1.5 pr-2 text-[var(--text-2)]">{d.prov}</td>
-                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{d.peny}</td>
-                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{kom}</td>
+                  <td className="py-1.5 pr-2">
+                    <span className="pill text-[8px]" style={{background:PLK_KAT[d.kat].bg,color:PLK_KAT[d.kat].tx,border:"1px solid "+PLK_KAT[d.kat].bd}}>{PLK_KAT[d.kat].label}</span>
+                  </td>
+                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{plkPenyelenggara(d)}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{plkKomoditas(d)}</td>
                   <td className="py-1.5 pr-2 text-right text-[var(--text-3)] italic">belum tersedia</td>
                   <td className="py-1.5 pr-2 text-right text-[var(--text-3)] italic">belum tersedia</td>
                 </tr>
-              );})}
+              ))}
             </tbody>
           </table>
         </div>
-        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">"Komoditas (indikasi)" disimpulkan dari nama penyelenggara bila jelas (mis. Koperasi Apkarkusi → Karet; Koperasi Lada Babel → Lada); selebihnya menunggu konfirmasi data. Total nasional per tahun tersedia pada grafik di atas.</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Status penyelenggara: <b className="not-italic">Revitalisasi · Swasta</b> = koperasi/swasta hasil revitalisasi binaan Dinas (Riau, Lampung, Jawa Tengah, Bangka Belitung); <b className="not-italic">Swasta Murni</b> (Jawa Barat–KPLJB, DKI Jakarta–PT KPBN &amp; PT ACM); selebihnya <b className="not-italic">Dinas Perdagangan Provinsi</b> terkait. "Komoditas (indikasi)" disimpulkan dari nama penyelenggara bila jelas. Nilai/volume per daerah menunggu data resmi.</div>
       </div>
 
       {/* Pembinaan & Pengembangan */}
@@ -5178,8 +5195,9 @@ function matrixSheets(tab){
     const t1=[["Tahun","Nilai Transaksi (Rp Miliar)","Keterangan"]];
     PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. April 2026":""]));
     sheets.push({name:"Transaksi PLK 2021-2026",rows:t1});
-    const t2=[["No","Daerah Penyelenggara","Penyelenggara","Komoditas (indikasi)","Nilai Transaksi (Rp)","Volume"]];
-    PLK_DAERAH.forEach((d,i)=>{const kom=d.peny.includes("Apkarkusi")?"Karet":(d.peny.includes("Lada")?"Lada":"—");t2.push([i+1,d.prov,d.peny,kom,"belum tersedia","belum tersedia"]);});
+    const KAT={revit:"Revitalisasi (Swasta)",swasta:"Swasta Murni",dinas:"Dinas Perdagangan Provinsi"};
+    const t2=[["No","Daerah","Status Penyelenggara","Penyelenggara","Komoditas (indikasi)","Nilai Transaksi (Rp)","Volume"]];
+    PLK_DAERAH.forEach((d,i)=>t2.push([i+1,d.prov,KAT[d.kat],plkPenyelenggara(d),plkKomoditas(d),"belum tersedia","belum tersedia"]));
     sheets.push({name:"Daerah Penyelenggara",rows:t2});
     const t3=[["Peringkat","Komoditas","Volume Transaksi (Kg)","Nilai Transaksi (Rp Miliar)"]];
     PLK_KOM_2024.forEach((k,i)=>t3.push([i+1,k.kom,k.vol,k.nilai]));
