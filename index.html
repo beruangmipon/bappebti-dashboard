@@ -2758,9 +2758,14 @@ function PenerbitanResiGudang(){
     biaya: {label:"Nilai Pembiayaan", color:"#7c3aed", get:d=>d.nilaiBiaya,   fmt:fmtRp},
   };
   const m = M[metric];
+  const slbl = (metric==='rg'||metric==='vol')
+    ? (n=> n>=1000 ? (n/1000).toLocaleString("id-ID",{maximumFractionDigits: metric==='rg'?1:0})+"rb" : Math.round(n).toLocaleString("id-ID"))
+    : (n=> n>=1e12 ? (n/1e12).toLocaleString("id-ID",{maximumFractionDigits:1})+"T"
+                   : n>=1e9 ? (n/1e9).toLocaleString("id-ID",{maximumFractionDigits:0})+"M"
+                   : n>=1e6 ? Math.round(n/1e6)+"jt" : Math.round(n).toString());
   const data = RESI_GUDANG_TAHUNAN;
   const max = Math.max(...data.map(m.get));
-  const W=760, H=210, padL=44, padR=8, padT=12, padB=26;
+  const W=760, H=226, padL=44, padR=8, padT=26, padB=26;
   const innerW = W-padL-padR, innerH = H-padT-padB;
   const step = innerW/data.length;
   const bw = step*0.62;
@@ -2805,7 +2810,7 @@ function PenerbitanResiGudang(){
         ))}
       </div>
 
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:240}} preserveAspectRatio="xMidYMid meet">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:260}} preserveAspectRatio="xMidYMid meet">
         {[0,0.25,0.5,0.75,1].map((t,i)=>{
           const y = padT+innerH*(1-t);
           return (<g key={i}>
@@ -2824,6 +2829,7 @@ function PenerbitanResiGudang(){
                 fill={m.color} opacity={d.p?0.5:0.92}>
                 <title>{d.th}{d.p?" (sementara)":""}: {m.fmt(v)}</title>
               </rect>
+              {v>0 && <text x={x+bw/2} y={y-3} textAnchor="middle" fontSize="6.5" fill={m.color} fontFamily="monospace" fontWeight="700" opacity={d.p?0.65:1}>{slbl(v)}</text>}
               <text x={x+bw/2} y={H-padB+12} textAnchor="middle" fontSize="7.5" fill="var(--text-3)" fontFamily="monospace">{d.th.slice(2)}{d.p?"*":""}</text>
             </g>
           );
@@ -2915,7 +2921,7 @@ function PeringkatPengelolaGudang({year}){
       ? "5 besar. Klik nama pengelola untuk melihat rincian gudang aktif yang dikelola beserta lokasinya."
       : `5 besar (kumulatif penerbitan Resi Gudang ${cutoffLabel}). Klik nama pengelola untuk rincian penerbitan & pembiayaan.`;
   return (
-    <div className="card p-5 mb-6">
+    <div className="card p-5">
       <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tabel 1 · Peringkat Keseluruhan · kumulatif {cutoffLabel}{year===2027?" (RANWAL 2027)":""}</div>
@@ -2939,7 +2945,7 @@ function PeringkatPengelolaGudang({year}){
             <div key={row.name} className="border-b border-[var(--border)] last:border-0">
               <button onClick={()=>setOpen(isOpen?null:row.name)} className="w-full flex items-center gap-3 py-2 text-left rounded px-1 transition hover:bg-[var(--card-2)]">
                 <span className="mono text-[11px] w-6 text-right shrink-0" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</span>
-                <span className="flex-1 text-[12px] truncate">{row.name}</span>
+                <span className="flex-1 text-[12px] truncate" style={medal?{color:medal,fontWeight:600}:{}}>{row.name}</span>
                 <div className="impact-bar w-24 hidden sm:block shrink-0"><div className="impact-fill" style={{width:`${Math.round(row.val/max*100)}%`,background:c.color}}></div></div>
                 <span className="mono text-[12px] w-24 text-right font-bold shrink-0" style={{color:c.color}}>{c.fmt(row.val)}</span>
                 <span className="mono text-[8px] text-[var(--text-3)] w-3 text-right shrink-0">{isOpen?"\u25B2":"\u25BC"}</span>
@@ -3004,11 +3010,13 @@ function PeringkatPengelolaGudang({year}){
 }
 
 function PeringkatPengelolaPerTahun({year}){
+  const [open,setOpen] = useState(null);
   const yr = String(year);
   const periodLabel = year===2026 ? `TA 2026 (s.d. ${RG_CUTOFF_2026})` : `TA ${year}`;
   const rows = (PENGELOLA_BY_YEAR[yr]||[]).slice(0,5);
+  const max = rows.length ? rows[0].rg : 1;
   return (
-    <div className="card p-5 mb-6">
+    <div className="card p-5">
       <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tabel 2 · Peringkat {periodLabel}</div>
@@ -3016,33 +3024,39 @@ function PeringkatPengelolaPerTahun({year}){
         </div>
         <span className="text-[10px] mono text-[var(--text-3)]">5 terbaik · menurut resi gudang diterbitkan</span>
       </div>
+      <div className="text-[11px] text-[var(--text-2)] mb-3">Klik nama pengelola untuk melihat rincian: jumlah resi gudang, volume, nilai barang, dan pembiayaan pada tahun tersebut.</div>
       {rows.length===0 ? (
         <div className="card-2 p-5 text-center">
           <div className="text-sm text-[var(--text-2)]">Data realisasi penerbitan Resi Gudang TA {year} belum tersedia{year===2027?" (RANWAL — rencana awal)":""}.</div>
           <div className="text-[10px] text-[var(--text-3)] mt-1">Peringkat per tahun mengikuti Tahun Anggaran pada header. Data realisasi terbaru tersedia hingga {RG_CUTOFF_2026}.</div>
         </div>
       ) : (
-      <div className="overflow-x-auto">
-        <table className="w-full text-[12px] border-collapse">
-          <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
-            <th className="py-1.5 pr-2">#</th><th className="py-1.5 pr-2">Pengelola</th>
-            <th className="py-1.5 pr-2 text-right">Resi Gudang</th>
-            <th className="py-1.5 pr-2 text-right">Nilai Barang</th>
-            <th className="py-1.5 pr-2 text-right">Dibiayai</th>
-          </tr></thead>
-          <tbody>
-            {rows.map((r,i)=>{ const medal=i===0?"#d4a437":i===1?"#9ca3af":i===2?"#b45309":null;
-              return (
-              <tr key={r.pg} className="border-b border-[var(--border)] last:border-0">
-                <td className="py-2 pr-2 mono align-top" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</td>
-                <td className="py-2 pr-2 align-top">{r.pg}</td>
-                <td className="py-2 pr-2 text-right mono font-bold align-top" style={{color:"#0d9488"}}>{fmtNumRG(r.rg)}</td>
-                <td className="py-2 pr-2 text-right mono text-[var(--text-2)] align-top">{fmtRpRG(r.nilai)}</td>
-                <td className="py-2 pr-2 text-right mono text-[var(--text-3)] align-top">{fmtNumRG(r.rgBiaya)} resi</td>
-              </tr>
-            );})}
-          </tbody>
-        </table>
+      <div className="space-y-0.5">
+        {rows.map((r,i)=>{
+          const isOpen = open===r.pg;
+          const medal = i===0?"#d4a437":i===1?"#9ca3af":i===2?"#b45309":null;
+          return (
+            <div key={r.pg} className="border-b border-[var(--border)] last:border-0">
+              <button onClick={()=>setOpen(isOpen?null:r.pg)} className="w-full flex items-center gap-3 py-2 text-left rounded px-1 transition hover:bg-[var(--card-2)]">
+                <span className="mono text-[11px] w-6 text-right shrink-0" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</span>
+                <span className="flex-1 text-[12px] truncate" style={medal?{color:medal,fontWeight:600}:{}}>{r.pg}</span>
+                <div className="impact-bar w-20 hidden sm:block shrink-0"><div className="impact-fill" style={{width:`${Math.round(r.rg/max*100)}%`,background:"#0d9488"}}></div></div>
+                <span className="mono text-[12px] w-14 text-right font-bold shrink-0" style={{color:"#0d9488"}}>{fmtNumRG(r.rg)}</span>
+                <span className="mono text-[8px] text-[var(--text-3)] w-3 text-right shrink-0">{isOpen?"\u25B2":"\u25BC"}</span>
+              </button>
+              {isOpen && (
+                <div className="pb-3 pl-9 pr-1">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1">
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(r.rg)}</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Volume</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(r.vol)} ton</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Barang</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(r.nilai)}</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Pembiayaan</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(r.biaya)}</div><div className="text-[9px] text-[var(--text-3)]">{fmtNumRG(r.rgBiaya)} resi dibiayai</div></div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       )}
       <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Mengikuti Tahun Anggaran pada header. Peringkat dihitung dari jumlah resi gudang yang diterbitkan pada TA tersebut (bila seri, diurutkan menurut nilai barang). TA 2026 mencakup data s.d. {RG_CUTOFF_2026}. Pengelola yang menerbitkan resi pada suatu tahun berarti aktif beroperasi pada tahun itu. Sumber: Laporan Rekap Resi Gudang Bappebti.</div>
@@ -3061,7 +3075,7 @@ function SebaranPenerbitan(){
   const rows = [...DIM[dim].data].sort((a,b)=>m.get(b)-m.get(a)).slice(0,12);
   const max = rows.length ? m.get(rows[0]) : 1;
   return (
-    <div className="card p-5 mb-6">
+    <div className="card p-5">
       <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Sebaran Pemanfaatan SRG</div>
@@ -3098,7 +3112,7 @@ function PembiayaanRG(){
   const pct = Math.round(t.rgBiaya/t.rgTotal*100);
   const max = PEMBIAYAAN_BANK.length ? PEMBIAYAAN_BANK[0].biaya : 1;
   return (
-    <div className="card p-5 mb-6">
+    <div className="card p-5">
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Akses Pembiayaan SRG</div>
@@ -3221,8 +3235,10 @@ function SebaranSRG({year}){
       </div>
 
       <PenerbitanResiGudang/>
-      <SebaranPenerbitan/>
-      <PembiayaanRG/>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        <SebaranPenerbitan/>
+        <PembiayaanRG/>
+      </div>
 
       {/* Sumber Pendanaan Pembangunan */}
       <div className="card p-5 mb-6">
@@ -3332,8 +3348,10 @@ function SebaranSRG({year}){
         <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: <b>Pengelola Aktif</b> di sini adalah jumlah persetujuan/registrasi pengelola gudang SRG yang berstatus aktif (regulatory licensing), sehingga tidak sama dengan jumlah gudang aktif ({aktifCount}) — satu pengelola dapat mengelola beberapa gudang, dan sebaliknya pengelola berizin aktif belum tentu sedang mengoperasikan gudang. <b>Gudang aktif</b> = gudang yang mengimplementasikan Sistem Resi Gudang. Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
       </div>
 
-      <PeringkatPengelolaGudang year={year}/>
-      <PeringkatPengelolaPerTahun year={year}/>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        <PeringkatPengelolaGudang year={year}/>
+        <PeringkatPengelolaPerTahun year={year}/>
+      </div>
 
       {/* Map + Detail */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
