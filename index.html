@@ -779,6 +779,10 @@ const PENERBITAN_KAB = [{key:"Subang",prov:"Jawa Barat",rg:754,nilai:95415383500
 const PENERBITAN_KOM = [{key:"Gabah",rg:3666,vol:118620,nilai:733947600738},{key:"Beras",rg:756,vol:58470,nilai:652948259000},{key:"Timah",rg:744,vol:3756,nilai:1772021703426},{key:"Kopi",rg:512,vol:8136,nilai:1415971768787},{key:"Gula Kristal Putih",rg:440,vol:205234,nilai:2741576500000},{key:"Tembakau",rg:276,vol:4395,nilai:365853625000},{key:"Rumput Laut",rg:268,vol:19824,nilai:416358305000},{key:"Ikan",rg:211,vol:2455,nilai:335632674600},{key:"Jagung",rg:165,vol:7773,nilai:28823039594},{key:"Ayam Karkas Beku",rg:145,vol:611,nilai:20230182080},{key:"Lada",rg:54,vol:174,nilai:9576690820},{key:"Bawang Merah",rg:19,vol:522,nilai:11696500000},{key:"Kedelai",rg:13,vol:334,nilai:3796620000},{key:"Garam",rg:10,vol:702,nilai:977498000},{key:"Rotan",rg:3,vol:31,nilai:264548000},{key:"Teh",rg:3,vol:40,nilai:710000000},{key:"Gambir",rg:1,vol:1,nilai:47000000},{key:"Kakao",rg:1,vol:3,nilai:78500000},{key:"Tapioka",rg:1,vol:540,nilai:2430000000}];
 const PEMBIAYAAN_BANK = [{key:"PT KPBI Jakarta",rg:1112,biaya:2167472145225},{key:"Bank BJB",rg:2617,biaya:1764142996166},{key:"Bank Jatim",rg:451,biaya:766638657700},{key:"BRI",rg:537,biaya:310162688793},{key:"PKBL KBI",rg:200,biaya:62558627959},{key:"Bank Jateng",rg:269,biaya:61980149500},{key:"Bank BSI",rg:64,biaya:27948325000},{key:"PT Danareksa Capital",rg:25,biaya:20004250000},{key:"Bank Kalsel",rg:235,biaya:17105873250},{key:"Bank Aceh Syariah",rg:34,biaya:15307000000},{key:"Bank Sulselbar",rg:12,biaya:5195000000},{key:"LPDB KUKM",rg:15,biaya:4970637700},{key:"BSI",rg:9,biaya:4196000000},{key:"BLU LPMUKP",rg:9,biaya:2515573490},{key:"BNI",rg:4,biaya:2000000000}];
 const PEMBIAYAAN_TOTAL = {nilai:5279010897508, rgBiaya:5703, rgTotal:7288};
+/* Peringkat penerbitan Resi Gudang per pengelola PER TAHUN (sumber: Penerbitan Detail). Top 8 tiap tahun. */
+const PENGELOLA_BY_YEAR = {"2024":[{pg:"PT. BGR Logistik Indonesia",rg:400,nilai:950377698066,vol:2008,rgBiaya:396,biaya:659775507684},{pg:"PT. Cipta Usaha Agro Niaga",rg:243,nilai:311901601000,vol:14558,rgBiaya:235,biaya:210784000000},{pg:"PT. Pabrik Gula Candi Baru",rg:85,nilai:616250000000,vol:42500,rgBiaya:83,biaya:440800000000},{pg:"PT. Thara Jaya Niaga",rg:76,nilai:646120000000,vol:8763,rgBiaya:67,biaya:429450750000},{pg:"Koperasi Basunondo",rg:36,nilai:4864346500,vol:648,rgBiaya:20,biaya:2690500000},{pg:"KSU Item Reje Gayo",rg:35,nilai:21327147000,vol:223,rgBiaya:34,biaya:14467725000},{pg:"Koperasi Gunung Luhur Berkah",rg:27,nilai:39550000000,vol:530,rgBiaya:18,biaya:22085000000},{pg:"PT. Ketiara",rg:26,nilai:17900000000,vol:179,rgBiaya:22,biaya:10710000000}],"2025":[{pg:"PT. Cipta Usaha Agro Niaga",rg:210,nilai:172914730200,vol:7839,rgBiaya:156,biaya:96815000000},{pg:"PT. Pabrik Gula Candi Baru",rg:73,nilai:922200000000,vol:63600,rgBiaya:58,biaya:444570000000},{pg:"PT. Thara Jaya Niaga",rg:59,nilai:525313500000,vol:6570,rgBiaya:45,biaya:275470475000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:46,nilai:32722025000,vol:493,rgBiaya:38,biaya:15078660375},{pg:"Koperasi Gunung Luhur Berkah",rg:35,nilai:36380120000,vol:658,rgBiaya:21,biaya:8152500000},{pg:"PT. Fiona Pusaka SRG",rg:32,nilai:23040000000,vol:1920,rgBiaya:30,biaya:15000000000},{pg:"Koperasi Basunondo",rg:17,nilai:4226136100,vol:491,rgBiaya:10,biaya:2119000000},{pg:"PT. Pabrik Gula Rajawali I",rg:10,nilai:137750000000,vol:9500,rgBiaya:8,biaya:76125000000}],"2026":[{pg:"KSU Item Reje Gayo",rg:31,nilai:18400560000,vol:147,rgBiaya:8,biaya:3792000000},{pg:"PT. Cipta Usaha Agro Niaga",rg:28,nilai:27883744580,vol:1955,rgBiaya:9,biaya:4500000000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:20,nilai:15633800000,vol:257,rgBiaya:7,biaya:3003932000},{pg:"PT. Fiona Pusaka SRG",rg:11,nilai:7920000000,vol:660,rgBiaya:11,biaya:5500000000},{pg:"PT. Ketiara",rg:9,nilai:6100000000,vol:59,rgBiaya:7,biaya:3290000000},{pg:"Koperasi Produsen Sumatera Permata Gayo",rg:8,nilai:5500000000,vol:53,rgBiaya:3,biaya:1290000000},{pg:"Koperasi Gunung Luhur Berkah",rg:6,nilai:19500000000,vol:250,rgBiaya:6,biaya:13650000000},{pg:"PT Anugrah Pesona Mandiri",rg:3,nilai:2170900000,vol:26,rgBiaya:3,biaya:1445200000}]};
+const RG_CUTOFF_2026 = "28 Mei 2026";
+const PENGELOLA_ISSUANCE_2025 = [{pg:"PT. Pertani (Persero)",rg:1454,nilai:338713150600,vol:68317,rgBiaya:1249,biaya:208366000200},{pg:"PT. Cipta Usaha Agro Niaga",rg:568,nilai:641731482200,vol:34721,rgBiaya:495,biaya:411156310000},{pg:"PT. Bhanda Ghara Reksa (Persero)",rg:533,nilai:483985920750,vol:5738,rgBiaya:336,biaya:353007558266},{pg:"Koperasi Niaga Mukti",rg:474,nilai:69247885300,vol:10312,rgBiaya:453,biaya:46139666666},{pg:"PT. BGR Logistik Indonesia",rg:435,nilai:1013894256676,vol:2184,rgBiaya:431,biaya:710570507684},{pg:"KSU Annisa",rg:317,nilai:46099952500,vol:6530,rgBiaya:304,biaya:29881770000},{pg:"PT. Pabrik Gula Candi Baru",rg:314,nilai:2464770500000,vol:183867,rgBiaya:296,biaya:1549769350000},{pg:"Koperasi Basunondo",rg:202,nilai:22510466100,vol:3038,rgBiaya:117,biaya:10310196300},{pg:"KSU Sarana Hidup Sejahtera",rg:196,nilai:58823527000,vol:7042,rgBiaya:167,biaya:32560200000},{pg:"PT. Thara Jaya Niaga",rg:192,nilai:1214772000000,vol:19246,rgBiaya:164,biaya:733631435000},{pg:"PT. Ketiara",rg:175,nilai:180693000000,vol:2300,rgBiaya:162,biaya:115938100000},{pg:"PT Atma Mulya Jaya",rg:160,nilai:28430678580,vol:1372,rgBiaya:146,biaya:18215412814},{pg:"Koperasi Gunung Luhur Berkah",rg:157,nilai:107951440000,vol:3424,rgBiaya:116,biaya:48131105000},{pg:"KUD Tuntung Pandang",rg:137,nilai:13432922500,vol:2072,rgBiaya:76,biaya:4707400000},{pg:"PT. Food Station Tjipinang Jaya",rg:116,nilai:56535877000,vol:7600,rgBiaya:59,biaya:21592518800},{pg:"PT. Pos Indonesia (Persero)",rg:110,nilai:10073769000,vol:2085,rgBiaya:79,biaya:5232525000},{pg:"PT Siriman Jaya Abadi",rg:108,nilai:264339000000,vol:244,rgBiaya:93,biaya:144421875000},{pg:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:100,nilai:298912426001,vol:503,rgBiaya:100,biaya:238725000000},{pg:"KSU Adi Luwung",rg:99,nilai:3825450000,vol:617,rgBiaya:15,biaya:931800000},{pg:"PT. Wahana Pronatural",rg:92,nilai:163037670000,vol:6548,rgBiaya:65,biaya:61388323500},{pg:"PT. Pengayom Tani Sejagad",rg:92,nilai:68684691000,vol:7318,rgBiaya:89,biaya:45331200000},{pg:"PT. Fiona Pusaka SRG",rg:82,nilai:58232000000,vol:5636,rgBiaya:78,biaya:37480000000},{pg:"Kospermindo",rg:72,nilai:37502155000,vol:4104,rgBiaya:62,biaya:22813202300},{pg:"PT. Pabrik Gula Rajawali I",rg:71,nilai:237790000000,vol:17667,rgBiaya:45,biaya:146153000000},{pg:"PT Sinergi Karya Nusa",rg:52,nilai:933646606,vol:189,rgBiaya:9,biaya:194000000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:48,nilai:33720111000,vol:527,rgBiaya:40,biaya:15737660375},{pg:"KSU Item Reje Gayo",rg:45,nilai:27999147000,vol:289,rgBiaya:43,biaya:18751725000},{pg:"Koperasi Kelompok Usaha Serba jadi",rg:42,nilai:1809147400,vol:329,rgBiaya:12,biaya:380577750},{pg:"PT Panca Pujangga Perkasa",rg:41,nilai:10244400000,vol:1164,rgBiaya:37,biaya:6896135000},{pg:"KUD Penerus Baru",rg:40,nilai:3276251500,vol:432,rgBiaya:2,biaya:460480000}];  /* kumulatif s.d. TA 2025 */
 const PENGELOLA_SRG = {"total": 146, "status": [{"k": "Aktif", "n": 70}, {"k": "Terbatalkan", "n": 55}, {"k": "Dibatalkan", "n": 18}, {"k": "Dibekukan", "n": 3}], "aktif": 70, "badanHukumAktif": [{"k": "PT", "n": 34}, {"k": "Koperasi", "n": 27}, {"k": "BUMD", "n": 5}, {"k": "BUMN", "n": 4}], "provAktif": [{"prov": "DKI Jakarta", "n": 16}, {"prov": "Jawa Timur", "n": 12}, {"prov": "Jawa Barat", "n": 10}, {"prov": "Jawa Tengah", "n": 8}, {"prov": "Sulawesi Selatan", "n": 6}, {"prov": "Aceh", "n": 3}, {"prov": "Sumatera Utara", "n": 3}, {"prov": "Kalimantan Utara", "n": 3}, {"prov": "Kalimantan Selatan", "n": 2}, {"prov": "Sumatera Barat", "n": 2}, {"prov": "Lampung", "n": 1}, {"prov": "Sumatera Selatan", "n": 1}, {"prov": "Banten", "n": 1}, {"prov": "DI Yogyakarta", "n": 1}, {"prov": "Bali", "n": 1}]}; // tanggal data terakhir diperbarui (TANGGAL DATA DIINPUT terbaru)
 
 /* PERINGKAT PENGELOLA berdasarkan jumlah GUDANG AKTIF yang dikelola (operasional, dari data gudang).
@@ -2871,41 +2875,62 @@ function ProvinsiPengelolaChart(){
 const fmtRpRG = n => n>=1e12?"Rp "+(n/1e12).toLocaleString("id-ID",{maximumFractionDigits:2})+" T":n>=1e9?"Rp "+(n/1e9).toLocaleString("id-ID",{maximumFractionDigits:1})+" M":n>=1e6?"Rp "+(n/1e6).toLocaleString("id-ID",{maximumFractionDigits:0})+" jt":"Rp "+Math.round(n).toLocaleString("id-ID");
 const fmtNumRG = n => Math.round(n).toLocaleString("id-ID");
 
-function PeringkatPengelolaGudang(){
-  const [crit,setCrit] = useState("gudang");
+function PeringkatPengelolaGudang({year}){
+  const [crit,setCrit] = useState("agregat");
   const [open,setOpen] = useState(null);
-  const [showAll,setShowAll] = useState(false);
+  // Sumber penerbitan kumulatif s.d. Tahun Anggaran terpilih (TA 2025 → s.d. 2025; TA 2026/2027 → s.d. 28 Mei 2026).
+  const ISS = (year && year<=2025) ? PENGELOLA_ISSUANCE_2025 : PENGELOLA_ISSUANCE;
+  const cutoffLabel = (year && year<=2025) ? "s.d. TA 2025" : (year===2027 ? "s.d. TA 2026" : "s.d. 28 Mei 2026");
+
+  // ==== Agregat 3 kriteria (normalisasi nama agar cocok antara data operasional & penerbitan) ====
+  const normName = s => (s||"").toLowerCase().replace(/\./g,"").replace(/\s+/g," ").trim();
+  // Agregat HANYA untuk pengelola yang punya >=1 gudang aktif (prasyarat "pengelola gudang SRG aktif").
+  const aggMap = {};
+  PENGELOLA_RANK.forEach(d=>{ const k=normName(d.pengelola); aggMap[k]={name:d.pengelola, gudang:d.n, rg:0, nilai:0}; });
+  const issByName = {}; ISS.forEach(d=>{ issByName[normName(d.pg)]=d; });
+  Object.keys(aggMap).forEach(k=>{ const it=issByName[k]; if(it){ aggMap[k].rg=it.rg; aggMap[k].nilai=it.nilai; } });
+  const aggArr = Object.values(aggMap);
+  const maxG = Math.max(1,...aggArr.map(a=>a.gudang)), maxR = Math.max(1,...aggArr.map(a=>a.rg)), maxN = Math.max(1,...aggArr.map(a=>a.nilai));
+  const W = {gudang:0.40, rg:0.35, nilai:0.25}; // bobot berbasis indikator kinerja, keberhasilan program, urgensi & kemutakhiran
+  aggArr.forEach(a=>{ a.sG=a.gudang/maxG*100; a.sR=a.rg/maxR*100; a.sN=a.nilai/maxN*100; a.skor=a.sG*W.gudang + a.sR*W.rg + a.sN*W.nilai; });
+  const aggRows = aggArr.sort((x,y)=>y.skor-x.skor).map(a=>({name:a.name, val:a.skor, raw:a}));
+
   const CRIT = {
+    agregat:{label:"Agregat 3 Kriteria", color:"#7c3aed", mode:"agregat", fmt:v=>v.toFixed(1).replace(".",","),
+             rows: aggRows},
     gudang: {label:"Gudang Aktif Dikelola", color:"#a16207", mode:"gudang", fmt:fmtNumRG,
              rows: PENGELOLA_RANK.map(d=>({name:d.pengelola, val:d.n, raw:d}))},
     rg:     {label:"Resi Gudang Diterbitkan", color:"#0d9488", mode:"issuance", fmt:fmtNumRG,
-             rows: [...PENGELOLA_ISSUANCE].sort((a,b)=>b.rg-a.rg).map(d=>({name:d.pg, val:d.rg, raw:d}))},
+             rows: [...ISS].sort((a,b)=>b.rg-a.rg).map(d=>({name:d.pg, val:d.rg, raw:d}))},
     nilai:  {label:"Nilai Resi Gudang", color:"#059669", mode:"issuance", fmt:fmtRpRG,
-             rows: [...PENGELOLA_ISSUANCE].sort((a,b)=>b.nilai-a.nilai).map(d=>({name:d.pg, val:d.nilai, raw:d}))},
+             rows: [...ISS].sort((a,b)=>b.nilai-a.nilai).map(d=>({name:d.pg, val:d.nilai, raw:d}))},
   };
   const c = CRIT[crit];
   const rows = c.rows;
   const max = rows.length ? rows[0].val : 1;
-  const shown = showAll ? rows : rows.slice(0,15);
+  const shown = rows.slice(0,5);
+  const subtitle = crit==="agregat"
+    ? "5 pengelola gudang SRG aktif terbaik (syarat: ≥1 gudang aktif) berdasarkan skor gabungan tiga kriteria (dinormalkan 0–100) dengan bobot: gudang aktif 40% · resi gudang diterbitkan 35% · nilai resi gudang 25%. Klik untuk rincian."
+    : crit==="gudang"
+      ? "5 besar. Klik nama pengelola untuk melihat rincian gudang aktif yang dikelola beserta lokasinya."
+      : `5 besar (kumulatif penerbitan Resi Gudang ${cutoffLabel}). Klik nama pengelola untuk rincian penerbitan & pembiayaan.`;
   return (
     <div className="card p-5 mb-6">
       <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div>
-          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja Pengelola — Bahan Kebijakan / Penghargaan</div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tabel 1 · Peringkat Keseluruhan · kumulatif {cutoffLabel}{year===2027?" (RANWAL 2027)":""}</div>
           <div className="serif text-xl">Peringkat Pengelola berdasarkan {c.label}</div>
         </div>
-        <span className="text-[10px] mono text-[var(--text-3)]">{rows.length} pengelola</span>
+        <span className="text-[10px] mono text-[var(--text-3)]">5 terbaik</span>
       </div>
       <div className="flex items-center gap-1.5 mb-2 flex-wrap">
         {Object.keys(CRIT).map(k=>(
-          <button key={k} onClick={()=>{setCrit(k);setOpen(null);setShowAll(false);}}
+          <button key={k} onClick={()=>{setCrit(k);setOpen(null);}}
             className={"text-[10px] mono px-2.5 py-1 rounded-full border transition "+(crit===k?"text-white border-transparent":"text-[var(--text-2)] border-[var(--border-strong)] hover:bg-[var(--card-2)]")}
             style={crit===k?{background:CRIT[k].color}:{}}>{CRIT[k].label}</button>
         ))}
       </div>
-      <div className="text-[11px] text-[var(--text-2)] mb-3">{crit==="gudang"
-        ? "Klik nama pengelola untuk melihat rincian gudang aktif yang dikelola beserta lokasinya."
-        : "Peringkat kumulatif penerbitan Resi Gudang 2008–2026. Klik nama pengelola untuk rincian penerbitan & pembiayaan."}</div>
+      <div className="text-[11px] text-[var(--text-2)] mb-3">{subtitle}</div>
       <div className="space-y-0.5">
         {shown.map((row,i)=>{
           const isOpen = open===row.name; const d = row.raw;
@@ -2919,6 +2944,16 @@ function PeringkatPengelolaGudang(){
                 <span className="mono text-[12px] w-24 text-right font-bold shrink-0" style={{color:c.color}}>{c.fmt(row.val)}</span>
                 <span className="mono text-[8px] text-[var(--text-3)] w-3 text-right shrink-0">{isOpen?"\u25B2":"\u25BC"}</span>
               </button>
+              {isOpen && c.mode==="agregat" && (
+                <div className="pb-3 pl-9 pr-1">
+                  <div className="grid grid-cols-3 gap-3 mt-1">
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Gudang Aktif</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(d.gudang)}</div><div className="text-[9px] text-[var(--text-3)]">skor {d.sG.toFixed(0)}/100</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(d.rg)}</div><div className="text-[9px] text-[var(--text-3)]">skor {d.sR.toFixed(0)}/100</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(d.nilai)}</div><div className="text-[9px] text-[var(--text-3)]">skor {d.sN.toFixed(0)}/100</div></div>
+                  </div>
+                  <div className="text-[10px] text-[var(--text-3)] mt-2">Skor agregat = 0,40·skor gudang + 0,35·skor resi + 0,25·skor nilai = <b style={{color:"#7c3aed"}}>{d.skor.toFixed(1).replace(".",",")}</b></div>
+                </div>
+              )}
               {isOpen && c.mode==="gudang" && (
                 <div className="pb-3 pl-9 pr-1">
                   <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">{d.n} gudang aktif &middot; {d.nProv} provinsi &middot; total kapasitas {d.kapasitas.toLocaleString("id-ID")} ton</div>
@@ -2959,12 +2994,58 @@ function PeringkatPengelolaGudang(){
           );
         })}
       </div>
-      {rows.length>15 && (
-        <button onClick={()=>setShowAll(!showAll)} className="mt-3 text-[11px] text-[var(--gold)] hover:underline">{showAll?"Tampilkan 15 teratas saja":`Tampilkan semua ${rows.length} pengelola \u2192`}</button>
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">{crit==="agregat"
+        ? "Cakupan: hanya pengelola yang saat ini mengelola ≥1 gudang aktif (prasyarat status pengelola gudang SRG aktif); pengelola tanpa gudang aktif tidak masuk peringkat ini meski punya rekam jejak penerbitan. Dasar pembobotan — (1) Indikator kinerja: \"gudang yang mengimplementasikan SRG\" adalah IKK utama, sehingga gudang aktif berbobot tertinggi (40%); jumlah resi mewakili indikator pemanfaatan/transaksi SRG (35%). (2) Keberhasilan program: penerbitan resi adalah bukti SRG benar-benar berjalan, sedangkan gudang aktif adalah fondasinya. (3) Urgensi: kondisi operasional terkini (gudang aktif) paling mendesak dan selaras dengan bottleneck utama implementasi SRG, maka didahulukan. (4) Pertimbangan tambahan: kemutakhiran (gudang aktif = data terkini; resi & nilai bersifat kumulatif lintas tahun, mengikuti Tahun Anggaran terpilih), pemerataan manfaat (jumlah resi mencerminkan cakupan peserta lebih baik daripada nilai), serta anti-distorsi (nilai resi rawan didominasi komoditas bernilai satuan tinggi & pelaku besar) — sehingga nilai resi diberi bobot terkecil (25%). Tiap kriteria dinormalkan 0–100 (nilai ÷ tertinggi × 100) sebelum ditimbang."
+        : crit==="gudang"
+          ? "\"Gudang aktif\" = gudang yang mengimplementasikan Sistem Resi Gudang. Bila jumlah seri, diurutkan berdasarkan total kapasitas."
+          : `Peringkat penerbitan bersifat kumulatif ${cutoffLabel} (pengelola historis, sebagian sudah tidak aktif). Jumlah resi, nilai, volume, dan pembiayaan sesuai total rekap resmi Bappebti.`}</div>
+    </div>
+  );
+}
+
+function PeringkatPengelolaPerTahun({year}){
+  const yr = String(year);
+  const periodLabel = year===2026 ? `TA 2026 (s.d. ${RG_CUTOFF_2026})` : `TA ${year}`;
+  const rows = (PENGELOLA_BY_YEAR[yr]||[]).slice(0,5);
+  return (
+    <div className="card p-5 mb-6">
+      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tabel 2 · Peringkat {periodLabel}</div>
+          <div className="serif text-xl">Pengelola Gudang SRG Terbaik — {periodLabel}</div>
+        </div>
+        <span className="text-[10px] mono text-[var(--text-3)]">5 terbaik · menurut resi gudang diterbitkan</span>
+      </div>
+      {rows.length===0 ? (
+        <div className="card-2 p-5 text-center">
+          <div className="text-sm text-[var(--text-2)]">Data realisasi penerbitan Resi Gudang TA {year} belum tersedia{year===2027?" (RANWAL — rencana awal)":""}.</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">Peringkat per tahun mengikuti Tahun Anggaran pada header. Data realisasi terbaru tersedia hingga {RG_CUTOFF_2026}.</div>
+        </div>
+      ) : (
+      <div className="overflow-x-auto">
+        <table className="w-full text-[12px] border-collapse">
+          <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
+            <th className="py-1.5 pr-2">#</th><th className="py-1.5 pr-2">Pengelola</th>
+            <th className="py-1.5 pr-2 text-right">Resi Gudang</th>
+            <th className="py-1.5 pr-2 text-right">Nilai Barang</th>
+            <th className="py-1.5 pr-2 text-right">Dibiayai</th>
+          </tr></thead>
+          <tbody>
+            {rows.map((r,i)=>{ const medal=i===0?"#d4a437":i===1?"#9ca3af":i===2?"#b45309":null;
+              return (
+              <tr key={r.pg} className="border-b border-[var(--border)] last:border-0">
+                <td className="py-2 pr-2 mono align-top" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</td>
+                <td className="py-2 pr-2 align-top">{r.pg}</td>
+                <td className="py-2 pr-2 text-right mono font-bold align-top" style={{color:"#0d9488"}}>{fmtNumRG(r.rg)}</td>
+                <td className="py-2 pr-2 text-right mono text-[var(--text-2)] align-top">{fmtRpRG(r.nilai)}</td>
+                <td className="py-2 pr-2 text-right mono text-[var(--text-3)] align-top">{fmtNumRG(r.rgBiaya)} resi</td>
+              </tr>
+            );})}
+          </tbody>
+        </table>
+      </div>
       )}
-      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">{crit==="gudang"
-        ? "\"Gudang aktif\" = gudang yang mengimplementasikan Sistem Resi Gudang. Bila jumlah seri, diurutkan berdasarkan total kapasitas."
-        : "Peringkat penerbitan bersifat kumulatif 2008–2026 (pengelola historis, sebagian sudah tidak aktif). Jumlah resi, nilai, volume, dan pembiayaan sesuai total rekap resmi Bappebti."}</div>
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Mengikuti Tahun Anggaran pada header. Peringkat dihitung dari jumlah resi gudang yang diterbitkan pada TA tersebut (bila seri, diurutkan menurut nilai barang). TA 2026 mencakup data s.d. {RG_CUTOFF_2026}. Pengelola yang menerbitkan resi pada suatu tahun berarti aktif beroperasi pada tahun itu. Sumber: Laporan Rekap Resi Gudang Bappebti.</div>
     </div>
   );
 }
@@ -3047,7 +3128,7 @@ function PembiayaanRG(){
   );
 }
 
-function SebaranSRG(){
+function SebaranSRG({year}){
   const [selected,setSelected] = useState("JATIM");
   const [filter,setFilter] = useState("all");
   const [aiInsight,setAIInsight] = useState(null);
@@ -3251,7 +3332,8 @@ function SebaranSRG(){
         <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Catatan: <b>Pengelola Aktif</b> di sini adalah jumlah persetujuan/registrasi pengelola gudang SRG yang berstatus aktif (regulatory licensing), sehingga tidak sama dengan jumlah gudang aktif ({aktifCount}) — satu pengelola dapat mengelola beberapa gudang, dan sebaliknya pengelola berizin aktif belum tentu sedang mengoperasikan gudang. <b>Gudang aktif</b> = gudang yang mengimplementasikan Sistem Resi Gudang. Konsentrasi DKI Jakarta mencerminkan domisili kantor pusat BUMN/PT, bukan lokasi gudang.</div>
       </div>
 
-      <PeringkatPengelolaGudang/>
+      <PeringkatPengelolaGudang year={year}/>
+      <PeringkatPengelolaPerTahun year={year}/>
 
       {/* Map + Detail */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
@@ -4508,6 +4590,11 @@ function AnalisisAnggaran2027(){
         <span style={{color:"#c8102e"}}> ● Perlu Telaah</span> &lt; 70 (keterkaitan/efisiensi lemah — kandidat revisi/realokasi). Skor estimasi dari data RO-level{isRanwal?' RANWAL':''}; finalisasi perlu detil RKA & SBM/SBK resmi TA {year}.
       </div>
 
+      {/* Catatan dasar perhitungan */}
+      <div className="text-[10px] text-[var(--text-3)] leading-relaxed mb-6 italic">
+        <b className="not-italic text-[var(--text-2)]">Dasar perhitungan.</b> Skor tiap RO dihitung dari 5 kriteria penelaahan RKA-K/L (DJA/Bappenas) dalam kerangka <b>PMK No. 107 Tahun 2024</b> (perubahan atas PMK No. 62 Tahun 2023 tentang Perencanaan, Pelaksanaan Anggaran, serta Akuntansi dan Pelaporan Keuangan), lalu dirata-rata tertimbang sesuai bobot di atas. Cara ukur tiap kriteria: <b>K1</b> rasionalitas pagu terhadap volume keluaran (biaya satuan vs rentang wajar per jenis keluaran); <b>K2</b> kewajaran komponen biaya terhadap SBM/SBK (SBM 2026 = PMK 32/2025; SBM/SBKK 2027 menyusul via PMK Kemenkeu), termasuk deteksi pagu angka bulat sebagai indikasi estimasi top-down yang perlu <i>recosting</i>; <b>K3</b> ada/tidaknya tagging PN/tematik resmi; <b>K4</b> kesiapan pelaksanaan (status blokir &amp; ketergantungan clearance SPBE); <b>K5</b> kesesuaian jenis belanja dengan tugas-fungsi &amp; pagu. Dasar hukum substansi tiap RO tersedia pada panel <b>Justifikasi</b>. Skor bersifat estimasi analitik dari data RO-level; finalisasi tetap mengacu RKA &amp; SBM/SBK resmi.
+      </div>
+
       {/* Tabel per kegiatan — matriks 5 kriteria */}
       <div className="space-y-6 mb-6">
         {kegOrder.map(kid=>{
@@ -4737,7 +4824,7 @@ function App(){
       {tab==="pn"      && <AnalisaPN />}
       {tab==="anggaran"&& <AnalisisAnggaran2027 />}
       {tab==="capaian" && <Capaian />}
-      {tab==="sebaran" && <SebaranSRG />}
+      {tab==="sebaran" && <SebaranSRG year={year} />}
       {tab==="spbe"    && <MenuSPBE />}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
