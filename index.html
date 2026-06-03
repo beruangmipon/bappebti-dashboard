@@ -1084,6 +1084,32 @@ const PKPN_KLASTER_MAP = {
     indikasiTarget: "300 Orang",
     indikasiAlokasi: 320_000_000,
   },
+  "K-3760|PEA.001": {
+    klaster: "Ekonomi Kerakyatan & Desa",
+    pnKode: "PN 3",
+    pnNama: "Memperkokoh Ekonomi Kerakyatan dan Membangun dari Desa serta dari Bawah untuk Pemerataan Ekonomi dan Pemberantasan Kemiskinan",
+    ppKode: "PP —",
+    ppNama: "Penguatan Ekonomi Desa & Koperasi",
+    program: "Penguatan Ekosistem SRG/PLK untuk Ekonomi Lokal & Desa",
+    pjUtama: "Kementerian Koperasi / Kementerian Desa & PDT",
+    peranBappebti: "K/L pendukung — koordinasi pemangku kepentingan SRG/PLK menjadi forum penghubung Pemda, koperasi, BUMDes, & pelaku usaha lokal untuk memperkuat kelembagaan ekonomi desa berbasis komoditas.",
+    sumber: "Pembahasan PKPN RKP 2027 Kementerian Perdagangan (Bappenas, 29 Mei 2026) — Identifikasi Usulan Dukungan RO PN Kementerian Perdagangan terhadap PKPN.",
+    indikasiTarget: "8 Kegiatan",
+    indikasiAlokasi: 270_046_000,
+  },
+  "K-3760|QDB.002": {
+    klaster: "Ekonomi Kerakyatan & Desa",
+    pnKode: "PN 3",
+    pnNama: "Memperkokoh Ekonomi Kerakyatan dan Membangun dari Desa serta dari Bawah untuk Pemerataan Ekonomi dan Pemberantasan Kemiskinan",
+    ppKode: "PP —",
+    ppNama: "Penguatan Ekonomi Desa & Koperasi",
+    program: "Penguatan Kapasitas Koperasi/BUMDes Pengelola Gudang SRG",
+    pjUtama: "Kementerian Koperasi / Kementerian Desa & PDT",
+    peranBappebti: "K/L pendukung — pembinaan calon pengelola gudang SRG memperkuat kapasitas koperasi/BUMDes/perusda desa sebagai pengelola gudang komoditas, memperluas kelembagaan ekonomi rakyat di daerah.",
+    sumber: "Pembahasan PKPN RKP 2027 Kementerian Perdagangan (Bappenas, 29 Mei 2026) — Identifikasi Usulan Dukungan RO PN Kementerian Perdagangan terhadap PKPN.",
+    indikasiTarget: "40 Lembaga",
+    indikasiAlokasi: 150_000_000,
+  },
 };
 const pkpnKlaster = (r)=>{
   const kr = KRO.find(k=>k.id===r.kro); if(!kr) return null;
@@ -1096,17 +1122,18 @@ const pkpnKlaster = (r)=>{
    (c) kekuatan dampak ke beneficiary; (d) keterhubungan dgn program PKPN spesifik di file Bappenas.
    "strength": strong (skor 82) · medium (skor 70) · weak (skor 58). RO tanpa entri = tidak ada fit. */
 const SUGGESTED_KLASTER = {
-  // Klaster Kedaulatan Pangan — komoditas pangan & SRG/PLK petani
-  "K-3760|QDB.001": { klaster:"Kedaulatan Pangan",            program:"Pengamanan Stok Pangan via SRG (Gabah/Beras/Jagung/Garam)", strength:"strong", reason:"Bimtek pengelola gudang SRG menjaga kompetensi SDM yang mengelola gudang komoditas pangan strategis (gabah, beras, jagung) & garam (sentra garam 2.000 Ha)." },
-  "K-3760|QDB.002": { klaster:"Kedaulatan Pangan",            program:"Pengembangan Kapasitas Penyimpanan Pangan",                 strength:"strong", reason:"Pembinaan calon pengelola gudang SRG memperluas kapasitas penyimpanan & menjaga ketersediaan komoditas pangan." },
-  "K-3760|QDB.003": { klaster:"Kedaulatan Pangan",            program:"Sistem Informasi Stok Pangan via WMS",                       strength:"strong", reason:"Pendampingan implementasi WMS memperkuat data stok pangan nasional sebagai input ketahanan pangan & stabilisasi harga." },
-  "K-3760|QDB.004": { klaster:"Kedaulatan Pangan",            program:"Subsidi Resi Gudang Komoditas Pangan",                       strength:"strong", reason:"Fasilitasi & pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang menjamin akses pembiayaan petani pangan via instrumen RG." },
-  "K-3760|QDC.001": { klaster:"Kedaulatan Pangan",            program:"Penguatan Pasar Lelang Komoditas Pangan",                    strength:"strong", reason:"Pertemuan teknis pelaku usaha PLK memperkuat kelembagaan pasar komoditas pangan & efisiensi rantai pasok." },
-  "K-3760|QDC.003": { klaster:"Kedaulatan Pangan",            program:"Penguatan Pasar Lelang Komoditas Pangan",                    strength:"strong", reason:"Asistensi pelaku usaha PLK mempercepat integrasi pasar lelang dengan ekosistem komoditas pangan." },
-  "K-3760|PEA.001": { klaster:"Kedaulatan Pangan",            program:"Sinergi Lintas-K/L Pangan (Kementan/KKP/Bulog)",             strength:"strong", reason:"Koordinasi pemangku kepentingan SRG/PLK adalah forum penghubung Kementan, KKP, Kemenkop UKM, Bulog, Bapanas untuk eksekusi target pangan." },
-  "K-3759|QIH.001": { klaster:"Kedaulatan Pangan",            program:"Penjagaan Kepatuhan SRG Komoditas Pangan",                    strength:"medium", reason:"Pengawasan pelaku usaha SRG (lembaga & transaksi) menjamin integritas RG sebagai instrumen pangan." },
-  // Klaster Ekonomi Kerakyatan & Desa — Koperasi & PLK daerah
-  "K-3760|PEA.002": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Penguatan Ekosistem PLK di Daerah",                          strength:"strong", reason:"Koordinasi Pemda & pelaku usaha SRG/PLK untuk Penguatan Ekosistem PLK — mendukung ekonomi lokal & 80.000 KDKMP." },
+  // Klaster Kedaulatan Pangan — KRO QDC "Pembinaan MASYARAKAT (Petani/Pelaku)": intervensi langsung ke petani/pelaku & rantai pasok komoditas pangan.
+  // Selaras dgn identifikasi resmi QDC.002 (Masyarakat) → Kedaulatan Pangan.
+  "K-3760|QDC.001": { klaster:"Kedaulatan Pangan",            program:"Penguatan Pasar Lelang Komoditas Pangan",                    strength:"strong", reason:"Pertemuan teknis pelaku usaha PLK (Masyarakat) memperkuat kelembagaan pasar komoditas pangan & efisiensi rantai pasok — sejenis dgn QDC.002 yang resmi masuk Klaster ini." },
+  "K-3760|QDC.003": { klaster:"Kedaulatan Pangan",            program:"Penguatan Pasar Lelang Komoditas Pangan",                    strength:"strong", reason:"Asistensi pelaku usaha PLK (Masyarakat) mempercepat integrasi pasar lelang dgn ekosistem komoditas pangan." },
+  "K-3759|QIH.001": { klaster:"Kedaulatan Pangan",            program:"Penjagaan Kepatuhan SRG Komoditas Pangan",                    strength:"medium", reason:"Pengawasan pelaku usaha SRG menjamin integritas RG sebagai instrumen pangan (fungsi pengawasan, Kegiatan 3759)." },
+  // Klaster Ekonomi Kerakyatan & Desa — KRO QDB "Pembinaan LEMBAGA (Pengelola Gudang)" & PEA "Koordinasi Pemangku Kepentingan":
+  // penguatan kelembagaan (koperasi/BUMDes/perusda/Pemda). Selaras dgn identifikasi resmi QDB.002 (Lembaga) & PEA.001 (Koordinasi) → Klaster ini.
+  // CATATAN REVISI: QDB.001/003/004 sebelumnya keliru ditempatkan di Kedaulatan Pangan; dikoreksi mengikuti logika KRO (Lembaga) & sinyal resmi QDB.002.
+  "K-3760|QDB.001": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Penguatan Kompetensi Koperasi/BUMDes Pengelola Gudang",      strength:"strong", reason:"Peningkatan kompetensi pengelola gudang SRG memperkuat kapasitas koperasi/BUMDes/perusda (≈80% pengelola gudang) — satu rumpun KRO Lembaga dgn RO resmi QDB.002 di Klaster ini." },
+  "K-3760|QDB.003": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Digitalisasi Operasional Lembaga Pengelola Gudang (WMS)",     strength:"strong", reason:"Pendampingan WMS memperkuat kapasitas digital lembaga pengelola gudang (koperasi/BUMDes); penerima manfaat langsung adalah Lembaga, dgn spillover ke data stok pangan." },
+  "K-3760|QDB.004": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Penguatan Lembaga Penyalur Subsidi Resi Gudang",             strength:"strong", reason:"Fasilitasi Lembaga Penyalur Subsidi Resi Gudang memperkuat kelembagaan keuangan/koperasi penyalur di daerah; membuka akses pembiayaan petani (spillover ke Kedaulatan Pangan)." },
+  "K-3760|PEA.002": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Penguatan Ekosistem PLK di Daerah",                          strength:"strong", reason:"Koordinasi Pemda & pelaku usaha SRG/PLK untuk Penguatan Ekosistem PLK — satu rumpun KRO Koordinasi dgn RO resmi PEA.001; mendukung ekonomi lokal & 80.000 KDKMP." },
   "K-3760|BDB.002": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Pengembangan PLK di Daerah Baru",                            strength:"medium", reason:"Pembinaan implementasi PLK di daerah baru memperluas akses pasar petani lokal & pemberdayaan ekonomi desa." },
   "K-3760|AFA.001": { klaster:"Ekonomi Kerakyatan & Desa",    program:"Profesionalisasi SDM Koperasi Pengelola Gudang",             strength:"medium", reason:"SKKNI pengelola gudang SRG memperkuat kapasitas Koperasi yang menjadi mayoritas pengelola gudang SRG (≈80% gudang dikelola koperasi/BUMDes/perusda)." },
   // Klaster Hilirisasi & Industrialisasi — Sistem inti & kebijakan SRG/PLK
@@ -1473,7 +1500,7 @@ Implikasi anggaran dan koordinasi: status PN menuntut komitmen anggaran multi-ta
 Catatan kehati-hatian: ekspektasi capaian PN diawasi ketat (mis. melalui e-Monev Bappenas). RO yang diusulkan naik PN perlu memastikan kesiapan ekosistem dan target terukur agar tidak menjadi PN dengan realisasi rendah. Skor impact/alignment pada dashboard ini bersifat estimasi awal dan sebaiknya divalidasi melalui pembahasan internal Bappebti.`,
     2027: `Pada RANWAL TA 2027, hampir seluruh Rincian Output Kegiatan 3760 (SRG/PLK) ditandai Prioritas Nasional 'Melanjutkan Hilirisasi…' dengan total pagu yang naik tajam dibanding 2026. Cakupan PN meluas pada koordinasi pemangku kepentingan (PEA.001–002), pembinaan pengelola & calon pengelola gudang (QDB.001–004), pembinaan pelaku usaha/petani & asistensi PLK (QDC.001–003), sistem inti SPLT/WMS (UAB.001–002), serta rekomendasi kebijakan (PBB.001–002).
 
-Berbeda dari 2026, TA 2027 mulai memuat lapis tambahan: identifikasi PKPN (Program Kerja Prioritas Nasional RKP 2027). Sejauh ini baru QDC.002 (Bimtek SRG kepada pelaku usaha & petani) yang teridentifikasi resmi pada Klaster Kedaulatan Pangan menurut dokumen Bappenas; sisanya masih kandidat/usulan internal yang perlu dikuatkan menuju trilateral.
+Berbeda dari 2026, TA 2027 mulai memuat lapis tambahan: identifikasi PKPN (Program Kerja Prioritas Nasional RKP 2027). Sejauh ini 3 RO teridentifikasi resmi menurut dokumen Bappenas: QDC.002 (Bimtek SRG kepada pelaku usaha & petani) pada Klaster Kedaulatan Pangan, serta PEA.001 (Koordinasi Pemangku Kepentingan SRG) dan QDB.002 (Pembinaan Calon Pengelola Gudang SRG) pada Klaster Ekonomi Kerakyatan & Desa; sisanya masih kandidat/usulan internal yang perlu dikuatkan menuju trilateral.
 
 Rekomendasi: pastikan setiap RO PN memiliki target terukur dan kesiapan ekosistem agar tidak menjadi PN berrealisasi rendah; perkuat justifikasi RO kandidat PKPN (terutama QDB dan PEA yang berdaya ungkit tinggi) untuk dibawa ke trilateral Pagu Indikatif; dan jaga keseimbangan portofolio dengan tetap memberi ruang penguatan PBK sebagai pembentuk harga acuan. Skor impact/alignment bersifat estimasi awal dan perlu validasi internal.`,
   },
@@ -1503,7 +1530,7 @@ Capaian fisik Triwulan I 2026 (laporan kinerja satker): rata-rata capaian IKK �
 
 Dari struktur RANWAL, porsi belanja substantif pada Kegiatan 3760 (SRG/PLK) naik signifikan dibanding 2026 dan hampir seluruh RO-nya ditandai Prioritas Nasional (hilirisasi berbasis SDA). Ini arah yang sehat — menggeser bobot dari 'menjalankan kantor' ke 'menggerakkan misi inti'. Belanja TIK juga melonjak (lihat tab SPBE), mencerminkan ambisi transformasi digital pengawasan.
 
-Yang perlu dikawal sejak dini: pertama, kesiapan ekosistem agar RO PN tidak berisiko menjadi 'PN dengan realisasi rendah' seperti pola keterlambatan 3760 pada 2026; kedua, penetapan target output terukur dan Standar Biaya Keluaran Khusus (SBKK) untuk output spesifik (sistem aplikasi, rekomendasi kebijakan); ketiga, kepastian tagging PKPN — sejauh ini baru QDC.002 yang teridentifikasi resmi pada Klaster Kedaulatan Pangan, dan komposisi final ditetapkan setelah trilateral Pagu Indikatif.
+Yang perlu dikawal sejak dini: pertama, kesiapan ekosistem agar RO PN tidak berisiko menjadi 'PN dengan realisasi rendah' seperti pola keterlambatan 3760 pada 2026; kedua, penetapan target output terukur dan Standar Biaya Keluaran Khusus (SBKK) untuk output spesifik (sistem aplikasi, rekomendasi kebijakan); ketiga, kepastian tagging PKPN — sejauh ini 3 RO teridentifikasi resmi (QDC.002 pada Klaster Kedaulatan Pangan; PEA.001 & QDB.002 pada Klaster Ekonomi Kerakyatan & Desa), dan komposisi final ditetapkan setelah trilateral Pagu Indikatif.
 
 Rekomendasi: manfaatkan periode RANWAL untuk menyiapkan dokumen pendukung (KAK, RAB, kesiapan pelaksana, kesepakatan lintas-K/L) sehingga begitu DIPA terbit, eksekusi triwulan awal tidak tersendat seperti tahun-tahun sebelumnya.`,
   },
@@ -4605,7 +4632,7 @@ function AnalisisAnggaran2027(){
               <div className="flex-1 min-w-[260px]">
                 <div className="serif text-lg">Analisis Kandidat RO untuk PKPN TA 2027</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Selain QDC.002 yang sudah teridentifikasi resmi Bappenas, sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"#059669"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"#a16207"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
+                  Selain 3 RO yang sudah teridentifikasi resmi Bappenas (QDC.002 di Klaster Kedaulatan Pangan; PEA.001 &amp; QDB.002 di Klaster Ekonomi Kerakyatan &amp; Desa), sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"#059669"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"#a16207"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
                 </p>
               </div>
               <button onClick={()=>setPkpnCandOpen(v=>!v)}
@@ -4673,7 +4700,7 @@ function AnalisisAnggaran2027(){
               })}
             </div>
             )}
-            {pkpnCandOpen && <div className="text-[9px] text-[var(--text-3)] mt-4 italic leading-relaxed">Metodologi: pemetaan substansi RO terhadap 8 Klaster PKPN RKP 2027 (Bappenas, 29 Mei 2026). Skor disesuaikan dengan kekuatan kontribusi: <b>strong</b> = kontribusi inti pada program PKPN (Bimtek pengelola, sistem inti, koordinasi K/L), <b>medium</b> = kontribusi tidak langsung tapi substantif (kebijakan, kompetensi SDM, pembinaan daerah), <b>weak</b> = kontribusi tematik yang memerlukan justifikasi lebih kuat (data harga, pengawasan teknis). Daftar ini bersifat usulan internal Bappebti untuk dibawa ke trilateral PKPN; konfirmasi resmi tetap ada di tangan PJ Klaster Bappenas.</div>}
+            {pkpnCandOpen && <div className="text-[9px] text-[var(--text-3)] mt-4 italic leading-relaxed">Metodologi: pemetaan substansi RO terhadap 8 Klaster PKPN RKP 2027 (Bappenas, 29 Mei 2026), dipandu oleh taksonomi KRO Kegiatan 3760 dan disetel ulang mengikuti 3 identifikasi resmi: <b>QDB ("Pembinaan Lembaga/Pengelola Gudang")</b> &amp; <b>PEA ("Koordinasi Pemangku Kepentingan")</b> → <b>Ekonomi Kerakyatan &amp; Desa</b> (penguatan kelembagaan koperasi/BUMDes/Pemda — selaras QDB.002 &amp; PEA.001 resmi); <b>QDC ("Pembinaan Masyarakat/Petani-Pelaku")</b> → <b>Kedaulatan Pangan</b> (intervensi langsung ke petani/rantai pasok — selaras QDC.002 resmi). Revisi: QDB.001/003/004 yang semula keliru di Kedaulatan Pangan kini dipindah ke Ekonomi Kerakyatan &amp; Desa. Skor: <b>strong</b> = kontribusi inti, <b>medium</b> = substantif tidak langsung, <b>weak</b> = tematik perlu justifikasi kuat. Daftar ini usulan internal untuk dibawa ke trilateral PKPN; konfirmasi resmi tetap di tangan PJ Klaster Bappenas.</div>}
           </div>
         );
       })()}
@@ -4688,7 +4715,7 @@ function AnalisisAnggaran2027(){
           <div className="rounded p-3 mb-3 text-[11px] leading-relaxed" style={{background:"rgba(124,58,237,0.06)",border:"1px solid rgba(124,58,237,0.25)",color:"var(--text-2)"}}>
             <div className="flex items-start gap-2">
               <span className="mono text-[9px] uppercase tracking-wider shrink-0 mt-0.5" style={{color:"#7c3aed"}}>Catatan TA 2027</span>
-              <div>Karena RANWAL TA 2027 <b>masih dalam tahap pembahasan</b>, tagging tematik di sini <b>mengikuti tagging tematik TA 2026</b> (6 RO Kegiatan 3760: QDB.001–003 & QDC.001–003) — kode RO identik antar tahun sehingga tagging dapat di-roll-forward. Pengecualian: <b>tagging PKPN</b> (Program Kerja Prioritas Nasional 8 Klaster) yang muncul pertama kali untuk TA 2027 sesuai dokumen Bappenas <i>"Pembahasan PKPN RKP 2027 Kemendag"</i> (29 Mei 2026) — saat ini baru QDC.002 yang teridentifikasi resmi pada Klaster Kedaulatan Pangan. Tagging tematik final TA 2027 akan ditetapkan pada Renja K/L definitif setelah trilateral meeting Pagu Indikatif.</div>
+              <div>Karena RANWAL TA 2027 <b>masih dalam tahap pembahasan</b>, tagging tematik di sini <b>mengikuti tagging tematik TA 2026</b> (6 RO Kegiatan 3760: QDB.001–003 & QDC.001–003) — kode RO identik antar tahun sehingga tagging dapat di-roll-forward. Pengecualian: <b>tagging PKPN</b> (Program Kerja Prioritas Nasional 8 Klaster) yang muncul pertama kali untuk TA 2027 sesuai dokumen Bappenas <i>"Pembahasan PKPN RKP 2027 Kemendag"</i> (29 Mei 2026) — saat ini 3 RO teridentifikasi resmi: QDC.002 pada Klaster Kedaulatan Pangan, serta PEA.001 &amp; QDB.002 pada Klaster Ekonomi Kerakyatan &amp; Desa. Tagging tematik final TA 2027 akan ditetapkan pada Renja K/L definitif setelah trilateral meeting Pagu Indikatif.</div>
             </div>
           </div>
         )}
