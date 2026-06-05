@@ -4961,8 +4961,185 @@ function AnalisisAnggaran2027(){
         })}
       </div>
 
+      {/* ── PAGU INDIKATIF TA 2027 — KRISNA 05 Juni 2026 ── */}
+      {isRanwal && (()=>{
+        const rows = [
+          {kode:"3758",keg:"Dukungan Manajemen & Teknis",unit:"Sekretariat Bappebti",p2026:4962863,p2027:3242195,dana:"RM",   ro:"EBA.994 Layanan Perkantoran",ikk:"WTA Madya · IKPA 92 · SKM 80"},
+          {kode:"3759",keg:"Pengawasan & Penindakan",    unit:"Biro Wasdak PBK/SRG/PLK",p2026:344402, p2027:0,     dana:null, ro:"Seluruh RO = 0 di KRISNA PI", ikk:"Kepatuhan 85% · Penindakan 79%"},
+          {kode:"3760",keg:"Pembinaan SRG & PLK",        unit:"Biro Binbang SRG/PLK",  p2026:449561, p2027:0,     dana:null, ro:"Seluruh RO = 0 di KRISNA PI", ikk:"Pertumb. Pengelola 5% · Kepuasan 87"},
+          {kode:"3761",keg:"Kebijakan & Pelayanan Hukum",unit:"Biro Perundangan",       p2026:245775, p2027:0,     dana:null, ro:"Seluruh RO = 0 di KRISNA PI", ikk:"Evaluasi Kebijakan 65 · SLA 92%"},
+          {kode:"3762",keg:"Pembinaan PBK",              unit:"Biro Binbang PBK",       p2026:466990, p2027:90,    dana:"PNBP",ro:"ADI.001 Sertifikasi 100 Orang",ikk:"Pertumb. Pelaku 4% · Kepuasan 84"},
+        ];
+        const TOTAL26=6469591, TOTAL27=3332195;
+        const maxV=4962863;
+        const fmtJt=(v)=>v===0?"—":v>=1000?`Rp${(v/1000).toFixed(2)} M`:`Rp${v.toLocaleString('id-ID')} rb`;
+        const COLORS={RM:"#2563eb",PNBP:"#d97706",zero:"#e5e7eb"};
+        const pct=(v,t)=>t>0?(v/t*100).toFixed(1):0;
+        return (
+          <div className="mb-8">
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-12 rounded-full" style={{background:"var(--gold)"}}></div>
+              <div className="flex-1">
+                <div className="serif text-2xl">Pagu Indikatif Bappebti TA 2027</div>
+                <div className="text-[11px] mono text-[var(--text-3)] mt-0.5">Rekap 3A KRISNA Renja K/L · Ditetapkan 05 Juni 2026 · Total PI = Rp3,33 M</div>
+              </div>
+              <div className="text-right">
+                <div className="serif text-3xl font-bold" style={{color:"var(--gold)"}}>−48,5%</div>
+                <div className="text-[10px] mono text-[var(--text-3)]">efisiensi dari Rev. 2026</div>
+              </div>
+            </div>
+
+            {/* KPI 4 cards + mini donut */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              {[
+                {label:"Total PI 2027",      val:"Rp3,33 M",  sub:"dari Rp6,47 M Rev. 2026",    color:"#d97706", icon:"◈"},
+                {label:"Rupiah Murni (RM)",  val:"Rp3,24 M",  sub:"97,3% · hanya 1 RO (EBA.994)",color:"#2563eb", icon:"◉"},
+                {label:"PNBP",              val:"Rp90 jt",   sub:"2,7% · ADI.001 Sertifikasi",  color:"#10b981", icon:"◎"},
+                {label:"Kegiatan Substantif",val:"3 dari 5",  sub:"3759/3760/3761 = Rp0 (nol)",  color:"#dc2626", icon:"⊗"},
+              ].map((it,i)=>(
+                <div key={i} className="card p-4 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-full opacity-5" style={{background:it.color}}></div>
+                  <div className="text-lg mb-1" style={{color:it.color}}>{it.icon}</div>
+                  <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">{it.label}</div>
+                  <div className="serif text-xl font-bold" style={{color:it.color}}>{it.val}</div>
+                  <div className="text-[10px] text-[var(--text-3)] mt-1 leading-snug">{it.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* 2-kolom: SVG bar chart + tabel modern */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+
+              {/* Chart SVG — grouped bar */}
+              <div className="card p-5">
+                <div className="serif text-base mb-1">Perbandingan Pagu per Kegiatan</div>
+                <div className="text-[10px] mono text-[var(--text-3)] mb-4">Rev. 2026 vs Pagu Indikatif 2027 (Rp Ribu)</div>
+                <div className="flex items-center gap-4 mb-3 text-[10px] mono text-[var(--text-3)]">
+                  <span className="flex items-center gap-1.5"><span className="w-8 h-2 rounded inline-block" style={{background:"rgba(37,99,235,0.35)"}}></span>Rev. 2026</span>
+                  <span className="flex items-center gap-1.5"><span className="w-8 h-2 rounded inline-block" style={{background:"#d97706"}}></span>PI 2027</span>
+                </div>
+                <div className="space-y-3">
+                  {rows.map(r=>{
+                    const pct26=(r.p2026/maxV)*100, pct27=(r.p2027/maxV)*100;
+                    return (
+                      <div key={r.kode}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="mono text-[10px] font-semibold" style={{color:r.p2027>0?"var(--text-2)":"var(--text-3)"}}>{r.kode}</span>
+                          <span className="text-[10px] text-[var(--text-3)]">{r.p2027===0?"Rp0":fmtJt(r.p2027)}</span>
+                        </div>
+                        {/* bar 2026 */}
+                        <div className="relative h-5 rounded-md overflow-hidden mb-0.5" style={{background:"var(--bg-2)"}}>
+                          <div className="absolute left-0 top-0 h-full rounded-md transition-all duration-700"
+                            style={{width:`${pct26}%`,background:"rgba(37,99,235,0.3)"}}></div>
+                          <div className="absolute inset-y-0 left-2 flex items-center text-[10px] mono" style={{color:"var(--text-3)"}}>{fmtJt(r.p2026)}</div>
+                        </div>
+                        {/* bar 2027 */}
+                        <div className="relative h-5 rounded-md overflow-hidden" style={{background:"var(--bg-2)"}}>
+                          {r.p2027>0
+                            ? <div className="absolute left-0 top-0 h-full rounded-md transition-all duration-700"
+                                style={{width:`${pct27}%`,background:`linear-gradient(90deg,#d97706,#f59e0b)`}}></div>
+                            : <div className="absolute left-0 top-0 h-full w-full rounded-md" style={{background:"repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(220,38,38,0.06) 3px,rgba(220,38,38,0.06) 6px)"}}></div>
+                          }
+                          <div className="absolute inset-y-0 left-2 flex items-center text-[10px] mono" style={{color:r.p2027>0?"var(--gold)":"#dc2626"}}>
+                            {r.p2027>0 ? fmtJt(r.p2027) : "nol — menunggu trilateral"}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Total */}
+                <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between">
+                  <span className="text-[11px] mono font-semibold text-[var(--text-1)]">TOTAL</span>
+                  <div className="flex items-center gap-2 text-[11px] mono">
+                    <span style={{color:"var(--text-2)"}}>{fmtJt(TOTAL26)}</span>
+                    <span style={{color:"var(--text-3)"}}>→</span>
+                    <span className="font-bold" style={{color:"var(--gold)"}}>{fmtJt(TOTAL27)}</span>
+                    <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.25)"}}>−48,5%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tabel modern */}
+              <div className="card overflow-hidden">
+                <div className="p-5 pb-3">
+                  <div className="serif text-base mb-0.5">Detail Pagu per Kegiatan</div>
+                  <div className="text-[10px] mono text-[var(--text-3)]">KRISNA Rekap 3A · 05 Juni 2026 · dalam Rp Ribu</div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table style={{width:"100%",borderCollapse:"collapse",fontSize:"11px"}}>
+                    <thead>
+                      <tr style={{borderBottom:"2px solid var(--border)",background:"var(--bg-2)"}}>
+                        <th style={{textAlign:"left",padding:"8px 12px",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)",whiteSpace:"nowrap"}}>Kode</th>
+                        <th style={{textAlign:"left",padding:"8px 8px",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)"}}>Kegiatan</th>
+                        <th style={{textAlign:"right",padding:"8px 8px",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)",whiteSpace:"nowrap"}}>Rev. 2026</th>
+                        <th style={{textAlign:"right",padding:"8px 8px",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)",whiteSpace:"nowrap"}}>PI 2027</th>
+                        <th style={{textAlign:"center",padding:"8px 12px",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)"}}>Dana</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.map((r,i)=>(
+                        <tr key={r.kode} style={{borderBottom:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)",opacity:r.p2027===0?0.65:1}}>
+                          <td style={{padding:"10px 12px",fontFamily:"var(--font-mono)",fontWeight:"600",color:r.p2027>0?"var(--text-2)":"var(--text-3)",whiteSpace:"nowrap"}}>
+                            {r.kode}
+                          </td>
+                          <td style={{padding:"10px 8px"}}>
+                            <div style={{color:"var(--text-1)",fontWeight:"500",lineHeight:"1.3"}}>{r.keg}</div>
+                            <div style={{fontSize:"10px",color:"var(--text-3)",marginTop:"2px",fontFamily:"var(--font-mono)"}}>{r.ro}</div>
+                          </td>
+                          <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--text-2)",whiteSpace:"nowrap"}}>{r.p2026.toLocaleString('id-ID')}</td>
+                          <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",whiteSpace:"nowrap",color:r.p2027>0?"#d97706":"#dc2626"}}>
+                            {r.p2027===0?"—":r.p2027.toLocaleString('id-ID')}
+                          </td>
+                          <td style={{padding:"10px 12px",textAlign:"center"}}>
+                            {r.dana==="RM" && <span className="pill pill-blue text-[9px]">RM</span>}
+                            {r.dana==="PNBP" && <span className="pill pill-gold text-[9px]">PNBP</span>}
+                            {!r.dana && r.p2027===0 && <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.08)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.2)"}}>nol</span>}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr style={{borderTop:"2px solid var(--border)",background:"var(--bg-2)"}}>
+                        <td colSpan={2} style={{padding:"10px 12px",fontWeight:"700",fontSize:"12px",color:"var(--text-1)"}}>TOTAL</td>
+                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text-2)"}}>{TOTAL26.toLocaleString('id-ID')}</td>
+                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"#d97706"}}>{TOTAL27.toLocaleString('id-ID')}</td>
+                        <td style={{padding:"10px 12px",textAlign:"center"}}>
+                          <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.2)"}}>−48,5%</span>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* 3 catatan */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {[
+                {icon:"⚠", color:"#dc2626",bg:"rgba(220,38,38,0.06)", judul:"3759 · 3760 · 3761 = Rp0",
+                 isi:"Tiga kegiatan substantif (Pengawasan, SRG/PLK, Hukum) nol di KRISNA PI. Ini belum final — menunggu penelaahan trilateral Bappenas–DJA–K/L. Konsekuensinya besar: tanpa pagu, seluruh fungsi pembinaan & pengawasan bergantung pada kelanjutan pembahasan."},
+                {icon:"💳", color:"#10b981",bg:"rgba(16,185,129,0.06)", judul:"PNBP Satu-satunya",
+                 isi:"Sertifikasi ujian profesi Wakil Pialang & Penasihat Berjangka (ADI.001) — 100 orang × Rp900.000 = Rp90 juta. Prakiraan maju 2028–2030 juga tetap 100 orang. Potensi PNBP yang bisa ditingkatkan jika peserta ujian bertambah."},
+                {icon:"📋", color:"#2563eb",bg:"rgba(37,99,235,0.04)", judul:"IKK 3758 vs Renstra",
+                 isi:"KRISNA menetapkan IKPA 2027 = 92, berbeda dari Renstra yang menetapkan 94. WTA Madya dan SKM 80 konsisten. Perlu konfirmasi ke revisi Renstra apakah 92 adalah target definitif atau penyesuaian sementara."},
+              ].map((c,i)=>(
+                <div key={i} className="card p-4" style={{borderLeft:`3px solid ${c.color}`,background:c.bg}}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-base">{c.icon}</span>
+                    <div className="text-[12px] font-semibold" style={{color:c.color}}>{c.judul}</div>
+                  </div>
+                  <div className="text-[11px] leading-relaxed" style={{color:"var(--text-2)"}}>{c.isi}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
+
       <AIInsightCard
-        title={isRanwal?"Penelaahan usulan anggaran RANWAL TA 2027 — 5 kriteria":"Tagging tematik & telaah belanja TA 2026 — 5 kriteria"}
+        title={isRanwal?"Penelaahan usulan anggaran RANWAL TA 2027 — 5 kriteria"}:"Tagging tematik & telaah belanja TA 2026 — 5 kriteria"}
         prompt={aiPrompt}
         sources={isRanwal
           ? ["Renja KRISNA RANWAL TA 2027 (Rekap 3 K/L: 3758–3762)","Kaidah penelaahan RKA-K/L (DJA / Bappenas)","SBM & SBK TA 2027 (PMK Standar Biaya)","Budget tagging: PN Hilirisasi / Ketahanan Pangan / Tematik","Renstra Bappebti 2025–2029 (target IKK/IKP 2027)","Perpres 95/2018 SPBE (kesiapan/clearance TIK)"]
@@ -5666,42 +5843,7 @@ const PBK_FOKUS_2027 = [
 /* TAB PBK — Perdagangan Berjangka Komoditi                                 */
 /* ======================================================================== */
 function MenuPBK({year}){
-  const [aiOut,setAiOut]=React.useState("");
-  const [aiLoad,setAiLoad]=React.useState(false);
   const [showKelembagaan,setShowKelembagaan]=React.useState(false);
-
-  const runAI = async()=>{
-    setAiLoad(true);
-    const prompt=`Anda adalah analis kebijakan publik senior di Bappebti, Kemendag RI. Berikan analisis strategis komprehensif (6–7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas situasi terkini Perdagangan Berjangka Komoditi (PBK) Indonesia pasca dua perubahan regulasi besar.
-
-DATA KINERJA PBK:
-- Volume transaksi 2025: 16,19 juta LOT (+12% YoY), nilai nominal Rp48.867 triliun (+49,8% YoY)
-- Volume 2024: 13,90 juta LOT, nilai Rp33.214,89 triliun
-- Volume Apr 2026*: 5,45 juta LOT (Multilateral 997.739, SPA 4,45 juta)
-- CPOTR 2025: 162.250 MT (vs 2023: 8.430 MT — pertumbuhan masif)
-- Emas fisik digital 2025: 60,2 ton (vs 2022: 2,3 ton)
-- Pialang aktif: 67 perusahaan (rating Q1 2026 sudah dirilis)
-- Nasabah aktif Nov 2024: 70.676 nasabah
-
-PERUBAHAN REGULASI BESAR:
-1. Januari 2025: Aset kripto & derivatif keuangan beralih dari Bappebti ke OJK (PP 49/2024 & UU P2SK). Nilai kripto 2024: Rp650,61 triliun, 22,91 juta pelanggan. Bappebti kini fokus penuh ke PBK komoditas.
-2. 4 Juni 2026: UU Perubahan P2SK disahkan DPR — mengamanatkan Bursa Mineral & Komoditas Strategis (BMKS) di bawah OJK, target operasi 1 Januari 2027. Berpotensi menarik komoditas mineral dari Bappebti ke BMKS-OJK.
-
-KONTEKS: Presiden Prabowo menginginkan harga komoditas SDA Indonesia tidak ditentukan bursa asing. Banyak mineral RI (nikel, timah, bauksit) masih dihargai di Singapura/London.
-
-Fokus analisis:
-1. Dampak pengalihan aset kripto: apa yang hilang dan apa peluang refocus Bappebti ke PBK komoditas riil?
-2. Konsekuensi BMKS-OJK terhadap mandat dan eksistensi Bappebti — potensi tumpang tindih vs komplementaritas.
-3. Kinerja PBK 2025: seberapa kuat fundamentalnya? Apakah pertumbuhan volume dan nilai sustainable?
-4. Komoditas CPOTR dan emas digital sebagai lokomotif baru — peluang dan risikonya.
-5. Rekomendasi strategis untuk Bappebti menghadapi lanskap regulasi yang berubah cepat.
-Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir.`;
-    try {
-      const text = await callAI(prompt, 1500);
-      setAiOut(text);
-    } catch(e){ setAiOut("Analisis AI tidak tersedia. Pastikan AI proxy dikonfigurasi di menu ⚙ pengaturan."); }
-    setAiLoad(false);
-  };
 
   const prev2025  = PBK_VOL_TRANSAKSI.find(d=>d.th==="2025");
   const apr2026   = PBK_VOL_TRANSAKSI.find(d=>d.th==="2026");
@@ -5787,129 +5929,293 @@ Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir.`;
         </div>
       </div>
 
-      {/* Nilai Nominal Transaksi */}
-      <div className="card p-5 mb-6">
-        <div className="serif text-xl mb-1">Nilai Nominal Transaksi PBK</div>
-        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Rp Triliun · Pertumbuhan signifikan 2023–2025</div>
-        <div className="space-y-3">
-          {PBK_NILAI_TRANSAKSI.map(d=>(
-            <div key={d.th} className="flex items-center gap-3 text-xs">
-              <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}</div>
-              <div className="flex-1 h-8 bg-[var(--bg-2)] rounded overflow-hidden relative">
-                <div className="h-full rounded transition-all flex items-center" style={{width:`${(d.nilai/maxNilai)*100}%`, background:"rgba(37,99,235,0.55)"}}>
-                </div>
-                <div className="absolute inset-y-0 left-3 flex items-center text-[11px] mono font-semibold text-white mix-blend-difference">Rp{d.nilai.toLocaleString('id-ID')} T</div>
+      {/* ── NILAI NOMINAL TRANSAKSI PBK ── */}
+      <div className="card p-5 mb-5">
+        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
+          <div>
+            <div className="serif text-xl">Nilai Nominal Transaksi PBK</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Rp Triliun · 2023–2025</div>
+          </div>
+          <div className="text-right">
+            <div className="serif text-3xl font-bold" style={{color:"var(--blue)"}}>Rp48.867 T</div>
+            <div className="text-[10px] mono text-[var(--text-3)]">puncak 2025 · +49,8% YoY</div>
+          </div>
+        </div>
+        {(()=>{
+          const max=maxNilai; const barH=52;
+          const pcts=PBK_NILAI_TRANSAKSI.map(d=>({...d,pct:Math.round((d.nilai/max)*100)}));
+          return (
+            <div>
+              {/* Bar chart horizontal dengan gradient */}
+              <div className="space-y-3 mb-5">
+                {PBK_NILAI_TRANSAKSI.map((d,i)=>{
+                  const p=(d.nilai/max)*100;
+                  const prev=i>0?PBK_NILAI_TRANSAKSI[i-1].nilai:null;
+                  const chg=prev?((d.nilai/prev-1)*100):null;
+                  return (
+                    <div key={d.th}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="mono text-[11px] font-bold" style={{color:"var(--text-2)"}}>{d.th}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="serif text-base font-bold" style={{color:"var(--blue)"}}>Rp{d.nilai.toLocaleString('id-ID')} T</span>
+                          {chg!==null && <span className="pill text-[9px]" style={{background:chg>=0?"rgba(37,99,235,0.1)":"rgba(220,38,38,0.1)",color:chg>=0?"var(--blue)":"#dc2626",border:`1px solid ${chg>=0?"rgba(37,99,235,0.25)":"rgba(220,38,38,0.25)"}`}}>{chg>=0?"+":""}{chg.toFixed(1)}%</span>}
+                        </div>
+                      </div>
+                      <div className="relative rounded-xl overflow-hidden" style={{height:"36px",background:"var(--bg-2)"}}>
+                        <div className="absolute left-0 top-0 h-full rounded-xl transition-all duration-700"
+                          style={{width:`${p}%`,background:`linear-gradient(90deg,rgba(37,99,235,0.7),rgba(37,99,235,0.45))`}}></div>
+                        <div className="absolute inset-0 flex items-center px-3">
+                          <span className="mono text-[11px] font-semibold" style={{color:p>40?"white":"var(--text-2)"}}>{p.toFixed(0)}% dari puncak</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              {d.nilai>33214 && <span className="pill pill-blue text-[9px]">+{((d.nilai/33214.89-1)*100).toFixed(1)}%</span>}
+              {/* Tabel ringkas */}
+              <div className="rounded-xl overflow-hidden border border-[var(--border)]">
+                <table style={{width:"100%",borderCollapse:"collapse",fontSize:"11px"}}>
+                  <thead>
+                    <tr style={{background:"var(--bg-2)",borderBottom:"1px solid var(--border)"}}>
+                      {["Tahun","Nilai (Rp T)","Pertumbuhan YoY","Status"].map(h=>(
+                        <th key={h} style={{padding:"8px 14px",textAlign:"left",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)"}}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {PBK_NILAI_TRANSAKSI.map((d,i)=>{
+                      const prev=i>0?PBK_NILAI_TRANSAKSI[i-1].nilai:null;
+                      const chg=prev?((d.nilai/prev-1)*100):null;
+                      return (
+                        <tr key={d.th} style={{borderBottom:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
+                          <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text-1)"}}>{d.th}</td>
+                          <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",fontWeight:"600",color:"var(--blue)"}}>{d.nilai.toLocaleString('id-ID')}</td>
+                          <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"var(--blue)":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(1)+"%")}</td>
+                          <td style={{padding:"10px 14px"}}><span className="pill pill-blue text-[9px]">{i===PBK_NILAI_TRANSAKSI.length-1?"Tertinggi":"Historis"}</span></td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          ))}
+          );
+        })()}
+      </div>
+
+      {/* ── VOLUME TRANSAKSI PBK (stacked horizontal bar) ── */}
+      <div className="card p-5 mb-5">
+        <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
+          <div>
+            <div className="serif text-xl">Volume Transaksi PBK</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Juta LOT · 2020–April 2026 · Multilateral + SPA</div>
+          </div>
+          <div className="flex gap-4 text-[10px] mono text-[var(--text-3)]">
+            <span className="flex items-center gap-1.5"><span className="w-8 h-2.5 rounded" style={{background:"rgba(37,99,235,0.65)",display:"inline-block"}}></span>Multilateral</span>
+            <span className="flex items-center gap-1.5"><span className="w-8 h-2.5 rounded" style={{background:"rgba(37,99,235,0.3)",display:"inline-block"}}></span>SPA</span>
+            <span className="flex items-center gap-1.5"><span className="w-8 h-2.5 rounded" style={{background:"rgba(212,164,55,0.8)",display:"inline-block"}}></span>2026*</span>
+          </div>
+        </div>
+        <div className="space-y-3 mb-5">
+          {PBK_VOL_TRANSAKSI.map(d=>{
+            const pM=(d.multilateral/maxVol)*100, pS=(d.spa/maxVol)*100;
+            const isGold=!!d.p;
+            return (
+              <div key={d.th}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="mono text-[11px] font-bold" style={{color:isGold?"var(--gold)":"var(--text-2)"}}>{d.th}{isGold?"*":""}</span>
+                  <span className="serif text-sm font-bold" style={{color:isGold?"var(--gold)":"var(--blue)"}}>{(d.total/1e6).toFixed(2)} jt LOT</span>
+                </div>
+                {/* stacked bar */}
+                <div className="relative rounded-xl overflow-hidden" style={{height:"32px",background:"var(--bg-2)"}}>
+                  <div className="absolute left-0 top-0 h-full rounded-l-xl" style={{width:`${pM+pS}%`,background:isGold?"rgba(212,164,55,0.25)":"rgba(37,99,235,0.15)"}}></div>
+                  <div className="absolute left-0 top-0 h-full rounded-l-xl" style={{width:`${pM}%`,background:isGold?"rgba(212,164,55,0.8)":"rgba(37,99,235,0.65)"}}></div>
+                  <div className="absolute inset-0 flex items-center px-3 gap-2 text-[10px] mono">
+                    <span style={{color:pM>15?(isGold?"rgba(0,0,0,0.7)":"white"):"var(--text-3)"}}>{(d.multilateral/1e6).toFixed(2)}jt</span>
+                    <span style={{color:"var(--text-3)"}}>+</span>
+                    <span style={{color:"var(--text-3)"}}>{(d.spa/1e6).toFixed(2)}jt SPA</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {/* Tabel volume */}
+        <div className="rounded-xl overflow-hidden border border-[var(--border)]">
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:"11px"}}>
+            <thead>
+              <tr style={{background:"var(--bg-2)",borderBottom:"1px solid var(--border)"}}>
+                {["Tahun","Multilateral (LOT)","SPA (LOT)","Total (LOT)","Share Multi"].map(h=>(
+                  <th key={h} style={{padding:"8px 12px",textAlign:h==="Tahun"?"left":"right",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",letterSpacing:"0.06em",color:"var(--text-3)"}}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {PBK_VOL_TRANSAKSI.map((d,i)=>(
+                <tr key={d.th} style={{borderBottom:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
+                  <td style={{padding:"9px 12px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"rgba(37,99,235,0.9)"}}>{d.multilateral.toLocaleString('id-ID')}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"rgba(37,99,235,0.6)"}}>{d.spa.toLocaleString('id-ID')}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--blue)"}}>{d.total.toLocaleString('id-ID')}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--text-2)"}}>{(d.multilateral/d.total*100).toFixed(1)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* Chart Volume Transaksi PBK */}
-      <div className="card p-5 mb-6">
-        <div className="serif text-xl mb-1">Volume Transaksi PBK (LOT)</div>
-        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2020–April 2026 · Multilateral vs SPA</div>
-        <div className="space-y-2">
-          {PBK_VOL_TRANSAKSI.map(d=>(
-            <div key={d.th} className="flex items-center gap-3 text-xs">
-              <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
-              <div className="flex-1 flex flex-col gap-1">
-                <div className="flex items-center gap-1">
-                  <div className="w-20 text-[10px] text-[var(--text-3)]">Multilateral</div>
-                  <div className="flex-1 h-4 bg-[var(--bg-2)] rounded overflow-hidden">
-                    <div className="h-full rounded" style={{width:`${(d.multilateral/maxVol)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(37,99,235,0.55)"}}></div>
-                  </div>
-                  <div className="w-20 mono text-[10px] text-right text-[var(--text-2)]">{(d.multilateral/1e6).toFixed(2)}jt</div>
+      {/* ── CPOTR + EMAS DIGITAL (side by side, modern) ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+        {/* CPOTR */}
+        {(()=>{
+          const max=maxCPOTR;
+          return (
+            <div className="card p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <div className="serif text-lg">Kontrak Berjangka CPO (CPOTR)</div>
+                  <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Metrik Ton · 2023–April 2026</div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-20 text-[10px] text-[var(--text-3)]">SPA</div>
-                  <div className="flex-1 h-4 bg-[var(--bg-2)] rounded overflow-hidden">
-                    <div className="h-full rounded" style={{width:`${(d.spa/maxVol)*100}%`, background:d.p?"rgba(212,164,55,0.4)":"rgba(37,99,235,0.28)"}}></div>
-                  </div>
-                  <div className="w-20 mono text-[10px] text-right text-[var(--text-2)]">{(d.spa/1e6).toFixed(2)}jt</div>
+                <div className="text-right">
+                  <div className="mono text-xs font-bold" style={{color:"var(--blue)"}}>19×</div>
+                  <div className="text-[9px] mono text-[var(--text-3)]">vs 2023</div>
                 </div>
               </div>
-              <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"var(--blue)"}}>{(d.total/1e6).toFixed(2)}jt</div>
+              <div className="space-y-3 mb-4">
+                {PBK_CPOTR.map(d=>{
+                  const p=(d.vol/max)*100; const isG=!!d.p;
+                  return (
+                    <div key={d.th}>
+                      <div className="flex justify-between mb-1">
+                        <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":"var(--text-2)"}}>{d.th}{isG?"*":""}</span>
+                        <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":"var(--blue)"}}>{d.vol.toLocaleString('id-ID')} MT</span>
+                      </div>
+                      <div className="relative rounded-lg overflow-hidden" style={{height:"28px",background:"var(--bg-2)"}}>
+                        <div className="absolute left-0 top-0 h-full rounded-lg" style={{width:`${p}%`,background:isG?"linear-gradient(90deg,rgba(212,164,55,0.8),rgba(212,164,55,0.5))":"linear-gradient(90deg,rgba(37,99,235,0.7),rgba(37,99,235,0.45))"}}></div>
+                        <div className="absolute inset-0 flex items-center px-3">
+                          <span className="mono text-[10px]" style={{color:p>30?(isG?"rgba(0,0,0,0.65)":"white"):"var(--text-3)"}}>{p.toFixed(0)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="rounded-lg overflow-hidden border border-[var(--border)]">
+                <table style={{width:"100%",borderCollapse:"collapse",fontSize:"10px"}}>
+                  <thead><tr style={{background:"var(--bg-2)"}}>
+                    {["Tahun","Vol. (MT)","Growth"].map(h=><th key={h} style={{padding:"6px 10px",textAlign:h==="Tahun"?"left":"right",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",color:"var(--text-3)"}}>{h}</th>)}
+                  </tr></thead>
+                  <tbody>{PBK_CPOTR.map((d,i)=>{const prev=i>0?PBK_CPOTR[i-1].vol:null;const chg=prev?((d.vol/prev-1)*100):null;return(
+                    <tr key={d.th} style={{borderTop:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
+                      <td style={{padding:"7px 10px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
+                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:600,color:"var(--blue)"}}>{d.vol.toLocaleString('id-ID')}</td>
+                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"var(--blue)":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(0)+"%")}</td>
+                    </tr>);
+                  })}</tbody>
+                </table>
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="flex gap-4 mt-3 text-[10px] mono text-[var(--text-3)]">
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(37,99,235,0.55)"}}></span>Multilateral</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(37,99,235,0.28)"}}></span>SPA (Sistem Perdagangan Alternatif)</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(212,164,55,0.7)"}}></span>2026* (s.d. April)</span>
-        </div>
+          );
+        })()}
+
+        {/* EMAS DIGITAL */}
+        {(()=>{
+          const max=maxEmas;
+          return (
+            <div className="card p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <div className="serif text-lg">Emas Fisik Secara Digital</div>
+                  <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Ton · 2022–April 2026</div>
+                </div>
+                <div className="text-right">
+                  <div className="mono text-xs font-bold" style={{color:"#10b981"}}>26×</div>
+                  <div className="text-[9px] mono text-[var(--text-3)]">vs 2022</div>
+                </div>
+              </div>
+              <div className="space-y-3 mb-4">
+                {PBK_EMAS_DIGITAL.map(d=>{
+                  const p=(d.vol/max)*100; const isG=!!d.p;
+                  return (
+                    <div key={d.th}>
+                      <div className="flex justify-between mb-1">
+                        <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":"var(--text-2)"}}>{d.th}{isG?"*":""}</span>
+                        <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":"#10b981"}}>{d.vol} Ton</span>
+                      </div>
+                      <div className="relative rounded-lg overflow-hidden" style={{height:"28px",background:"var(--bg-2)"}}>
+                        <div className="absolute left-0 top-0 h-full rounded-lg" style={{width:`${p}%`,background:isG?"linear-gradient(90deg,rgba(212,164,55,0.8),rgba(212,164,55,0.5))":"linear-gradient(90deg,rgba(16,185,129,0.7),rgba(16,185,129,0.45))"}}></div>
+                        <div className="absolute inset-0 flex items-center px-3">
+                          <span className="mono text-[10px]" style={{color:p>30?(isG?"rgba(0,0,0,0.65)":"white"):"var(--text-3)"}}>{p.toFixed(0)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="rounded-lg overflow-hidden border border-[var(--border)]">
+                <table style={{width:"100%",borderCollapse:"collapse",fontSize:"10px"}}>
+                  <thead><tr style={{background:"var(--bg-2)"}}>
+                    {["Tahun","Vol. (Ton)","Growth"].map(h=><th key={h} style={{padding:"6px 10px",textAlign:h==="Tahun"?"left":"right",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",color:"var(--text-3)"}}>{h}</th>)}
+                  </tr></thead>
+                  <tbody>{PBK_EMAS_DIGITAL.map((d,i)=>{const prev=i>0?PBK_EMAS_DIGITAL[i-1].vol:null;const chg=prev?((d.vol/prev-1)*100):null;return(
+                    <tr key={d.th} style={{borderTop:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
+                      <td style={{padding:"7px 10px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
+                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:600,color:"#10b981"}}>{d.vol}</td>
+                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"#10b981":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(0)+"%")}</td>
+                    </tr>);
+                  })}</tbody>
+                </table>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
-      {/* 2 kolom: CPOTR + Emas Digital */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <div className="card p-5">
-          <div className="serif text-lg mb-1">Volume Transaksi CPOTR</div>
-          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Kontrak Berjangka CPO · 2023–April 2026 (Metrik Ton)</div>
-          <div className="space-y-2">
-            {PBK_CPOTR.map(d=>(
-              <div key={d.th} className="flex items-center gap-3 text-xs">
-                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
-                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
-                  <div className="h-full rounded" style={{width:`${(d.vol/maxCPOTR)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(37,99,235,0.55)"}}></div>
-                </div>
-                <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"var(--blue)"}}>{d.vol.toLocaleString('id-ID')}</div>
-              </div>
-            ))}
+      {/* ── TIMAH EKSPOR + LOKAL ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+        {[
+          {title:"Timah Murni Batangan — Ekspor", data:PBK_TIMAH_EKSPOR, max:maxTExpor, color:"#7c2d12", colorLight:"rgba(124,45,18,0.5)", satuan:"MT"},
+          {title:"Timah Murni Batangan — Lokal",  data:PBK_TIMAH_LOKAL,  max:maxTLokal, color:"#92400e", colorLight:"rgba(146,64,14,0.35)",satuan:"MT"},
+        ].map(cfg=>(
+          <div key={cfg.title} className="card p-5">
+            <div className="serif text-lg mb-1">{cfg.title}</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2021–April 2026 ({cfg.satuan})</div>
+            <div className="space-y-3 mb-4">
+              {cfg.data.map(d=>{
+                const p=(d.vol/cfg.max)*100; const isG=!!d.p;
+                return (
+                  <div key={d.th}>
+                    <div className="flex justify-between mb-1">
+                      <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":"var(--text-2)"}}>{d.th}{isG?"*":""}</span>
+                      <span className="mono text-[11px] font-bold" style={{color:isG?"var(--gold)":cfg.color}}>{d.vol.toLocaleString('id-ID')} MT</span>
+                    </div>
+                    <div className="relative rounded-lg overflow-hidden" style={{height:"26px",background:"var(--bg-2)"}}>
+                      <div className="absolute left-0 top-0 h-full rounded-lg" style={{width:`${p}%`,background:isG?"linear-gradient(90deg,rgba(212,164,55,0.8),rgba(212,164,55,0.5))":cfg.colorLight}}></div>
+                      <div className="absolute inset-0 flex items-center px-3">
+                        <span className="mono text-[10px]" style={{color:"var(--text-3)"}}>{p.toFixed(0)}%</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="rounded-lg overflow-hidden border border-[var(--border)]">
+              <table style={{width:"100%",borderCollapse:"collapse",fontSize:"10px"}}>
+                <thead><tr style={{background:"var(--bg-2)"}}>
+                  {["Tahun","Vol. (MT)","Δ YoY"].map(h=><th key={h} style={{padding:"6px 10px",textAlign:h==="Tahun"?"left":"right",fontFamily:"var(--font-mono)",fontSize:"9px",textTransform:"uppercase",color:"var(--text-3)"}}>{h}</th>)}
+                </tr></thead>
+                <tbody>{cfg.data.map((d,i)=>{const prev=i>0?cfg.data[i-1].vol:null;const chg=prev?((d.vol/prev-1)*100):null;return(
+                  <tr key={d.th} style={{borderTop:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
+                    <td style={{padding:"7px 10px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
+                    <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:600,color:cfg.color}}>{d.vol.toLocaleString('id-ID')}</td>
+                    <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"#10b981":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(0)+"%")}</td>
+                  </tr>);
+                })}</tbody>
+              </table>
+            </div>
           </div>
-          <div className="mt-3 text-[10px] text-[var(--text-3)]">Pertumbuhan luar biasa: 8.430 MT (2023) → 162.250 MT (2025) — Bursa CPO Indonesia jadi pembentuk harga acuan</div>
-        </div>
-
-        <div className="card p-5">
-          <div className="serif text-lg mb-1">Perdagangan Emas Fisik Secara Digital</div>
-          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2022–April 2026 (Ton)</div>
-          <div className="space-y-2">
-            {PBK_EMAS_DIGITAL.map(d=>(
-              <div key={d.th} className="flex items-center gap-3 text-xs">
-                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
-                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
-                  <div className="h-full rounded" style={{width:`${(d.vol/maxEmas)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(16,185,129,0.55)"}}></div>
-                </div>
-                <div className="w-16 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#10b981"}}>{d.vol} Ton</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 text-[10px] text-[var(--text-3)]">Pertumbuhan eksponensial 2,3 → 60,2 ton (2022–2025) · Apr 2026: 42,16 ton — momentum kuat</div>
-        </div>
-      </div>
-
-      {/* Timah Ekspor & Lokal */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <div className="card p-5">
-          <div className="serif text-lg mb-1">Timah Murni Batangan — Ekspor</div>
-          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2021–April 2026 (Metrik Ton)</div>
-          <div className="space-y-2">
-            {PBK_TIMAH_EKSPOR.map(d=>(
-              <div key={d.th} className="flex items-center gap-3 text-xs">
-                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
-                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
-                  <div className="h-full rounded" style={{width:`${(d.vol/maxTExpor)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(124,45,18,0.5)"}}></div>
-                </div>
-                <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#7c2d12"}}>{d.vol.toLocaleString('id-ID')}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="card p-5">
-          <div className="serif text-lg mb-1">Timah Murni Batangan — Lokal</div>
-          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2021–April 2026 (Metrik Ton)</div>
-          <div className="space-y-2">
-            {PBK_TIMAH_LOKAL.map(d=>(
-              <div key={d.th} className="flex items-center gap-3 text-xs">
-                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
-                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
-                  <div className="h-full rounded" style={{width:`${(d.vol/maxTLokal)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(124,45,18,0.35)"}}></div>
-                </div>
-                <div className="w-16 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#7c2d12"}}>{d.vol.toLocaleString('id-ID')}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Kelembagaan PBK */}
@@ -5956,69 +6262,6 @@ Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir.`;
         )}
       </div>
 
-      {/* Pagu Indikatif TA 2027 — KRISNA Rekap 3A, 05 Juni 2026 */}
-      <div className="card p-5 mb-6" style={{borderColor:"rgba(212,164,55,0.3)",background:"linear-gradient(135deg,rgba(212,164,55,0.04) 0%,rgba(212,164,55,0.01) 100%)"}}>
-        <div className="serif text-xl mb-1">Pagu Indikatif Bappebti TA 2027</div>
-        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Sumber: Rekap 3A KRISNA Renja K/L TA 2027 · Ditetapkan 05 Juni 2026 · Total PI = Rp3.332.195.000</div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-[var(--border)]">
-                <th className="text-left py-2 pr-3 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider w-6">No</th>
-                <th className="text-left py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider">Kegiatan</th>
-                <th className="text-right py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider whitespace-nowrap">Pagu Rev. 2026 (Rp)</th>
-                <th className="text-right py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider whitespace-nowrap">PI 2027 (Rp)</th>
-                <th className="text-right py-2 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider">Sumber Dana</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                {no:1, kode:"3758", keg:"Dukungan Manajemen & Dukungan Teknis Lainnya",          p2026:4962863000, p2027:3242195000, dana:"RM",   note:"EBA.994 Layanan Perkantoran"},
-                {no:2, kode:"3759", keg:"Pengawasan & Penindakan PBK, SRG dan PLK",              p2026:344402000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
-                {no:3, kode:"3760", keg:"Pembinaan & Pengembangan SRG dan PLK",                  p2026:449561000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
-                {no:4, kode:"3761", keg:"Peningkatan Efektivitas Kebijakan & Pelayanan Hukum",   p2026:245775000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
-                {no:5, kode:"3762", keg:"Pembinaan & Pengembangan Perdagangan Berjangka Komoditi",p2026:466990000,  p2027:90000000,  dana:"PNBP", note:"ADI.001 — 100 org ujian profesi @ Rp900rb"},
-              ].map(r=>(
-                <tr key={r.no} className={`border-b border-[var(--border-tertiary)] hover:bg-[var(--bg-2)] ${r.p2027===0?"opacity-60":""}`}>
-                  <td className="py-2 pr-3 mono text-[var(--text-3)] text-[10px]">{r.no}</td>
-                  <td className="py-2 pr-4">
-                    <div className="text-[var(--text-2)]">{r.keg}</div>
-                    <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">{r.kode} · {r.note}</div>
-                  </td>
-                  <td className="py-2 pr-4 mono text-right text-[11px] text-[var(--text-2)]">{r.p2026.toLocaleString('id-ID')}</td>
-                  <td className={`py-2 pr-4 mono text-right text-[11px] font-semibold ${r.p2027>0?"text-[var(--gold)]":"text-[var(--text-3)]"}`}>
-                    {r.p2027===0?"—":r.p2027.toLocaleString('id-ID')}
-                  </td>
-                  <td className="py-2 mono text-right text-[10px]">
-                    {r.dana!=="-" && <span className={`pill text-[9px] ${r.dana==="PNBP"?"pill-gold":"pill-blue"}`}>{r.dana}</span>}
-                  </td>
-                </tr>
-              ))}
-              <tr className="border-t-2 border-[var(--border)]">
-                <td className="py-2 pr-3"></td>
-                <td className="py-2 pr-4 font-semibold text-[var(--text-1)]">TOTAL</td>
-                <td className="py-2 pr-4 mono text-right font-semibold text-[var(--blue)]">6.469.591.000</td>
-                <td className="py-2 pr-4 mono text-right font-semibold text-[var(--gold)]">3.332.195.000</td>
-                <td className="py-2 mono text-right text-[10px] text-[var(--text-3)]">−48,5%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Catatan Penting</div>
-            <div className="text-[var(--text-2)] leading-relaxed">Kegiatan 3759, 3760, dan 3761 <strong>nol rupiah</strong> di KRISNA PI 2027 — seluruh RO memiliki alokasi 0. Ini bukan berarti tidak diusulkan, melainkan menunggu proses pembahasan trilateral Bappenas–DJA–K/L.</div>
-          </div>
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">PNBP 3762</div>
-            <div className="text-[var(--text-2)] leading-relaxed">Satu-satunya sumber PNBP: sertifikasi ujian profesi Wakil Pialang & Penasihat Berjangka (ADI.001) — 100 orang × Rp900.000 = <strong>Rp90.000.000</strong>. Prakiraan 2028–2030 tetap 100 orang.</div>
-          </div>
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Target IKK Baru (3758)</div>
-            <div className="text-[var(--text-2)] leading-relaxed">IKK 3758 dari KRISNA: WTA <strong>Madya</strong>, IKPA <strong>92</strong>, SKM <strong>80</strong>. Perlu dicocokkan dengan target Renstra yang sebelumnya digunakan di dashboard.</div>
-          </div>
-        </div>
-      </div>
 
       {/* Fokus Bappebti 2027 */}
       <div className="card p-5 mb-6">
@@ -6039,23 +6282,89 @@ Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir.`;
         </div>
       </div>
 
-      {/* AI Insight */}
-      <div className="card p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className="serif text-xl">Analisis Strategis PBK</div>
-            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Dampak UU P2SK · Peralihan kripto · Kinerja komoditas · Proyeksi Bappebti</div>
+      {/* AI Insight — auto-load */}
+      {(()=>{
+        const [pbkAI,setPbkAI]=React.useState(null);
+        const [pbkLoad,setPbkLoad]=React.useState(false);
+        const generatePBKAnalysis = async()=>{
+          setPbkLoad(true);
+          const pbkPrompt=`Anda adalah Penasihat Kebijakan Senior Kementerian Perdagangan RI, spesialis Perdagangan Berjangka Komoditi (PBK). Tulis analisis strategis komprehensif (8–10 paragraf padat, Bahasa Indonesia formal kebijakan publik, TANPA bullet panjang — prosa mengalir) dengan topik: BAPPEBTI DI PERSIMPANGAN KEWENANGAN — LANGKAH STRATEGIS KE DEPAN.
+
+KONTEKS PERUBAHAN BESAR (isu sangat terkini per Juni 2026):
+1. PERALIHAN ASET KRIPTO (10 Jan 2025): Pengawasan aset kripto (nilai Rp650,61 T/2024, 22,91 juta pelanggan) & derivatif keuangan resmi beralih dari Bappebti ke OJK & BI. Bappebti kehilangan segmen terbesar dalam portofolio pengawasannya — namun kini bisa fokus penuh ke PBK komoditas riil.
+2. UU P2SK DISAHKAN DPR (4 Juni 2026): Mengamanatkan Bursa Mineral & Komoditas Strategis (BMKS) di bawah OJK, target operasi 1 Januari 2027. Wakil Ketua Komisi XI DPR: "kalau ada mineral dan komoditas strategis yang ada di Bappebti, akan ditarik ke sana." POJK pengaturan lanjut ditarget 3 bulan ke depan.
+3. ARAHAN PRESIDEN PRABOWO: Harga komoditas SDA Indonesia tidak boleh ditentukan bursa asing. Mineral RI (nikel, timah, bauksit, tembaga) masih dihargai di LME London & Singapura — ini peluang sekaligus ancaman bagi mandat Bappebti.
+
+DATA KINERJA PBK 2025:
+- Volume: 16,19 juta LOT (+12% YoY) — tertinggi sepanjang masa
+- Nilai nominal: Rp48.867 triliun (+49,8% YoY)
+- CPOTR (Bursa CPO Indonesia): 162.250 MT (dari 8.430 MT pada 2023 — lonjakan 19x)
+- Emas fisik digital: 60,2 ton (dari 2,3 ton pada 2022)
+- Pialang aktif Q1 2026: 67 perusahaan
+
+PAGU INDIKATIF 2027 (KRISNA):
+- Total PI: Rp3,33 M (turun 48,5% dari Rp6,47 M Rev.2026)
+- Kegiatan 3759/3760/3761 = nol di KRISNA (menunggu trilateral)
+- Hanya 3758 (Rp3,24 M RM) + 3762 (Rp90 jt PNBP sertifikasi) yang ada pagu
+
+TUGAS ANALISIS — susun dengan alur berikut:
+BAGIAN 1 — DIAGNOSIS SITUASI (2 paragraf): Gambarkan lanskap kewenangan Bappebti pasca dua gelombang perubahan. Apa yang hilang, apa yang tersisa, apa yang terancam lagi?
+BAGIAN 2 — ANCAMAN DAN PELUANG BMKS-OJK (2 paragraf): Analisis dampak BMKS-OJK terhadap mandat Bappebti — komoditas mana yang berpotensi ditarik, apa risiko tumpang tindih regulasi, dan bagaimana Bappebti bisa memposisikan diri komplementer.
+BAGIAN 3 — KEKUATAN YANG TERSISA: BURSA CPO & EMAS DIGITAL (2 paragraf): Pertumbuhan CPOTR 19x dan emas digital 26x adalah sinyal kuat — analisis mengapa ini bisa menjadi fondasi legitimasi baru Bappebti sebagai regulator pembentuk harga komoditas ekspor strategis.
+BAGIAN 4 — LANGKAH STRATEGIS KONKRET BAPPEBTI (3 paragraf): Berikan 3–4 rekomendasi operasional spesifik yang bisa diimplementasikan dalam 12–24 bulan ke depan: (a) penguatan regulasi komoditas yang tersisa, (b) strategi dialog trilateral PI 2027 untuk memulihkan anggaran substantif yang nol, (c) penajaman peran Bappebti dalam ekosistem komoditas ekspor vs BMKS-OJK, (d) langkah diplomasi intra-pemerintah untuk mepertahankan atau memperluas mandat.
+Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir. Tajam dan berbasis fakta.`;
+          try {
+            const t = await callAI(pbkPrompt, 2000);
+            setPbkAI(t);
+          } catch(e){ setPbkAI("Analisis AI tidak tersedia. Pastikan AI proxy dikonfigurasi di menu ⚙ pengaturan."); }
+          setPbkLoad(false);
+        };
+        React.useEffect(()=>{ generatePBKAnalysis(); },[]);
+        return (
+          <div className="card p-0 overflow-hidden">
+            {/* Header card */}
+            <div className="p-5 border-b border-[var(--border)]" style={{background:"linear-gradient(135deg,rgba(220,38,38,0.04) 0%,rgba(37,99,235,0.04) 100%)"}}>
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg"
+                    style={{background:"linear-gradient(135deg,rgba(220,38,38,0.15),rgba(37,99,235,0.15))"}}>✦</div>
+                  <div>
+                    <div className="serif text-xl">Analisis Strategis: Bappebti di Persimpangan Kewenangan</div>
+                    <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Langkah Bappebti ke Depan · Pasca UU P2SK Jun 2026 · Peralihan Kripto ke OJK · BMKS Operasi Jan 2027</div>
+                  </div>
+                </div>
+                <button onClick={generatePBKAnalysis} disabled={pbkLoad}
+                  className="px-4 py-2 rounded-lg text-[11px] mono border transition shrink-0"
+                  style={{borderColor:"var(--blue)",color:"var(--blue)",background:pbkLoad?"rgba(37,99,235,0.05)":"transparent"}}>
+                  {pbkLoad ? "⟳ Menganalisis…" : "↺ Refresh Analisis"}
+                </button>
+              </div>
+              {/* 3 badge konteks */}
+              <div className="flex gap-2 mt-3 flex-wrap">
+                <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.25)"}}>⚠ BMKS-OJK Operasi Jan 2027</span>
+                <span className="pill text-[9px]" style={{background:"rgba(37,99,235,0.08)",color:"#2563eb",border:"1px solid rgba(37,99,235,0.2)"}}>ⓘ Kripto → OJK Jan 2025</span>
+                <span className="pill text-[9px]" style={{background:"rgba(212,164,55,0.1)",color:"var(--gold)",border:"1px solid var(--gold-soft)"}}>↑ Volume PBK 2025: +12% YoY</span>
+                <span className="pill text-[9px]" style={{background:"rgba(16,185,129,0.08)",color:"#10b981",border:"1px solid rgba(16,185,129,0.2)"}}>CPOTR 2025: 162.250 MT (+19× dari 2023)</span>
+              </div>
+            </div>
+            {/* Body */}
+            <div className="p-5">
+              {pbkLoad && (
+                <div className="flex items-center gap-3 py-8">
+                  <div className="w-5 h-5 rounded-full border-2 border-t-transparent animate-spin shrink-0" style={{borderColor:"var(--blue)",borderTopColor:"transparent"}}></div>
+                  <div className="text-[11px] text-[var(--text-3)] mono">Menyusun analisis strategis berbasis data terkini…</div>
+                </div>
+              )}
+              {!pbkLoad && pbkAI && (
+                <div className="text-[13px] leading-[1.75] text-[var(--text-2)] whitespace-pre-wrap">{pbkAI}</div>
+              )}
+              {!pbkLoad && !pbkAI && (
+                <div className="text-[11px] text-[var(--text-3)] italic py-4 text-center">Klik "Refresh Analisis" untuk menghasilkan analisis strategis.</div>
+              )}
+            </div>
           </div>
-          <button onClick={runAI} disabled={aiLoad}
-            className="px-4 py-2 rounded-md text-xs mono border border-[var(--blue)] text-[var(--blue)] hover:bg-[rgba(37,99,235,0.08)] disabled:opacity-50 transition">
-            {aiLoad ? "Menganalisis…" : "✦ Analisis AI"}
-          </button>
-        </div>
-        {aiOut
-          ? <div className="text-sm text-[var(--text-2)] leading-relaxed whitespace-pre-wrap">{aiOut}</div>
-          : <div className="text-[11px] text-[var(--text-3)] italic">Klik "Analisis AI" untuk menghasilkan analisis strategis berbasis data terkini PBK, peralihan aset kripto ke OJK, dan dampak UU P2SK tentang Bursa Mineral & Komoditas Strategis terhadap Bappebti.</div>
-        }
-      </div>
+        );
+      })()}
 
     </div>
   );
