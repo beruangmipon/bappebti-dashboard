@@ -5842,6 +5842,90 @@ const PBK_FOKUS_2027 = [
 /* ======================================================================== */
 /* TAB PBK — Perdagangan Berjangka Komoditi                                 */
 /* ======================================================================== */
+function PBKAICard(){
+  const [pbkAI, setPbkAI] = React.useState(null);
+  const [pbkLoad, setPbkLoad] = React.useState(false);
+
+  const generatePBKAnalysis = React.useCallback(async()=>{
+    setPbkLoad(true);
+    const pbkPrompt=`Anda adalah Penasihat Kebijakan Senior Kementerian Perdagangan RI, spesialis Perdagangan Berjangka Komoditi (PBK). Tulis analisis strategis komprehensif (8–10 paragraf padat, Bahasa Indonesia formal kebijakan publik, TANPA bullet panjang — prosa mengalir) dengan topik: BAPPEBTI DI PERSIMPANGAN KEWENANGAN — LANGKAH STRATEGIS KE DEPAN.
+
+KONTEKS PERUBAHAN BESAR (isu sangat terkini per Juni 2026):
+1. PERALIHAN ASET KRIPTO (10 Jan 2025): Pengawasan aset kripto (nilai Rp650,61 T/2024, 22,91 juta pelanggan) & derivatif keuangan resmi beralih dari Bappebti ke OJK & BI. Bappebti kehilangan segmen terbesar dalam portofolio pengawasannya — namun kini bisa fokus penuh ke PBK komoditas riil.
+2. UU P2SK DISAHKAN DPR (4 Juni 2026): Mengamanatkan Bursa Mineral & Komoditas Strategis (BMKS) di bawah OJK, target operasi 1 Januari 2027. Wakil Ketua Komisi XI DPR: "kalau ada mineral dan komoditas strategis yang ada di Bappebti, akan ditarik ke sana." POJK pengaturan lanjut ditarget 3 bulan ke depan.
+3. ARAHAN PRESIDEN PRABOWO: Harga komoditas SDA Indonesia tidak boleh ditentukan bursa asing. Mineral RI (nikel, timah, bauksit, tembaga) masih dihargai di LME London & Singapura — ini peluang sekaligus ancaman bagi mandat Bappebti.
+
+DATA KINERJA PBK 2025:
+- Volume: 16,19 juta LOT (+12% YoY) — tertinggi sepanjang masa
+- Nilai nominal: Rp48.867 triliun (+49,8% YoY)
+- CPOTR (Bursa CPO Indonesia): 162.250 MT (dari 8.430 MT pada 2023 — lonjakan 19x)
+- Emas fisik digital: 60,2 ton (dari 2,3 ton pada 2022)
+- Pialang aktif Q1 2026: 67 perusahaan
+
+PAGU INDIKATIF 2027 (KRISNA):
+- Total PI: Rp3,33 M (turun 48,5% dari Rp6,47 M Rev.2026)
+- Kegiatan 3759/3760/3761 = nol di KRISNA (menunggu trilateral)
+- Hanya 3758 (Rp3,24 M RM) + 3762 (Rp90 jt PNBP sertifikasi) yang ada pagu
+
+TUGAS ANALISIS — susun dengan alur berikut:
+BAGIAN 1 — DIAGNOSIS SITUASI (2 paragraf): Gambarkan lanskap kewenangan Bappebti pasca dua gelombang perubahan. Apa yang hilang, apa yang tersisa, apa yang terancam lagi?
+BAGIAN 2 — ANCAMAN DAN PELUANG BMKS-OJK (2 paragraf): Analisis dampak BMKS-OJK terhadap mandat Bappebti — komoditas mana yang berpotensi ditarik, apa risiko tumpang tindih regulasi, dan bagaimana Bappebti bisa memposisikan diri komplementer.
+BAGIAN 3 — KEKUATAN YANG TERSISA: BURSA CPO & EMAS DIGITAL (2 paragraf): Pertumbuhan CPOTR 19x dan emas digital 26x adalah sinyal kuat — analisis mengapa ini bisa menjadi fondasi legitimasi baru Bappebti sebagai regulator pembentuk harga komoditas ekspor strategis.
+BAGIAN 4 — LANGKAH STRATEGIS KONKRET BAPPEBTI (3 paragraf): Berikan 3–4 rekomendasi operasional spesifik yang bisa diimplementasikan dalam 12–24 bulan ke depan: (a) penguatan regulasi komoditas yang tersisa, (b) strategi dialog trilateral PI 2027 untuk memulihkan anggaran substantif yang nol, (c) penajaman peran Bappebti dalam ekosistem komoditas ekspor vs BMKS-OJK, (d) langkah diplomasi intra-pemerintah untuk mempertahankan atau memperluas mandat.
+Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir. Tajam dan berbasis fakta.`;
+    try {
+      const t = await callAI(pbkPrompt, 2000);
+      setPbkAI(t);
+    } catch(e){ setPbkAI("Analisis AI tidak tersedia. Pastikan AI proxy dikonfigurasi di menu ⚙ pengaturan."); }
+    setPbkLoad(false);
+  },[]);
+
+  React.useEffect(()=>{ generatePBKAnalysis(); },[generatePBKAnalysis]);
+
+  return (
+    <div className="card p-0 overflow-hidden">
+      <div className="p-5 border-b border-[var(--border)]" style={{background:"linear-gradient(135deg,rgba(220,38,38,0.04) 0%,rgba(37,99,235,0.04) 100%)"}}>
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg"
+              style={{background:"linear-gradient(135deg,rgba(220,38,38,0.15),rgba(37,99,235,0.15))"}}>✦</div>
+            <div>
+              <div className="serif text-xl">Analisis Strategis: Bappebti di Persimpangan Kewenangan</div>
+              <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Langkah Ke Depan · Pasca UU P2SK Jun 2026 · Peralihan Kripto ke OJK · BMKS Operasi Jan 2027</div>
+            </div>
+          </div>
+          <button onClick={generatePBKAnalysis} disabled={pbkLoad}
+            className="px-4 py-2 rounded-lg text-[11px] mono border transition shrink-0"
+            style={{borderColor:"var(--blue)",color:"var(--blue)",background:pbkLoad?"rgba(37,99,235,0.05)":"transparent"}}>
+            {pbkLoad ? "⟳ Menganalisis…" : "↺ Refresh Analisis"}
+          </button>
+        </div>
+        <div className="flex gap-2 mt-3 flex-wrap">
+          <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.25)"}}>⚠ BMKS-OJK Operasi Jan 2027</span>
+          <span className="pill text-[9px]" style={{background:"rgba(37,99,235,0.08)",color:"#2563eb",border:"1px solid rgba(37,99,235,0.2)"}}>ⓘ Kripto → OJK Jan 2025</span>
+          <span className="pill text-[9px]" style={{background:"rgba(212,164,55,0.1)",color:"var(--gold)",border:"1px solid var(--gold-soft)"}}>↑ Volume PBK 2025: +12% YoY</span>
+          <span className="pill text-[9px]" style={{background:"rgba(16,185,129,0.08)",color:"#10b981",border:"1px solid rgba(16,185,129,0.2)"}}>CPOTR 2025: 162.250 MT (+19× dari 2023)</span>
+        </div>
+      </div>
+      <div className="p-5">
+        {pbkLoad && (
+          <div className="flex items-center gap-3 py-8">
+            <div className="w-5 h-5 rounded-full border-2 animate-spin shrink-0"
+              style={{borderColor:"rgba(37,99,235,0.3)",borderTopColor:"var(--blue)"}}></div>
+            <div className="text-[11px] text-[var(--text-3)] mono">Menyusun analisis strategis berbasis data terkini…</div>
+          </div>
+        )}
+        {!pbkLoad && pbkAI && (
+          <div className="text-[13px] leading-[1.75] text-[var(--text-2)] whitespace-pre-wrap">{pbkAI}</div>
+        )}
+        {!pbkLoad && !pbkAI && (
+          <div className="text-[11px] text-[var(--text-3)] italic py-4 text-center">Klik "Refresh Analisis" untuk menghasilkan analisis strategis.</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function MenuPBK({year}){
   const [showKelembagaan,setShowKelembagaan]=React.useState(false);
 
@@ -6282,89 +6366,8 @@ function MenuPBK({year}){
         </div>
       </div>
 
-      {/* AI Insight — auto-load */}
-      {(()=>{
-        const [pbkAI,setPbkAI]=React.useState(null);
-        const [pbkLoad,setPbkLoad]=React.useState(false);
-        const generatePBKAnalysis = async()=>{
-          setPbkLoad(true);
-          const pbkPrompt=`Anda adalah Penasihat Kebijakan Senior Kementerian Perdagangan RI, spesialis Perdagangan Berjangka Komoditi (PBK). Tulis analisis strategis komprehensif (8–10 paragraf padat, Bahasa Indonesia formal kebijakan publik, TANPA bullet panjang — prosa mengalir) dengan topik: BAPPEBTI DI PERSIMPANGAN KEWENANGAN — LANGKAH STRATEGIS KE DEPAN.
-
-KONTEKS PERUBAHAN BESAR (isu sangat terkini per Juni 2026):
-1. PERALIHAN ASET KRIPTO (10 Jan 2025): Pengawasan aset kripto (nilai Rp650,61 T/2024, 22,91 juta pelanggan) & derivatif keuangan resmi beralih dari Bappebti ke OJK & BI. Bappebti kehilangan segmen terbesar dalam portofolio pengawasannya — namun kini bisa fokus penuh ke PBK komoditas riil.
-2. UU P2SK DISAHKAN DPR (4 Juni 2026): Mengamanatkan Bursa Mineral & Komoditas Strategis (BMKS) di bawah OJK, target operasi 1 Januari 2027. Wakil Ketua Komisi XI DPR: "kalau ada mineral dan komoditas strategis yang ada di Bappebti, akan ditarik ke sana." POJK pengaturan lanjut ditarget 3 bulan ke depan.
-3. ARAHAN PRESIDEN PRABOWO: Harga komoditas SDA Indonesia tidak boleh ditentukan bursa asing. Mineral RI (nikel, timah, bauksit, tembaga) masih dihargai di LME London & Singapura — ini peluang sekaligus ancaman bagi mandat Bappebti.
-
-DATA KINERJA PBK 2025:
-- Volume: 16,19 juta LOT (+12% YoY) — tertinggi sepanjang masa
-- Nilai nominal: Rp48.867 triliun (+49,8% YoY)
-- CPOTR (Bursa CPO Indonesia): 162.250 MT (dari 8.430 MT pada 2023 — lonjakan 19x)
-- Emas fisik digital: 60,2 ton (dari 2,3 ton pada 2022)
-- Pialang aktif Q1 2026: 67 perusahaan
-
-PAGU INDIKATIF 2027 (KRISNA):
-- Total PI: Rp3,33 M (turun 48,5% dari Rp6,47 M Rev.2026)
-- Kegiatan 3759/3760/3761 = nol di KRISNA (menunggu trilateral)
-- Hanya 3758 (Rp3,24 M RM) + 3762 (Rp90 jt PNBP sertifikasi) yang ada pagu
-
-TUGAS ANALISIS — susun dengan alur berikut:
-BAGIAN 1 — DIAGNOSIS SITUASI (2 paragraf): Gambarkan lanskap kewenangan Bappebti pasca dua gelombang perubahan. Apa yang hilang, apa yang tersisa, apa yang terancam lagi?
-BAGIAN 2 — ANCAMAN DAN PELUANG BMKS-OJK (2 paragraf): Analisis dampak BMKS-OJK terhadap mandat Bappebti — komoditas mana yang berpotensi ditarik, apa risiko tumpang tindih regulasi, dan bagaimana Bappebti bisa memposisikan diri komplementer.
-BAGIAN 3 — KEKUATAN YANG TERSISA: BURSA CPO & EMAS DIGITAL (2 paragraf): Pertumbuhan CPOTR 19x dan emas digital 26x adalah sinyal kuat — analisis mengapa ini bisa menjadi fondasi legitimasi baru Bappebti sebagai regulator pembentuk harga komoditas ekspor strategis.
-BAGIAN 4 — LANGKAH STRATEGIS KONKRET BAPPEBTI (3 paragraf): Berikan 3–4 rekomendasi operasional spesifik yang bisa diimplementasikan dalam 12–24 bulan ke depan: (a) penguatan regulasi komoditas yang tersisa, (b) strategi dialog trilateral PI 2027 untuk memulihkan anggaran substantif yang nol, (c) penajaman peran Bappebti dalam ekosistem komoditas ekspor vs BMKS-OJK, (d) langkah diplomasi intra-pemerintah untuk mepertahankan atau memperluas mandat.
-Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir. Tajam dan berbasis fakta.`;
-          try {
-            const t = await callAI(pbkPrompt, 2000);
-            setPbkAI(t);
-          } catch(e){ setPbkAI("Analisis AI tidak tersedia. Pastikan AI proxy dikonfigurasi di menu ⚙ pengaturan."); }
-          setPbkLoad(false);
-        };
-        React.useEffect(()=>{ generatePBKAnalysis(); },[]);
-        return (
-          <div className="card p-0 overflow-hidden">
-            {/* Header card */}
-            <div className="p-5 border-b border-[var(--border)]" style={{background:"linear-gradient(135deg,rgba(220,38,38,0.04) 0%,rgba(37,99,235,0.04) 100%)"}}>
-              <div className="flex items-start justify-between gap-4 flex-wrap">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-lg"
-                    style={{background:"linear-gradient(135deg,rgba(220,38,38,0.15),rgba(37,99,235,0.15))"}}>✦</div>
-                  <div>
-                    <div className="serif text-xl">Analisis Strategis: Bappebti di Persimpangan Kewenangan</div>
-                    <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Langkah Bappebti ke Depan · Pasca UU P2SK Jun 2026 · Peralihan Kripto ke OJK · BMKS Operasi Jan 2027</div>
-                  </div>
-                </div>
-                <button onClick={generatePBKAnalysis} disabled={pbkLoad}
-                  className="px-4 py-2 rounded-lg text-[11px] mono border transition shrink-0"
-                  style={{borderColor:"var(--blue)",color:"var(--blue)",background:pbkLoad?"rgba(37,99,235,0.05)":"transparent"}}>
-                  {pbkLoad ? "⟳ Menganalisis…" : "↺ Refresh Analisis"}
-                </button>
-              </div>
-              {/* 3 badge konteks */}
-              <div className="flex gap-2 mt-3 flex-wrap">
-                <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.25)"}}>⚠ BMKS-OJK Operasi Jan 2027</span>
-                <span className="pill text-[9px]" style={{background:"rgba(37,99,235,0.08)",color:"#2563eb",border:"1px solid rgba(37,99,235,0.2)"}}>ⓘ Kripto → OJK Jan 2025</span>
-                <span className="pill text-[9px]" style={{background:"rgba(212,164,55,0.1)",color:"var(--gold)",border:"1px solid var(--gold-soft)"}}>↑ Volume PBK 2025: +12% YoY</span>
-                <span className="pill text-[9px]" style={{background:"rgba(16,185,129,0.08)",color:"#10b981",border:"1px solid rgba(16,185,129,0.2)"}}>CPOTR 2025: 162.250 MT (+19× dari 2023)</span>
-              </div>
-            </div>
-            {/* Body */}
-            <div className="p-5">
-              {pbkLoad && (
-                <div className="flex items-center gap-3 py-8">
-                  <div className="w-5 h-5 rounded-full border-2 border-t-transparent animate-spin shrink-0" style={{borderColor:"var(--blue)",borderTopColor:"transparent"}}></div>
-                  <div className="text-[11px] text-[var(--text-3)] mono">Menyusun analisis strategis berbasis data terkini…</div>
-                </div>
-              )}
-              {!pbkLoad && pbkAI && (
-                <div className="text-[13px] leading-[1.75] text-[var(--text-2)] whitespace-pre-wrap">{pbkAI}</div>
-              )}
-              {!pbkLoad && !pbkAI && (
-                <div className="text-[11px] text-[var(--text-3)] italic py-4 text-center">Klik "Refresh Analisis" untuk menghasilkan analisis strategis.</div>
-              )}
-            </div>
-          </div>
-        );
-      })()}
+      {/* AI Insight — sub-komponen proper (hooks-safe) */}
+      <PBKAICard />
 
     </div>
   );
