@@ -2503,11 +2503,12 @@ function ChainRow({chain,ssColor,index}){
         <div className="flex items-start gap-3">
           <span className="mono text-[10px] text-[var(--text-3)] w-12 shrink-0 pt-0.5">◦ RO</span>
           <div className="flex-1">
+            <div className="mono text-[10px] font-semibold text-[var(--text-2)] mb-1">{kegiatan.kode}-{ro.kode}</div>
             <div className="text-[10px] text-[var(--text-3)] mb-1">Target output per tahun:</div>
             <TargetTriple ro={ro}/>
           </div>
         </div>
-        <ChainStep icon="◦" label="KRO"       code={kro.kode} text={kro.nama} />
+        <ChainStep icon="◦" label="KRO" code={`${kegiatan.kode}-${kro.kode}`} text={kro.nama} />
         <ChainStep icon="◦" label="Kegiatan"  code={kegiatan.kode} text={kegiatan.nama} />
         {sk  && <ChainStep icon="◦" label="Sasaran Keg." code={sk.id} text={sk.nama} />}
         {ikk && <ChainStep icon="▸" label="IKK (indikator kegiatan)" code={ikk.id} text={`${ikk.nama} · target ${ikkTgt(ikk,year)}`} highlight />}
