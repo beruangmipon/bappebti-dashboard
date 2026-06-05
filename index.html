@@ -1842,6 +1842,7 @@ function BottomUpDiagram(){
     roByIkk[k.id] = roForYear(year).filter(r=> r.ikkLinked===k.id || (r.ikkLinkedExt||[]).includes(k.id));
     maxRO = Math.max(maxRO, roByIkk[k.id].length);
   });
+  const roKegKode = (r)=>{ const kr=getKRO(r.kro); return kr ? (getKegiatan(kr.kegiatan)||{}).kode||'' : ''; };
 
   const Y_ISP=46, Y_IKK=210, RO_TOP=320, RO_RH=22;
   const H = RO_TOP + Math.ceil(maxRO/2)*RO_RH + 30;
@@ -1916,7 +1917,9 @@ function BottomUpDiagram(){
               const col=idx%2, rowi=Math.floor(idx/2);
               const rx=x-30+col*30, ry=RO_TOP+rowi*RO_RH;
               const isPrimary = r.ikkLinked===k.id;
-              const linkLabel = isPrimary ? r.kode : `${r.kode} (kontribusi sekunder)`;
+              const kegK = roKegKode(r);
+              const roLabel = kegK ? `${kegK}-${r.kode}` : r.kode;
+              const linkLabel = isPrimary ? roLabel : `${roLabel} (kontribusi sekunder)`;
               return (
                 <g key={`${k.id}|${r.id}`}>
                   <rect x={rx} y={ry} width={26} height={16} rx="3"
@@ -2288,7 +2291,7 @@ function KegiatanBranch({kegiatan}){
                       <details key={r.id} className="group">
                         <summary className="flex items-center gap-2 py-1 focus-row text-xs cursor-pointer list-none">
                           <span className="text-[var(--text-3)] text-[9px] chevron">▸</span>
-                          <span className="mono text-[10px] text-[var(--text-3)]">{r.kode}</span>
+                          <span className="mono text-[10px] text-[var(--text-3)]">{kegiatan.kode}-{r.kode}</span>
                           <span className="flex-1 text-[var(--text-2)]">{r.nama}</span>
                           {ik && <span className="mono text-[9px] text-[var(--text-3)]" title={ik.nama}>→ {ik.id}</span>}
                           {r.isPN && <span className="pill pill-gold text-[9px]">PN</span>}
@@ -2340,7 +2343,7 @@ function SebabAkibat(){
   const runAI = async()=>{
     setAILoading(true);
     const ssData = getSS(selectedSS);
-    const prompt = `Anda adalah analis kebijakan publik Indonesia. Berikan analisis singkat (maks 4 paragraf) untuk Sasaran Program berikut.\n\nSP: ${ssData.nama}\n\nRantai bottom-up (RO → IKK indikator kegiatan → IKP indikator program):\n${chains.map(c=>`- ${c.ro.kode} ${c.ro.nama} (anggaran ${fmtRp(c.ro.anggaran)}, impact ${c.ro.impact}/100, ${c.ro.isPN?'PN':'Non-PN'}) → menggerakkan ${c.ikk?c.ikk.id+' '+c.ikk.nama:''} → ${c.ikp?c.ikp.id:''}`).join('\n')}\n\nTotal anggaran terkait SP ini: ${fmtRp(totalBudgetChain)}.\n\nFokus analisa:\n1. Apakah rantai RO → IKK → IKP koheren; apakah indikator kegiatan benar-benar mengungkit indikator program?\n2. RO/IKK mana yang paling kuat menggerakkan IKP, dan mana yang lemah keterkaitannya.\n3. Risiko / bottleneck mitra K/L (Kementan, Kemenkop UKM, Kemendes PDTT) atau regulasi.\n4. Rekomendasi konkret untuk Bappebti tahun anggaran berjalan.\n\nGunakan Bahasa Indonesia formal kebijakan publik. Tanpa bullet, prosa mengalir.`;
+    const prompt = `Anda adalah analis kebijakan publik Indonesia. Berikan analisis singkat (maks 4 paragraf) untuk Sasaran Program berikut.\n\nSP: ${ssData.nama}\n\nRantai bottom-up (RO → IKK indikator kegiatan → IKP indikator program):\n${chains.map(c=>`- ${c.kegiatan.kode}-${c.ro.kode} ${c.ro.nama} (anggaran ${fmtRp(c.ro.anggaran)}, impact ${c.ro.impact}/100, ${c.ro.isPN?'PN':'Non-PN'}) → menggerakkan ${c.ikk?c.ikk.id+' '+c.ikk.nama:''} → ${c.ikp?c.ikp.id:''}`).join('\n')}\n\nTotal anggaran terkait SP ini: ${fmtRp(totalBudgetChain)}.\n\nFokus analisa:\n1. Apakah rantai RO → IKK → IKP koheren; apakah indikator kegiatan benar-benar mengungkit indikator program?\n2. RO/IKK mana yang paling kuat menggerakkan IKP, dan mana yang lemah keterkaitannya.\n3. Risiko / bottleneck mitra K/L (Kementan, Kemenkop UKM, Kemendes PDTT) atau regulasi.\n4. Rekomendasi konkret untuk Bappebti tahun anggaran berjalan.\n\nGunakan Bahasa Indonesia formal kebijakan publik. Tanpa bullet, prosa mengalir.`;
     try{
       let text;
       if(window.__AI_PROXY_URL__ || AI_PROXY_URL){ text = await callAI(prompt, 1000); }
@@ -2476,7 +2479,7 @@ function ChainRow({chain,ssColor,index}){
         <span className="mono text-[10px] text-[var(--text-3)] w-6">{String(index).padStart(2,'0')}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="pill pill-muted mono text-[9px]">{ro.kode}</span>
+            <span className="pill pill-muted mono text-[9px]">{kegiatan.kode}-{ro.kode}</span>
             {ro.isPN && <span className="pill pill-gold text-[9px]">PN</span>}
             {ikk && <span className="pill pill-blue mono text-[9px]">→ {ikk.id}</span>}
             {ikp && <span className="pill mono text-[9px]" style={{background:'rgba(37,99,235,0.08)',color:'#2563eb',borderColor:'transparent'}}>→ {ikp.id}</span>}
