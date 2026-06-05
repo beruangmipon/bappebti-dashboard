@@ -39,8 +39,9 @@
     --border:rgba(15,23,42,0.09);
     --border-strong:rgba(15,23,42,0.18);
     --text:#1a1d21;
+    --text-1:#0f1115;
     --text-2:#52555b;
-    --text-3:#8b8f96;
+    --text-3:#7b7f87;
     --red:#c8102e;
     --red-soft:#7f1d1d;
     --gold:#a16207;
@@ -49,6 +50,14 @@
     --emerald:#059669;
     --blue:#2563eb;
     --violet:#7c3aed;
+    /* warna teks aksen yang kontras di kedua mode */
+    --blue-text:#1d4ed8;
+    --emerald-text:#047857;
+    --red-text:#b91c1c;
+    --amber-text:#b45309;
+    --violet-text:#6d28d9;
+    --gold-text:#92400e;
+    --grid:rgba(15,23,42,0.08);
   }
   [data-theme="dark"]{
     --bg:#0d1117;
@@ -58,10 +67,23 @@
     --border:rgba(255,255,255,0.10);
     --border-strong:rgba(255,255,255,0.20);
     --text:#e6e8eb;
-    --text-2:#aeb3bb;
-    --text-3:#717784;
+    --text-1:#f4f6f8;
+    --text-2:#b6bcc6;
+    --text-3:#8a92a0;
     --gold:#e0b341;
     --gold-soft:#a16207;
+    --blue:#60a5fa;
+    --emerald:#34d399;
+    --red:#f87171;
+    --amber:#fbbf24;
+    --violet:#a78bfa;
+    --blue-text:#8cc0ff;
+    --emerald-text:#5ce0b0;
+    --red-text:#fca5a5;
+    --amber-text:#fcd34d;
+    --violet-text:#c4b5fd;
+    --gold-text:#e8c468;
+    --grid:rgba(255,255,255,0.12);
   }
   [data-theme="dark"] .card{box-shadow:0 1px 2px rgba(0,0,0,0.4),0 2px 10px rgba(0,0,0,0.28);}
   [data-theme="dark"] .focus-row:hover{background:rgba(255,255,255,0.04);}
@@ -117,6 +139,25 @@
   .shimmer{background:linear-gradient(90deg,transparent,rgba(15,23,42,0.06),transparent);background-size:200% 100%;animation:shimmer 2s linear infinite;}
   .gradient-text{background:linear-gradient(135deg,#1a1d21 0%,#a16207 55%,#c8102e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .ring-gold{box-shadow:inset 0 0 0 1px rgba(161,98,7,0.4);}
+  /* Recharts — sumbu, grid, legenda & tooltip mengikuti tema (terbaca di mode gelap & terang) */
+  .recharts-cartesian-axis-tick text,.recharts-cartesian-axis-tick tspan{fill:var(--text-3)!important;}
+  .recharts-cartesian-grid line{stroke:var(--grid)!important;}
+  .recharts-cartesian-axis line,.recharts-cartesian-axis-line{stroke:var(--border-strong)!important;}
+  .recharts-cartesian-axis .recharts-label{fill:var(--text-2)!important;}
+  .recharts-legend-item-text{color:var(--text-2)!important;}
+  .recharts-default-tooltip{background:var(--card)!important;border:1px solid var(--border-strong)!important;border-radius:8px!important;color:var(--text)!important;}
+  .recharts-default-tooltip .recharts-tooltip-label,.recharts-default-tooltip .recharts-tooltip-item,.recharts-default-tooltip .recharts-tooltip-item-name,.recharts-default-tooltip .recharts-tooltip-item-value{color:var(--text)!important;}
+  /* Teks pada SVG diagram (dipakai via className) — netral & aksen, kontras di kedua mode */
+  .svg-ink{fill:var(--text);}
+  .svg-ink-2{fill:var(--text-2);}
+  .svg-ink-3{fill:var(--text-3);}
+  .svg-gold{fill:var(--gold);}
+  .svg-blue{fill:var(--blue-text);}
+  .svg-red{fill:var(--red-text);}
+  .svg-emerald{fill:var(--emerald-text);}
+  .svg-stroke-gold{stroke:var(--gold);}
+  .svg-stroke-2{stroke:var(--text-3);}
+  .svg-grid{stroke:var(--border);}
   @media print{
     html,body{background:white!important;color:#111!important;}
     .grain,.no-print,nav.sticky,header.sticky{display:none!important;}
@@ -485,7 +526,7 @@ const serapanRO = (r)=>{ const v=getReal(r.id); return v==null||!r.anggaran ? nu
 const RO_2027 = [
   { id:"RO27-3760-ACD1", kode:"ACD.001", kro:"KRO-3760-ACD", nama:"Perizinan Lembaga SRG", anggaran:450_000_000, target:"18 Lembaga", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:55, leverage:52 },
   { id:"RO27-3760-ACD2", kode:"ACD.002", kro:"KRO-3760-ACD", nama:"Perizinan Lembaga PLK", anggaran:50_000_000, target:"2 Lembaga", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:50, alignment:50, urgency:48, leverage:46 },
-  { id:"RO27-3760-AFA1", kode:"AFA.001", kro:"KRO-3760-AFA", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", anggaran:200_000_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:64, alignment:66, urgency:60, leverage:62 },
+  { id:"RO27-3760-AFA1", kode:"AFA.001", kro:"KRO-3760-AFA", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", anggaran:200_000_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:64, alignment:66, urgency:60, leverage:62 },
   { id:"RO27-3760-BDB1", kode:"BDB.002", kro:"KRO-3760-BDB", nama:"Pembinaan/Pendampingan dalam Penyiapan Implementasi PLK di Daerah Baru", anggaran:460_000_000, target:"20 Lembaga", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:78, alignment:80, urgency:75, leverage:76 },
   { id:"RO27-3760-BMA1", kode:"BMA.001", kro:"KRO-3760-BMA", nama:"Data & Informasi Harga Komoditi SRG/PLK", anggaran:150_000_000, target:"10 Dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:66, alignment:64, urgency:62, leverage:68 },
   { id:"RO27-3760-FAB1", kode:"FAB.001", kro:"KRO-3760-FAB", nama:"Sistem Informasi Persetujuan SRG dan PLK", anggaran:180_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:60, alignment:58, urgency:60, leverage:64 },
@@ -524,7 +565,7 @@ const RO_2027_KL = [
   { id:"RO27-3759-AEA1", kode:"AEA.001", kro:"KRO-3759-AEA", nama:"Koordinasi Penegakan Hukum PBK/SRG/PLK (Pencegahan & Penanganan Kegiatan Ilegal)", anggaran:277_504_000, target:"20 Kegiatan", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:74, alignment:72, urgency:80, leverage:68 },
   { id:"RO27-3759-BIC1", kode:"BIC.001", kro:"KRO-3759-BIC", nama:"Pengawasan Penyelenggara PLK (Pengawasan & Evaluasi Pasar Lelang Komoditas)", anggaran:301_870_000, target:"7 Lembaga", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:72, alignment:70, urgency:74, leverage:66 },
   { id:"RO27-3759-BIH1", kode:"BIH.001", kro:"KRO-3759-BIH", nama:"Pengawasan Pelaku Usaha PBK melalui Audit (Offsite/Onsite & Monitoring)", anggaran:2_078_710_000, target:"50 Badan Usaha", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:80, alignment:76, urgency:84, leverage:72 },
-  { id:"RO27-3759-BIH2", kode:"BIH.003", kro:"KRO-3759-BIH", nama:"Pengawasan Pelaku Usaha Legal/Ilegal melalui Penindakan di Bidang PBK/SRG/PLK", anggaran:1_782_755_000, target:"62 Badan Usaha", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:86, leverage:70 },
+  { id:"RO27-3759-BIH2", kode:"BIH.002", kro:"KRO-3759-BIH", nama:"Pengawasan Pelaku Usaha Legal/Ilegal melalui Penindakan di Bidang PBK/SRG/PLK", anggaran:1_782_755_000, target:"62 Badan Usaha", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:78, alignment:74, urgency:86, leverage:70 },
   { id:"RO27-3759-CCL1", kode:"CCL.001", kro:"KRO-3759-CCL", nama:"Pemeliharaan Perangkat Pengawasan Gudang SRG (Mekanisasi CCTV)", anggaran:365_740_000, target:"9 Unit", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:64, alignment:62, urgency:66, leverage:68 },
   { id:"RO27-3759-FAB1", kode:"FAB.001", kro:"KRO-3759-FAB", nama:"Sistem Informasi Pengawasan SRG (Pemeliharaan Aplikasi)", anggaran:150_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:62, alignment:60, urgency:62, leverage:66 },
   { id:"RO27-3759-FAB2", kode:"FAB.002", kro:"KRO-3759-FAB", nama:"Sistem Informasi Pengawasan PLK (Pemeliharaan Aplikasi)", anggaran:30_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-11", ikuLinked:["ISP-3"], impact:58, alignment:56, urgency:58, leverage:62 },
@@ -1883,22 +1924,22 @@ function BottomUpDiagram(){
         <svg viewBox={`0 0 ${W} ${H}`} style={{minWidth:W, width:'100%', maxWidth:W>900?W:'100%'}} xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrUp" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
-              <path d="M0,7 L4,0 L8,7" fill="none" stroke="#a16207" strokeWidth="1.4"/>
+              <path className="svg-stroke-gold" d="M0,7 L4,0 L8,7" fill="none" strokeWidth="1.4"/>
             </marker>
           </defs>
 
           {/* band labels */}
-          <text x="6" y={Y_ISP-22} fontSize="9" fontFamily="JetBrains Mono" fill="#a16207" letterSpacing="1">ISP · INDIKATOR PROGRAM</text>
-          <text x="6" y={Y_IKK-30} fontSize="9" fontFamily="JetBrains Mono" fill="#2563eb" letterSpacing="1">IKK · INDIKATOR KEGIATAN</text>
-          <text x="6" y={RO_TOP-14} fontSize="9" fontFamily="JetBrains Mono" fill="#6b7280" letterSpacing="1">RO · RINCIAN OUTPUT</text>
+          <text className="svg-gold" x="6" y={Y_ISP-22} fontSize="9" fontFamily="JetBrains Mono" letterSpacing="1">ISP · INDIKATOR PROGRAM</text>
+          <text className="svg-blue" x="6" y={Y_IKK-30} fontSize="9" fontFamily="JetBrains Mono" letterSpacing="1">IKK · INDIKATOR KEGIATAN</text>
+          <text className="svg-ink-3" x="6" y={RO_TOP-14} fontSize="9" fontFamily="JetBrains Mono" letterSpacing="1">RO · RINCIAN OUTPUT</text>
 
           {/* arrows RO -> IKK and IKK -> ISP */}
           {ikks.map(k=>{
             const x=ikkX[k.id]; const px=ikpX[k.ikpLinked];
             return (
               <g key={'l'+k.id}>
-                <line x1={x} y1={Y_IKK-4} x2={px} y2={Y_ISP+34} stroke="#a16207" strokeWidth="1.3" opacity="0.55" markerEnd="url(#arrUp)"/>
-                <line x1={x} y1={RO_TOP-8} x2={x} y2={Y_IKK+44} stroke="#9ca3af" strokeWidth="1.1" opacity="0.5" markerEnd="url(#arrUp)"/>
+                <line className="svg-stroke-gold" x1={x} y1={Y_IKK-4} x2={px} y2={Y_ISP+34} strokeWidth="1.3" opacity="0.6" markerEnd="url(#arrUp)"/>
+                <line className="svg-stroke-2" x1={x} y1={RO_TOP-8} x2={x} y2={Y_IKK+44} strokeWidth="1.1" opacity="0.6" markerEnd="url(#arrUp)"/>
               </g>
             );
           })}
@@ -1908,9 +1949,9 @@ function BottomUpDiagram(){
             const x=ikpX[p.id], bw=132;
             return (
               <g key={p.id}>
-                <rect x={x-bw/2} y={Y_ISP} width={bw} height={34} rx="7" fill="rgba(161,98,7,0.10)" stroke="#a16207" strokeWidth="1.2"/>
-                <text x={x} y={Y_ISP+14} textAnchor="middle" fontSize="11" fontFamily="JetBrains Mono" fontWeight="700" fill="#a16207">{p.id}</text>
-                <text x={x} y={Y_ISP+27} textAnchor="middle" fontSize="8" fill="#52555b">target {ikpTgt(p,year)}</text>
+                <rect className="svg-stroke-gold" x={x-bw/2} y={Y_ISP} width={bw} height={34} rx="7" fill="rgba(161,98,7,0.10)" strokeWidth="1.2"/>
+                <text className="svg-gold" x={x} y={Y_ISP+14} textAnchor="middle" fontSize="11" fontFamily="JetBrains Mono" fontWeight="700">{p.id}</text>
+                <text className="svg-ink-2" x={x} y={Y_ISP+27} textAnchor="middle" fontSize="8">target {ikpTgt(p,year)}</text>
               </g>
             );
           })}
@@ -1921,10 +1962,10 @@ function BottomUpDiagram(){
             const short = k.nama.length>34? k.nama.slice(0,32)+'…' : k.nama;
             return (
               <g key={k.id}>
-                <rect x={x-bw/2} y={Y_IKK} width={bw} height={42} rx="6" fill="rgba(37,99,235,0.06)" stroke="#2563eb" strokeWidth="1"/>
-                <text x={x} y={Y_IKK+14} textAnchor="middle" fontSize="10" fontFamily="JetBrains Mono" fontWeight="700" fill="#2563eb">{k.id}</text>
-                <text x={x} y={Y_IKK+26} textAnchor="middle" fontSize="7.5" fill="#52555b"><title>{k.nama}</title>{short.length>26?short.slice(0,24)+'…':short}</text>
-                <text x={x} y={Y_IKK+37} textAnchor="middle" fontSize="8" fontFamily="JetBrains Mono" fill="#a16207">{ikkTgt(k,year)}</text>
+                <rect x={x-bw/2} y={Y_IKK} width={bw} height={42} rx="6" fill="rgba(37,99,235,0.06)" style={{stroke:"var(--blue)"}} strokeWidth="1"/>
+                <text className="svg-blue" x={x} y={Y_IKK+14} textAnchor="middle" fontSize="10" fontFamily="JetBrains Mono" fontWeight="700">{k.id}</text>
+                <text className="svg-ink-2" x={x} y={Y_IKK+26} textAnchor="middle" fontSize="7.5"><title>{k.nama}</title>{short.length>26?short.slice(0,24)+'…':short}</text>
+                <text className="svg-gold" x={x} y={Y_IKK+37} textAnchor="middle" fontSize="8" fontFamily="JetBrains Mono">{ikkTgt(k,year)}</text>
               </g>
             );
           })}
@@ -1946,12 +1987,12 @@ function BottomUpDiagram(){
               return (
                 <g key={`${k.id}|${r.id}`}>
                   <rect x={rx} y={ry} width={rw} height={rh} rx="4"
-                    fill={r.isPN?"rgba(202,138,4,0.16)":"rgba(15,23,42,0.05)"}
-                    stroke={r.isPN?"#ca8a04":"#cbd5e1"}
+                    fill={r.isPN?"rgba(202,138,4,0.18)":"var(--card-2)"}
+                    style={{stroke:r.isPN?"var(--amber)":"var(--border-strong)"}}
                     strokeWidth="0.9"
                     strokeDasharray={isPrimary?"":"3 2"}
-                    opacity={isPrimary?1:0.78}/>
-                  <text x={rx+rw/2} y={ry+13} textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{roLabel}</text>
+                    opacity={isPrimary?1:0.85}/>
+                  <text className={r.isPN?"svg-gold":"svg-ink-2"} x={rx+rw/2} y={ry+13} textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono"><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{roLabel}</text>
                 </g>
               );
             });
@@ -2121,7 +2162,7 @@ function PohonKinerja(){
             <div className="w-1 h-12 rounded-full shrink-0" style={{background:SS_KMD.warna}}></div>
             <div className="flex-1 min-w-[260px]">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="pill text-[10px]" style={{background:"rgba(124,45,18,0.10)",color:"#7c2d12",borderColor:"transparent"}}>{SS_KMD.id}</span>
+                <span className="pill text-[10px]" style={{background:"rgba(124,45,18,0.10)",color:"var(--amber)",borderColor:"transparent"}}>{SS_KMD.id}</span>
                 <span className="text-[10px] mono text-[var(--text-3)]">Permendag 34/2025 · Renstra Kemendag 2025–2029 (Tabel II.2)</span>
               </div>
               <div className="serif text-lg leading-snug text-balance">{SS_KMD.nama}</div>
@@ -2386,15 +2427,15 @@ function SebabAkibat(){
           <div className="w-1 h-10 rounded-full shrink-0" style={{background:SS_KMD.warna}}></div>
           <div className="flex-1 min-w-[260px]">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="pill text-[9px]" style={{background:"rgba(124,45,18,0.10)",color:"#7c2d12",borderColor:"transparent"}}>{SS_KMD.id}</span>
+              <span className="pill text-[9px]" style={{background:"rgba(124,45,18,0.10)",color:"var(--amber)",borderColor:"transparent"}}>{SS_KMD.id}</span>
               <span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Sasaran Strategis Kementerian (Anchor)</span>
             </div>
             <div className="serif text-base leading-snug">{SS_KMD.nama}</div>
-            <div className="text-[11px] text-[var(--text-2)] mt-1">{ISS_KMD.id} · {ISS_KMD.nama} — Target 2027: <b style={{color:"#a16207"}}>{ISS_KMD.t[2027]}</b> (revisi dari 17% per Renstra Kemendag).</div>
+            <div className="text-[11px] text-[var(--text-2)] mt-1">{ISS_KMD.id} · {ISS_KMD.nama} — Target 2027: <b style={{color:"var(--gold)"}}>{ISS_KMD.t[2027]}</b> (revisi dari 17% per Renstra Kemendag).</div>
           </div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] text-right shrink-0">
             <div>Jalur Akuntabilitas</div>
-            <div className="serif text-sm normal-case mt-1" style={{color:"#7c2d12",letterSpacing:"-0.01em"}}>RO → IKK → ISP → ISS</div>
+            <div className="serif text-sm normal-case mt-1" style={{color:"var(--amber)",letterSpacing:"-0.01em"}}>RO → IKK → ISP → ISS</div>
           </div>
         </div>
       </div>
@@ -2649,10 +2690,10 @@ function AnalisaPN(){
         <div className="serif text-xl mb-4">Kaskade Prioritas Nasional</div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           {[
-            {lbl:"PN", n:1, sub:PRIORITAS.pn.kode, color:"#a16207"},
+            {lbl:"PN", n:1, sub:PRIORITAS.pn.kode, color:"var(--gold)"},
             {lbl:"PP", n:1, sub:PRIORITAS.pp.kode, color:"#ca8a04"},
-            {lbl:"KP", n:1, sub:PRIORITAS.kp.kode, color:"#2563eb"},
-            {lbl:"ProP", n:1, sub:`${yPnCount} RO`, color:"#059669"},
+            {lbl:"KP", n:1, sub:PRIORITAS.kp.kode, color:"var(--blue)"},
+            {lbl:"ProP", n:1, sub:`${yPnCount} RO`, color:"var(--emerald)"},
           ].map((d,i)=>(
             <div key={i} className="card-2 p-4 text-center">
               <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{d.lbl}</div>
@@ -2915,8 +2956,8 @@ function PenerbitanResiGudang({year}){
         {[0,0.25,0.5,0.75,1].map((t,i)=>{
           const y = padT+innerH*(1-t);
           return (<g key={i}>
-            <line x1={padL} y1={y} x2={W-padR} y2={y} stroke="var(--border)" strokeWidth="1"/>
-            <text x={padL-5} y={y+3} textAnchor="end" fontSize="8" fill="var(--text-3)" fontFamily="monospace">{m.fmt(max*t).replace("Rp ","").replace(" ton","")}</text>
+            <line className="svg-grid" x1={padL} y1={y} x2={W-padR} y2={y} strokeWidth="1"/>
+            <text className="svg-ink-3" x={padL-5} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{m.fmt(max*t).replace("Rp ","").replace(" ton","")}</text>
           </g>);
         })}
         {data.map((d,i)=>{
@@ -2931,7 +2972,7 @@ function PenerbitanResiGudang({year}){
                 <title>{d.th}{d.p?" (sementara)":""}: {m.fmt(v)}</title>
               </rect>
               {v>0 && <text x={x+bw/2} y={y-3} textAnchor="middle" fontSize="6.5" fill={m.color} fontFamily="monospace" fontWeight="700" opacity={d.p?0.65:1}>{slbl(v)}</text>}
-              <text x={x+bw/2} y={H-padB+12} textAnchor="middle" fontSize="7.5" fill="var(--text-3)" fontFamily="monospace">{d.th.slice(2)}{d.p?"*":""}</text>
+              <text className="svg-ink-3" x={x+bw/2} y={H-padB+12} textAnchor="middle" fontSize="7.5" fontFamily="monospace">{d.th.slice(2)}{d.p?"*":""}</text>
             </g>
           );
         })}
@@ -3058,7 +3099,7 @@ function PeringkatPengelolaGudang({year}){
                     <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(d.rg)}</div><div className="text-[9px] text-[var(--text-3)]">skor {d.sR.toFixed(0)}/100</div></div>
                     <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(d.nilai)}</div><div className="text-[9px] text-[var(--text-3)]">skor {d.sN.toFixed(0)}/100</div></div>
                   </div>
-                  <div className="text-[10px] text-[var(--text-3)] mt-2">Skor agregat = 0,40·skor gudang + 0,35·skor resi + 0,25·skor nilai = <b style={{color:"#7c3aed"}}>{d.skor.toFixed(1).replace(".",",")}</b></div>
+                  <div className="text-[10px] text-[var(--text-3)] mt-2">Skor agregat = 0,40·skor gudang + 0,35·skor resi + 0,25·skor nilai = <b style={{color:"var(--violet)"}}>{d.skor.toFixed(1).replace(".",",")}</b></div>
                 </div>
               )}
               {isOpen && c.mode==="gudang" && (
@@ -3241,7 +3282,7 @@ function PembiayaanRG({year}){
             <span className="flex-1 truncate text-[var(--text-2)]">{b.key}</span>
             <div className="impact-bar w-28 sm:w-40 shrink-0"><div className="impact-fill" style={{width:`${Math.round(b.biaya/max*100)}%`,background:"#7c3aed"}}></div></div>
             <span className="mono text-[10px] text-[var(--text-3)] w-14 text-right shrink-0">{fmtNumRG(b.rg)} resi</span>
-            <span className="mono text-[11px] w-24 text-right shrink-0" style={{color:"#7c3aed"}}>{fmtRpRG(b.biaya)}</span>
+            <span className="mono text-[11px] w-24 text-right shrink-0" style={{color:"var(--violet)"}}>{fmtRpRG(b.biaya)}</span>
           </div>
         ))}
       </div>
@@ -3308,7 +3349,7 @@ function IndonesiaChoropleth({year, metrics}){
         {IDN_GEO.map((g)=>{ const k=provKey(g.n); const v=vals[k]||0; const isH=hover&&hover.key===k;
           return (
             <path key={g.n} d={pathOf(g.p)}
-              fill={v? m.color : "var(--card-2)"} fillOpacity={v?opac(v):1}
+              style={{fill: v? m.color : "var(--card-2)"}} fillOpacity={v?opac(v):1}
               stroke={isH?"var(--gold)":"var(--bg)"} strokeWidth={isH?1.6:0.5}
               style={{cursor:"pointer",transition:"fill-opacity .15s"}}
               onMouseEnter={()=>setHover({name:g.n,key:k,val:v})}>
@@ -3459,7 +3500,7 @@ function SebaranSRG({year}){
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Terbatalkan</div>
-          <div className="serif text-4xl mt-2" style={{color:"#dc2626"}}>{batalCount}</div>
+          <div className="serif text-4xl mt-2" style={{color:"var(--red)"}}>{batalCount}</div>
           <div className="text-[10px] text-[var(--text-3)] mt-1">persetujuan dibatalkan</div>
         </div>
         <div className="card p-5">
@@ -3560,7 +3601,7 @@ function SebaranSRG({year}){
           {PENGELOLA_SRG.status.filter(s=>s.k!=="Aktif").map(s=>(
             <div key={s.k} className="card-2 p-4">
               <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{s.k}</div>
-              <div className="serif text-3xl mt-1" style={{color:"#dc2626"}}>{s.n}</div>
+              <div className="serif text-3xl mt-1" style={{color:"var(--red)"}}>{s.n}</div>
               <div className="text-[10px] text-[var(--text-3)] mt-1">persetujuan {s.k.toLowerCase()}</div>
             </div>
           ))}
@@ -3650,10 +3691,10 @@ function SebaranSRG({year}){
                 const isSel = selected===p.id;
                 return (
                   <g key={p.id} onClick={()=>setSelected(p.id)} style={{cursor:"pointer"}}>
-                    {isSel && <circle cx={p.x} cy={p.y} r={r+7} fill="none" stroke="#a16207" strokeWidth="1" strokeDasharray="4 3" opacity="0.6"/>}
-                    <circle cx={p.x} cy={p.y} r={r} fill="rgba(161,98,7,0.18)" stroke="#a16207" strokeWidth={isSel?2:1}/>
+                    {isSel && <circle className="svg-stroke-gold" cx={p.x} cy={p.y} r={r+7} fill="none" strokeWidth="1" strokeDasharray="4 3" opacity="0.6"/>}
+                    <circle className="svg-stroke-gold" cx={p.x} cy={p.y} r={r} fill="rgba(161,98,7,0.18)" strokeWidth={isSel?2:1}/>
                     <text x={p.x} y={p.y+r+11} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fill={isSel?"#a16207":"#6b7280"} style={{pointerEvents:"none"}}>{p.nama.length>14?p.nama.slice(0,12)+'…':p.nama}</text>
-                    <text x={p.x} y={p.y+3} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fontWeight="600" fill="#a16207" style={{pointerEvents:"none"}}>{visG.length}</text>
+                    <text className="svg-gold" x={p.x} y={p.y+3} textAnchor="middle" fontSize="9" fontFamily="JetBrains Mono" fontWeight="600" style={{pointerEvents:"none"}}>{visG.length}</text>
                   </g>
                 );
               })}
@@ -4453,12 +4494,12 @@ function MenuSPBE(){
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Proses Clearance</div>
-          <div className="serif text-4xl mt-2" style={{color:"#059669"}}>{selesai}<span className="text-base text-[var(--text-3)]">/{rows.length}</span></div>
+          <div className="serif text-4xl mt-2" style={{color:"var(--emerald)"}}>{selesai}<span className="text-base text-[var(--text-3)]">/{rows.length}</span></div>
           <div className="text-[10px] text-[var(--text-3)] mt-1">selesai</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Submit EGA SPBE</div>
-          <div className="serif text-4xl mt-2" style={{color:"#059669"}}>{ega}<span className="text-base text-[var(--text-3)]">/{rows.length}</span></div>
+          <div className="serif text-4xl mt-2" style={{color:"var(--emerald)"}}>{ega}<span className="text-base text-[var(--text-3)]">/{rows.length}</span></div>
           <div className="text-[10px] text-[var(--text-3)] mt-1">sudah submit</div>
         </div>
       </div>
@@ -4664,7 +4705,7 @@ function AnalisisAnggaran2027(){
               <div className="flex-1 min-w-[260px]">
                 <div className="serif text-lg">Analisis Kandidat RO untuk PKPN TA 2027</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Selain 3 RO yang sudah teridentifikasi resmi Bappenas (QDC.002 di Klaster Kedaulatan Pangan; PEA.001 &amp; QDB.002 di Klaster Ekonomi Kerakyatan &amp; Desa), sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"#059669"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"#a16207"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
+                  Selain 3 RO yang sudah teridentifikasi resmi Bappenas (QDC.002 di Klaster Kedaulatan Pangan; PEA.001 &amp; QDB.002 di Klaster Ekonomi Kerakyatan &amp; Desa), sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"var(--emerald)"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"var(--gold)"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
                 </p>
               </div>
               <button onClick={()=>setPkpnCandOpen(v=>!v)}
@@ -4676,8 +4717,8 @@ function AnalisisAnggaran2027(){
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
               <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Total Kandidat</div><div className="serif text-xl mt-1" style={{color:"#be185d"}}>{candidates.length} RO</div><div className="text-[9px] text-[var(--text-3)] mt-0.5">{fmtRp(totalBud)}</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Sangat Direkomendasikan</div><div className="serif text-xl mt-1" style={{color:"#059669"}}>{strongN} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Layak Dipertimbangkan</div><div className="serif text-xl mt-1" style={{color:"#a16207"}}>{medN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Sangat Direkomendasikan</div><div className="serif text-xl mt-1" style={{color:"var(--emerald)"}}>{strongN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Layak Dipertimbangkan</div><div className="serif text-xl mt-1" style={{color:"var(--gold)"}}>{medN} RO</div></div>
               <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Perlu Justifikasi</div><div className="serif text-xl mt-1" style={{color:"#6b7280"}}>{weakN} RO</div></div>
             </div>
             {/* Ringkasan distribusi per Klaster (selalu tampak, kompak) */}
@@ -4741,12 +4782,12 @@ function AnalisisAnggaran2027(){
       <div className="card p-4 mb-5">
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tagging Tematik RO (Resmi) — TA {year}{isRanwal?' · MENGIKUTI TA 2026':''}</div>
-          <div className="text-[10px] text-[var(--text-3)]"><b style={{color:"#7c3aed"}}>{taggedRO.length} RO</b> ber-tagging tematik ({fmtRp(taggedBud)}) · <b>{nonTema.length} RO</b> Non-Tematik · <b style={{color:"#a16207"}}>{pnRos.length} RO</b> PN</div>
+          <div className="text-[10px] text-[var(--text-3)]"><b style={{color:"var(--violet)"}}>{taggedRO.length} RO</b> ber-tagging tematik ({fmtRp(taggedBud)}) · <b>{nonTema.length} RO</b> Non-Tematik · <b style={{color:"var(--gold)"}}>{pnRos.length} RO</b> PN</div>
         </div>
         {isRanwal && (
           <div className="rounded p-3 mb-3 text-[11px] leading-relaxed" style={{background:"rgba(124,58,237,0.06)",border:"1px solid rgba(124,58,237,0.25)",color:"var(--text-2)"}}>
             <div className="flex items-start gap-2">
-              <span className="mono text-[9px] uppercase tracking-wider shrink-0 mt-0.5" style={{color:"#7c3aed"}}>Catatan TA 2027</span>
+              <span className="mono text-[9px] uppercase tracking-wider shrink-0 mt-0.5" style={{color:"var(--violet)"}}>Catatan TA 2027</span>
               <div>Karena RANWAL TA 2027 <b>masih dalam tahap pembahasan</b>, tagging tematik di sini <b>mengikuti tagging tematik TA 2026</b> (6 RO Kegiatan 3760: QDB.001–003 & QDC.001–003) — kode RO identik antar tahun sehingga tagging dapat di-roll-forward. Pengecualian: <b>tagging PKPN</b> (Program Kerja Prioritas Nasional 8 Klaster) yang muncul pertama kali untuk TA 2027 sesuai dokumen Bappenas <i>"Pembahasan PKPN RKP 2027 Kemendag"</i> (29 Mei 2026) — saat ini 3 RO teridentifikasi resmi: QDC.002 pada Klaster Kedaulatan Pangan, serta PEA.001 &amp; QDB.002 pada Klaster Ekonomi Kerakyatan &amp; Desa. Tagging tematik final TA 2027 akan ditetapkan pada Renja K/L definitif setelah trilateral meeting Pagu Indikatif.</div>
             </div>
           </div>
@@ -4840,8 +4881,8 @@ function AnalisisAnggaran2027(){
       {/* Rubrik verdict */}
       <div className="card-2 p-4 mb-6 text-[11px] text-[var(--text-2)] leading-relaxed">
         <b>Verdict</b> = rata-rata tertimbang 5 kriteria (K1 25% · K2 20% · K3 20% · K4 15% · K5 20%):
-        <span style={{color:"#059669"}}> ● Layak</span> ≥ 80 ·
-        <span style={{color:"#a16207"}}> ● Layak Bersyarat</span> 70–79 (perlu perbaikan: recosting SBM / clearance / penajaman target) ·
+        <span style={{color:"var(--emerald)"}}> ● Layak</span> ≥ 80 ·
+        <span style={{color:"var(--gold)"}}> ● Layak Bersyarat</span> 70–79 (perlu perbaikan: recosting SBM / clearance / penajaman target) ·
         <span style={{color:"#c8102e"}}> ● Perlu Telaah</span> &lt; 70 (keterkaitan/efisiensi lemah — kandidat revisi/realokasi). Skor estimasi dari data RO-level{isRanwal?' RANWAL':''}; finalisasi perlu detil RKA & SBM/SBK resmi TA {year}.
       </div>
 
@@ -4944,7 +4985,7 @@ function AnalisisAnggaran2027(){
                                   <div className="mono text-[9px] uppercase tracking-wider text-[var(--text-3)] mb-1">3 · Kerangka Logika (RO → IKK → IKP)</div>
                                   <div>{just.kerangka}</div>
                                   {just.pnClause && <div className="mt-1.5 text-[var(--gold)]">{just.pnClause}</div>}
-                                  {just.tematikClause && <div className="mt-1.5" style={{color:"#7c3aed"}}>{just.tematikClause}</div>}
+                                  {just.tematikClause && <div className="mt-1.5" style={{color:"var(--violet)"}}>{just.tematikClause}</div>}
                                 </div>
                                 {just.pkpn && (
                                   <div className="md:col-span-2 rounded p-3" style={{background:"rgba(190,24,93,0.06)",border:"1px solid rgba(190,24,93,0.20)"}}>
@@ -5128,7 +5169,7 @@ function AnalisisAnggaran2027(){
                       <tr style={{borderTop:"2px solid var(--border)",background:"var(--bg-2)"}}>
                         <td colSpan={2} style={{padding:"10px 12px",fontWeight:"700",fontSize:"12px",color:"var(--text-1)"}}>TOTAL</td>
                         <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text-2)"}}>{TOTAL26.toLocaleString('id-ID')}</td>
-                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"#d97706"}}>{TOTAL27.toLocaleString('id-ID')}</td>
+                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--amber)"}}>{TOTAL27.toLocaleString('id-ID')}</td>
                         <td style={{padding:"10px 12px",textAlign:"center"}}>
                           <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.2)"}}>−48,5%</span>
                         </td>
@@ -5240,7 +5281,7 @@ const PLK_KELEMBAGAAN = [
   {t:"Peserta / Anggota Lelang", d:"Perorangan/badan usaha terdaftar sebagai anggota Penyelenggara PLK dan Lembaga Penjaminan.", c:"#595A5C"},
 ];
 const PLK_CRITICAL_PATH = [
-  {n:1, fase:"Penguatan Regulasi & NSPK", horizon:"2026 · Jangka Pendek", color:"#1B599B",
+  {n:1, fase:"Penguatan Regulasi & NSPK", horizon:"2026 · Jangka Pendek", color:"var(--blue)",
    aksi:[
      {t:"Finalisasi NSPK turunan Permendag 33/2024 — tata cara lelang (spot & forward), mekanisme penjaminan, dan Peraturan Tata Tertib (PTT) baku.", why:"NSPK yang lengkap memberi kepastian hukum bagi penyelenggara dan peserta serta menjadi syarat persetujuan Bappebti; tanpa baku ini lelang berjalan tanpa standar, rawan sengketa, dan sulit diawasi."},
      {t:"Penetapan standar mutu komoditas unggulan yang dilelang (grade/SNI, parameter kualitas seperti K3 untuk karet).", why:"Standar mutu memungkinkan komoditas diperdagangkan tanpa inspeksi fisik berulang, menumbuhkan kepercayaan pembeli, dan menjadi prasyarat lelang forward (penyerahan kemudian)."},
@@ -5261,7 +5302,7 @@ const PLK_CRITICAL_PATH = [
      {t:"Sinkronisasi data gudang, mutu, stok, dan harga antar-sistem SRG dan PLK.", why:"Data terpadu menghindari duplikasi input, mempercepat verifikasi, dan menjadi basis pembentukan referensi harga nasional."},
    ],
    ind:"Transaksi PLK bersumber komoditas SRG meningkat; data dua sistem terhubung"},
-  {n:4, fase:"Digitalisasi & Sistem Informasi", horizon:"2027–2028", color:"#1B599B",
+  {n:4, fase:"Digitalisasi & Sistem Informasi", horizon:"2027–2028", color:"var(--blue)",
    aksi:[
      {t:"Operasionalkan platform lelang elektronik terstandar dan interoperan (lanjutan plk.bappebti.go.id).", why:"Lelang daring memutus ketergantungan pada acara fisik yang mahal dan rentan terhenti saat anggaran nihil (seperti TA 2026), memperluas jangkauan peserta, serta menurunkan biaya transaksi."},
      {t:"Publikasi berkala referensi harga komoditas hasil lelang.", why:"Harga acuan yang transparan memperkuat posisi tawar petani dan merupakan manfaat publik utama dari keberadaan PLK."},
@@ -5275,7 +5316,7 @@ const PLK_CRITICAL_PATH = [
      {t:"Skema insentif dan kemitraan pembiayaan (mis. sinergi KUR/lembaga keuangan dengan penjaminan).", why:"Akses pembiayaan dan insentif mendorong partisipasi serta keberlanjutan penyelenggara mandiri — penting setelah dukungan anggaran pusat berkurang."},
    ],
    ind:"Jumlah peserta & ragam komoditas naik; konsentrasi pada satu komoditas menurun"},
-  {n:6, fase:"Pengawasan, Monev & Stabilisasi Harga", horizon:"Berkelanjutan", color:"#13182B",
+  {n:6, fase:"Pengawasan, Monev & Stabilisasi Harga", horizon:"Berkelanjutan", color:"var(--violet)",
    aksi:[
      {t:"Pengawasan penyelenggara dan lembaga penjamin secara onsite maupun offsite.", why:"Mencegah penyimpangan, melindungi peserta, dan menjaga integritas pasar agar kepercayaan pelaku tetap terjaga."},
      {t:"Evaluasi kinerja nilai dan volume transaksi per daerah secara rutin.", why:"Data per daerah (yang saat ini banyak 'belum tersedia') memungkinkan intervensi tepat sasaran pada daerah yang stagnan atau berhenti."},
@@ -5304,15 +5345,15 @@ function PlkBarChart({sel}){
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:240}} preserveAspectRatio="xMidYMid meet">
       {[0,0.25,0.5,0.75,1].map((t,i)=>{const y=padT+innerH*(1-t);return(<g key={i}>
-        <line x1={padL} y1={y} x2={W-padR} y2={y} stroke="var(--border)" strokeWidth="1"/>
-        <text x={padL-4} y={y+3} textAnchor="end" fontSize="8" fill="var(--text-3)" fontFamily="monospace">{Math.round(max*t)}</text>
+        <line className="svg-grid" x1={padL} y1={y} x2={W-padR} y2={y} strokeWidth="1"/>
+        <text className="svg-ink-3" x={padL-4} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{Math.round(max*t)}</text>
       </g>);})}
       {data.map((d,i)=>{const h=max>0?innerH*(d.nilai/max):0;const x=padL+i*step+(step-bw)/2;const y=padT+innerH-h;
         const isSel=d.th===String(sel);
         return(<g key={d.th}>
           <rect x={x} y={y} width={bw} height={h} rx="2" fill={isSel?"#2C5F2D":"#409B56"} opacity={d.p?0.5:0.92} stroke={isSel?"#d4a437":"none"} strokeWidth={isSel?2:0}><title>{d.th}{d.p?" (s.d. April)":""}: Rp {d.nilai} miliar</title></rect>
-          <text x={x+bw/2} y={y-3} textAnchor="middle" fontSize={isSel?"9":"8"} fill={isSel?"#a16207":"#2C5F2D"} fontFamily="monospace" fontWeight="700" opacity={d.p?0.7:1}>{String(d.nilai).replace(".",",")}</text>
-          <text x={x+bw/2} y={H-padB+13} textAnchor="middle" fontSize="8.5" fill={isSel?"var(--text)":"var(--text-3)"} fontFamily="monospace" fontWeight={isSel?700:400}>{d.th}{d.p?"*":""}</text>
+          <text className={isSel?"svg-gold":"svg-emerald"} x={x+bw/2} y={y-3} textAnchor="middle" fontSize={isSel?"9":"8"} fontFamily="monospace" fontWeight="700" opacity={d.p?0.7:1}>{String(d.nilai).replace(".",",")}</text>
+          <text x={x+bw/2} y={H-padB+13} textAnchor="middle" fontSize="8.5" style={{fill:isSel?"var(--text)":"var(--text-3)"}} fontFamily="monospace" fontWeight={isSel?700:400}>{d.th}{d.p?"*":""}</text>
         </g>);})}
     </svg>
   );
@@ -5330,7 +5371,7 @@ function MenuPLK({year}){
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <span className="pill mono text-[10px]" style={{background:"rgba(64,155,86,0.14)",color:"#2C5F2D",border:"1px solid rgba(64,155,86,0.3)"}}>DATA PLK</span>
+        <span className="pill mono text-[10px]" style={{background:"rgba(64,155,86,0.14)",color:"var(--emerald)",border:"1px solid rgba(64,155,86,0.3)"}}>DATA PLK</span>
         <span className="text-xs text-[var(--text-3)]">Pasar Lelang Komoditas · sumber: paparan Bappebti (Biro Pembinaan & Pengembangan SRG & PLK) · transaksi s.d. April 2026</span>
       </div>
 
@@ -5374,7 +5415,7 @@ function MenuPLK({year}){
           <div className="text-[12px] text-[var(--text-2)] leading-relaxed mb-3">Pada TA 2026, Kementerian Perdagangan <b>tidak mengalokasikan anggaran</b> untuk kegiatan Pasar Lelang Komoditas. Penyelenggaraan lelang tahun berjalan karena itu bertumpu pada penyelenggara yang <b>mandiri secara pembiayaan</b> — diperkirakan hanya sebagian yang tetap aktif, sedangkan penyelenggara berbasis Dinas Perdagangan Provinsi yang bergantung dukungan anggaran berisiko tidak menyelenggarakan PLK.</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="card-2 p-3">
-              <div className="text-[10px] mono uppercase tracking-wider mb-1.5" style={{color:"#2C5F2D"}}>Berpotensi tetap aktif — revitalisasi (Riau) &amp; swasta murni</div>
+              <div className="text-[10px] mono uppercase tracking-wider mb-1.5" style={{color:"var(--emerald)"}}>Berpotensi tetap aktif — revitalisasi (Riau) &amp; swasta murni</div>
               <div className="space-y-1 text-[11px] text-[var(--text-2)]">
                 <div>• Riau — Koperasi Apkarkusi (revitalisasi; lelang karet bokar rutin)</div>
                 <div>• Jawa Barat — KPLJB (swasta murni)</div>
@@ -5382,7 +5423,7 @@ function MenuPLK({year}){
               </div>
             </div>
             <div className="card-2 p-3">
-              <div className="text-[10px] mono uppercase tracking-wider mb-1.5" style={{color:"#475569"}}>Berisiko tidak terselenggara</div>
+              <div className="text-[10px] mono uppercase tracking-wider mb-1.5" style={{color:"var(--text-2)"}}>Berisiko tidak terselenggara</div>
               <div className="text-[11px] text-[var(--text-2)] leading-snug">Penyelenggara berbasis <b>Dinas Perdagangan Provinsi</b> ({PLK_DAERAH.filter(d=>d.kat==="dinas").length} daerah) yang pelaksanaan lelangnya bertumpu pada fasilitasi anggaran. Adapun penyelenggara <b>revitalisasi selain Riau</b> (Lampung, Jawa Tengah, Bangka Belitung) bergantung pada tingkat kemandirian pembiayaan masing-masing.</div>
             </div>
           </div>
@@ -5405,7 +5446,7 @@ function MenuPLK({year}){
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Tujuan & Sasaran Ekonomi</div>
           <div className="flex flex-wrap gap-2 mb-3">
-            {["Transparan","Adil","Akuntabel","Stabil Harga"].map(t=>(<span key={t} className="pill text-[10px]" style={{background:"rgba(27,89,155,0.1)",color:"#1B599B",border:"1px solid rgba(27,89,155,0.25)"}}>{t}</span>))}
+            {["Transparan","Adil","Akuntabel","Stabil Harga"].map(t=>(<span key={t} className="pill text-[10px]" style={{background:"rgba(27,89,155,0.1)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.25)"}}>{t}</span>))}
           </div>
           <div className="space-y-1.5 text-[12px] text-[var(--text-2)]">
             {["Menciptakan kepastian & perluasan pasar","Mendukung stabilitas ekonomi & harga komoditas","Mendorong komoditas unggulan daerah & UMKM lokal","Memperkuat rantai pasok & akses pasar petani/usaha kecil"].map((t,i)=>(
@@ -5423,7 +5464,7 @@ function MenuPLK({year}){
           <div className="overflow-x-auto">
             <table className="w-full text-[11px] border-collapse">
               <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
-                <th className="py-1.5 pr-2">Aspek</th><th className="py-1.5 pr-2" style={{color:"#1B599B"}}>Spot</th><th className="py-1.5 pr-2" style={{color:"#2B777D"}}>Forward</th>
+                <th className="py-1.5 pr-2">Aspek</th><th className="py-1.5 pr-2" style={{color:"var(--blue)"}}>Spot</th><th className="py-1.5 pr-2" style={{color:"#2B777D"}}>Forward</th>
               </tr></thead>
               <tbody>
                 {PLK_JENIS.map((r,i)=>(
@@ -5486,7 +5527,7 @@ function MenuPLK({year}){
                 <span className="flex-1 text-[var(--text-2)]">{k.kom}</span>
                 <div className="impact-bar w-24 sm:w-32 shrink-0"><div className="impact-fill" style={{width:`${Math.round(k.nilai/maxKom*100)}%`,background:"#409B56"}}></div></div>
                 <span className="mono text-[10px] text-[var(--text-3)] w-20 text-right shrink-0">{k.vol.toLocaleString("id-ID")} kg</span>
-                <span className="mono text-[11px] w-16 text-right shrink-0" style={{color:"#2C5F2D"}}>Rp {String(k.nilai).replace(".",",")} M</span>
+                <span className="mono text-[11px] w-16 text-right shrink-0" style={{color:"var(--emerald)"}}>Rp {String(k.nilai).replace(".",",")} M</span>
               </div>
             ))}
           </div>
@@ -5523,7 +5564,7 @@ function MenuPLK({year}){
                   <td className="py-1.5 pr-2 text-[var(--text-3)]">{(tx&&tx.kom&&tx.kom!=="—")?tx.kom:plkKomoditas(d)}</td>
                   <td className="py-1.5 pr-2 text-right">
                     {tx
-                      ? <span className="mono" style={{color:"#2C5F2D"}} title={tx.note}>{plkRpShort(tx.nilai)}<sup className="text-[var(--text-3)]">†</sup></span>
+                      ? <span className="mono" style={{color:"var(--emerald)"}} title={tx.note}>{plkRpShort(tx.nilai)}<sup className="text-[var(--text-3)]">†</sup></span>
                       : <span className="text-[var(--text-3)] italic">belum tersedia</span>}
                   </td>
                   <td className="py-1.5 pr-2 text-right text-[var(--text-3)] italic">{tx?"—":"belum tersedia"}</td>
@@ -5541,7 +5582,7 @@ function MenuPLK({year}){
         <div className="serif text-lg mb-3">Pembinaan &amp; Pengembangan PLK (Kemendag bersama Pemda)</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <div className="text-[11px] font-semibold mb-1.5" style={{color:"#1B599B"}}>Kementerian Perdagangan</div>
+            <div className="text-[11px] font-semibold mb-1.5" style={{color:"var(--blue)"}}>Kementerian Perdagangan</div>
             <div className="space-y-1.5 text-[11px] text-[var(--text-2)]">
               {["Menetapkan & menyempurnakan NSPK penyelenggaraan PLK.","Memberi persetujuan tata kelola, mekanisme transaksi & penjaminan.","Pengawasan, pemantauan & evaluasi penyelenggara dan lembaga penjamin.","Mengembangkan ekosistem, standardisasi komoditas & infrastruktur TI."].map((t,i)=>(
                 <div key={i} className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#1B599B"}}></span><span>{t}</span></div>
@@ -5982,10 +6023,10 @@ function MenuPBK({year}){
       {/* ALERT: UU P2SK BMKS — berita terbaru 4 Juni 2026 */}
       <div className="card p-4 mb-6 mt-4" style={{borderColor:"rgba(220,38,38,0.35)",background:"rgba(220,38,38,0.04)"}}>
         <div className="flex items-start gap-3">
-          <span className="text-lg shrink-0" style={{color:"#dc2626"}}>⚠</span>
+          <span className="text-lg shrink-0" style={{color:"var(--red)"}}>⚠</span>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="text-sm font-semibold" style={{color:"#dc2626"}}>Perubahan Lanskap Regulasi — UU P2SK Disahkan 4 Juni 2026</span>
+              <span className="text-sm font-semibold" style={{color:"var(--red)"}}>Perubahan Lanskap Regulasi — UU P2SK Disahkan 4 Juni 2026</span>
               <span className="pill text-[9px] mono" style={{background:"rgba(220,38,38,0.12)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.3)"}}>TERBARU</span>
             </div>
             <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
@@ -6003,10 +6044,10 @@ function MenuPBK({year}){
       {/* ALERT: Peralihan Aset Kripto */}
       <div className="card p-4 mb-6" style={{borderColor:"rgba(37,99,235,0.25)",background:"rgba(37,99,235,0.03)"}}>
         <div className="flex items-start gap-3">
-          <span className="text-lg shrink-0" style={{color:"#2563eb"}}>ⓘ</span>
+          <span className="text-lg shrink-0" style={{color:"var(--blue)"}}>ⓘ</span>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="text-sm font-semibold" style={{color:"#2563eb"}}>Peralihan Aset Kripto & Derivatif Keuangan ke OJK/BI — 10 Januari 2025</span>
+              <span className="text-sm font-semibold" style={{color:"var(--blue)"}}>Peralihan Aset Kripto & Derivatif Keuangan ke OJK/BI — 10 Januari 2025</span>
               <span className="pill pill-blue text-[9px] mono">SUDAH BERLAKU</span>
             </div>
             <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
@@ -6170,8 +6211,8 @@ function MenuPBK({year}){
               {PBK_VOL_TRANSAKSI.map((d,i)=>(
                 <tr key={d.th} style={{borderBottom:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
                   <td style={{padding:"9px 12px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
-                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"rgba(37,99,235,0.9)"}}>{d.multilateral.toLocaleString('id-ID')}</td>
-                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"rgba(37,99,235,0.6)"}}>{d.spa.toLocaleString('id-ID')}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--blue)"}}>{d.multilateral.toLocaleString('id-ID')}</td>
+                  <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--blue)",opacity:0.72}}>{d.spa.toLocaleString('id-ID')}</td>
                   <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--blue)"}}>{d.total.toLocaleString('id-ID')}</td>
                   <td style={{padding:"9px 12px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--text-2)"}}>{(d.multilateral/d.total*100).toFixed(1)}%</td>
                 </tr>
@@ -6246,7 +6287,7 @@ function MenuPBK({year}){
                   <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Ton · 2022–April 2026</div>
                 </div>
                 <div className="text-right">
-                  <div className="mono text-xs font-bold" style={{color:"#10b981"}}>26×</div>
+                  <div className="mono text-xs font-bold" style={{color:"var(--emerald)"}}>26×</div>
                   <div className="text-[9px] mono text-[var(--text-3)]">vs 2022</div>
                 </div>
               </div>
@@ -6277,7 +6318,7 @@ function MenuPBK({year}){
                   <tbody>{PBK_EMAS_DIGITAL.map((d,i)=>{const prev=i>0?PBK_EMAS_DIGITAL[i-1].vol:null;const chg=prev?((d.vol/prev-1)*100):null;return(
                     <tr key={d.th} style={{borderTop:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
                       <td style={{padding:"7px 10px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
-                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:600,color:"#10b981"}}>{d.vol}</td>
+                      <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:600,color:"var(--emerald)"}}>{d.vol}</td>
                       <td style={{padding:"7px 10px",textAlign:"right",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"#10b981":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(0)+"%")}</td>
                     </tr>);
                   })}</tbody>
@@ -6291,8 +6332,8 @@ function MenuPBK({year}){
       {/* ── TIMAH EKSPOR + LOKAL ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
         {[
-          {title:"Timah Murni Batangan — Ekspor", data:PBK_TIMAH_EKSPOR, max:maxTExpor, color:"#7c2d12", colorLight:"rgba(124,45,18,0.5)", satuan:"MT"},
-          {title:"Timah Murni Batangan — Lokal",  data:PBK_TIMAH_LOKAL,  max:maxTLokal, color:"#92400e", colorLight:"rgba(146,64,14,0.35)",satuan:"MT"},
+          {title:"Timah Murni Batangan — Ekspor", data:PBK_TIMAH_EKSPOR, max:maxTExpor, color:"var(--amber)", colorLight:"rgba(124,45,18,0.5)", satuan:"MT"},
+          {title:"Timah Murni Batangan — Lokal",  data:PBK_TIMAH_LOKAL,  max:maxTLokal, color:"var(--gold)", colorLight:"rgba(146,64,14,0.35)",satuan:"MT"},
         ].map(cfg=>(
           <div key={cfg.title} className="card p-5">
             <div className="serif text-lg mb-1">{cfg.title}</div>
