@@ -3349,9 +3349,8 @@ function IndonesiaChoropleth({year, metrics}){
         {IDN_GEO.map((g)=>{ const k=provKey(g.n); const v=vals[k]||0; const isH=hover&&hover.key===k;
           return (
             <path key={g.n} d={pathOf(g.p)}
-              style={{fill: v? m.color : "var(--card-2)"}} fillOpacity={v?opac(v):1}
-              stroke={isH?"var(--gold)":"var(--bg)"} strokeWidth={isH?1.6:0.5}
-              style={{cursor:"pointer",transition:"fill-opacity .15s"}}
+              fillOpacity={v?opac(v):1}
+              style={{fill: v? m.color : "var(--card-2)", stroke: isH?"var(--gold)":"var(--bg)", strokeWidth: isH?1.6:0.5, cursor:"pointer", transition:"fill-opacity .15s, stroke .15s, stroke-width .15s"}}
               onMouseEnter={()=>setHover({name:g.n,key:k,val:v})}>
               <title>{g.n}: {m.fmt(v)}</title>
             </path>
