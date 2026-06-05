@@ -140,7 +140,7 @@
   .gradient-text{background:linear-gradient(135deg,#1a1d21 0%,#a16207 55%,#c8102e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .ring-gold{box-shadow:inset 0 0 0 1px rgba(161,98,7,0.4);}
   /* Recharts — sumbu, grid, legenda & tooltip mengikuti tema (terbaca di mode gelap & terang) */
-  .recharts-cartesian-axis-tick text,.recharts-cartesian-axis-tick tspan{fill:var(--text-3)!important;}
+  .recharts-cartesian-axis-tick text,.recharts-cartesian-axis-tick tspan{fill:var(--text-2)!important;}
   .recharts-cartesian-grid line{stroke:var(--grid)!important;}
   .recharts-cartesian-axis line,.recharts-cartesian-axis-line{stroke:var(--border-strong)!important;}
   .recharts-cartesian-axis .recharts-label{fill:var(--text-2)!important;}
@@ -493,11 +493,11 @@ const RO = [
   /* ===== 3762 — PBK ===== */
   { id:"RO-3762-ACB1", kode:"ACB.001", kro:"KRO-3762-ACB", nama:"Perizinan Wakil Pialang & Wakil Penasihat Berjangka", anggaran:24_250_000, target:"500 Orang", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:66, alignment:64, urgency:62, leverage:68 },
   { id:"RO-3762-ACD1", kode:"ACD.001", kro:"KRO-3762-ACD", nama:"Perizinan Pelaku Usaha PBK", anggaran:60_180_000, target:"380 Badan Usaha", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:70, alignment:68, urgency:66, leverage:72 },
-  { id:"RO-3762-ADI1", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat", anggaran:128_078_000, target:"200 Orang", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:70, leverage:76 },
+  { id:"RO-3762-ADI1", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat", anggaran:128_078_000, target:"200 Orang", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:70, leverage:76 },
   { id:"RO-3762-BMA1", kode:"BMA.001", kro:"KRO-3762-BMA", nama:"Data & Informasi Harga Komoditi PBK", anggaran:20_505_000, target:"1 dokumen", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:64, alignment:62, urgency:60, leverage:68 },
-  { id:"RO-3762-FAB1", kode:"FAB.002", kro:"KRO-3762-FAB", nama:"Sistem Aplikasi Perizinan PBK", anggaran:59_490_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:74 },
+  { id:"RO-3762-FAB1", kode:"FAB.002", kro:"KRO-3762-FAB", nama:"Sistem Aplikasi Perizinan PBK", anggaran:59_490_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:68, alignment:66, urgency:64, leverage:74 },
   { id:"RO-3762-PBB1", kode:"PBB.G01", kro:"KRO-3762-ABB", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan & Produk PBK", anggaran:96_438_000, target:"1 Rekomendasi", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:80, alignment:82, urgency:76, leverage:84 },
-  { id:"RO-3762-QDH1", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Pembinaan Pelaku Usaha PBK (Forum Commodity Desk)", anggaran:78_049_000, target:"60 Badan Usaha", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:78, alignment:80, urgency:74, leverage:82 },
+  { id:"RO-3762-QDH1", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Pembinaan Pelaku Usaha PBK (Forum Commodity Desk)", anggaran:78_049_000, target:"60 Badan Usaha", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:78, alignment:80, urgency:74, leverage:82 },
 
   /* ===== 3758 — Dukungan Manajemen ===== */
   { id:"RO-3758-CAN1", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Tugas Bappebti", anggaran:115_200_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:48, alignment:44, urgency:52, leverage:42 },
@@ -591,18 +591,18 @@ const RO_2027_KL = [
   { id:"RO27-3762-ACB1", kode:"ACB.001", kro:"KRO-3762-ACB", nama:"Perizinan Wakil Pialang & Wakil Penasihat Berjangka", anggaran:24_250_000, target:"400 Orang", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:66, alignment:64, urgency:62, leverage:68 },
   { id:"RO27-3762-ACD1", kode:"ACD.001", kro:"KRO-3762-ACD", nama:"Perizinan Pelaku Usaha PBK", anggaran:637_220_000, target:"400 Badan Usaha", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:70, alignment:68, urgency:66, leverage:72 },
   { id:"RO27-3762-ACD2", kode:"ACD.002", kro:"KRO-3762-ACD", nama:"Persetujuan RKAT Bursa Berjangka & Lembaga Kliring Berjangka", anggaran:283_650_000, target:"500 Badan Usaha", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:64, alignment:62, urgency:60, leverage:66 },
-  { id:"RO27-3762-ADI1", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat Berjangka (RM & PNBP)", anggaran:349_300_000, target:"200 Orang", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:70, leverage:76 },
-  { id:"RO27-3762-AFA1", kode:"AFA.001", kro:"KRO-3762-AFA", nama:"Penyusunan SKKNI di Bidang PBK", anggaran:198_500_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:66, alignment:70, urgency:60, leverage:74 },
+  { id:"RO27-3762-ADI1", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat Berjangka (RM & PNBP)", anggaran:349_300_000, target:"200 Orang", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:70, leverage:76 },
+  { id:"RO27-3762-AFA1", kode:"AFA.001", kro:"KRO-3762-AFA", nama:"Penyusunan SKKNI di Bidang PBK", anggaran:198_500_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:66, alignment:70, urgency:60, leverage:74 },
   { id:"RO27-3762-BDC1", kode:"BDC.001", kro:"KRO-3762-BDC", nama:"Program Pelatihan Peningkatan Profesi Wakil Pialang Berjangka", anggaran:250_174_000, target:"100 Orang", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:70, alignment:72, urgency:66, leverage:74 },
   { id:"RO27-3762-BDH1", kode:"BDH.002", kro:"KRO-3762-BDH", nama:"Pembinaan melalui Evaluasi Sistem Pelaku Usaha PBK", anggaran:224_000_000, target:"10 Badan Usaha", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:72, alignment:74, urgency:68, leverage:76 },
   { id:"RO27-3762-BMA1", kode:"BMA.001", kro:"KRO-3762-BMA", nama:"Data & Informasi Harga Komoditi PBK", anggaran:369_639_000, target:"1 Dokumen", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:62, leverage:70 },
   { id:"RO27-3762-BMA2", kode:"BMA.002", kro:"KRO-3762-BMA", nama:"Bappebti Commodity Market Outlook (Data & Informasi Pasar Komoditi Indonesia)", anggaran:706_630_000, target:"1 Dokumen", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:74, alignment:76, urgency:70, leverage:78 },
-  { id:"RO27-3762-CCL1", kode:"CCL.001", kro:"KRO-3762-CCL", nama:"Pemeliharaan Perangkat Teknologi Informasi Bappebti", anggaran:402_050_000, target:"3 Unit", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:58, alignment:56, urgency:58, leverage:60 },
+  { id:"RO27-3762-CCL1", kode:"CCL.001", kro:"KRO-3762-CCL", nama:"Pemeliharaan Perangkat Teknologi Informasi Bappebti", anggaran:402_050_000, target:"3 Unit", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:58, alignment:56, urgency:58, leverage:60 },
   { id:"RO27-3762-FAB1", kode:"FAB.001", kro:"KRO-3762-FAB", nama:"Sistem Informasi Pendukung Publikasi Informasi PBK (Pengembangan Website Bappebti)", anggaran:212_700_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:64, alignment:62, urgency:62, leverage:68 },
-  { id:"RO27-3762-FAB2", kode:"FAB.002", kro:"KRO-3762-FAB", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK (Profilling)", anggaran:163_550_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:64, alignment:62, urgency:62, leverage:70 },
+  { id:"RO27-3762-FAB2", kode:"FAB.002", kro:"KRO-3762-FAB", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK (Profilling)", anggaran:163_550_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:64, alignment:62, urgency:62, leverage:70 },
   { id:"RO27-3762-FAB3", kode:"FAB.003", kro:"KRO-3762-FAB", nama:"Sistem Informasi Pendukung Layanan Informasi Harga Komoditi", anggaran:113_550_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
   { id:"RO27-3762-PBB1", kode:"PBB.G01", kro:"KRO-3762-PBB", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan & Produk PBK (Desk Research, Analisis & Evaluasi)", anggaran:1_166_528_000, target:"3 Rekomendasi", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:80, alignment:88, urgency:76, leverage:84 },
-  { id:"RO27-3762-QDH1", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Fasilitasi & Pembinaan Pelaku Usaha PBK (Pelatihan Teknis Commodity Desk)", anggaran:374_340_000, target:"70 Badan Usaha", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:78, alignment:88, urgency:74, leverage:82 },
+  { id:"RO27-3762-QDH1", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Fasilitasi & Pembinaan Pelaku Usaha PBK (Pelatihan Teknis Commodity Desk)", anggaran:374_340_000, target:"70 Badan Usaha", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:78, alignment:88, urgency:74, leverage:82 },
 ];
 const PAGU_2027 = {
   "K-3758": 13_860_586_000,
@@ -668,11 +668,11 @@ const RO_2025 = [
   /* ===== 3762 — Renja TA 2025 ===== */
   { id:"RO25-3762-ABB001", kode:"ABB.001", kro:"KRO-3762-ABB", nama:"Analisa Pengembangan Kelembagaan & Produk PBK (Desk Research, Analisis & Evaluasi)", anggaran:596_136_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:74, alignment:72, urgency:68, leverage:76 },
   { id:"RO25-3762-ACD001", kode:"ACD.001", kro:"KRO-3762-ACD", nama:"Perizinan Lembaga Pelaku Usaha PBK", anggaran:365_685_000, target:"500 Institusi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:70, alignment:68, urgency:66, leverage:72 },
-  { id:"RO25-3762-ADI001", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang & Wakil Penasihat Berjangka (RM & PNBP)", anggaran:157_764_000, target:"300 Orang", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:72, alignment:70, urgency:68, leverage:74 },
-  { id:"RO25-3762-AFA001", kode:"AFA.001", kro:"KRO-3762-AFA", nama:"Perumusan SKKNI Wakil Penasihat Berjangka (Inisiatif Baru)", anggaran:347_896_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-4", ikuLinked:["ISP-1"], impact:66, alignment:70, urgency:60, leverage:72 },
+  { id:"RO25-3762-ADI001", kode:"ADI.001", kro:"KRO-3762-ADI", nama:"Sertifikasi Ujian Profesi Wakil Pialang & Wakil Penasihat Berjangka (RM & PNBP)", anggaran:157_764_000, target:"300 Orang", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:72, alignment:70, urgency:68, leverage:74 },
+  { id:"RO25-3762-AFA001", kode:"AFA.001", kro:"KRO-3762-AFA", nama:"Perumusan SKKNI Wakil Penasihat Berjangka (Inisiatif Baru)", anggaran:347_896_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-2", ikuLinked:["ISP-1"], impact:66, alignment:70, urgency:60, leverage:72 },
   { id:"RO25-3762-BIC001", kode:"BIC.001", kro:"KRO-3762-BIC", nama:"Monitoring Sistem Perdagangan Pelaku Usaha PBK (Onsite)", anggaran:74_220_000, target:"2 Lembaga", isPN:false, ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:64, alignment:62, urgency:66, leverage:60 },
   { id:"RO25-3762-BMA001", kode:"BMA.001", kro:"KRO-3762-BMA", nama:"Data & Informasi Harga Komoditi PBK", anggaran:214_189_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:62, leverage:68 },
-  { id:"RO25-3762-CCL001", kode:"CCL.001", kro:"KRO-3762-CCL", nama:"Pemeliharaan Perangkat Teknologi Informasi Bappebti", anggaran:158_550_000, target:"4 Unit", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:58, alignment:56, urgency:58, leverage:60 },
+  { id:"RO25-3762-CCL001", kode:"CCL.001", kro:"KRO-3762-CCL", nama:"Pemeliharaan Perangkat Teknologi Informasi Bappebti", anggaran:158_550_000, target:"4 Unit", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:58, alignment:56, urgency:58, leverage:60 },
   { id:"RO25-3762-FAB001", kode:"FAB.001", kro:"KRO-3762-FAB", nama:"Sistem Perizinan Online & Profiling Pelaku Usaha PBK", anggaran:254_560_000, target:"2 Sistem Informasi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:72 },
   { id:"RO25-3762-FAB005", kode:"FAB.005", kro:"KRO-3762-FAB", nama:"Pengembangan Integrasi Aplikasi Bappebti", anggaran:81_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
   /* ===== 3758 — Renja TA 2025 ===== */
@@ -2957,7 +2957,7 @@ function PenerbitanResiGudang({year}){
           const y = padT+innerH*(1-t);
           return (<g key={i}>
             <line className="svg-grid" x1={padL} y1={y} x2={W-padR} y2={y} strokeWidth="1"/>
-            <text className="svg-ink-3" x={padL-5} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{m.fmt(max*t).replace("Rp ","").replace(" ton","")}</text>
+            <text className="svg-ink-2" x={padL-5} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{m.fmt(max*t).replace("Rp ","").replace(" ton","")}</text>
           </g>);
         })}
         {data.map((d,i)=>{
@@ -5153,7 +5153,7 @@ function AnalisisAnggaran2027(){
                             <div style={{color:"var(--text-1)",fontWeight:"500",lineHeight:"1.3"}}>{r.keg}</div>
                             <div style={{fontSize:"10px",color:"var(--text-3)",marginTop:"2px",fontFamily:"var(--font-mono)"}}>{r.ro}</div>
                           </td>
-                          <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--text-2)",whiteSpace:"nowrap"}}>{r.p2026.toLocaleString('id-ID')}</td>
+                          <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",color:"var(--text)",whiteSpace:"nowrap"}}>{r.p2026.toLocaleString('id-ID')}</td>
                           <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",whiteSpace:"nowrap",color:r.p2027>0?"#d97706":"#dc2626"}}>
                             {r.p2027===0?"—":r.p2027.toLocaleString('id-ID')}
                           </td>
@@ -5168,7 +5168,7 @@ function AnalisisAnggaran2027(){
                     <tfoot>
                       <tr style={{borderTop:"2px solid var(--border)",background:"var(--bg-2)"}}>
                         <td colSpan={2} style={{padding:"10px 12px",fontWeight:"700",fontSize:"12px",color:"var(--text-1)"}}>TOTAL</td>
-                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text-2)"}}>{TOTAL26.toLocaleString('id-ID')}</td>
+                        <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text)"}}>{TOTAL26.toLocaleString('id-ID')}</td>
                         <td style={{padding:"10px 8px",textAlign:"right",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--amber)"}}>{TOTAL27.toLocaleString('id-ID')}</td>
                         <td style={{padding:"10px 12px",textAlign:"center"}}>
                           <span className="pill text-[9px]" style={{background:"rgba(220,38,38,0.1)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.2)"}}>−48,5%</span>
@@ -5346,7 +5346,7 @@ function PlkBarChart({sel}){
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:240}} preserveAspectRatio="xMidYMid meet">
       {[0,0.25,0.5,0.75,1].map((t,i)=>{const y=padT+innerH*(1-t);return(<g key={i}>
         <line className="svg-grid" x1={padL} y1={y} x2={W-padR} y2={y} strokeWidth="1"/>
-        <text className="svg-ink-3" x={padL-4} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{Math.round(max*t)}</text>
+        <text className="svg-ink-2" x={padL-4} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{Math.round(max*t)}</text>
       </g>);})}
       {data.map((d,i)=>{const h=max>0?innerH*(d.nilai/max):0;const x=padL+i*step+(step-bw)/2;const y=padT+innerH-h;
         const isSel=d.th===String(sel);
@@ -5526,7 +5526,7 @@ function MenuPLK({year}){
                 <span className="mono text-[10px] text-[var(--text-3)] w-4 text-right shrink-0">{i+1}</span>
                 <span className="flex-1 text-[var(--text-2)]">{k.kom}</span>
                 <div className="impact-bar w-24 sm:w-32 shrink-0"><div className="impact-fill" style={{width:`${Math.round(k.nilai/maxKom*100)}%`,background:"#409B56"}}></div></div>
-                <span className="mono text-[10px] text-[var(--text-3)] w-20 text-right shrink-0">{k.vol.toLocaleString("id-ID")} kg</span>
+                <span className="mono text-[10px] text-[var(--text-2)] w-20 text-right shrink-0">{k.vol.toLocaleString("id-ID")} kg</span>
                 <span className="mono text-[11px] w-16 text-right shrink-0" style={{color:"var(--emerald)"}}>Rp {String(k.nilai).replace(".",",")} M</span>
               </div>
             ))}
@@ -6350,7 +6350,7 @@ function MenuPBK({year}){
                     <div className="relative rounded-lg overflow-hidden" style={{height:"26px",background:"var(--bg-2)"}}>
                       <div className="absolute left-0 top-0 h-full rounded-lg" style={{width:`${p}%`,background:isG?"linear-gradient(90deg,rgba(212,164,55,0.8),rgba(212,164,55,0.5))":cfg.colorLight}}></div>
                       <div className="absolute inset-0 flex items-center px-3">
-                        <span className="mono text-[10px]" style={{color:"var(--text-3)"}}>{p.toFixed(0)}%</span>
+                        <span className="mono text-[10px]" style={{color:"var(--text-1)"}}>{p.toFixed(0)}%</span>
                       </div>
                     </div>
                   </div>
