@@ -335,7 +335,7 @@ const IKK = [
   { id:"IKK-15", sk:"SK4", nama:"Indeks kepuasan layanan Penyelesaian Perselisihan & Konsultasi Hukum", target:"83", t:{2025:"81",2026:"83",2027:"85"}, ikpLinked:"ISP-4" },
   // SK5 — Dukungan Manajemen (Kegiatan 3758)
   { id:"IKK-16", sk:"SK5", nama:"Nilai WTA Bappebti", target:"WTA Madya", t:{2025:"WTA Madya",2026:"WTA Madya",2027:"WTA Madya"}, ikpLinked:"ISP-6" },
-  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94"}, ikpLinked:"ISP-7" },
+  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"92"}, ikpLinked:"ISP-7" },
   { id:"IKK-18", sk:"SK5", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", target:"79", t:{2025:"79",2026:"79",2027:"80"}, ikpLinked:"ISP-5" },
 ];
 
@@ -1657,6 +1657,7 @@ function Tabs({active,onChange}){
     {id:"capaian", label:"Capaian",            sub:"Target vs Realisasi"},
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
+    {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
     {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
   ];
   return (
@@ -1830,7 +1831,7 @@ function BottomUpDiagram(){
 
   // layout
   const n = Math.max(ikks.length,1);
-  const colW = 180;
+  const colW = 260;
   const W = n*colW;
   const ikkX = {}; ikks.forEach((k,idx)=> ikkX[k.id]= colW*idx + colW/2);
   const ikpX = {}; ikps.forEach(p=>{ const kids=ikks.filter(k=>k.ikpLinked===p.id); ikpX[p.id]= kids.length? kids.reduce((s,k)=>s+ikkX[k.id],0)/kids.length : W/2; });
@@ -1844,7 +1845,7 @@ function BottomUpDiagram(){
   });
   const roKegKode = (r)=>{ const kr=getKRO(r.kro); return kr ? (getKegiatan(kr.kegiatan)||{}).kode||'' : ''; };
 
-  const Y_ISP=46, Y_IKK=210, RO_TOP=320, RO_RH=22;
+  const Y_ISP=46, Y_IKK=220, RO_TOP=340, RO_RH=24;
   const H = RO_TOP + Math.ceil(maxRO/2)*RO_RH + 30;
 
   return (
@@ -1898,7 +1899,7 @@ function BottomUpDiagram(){
 
           {/* IKK nodes */}
           {ikks.map(k=>{
-            const x=ikkX[k.id], bw=132;
+            const x=ikkX[k.id], bw=160;
             const short = k.nama.length>34? k.nama.slice(0,32)+'…' : k.nama;
             return (
               <g key={k.id}>
@@ -1914,21 +1915,22 @@ function BottomUpDiagram(){
           {ikks.map(k=>{
             const x=ikkX[k.id]; const ros=roByIkk[k.id];
             return ros.map((r,idx)=>{
-              const col=idx%2, rowi=Math.floor(idx/2);
-              const rx=x-54+col*56, ry=RO_TOP+rowi*RO_RH;
+              const rowi=idx;
+              const rw=110, rh=20;
+              const rx=x-rw/2, ry=RO_TOP+rowi*RO_RH;
               const isPrimary = r.ikkLinked===k.id;
               const kegK = roKegKode(r);
               const roLabel = kegK ? `${kegK}-${r.kode}` : r.kode;
               const linkLabel = isPrimary ? roLabel : `${roLabel} (kontribusi sekunder)`;
               return (
                 <g key={`${k.id}|${r.id}`}>
-                  <rect x={rx} y={ry} width={52} height={16} rx="3"
+                  <rect x={rx} y={ry} width={rw} height={rh} rx="4"
                     fill={r.isPN?"rgba(202,138,4,0.16)":"rgba(15,23,42,0.05)"}
                     stroke={r.isPN?"#ca8a04":"#cbd5e1"}
-                    strokeWidth="0.8"
+                    strokeWidth="0.9"
                     strokeDasharray={isPrimary?"":"3 2"}
                     opacity={isPrimary?1:0.78}/>
-                  <text x={rx+26} y={ry+11} textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{r.kode}</text>
+                  <text x={rx+rw/2} y={ry+13} textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{roLabel}</text>
                 </g>
               );
             });
@@ -4990,8 +4992,8 @@ function ensureXLSX(){
 /* ======================================================================== */
 const PLK_TRANSAKSI = [
   {th:"2021", nilai:85.5}, {th:"2022", nilai:52.5}, {th:"2023", nilai:66.1},
-  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.8}, {th:"2026", nilai:12.6, p:true},
-]; /* Rp Miliar; 2026* = s.d. April 2026 */
+  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.8}, {th:"2026", nilai:13.26, p:true},
+]; /* Rp Miliar; 2026* = s.d. Mei 2026 */
 const PLK_DAERAH = [
   {prov:"Aceh", kat:"dinas", tx:{2025:{nilai:126600000, kom:"Kopi arabika, kopi robusta, kakao", note:"2 lelang: 19 Jun (Rp71,1 jt) & 21 Agu 2025 (Rp55,5 jt)"}}}, {prov:"Sumatera Utara", kat:"dinas"}, {prov:"Riau", kat:"revit", peny:"Koperasi Apkarkusi"},
   {prov:"Sumatera Barat", kat:"dinas"}, {prov:"Jambi", kat:"dinas"}, {prov:"Lampung", kat:"revit", peny:"Koperasi Tani Serba Jadi Sukses Bersama"},
@@ -5080,7 +5082,7 @@ const PLK_CRITICAL_PATH = [
    ],
    ind:"Nilai transaksi tumbuh stabil; referensi harga terbentuk & dirujuk pasar"},
 ];
-const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) Bappebti menunjukkan potensi yang nyata namun skala yang masih terbatas dan fluktuatif. Nilai transaksi bergerak dari Rp85,5 miliar (2021) turun ke Rp52,5 miliar (2022), lalu pulih bertahap ke Rp66,1 miliar (2023), Rp97,2 miliar (2024), dan mencapai puncak Rp111,8 miliar pada 2025 (+15,0% dibanding 2024). Capaian s.d. April 2026 baru Rp12,6 miliar, sehingga momentum 2025 perlu dijaga agar tidak kembali melemah. Perlu dicatat, pada TA 2026 Kementerian Perdagangan tidak menganggarkan kegiatan PLK; akibatnya penyelenggaraan tahun berjalan diperkirakan hanya bertumpu pada penyelenggara yang mandiri secara pembiayaan — terutama Riau (Koperasi Apkarkusi) dan penyelenggara swasta murni (Jawa Barat/KPLJB serta DKI Jakarta/PT KPBN & PT ACM) — sementara penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Hal ini memperbesar risiko pelandaian nilai transaksi 2026. Secara absolut, angka ini masih kecil dibanding potensi komoditas nasional — menandakan PLK belum menjadi kanal pemasaran utama bagi petani dan pelaku usaha.
+const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) Bappebti menunjukkan potensi yang nyata namun skala yang masih terbatas dan fluktuatif. Nilai transaksi bergerak dari Rp85,5 miliar (2021) turun ke Rp52,5 miliar (2022), lalu pulih bertahap ke Rp66,1 miliar (2023), Rp97,2 miliar (2024), dan mencapai puncak Rp111,8 miliar pada 2025 (+15,0% dibanding 2024). Capaian s.d. Mei 2026 baru Rp13,26 miliar, sehingga momentum 2025 perlu dijaga agar tidak kembali melemah. Perlu dicatat, pada TA 2026 Kementerian Perdagangan tidak menganggarkan kegiatan PLK; akibatnya penyelenggaraan tahun berjalan diperkirakan hanya bertumpu pada penyelenggara yang mandiri secara pembiayaan — terutama Riau (Koperasi Apkarkusi) dan penyelenggara swasta murni (Jawa Barat/KPLJB serta DKI Jakarta/PT KPBN & PT ACM) — sementara penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Hal ini memperbesar risiko pelandaian nilai transaksi 2026. Secara absolut, angka ini masih kecil dibanding potensi komoditas nasional — menandakan PLK belum menjadi kanal pemasaran utama bagi petani dan pelaku usaha.
 
 Diagnosis struktural memperlihatkan tiga keterbatasan. Pertama, konsentrasi komoditas: pada 2024 karet menyumbang Rp27,1 miliar (porsi terbesar), diikuti lada, cengkeh, gabah/beras, dan cangkang sawit; basis komoditas masih sempit. Kedua, sebaran kelembagaan terbatas pada 14 daerah penyelenggara dan sebagian besar belum memiliki penyelenggara berbadan hukum yang teridentifikasi — ekosistem (penyelenggara, lembaga penjaminan, lembaga uji mutu, pergudangan) belum lengkap di banyak daerah. Ketiga, mekanisme lelang sebagian besar masih konvensional dan belum terintegrasi penuh dengan Sistem Resi Gudang maupun sistem informasi harga.
 
@@ -5123,7 +5125,7 @@ function MenuPLK({year}){
   const yoy = (rec && prev) ? ((rec.nilai/prev.nilai-1)*100).toFixed(1).replace(".",",") : null;
   const maxKom=Math.max(...PLK_KOM_2024.map(k=>k.nilai));
   const plkFull=PLK_TRANSAKSI.filter(d=>!d.p); const plkAvg=Math.round(plkFull.reduce((s,d)=>s+d.nilai,0)/plkFull.length*10)/10;
-  const prompt=`Anda analis kebijakan perdagangan komoditas di Bappebti, Kemendag. Berikan analisis strategis (maks 7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas kinerja Pasar Lelang Komoditas (PLK) dan rumuskan CRITICAL PATH langkah-langkah Bappebti agar PLK berjalan optimal.\\n\\nData nilai transaksi PLK (Rp miliar): 2021=85,5; 2022=52,5; 2023=66,1; 2024=97,2; 2025=111,8; 2026*=12,6 (s.d. April). Komoditas 2024 terbesar: Karet Rp27,1 M (1.581.739 kg), Lada Rp7,4 M, Cengkeh Rp5,9 M, Gabah/Beras Rp4,5 M, Cangkang Sawit Rp2,4 M. Daerah penyelenggara: 14 (a.l. Riau-Kop. Apkarkusi, Jabar-KPLJB, Jateng-Kop. Wira Agri, Babel-Kop. Lada Babel, DKI-PT KPBN & PT ACM). Komoditas aktif 2025–2026: karet, teh, cengkeh, lada, gabah/beras, kopi.\\n\\nDasar hukum: Perpres 75/2022 & Permendag 33/2024 (penataan, pembinaan, pengembangan PLK). Catatan anggaran: pada TA 2026 Kemendag TIDAK menganggarkan kegiatan PLK, sehingga lelang tahun berjalan diperkirakan hanya bertumpu pada penyelenggara mandiri (Riau/Koperasi Apkarkusi dan swasta murni KPLJB serta PT KPBN & PT ACM); penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Strategi Bappebti: integrasi dengan SRG, digitalisasi & integrasi TI, mekanisme lelang lebih efisien, fasilitasi UMKM/koperasi, kolaborasi pusat–daerah.\\n\\nFokus: 1) diagnosis kinerja & keterbatasan struktural (skala kecil, fluktuatif, konsentrasi komoditas, sebaran kelembagaan terbatas). 2) critical path bertahap (regulasi/NSPK → ekosistem kelembagaan daerah → integrasi SRG-PLK → digitalisasi → fasilitasi UMKM & perluasan komoditas → pengawasan/monev/stabilisasi harga) dengan indikator keberhasilan tiap tahap. 3) peran kolaborasi pusat–daerah & sinergi SRG.`;
+  const prompt=`Anda analis kebijakan perdagangan komoditas di Bappebti, Kemendag. Berikan analisis strategis (maks 7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas kinerja Pasar Lelang Komoditas (PLK) dan rumuskan CRITICAL PATH langkah-langkah Bappebti agar PLK berjalan optimal.\\n\\nData nilai transaksi PLK (Rp miliar): 2021=85,5; 2022=52,5; 2023=66,1; 2024=97,2; 2025=111,8; 2026*=13,26 (s.d. Mei). Komoditas 2024 terbesar: Karet Rp27,1 M (1.581.739 kg), Lada Rp7,4 M, Cengkeh Rp5,9 M, Gabah/Beras Rp4,5 M, Cangkang Sawit Rp2,4 M. Daerah penyelenggara: 14 (a.l. Riau-Kop. Apkarkusi, Jabar-KPLJB, Jateng-Kop. Wira Agri, Babel-Kop. Lada Babel, DKI-PT KPBN & PT ACM). Komoditas aktif 2025–2026: karet, teh, cengkeh, lada, gabah/beras, kopi.\\n\\nDasar hukum: Perpres 75/2022 & Permendag 33/2024 (penataan, pembinaan, pengembangan PLK). Catatan anggaran: pada TA 2026 Kemendag TIDAK menganggarkan kegiatan PLK, sehingga lelang tahun berjalan diperkirakan hanya bertumpu pada penyelenggara mandiri (Riau/Koperasi Apkarkusi dan swasta murni KPLJB serta PT KPBN & PT ACM); penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Strategi Bappebti: integrasi dengan SRG, digitalisasi & integrasi TI, mekanisme lelang lebih efisien, fasilitasi UMKM/koperasi, kolaborasi pusat–daerah.\\n\\nFokus: 1) diagnosis kinerja & keterbatasan struktural (skala kecil, fluktuatif, konsentrasi komoditas, sebaran kelembagaan terbatas). 2) critical path bertahap (regulasi/NSPK → ekosistem kelembagaan daerah → integrasi SRG-PLK → digitalisasi → fasilitasi UMKM & perluasan komoditas → pengawasan/monev/stabilisasi harga) dengan indikator keberhasilan tiap tahap. 3) peran kolaborasi pusat–daerah & sinergi SRG.`;
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -5533,6 +5535,7 @@ function App(){
       {tab==="capaian" && <Capaian />}
       {tab==="sebaran" && <SebaranSRG year={year} />}
       {tab==="plk"     && <MenuPLK year={year} />}
+      {tab==="pbk"     && <MenuPBK year={year} />}
       {tab==="spbe"    && <MenuSPBE />}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
@@ -5549,6 +5552,512 @@ function App(){
         </div>
       </footer>
     </YearContext.Provider>
+  );
+}
+
+
+/* ======================================================================== */
+/* DATA PBK — Sumber: Bappebti 2026, UU P2SK 4 Juni 2026                  */
+/* ======================================================================== */
+const PBK_VOL_TRANSAKSI = [
+  {th:"2020", multilateral:2223381,  spa:10986955,  total:13210336},
+  {th:"2021", multilateral:2733840,  spa:11840348,  total:14574188},
+  {th:"2022", multilateral:2961089,  spa:11122463,  total:14083552},
+  {th:"2023", multilateral:3258176,  spa:10597783,  total:13855960},
+  {th:"2024", multilateral:2980882,  spa:10923970,  total:13904852},
+  {th:"2025", multilateral:3780968,  spa:12405627,  total:16186596},
+  {th:"2026", multilateral:997739,   spa:4449756,   total:5447495, p:true},
+]; /* LOT; 2026* = s.d. April 2026 */
+
+/* Nilai Nominal Transaksi PBK (Rp Triliun) */
+const PBK_NILAI_TRANSAKSI = [
+  {th:"2023", nilai:25679.97},
+  {th:"2024", nilai:33214.89},
+  {th:"2025", nilai:48867},
+]; /* Rp Triliun; sumber: Bappebti */
+
+const PBK_CPOTR = [
+  {th:"2023", vol:8430},
+  {th:"2024", vol:143065},
+  {th:"2025", vol:162250},
+  {th:"2026", vol:37000, p:true},
+]; /* Metrik Ton; 2026* = s.d. April 2026 */
+
+const PBK_EMAS_DIGITAL = [
+  {th:"2022", vol:2.3},
+  {th:"2023", vol:10.4},
+  {th:"2024", vol:47.4},
+  {th:"2025", vol:60.2},
+  {th:"2026", vol:42.16, p:true},
+]; /* Ton; 2026* = s.d. April 2026 */
+
+const PBK_TIMAH_EKSPOR = [
+  {th:"2021", vol:74640.08},
+  {th:"2022", vol:77452.56},
+  {th:"2023", vol:68327.33},
+  {th:"2024", vol:45378.32},
+  {th:"2025", vol:52299.56},
+  {th:"2026", vol:12945.2, p:true},
+]; /* Metrik Ton; 2026* = s.d. April 2026 */
+
+const PBK_TIMAH_LOKAL = [
+  {th:"2021", vol:3224.97},
+  {th:"2022", vol:2839.99},
+  {th:"2023", vol:2868.00},
+  {th:"2024", vol:3704.98},
+  {th:"2025", vol:2426.00},
+  {th:"2026", vol:750.00, p:true},
+]; /* Metrik Ton; 2026* = s.d. April 2026 */
+
+const PBK_KRIPTO_BERALIH = {
+  tanggal: "10 Januari 2025",
+  dasar: "UU P2SK No.4/2023 Pasal 312 ayat (1) & PP No.49/2024",
+  dari: "Bappebti (Kemendag)",
+  ke: "OJK (aset kripto) + Bank Indonesia (derivatif keuangan)",
+  nilaiTrx2024: "Rp650,61 triliun",
+  pelanggan2024: "22,91 juta pelanggan",
+  dampak: "Bappebti kini fokus penuh pada pengembangan PBK komoditas setelah kewenangan aset kripto beralih ke OJK dan BI.",
+};
+
+const PBK_P2SK_BMKS = {
+  tanggal: "4 Juni 2026",
+  status: "Disahkan DPR dalam Rapat Paripurna",
+  nama: "Perubahan UU No.4/2023 tentang Pengembangan dan Penguatan Sektor Keuangan (P2SK)",
+  pokok: "Pembentukan Bursa Mineral dan Komoditas Strategis (BMKS) di bawah pengawasan OJK",
+  targetOperasi: "1 Januari 2027",
+  regulator: "OJK — ditambah Kepala Eksekutif Pengawas BMKS di Dewan Komisioner",
+  tujuan: "Mendukung pengembangan industri strategis, meningkatkan daya saing global, pendapatan negara, dan keamanan nasional",
+  dampakBappebti: "Komoditas mineral dan strategis yang saat ini di Bappebti berpotensi ditarik ke BMKS-OJK. POJK pengaturan lanjut ditarget 3 bulan (Sept 2026).",
+  konteksPrabowo: "Sejalan dengan arahan Presiden agar harga komoditas SDA Indonesia tidak ditetapkan negara lain — banyak mineral RI yang bursanya masih di Singapura.",
+};
+
+const PBK_KELEMBAGAAN = {
+  bursa: 2,
+  kliring: 2,
+  pialang: 67,
+  pialangSPA: 55,
+  pedagangSPA: 21,
+  penasihat: 8,
+  bankMargin: 15,
+  nasabahAktif2024: 70676,
+  ratingQ1_2026: [
+    "PT Monex Investindo Futures",
+    "PT MNC Sekuritas",
+    "PT GKInvest Futures",
+    "PT RHB Sekuritas Indonesia",
+    "PT Phillip Sekuritas Indonesia",
+    "PT Kresna Graha Investama",
+    "PT Mirae Asset Sekuritas Indonesia",
+  ],
+};
+
+const PBK_FOKUS_2027 = [
+  {judul:"Penguatan Transaksi Multilateral Berbasis Komoditas", isi:"Fokus penguatan kontrak multilateral komoditas unggulan: CPO (CPOTR), emas, kopi, lada, nikel, kakao, karet, dan Renewable Energy Certificate (REC). Optimalisasi Bursa CPO Indonesia sebagai pembentuk harga acuan CPO global."},
+  {judul:"Penguatan Regulasi & Kepastian Hukum", isi:"Perumusan kebijakan PBK/SRG/PLK · Review peraturan existing · Penyusunan rekomendasi kebijakan melalui kajian · Standar kompetensi pelaku usaha PBK/SRG/PLK."},
+  {judul:"Pengawasan Berbasis Risiko", isi:"Pengawasan pelaku usaha & kelembagaan berdasarkan profil risiko PBK, SRG, PLK · Rating pialang berjangka triwulanan · Penguatan compliance culture industri."},
+  {judul:"Bulan Literasi & First Trading Day", isi:"Sosialisasi dan edukasi kepada masyarakat · Sosialisasi pada hari pertama perdagangan di Bursa Berjangka · Program peningkatan jumlah nasabah aktif."},
+  {judul:"Penyediaan Layanan Bappebti", isi:"LINI Bappebti · Informasi harga komoditi PBK/SRG · Layanan perizinan (PNBP) · Konsultasi dan asistensi hukum."},
+  {judul:"Penegakan Hukum", isi:"Penindakan dari hasil pengawasan sesuai ketentuan · Penindakan pelaku usaha ilegal · Penutupan situs/website ilegal."},
+  {judul:"Gudang SRG Bisa Ekspor", isi:"Bimbingan teknis kepada Lembaga SRG lokal agar dapat menembus pasar global · Integrasi SRG dengan instrumen perdagangan internasional."},
+  {judul:"Asistensi & Pendampingan", isi:"Penguatan kapasitas kelembagaan SRG · Asistensi pelaku usaha (termasuk UMKM) · Koordinasi dengan Pemda & pemangku kepentingan · Skema Subsidi Resi Gudang."},
+];
+
+/* ======================================================================== */
+/* TAB PBK — Perdagangan Berjangka Komoditi                                 */
+/* ======================================================================== */
+function MenuPBK({year}){
+  const [aiOut,setAiOut]=React.useState("");
+  const [aiLoad,setAiLoad]=React.useState(false);
+  const [showKelembagaan,setShowKelembagaan]=React.useState(false);
+
+  const runAI = async()=>{
+    setAiLoad(true);
+    const prompt=`Anda adalah analis kebijakan publik senior di Bappebti, Kemendag RI. Berikan analisis strategis komprehensif (6–7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas situasi terkini Perdagangan Berjangka Komoditi (PBK) Indonesia pasca dua perubahan regulasi besar.
+
+DATA KINERJA PBK:
+- Volume transaksi 2025: 16,19 juta LOT (+12% YoY), nilai nominal Rp48.867 triliun (+49,8% YoY)
+- Volume 2024: 13,90 juta LOT, nilai Rp33.214,89 triliun
+- Volume Apr 2026*: 5,45 juta LOT (Multilateral 997.739, SPA 4,45 juta)
+- CPOTR 2025: 162.250 MT (vs 2023: 8.430 MT — pertumbuhan masif)
+- Emas fisik digital 2025: 60,2 ton (vs 2022: 2,3 ton)
+- Pialang aktif: 67 perusahaan (rating Q1 2026 sudah dirilis)
+- Nasabah aktif Nov 2024: 70.676 nasabah
+
+PERUBAHAN REGULASI BESAR:
+1. Januari 2025: Aset kripto & derivatif keuangan beralih dari Bappebti ke OJK (PP 49/2024 & UU P2SK). Nilai kripto 2024: Rp650,61 triliun, 22,91 juta pelanggan. Bappebti kini fokus penuh ke PBK komoditas.
+2. 4 Juni 2026: UU Perubahan P2SK disahkan DPR — mengamanatkan Bursa Mineral & Komoditas Strategis (BMKS) di bawah OJK, target operasi 1 Januari 2027. Berpotensi menarik komoditas mineral dari Bappebti ke BMKS-OJK.
+
+KONTEKS: Presiden Prabowo menginginkan harga komoditas SDA Indonesia tidak ditentukan bursa asing. Banyak mineral RI (nikel, timah, bauksit) masih dihargai di Singapura/London.
+
+Fokus analisis:
+1. Dampak pengalihan aset kripto: apa yang hilang dan apa peluang refocus Bappebti ke PBK komoditas riil?
+2. Konsekuensi BMKS-OJK terhadap mandat dan eksistensi Bappebti — potensi tumpang tindih vs komplementaritas.
+3. Kinerja PBK 2025: seberapa kuat fundamentalnya? Apakah pertumbuhan volume dan nilai sustainable?
+4. Komoditas CPOTR dan emas digital sebagai lokomotif baru — peluang dan risikonya.
+5. Rekomendasi strategis untuk Bappebti menghadapi lanskap regulasi yang berubah cepat.
+Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir.`;
+    try {
+      const text = await callAI(prompt, 1500);
+      setAiOut(text);
+    } catch(e){ setAiOut("Analisis AI tidak tersedia. Pastikan AI proxy dikonfigurasi di menu ⚙ pengaturan."); }
+    setAiLoad(false);
+  };
+
+  const prev2025  = PBK_VOL_TRANSAKSI.find(d=>d.th==="2025");
+  const apr2026   = PBK_VOL_TRANSAKSI.find(d=>d.th==="2026");
+  const maxVol    = Math.max(...PBK_VOL_TRANSAKSI.map(d=>d.total));
+  const maxCPOTR  = Math.max(...PBK_CPOTR.map(d=>d.vol));
+  const maxEmas   = Math.max(...PBK_EMAS_DIGITAL.map(d=>d.vol));
+  const maxTExpor = Math.max(...PBK_TIMAH_EKSPOR.map(d=>d.vol));
+  const maxTLokal = Math.max(...PBK_TIMAH_LOKAL.map(d=>d.vol));
+  const maxNilai  = Math.max(...PBK_NILAI_TRANSAKSI.map(d=>d.nilai));
+
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+
+      {/* Header */}
+      <div className="mb-2">
+        <div className="serif text-3xl mb-1">Perdagangan Berjangka Komoditi</div>
+        <div className="text-[11px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja PBK & Pasar Fisik · Bappebti 2026</div>
+      </div>
+
+      {/* ALERT: UU P2SK BMKS — berita terbaru 4 Juni 2026 */}
+      <div className="card p-4 mb-6 mt-4" style={{borderColor:"rgba(220,38,38,0.35)",background:"rgba(220,38,38,0.04)"}}>
+        <div className="flex items-start gap-3">
+          <span className="text-lg shrink-0" style={{color:"#dc2626"}}>⚠</span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="text-sm font-semibold" style={{color:"#dc2626"}}>Perubahan Lanskap Regulasi — UU P2SK Disahkan 4 Juni 2026</span>
+              <span className="pill text-[9px] mono" style={{background:"rgba(220,38,38,0.12)",color:"#dc2626",border:"1px solid rgba(220,38,38,0.3)"}}>TERBARU</span>
+            </div>
+            <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
+              DPR mengesahkan <strong>Perubahan UU P2SK</strong> yang mengamanatkan pembentukan <strong>Bursa Mineral & Komoditas Strategis (BMKS)</strong> di bawah pengawasan <strong>OJK</strong>, ditargetkan beroperasi <strong>1 Januari 2027</strong>. Wakil Ketua Komisi XI DPR menyebut "<em>kalau ada mineral dan komoditas strategis yang ada di Bappebti, akan ditarik ke sana.</em>" POJK pengaturan lanjut ditarget selesai dalam 3 bulan ke depan. Ini melanjutkan peralihan kewenangan aset kripto dari Bappebti ke OJK yang berlaku sejak Januari 2025.
+            </p>
+            <div className="flex gap-3 mt-2 flex-wrap">
+              <span className="pill pill-muted text-[9px] mono">Dasar: UU P2SK Perubahan (4/6/2026)</span>
+              <span className="pill pill-muted text-[9px] mono">Target BMKS: 1 Jan 2027</span>
+              <span className="pill pill-muted text-[9px] mono">Pengawas: OJK + KE Baru</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ALERT: Peralihan Aset Kripto */}
+      <div className="card p-4 mb-6" style={{borderColor:"rgba(37,99,235,0.25)",background:"rgba(37,99,235,0.03)"}}>
+        <div className="flex items-start gap-3">
+          <span className="text-lg shrink-0" style={{color:"#2563eb"}}>ⓘ</span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="text-sm font-semibold" style={{color:"#2563eb"}}>Peralihan Aset Kripto & Derivatif Keuangan ke OJK/BI — 10 Januari 2025</span>
+              <span className="pill pill-blue text-[9px] mono">SUDAH BERLAKU</span>
+            </div>
+            <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
+              Sesuai amanat UU P2SK No.4/2023 & PP No.49/2024, pengaturan dan pengawasan <strong>aset kripto</strong> beralih ke <strong>OJK</strong> dan <strong>derivatif keuangan</strong> ke <strong>Bank Indonesia</strong>. Nilai kripto yang diawasi Bappebti sebelumnya mencapai <strong>Rp650,61 triliun</strong> (2024) dengan <strong>22,91 juta pelanggan</strong>. Pasca-peralihan, <strong>Bappebti kini fokus penuh pada pengembangan PBK komoditas riil</strong>.
+            </p>
+            <div className="flex gap-3 mt-2 flex-wrap">
+              <span className="pill pill-muted text-[9px] mono">Dasar: UU P2SK Pasal 312 + PP 49/2024</span>
+              <span className="pill pill-muted text-[9px] mono">Kripto → OJK (POJK 27/2024)</span>
+              <span className="pill pill-muted text-[9px] mono">Derivatif Keuangan → BI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* KPI cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Volume 2025</div>
+          <div className="serif text-2xl text-[var(--blue)]">{(prev2025.total/1e6).toFixed(2)}jt LOT</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">+12% YoY · tertinggi sepanjang masa</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Nilai Nominal 2025</div>
+          <div className="serif text-2xl text-[var(--blue)]">Rp48.867 T</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">+49,8% YoY vs 2024</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Volume Apr 2026*</div>
+          <div className="serif text-2xl text-[var(--gold)]">{(apr2026.total/1e6).toFixed(2)}jt LOT</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">s.d. April 2026</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Pialang Aktif Q1 2026</div>
+          <div className="serif text-2xl text-[var(--blue)]">67</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">perusahaan · rating triwulanan</div>
+        </div>
+      </div>
+
+      {/* Nilai Nominal Transaksi */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-1">Nilai Nominal Transaksi PBK</div>
+        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Rp Triliun · Pertumbuhan signifikan 2023–2025</div>
+        <div className="space-y-3">
+          {PBK_NILAI_TRANSAKSI.map(d=>(
+            <div key={d.th} className="flex items-center gap-3 text-xs">
+              <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}</div>
+              <div className="flex-1 h-8 bg-[var(--bg-2)] rounded overflow-hidden relative">
+                <div className="h-full rounded transition-all flex items-center" style={{width:`${(d.nilai/maxNilai)*100}%`, background:"rgba(37,99,235,0.55)"}}>
+                </div>
+                <div className="absolute inset-y-0 left-3 flex items-center text-[11px] mono font-semibold text-white mix-blend-difference">Rp{d.nilai.toLocaleString('id-ID')} T</div>
+              </div>
+              {d.nilai>33214 && <span className="pill pill-blue text-[9px]">+{((d.nilai/33214.89-1)*100).toFixed(1)}%</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Chart Volume Transaksi PBK */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-1">Volume Transaksi PBK (LOT)</div>
+        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2020–April 2026 · Multilateral vs SPA</div>
+        <div className="space-y-2">
+          {PBK_VOL_TRANSAKSI.map(d=>(
+            <div key={d.th} className="flex items-center gap-3 text-xs">
+              <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
+              <div className="flex-1 flex flex-col gap-1">
+                <div className="flex items-center gap-1">
+                  <div className="w-20 text-[10px] text-[var(--text-3)]">Multilateral</div>
+                  <div className="flex-1 h-4 bg-[var(--bg-2)] rounded overflow-hidden">
+                    <div className="h-full rounded" style={{width:`${(d.multilateral/maxVol)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(37,99,235,0.55)"}}></div>
+                  </div>
+                  <div className="w-20 mono text-[10px] text-right text-[var(--text-2)]">{(d.multilateral/1e6).toFixed(2)}jt</div>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-20 text-[10px] text-[var(--text-3)]">SPA</div>
+                  <div className="flex-1 h-4 bg-[var(--bg-2)] rounded overflow-hidden">
+                    <div className="h-full rounded" style={{width:`${(d.spa/maxVol)*100}%`, background:d.p?"rgba(212,164,55,0.4)":"rgba(37,99,235,0.28)"}}></div>
+                  </div>
+                  <div className="w-20 mono text-[10px] text-right text-[var(--text-2)]">{(d.spa/1e6).toFixed(2)}jt</div>
+                </div>
+              </div>
+              <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"var(--blue)"}}>{(d.total/1e6).toFixed(2)}jt</div>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-4 mt-3 text-[10px] mono text-[var(--text-3)]">
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(37,99,235,0.55)"}}></span>Multilateral</span>
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(37,99,235,0.28)"}}></span>SPA (Sistem Perdagangan Alternatif)</span>
+          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{background:"rgba(212,164,55,0.7)"}}></span>2026* (s.d. April)</span>
+        </div>
+      </div>
+
+      {/* 2 kolom: CPOTR + Emas Digital */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <div className="card p-5">
+          <div className="serif text-lg mb-1">Volume Transaksi CPOTR</div>
+          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Kontrak Berjangka CPO · 2023–April 2026 (Metrik Ton)</div>
+          <div className="space-y-2">
+            {PBK_CPOTR.map(d=>(
+              <div key={d.th} className="flex items-center gap-3 text-xs">
+                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
+                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
+                  <div className="h-full rounded" style={{width:`${(d.vol/maxCPOTR)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(37,99,235,0.55)"}}></div>
+                </div>
+                <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"var(--blue)"}}>{d.vol.toLocaleString('id-ID')}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 text-[10px] text-[var(--text-3)]">Pertumbuhan luar biasa: 8.430 MT (2023) → 162.250 MT (2025) — Bursa CPO Indonesia jadi pembentuk harga acuan</div>
+        </div>
+
+        <div className="card p-5">
+          <div className="serif text-lg mb-1">Perdagangan Emas Fisik Secara Digital</div>
+          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2022–April 2026 (Ton)</div>
+          <div className="space-y-2">
+            {PBK_EMAS_DIGITAL.map(d=>(
+              <div key={d.th} className="flex items-center gap-3 text-xs">
+                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
+                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
+                  <div className="h-full rounded" style={{width:`${(d.vol/maxEmas)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(16,185,129,0.55)"}}></div>
+                </div>
+                <div className="w-16 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#10b981"}}>{d.vol} Ton</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 text-[10px] text-[var(--text-3)]">Pertumbuhan eksponensial 2,3 → 60,2 ton (2022–2025) · Apr 2026: 42,16 ton — momentum kuat</div>
+        </div>
+      </div>
+
+      {/* Timah Ekspor & Lokal */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <div className="card p-5">
+          <div className="serif text-lg mb-1">Timah Murni Batangan — Ekspor</div>
+          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2021–April 2026 (Metrik Ton)</div>
+          <div className="space-y-2">
+            {PBK_TIMAH_EKSPOR.map(d=>(
+              <div key={d.th} className="flex items-center gap-3 text-xs">
+                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
+                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
+                  <div className="h-full rounded" style={{width:`${(d.vol/maxTExpor)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(124,45,18,0.5)"}}></div>
+                </div>
+                <div className="w-20 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#7c2d12"}}>{d.vol.toLocaleString('id-ID')}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="serif text-lg mb-1">Timah Murni Batangan — Lokal</div>
+          <div className="text-[10px] mono text-[var(--text-3)] mb-4">Periode 2021–April 2026 (Metrik Ton)</div>
+          <div className="space-y-2">
+            {PBK_TIMAH_LOKAL.map(d=>(
+              <div key={d.th} className="flex items-center gap-3 text-xs">
+                <div className="w-10 mono text-[var(--text-3)] text-right shrink-0">{d.th}{d.p?"*":""}</div>
+                <div className="flex-1 h-5 bg-[var(--bg-2)] rounded overflow-hidden">
+                  <div className="h-full rounded" style={{width:`${(d.vol/maxTLokal)*100}%`, background:d.p?"rgba(212,164,55,0.7)":"rgba(124,45,18,0.35)"}}></div>
+                </div>
+                <div className="w-16 mono text-[10px] text-right font-semibold" style={{color:d.p?"var(--gold)":"#7c2d12"}}>{d.vol.toLocaleString('id-ID')}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Kelembagaan PBK */}
+      <div className="card p-5 mb-6">
+        <button className="w-full flex items-center justify-between" onClick={()=>setShowKelembagaan(!showKelembagaan)}>
+          <div>
+            <div className="serif text-xl text-left">Kelembagaan PBK</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5 text-left">Ekosistem pelaku usaha · Rating Pialang Q1 2026</div>
+          </div>
+          <span className="text-[var(--text-3)] text-lg">{showKelembagaan?"−":"+"}</span>
+        </button>
+        {showKelembagaan && (
+          <div className="mt-4 pt-4 border-t border-[var(--border)]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+              {[
+                {label:"Bursa Berjangka", val:PBK_KELEMBAGAAN.bursa},
+                {label:"Lembaga Kliring", val:PBK_KELEMBAGAAN.kliring},
+                {label:"Pialang Berjangka Aktif", val:PBK_KELEMBAGAAN.pialang},
+                {label:"Pialang SPA", val:PBK_KELEMBAGAAN.pialangSPA},
+                {label:"Pedagang Penyelenggara SPA", val:PBK_KELEMBAGAAN.pedagangSPA},
+                {label:"Penasihat Berjangka", val:PBK_KELEMBAGAAN.penasihat},
+                {label:"Bank Penyimpan Margin", val:PBK_KELEMBAGAAN.bankMargin},
+                {label:"Nasabah Aktif Nov 2024", val:PBK_KELEMBAGAAN.nasabahAktif2024.toLocaleString('id-ID')},
+              ].map((item,i)=>(
+                <div key={i} className="card-2 p-3">
+                  <div className="text-[10px] text-[var(--text-3)] mb-1">{item.label}</div>
+                  <div className="serif text-lg font-semibold text-[var(--blue)]">{item.val}</div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div className="text-[11px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">7 Pialang Berjangka Peringkat Teratas — Q1 2026 (Jan–Mar 2026)</div>
+              <div className="flex flex-wrap gap-2">
+                {PBK_KELEMBAGAAN.ratingQ1_2026.map((p,i)=>(
+                  <div key={i} className="flex items-center gap-2 card-2 px-3 py-2">
+                    <span className="mono text-[10px] text-[var(--gold)]">{String(i+1).padStart(2,'0')}</span>
+                    <span className="text-[12px] text-[var(--text-2)]">{p}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 text-[10px] text-[var(--text-3)]">Penilaian berdasarkan aspek kinerja, kepatuhan (UU No.32/1997 jo. UU No.10/2011), dan nilai penambah transaksi. Dasar hukum: Peraturan Bappebti No.6/2023.</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Pagu Indikatif TA 2027 — KRISNA Rekap 3A, 05 Juni 2026 */}
+      <div className="card p-5 mb-6" style={{borderColor:"rgba(212,164,55,0.3)",background:"linear-gradient(135deg,rgba(212,164,55,0.04) 0%,rgba(212,164,55,0.01) 100%)"}}>
+        <div className="serif text-xl mb-1">Pagu Indikatif Bappebti TA 2027</div>
+        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Sumber: Rekap 3A KRISNA Renja K/L TA 2027 · Ditetapkan 05 Juni 2026 · Total PI = Rp3.332.195.000</div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-[var(--border)]">
+                <th className="text-left py-2 pr-3 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider w-6">No</th>
+                <th className="text-left py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider">Kegiatan</th>
+                <th className="text-right py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider whitespace-nowrap">Pagu Rev. 2026 (Rp)</th>
+                <th className="text-right py-2 pr-4 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider whitespace-nowrap">PI 2027 (Rp)</th>
+                <th className="text-right py-2 text-[var(--text-3)] mono text-[10px] uppercase tracking-wider">Sumber Dana</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                {no:1, kode:"3758", keg:"Dukungan Manajemen & Dukungan Teknis Lainnya",          p2026:4962863000, p2027:3242195000, dana:"RM",   note:"EBA.994 Layanan Perkantoran"},
+                {no:2, kode:"3759", keg:"Pengawasan & Penindakan PBK, SRG dan PLK",              p2026:344402000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
+                {no:3, kode:"3760", keg:"Pembinaan & Pengembangan SRG dan PLK",                  p2026:449561000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
+                {no:4, kode:"3761", keg:"Peningkatan Efektivitas Kebijakan & Pelayanan Hukum",   p2026:245775000,  p2027:0,         dana:"-",   note:"Seluruh RO nol di KRISNA PI"},
+                {no:5, kode:"3762", keg:"Pembinaan & Pengembangan Perdagangan Berjangka Komoditi",p2026:466990000,  p2027:90000000,  dana:"PNBP", note:"ADI.001 — 100 org ujian profesi @ Rp900rb"},
+              ].map(r=>(
+                <tr key={r.no} className={`border-b border-[var(--border-tertiary)] hover:bg-[var(--bg-2)] ${r.p2027===0?"opacity-60":""}`}>
+                  <td className="py-2 pr-3 mono text-[var(--text-3)] text-[10px]">{r.no}</td>
+                  <td className="py-2 pr-4">
+                    <div className="text-[var(--text-2)]">{r.keg}</div>
+                    <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">{r.kode} · {r.note}</div>
+                  </td>
+                  <td className="py-2 pr-4 mono text-right text-[11px] text-[var(--text-2)]">{r.p2026.toLocaleString('id-ID')}</td>
+                  <td className={`py-2 pr-4 mono text-right text-[11px] font-semibold ${r.p2027>0?"text-[var(--gold)]":"text-[var(--text-3)]"}`}>
+                    {r.p2027===0?"—":r.p2027.toLocaleString('id-ID')}
+                  </td>
+                  <td className="py-2 mono text-right text-[10px]">
+                    {r.dana!=="-" && <span className={`pill text-[9px] ${r.dana==="PNBP"?"pill-gold":"pill-blue"}`}>{r.dana}</span>}
+                  </td>
+                </tr>
+              ))}
+              <tr className="border-t-2 border-[var(--border)]">
+                <td className="py-2 pr-3"></td>
+                <td className="py-2 pr-4 font-semibold text-[var(--text-1)]">TOTAL</td>
+                <td className="py-2 pr-4 mono text-right font-semibold text-[var(--blue)]">6.469.591.000</td>
+                <td className="py-2 pr-4 mono text-right font-semibold text-[var(--gold)]">3.332.195.000</td>
+                <td className="py-2 mono text-right text-[10px] text-[var(--text-3)]">−48,5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
+          <div className="card-2 p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Catatan Penting</div>
+            <div className="text-[var(--text-2)] leading-relaxed">Kegiatan 3759, 3760, dan 3761 <strong>nol rupiah</strong> di KRISNA PI 2027 — seluruh RO memiliki alokasi 0. Ini bukan berarti tidak diusulkan, melainkan menunggu proses pembahasan trilateral Bappenas–DJA–K/L.</div>
+          </div>
+          <div className="card-2 p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">PNBP 3762</div>
+            <div className="text-[var(--text-2)] leading-relaxed">Satu-satunya sumber PNBP: sertifikasi ujian profesi Wakil Pialang & Penasihat Berjangka (ADI.001) — 100 orang × Rp900.000 = <strong>Rp90.000.000</strong>. Prakiraan 2028–2030 tetap 100 orang.</div>
+          </div>
+          <div className="card-2 p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Target IKK Baru (3758)</div>
+            <div className="text-[var(--text-2)] leading-relaxed">IKK 3758 dari KRISNA: WTA <strong>Madya</strong>, IKPA <strong>92</strong>, SKM <strong>80</strong>. Perlu dicocokkan dengan target Renstra yang sebelumnya digunakan di dashboard.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Fokus Bappebti 2027 */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-1">Fokus & Strategi Bappebti 2027</div>
+        <div className="text-[10px] mono text-[var(--text-3)] mb-4">Tema: "Terwujudnya Pembentukan Harga melalui Perdagangan Berjangka Komoditi"</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {PBK_FOKUS_2027.map((f,i)=>(
+            <div key={i} className="card-2 p-4">
+              <div className="flex items-start gap-2">
+                <span className="mono text-[10px] text-[var(--gold)] shrink-0 mt-0.5">{String(i+1).padStart(2,'0')}</span>
+                <div>
+                  <div className="text-sm font-medium mb-1">{f.judul}</div>
+                  <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{f.isi}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* AI Insight */}
+      <div className="card p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <div className="serif text-xl">Analisis Strategis PBK</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Dampak UU P2SK · Peralihan kripto · Kinerja komoditas · Proyeksi Bappebti</div>
+          </div>
+          <button onClick={runAI} disabled={aiLoad}
+            className="px-4 py-2 rounded-md text-xs mono border border-[var(--blue)] text-[var(--blue)] hover:bg-[rgba(37,99,235,0.08)] disabled:opacity-50 transition">
+            {aiLoad ? "Menganalisis…" : "✦ Analisis AI"}
+          </button>
+        </div>
+        {aiOut
+          ? <div className="text-sm text-[var(--text-2)] leading-relaxed whitespace-pre-wrap">{aiOut}</div>
+          : <div className="text-[11px] text-[var(--text-3)] italic">Klik "Analisis AI" untuk menghasilkan analisis strategis berbasis data terkini PBK, peralihan aset kripto ke OJK, dan dampak UU P2SK tentang Bursa Mineral & Komoditas Strategis terhadap Bappebti.</div>
+        }
+      </div>
+
+    </div>
   );
 }
 
