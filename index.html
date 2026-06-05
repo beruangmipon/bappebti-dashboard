@@ -248,6 +248,7 @@ const IKSS = [
   { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"84"},    baseline:"88,28" },
   { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas (SPI) Bappebti",          target:"69,79", t:{2027:"74,6"},  baseline:"74,34" },
   { id:"ISP-6", ss:"SP-02", nama:"Nilai Akuntabilitas Kinerja (SAKIP) Bappebti",        target:"82,50", t:{2027:"82,75"}, baseline:"82,56" },
+  { id:"ISP-7", ss:"SP-02", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94"}, baseline:"-" },
 ];
 
 /* ===== RENJA TA 2025 — SASARAN PROGRAM & IKP (DI LUAR KERANGKA RENSTRA 2025–2029) =====
@@ -329,13 +330,13 @@ const IKK = [
   { id:"IKK-11", sk:"SK3", nama:"Pelaku Usaha yang patuh dalam kegiatan PBK, SRG, PLK", target:"83%", t:{2025:"81%",2026:"83%",2027:"85%"}, ikpLinked:"ISP-3" },
   { id:"IKK-12", sk:"SK3", nama:"% penanganan pelanggaran ketentuan PBK, SRG, PLK", target:"77%", t:{2025:"75%",2026:"77%",2027:"79%"}, ikpLinked:"ISP-3" },
   // SK4 — Hukum (Kegiatan 3761)
-  { id:"IKK-13", sk:"SK4", nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK, SRG, PLK", target:"64", t:{2025:"63",2026:"64",2027:"65"}, ikpLinked:"ISP-4" },
+  { id:"IKK-13", sk:"SK4", nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK, SRG, PLK", target:"64", t:{2025:"63",2026:"64",2027:"65"}, ikpLinked:"ISP-3" },
   { id:"IKK-14", sk:"SK4", nama:"Penyelesaian Perselisihan PBK sesuai SLA", target:"91%", t:{2025:"90%",2026:"91%",2027:"92%"}, ikpLinked:"ISP-3" },
   { id:"IKK-15", sk:"SK4", nama:"Indeks kepuasan layanan Penyelesaian Perselisihan & Konsultasi Hukum", target:"83", t:{2025:"81",2026:"83",2027:"85"}, ikpLinked:"ISP-4" },
   // SK5 — Dukungan Manajemen (Kegiatan 3758)
-  { id:"IKK-16", sk:"SK5", nama:"Nilai WTA Bappebti", target:"WTA Madya", t:{2025:"WTA Madya",2026:"WTA Madya",2027:"WTA Madya"}, ikpLinked:"ISP-5" },
-  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA)", target:"92", t:{2025:"92",2026:"92",2027:"92"}, ikpLinked:"ISP-6" },
-  { id:"IKK-18", sk:"SK5", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", target:"79", t:{2025:"79",2026:"79",2027:"80"}, ikpLinked:"ISP-6" },
+  { id:"IKK-16", sk:"SK5", nama:"Nilai WTA Bappebti", target:"WTA Madya", t:{2025:"WTA Madya",2026:"WTA Madya",2027:"WTA Madya"}, ikpLinked:"ISP-6" },
+  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94"}, ikpLinked:"ISP-7" },
+  { id:"IKK-18", sk:"SK5", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", target:"79", t:{2025:"79",2026:"79",2027:"80"}, ikpLinked:"ISP-5" },
 ];
 
 /* TINGKAT 3 — Program (2 program nyata Bappebti) */
@@ -428,7 +429,7 @@ const RO = [
   { id:"RO-3760-ACD2", kode:"ACD.002", kro:"KRO-3760-ACD", nama:"Perizinan Lembaga PLK", anggaran:3_000_000, target:"1 Lembaga", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:62, alignment:60, urgency:55, leverage:64 },
   { id:"RO-3760-AFA1", kode:"AFA.001", kro:"KRO-3760-AFA", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", anggaran:18_750_000, target:"1 NSPK", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:66, alignment:70, urgency:58, leverage:74 },
   { id:"RO-3760-BDB1", kode:"BDB.001", kro:"KRO-3760-BDB", nama:"Fasilitasi & Pembinaan Lembaga Penyalur Subsidi Resi Gudang", anggaran:71_380_000, target:"2 Lembaga", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:80, alignment:82, urgency:78, leverage:84, candidatePN:true },
-  { id:"RO-3760-BMA1", kode:"BMA.001", kro:"KRO-3760-BMA", nama:"Data & Informasi Harga Komoditi SRG/PLK", anggaran:9_600_000, target:"6 dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-4"], impact:64, alignment:62, urgency:60, leverage:68 },
+  { id:"RO-3760-BMA1", kode:"BMA.001", kro:"KRO-3760-BMA", nama:"Data & Informasi Harga Komoditi SRG/PLK", anggaran:9_600_000, target:"6 dokumen", isPN:false, ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:64, alignment:62, urgency:60, leverage:68 },
   { id:"RO-3760-FAB1", kode:"FAB.001", kro:"KRO-3760-FAB", nama:"Sistem Informasi Persetujuan SRG & PLK", anggaran:30_000_000, target:"1 Sistem", isPN:false, ikkLinked:"IKK-9", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:72 },
   { id:"RO-3760-PBB2", kode:"PBB.G02", kro:"KRO-3760-PBB", nama:"Rekomendasi Kebijakan Dampak Kelembagaan & Komoditi SRG/PLK", anggaran:24_151_000, target:"1 Rekomendasi", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-8", ikuLinked:["ISP-2"], impact:84, alignment:90, urgency:80, leverage:88 },
   { id:"RO-3760-PEA1", kode:"PEA.001", kro:"KRO-3760-PEA", nama:"Koordinasi Pemangku Kepentingan Bidang SRG", anggaran:25_018_000, target:"1 Kegiatan", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:82, alignment:88, urgency:78, leverage:85 },
@@ -458,9 +459,9 @@ const RO = [
   { id:"RO-3762-QDH1", kode:"QDH.001", kro:"KRO-3762-QDH", nama:"Pembinaan Pelaku Usaha PBK (Forum Commodity Desk)", anggaran:78_049_000, target:"60 Badan Usaha", isPN:true, pnLabel:"PN — Hilirisasi SDA", ikkLinked:"IKK-1", ikuLinked:["ISP-1"], impact:78, alignment:80, urgency:74, leverage:82 },
 
   /* ===== 3758 — Dukungan Manajemen ===== */
-  { id:"RO-3758-CAN1", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Tugas Bappebti", anggaran:115_200_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:52, leverage:42 },
-  { id:"RO-3758-EBA1", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:4_449_293_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO-3758-EBA2", kode:"EBA.Z08", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:398_370_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-5","ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
+  { id:"RO-3758-CAN1", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Tugas Bappebti", anggaran:115_200_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:48, alignment:44, urgency:52, leverage:42 },
+  { id:"RO-3758-EBA1", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:4_449_293_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-7","ISP-6","ISP-5"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO-3758-EBA2", kode:"EBA.Z08", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:398_370_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-5","ISP-6","ISP-7"], impact:52, alignment:48, urgency:54, leverage:46 },
 ];
 
 /* Realisasi per RO s/d Mei 2026 (SAKTI — Laporan Ketersediaan Dana Detail).
@@ -509,15 +510,15 @@ const RO_2027 = [
    urgency/leverage = estimasi analitik awal (silakan dikoreksi Bappebti). */
 const RO_2027_KL = [
   /* ===== 3758 — Dukungan Manajemen & Dukungan Teknis (Total Rp 13.860.586.000) ===== */
-  { id:"RO27-3758-CAN1",  kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti", anggaran:715_200_000, target:"17 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:52, leverage:42 },
-  { id:"RO27-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan Kantor)", anggaran:8_536_386_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO27-3758-EBAZ03", kode:"EBA.Z03", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi (Humas, Penyebarluasan PBK/SRG/PLK, MoU)", anggaran:1_350_000_000, target:"3 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:50, leverage:46 },
-  { id:"RO27-3758-EBAZ07", kode:"EBA.Z07", kro:"KRO-3758-EBA", nama:"Layanan BMN (Penatausahaan & Pemindahtanganan)", anggaran:300_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-6"], impact:44, alignment:42, urgency:46, leverage:40 },
-  { id:"RO27-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Layanan Sarana Internal (Perlengkapan Penunjang Informasi Publik)", anggaran:60_000_000, target:"10 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:42, alignment:40, urgency:44, leverage:38 },
+  { id:"RO27-3758-CAN1",  kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti", anggaran:715_200_000, target:"17 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:48, alignment:44, urgency:52, leverage:42 },
+  { id:"RO27-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan Kantor)", anggaran:8_536_386_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-7","ISP-6","ISP-5"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO27-3758-EBAZ03", kode:"EBA.Z03", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi (Humas, Penyebarluasan PBK/SRG/PLK, MoU)", anggaran:1_350_000_000, target:"3 Layanan", isPN:false, ikkLinked:"IKK-18", ikkLinkedExt:["IKK-16","IKK-17"], ikuLinked:["ISP-5","ISP-6","ISP-7"], impact:52, alignment:48, urgency:50, leverage:46 },
+  { id:"RO27-3758-EBAZ07", kode:"EBA.Z07", kro:"KRO-3758-EBA", nama:"Layanan BMN (Penatausahaan & Pemindahtanganan)", anggaran:300_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikkLinkedExt:["IKK-16","IKK-18"], ikuLinked:["ISP-7","ISP-6","ISP-5"], impact:44, alignment:42, urgency:46, leverage:40 },
+  { id:"RO27-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Layanan Sarana Internal (Perlengkapan Penunjang Informasi Publik)", anggaran:60_000_000, target:"10 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:42, alignment:40, urgency:44, leverage:38 },
   { id:"RO27-3758-EBCZ10", kode:"EBC.Z10", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM (Organisasi, Kepegawaian & Ketatausahaan)", anggaran:900_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-5","ISP-6"], impact:54, alignment:50, urgency:54, leverage:48 },
-  { id:"RO27-3758-EBDZ27", kode:"EBD.Z27", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan (Perencanaan, Penganggaran & Pengelolaan Keuangan)", anggaran:1_055_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:50, alignment:46, urgency:52, leverage:44 },
-  { id:"RO27-3758-EBDZ32", kode:"EBD.Z32", kro:"KRO-3758-EBD", nama:"Layanan Reformasi Kinerja (Kelompok Kerja Reformasi Birokrasi)", anggaran:100_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:54, urgency:52, leverage:50 },
-  { id:"RO27-3758-EBDZ36", kode:"EBD.Z36", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Kinerja (Evaluasi & Pelaporan Kinerja)", anggaran:844_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:58, alignment:56, urgency:54, leverage:52 },
+  { id:"RO27-3758-EBDZ27", kode:"EBD.Z27", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan (Perencanaan, Penganggaran & Pengelolaan Keuangan)", anggaran:1_055_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:50, alignment:46, urgency:52, leverage:44 },
+  { id:"RO27-3758-EBDZ32", kode:"EBD.Z32", kro:"KRO-3758-EBD", nama:"Layanan Reformasi Kinerja (Kelompok Kerja Reformasi Birokrasi)", anggaran:100_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-6"], impact:56, alignment:54, urgency:52, leverage:50 },
+  { id:"RO27-3758-EBDZ36", kode:"EBD.Z36", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Kinerja (Evaluasi & Pelaporan Kinerja)", anggaran:844_000_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-6"], impact:58, alignment:56, urgency:54, leverage:52 },
 
   /* ===== 3759 — Pengawasan & Penindakan (Total Rp 6.472.779.000) ===== */
   { id:"RO27-3759-AEA1", kode:"AEA.001", kro:"KRO-3759-AEA", nama:"Koordinasi Penegakan Hukum PBK/SRG/PLK (Pencegahan & Penanganan Kegiatan Ilegal)", anggaran:277_504_000, target:"20 Kegiatan", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:74, alignment:72, urgency:80, leverage:68 },
@@ -533,14 +534,14 @@ const RO_2027_KL = [
   /* ===== 3761 — Kebijakan & Pelayanan Hukum (Total Rp 3.682.058.000) ===== */
   { id:"RO27-3761-AAH1", kode:"AAH.F01", kro:"KRO-3761-AAH", nama:"Peraturan Bappebti di bidang PBK", anggaran:292_000_000, target:"8 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:74, alignment:76, urgency:70, leverage:78 },
   { id:"RO27-3761-AAH2", kode:"AAH.F02", kro:"KRO-3761-AAH", nama:"Peraturan Bappebti di bidang SRG & PLK", anggaran:146_000_000, target:"4 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-2"], impact:72, alignment:78, urgency:66, leverage:80 },
-  { id:"RO27-3761-ABB1", kode:"ABB.G01", kro:"KRO-3761-ABB", nama:"Rekomendasi Kebijakan Penyempurnaan Peraturan PBK/SRG/PLK", anggaran:150_000_000, target:"2 Rekomendasi", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:76, alignment:78, urgency:72, leverage:80 },
-  { id:"RO27-3761-ABB2", kode:"ABB.G02", kro:"KRO-3761-ABB", nama:"Rekomendasi Kebijakan Pembentukan Regulasi PBK/SRG/PLK", anggaran:178_568_000, target:"5 Rekomendasi", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:76, alignment:80, urgency:72, leverage:82 },
+  { id:"RO27-3761-ABB1", kode:"ABB.G01", kro:"KRO-3761-ABB", nama:"Rekomendasi Kebijakan Penyempurnaan Peraturan PBK/SRG/PLK", anggaran:150_000_000, target:"2 Rekomendasi", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:76, alignment:78, urgency:72, leverage:80 },
+  { id:"RO27-3761-ABB2", kode:"ABB.G02", kro:"KRO-3761-ABB", nama:"Rekomendasi Kebijakan Pembentukan Regulasi PBK/SRG/PLK", anggaran:178_568_000, target:"5 Rekomendasi", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:76, alignment:80, urgency:72, leverage:82 },
   { id:"RO27-3761-AEA1", kode:"AEA.001", kro:"KRO-3761-AEA", nama:"Uji Publik & Harmonisasi Kebijakan PBK/SRG/PLK", anggaran:202_000_000, target:"8 Kegiatan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:70, alignment:74, urgency:64, leverage:76 },
   { id:"RO27-3761-BBA1", kode:"BBA.001", kro:"KRO-3761-BBA", nama:"Layanan Asistensi Hukum PBK/SRG/PLK (& Koordinasi APH)", anggaran:731_250_000, target:"34 Orang", isPN:false, ikkLinked:"IKK-15", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:72, leverage:64 },
   { id:"RO27-3761-BBA2", kode:"BBA.002", kro:"KRO-3761-BBA", nama:"Layanan Penyelesaian Perselisihan PBK/SRG/PLK", anggaran:203_500_000, target:"100 Orang", isPN:false, ikkLinked:"IKK-14", ikuLinked:["ISP-3"], impact:70, alignment:68, urgency:74, leverage:66 },
   { id:"RO27-3761-BBA3", kode:"BBA.003", kro:"KRO-3761-BBA", nama:"Layanan Konsultasi Hukum PBK/SRG/PLK", anggaran:200_000_000, target:"100 Orang", isPN:false, ikkLinked:"IKK-15", ikuLinked:["ISP-4"], impact:66, alignment:64, urgency:68, leverage:62 },
   { id:"RO27-3761-BCB1", kode:"BCB.001", kro:"KRO-3761-BCB", nama:"Penanganan Perkara di Badan Peradilan/APS (& Koordinasi Lembaga)", anggaran:627_720_000, target:"10 Perkara", isPN:false, ikkLinked:"IKK-14", ikuLinked:["ISP-3"], impact:71, alignment:70, urgency:76, leverage:66 },
-  { id:"RO27-3761-BDB1", kode:"BDB.001", kro:"KRO-3761-BDB", nama:"Fasilitasi & Pembinaan Implementasi Ketentuan PBK/SRG/PLK (Pertemuan Teknis)", anggaran:300_660_000, target:"3 Lembaga", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:68, alignment:70, urgency:66, leverage:72 },
+  { id:"RO27-3761-BDB1", kode:"BDB.001", kro:"KRO-3761-BDB", nama:"Fasilitasi & Pembinaan Implementasi Ketentuan PBK/SRG/PLK (Pertemuan Teknis)", anggaran:300_660_000, target:"3 Lembaga", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:68, alignment:70, urgency:66, leverage:72 },
   { id:"RO27-3761-BDB2", kode:"BDB.002", kro:"KRO-3761-BDB", nama:"Fasilitasi & Pembinaan Penyelesaian Perselisihan Nasabah (Bimtek & Harmonisasi)", anggaran:456_100_000, target:"2 Lembaga", isPN:false, ikkLinked:"IKK-14", ikuLinked:["ISP-3"], impact:70, alignment:72, urgency:70, leverage:72 },
   { id:"RO27-3761-BDC1", kode:"BDC.001", kro:"KRO-3761-BDC", nama:"Fasilitasi & Pembinaan Informasi Hukum atas Implementasi PBK/SRG/PLK", anggaran:194_260_000, target:"100 Orang", isPN:false, ikkLinked:"IKK-15", ikuLinked:["ISP-4"], impact:64, alignment:62, urgency:62, leverage:66 },
 
@@ -614,10 +615,10 @@ const RO_2025 = [
   { id:"RO25-3760-UAB001", kode:"UAB.001", kro:"KRO-3760-UAB", nama:"Pemeliharaan Sistem Pasar Lelang Terpadu (SPLT)", anggaran:170_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-7", ikuLinked:["ISP-1"], impact:66, alignment:64, urgency:64, leverage:70 },
   { id:"RO25-3760-UAB002", kode:"UAB.002", kro:"KRO-3760-UAB", nama:"Pemeliharaan & Penerapan WMS di Gudang SRG", anggaran:180_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-6", ikuLinked:["ISP-2"], impact:70, alignment:68, urgency:68, leverage:74 },
   /* ===== 3761 — Renja TA 2025 ===== */
-  { id:"RO25-3761-AAH001", kode:"AAH.001", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Uji Publik Regulasi Bappebti Bidang PBK", anggaran:284_910_000, target:"4 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:74, alignment:76, urgency:70, leverage:78 },
-  { id:"RO25-3761-AAH002", kode:"AAH.002", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Penyusunan Regulasi Bappebti Bidang SRG & PLK", anggaran:47_005_000, target:"1 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:72, alignment:76, urgency:66, leverage:78 },
-  { id:"RO25-3761-AEA001", kode:"AEA.001", kro:"KRO-3761-AEA", nama:"Koordinasi dengan Instansi/Lembaga Terkait (termasuk Satgas PASTI)", anggaran:187_520_000, target:"11 Kegiatan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:70, alignment:72, urgency:70, leverage:74 },
-  { id:"RO25-3761-AEF001", kode:"AEF.001", kro:"KRO-3761-AEF", nama:"Sosialisasi Peraturan Bappebti Bidang PBK, SRG & PLK", anggaran:19_634_000, target:"60 Orang", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-4"], impact:62, alignment:64, urgency:58, leverage:66 },
+  { id:"RO25-3761-AAH001", kode:"AAH.001", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Uji Publik Regulasi Bappebti Bidang PBK", anggaran:284_910_000, target:"4 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:74, alignment:76, urgency:70, leverage:78 },
+  { id:"RO25-3761-AAH002", kode:"AAH.002", kro:"KRO-3761-AAH", nama:"Perumusan, Penyempurnaan & Penyusunan Regulasi Bappebti Bidang SRG & PLK", anggaran:47_005_000, target:"1 Peraturan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:72, alignment:76, urgency:66, leverage:78 },
+  { id:"RO25-3761-AEA001", kode:"AEA.001", kro:"KRO-3761-AEA", nama:"Koordinasi dengan Instansi/Lembaga Terkait (termasuk Satgas PASTI)", anggaran:187_520_000, target:"11 Kegiatan", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:70, alignment:72, urgency:70, leverage:74 },
+  { id:"RO25-3761-AEF001", kode:"AEF.001", kro:"KRO-3761-AEF", nama:"Sosialisasi Peraturan Bappebti Bidang PBK, SRG & PLK", anggaran:19_634_000, target:"60 Orang", isPN:false, ikkLinked:"IKK-13", ikuLinked:["ISP-3"], impact:62, alignment:64, urgency:58, leverage:66 },
   { id:"RO25-3761-BBA001", kode:"BBA.001", kro:"KRO-3761-BBA", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG & PLK", anggaran:217_210_000, target:"10 Orang", isPN:false, ikkLinked:"IKK-15", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:72, leverage:64 },
   { id:"RO25-3761-BBB001", kode:"BBB.001", kro:"KRO-3761-BBB", nama:"Layanan Hukum Berperkara & Penyelesaian Perselisihan", anggaran:131_241_000, target:"8 Institusi", isPN:false, ikkLinked:"IKK-14", ikuLinked:["ISP-3"], impact:70, alignment:68, urgency:74, leverage:66 },
   { id:"RO25-3761-BIC001", kode:"BIC.001", kro:"KRO-3761-BIC", nama:"Penegakan Hukum di Bidang PBK, SRG & PLK sesuai Ketentuan", anggaran:700_000_000, target:"33 Lembaga", isPN:false, ikkLinked:"IKK-12", ikuLinked:["ISP-3"], impact:80, alignment:78, urgency:84, leverage:72 },
@@ -634,18 +635,18 @@ const RO_2025 = [
   { id:"RO25-3762-FAB001", kode:"FAB.001", kro:"KRO-3762-FAB", nama:"Sistem Perizinan Online & Profiling Pelaku Usaha PBK", anggaran:254_560_000, target:"2 Sistem Informasi", isPN:false, ikkLinked:"IKK-3", ikuLinked:["ISP-4"], impact:68, alignment:66, urgency:64, leverage:72 },
   { id:"RO25-3762-FAB005", kode:"FAB.005", kro:"KRO-3762-FAB", nama:"Pengembangan Integrasi Aplikasi Bappebti", anggaran:81_000_000, target:"1 Sistem Informasi", isPN:false, ikkLinked:"IKK-5", ikuLinked:["ISP-1"], impact:62, alignment:60, urgency:60, leverage:66 },
   /* ===== 3758 — Renja TA 2025 ===== */
-  { id:"RO25-3758-CAN001", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan & Mesin (Sarana Bidang TIK)", anggaran:731_700_000, target:"41 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:50, alignment:46, urgency:52, leverage:44 },
-  { id:"RO25-3758-CCL001", kode:"CCL.001", kro:"KRO-3758-CCL", nama:"Operasional & Pemeliharaan Kantor (Sarana TIK)", anggaran:142_650_000, target:"195 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:50, leverage:42 },
-  { id:"RO25-3758-EBA956", kode:"EBA.956", kro:"KRO-3758-EBA", nama:"Layanan BMN", anggaran:129_999_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:46, alignment:42, urgency:48, leverage:40 },
-  { id:"RO25-3758-EBA958", kode:"EBA.958", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi", anggaran:1_123_360_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:56, leverage:50 },
-  { id:"RO25-3758-EBA960", kode:"EBA.960", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:289_335_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-6"], impact:52, alignment:48, urgency:54, leverage:46 },
-  { id:"RO25-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:9_216_094_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:45, alignment:40, urgency:50, leverage:38 },
-  { id:"RO25-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Pengadaan Kendaraan Listrik (Sarana & Prasarana Internal)", anggaran:966_804_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:48, alignment:44, urgency:48, leverage:42 },
-  { id:"RO25-3758-EBC954", kode:"EBC.954", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM", anggaran:228_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:54, alignment:50, urgency:52, leverage:48 },
-  { id:"RO25-3758-EBC996", kode:"EBC.996", kro:"KRO-3758-EBC", nama:"Layanan Pendidikan & Pelatihan", anggaran:141_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:54, leverage:50 },
-  { id:"RO25-3758-EBD952", kode:"EBD.952", kro:"KRO-3758-EBD", nama:"Layanan Perencanaan & Penganggaran", anggaran:466_760_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:56, leverage:52 },
-  { id:"RO25-3758-EBD953", kode:"EBD.953", kro:"KRO-3758-EBD", nama:"Layanan Pemantauan & Evaluasi", anggaran:834_264_000, target:"4 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-6"], impact:58, alignment:54, urgency:58, leverage:52 },
-  { id:"RO25-3758-EBD955", kode:"EBD.955", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan", anggaran:321_000_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:56, leverage:50 },
+  { id:"RO25-3758-CAN001", kode:"CAN.001", kro:"KRO-3758-CAN", nama:"Peralatan & Mesin (Sarana Bidang TIK)", anggaran:731_700_000, target:"41 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:50, alignment:46, urgency:52, leverage:44 },
+  { id:"RO25-3758-CCL001", kode:"CCL.001", kro:"KRO-3758-CCL", nama:"Operasional & Pemeliharaan Kantor (Sarana TIK)", anggaran:142_650_000, target:"195 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:48, alignment:44, urgency:50, leverage:42 },
+  { id:"RO25-3758-EBA956", kode:"EBA.956", kro:"KRO-3758-EBA", nama:"Layanan BMN", anggaran:129_999_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:46, alignment:42, urgency:48, leverage:40 },
+  { id:"RO25-3758-EBA958", kode:"EBA.958", kro:"KRO-3758-EBA", nama:"Layanan Hubungan Masyarakat & Informasi", anggaran:1_123_360_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-5"], impact:56, alignment:52, urgency:56, leverage:50 },
+  { id:"RO25-3758-EBA960", kode:"EBA.960", kro:"KRO-3758-EBA", nama:"Layanan Organisasi & Tata Kelola Internal", anggaran:289_335_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-18", ikuLinked:["ISP-5"], impact:52, alignment:48, urgency:54, leverage:46 },
+  { id:"RO25-3758-EBA994", kode:"EBA.994", kro:"KRO-3758-EBA", nama:"Layanan Perkantoran (Operasional & Pemeliharaan)", anggaran:9_216_094_000, target:"1 Layanan", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:45, alignment:40, urgency:50, leverage:38 },
+  { id:"RO25-3758-EBB951", kode:"EBB.951", kro:"KRO-3758-EBB", nama:"Pengadaan Kendaraan Listrik (Sarana & Prasarana Internal)", anggaran:966_804_000, target:"1 Unit", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:48, alignment:44, urgency:48, leverage:42 },
+  { id:"RO25-3758-EBC954", kode:"EBC.954", kro:"KRO-3758-EBC", nama:"Layanan Manajemen SDM", anggaran:228_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-6"], impact:54, alignment:50, urgency:52, leverage:48 },
+  { id:"RO25-3758-EBC996", kode:"EBC.996", kro:"KRO-3758-EBC", nama:"Layanan Pendidikan & Pelatihan", anggaran:141_000_000, target:"170 Orang", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:54, leverage:50 },
+  { id:"RO25-3758-EBD952", kode:"EBD.952", kro:"KRO-3758-EBD", nama:"Layanan Perencanaan & Penganggaran", anggaran:466_760_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:58, alignment:54, urgency:56, leverage:52 },
+  { id:"RO25-3758-EBD953", kode:"EBD.953", kro:"KRO-3758-EBD", nama:"Layanan Pemantauan & Evaluasi", anggaran:834_264_000, target:"4 Dokumen", isPN:false, ikkLinked:"IKK-17", ikuLinked:["ISP-7"], impact:58, alignment:54, urgency:58, leverage:52 },
+  { id:"RO25-3758-EBD955", kode:"EBD.955", kro:"KRO-3758-EBD", nama:"Layanan Manajemen Keuangan", anggaran:321_000_000, target:"3 Dokumen", isPN:false, ikkLinked:"IKK-16", ikuLinked:["ISP-6"], impact:56, alignment:52, urgency:56, leverage:50 },
 ];
 /* PAGU VALID TA 2025 = RKAKL Rev.9 (DOWNLOAD POK / ALOKASI Satker 412492) per Kegiatan.
    Sumber: RKAKL Rev.9. Total EF 16.467.953.000 + WA 15.584.598.000 = 32.052.551.000. */
@@ -876,7 +877,7 @@ const DATA_FISIK_TERSEDIA = false;     // capaian fisik indikator belum tersedia
    Sumber: laporan "Realisasi Indikator Kinerja Triwulan 1 TA 2026" (Satker 412492). */
 const CAPAIAN_IKK_TW1 = [
   {keg:"3758", ind:"Nilai WTA Bappebti", sat:"Predikat", target:"WTA Madya", real:"0", cap:0},
-  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA)", sat:"Nilai", target:"97", real:"75", cap:77},
+  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", sat:"Nilai", target:"93", real:"75", cap:81},
   {keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)", sat:"Nilai", target:"82", real:"0", cap:0},
   {keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", sat:"%", target:"83", real:"77", cap:93},
   {keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)", sat:"%", target:"77", real:"88", cap:115},
@@ -939,6 +940,7 @@ const CAPAIAN_IKSS = [
   { id:"ISP-4", realNow:"blm diukur",    cap:[null,null,null,null] },
   { id:"ISP-5", realNow:"blm diukur",    cap:[null,null,null,null] },
   { id:"ISP-6", realNow:"38% · agr. IKK", cap:[38,null,null,null] },
+  { id:"ISP-7", realNow:"blm diukur",    cap:[null,null,null,null] },
 ];
 /* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Mei 2026, ditaruh di slot Q2). */
 const SERAPAN = [
@@ -1543,9 +1545,9 @@ Dari sisi komoditas, dominasi gabah/beras menunjukkan SRG masih berpusat pada pa
 
 Rekomendasi prioritas: pertama, lakukan audit dan program reaktivasi terhadap gudang Terbatalkan/Belum Aktif, dengan fokus pada penyiapan pengelola (koperasi, BUMDes, perusahaan daerah) bekerja sama dengan Kemenkop UKM dan Pemda. Kedua, perkuat utilisasi gudang aktif di sentra produksi melalui pembinaan pelaku usaha dan petani (RO QDC di Kegiatan 3760). Ketiga, untuk komoditas ekspor, integrasikan SRG dengan PLK dan koordinasi mutu/sertifikasi bersama Kementan dan Badan Karantina. Mengingat sifat persoalan ada pada kelembagaan, koordinasi lintas-K/L lebih menentukan dibanding sekadar penambahan jumlah gudang.`,
 
-  pohon: `Pohon kinerja Bappebti menunjukkan rantai yang utuh dari Visi → 2 Sasaran Program → 6 Indikator Program (IKP) → 5 Kegiatan → 18 Indikator Kinerja Kegiatan (IKK) → 34 Rincian Output. Struktur ini selaras dengan kaidah penyusunan Renstra K/L 2025–2029 dan kerangka logika program (logic model) yang disyaratkan dalam evaluasi SAKIP: setiap output (RO) menyumbang ke indikator kegiatan, yang pada gilirannya menggerakkan indikator program. Berdasarkan penelusuran lintas-dokumen (Renstra Tabel 4.3, Renja KRISNA 2026, RKAKL SAKTI, dan file Ketelusuran), seluruh 34 RO berhasil dipetakan ke IKK tanpa yatim — sebuah indikasi keterhubungan perencanaan yang baik.
+  pohon: `Pohon kinerja Bappebti menunjukkan rantai yang utuh dari Visi → 2 Sasaran Program → 7 Indikator Program (IKP) → 5 Kegiatan → 18 Indikator Kinerja Kegiatan (IKK) → 34 Rincian Output. Struktur ini selaras dengan kaidah penyusunan Renstra K/L 2025–2029 dan kerangka logika program (logic model) yang disyaratkan dalam evaluasi SAKIP: setiap output (RO) menyumbang ke indikator kegiatan, yang pada gilirannya menggerakkan indikator program. Berdasarkan penelusuran lintas-dokumen (Renstra Tabel 4.3, Renja KRISNA 2026, RKAKL SAKTI, dan file Ketelusuran), seluruh 34 RO berhasil dipetakan ke IKK tanpa yatim — sebuah indikasi keterhubungan perencanaan yang baik.
 
-Pada jalur bottom-up, terlihat konvergensi yang sehat: Indikator Program "Pertumbuhan Pelaku" (ISP-1) disuplai oleh lima IKK lintas-kegiatan dari kegiatan PBK (3762) maupun SRG/PLK (3760), menandakan bahwa pertumbuhan pelaku pasar adalah hasil bersama beberapa unit — bukan tanggung jawab satu kegiatan saja. Sebaliknya, indikator tata kelola (SPI dan SAKIP di SP-02) disuplai oleh IKK Dukungan Manajemen (WTA, IKPA, SKM). Pola ini wajar, namun perlu diingat bahwa porsi anggaran Dukungan Manajemen (77% dari pagu) jauh melampaui bobot substansi yang digerakkannya pada indikator utama.
+Pada jalur bottom-up, terlihat konvergensi yang sehat: Indikator Program "Pertumbuhan Pelaku" (ISP-1) disuplai oleh lima IKK lintas-kegiatan dari kegiatan PBK (3762) maupun SRG/PLK (3760), menandakan bahwa pertumbuhan pelaku pasar adalah hasil bersama beberapa unit — bukan tanggung jawab satu kegiatan saja. Sebaliknya, indikator tata kelola (SPI/ISP-5, SAKIP/ISP-6, dan IKPA Kemendag/ISP-7 di SP-02) disuplai oleh IKK Dukungan Manajemen: IKK-18 (SKM) menggerakkan ISP-5, IKK-16 (WTA) menggerakkan ISP-6, dan IKK-17 (IKPA Kemendag) menggerakkan ISP-7. Pola ini wajar, namun perlu diingat bahwa porsi anggaran Dukungan Manajemen (77% dari pagu) jauh melampaui bobot substansi yang digerakkannya pada indikator utama.
 
 Titik perhatian: keselarasan antara hierarki perencanaan dan alokasi anggaran. Agenda Prioritas Nasional (PN 5 Hilirisasi → PP 5.5 → KP 01 → ProP 008) hanya menyerap porsi kecil pagu meski menyandang status tertinggi. Selain itu, beberapa IKK menengah (mis. Rekomendasi Kebijakan yang ditindaklanjuti, target 75%) bergantung pada tindak lanjut pihak eksternal, sehingga capaiannya tidak sepenuhnya dalam kendali Bappebti — hal yang perlu diwaspadai saat menilai kinerja.
 
