@@ -1830,7 +1830,7 @@ function BottomUpDiagram(){
 
   // layout
   const n = Math.max(ikks.length,1);
-  const colW = 150;
+  const colW = 180;
   const W = n*colW;
   const ikkX = {}; ikks.forEach((k,idx)=> ikkX[k.id]= colW*idx + colW/2);
   const ikpX = {}; ikps.forEach(p=>{ const kids=ikks.filter(k=>k.ikpLinked===p.id); ikpX[p.id]= kids.length? kids.reduce((s,k)=>s+ikkX[k.id],0)/kids.length : W/2; });
@@ -1915,20 +1915,20 @@ function BottomUpDiagram(){
             const x=ikkX[k.id]; const ros=roByIkk[k.id];
             return ros.map((r,idx)=>{
               const col=idx%2, rowi=Math.floor(idx/2);
-              const rx=x-30+col*30, ry=RO_TOP+rowi*RO_RH;
+              const rx=x-54+col*56, ry=RO_TOP+rowi*RO_RH;
               const isPrimary = r.ikkLinked===k.id;
               const kegK = roKegKode(r);
               const roLabel = kegK ? `${kegK}-${r.kode}` : r.kode;
               const linkLabel = isPrimary ? roLabel : `${roLabel} (kontribusi sekunder)`;
               return (
                 <g key={`${k.id}|${r.id}`}>
-                  <rect x={rx} y={ry} width={26} height={16} rx="3"
+                  <rect x={rx} y={ry} width={52} height={16} rx="3"
                     fill={r.isPN?"rgba(202,138,4,0.16)":"rgba(15,23,42,0.05)"}
                     stroke={r.isPN?"#ca8a04":"#cbd5e1"}
                     strokeWidth="0.8"
                     strokeDasharray={isPrimary?"":"3 2"}
                     opacity={isPrimary?1:0.78}/>
-                  <text x={rx+13} y={ry+11} textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{r.kode.split('.')[0]}</text>
+                  <text x={rx+26} y={ry+11} textAnchor="middle" fontSize="6.5" fontFamily="JetBrains Mono" fill={r.isPN?"#a16207":"#6b7280"}><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{r.kode}</text>
                 </g>
               );
             });
