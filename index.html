@@ -232,7 +232,7 @@ const META = {
   parent: "Kementerian Perdagangan",
   period: "Renstra 2025 — 2029",
   fy: "Tahun Anggaran 2026",
-  lastUpdate: "3 Juni 2026",
+  lastUpdate: "8 Juni 2026",
   visi: "Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas yang Maju dan Berkelanjutan dalam rangka Mewujudkan Perdagangan yang Ekspansif dan Terintegrasi dengan Rantai Pasar Domestik dan Global.",
   misi: [
     "Meningkatkan kinerja PBK, SRG, PLK yang tangguh dan berkelanjutan pada periode 2025–2029.",
@@ -3208,6 +3208,7 @@ function PeringkatPengelolaPerTahun({year}){
 
 function SebaranPenerbitan({year}){
   const [dim,setDim] = useState("prov");
+  const [showAll,setShowAll] = useState(false);
   const [metric,setMetric] = useState("rg");
   const use25 = year<=2025;
   const DIM = use25
@@ -3218,7 +3219,8 @@ function SebaranPenerbitan({year}){
                nilai:{label:"Nilai Barang", get:d=>d.nilai||0, fmt:fmtRpRG, color:"#059669"},
                vol:{label:"Volume (ton)", get:d=>d.vol||0, fmt:n=>fmtNumRG(n)+" ton", color:"#2563eb"}};
   const m = MET[metric];
-  const rows = [...DIM[dim].data].sort((a,b)=>m.get(b)-m.get(a)).slice(0,12);
+  const total = DIM[dim].data.length;
+  const rows = [...DIM[dim].data].sort((a,b)=>m.get(b)-m.get(a)).slice(0, showAll?total:12);
   const max = rows.length ? m.get(rows[0]) : 1;
   // kontribusi per-tahun (bukan hanya kumulatif): selisih snapshot s.d.2025 vs s.d.2026
   const PREV_DATA = {prov:PENERBITAN_PROV_2025, kab:PENERBITAN_KAB_2025, kom:PENERBITAN_KOM_2025};
@@ -3231,7 +3233,7 @@ function SebaranPenerbitan({year}){
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Sebaran Pemanfaatan SRG</div>
           <div className="serif text-xl">Sebaran Penerbitan Resi Gudang menurut {DIM[dim].label}</div>
         </div>
-        <span className="text-[10px] mono text-[var(--text-3)]">kumulatif 2008–{lastTh}{!use25?" · + kontribusi 2026 (s.d. April)":""} · top 12</span>
+        <span className="text-[10px] mono text-[var(--text-3)]">kumulatif 2008–{lastTh}{!use25?" · + kontribusi 2026 (s.d. April)":""} · {showAll?`semua ${total}`:"top 12"}</span>
       </div>
       <div className="flex items-center gap-1.5 mb-2 flex-wrap">
         {Object.keys(DIM).map(k=>(
@@ -3255,6 +3257,11 @@ function SebaranPenerbitan({year}){
           </div>
         ))}
       </div>
+      {total>12 && (
+        <button onClick={()=>setShowAll(v=>!v)} className="no-print mt-3 text-[10px] mono px-3 py-1 rounded-full border border-[var(--border-strong)] text-[var(--text-2)] hover:bg-[var(--card-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">
+          {showAll ? "\u25b4 Tampilkan 12 teratas" : `\u25be Lihat semua (${total})`}
+        </button>
+      )}
       <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Jumlah resi gudang, nilai barang, dan volume sesuai rekap resmi Bappebti{use25?" (s.d. 2025: 7.168 resi; Rp 8,41 T; 428.133 ton)":" (s.d. 2026: 7.288 resi; Rp 8,51 T; 431.622 ton)"}. Komoditas mengikuti Permendag No. 1 Tahun 2025. Sumber: Laporan Rekap Resi Gudang Bappebti.</div>
     </div>
   );
@@ -3537,7 +3544,7 @@ function SebaranSRG({year}){
         </div>
       </div>
 
-      <IndonesiaChoropleth year={year}/>
+      <IndonesiaChoropleth year={year} metrics={["nilai"]}/>
 
       <PenerbitanResiGudang year={year}/>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
