@@ -3372,7 +3372,28 @@ function IndonesiaChoropleth({year, metrics}){
           );
         })}
       </svg>
-      {hover && (()=>{ const k=hover.key; const lastTh=Math.min(year,2026); return (
+      {hover && (()=>{ const k=hover.key; const lastTh=Math.min(year,2026);
+        if(metric==="plk"){
+          const pd = PLK_DAERAH.find(x=>provKey(x.prov)===k);
+          const tx = pd && pd.tx ? (pd.tx[year]||pd.tx[2025]) : null;
+          return (
+            <div className="absolute top-2 right-2 rounded-lg border shadow-sm" style={{pointerEvents:"none", background:"var(--card)", borderColor:"var(--border-strong)", padding:"9px 11px", minWidth:"178px", maxWidth:"230px"}}>
+              <div className="serif text-sm" style={{color:"var(--text)"}}>{hover.name}</div>
+              {pd ? (
+                <div className="space-y-0.5 text-[11px] mono mt-1">
+                  <div className="flex justify-between gap-3"><span style={{color:"var(--text-3)"}}>Penyelenggara PLK</span><span style={{color:"var(--emerald-text)",fontWeight:600}}>Ya</span></div>
+                  <div className="flex justify-between gap-3"><span style={{color:"var(--text-3)"}}>Kategori</span><span style={{color:"var(--text)"}}>{PLK_KAT[pd.kat]?PLK_KAT[pd.kat].label:pd.kat}</span></div>
+                  <div className="text-[10px] leading-snug mt-0.5" style={{color:"var(--text-2)"}}>{plkPenyelenggara(pd)}</div>
+                  {tx ? <div className="flex justify-between gap-3 mt-0.5"><span style={{color:"var(--text-3)"}}>Transaksi 2025</span><span style={{color:"var(--text)"}}>{plkRpShort(tx.nilai)}</span></div> : null}
+                </div>
+              ) : (
+                <div className="text-[11px] mono mt-1" style={{color:"var(--text-3)"}}>Bukan penyelenggara PLK</div>
+              )}
+              <div className="text-[8.5px] mono mt-1.5" style={{color:"var(--text-3)"}}>Snapshot registri penyelenggara PLK</div>
+            </div>
+          );
+        }
+        return (
         <div className="absolute top-2 right-2 rounded-lg border shadow-sm" style={{pointerEvents:"none", background:"var(--card)", borderColor:"var(--border-strong)", padding:"9px 11px", minWidth:"178px"}}>
           <div className="serif text-sm" style={{color:"var(--text)"}}>{hover.name}</div>
           <div className="space-y-0.5 text-[11px] mono mt-1">
