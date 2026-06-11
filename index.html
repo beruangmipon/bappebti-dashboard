@@ -3504,11 +3504,18 @@ function ExecutiveSummary({year}){
    KOMODITAS SRG — tabel ringkasan + drill-down detail gudang per komoditas
    ======================================================================== */
 function KomoditasSRG({year}){
-  const [selKom, setSelKom] = React.useState(null);  // komoditas yang diklik
-  const [sortBy, setSortBy] = React.useState("nilai"); // nilai | rg | vol
+  const [selKom, setSelKom] = React.useState(null);
+  const [sortBy, setSortBy] = React.useState("nilai");
 
-  // Gabungkan data PENERBITAN_KOM (kumulatif) & PENERBITAN_KOM_2025 (s.d. 2025)
-  // sesuai year context — 2026 gunakan kumulatif, 2025 gunakan slice 2025
+  /* Alias penyelarasan label: registri gudang memakai label ringkas/multi-nilai
+     ("Gula"; "Gabah, Beras, Jagung"), sedangkan rekap penerbitan memakai nomenklatur
+     Permendag 1/2025 ("Gula Kristal Putih"; per-komoditas tunggal). */
+  const KOM_ALIAS = { "Gula": "Gula Kristal Putih" };
+  const splitKom = (s) => (s||"").split(",").map(x => {
+    const t = x.trim();
+    return KOM_ALIAS[t] || t;
+  }).filter(Boolean);
+
   const komData = React.useMemo(() => {
     const base = year === 2025 ? PENERBITAN_KOM_2025 : PENERBITAN_KOM;
     return base.slice().sort((a,b) => {
@@ -3518,19 +3525,33 @@ function KomoditasSRG({year}){
     });
   }, [year, sortBy]);
 
-  // Untuk setiap komoditas, kumpulkan gudang yang menanganin komoditas itu
-  // dari PROVINSI_SRG (data snapshot gudang/pengelola)
+  /* Gudang per komoditas: satu gudang multi-komoditas masuk ke setiap komoditas
+     yang dilayaninya (mis. gudang "Gabah, Beras" terhitung di Gabah DAN Beras). */
   const gudangByKom = React.useMemo(() => {
     const map = {};
     PROVINSI_SRG.forEach(p => {
       p.gudang.forEach(g => {
-        const k = g.komoditas || "Lainnya";
-        if(!map[k]) map[k] = [];
-        map[k].push({...g, provNama: p.nama, provId: p.id});
+        splitKom(g.komoditas).forEach(k => {
+          if(!map[k]) map[k] = [];
+          map[k].push({...g, provNama: p.nama, provId: p.id});
+        });
       });
     });
     return map;
   }, []);
+
+  /* Nilai penerbitan kumulatif per pengelola (lintas gudang & komoditas) — konteks
+     terbaik yang tersedia karena data sumber tidak memuat nilai per gudang. */
+  const pgIssuance = React.useMemo(() => {
+    const m = {};
+    const src = (year===2025 && typeof PENGELOLA_ISSUANCE_2025!=="undefined") ? PENGELOLA_ISSUANCE_2025 : PENGELOLA_ISSUANCE;
+    src.forEach(r => { m[r.pg.replace(/\./g,"").toLowerCase().trim()] = r; });
+    return m;
+  }, [year]);
+  const lookupPG = (name) => {
+    if(!name || name==="-") return null;
+    return pgIssuance[name.replace(/\./g,"").toLowerCase().trim()] || null;
+  };
 
   const totalNilai = komData.reduce((s,k) => s+k.nilai, 0);
   const totalRG    = komData.reduce((s,k) => s+k.rg, 0);
@@ -3553,7 +3574,6 @@ function KomoditasSRG({year}){
 
   return (
     <div className="card p-5 mb-6">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div>
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Penerbitan Resi Gudang menurut Komoditas</div>
@@ -3573,7 +3593,6 @@ function KomoditasSRG({year}){
         </div>
       </div>
 
-      {/* Summary cards 3 metrik */}
       <div className="grid grid-cols-3 gap-3 mb-5">
         <div className="card-2 p-3">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Total Nilai RG</div>
@@ -3592,8 +3611,7 @@ function KomoditasSRG({year}){
         </div>
       </div>
 
-      {/* Tabel komoditas */}
-      <div className="overflow-x-auto mb-4">
+      <div className="overflow-x-auto mb-2">
         <table className="w-full text-[11px]">
           <thead>
             <tr className="border-b" style={{borderColor:"var(--border)"}}>
@@ -3611,7 +3629,8 @@ function KomoditasSRG({year}){
               const pct    = totalNilai > 0 ? k.nilai / totalNilai * 100 : 0;
               const color  = COLORS[i % COLORS.length];
               const isSel  = selKom === k.key;
-              const gdCount= (gudangByKom[k.key] || []).length;
+              const gList  = gudangByKom[k.key] || [];
+              const gAktif = gList.filter(g=>g.status==="aktif").length;
               return (
                 <tr key={k.key}
                   onClick={() => setSelKom(isSel ? null : k.key)}
@@ -3624,7 +3643,6 @@ function KomoditasSRG({year}){
                       <span className={`font-medium ${isSel ? "text-[var(--gold)]" : "text-[var(--text)]"}`}>{k.key}</span>
                       {isSel && <span className="text-[9px] mono text-[var(--gold)] ml-1">▾ detail</span>}
                     </div>
-                    {/* mini bar */}
                     <div className="mt-1 h-1 rounded-full" style={{background:"var(--border)",width:"100%"}}>
                       <div className="h-1 rounded-full" style={{width:`${Math.min(pct,100)}%`, background:color, opacity:0.7}}></div>
                     </div>
@@ -3634,8 +3652,8 @@ function KomoditasSRG({year}){
                   <td className="py-2.5 px-3 text-right mono text-[var(--text-2)]">{k.rg.toLocaleString("id-ID")}</td>
                   <td className="py-2.5 px-3 text-right mono text-[var(--text-2)]">{k.vol >= 1000 ? (k.vol/1000).toFixed(1)+"k" : k.vol.toFixed(1)}</td>
                   <td className="py-2.5 pl-3 text-right">
-                    {gdCount > 0
-                      ? <span className="pill text-[9px] mono" style={{background:"rgba(161,98,7,0.1)",color:"var(--gold)",border:"1px solid rgba(161,98,7,0.25)"}}>{gdCount} gudang</span>
+                    {gList.length > 0
+                      ? <span className="pill text-[9px] mono" style={{background:"rgba(161,98,7,0.1)",color:"var(--gold)",border:"1px solid rgba(161,98,7,0.25)"}}>{gList.length} gudang · {gAktif} aktif</span>
                       : <span className="text-[10px] text-[var(--text-3)]">—</span>}
                   </td>
                 </tr>
@@ -3654,8 +3672,8 @@ function KomoditasSRG({year}){
           </tfoot>
         </table>
       </div>
+      <div className="text-[9px] text-[var(--text-3)] italic mb-4">Catatan: kolom <b>Gudang</b> dihitung dari direktori gudang SRG (snapshot registri) — gudang multi-komoditas (mis. "Gabah, Beras, Jagung") terhitung pada setiap komoditas yang dilayaninya; label "Gula" pada registri diselaraskan ke "Gula Kristal Putih". Nilai/volume/resi adalah agregat nasional per komoditas dari rekap penerbitan; data sumber tidak memuat rincian nilai per gudang.</div>
 
-      {/* ── Drill-down panel: detail gudang per komoditas yang diklik ── */}
       {selKom && selData && (
         <div className="border rounded-xl p-4 mt-2" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.04)"}}>
           <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
@@ -3669,38 +3687,38 @@ function KomoditasSRG({year}){
             <button onClick={()=>setSelKom(null)} className="text-[10px] mono text-[var(--text-3)] hover:text-[var(--text)] border border-[var(--border)] rounded-lg px-3 py-1.5 transition">✕ Tutup</button>
           </div>
 
-          {/* Metric cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <div className="card-2 p-3">
-              <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai RG</div>
+              <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai RG (nasional)</div>
               <div className="serif text-xl mt-1 text-[var(--gold)]">{fmt(selData.nilai)}</div>
               <div className="text-[10px] text-[var(--text-3)] mt-0.5">{(selData.nilai/totalNilai*100).toFixed(1)}% dari total</div>
             </div>
             <div className="card-2 p-3">
               <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Diterbitkan</div>
               <div className="serif text-xl mt-1">{selData.rg.toLocaleString("id-ID")}</div>
-              <div className="text-[10px] text-[var(--text-3)] mt-0.5">{(selData.rg/totalRG*100).toFixed(1)}% dari total</div>
+              <div className="text-[10px] text-[var(--text-3)] mt-0.5">rata-rata {fmt(selData.nilai/Math.max(selData.rg,1))}/resi</div>
             </div>
             <div className="card-2 p-3">
               <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Volume</div>
               <div className="serif text-xl mt-1">{fmtVol(selData.vol)}</div>
             </div>
             <div className="card-2 p-3">
-              <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Gudang Terdaftar</div>
+              <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Gudang yang Melayani</div>
               <div className="serif text-xl mt-1">{selGudang.length > 0 ? selGudang.length : "—"}</div>
               <div className="text-[10px] text-[var(--text-3)] mt-0.5">{selGudang.filter(g=>g.status==="aktif").length} aktif</div>
             </div>
           </div>
 
-          {/* Daftar gudang */}
           {selGudang.length > 0 ? (
             <div>
               <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">
                 Daftar {selGudang.length} Gudang — Komoditas {selKom}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-[420px] overflow-y-auto scrollbar pr-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-[480px] overflow-y-auto scrollbar pr-1">
                 {selGudang.map((g, gi) => {
                   const s = statusStyle[g.status] || {color:"#737373", label:"?"};
+                  const pgRec = lookupPG(g.pengelola);
+                  const multiKom = splitKom(g.komoditas);
                   return (
                     <div key={gi} className="card-2 p-3">
                       <div className="flex items-center gap-1.5 mb-1.5">
@@ -3708,18 +3726,24 @@ function KomoditasSRG({year}){
                         <span className="ml-auto text-[9px] mono text-[var(--text-3)] truncate">{g.provNama}</span>
                       </div>
                       <div className="text-[12px] font-medium leading-tight">{g.nama}</div>
-                      <div className="text-[10px] text-[var(--text-2)] mt-1">{g.lokasi}</div>
-                      {g.kapasitas > 0 && (
-                        <div className="text-[10px] mono text-[var(--text-3)] mt-1">{g.kapasitas.toLocaleString("id-ID")} ton kapasitas</div>
+                      <div className="text-[10px] text-[var(--text-2)] mt-1">{g.lokasi}{g.kapasitas>0?` · ${g.kapasitas.toLocaleString("id-ID")} ton`:""}</div>
+                      {multiKom.length > 1 && (
+                        <div className="text-[9px] text-[var(--text-3)] mt-1">Melayani: {multiKom.join(" · ")}</div>
                       )}
                       {g.pengelola && g.pengelola !== "-" && (
                         <div className="text-[9px] text-[var(--text-3)] mt-1 truncate" title={g.pengelola}>PG: {g.pengelola}</div>
+                      )}
+                      {pgRec && (
+                        <div className="mt-1.5 pt-1.5 border-t text-[9px]" style={{borderColor:"var(--border)"}}>
+                          <span className="text-[var(--text-3)]">Penerbitan PG ini (kumulatif, semua gudang &amp; komoditas):</span>{" "}
+                          <span className="mono text-[var(--gold)]">Rp {fmt(pgRec.nilai)}</span>
+                          <span className="mono text-[var(--text-3)]"> · {pgRec.rg.toLocaleString("id-ID")} resi</span>
+                        </div>
                       )}
                     </div>
                   );
                 })}
               </div>
-              {/* Sebaran per provinsi */}
               <div className="mt-3 pt-3 border-t" style={{borderColor:"var(--border)"}}>
                 <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Sebaran Provinsi</div>
                 <div className="flex flex-wrap gap-1.5">
@@ -3732,10 +3756,11 @@ function KomoditasSRG({year}){
                   ))}
                 </div>
               </div>
+              <div className="text-[9px] text-[var(--text-3)] italic mt-3">Catatan metodologi: rekap penerbitan resi gudang Bappebti mencatat nilai pada tingkat komoditas/provinsi/pengelola — <b>tidak tersedia rincian nilai per gudang</b>. Baris "Penerbitan PG" di atas adalah nilai kumulatif pengelola yang bersangkutan (lintas seluruh gudang &amp; komoditas yang dikelolanya) sebagai konteks, bukan nilai gudang tersebut.</div>
             </div>
           ) : (
             <div className="text-[11px] text-[var(--text-3)] italic">
-              Data gudang spesifik untuk komoditas ini belum tersedia di direktori (mungkin dikelola gudang multi-komoditas).
+              Tidak ada gudang di direktori yang mencantumkan komoditas ini. Penerbitan resi dapat berasal dari gudang yang terdaftar dengan komoditas utama lain (registri mencatat komoditas utama, bukan seluruh komoditas yang pernah diterbitkan resinya).
             </div>
           )}
         </div>
@@ -5706,32 +5731,47 @@ Langkah kritis (critical path) yang dapat ditempuh Bappebti bersifat berurutan d
 Catatan: analisis dan critical path bersifat estimasi strategis berbasis paparan kebijakan Bappebti; finalisasi memerlukan validasi data transaksi terkini dan kapasitas kelembagaan tiap daerah.`;
 
 function PlkBarChart({sel}){
-  const data=PLK_TRANSAKSI.filter(d=>Number(d.th)<=Number(sel)); const max=Math.max(...data.map(d=>d.nilai),1);
-  const full=data.filter(d=>!d.p); const avg=full.length?full.reduce((s,d)=>s+d.nilai,0)/full.length:0;
-  const W=720,H=232,padL=34,padR=12,padT=28,padB=26; const innerW=W-padL-padR,innerH=H-padT-padB;
-  const step=innerW/data.length, bw=Math.min(52,step*0.5);
-  const yOf=v=>padT+innerH*(1-v/max);
+  const data = PLK_TRANSAKSI.filter(d=>Number(d.th)<=Number(sel)).map(d=>({...d, label:d.th+(d.p?"*":"")}));
+  const full = data.filter(d=>!d.p);
+  const avg  = full.length ? full.reduce((s,d)=>s+d.nilai,0)/full.length : 0;
+  const maxV = Math.max(...data.map(d=>d.nilai),1);
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{maxHeight:262}} preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="plkBarEm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#5BB572"/><stop offset="100%" stopColor="#2C5F2D"/></linearGradient>
-        <linearGradient id="plkBarGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#e0b341"/><stop offset="100%" stopColor="#a16207"/></linearGradient>
-        <filter id="plkBarSh" x="-40%" y="-30%" width="180%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#a16207" floodOpacity="0.35"/></filter>
-      </defs>
-      {[0,0.25,0.5,0.75,1].map((t,i)=>{const y=padT+innerH*(1-t);return(<g key={i}>
-        <line className="svg-grid" x1={padL} y1={y} x2={W-padR} y2={y} strokeWidth="1" strokeDasharray={t===0?"0":"2 3"}/>
-        <text className="svg-ink-3" x={padL-5} y={y+3} textAnchor="end" fontSize="8" fontFamily="monospace">{Math.round(max*t)}</text>
-      </g>);})}
-      {avg>0 && (<g><line x1={padL} y1={yOf(avg)} x2={W-padR} y2={yOf(avg)} stroke="var(--gold-soft)" strokeWidth="1" strokeDasharray="5 4" opacity="0.85"/><text x={W-padR} y={yOf(avg)-4} textAnchor="end" fontSize="7.5" fontFamily="monospace" style={{fill:"var(--gold-text)"}}>rerata {avg.toFixed(1).replace(".",",")}</text></g>)}
-      {data.map((d,i)=>{const h=Math.max(1,innerH*(d.nilai/max));const x=padL+i*step+(step-bw)/2;const y=padT+innerH-h;
-        const isSel=d.th===String(sel);
-        return(<g key={d.th}>
-          <rect x={x} y={y} width={bw} height={h} rx="5" fill={isSel?"url(#plkBarGold)":"url(#plkBarEm)"} opacity={d.p?0.55:1} stroke={isSel?"#7c4a06":"none"} strokeWidth={isSel?1:0} filter={isSel?"url(#plkBarSh)":"none"}><title>{d.th}{d.p?" (s.d. Mei)":""}: Rp {String(d.nilai).replace(".",",")} miliar</title></rect>
-          <text className={isSel?"svg-gold":"svg-emerald"} x={x+bw/2} y={y-5} textAnchor="middle" fontSize={isSel?"10.5":"8.5"} fontFamily="monospace" fontWeight="700" opacity={d.p?0.75:1}>{String(d.nilai).replace(".",",")}</text>
-          <text x={x+bw/2} y={H-padB+14} textAnchor="middle" fontSize="9" style={{fill:isSel?"var(--text)":"var(--text-3)"}} fontFamily="monospace" fontWeight={isSel?700:400}>{d.th}{d.p?"*":""}</text>
-        </g>);})}
-      <line x1={padL} y1={padT+innerH} x2={W-padR} y2={padT+innerH} strokeWidth="1.5" stroke="var(--border-strong)"/>
-    </svg>
+    <div style={{width:"100%", height:240}}>
+      <ResponsiveContainer>
+        <BarChart data={data} margin={{top:24,right:16,bottom:0,left:-6}} barCategoryGap="32%">
+          <defs>
+            <linearGradient id="plkTrendEm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#5BB572"/><stop offset="100%" stopColor="#2C5F2D"/>
+            </linearGradient>
+            <linearGradient id="plkTrendGold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#e0b341"/><stop offset="100%" stopColor="#a16207"/>
+            </linearGradient>
+            <linearGradient id="plkTrendEmSoft" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#5BB572" stopOpacity="0.55"/><stop offset="100%" stopColor="#2C5F2D" stopOpacity="0.55"/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="2 3" vertical={false} stroke="var(--border)"/>
+          <XAxis dataKey="label" tick={{fontSize:11,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={{stroke:"var(--border-strong)"}} tickLine={false}/>
+          <YAxis domain={[0, Math.ceil(maxV*1.15/10)*10]} tick={{fontSize:10,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={false} tickLine={false} width={34}/>
+          <Tooltip cursor={{fill:"var(--card-2)"}}
+            formatter={(v,n,p)=>["Rp "+String(v).replace(".",",")+" M"+(p&&p.payload&&p.payload.p?" (s.d. Mei)":""),"Nilai Transaksi"]}
+            labelFormatter={(l)=>"TA "+String(l).replace("*","")}
+            contentStyle={{background:"var(--card)",border:"1px solid var(--border-strong)",borderRadius:10,color:"var(--text)",fontSize:12,boxShadow:"0 4px 14px rgba(0,0,0,0.12)"}}/>
+          {avg>0 && <ReferenceLine y={avg} stroke="var(--gold-soft)" strokeDasharray="5 4"
+            label={{value:`rerata ${avg.toFixed(1).replace(".",",")}`, position:"insideTopRight", fontSize:9, fill:"var(--gold-text)", fontFamily:"monospace"}}/>}
+          <Bar dataKey="nilai" radius={[7,7,0,0]} maxBarSize={48}>
+            {data.map((d,i)=>(
+              <Cell key={i}
+                fill={d.th===String(sel) ? "url(#plkTrendGold)" : (d.p ? "url(#plkTrendEmSoft)" : "url(#plkTrendEm)")}
+                stroke={d.th===String(sel) ? "#7c4a06" : "none"} strokeWidth={d.th===String(sel)?1:0}/>
+            ))}
+            <LabelList dataKey="nilai" position="top"
+              formatter={(v)=>String(v).replace(".",",")}
+              style={{fontSize:10,fill:"var(--text-2)",fontFamily:"monospace",fontWeight:600}}/>
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 
@@ -6259,7 +6299,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.09e · PI & RANWAL 2027 keduanya disajikan · label PLK s.d. Mei 2026 · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.09g · Grafik tren PLK modern (Recharts, tinggi tetap) · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
