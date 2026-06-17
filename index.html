@@ -1284,14 +1284,35 @@ const readinessRO = (r)=>{ const n=(r.nama||'').toLowerCase(); const tik=/sistem
   if(tik && /(pengembangan|integrasi)/.test(n) && !/pemeliharaan/.test(n)) return {label:"Siap Bersyarat", skor:60, note:"sistem baru — perlu clearance SPBE/EGA dulu"};
   if(tik) return {label:"Siap Bersyarat", skor:72, note:"belanja TIK — clearance SPBE ringan"};
   return {label:"Siap", skor:86, note:"kegiatan reguler — tanpa blokir (tahap usulan)"}; };
+/* ===== STANDAR BIAYA KELUARAN (SBK) RESMI TA 2026 =====
+   Sumber: Rekapitulasi Standar Biaya Keluaran (SBK), Kementerian Perdagangan — Satker 090.07
+   Badan Pengawas Perdagangan Berjangka Komoditi, T.A. 2026 (SBK Indeks Biaya Keluaran).
+   Hanya 9 RO memiliki tarif SBK resmi per-RO; RO lain belum memiliki SBK spesifik (memakai SBM umum). */
+const SBKK_2026 = {
+  "RO-3759-2":    { rate: 28_600_000, satuan: "Badan Usaha" },
+  "RO-3760-ACD1": { rate: 25_000_000, satuan: "Lembaga" },
+  "RO-3760-BDB1": { rate: 41_000_000, satuan: "Lembaga" },
+  "RO-3760-QDB1": { rate: 18_000_000, satuan: "Lembaga" },
+  "RO-3760-QDB2": { rate: 10_000_000, satuan: "Lembaga" },
+  "RO-3760-QDC1": { rate: 2_666_666,  satuan: "Orang" },
+  "RO-3760-QDC3": { rate: 2_333_333,  satuan: "Orang" },
+  "RO-3761-BBA1": { rate: 21_875_000, satuan: "Orang" },
+  "RO-3762-BMA1": { rate: 38_410_000, satuan: "Layanan" },
+};
 const penelaahan2027 = (r)=>{
   const vol=parseTargetNum(r.target), bs=biayaSatuan(r), sk=satuanKey(r.target), band=BAND[sk];
   // K1 — target & kinerja (rasionalitas anggaran vs volume keluaran)
   let K1; if(vol&&vol>1){ K1 = (band&&bs!=null) ? ((bs>=band[0]&&bs<=band[1])?92 : (bs<=band[1]*2&&bs>=band[0]/2)?74 : 54) : 72; }
           else { K1 = r.anggaran>=1_000_000_000 ? 56 : 70; }  // output tunggal berpagu besar = perlu justifikasi rasionalitas
-  // K2 — kelayakan komponen biaya (costing vs SBM/SBK) — proxy presisi angka & band biaya
-  let K2; if(isRound(r.anggaran)){ K2 = r.anggaran>=250_000_000 ? 45 : 52; } else { K2 = 82; }
-  if(band&&bs!=null&&(bs>band[1]*2)) K2 -= 12; K2=Math.max(40,K2);
+  // K2 — kelayakan komponen biaya. Bila RO memiliki SBKK resmi (Rekapitulasi SBK TA 2026), skor dihitung
+  // langsung dari rasio biaya satuan aktual vs tarif SBK — bukan proxy. RO lain memakai proxy presisi angka & band biaya.
+  const sbkk = SBKK_2026[r.id];
+  let K2;
+  if(sbkk && bs!=null){
+    const rasioSbkk = bs / sbkk.rate;
+    K2 = rasioSbkk<=1 ? 95 : rasioSbkk<=1.1 ? 75 : 50;
+  } else if(isRound(r.anggaran)){ K2 = r.anggaran>=250_000_000 ? 45 : 52; } else { K2 = 82; }
+  if(!sbkk && band&&bs!=null&&(bs>band[1]*2)) K2 -= 12; K2=Math.max(40,K2);
   // K3 — keterkaitan isu prioritas (budget tagging RESMI: PN dan/atau tematik ketelusuran)
   const tags=tematikTags(r); const K3 = r.isPN?92 : (tags.length?80:55);
   // K4 — kesiapan pelaksanaan
@@ -1303,7 +1324,8 @@ const penelaahan2027 = (r)=>{
                 : skor>=70 ? {label:"Layak Bersyarat", warna:"#a16207", pill:"pill-gold"}
                 :            {label:"Perlu Telaah", warna:"#c8102e", pill:"pill-red"};
   const tematikLabel = tags.length ? tags.join(", ") : "Non-Tematik";
-  return { K1,K2,K3,K4,K5, skor, verdict, bs, tags, tematikLabel, jenis:jb, readiness:rd, satuan:sk };
+  const sbkkInfo = sbkk ? { ...sbkk, pct: bs!=null?Math.round(bs/sbkk.rate*100):null } : null;
+  return { K1,K2,K3,K4,K5, skor, verdict, bs, tags, tematikLabel, jenis:jb, readiness:rd, satuan:sk, sbkk:sbkkInfo };
 };
 
 /* ===== JUSTIFIKASI RO TA 2027 untuk Trilateral Meeting Pagu Indikatif =====
@@ -4964,7 +4986,9 @@ function AnalisisAnggaran2027(){
   ];
   const avgK = (k)=> Math.round(ros.reduce((s,r)=>s+r.tel[k],0)/ros.length);
   const ctx = isRanwal ? "usulan anggaran RANWAL TA 2027" : "belanja TA 2026 (RKAKL Rev.5, realisasi berjalan)";
-  const aiPrompt = `Anda penelaah RKA-K/L (DJA/Bappenas) untuk Bappebti, Kemendag. Berikan telaah (maks 7 paragraf, Bahasa Indonesia formal, prosa tanpa bullet) atas ${ctx} per Rincian Output (RO), dinilai dengan 5 kriteria penelaahan (termasuk K3 keterkaitan isu prioritas/budget tagging).\n\nTotal pagu TA ${year}: ${fmtRp(total)} pada ${ros.length} RO (${pnRos.length} RO Prioritas Nasional — tema Hilirisasi).\n\nKomposisi tagging tematik: ${tematikAgg.map(t=>`${t.key} ${t.n} RO (${fmtRp(t.bud)})`).join('; ')}.\n\nVerdict kelayakan: Layak ${byV.Layak.length} RO (${fmtRp(sumOf(byV.Layak))}), Layak Bersyarat ${byV["Layak Bersyarat"].length} RO (${fmtRp(sumOf(byV["Layak Bersyarat"]))}), Perlu Telaah ${byV["Perlu Telaah"].length} RO (${fmtRp(sumOf(byV["Perlu Telaah"]))}).\n\nRata-rata skor per kriteria: K1 Kesesuaian Target ${avgK('K1')}; K2 Kelayakan Biaya/SBM ${avgK('K2')}; K3 Isu Prioritas ${avgK('K3')}; K4 Kesiapan ${avgK('K4')}; K5 Kepatuhan ${avgK('K5')}.\n\nRO "Perlu Telaah" berbiaya terbesar:\n${byV["Perlu Telaah"].slice().sort((a,b)=>b.anggaran-a.anggaran).slice(0,8).map(r=>`- ${r.kode} ${r.nama}: ${fmtRp(r.anggaran)} (skor ${r.tel.skor}; K1 ${r.tel.K1}/K2 ${r.tel.K2}/K3 ${r.tel.K3}/K4 ${r.tel.K4}/K5 ${r.tel.K5})`).join('\n')}\n\nFokus telaah berurutan sesuai 5 kriteria: 1) Kesesuaian target & kinerja — soroti RO dengan biaya satuan tak rasional atau angka bulat (indikasi top-down). 2) Kelayakan komponen biaya — mana yang perlu recosting ke SBM/SBK TA ${year}. 3) Budget tagging — apakah RO PN benar mendukung Hilirisasi/Ketahanan Pangan; adakah RO yang seharusnya ditagging tematik (mis. ketahanan pangan, transformasi digital). 4) Kesiapan pelaksanaan — RO TIK/sistem (FAB, UAB, integrasi) terkait clearance SPBE. 5) Kepatuhan regulasi — kesesuaian jenis belanja (mayoritas Barang; Modal pada peralatan/sistem; komponen PNBP pada sertifikasi 3762). ${isRanwal?'Tutup dengan rekomendasi penajaman/realokasi sebelum pagu ditetapkan (masih RANWAL).':'Tutup dengan rekomendasi efisiensi & penajaman tagging untuk siklus berikutnya.'}`;
+  const sbkkRosForPrompt = ros.filter(r=>SBKK_2026[r.id]);
+  const sbkkClause = (!isRanwal && sbkkRosForPrompt.length) ? `\n\nKepatuhan SBKK resmi TA 2026 (sumber: Rekapitulasi SBK Kemendag Satker 090.07, ${sbkkRosForPrompt.length} RO bertarif resmi): ${sbkkRosForPrompt.map(r=>`${r.kode} ${r.tel.sbkk.pct}% dari SBKK`).join('; ')}. Seluruhnya berada pada atau di bawah tarif SBK resmi.` : '';
+  const aiPrompt = `Anda penelaah RKA-K/L (DJA/Bappenas) untuk Bappebti, Kemendag. Berikan telaah (maks 7 paragraf, Bahasa Indonesia formal, prosa tanpa bullet) atas ${ctx} per Rincian Output (RO), dinilai dengan 5 kriteria penelaahan (termasuk K3 keterkaitan isu prioritas/budget tagging).\n\nTotal pagu TA ${year}: ${fmtRp(total)} pada ${ros.length} RO (${pnRos.length} RO Prioritas Nasional — tema Hilirisasi).\n\nKomposisi tagging tematik: ${tematikAgg.map(t=>`${t.key} ${t.n} RO (${fmtRp(t.bud)})`).join('; ')}.\n\nVerdict kelayakan: Layak ${byV.Layak.length} RO (${fmtRp(sumOf(byV.Layak))}), Layak Bersyarat ${byV["Layak Bersyarat"].length} RO (${fmtRp(sumOf(byV["Layak Bersyarat"]))}), Perlu Telaah ${byV["Perlu Telaah"].length} RO (${fmtRp(sumOf(byV["Perlu Telaah"]))}).\n\nRata-rata skor per kriteria: K1 Kesesuaian Target ${avgK('K1')}; K2 Kelayakan Biaya/SBM ${avgK('K2')}; K3 Isu Prioritas ${avgK('K3')}; K4 Kesiapan ${avgK('K4')}; K5 Kepatuhan ${avgK('K5')}.\n\nRO "Perlu Telaah" berbiaya terbesar:\n${byV["Perlu Telaah"].slice().sort((a,b)=>b.anggaran-a.anggaran).slice(0,8).map(r=>`- ${r.kode} ${r.nama}: ${fmtRp(r.anggaran)} (skor ${r.tel.skor}; K1 ${r.tel.K1}/K2 ${r.tel.K2}/K3 ${r.tel.K3}/K4 ${r.tel.K4}/K5 ${r.tel.K5})`).join('\n')}${sbkkClause}\n\nFokus telaah berurutan sesuai 5 kriteria: 1) Kesesuaian target & kinerja — soroti RO dengan biaya satuan tak rasional atau angka bulat (indikasi top-down). 2) Kelayakan komponen biaya — mana yang perlu recosting ke SBM/SBK TA ${year}. 3) Budget tagging — apakah RO PN benar mendukung Hilirisasi/Ketahanan Pangan; adakah RO yang seharusnya ditagging tematik (mis. ketahanan pangan, transformasi digital). 4) Kesiapan pelaksanaan — RO TIK/sistem (FAB, UAB, integrasi) terkait clearance SPBE. 5) Kepatuhan regulasi — kesesuaian jenis belanja (mayoritas Barang; Modal pada peralatan/sistem; komponen PNBP pada sertifikasi 3762). ${isRanwal?'Tutup dengan rekomendasi penajaman/realokasi sebelum pagu ditetapkan (masih RANWAL).':'Tutup dengan rekomendasi efisiensi & penajaman tagging untuk siklus berikutnya.'}`;
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -5237,8 +5261,59 @@ function AnalisisAnggaran2027(){
 
       {/* Catatan dasar perhitungan */}
       <div className="text-[10px] text-[var(--text-3)] leading-relaxed mb-6 italic">
-        <b className="not-italic text-[var(--text-2)]">Dasar perhitungan.</b> Skor tiap RO dihitung dari 5 kriteria penelaahan RKA-K/L (DJA/Bappenas) dalam kerangka <b>PMK No. 107 Tahun 2024</b> (perubahan atas PMK No. 62 Tahun 2023 tentang Perencanaan, Pelaksanaan Anggaran, serta Akuntansi dan Pelaporan Keuangan), lalu dirata-rata tertimbang sesuai bobot di atas. Cara ukur tiap kriteria: <b>K1</b> rasionalitas pagu terhadap volume keluaran (biaya satuan vs rentang wajar per jenis keluaran); <b>K2</b> kewajaran komponen biaya terhadap SBM/SBK (SBM 2026 = PMK 32/2025; SBM/SBKK 2027 menyusul via PMK Kemenkeu), termasuk deteksi pagu angka bulat sebagai indikasi estimasi top-down yang perlu <i>recosting</i>; <b>K3</b> ada/tidaknya tagging PN/tematik resmi; <b>K4</b> kesiapan pelaksanaan (status blokir &amp; ketergantungan clearance SPBE); <b>K5</b> kesesuaian jenis belanja dengan tugas-fungsi &amp; pagu. Dasar hukum substansi tiap RO tersedia pada panel <b>Justifikasi</b>. Skor bersifat estimasi analitik dari data RO-level; finalisasi tetap mengacu RKA &amp; SBM/SBK resmi.
+        <b className="not-italic text-[var(--text-2)]">Dasar perhitungan.</b> Skor tiap RO dihitung dari 5 kriteria penelaahan RKA-K/L (DJA/Bappenas) dalam kerangka <b>PMK No. 107 Tahun 2024</b> (perubahan atas PMK No. 62 Tahun 2023 tentang Perencanaan, Pelaksanaan Anggaran, serta Akuntansi dan Pelaporan Keuangan), lalu dirata-rata tertimbang sesuai bobot di atas. Cara ukur tiap kriteria: <b>K1</b> rasionalitas pagu terhadap volume keluaran (biaya satuan vs rentang wajar per jenis keluaran); <b>K2</b> kewajaran komponen biaya terhadap SBM/SBK — untuk {Object.keys(SBKK_2026).length} RO dengan <b>SBKK resmi TA 2026</b> (ditandai ✓ pada kolom Biaya Satuan), skor dihitung langsung dari rasio biaya satuan aktual terhadap tarif SBK; RO lain memakai proxy presisi angka &amp; band biaya (SBM 2026 = PMK 32/2025; SBM/SBKK 2027 menyusul via PMK Kemenkeu), termasuk deteksi pagu angka bulat sebagai indikasi estimasi top-down yang perlu <i>recosting</i>; <b>K3</b> ada/tidaknya tagging PN/tematik resmi; <b>K4</b> kesiapan pelaksanaan (status blokir &amp; ketergantungan clearance SPBE); <b>K5</b> kesesuaian jenis belanja dengan tugas-fungsi &amp; pagu. Dasar hukum substansi tiap RO tersedia pada panel <b>Justifikasi</b>. Skor bersifat estimasi analitik dari data RO-level; finalisasi tetap mengacu RKA &amp; SBM/SBK resmi.
       </div>
+
+      {/* Kepatuhan SBKK resmi TA 2026 */}
+      {!isRanwal && (()=>{
+        const sbkkRos = ros.filter(r=>SBKK_2026[r.id]);
+        if(sbkkRos.length===0) return null;
+        return (
+          <div className="card p-5 mb-6" style={{borderColor:"rgba(5,150,105,0.25)"}}>
+            <div className="flex items-start gap-3 flex-wrap mb-3">
+              <span className="text-[18px] leading-none mt-0.5" style={{color:"var(--emerald)"}}>✓</span>
+              <div className="flex-1 min-w-[260px]">
+                <div className="serif text-lg">Kepatuhan Standar Biaya Keluaran (SBKK) TA 2026</div>
+                <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
+                  <b>{sbkkRos.length} dari {ros.length} RO</b> memiliki <b>SBK resmi</b> (Standar Biaya Keluaran per Rincian Output) berdasarkan <i>Rekapitulasi Standar Biaya Keluaran (SBK) TA 2026</i> — Kementerian Perdagangan, Satker 090.07 Bappebti. RO lain belum memiliki tarif SBK spesifik; komponen biayanya mengacu SBM umum (PMK 32/2025), bukan tarif keluaran per-RO.
+                </p>
+              </div>
+            </div>
+            <div className="overflow-x-auto scrollbar">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">SBKK Resmi /unit</th>
+                    <th className="py-1.5 pr-2 text-right">Biaya Satuan RKAKL</th>
+                    <th className="py-1.5 pr-2 text-center">% dari SBKK</th>
+                    <th className="py-1.5 pr-2 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sbkkRos.map(r=>{
+                    const sbkk = SBKK_2026[r.id]; const bs = biayaSatuan(r);
+                    const pct = bs!=null ? Math.round(bs/sbkk.rate*100) : null;
+                    const status = pct==null ? {label:"—",color:"#9ca3af"} : pct<=100 ? {label:"Sesuai SBKK",color:"#059669"} : pct<=110 ? {label:"Cek Komponen",color:"#d97706"} : {label:"Melebihi SBKK",color:"#dc2626"};
+                    return (
+                      <tr key={r.id} style={{borderBottom:"1px solid var(--border)"}}>
+                        <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.kode}</td>
+                        <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.nama}</td>
+                        <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)]">{fmtRp(sbkk.rate)} <span className="text-[9px]">/{sbkk.satuan}</span></td>
+                        <td className="py-1.5 pr-2 text-right mono">{bs!=null?fmtRp(bs):"—"}</td>
+                        <td className="py-1.5 pr-2 text-center mono" style={{color:status.color,fontWeight:600}}>{pct!=null?pct+"%":"—"}</td>
+                        <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:status.color+'1a',color:status.color,borderColor:status.color+'55'}}>{status.label}</span></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Rekapitulasi Standar Biaya Keluaran (SBK) TA 2026, Kementerian Perdagangan — Satker 090.07 Badan Pengawas Perdagangan Berjangka Komoditi. "% dari SBKK" = biaya satuan RKAKL Rev.5 dibagi tarif SBK resmi; ≤100% berarti pagu masih dalam/di bawah batas standar — tidak ada RO yang melebihi SBKK pada Rev.5 saat ini.</div>
+          </div>
+        );
+      })()}
 
       {/* Tabel per kegiatan — matriks 5 kriteria */}
       <div className="space-y-6 mb-6">
@@ -5291,7 +5366,7 @@ function AnalisisAnggaran2027(){
                           <div className="text-[9px] text-[var(--text-3)] mt-0.5">{t.readiness.label} <span title={t.readiness.note}>ⓘ</span></div>
                         </td>
                         <td className="py-1 pr-2 text-right mono text-[var(--gold)] whitespace-nowrap">{fmtRp(r.anggaran)}</td>
-                        <td className="py-1 pr-2 text-right mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{t.bs?fmtRp(t.bs):"—"}</td>
+                        <td className="py-1 pr-2 text-right mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{t.bs?fmtRp(t.bs):"—"}{t.sbkk && <span className="ml-1" style={{color:"var(--emerald)"}} title={`SBKK resmi TA 2026: ${fmtRp(t.sbkk.rate)}/${t.sbkk.satuan} — aktual ${t.sbkk.pct}% dari SBKK`}>✓</span>}</td>
                         <td className="py-1 pr-2 text-[9px] text-[var(--text-3)] whitespace-nowrap">{t.jenis}</td>
                         <td className="py-1 pr-2 text-[9px] align-top min-w-[120px] max-w-[170px]" style={{color:t.tags.length?'#7c3aed':'var(--text-3)'}}>
                           <div className="whitespace-normal break-words">{t.tags.length?t.tags.join(', '):'Non-Tematik'}</div>
@@ -5557,7 +5632,7 @@ function AnalisisAnggaran2027(){
         prompt={aiPrompt}
         sources={isRanwal
           ? ["Renja KRISNA RANWAL TA 2027 (Rekap 3 K/L: 3758–3762)","Kaidah penelaahan RKA-K/L (DJA / Bappenas)","SBM & SBK TA 2027 (PMK Standar Biaya)","Budget tagging: PN Hilirisasi / Ketahanan Pangan / Tematik","Renstra Bappebti 2025–2029 (target IKK/IKP 2027)","Perpres 95/2018 SPBE (kesiapan/clearance TIK)"]
-          : ["RKAKL Rev.5 TA 2026 (SAKTI)","Kaidah penelaahan RKA-K/L (DJA / Bappenas)","SBM & SBK TA 2026 (PMK Standar Biaya)","Budget tagging: PN Hilirisasi / Ketahanan Pangan / Tematik","Renstra Bappebti 2025–2029","Perpres 95/2018 SPBE (clearance TIK)"]}
+          : ["RKAKL Rev.5 TA 2026 (SAKTI)","Kaidah penelaahan RKA-K/L (DJA / Bappenas)","Rekapitulasi Standar Biaya Keluaran (SBK) TA 2026 — Kemendag Satker 090.07 Bappebti","SBM TA 2026 (PMK 32/2025)","Budget tagging: PN Hilirisasi / Ketahanan Pangan / Tematik","Renstra Bappebti 2025–2029","Perpres 95/2018 SPBE (clearance TIK)"]}
       />
     </div>
   );
@@ -6287,7 +6362,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17a · Realisasi RO &amp; IKK TA 2026 di-refresh ke snapshot Mei 2026 (SAKTI &amp; e-Monitoring); registri Gudang &amp; Pengelola SRG diperbarui · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17b · SBKK resmi TA 2026 (9 RO) terintegrasi ke Analisis Anggaran &amp; skor K2 · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
