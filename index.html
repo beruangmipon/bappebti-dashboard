@@ -25,7 +25,7 @@
 
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
 <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
 <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -508,15 +508,15 @@ const RO = [
 /* Realisasi per RO s/d Mei 2026 (SAKTI — Laporan Ketersediaan Dana Detail).
    Nilai = realisasi rupiah. Serapan% dihitung terhadap pagu RO. */
 const REALISASI_RO = {
-  "RO-3759-1":127_075_000, "RO-3759-2":64_626_000, "RO-3759-3":37_754_590,
-  "RO-3760-ACD1":449_000, "RO-3760-ACD2":0, "RO-3760-AFA1":6_657_500, "RO-3760-BDB1":17_945_201,
-  "RO-3760-BMA1":290_000, "RO-3760-FAB1":0, "RO-3760-PBB2":4_549_000, "RO-3760-PEA1":13_261_238,
-  "RO-3760-QDB1":1_450_000, "RO-3760-QDB2":0, "RO-3760-QDB3":0, "RO-3760-QDC1":9_725_000,
-  "RO-3760-QDC2":21_060_000, "RO-3760-QDC3":0, "RO-3760-UAB1":0, "RO-3760-UAB2":0,
-  "RO-3761-AAH1":57_006_400, "RO-3761-AAH2":4_579_780, "RO-3761-AEA1":1_722_800, "RO-3761-BBA1":95_114_630, "RO-3761-BCB1":19_435_200,
-  "RO-3762-ACB1":21_645_800, "RO-3762-ACD1":40_494_500, "RO-3762-ADI1":25_836_000, "RO-3762-BMA1":11_260_000,
-  "RO-3762-FAB1":5_860_000, "RO-3762-PBB1":31_305_430, "RO-3762-QDH1":28_885_000,
-  "RO-3758-CAN1":28_480_507, "RO-3758-EBA1":2_613_957_776, "RO-3758-EBA2":127_230_668,
+  "RO-3759-1":142_675_000, "RO-3759-2":80_176_000, "RO-3759-3":52_456_746,
+  "RO-3760-ACD1":2_767_400, "RO-3760-ACD2":0, "RO-3760-AFA1":6_657_500, "RO-3760-BDB1":17_945_201,
+  "RO-3760-BMA1":290_000, "RO-3760-FAB1":0, "RO-3760-PBB2":5_149_000, "RO-3760-PEA1":13_261_238,
+  "RO-3760-QDB1":1_450_000, "RO-3760-QDB2":0, "RO-3760-QDB3":0, "RO-3760-QDC1":14_225_000,
+  "RO-3760-QDC2":37_160_000, "RO-3760-QDC3":0, "RO-3760-UAB1":0, "RO-3760-UAB2":0,
+  "RO-3761-AAH1":58_597_100, "RO-3761-AAH2":4_579_780, "RO-3761-AEA1":1_722_800, "RO-3761-BBA1":95_559_630, "RO-3761-BCB1":19_435_200,
+  "RO-3762-ACB1":21_645_800, "RO-3762-ACD1":43_804_500, "RO-3762-ADI1":29_611_000, "RO-3762-BMA1":11_260_000,
+  "RO-3762-FAB1":7_760_000, "RO-3762-PBB1":35_305_430, "RO-3762-QDH1":41_732_600,
+  "RO-3758-CAN1":28_480_507, "RO-3758-EBA1":1_722_368_583, "RO-3758-EBA2":145_634_168,
 };
 const getReal = (roId)=> REALISASI_RO[roId] ?? null;
 const serapanRO = (r)=>{ const v=getReal(r.id); return v==null||!r.anggaran ? null : Math.round(v/r.anggaran*100); };
@@ -918,15 +918,15 @@ const DATA_FISIK_TERSEDIA = false;     // capaian fisik indikator belum tersedia
    Sumber: laporan "Realisasi Indikator Kinerja Triwulan 1 TA 2026" (Satker 412492). */
 const CAPAIAN_IKK_TW1 = [
   {keg:"3758", ind:"Nilai WTA Bappebti", sat:"Predikat", target:"WTA Madya", real:"0", cap:0},
-  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", sat:"Nilai", target:"93", real:"75", cap:81},
+  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Bappebti", sat:"Nilai", target:"97", real:"75", cap:77.3},
   {keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)", sat:"Nilai", target:"82", real:"0", cap:0},
   {keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", sat:"%", target:"83", real:"77", cap:93},
   {keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)", sat:"%", target:"77", real:"88", cap:115},
   {keg:"3760", ind:"Pertumbuhan Pengelola Gudang SRG", sat:"%", target:"5", real:"0", cap:0},
-  {keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas", sat:"%", target:"5", real:"0,004", cap:8.6},
+  {keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas", sat:"%", target:"5", real:"0,4", cap:8.6},
   {keg:"3760", ind:"% peserta Bimtek SRG/PLK yang meningkat pemahaman", sat:"%", target:"90", real:"0", cap:0},
   {keg:"3760", ind:"Indeks kepuasan layanan perizinan SRG/PLK", sat:"Nilai", target:"86", real:"0", cap:0},
-  {keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti", sat:"%", target:"75", real:"0,375", cap:50},
+  {keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti", sat:"%", target:"75", real:"37,5", cap:50},
   {keg:"3761", ind:"Indeks Evaluasi Kemanfaatan Kebijakan (PBK/SRG/PLK)", sat:"Nilai", target:"71", real:"0", cap:0},
   {keg:"3761", ind:"Penyelesaian Perselisihan PBK sesuai SLA", sat:"%", target:"91", real:"87,87", cap:96.56},
   {keg:"3761", ind:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum", sat:"Nilai", target:"83", real:"0", cap:0},
@@ -939,40 +939,40 @@ const CAPAIAN_IKK_TW1 = [
 const KEG_NAMA_TW1 = {"3758":"Dukungan Manajemen & Teknis","3759":"Pengawasan & Penindakan PBK/SRG/PLK","3760":"Pembinaan & Pengembangan SRG dan PLK","3761":"Peningkatan Efektivitas Kebijakan & Pelayanan Hukum","3762":"Pembinaan & Pengembangan PBK"};
 const CAPAIAN_IKK_SUMBER = "Realisasi Indikator Kinerja Triwulan I TA 2026 (Satker 412492)";
 const CAPAIAN_RO_TW1 = [
-  {id:"RO-3759-1",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK (Audit)",pagu:302670000,real:87365000,target:"32",sat:"Badan Usaha",cap:"8",persen:50.1},
-  {id:"RO-3759-2",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:171600000,real:34538462,target:"6",sat:"Badan Usaha",cap:"4",persen:66.1},
-  {id:"RO-3759-3",keg:"3759",uraian:"Penindakan PBK/SRG/PLK (legal/ilegal)",pagu:96490000,real:25154590,target:"8",sat:"Badan Usaha",cap:"4",persen:66.1},
-  {id:"RO-3760-ACD1",keg:"3760",uraian:"Perizinan Lembaga SRG",pagu:50000000,real:449000,target:"2",sat:"Lembaga",cap:"0",persen:3.2},
-  {id:"RO-3760-ACD2",keg:"3760",uraian:"Perizinan Lembaga PLK",pagu:16000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
-  {id:"RO-3760-AFA1",keg:"3760",uraian:"Rancangan NSPK SKKNI Pengelola Gudang SRG",pagu:50000000,real:0,target:"1",sat:"NSPK",cap:"0",persen:0.3},
-  {id:"RO-3760-BDB1",keg:"3760",uraian:"Fasilitasi & Pembinaan Lembaga Penyalur Subsidi RG",pagu:82000000,real:14278401,target:"2",sat:"Lembaga",cap:"1",persen:60.1},
-  {id:"RO-3760-BMA1",keg:"3760",uraian:"Data & Informasi Harga Komoditi SRG/PLK",pagu:29000000,real:290000,target:"8",sat:"dokumen",cap:"0",persen:2.2},
-  {id:"RO-3760-FAB1",keg:"3760",uraian:"Sistem Informasi Persetujuan SRG & PLK",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
-  {id:"RO-3760-PBB2",keg:"3760",uraian:"Rekomendasi Kebijakan Kelembagaan/Komoditi SRG/PLK",pagu:24451000,real:3400000,target:"1",sat:"Rekomendasi",cap:"0",persen:14.2},
-  {id:"RO-3760-PEA1",keg:"3760",uraian:"Koordinasi Pemangku Kepentingan SRG",pagu:35000000,real:13261238,target:"1",sat:"kegiatan",cap:"0",persen:40.1},
-  {id:"RO-3760-QDB1",keg:"3760",uraian:"Peningkatan Kompetensi Pengelola Gudang SRG",pagu:18000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
-  {id:"RO-3760-QDB2",keg:"3760",uraian:"Fasilitasi Calon Pengelola Gudang SRG",pagu:10000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.3},
-  {id:"RO-3760-QDB3",keg:"3760",uraian:"Pendampingan WMS Pengelola Gudang SRG",pagu:87903000,real:0,target:"5",sat:"Lembaga",cap:"0",persen:0.3},
-  {id:"RO-3760-QDC1",keg:"3760",uraian:"Pertemuan Teknis Pelaku Usaha PLK",pagu:40000000,real:8825000,target:"15",sat:"Orang",cap:"5",persen:25.2},
-  {id:"RO-3760-QDC2",keg:"3760",uraian:"Fasilitasi Pelaku Usaha & Petani SRG",pagu:55000000,real:0,target:"75",sat:"Orang",cap:"0",persen:0.3},
-  {id:"RO-3760-QDC3",keg:"3760",uraian:"Asistensi Pelaku Usaha PLK",pagu:35000000,real:0,target:"15",sat:"Orang",cap:"0",persen:0.3},
-  {id:"RO-3760-UAB1",keg:"3760",uraian:"Sistem Aplikasi SPLT",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
-  {id:"RO-3760-UAB2",keg:"3760",uraian:"Sistem Aplikasi WMS",pagu:60000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.3},
-  {id:"RO-3761-AAH1",keg:"3761",uraian:"Peraturan Bappebti bidang PBK",pagu:77905000,real:18664400,target:"4",sat:"peraturan",cap:"0",persen:29.1},
-  {id:"RO-3761-AAH2",keg:"3761",uraian:"Peraturan Bappebti bidang SRG & PLK",pagu:20420000,real:4579780,target:"1",sat:"peraturan",cap:"0",persen:23.1},
-  {id:"RO-3761-AEA1",keg:"3761",uraian:"Uji Publik & Harmonisasi Kebijakan",pagu:80000000,real:1722800,target:"3",sat:"kegiatan",cap:"0",persen:2.2},
-  {id:"RO-3761-BBA1",keg:"3761",uraian:"Layanan Asistensi Hukum PBK/SRG/PLK",pagu:131250000,real:59211730,target:"6",sat:"Orang",cap:"1",persen:50.0},
-  {id:"RO-3761-BCB1",keg:"3761",uraian:"Penanganan Perkara/Penyelesaian Perselisihan",pagu:131250000,real:5595200,target:"5",sat:"Perkara",cap:"1",persen:30.2},
-  {id:"RO-3762-ACB1",keg:"3762",uraian:"Perizinan Wakil Pialang & Wakil Penasihat",pagu:24250000,real:17880000,target:"500",sat:"Orang",cap:"187",persen:37.4},
-  {id:"RO-3762-ACD1",keg:"3762",uraian:"Perizinan Pelaku Usaha PBK",pagu:78980000,real:34730000,target:"500",sat:"Badan Usaha",cap:"114",persen:30.0},
-  {id:"RO-3762-ADI1",keg:"3762",uraian:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat",pagu:129878000,real:5246000,target:"200",sat:"Orang",cap:"0",persen:14.0},
-  {id:"RO-3762-BMA1",keg:"3762",uraian:"Data & Informasi Harga Komoditi PBK",pagu:38410000,real:3620000,target:"1",sat:"dokumen",cap:"0",persen:21.0},
-  {id:"RO-3762-FAB1",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:2010000,target:"1",sat:"Sistem",cap:"0",persen:7.1},
-  {id:"RO-3762-PBB1",keg:"3762",uraian:"Rekomendasi Kebijakan Kelembagaan/Produk PBK",pagu:150496000,real:25340430,target:"1",sat:"Rekomendasi",cap:"0",persen:17.0},
-  {id:"RO-3762-QDH1",keg:"3762",uraian:"Pembinaan Pelaku Usaha PBK",pagu:151660000,real:11000000,target:"60",sat:"Badan Usaha",cap:"0",persen:8.1},
-  {id:"RO-3758-CAN1",keg:"3758",uraian:"Peralatan TIK Penunjang Tugas Bappebti",pagu:115200000,real:9500500,target:"1",sat:"Unit",cap:"0",persen:25.01},
-  {id:"RO-3758-EBA1",keg:"3758",uraian:"Layanan Perkantoran",pagu:5163077000,real:791727345,target:"1",sat:"Layanan",cap:"0",persen:25.16},
-  {id:"RO-3758-EBA2",keg:"3758",uraian:"Layanan Organisasi & Tata Kelola Internal",pagu:504034000,real:58730400,target:"1",sat:"Layanan",cap:"0",persen:25.16},
+  {id:"RO-3759-1",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK (Audit)",pagu:173695000,real:142675000,target:"16",sat:"Badan Usaha",cap:"14",persen:90.1},
+  {id:"RO-3759-2",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:96301000,real:80176000,target:"6",sat:"Badan Usaha",cap:"5",persen:83.1},
+  {id:"RO-3759-3",keg:"3759",uraian:"Penindakan PBK/SRG/PLK (legal/ilegal)",pagu:74406000,real:52456746,target:"8",sat:"Badan Usaha",cap:"5",persen:83.1},
+  {id:"RO-3760-ACD1",keg:"3760",uraian:"Perizinan Lembaga SRG",pagu:35592000,real:2767400,target:"2",sat:"Lembaga",cap:"0",persen:3.4},
+  {id:"RO-3760-ACD2",keg:"3760",uraian:"Perizinan Lembaga PLK",pagu:3000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:1.4},
+  {id:"RO-3760-AFA1",keg:"3760",uraian:"Rancangan NSPK SKKNI Pengelola Gudang SRG",pagu:18750000,real:6657500,target:"1",sat:"NSPK",cap:"0",persen:36.31},
+  {id:"RO-3760-BDB1",keg:"3760",uraian:"Fasilitasi & Pembinaan Lembaga Penyalur Subsidi RG",pagu:71380000,real:17945201,target:"2",sat:"Lembaga",cap:"1",persen:62.2},
+  {id:"RO-3760-BMA1",keg:"3760",uraian:"Data & Informasi Harga Komoditi SRG/PLK",pagu:9600000,real:290000,target:"8",sat:"dokumen",cap:"0",persen:4.3},
+  {id:"RO-3760-FAB1",keg:"3760",uraian:"Sistem Informasi Persetujuan SRG & PLK",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.5},
+  {id:"RO-3760-PBB2",keg:"3760",uraian:"Rekomendasi Kebijakan Kelembagaan/Komoditi SRG/PLK",pagu:24151000,real:5149000,target:"1",sat:"Rekomendasi",cap:"0",persen:19.3},
+  {id:"RO-3760-PEA1",keg:"3760",uraian:"Koordinasi Pemangku Kepentingan SRG",pagu:25018000,real:13261238,target:"1",sat:"kegiatan",cap:"0",persen:55.2},
+  {id:"RO-3760-QDB1",keg:"3760",uraian:"Peningkatan Kompetensi Pengelola Gudang SRG",pagu:12600000,real:1450000,target:"1",sat:"Lembaga",cap:"0",persen:12.4},
+  {id:"RO-3760-QDB2",keg:"3760",uraian:"Fasilitasi Calon Pengelola Gudang SRG",pagu:8200000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:0.5},
+  {id:"RO-3760-QDB3",keg:"3760",uraian:"Pendampingan WMS Pengelola Gudang SRG",pagu:35153000,real:0,target:"5",sat:"Lembaga",cap:"0",persen:0.5},
+  {id:"RO-3760-QDC1",keg:"3760",uraian:"Pertemuan Teknis Pelaku Usaha PLK",pagu:29305000,real:14225000,target:"15",sat:"Orang",cap:"5",persen:49.2},
+  {id:"RO-3760-QDC2",keg:"3760",uraian:"Fasilitasi Pelaku Usaha & Petani SRG",pagu:37532000,real:37160000,target:"75",sat:"Orang",cap:"75",persen:100.0},
+  {id:"RO-3760-QDC3",keg:"3760",uraian:"Asistensi Pelaku Usaha PLK",pagu:19280000,real:0,target:"15",sat:"Orang",cap:"0",persen:5.4},
+  {id:"RO-3760-UAB1",keg:"3760",uraian:"Sistem Aplikasi SPLT",pagu:30000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.5},
+  {id:"RO-3760-UAB2",keg:"3760",uraian:"Sistem Aplikasi WMS",pagu:60000000,real:0,target:"1",sat:"Sistem",cap:"0",persen:0.5},
+  {id:"RO-3761-AAH1",keg:"3761",uraian:"Peraturan Bappebti bidang PBK",pagu:60516000,real:58597100,target:"4",sat:"peraturan",cap:"1",persen:97.1},
+  {id:"RO-3761-AAH2",keg:"3761",uraian:"Peraturan Bappebti bidang SRG & PLK",pagu:6053000,real:4579780,target:"1",sat:"peraturan",cap:"0",persen:76.2},
+  {id:"RO-3761-AEA1",keg:"3761",uraian:"Uji Publik & Harmonisasi Kebijakan",pagu:37900000,real:1722800,target:"3",sat:"kegiatan",cap:"0",persen:4.65},
+  {id:"RO-3761-BBA1",keg:"3761",uraian:"Layanan Asistensi Hukum PBK/SRG/PLK",pagu:109142000,real:95559630,target:"6",sat:"Orang",cap:"3",persen:90.1},
+  {id:"RO-3761-BCB1",keg:"3761",uraian:"Penanganan Perkara/Penyelesaian Perselisihan",pagu:32164000,real:19435200,target:"5",sat:"Perkara",cap:"2",persen:61.3},
+  {id:"RO-3762-ACB1",keg:"3762",uraian:"Perizinan Wakil Pialang & Wakil Penasihat",pagu:24250000,real:21645800,target:"500",sat:"Orang",cap:"260",persen:52.0},
+  {id:"RO-3762-ACD1",keg:"3762",uraian:"Perizinan Pelaku Usaha PBK",pagu:60180000,real:43804500,target:"500",sat:"Badan Usaha",cap:"174",persen:45.8},
+  {id:"RO-3762-ADI1",keg:"3762",uraian:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat",pagu:128078000,real:29611000,target:"200",sat:"Orang",cap:"84",persen:47.0},
+  {id:"RO-3762-BMA1",keg:"3762",uraian:"Data & Informasi Harga Komoditi PBK",pagu:20505000,real:11260000,target:"1",sat:"dokumen",cap:"0",persen:55.0},
+  {id:"RO-3762-FAB1",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:7760000,target:"1",sat:"Sistem",cap:"0",persen:13.1},
+  {id:"RO-3762-PBB1",keg:"3762",uraian:"Rekomendasi Kebijakan Kelembagaan/Produk PBK",pagu:96438000,real:35305430,target:"1",sat:"Rekomendasi",cap:"0",persen:40.0},
+  {id:"RO-3762-QDH1",keg:"3762",uraian:"Pembinaan Pelaku Usaha PBK",pagu:78049000,real:41732600,target:"60",sat:"Badan Usaha",cap:"60",persen:100.0},
+  {id:"RO-3758-CAN1",keg:"3758",uraian:"Peralatan TIK Penunjang Tugas Bappebti",pagu:115200000,real:28480507,target:"1",sat:"Unit",cap:"0",persen:41.65},
+  {id:"RO-3758-EBA1",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:1722368583,target:"1",sat:"Layanan",cap:"0",persen:41.82},
+  {id:"RO-3758-EBA2",keg:"3758",uraian:"Layanan Organisasi & Tata Kelola Internal",pagu:398370000,real:145634168,target:"1",sat:"Layanan",cap:"0",persen:41.82},
 ];
 const CAPAIAN_IKSS = [
   { id:"ISP-1", realNow:"25% · agr. IKK", cap:[25,null,null,null] },
@@ -985,16 +985,16 @@ const CAPAIAN_IKSS = [
 ];
 /* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Mei 2026, ditaruh di slot Q2). */
 const SERAPAN = [
-  { id:"K-3759", real:[null,67,null,null] },
-  { id:"K-3760", real:[null,17,null,null] },
-  { id:"K-3761", real:[null,72,null,null] },
-  { id:"K-3762", real:[null,35,null,null] },
-  { id:"K-3758", real:[null,56,null,null] },
+  { id:"K-3759", real:[null,80,null,null] },
+  { id:"K-3760", real:[null,22,null,null] },
+  { id:"K-3761", real:[null,73,null,null] },
+  { id:"K-3762", real:[null,41,null,null] },
+  { id:"K-3758", real:[null,38,null,null] },
 ];
-/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Mei = 52,8% (slot Q2). */
+/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Mei 2026 = 40,83% (slot Q2). */
 const KURVA_S = [
   { q:"Q1", rencana:22,  anggaran:19,   fisik:26 },
-  { q:"Q2", rencana:48,  anggaran:53,   fisik:null },
+  { q:"Q2", rencana:48,  anggaran:41,   fisik:45 },
   { q:"Q3", rencana:76,  anggaran:null, fisik:null },
   { q:"Q4", rencana:100, anggaran:null, fisik:null },
 ];
@@ -1521,7 +1521,7 @@ const PRECOMPUTED_AI = {
   sebab: {
     "SP-01": `Sasaran Program "Meningkatnya kinerja PBK, SRG, PLK yang tangguh dan berkelanjutan" disangga empat kegiatan teknis dengan total pagu TA 2026 hanya Rp1,507 miliar (23,3% dari Rp6,47 miliar) — sementara Dukungan Manajemen menyerap Rp4,96 miliar (76,7%). Rasio ini menjadi temuan struktural pertama: kegiatan yang menggerakkan tujuh indikator program hanya mendapat kurang dari seperempat sumber daya.
 
-Analisa rantai sebab-akibat dengan data realisasi memperlihatkan persoalan kedua yang lebih tajam. Kegiatan 3760 (SRG/PLK) — pemilik seluruh RO Prioritas Nasional TA 2026 — mencatat serapan terendah per Mei 2026: 17%, dibandingkan 3761 Hukum (72%), 3759 Pengawasan (67%), 3758 Dukungan Manajemen (56%), dan 3762 PBK (35%). Pola yang sama terjadi pada TA 2025: pagu Rev.9 Kegiatan 3760 sebesar Rp4,87 miliar dipangkas blokir/efisiensi 52% menjadi Rp2,33 miliar SAKTI — pemangkasan terdalam di antara semua kegiatan. Dua tahun berturut-turut, kegiatan yang menyandang label prioritas justru paling dahulu dikorbankan dan paling lambat dieksekusi.
+Analisa rantai sebab-akibat dengan data realisasi memperlihatkan persoalan kedua yang lebih tajam. Kegiatan 3760 (SRG/PLK) — pemilik seluruh RO Prioritas Nasional TA 2026 — mencatat serapan terendah per Mei 2026: 22%, dibandingkan 3759 Pengawasan (80%), 3761 Hukum (73%), 3762 PBK (41%), dan 3758 Dukungan Manajemen (38%). Pola yang sama terjadi pada TA 2025: pagu Rev.9 Kegiatan 3760 sebesar Rp4,87 miliar dipangkas blokir/efisiensi 52% menjadi Rp2,33 miliar SAKTI — pemangkasan terdalam di antara semua kegiatan. Dua tahun berturut-turut, kegiatan yang menyandang label prioritas justru paling dahulu dikorbankan dan paling lambat dieksekusi.
 
 Konsekuensi pada indikator dapat diukur. ISP-2 (Pertumbuhan Gudang yang Mengimplementasikan SRG, target 6%, baseline 6,3%) bergantung pada pipeline pembinaan: dari 302 gudang terdaftar hanya 145 yang aktif (48%), dan dari 148 pengelola berlisensi hanya 73 yang aktif (49%). Separuh kapasitas kelembagaan SRG nasional sedang idle, dan RO yang dirancang menghidupkannya kembali (QDB.001 pembinaan pengelola Rp12,6 juta, QDB.002 calon pengelola Rp8,2 juta, QDC.002 bimtek petani Rp37,5 juta) bernilai total di bawah Rp60 juta — lebih kecil dari pos Sewa Tanaman Hias Rp86 juta di Kegiatan 3758.
 
@@ -6287,7 +6287,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.16a · Komoditas SRG v3 — nama gudang benar, deduplikasi, data per tahun · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17a · Realisasi RO &amp; IKK TA 2026 di-refresh ke snapshot Mei 2026 (SAKTI &amp; e-Monitoring); registri Gudang &amp; Pengelola SRG diperbarui · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
