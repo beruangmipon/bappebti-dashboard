@@ -1299,6 +1299,34 @@ const SBKK_2026 = {
   "RO-3761-BBA1": { rate: 21_875_000, satuan: "Orang" },
   "RO-3762-BMA1": { rate: 38_410_000, satuan: "Layanan" },
 };
+/* ===== IDENTIFIKASI USULAN SBKK TA 2027 (USULAN AWAL) =====
+   Sumber: Lampiran Nota Dinas Usulan SBKK TA 2027, Biro Perencanaan Kemendag.
+   Bersifat USULAN AWAL — belum final, menunggu penetapan resmi PMK Standar Biaya TA 2027.
+   Bagian 1: 9 RO ber-SBKK TA 2026, dievaluasi kelanjutannya (8 diusulkan lanjut — sebagian besaran
+   disesuaikan, 1 dihentikan karena tidak dapat distandarkan). Bagian 2: 8 RO baru (belum ber-SBKK
+   2026) diidentifikasi sebagai kandidat SBKK baru mulai TA 2027. Field r (RO) dilengkapi saat render
+   dari array `ros` (kode/nama/target/anggaran RANWAL 2027) agar selalu konsisten dengan data RKAKL. */
+const SBKK_2027_EXISTING = [
+  { id:"RO27-3759-QIH1", sbkk2026:28_600_000, usulanPagu:486_200_000, sbkk2027:28_600_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026." },
+  { id:"RO27-3760-ACD1", sbkk2026:25_000_000, usulanPagu:450_000_000, sbkk2027:null,        status:"tidak",     ket:"Tidak diusulkan SBKK — lokus menyesuaikan lokasi pemohon izin, kebutuhan anggaran per lembaga tidak dapat distandarkan." },
+  { id:"RO27-3760-QDB1", sbkk2026:18_000_000, usulanPagu:360_000_000, sbkk2027:18_000_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026. Target akan disesuaikan pada RANWAL Renja 2027 dari 40 menjadi 20 lembaga." },
+  { id:"RO27-3760-QDB2", sbkk2026:10_000_000, usulanPagu:150_000_000, sbkk2027:10_000_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026. Target akan disesuaikan pada RANWAL Renja 2027 dari 40 menjadi 15 lembaga." },
+  { id:"RO27-3760-QDB4", sbkk2026:41_000_000, usulanPagu:280_000_000, sbkk2027:35_000_000, status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan 2027 (RO penerus BDB.001 TA 2026)." },
+  { id:"RO27-3760-QDC1", sbkk2026:2_666_666,  usulanPagu:600_000_000, sbkk2027:3_000_000,  status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
+  { id:"RO27-3760-QDC3", sbkk2026:2_333_333,  usulanPagu:400_000_000, sbkk2027:2_000_000,  status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
+  { id:"RO27-3761-BBA1", sbkk2026:21_875_000, usulanPagu:731_250_000, sbkk2027:21_507_353, status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
+  { id:"RO27-3762-BMA1", sbkk2026:38_410_000, usulanPagu:369_639_000, sbkk2027:369_639_000,status:"diusulkan", ket:"Besaran SBKK naik signifikan — penambahan jumlah kontributor harga (kondisional: bila alokasi anggaran mencukupi)." },
+];
+const SBKK_2027_BARU = [
+  { id:"RO27-3760-BMA1", usulanPagu:150_000_000,   sbkk2027:15_000_000,    ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+  { id:"RO27-3760-PBB1", usulanPagu:449_954_000,   sbkk2027:224_977_000,   ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+  { id:"RO27-3760-PEA1", usulanPagu:270_046_000,   sbkk2027:33_755_750,    ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+  { id:"RO27-3760-QDC2", usulanPagu:320_000_000,   sbkk2027:1_066_667,     ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+  { id:"RO27-3762-ACB1", usulanPagu:24_250_000,    sbkk2027:60_625,        ket:"Layanan perizinan bersifat berulang dan terukur sehingga dapat diusulkan SBKK." },
+  { id:"RO27-3762-ADI1", usulanPagu:349_300_000,   sbkk2027:1_746_500,     ket:"Target jelas dan berulang sehingga dapat diusulkan SBKK." },
+  { id:"RO27-3762-PBB1", usulanPagu:1_166_528_000, sbkk2027:388_842_667,   ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+  { id:"RO27-3762-QDH1", usulanPagu:374_340_000,   sbkk2027:5_347_714,     ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
+];
 const penelaahan2027 = (r)=>{
   const vol=parseTargetNum(r.target), bs=biayaSatuan(r), sk=satuanKey(r.target), band=BAND[sk];
   // K1 — target & kinerja (rasionalitas anggaran vs volume keluaran)
@@ -4967,7 +4995,6 @@ function AnalisisAnggaran2027(){
   const toggleJust = (id)=> setOpenJust(s=>{ const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n; });
   const openAllJust  = ()=> setOpenJust(new Set(ros.map(r=>r.id)));
   const closeAllJust = ()=> setOpenJust(new Set());
-  const [pkpnCandOpen, setPkpnCandOpen] = useState(false);
   const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
   const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
   const pnRos = ros.filter(r=>r.isPN);
@@ -5052,183 +5079,93 @@ function AnalisisAnggaran2027(){
         );
       })()}
 
-      {/* ===== ANALISIS KANDIDAT RO PKPN TA 2027 ===== */}
+      {/* Identifikasi Usulan SBKK TA 2027 (usulan awal) */}
       {isRanwal && (()=>{
-        const candidates = ros.map(r=>({r, cand:pkpnCandidacy(r)})).filter(x=>x.cand && !x.cand.official);
-        if(candidates.length===0) return null;
-        const KLASTER_ORDER = ["Kedaulatan Pangan","Ekonomi Kerakyatan & Desa","Hilirisasi & Industrialisasi","Kemandirian Energi & Air","Infrastruktur & Ketahanan Bencana"];
-        const KLASTER_COLOR = {
-          "Kedaulatan Pangan":"#059669",
-          "Ekonomi Kerakyatan & Desa":"#d97706",
-          "Hilirisasi & Industrialisasi":"#2563eb",
-          "Kemandirian Energi & Air":"#7c3aed",
-          "Infrastruktur & Ketahanan Bencana":"#6b7280",
-        };
-        const byKl = {}; candidates.forEach(({r,cand})=>{ byKl[cand.klaster]=byKl[cand.klaster]||[]; byKl[cand.klaster].push({r,cand}); });
-        Object.values(byKl).forEach(arr=>arr.sort((a,b)=>b.cand.score-a.cand.score || a.r.kode.localeCompare(b.r.kode)));
-        const totalBud = candidates.reduce((s,{r})=>s+r.anggaran,0);
-        const strongN = candidates.filter(({cand})=>cand.pillKind==="strong").length;
-        const medN   = candidates.filter(({cand})=>cand.pillKind==="medium").length;
-        const weakN  = candidates.filter(({cand})=>cand.pillKind==="weak").length;
-
+        const existingRows = SBKK_2027_EXISTING.map(s=>({...s, r:ros.find(x=>x.id===s.id)})).filter(x=>x.r);
+        const baruRows = SBKK_2027_BARU.map(s=>({...s, r:ros.find(x=>x.id===s.id)})).filter(x=>x.r);
+        if(existingRows.length===0 && baruRows.length===0) return null;
+        const diusulkanN = existingRows.filter(x=>x.status==="diusulkan").length;
+        const tidakN = existingRows.filter(x=>x.status==="tidak").length;
         return (
-          <div className="card p-5 mb-5" style={{borderColor:"rgba(190,24,93,0.20)"}}>
+          <div className="card p-5 mb-5" style={{borderColor:"rgba(8,145,178,0.25)"}}>
             <div className="flex items-start gap-3 flex-wrap mb-3">
-              <span className="text-[18px] leading-none mt-0.5" style={{color:"#be185d"}}>◇</span>
+              <span className="text-[18px] leading-none mt-0.5" style={{color:"#0891b2"}}>◆</span>
               <div className="flex-1 min-w-[260px]">
-                <div className="serif text-lg">Analisis Kandidat RO untuk PKPN TA 2027</div>
+                <div className="serif text-lg">Identifikasi Usulan Standar Biaya Keluaran (SBKK) TA 2027</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Selain 4 RO yang sudah teridentifikasi resmi Bappenas (QDC.002 &amp; QDB.001 di Klaster Kedaulatan Pangan; PEA.001 &amp; QDB.002 di Klaster Ekonomi Kerakyatan &amp; Desa), sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"var(--emerald)"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"var(--gold)"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
+                  Berdasarkan <i>Lampiran Nota Dinas Usulan SBKK TA 2027</i> (Biro Perencanaan Kemendag) — bersifat <b>usulan awal</b>, belum final. Dari <b>{existingRows.length} RO</b> yang sudah ber-SBKK pada TA 2026, <b>{diusulkanN} diusulkan lanjut</b> ke 2027 (sebagian besaran disesuaikan dengan kebutuhan terkini) dan <b>{tidakN} dihentikan</b> karena tidak dapat distandarkan. Selain itu, <b>{baruRows.length} RO baru</b> diidentifikasi sebagai kandidat SBKK mulai TA 2027.
                 </p>
               </div>
-              <button onClick={()=>setPkpnCandOpen(v=>!v)}
-                className={`shrink-0 px-3 py-1.5 rounded-md text-[10px] mono uppercase tracking-wider border transition ${pkpnCandOpen?'border-[rgba(190,24,93,0.4)] bg-[rgba(190,24,93,0.10)]':'border-[var(--border)] hover:border-[rgba(190,24,93,0.30)]'}`}
-                style={{color:"#be185d"}}
-                title={pkpnCandOpen?'Sembunyikan daftar kandidat per Klaster':'Tampilkan daftar kandidat per Klaster'}>
-                {pkpnCandOpen ? '▴ Tutup Detail' : `▾ Lihat ${candidates.length} Kandidat`}
-              </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Total Kandidat</div><div className="serif text-xl mt-1" style={{color:"#be185d"}}>{candidates.length} RO</div><div className="text-[9px] text-[var(--text-3)] mt-0.5">{fmtRp(totalBud)}</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Sangat Direkomendasikan</div><div className="serif text-xl mt-1" style={{color:"var(--emerald)"}}>{strongN} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Layak Dipertimbangkan</div><div className="serif text-xl mt-1" style={{color:"var(--gold)"}}>{medN} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Perlu Justifikasi</div><div className="serif text-xl mt-1" style={{color:"#6b7280"}}>{weakN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">RO Existing Dievaluasi</div><div className="serif text-xl mt-1">{existingRows.length} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Diusulkan Lanjut</div><div className="serif text-xl mt-1" style={{color:"var(--emerald)"}}>{diusulkanN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Dihentikan</div><div className="serif text-xl mt-1" style={{color:"#dc2626"}}>{tidakN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Kandidat Baru</div><div className="serif text-xl mt-1" style={{color:"#0891b2"}}>{baruRows.length} RO</div></div>
             </div>
-            {/* Ringkasan distribusi per Klaster (selalu tampak, kompak) */}
-            <div className="flex flex-wrap gap-2 mb-2">
-              {KLASTER_ORDER.filter(k=>byKl[k]).map(kl=>{
-                const arr=byKl[kl]; const color=KLASTER_COLOR[kl]||"#be185d"; const bud=arr.reduce((s,{r})=>s+r.anggaran,0);
-                return (
-                  <span key={kl} className="pill text-[10px]" style={{background:`${color}1a`,color:color,borderColor:"transparent"}}>
-                    {kl} · {arr.length} RO · {fmtRp(bud)}
-                  </span>
-                );
-              })}
-            </div>
-            {pkpnCandOpen && (
-            <div className="space-y-4 mt-4 pt-4 border-t" style={{borderColor:"rgba(190,24,93,0.15)"}}>
-              {KLASTER_ORDER.filter(k=>byKl[k]).map(kl=>{
-                const arr=byKl[kl]; const color=KLASTER_COLOR[kl]||"#be185d"; const bud=arr.reduce((s,{r})=>s+r.anggaran,0);
-                return (
-                  <div key={kl}>
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <span className="pill text-[10px]" style={{background:`${color}1a`,color:color,borderColor:"transparent"}}>Klaster: {kl}</span>
-                      <span className="mono text-[10px] text-[var(--text-3)]">{arr.length} kandidat · {fmtRp(bud)}</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {arr.map(({r,cand})=>{
-                        const kr=getKRO(r.kro); const kegLabel=kr?kr.kegiatan.replace('K-',''):''; const ini=inisiatifStatus(r,2027);
-                        return (
-                          <div key={r.id} className="card-2 p-3" style={{borderLeft:`3px solid ${cand.color}`}}>
-                            <div className="flex items-start justify-between gap-2 mb-1.5">
-                              <div className="flex-1 min-w-0">
-                                <div className="mono text-[10px] text-[var(--text-3)]">{kegLabel} · {r.kode}{r.isPN && <span className="pill pill-gold text-[8px] ml-1.5">PN</span>}{ini && <span className={`pill ${ini.pill} text-[8px] ml-1`}>{ini.label}</span>}</div>
-                                <div className="text-[12px] mt-0.5 text-[var(--text-1)]">{r.nama}</div>
-                              </div>
-                              <div className="text-right shrink-0">
-                                <div className="serif text-base" style={{color:cand.color}}>{cand.score}</div>
-                                <div className="mono text-[8px] text-[var(--text-3)]">/100</div>
-                              </div>
-                            </div>
-                            <div className="impact-bar mb-2"><div className="impact-fill" style={{width:`${cand.score}%`,background:cand.color}}></div></div>
-                            <div className="flex items-center gap-2 flex-wrap mb-2">
-                              <span className="pill text-[9px]" style={{background:`${cand.color}1a`,color:cand.color,borderColor:"transparent"}}>{cand.pillLabel}</span>
-                              <span className="text-[9px] text-[var(--text-3)]">Pagu Rp {fmtJuta(r.anggaran)}</span>
-                            </div>
-                            <div className="text-[10px] text-[var(--text-2)] leading-snug mb-1.5">{cand.rationale}</div>
-                            <div className="text-[9px] text-[var(--text-3)] mt-1 italic">→ Saran program PKPN: <b style={{color:cand.color,fontStyle:"normal"}}>{cand.program}</b></div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            )}
-            {pkpnCandOpen && <div className="text-[9px] text-[var(--text-3)] mt-4 italic leading-relaxed">Metodologi: pemetaan substansi RO terhadap 8 Klaster PKPN RKP 2027 (Bappenas, 29 Mei 2026), dipandu oleh taksonomi KRO Kegiatan 3760 dan disetel ulang mengikuti 3 identifikasi resmi: <b>QDB ("Pembinaan Lembaga/Pengelola Gudang")</b> &amp; <b>PEA ("Koordinasi Pemangku Kepentingan")</b> → <b>Ekonomi Kerakyatan &amp; Desa</b> (penguatan kelembagaan koperasi/BUMDes/Pemda — selaras QDB.002 &amp; PEA.001 resmi); <b>QDC ("Pembinaan Masyarakat/Petani-Pelaku")</b> → <b>Kedaulatan Pangan</b> (intervensi langsung ke petani/rantai pasok — selaras QDC.002 resmi). Revisi: QDB.001/003/004 yang semula keliru di Kedaulatan Pangan kini dipindah ke Ekonomi Kerakyatan &amp; Desa. Skor: <b>strong</b> = kontribusi inti, <b>medium</b> = substantif tidak langsung, <b>weak</b> = tematik perlu justifikasi kuat. Daftar ini usulan internal untuk dibawa ke trilateral PKPN; konfirmasi resmi tetap di tangan PJ Klaster Bappenas.</div>}
-          </div>
-        );
-      })()}
 
-      {/* Ringkasan Tagging Tematik RESMI (Ketelusuran RENSTRA–RENJA–RKAKL) */}
-      <div className="card p-4 mb-5">
-        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tagging Tematik RO (Resmi) — TA {year}{isRanwal?' · MENGIKUTI TA 2026':''}</div>
-          <div className="text-[10px] text-[var(--text-3)]"><b style={{color:"var(--violet)"}}>{taggedRO.length} RO</b> ber-tagging tematik ({fmtRp(taggedBud)}) · <b>{nonTema.length} RO</b> Non-Tematik · <b style={{color:"var(--gold)"}}>{pnRos.length} RO</b> PN</div>
-        </div>
-        {isRanwal && (
-          <div className="rounded p-3 mb-3 text-[11px] leading-relaxed" style={{background:"rgba(124,58,237,0.06)",border:"1px solid rgba(124,58,237,0.25)",color:"var(--text-2)"}}>
-            <div className="flex items-start gap-2">
-              <span className="mono text-[9px] uppercase tracking-wider shrink-0 mt-0.5" style={{color:"var(--violet)"}}>Catatan TA 2027</span>
-              <div>Karena RANWAL TA 2027 <b>masih dalam tahap pembahasan</b>, tagging tematik di sini <b>mengikuti tagging tematik TA 2026</b> (6 RO Kegiatan 3760: QDB.001–003 & QDC.001–003) — kode RO identik antar tahun sehingga tagging dapat di-roll-forward. Pengecualian: <b>tagging PKPN</b> (Program Kerja Prioritas Nasional 8 Klaster) yang muncul pertama kali untuk TA 2027 sesuai dokumen Bappenas <i>"Pembahasan PKPN RKP 2027 Kemendag"</i> (29 Mei 2026) — saat ini 3 RO teridentifikasi resmi: QDC.002 pada Klaster Kedaulatan Pangan, serta PEA.001 &amp; QDB.002 pada Klaster Ekonomi Kerakyatan &amp; Desa. Tagging tematik final TA 2027 akan ditetapkan pada Renja K/L definitif setelah trilateral meeting Pagu Indikatif.</div>
+            <div className="mono text-[10px] uppercase tracking-wider text-[var(--text-3)] mb-2">RO Existing (ber-SBKK TA 2026) — Evaluasi Kelanjutan 2027</div>
+            <div className="overflow-x-auto scrollbar mb-5">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">SBKK 2026</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan Pagu 2027</th>
+                    <th className="py-1.5 pr-2 text-center">Target 2027</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan SBKK 2027</th>
+                    <th className="py-1.5 pr-2 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {existingRows.map(x=>{
+                    const stColor = x.status==="diusulkan" ? "#059669" : "#dc2626";
+                    const stLabel = x.status==="diusulkan" ? "Diusulkan Lanjut" : "Tidak Diusulkan";
+                    return (
+                      <tr key={x.id} style={{borderBottom:"1px solid var(--border)"}}>
+                        <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{x.r.kode}</td>
+                        <td className="py-1.5 pr-2 text-[var(--text-2)] min-w-[180px]">{x.r.nama}<div className="text-[9px] text-[var(--text-3)] mt-0.5 italic">{x.ket}</div></td>
+                        <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)]">{fmtRp(x.sbkk2026)}</td>
+                        <td className="py-1.5 pr-2 text-right mono">{fmtRp(x.usulanPagu)}</td>
+                        <td className="py-1.5 pr-2 text-center mono">{x.r.target}</td>
+                        <td className="py-1.5 pr-2 text-right mono" style={{color:stColor,fontWeight:600}}>{x.sbkk2027?fmtRp(x.sbkk2027):"—"}</td>
+                        <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:stColor+'1a',color:stColor,borderColor:stColor+'55'}}>{stLabel}</span></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-          </div>
-        )}
-        {tematikAgg.length===0 ? (
-          <div className="text-xs text-[var(--text-3)]">Tidak ada RO ber-tagging tematik pada TA {year} menurut file Ketelusuran.</div>
-        ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {tematikAgg.map(t=>{ const pct=taggedBud?Math.round(t.bud/taggedBud*100):0; return (
-            <div key={t.key} className="card-2 p-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] font-medium" style={{color:t.warna}}>{t.key}</span>
-                <span className="mono text-[10px] text-[var(--text-3)]">{t.n} RO</span>
-              </div>
-              <div className="serif text-base mt-1" style={{color:t.warna}}>{fmtRp(t.bud)}</div>
-              <div className="impact-bar mt-1"><div className="impact-fill" style={{width:`${pct}%`,background:t.warna}}></div></div>
-            </div>
-          );})}
-        </div>
-        )}
-        <div className="text-[9px] text-[var(--text-3)] mt-2">Sumber: KETELUSURAN RENSTRA–RENJA–RKAKL (REV 28-05-2026), kolom TEMATIK — basis TA 2026{isRanwal?', diasumsikan berlaku untuk TA 2027 selama pembahasan Renja K/L berlangsung':''}. Satu RO dapat memiliki lebih dari satu kategori (persentase atas dasar pagu RO ber-tagging). RO di luar daftar tidak dianggap tematik.</div>
-      </div>
 
-      {/* Ringkasan verdict */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-        <div className="card p-5">
-          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Total Pagu TA {year}{isRanwal?' (RANWAL)':''}</div>
-          <div className="serif text-2xl mt-2 text-[var(--gold)]">{fmtRp(total)}</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">{ros.length} RO · {pnRos.length} PN</div>
-        </div>
-        {Object.keys(byV).map(v=>{
-          const arr=byV[v]; const bud=sumOf(arr); const pct=Math.round(bud/total*100); const mt=verdictMeta[v];
-          return (
-            <div key={v} className="card p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{v}</div>
-                <span className={`pill ${mt.pill} text-[9px]`}>{arr.length} RO</span>
-              </div>
-              <div className="serif text-2xl mt-2" style={{color:mt.warna}}>{fmtRp(bud)}</div>
-              <div className="impact-bar mt-2"><div className="impact-fill" style={{width:`${pct}%`,background:mt.warna}}></div></div>
-              <div className="text-[10px] text-[var(--text-3)] mt-1">{pct}% dari total pagu</div>
+            <div className="mono text-[10px] uppercase tracking-wider text-[var(--text-3)] mb-2">RO Baru — Kandidat SBKK Mulai TA 2027</div>
+            <div className="overflow-x-auto scrollbar">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan Pagu 2027</th>
+                    <th className="py-1.5 pr-2 text-center">Target 2027</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan SBKK Baru</th>
+                    <th className="py-1.5 pr-2">Catatan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {baruRows.map(x=>(
+                    <tr key={x.id} style={{borderBottom:"1px solid var(--border)"}}>
+                      <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{x.r.kode}</td>
+                      <td className="py-1.5 pr-2 text-[var(--text-2)] min-w-[180px]">{x.r.nama}</td>
+                      <td className="py-1.5 pr-2 text-right mono">{fmtRp(x.usulanPagu)}</td>
+                      <td className="py-1.5 pr-2 text-center mono">{x.r.target}</td>
+                      <td className="py-1.5 pr-2 text-right mono" style={{color:"#0891b2",fontWeight:600}}>{fmtRp(x.sbkk2027)}</td>
+                      <td className="py-1.5 pr-2 text-[9px] text-[var(--text-3)] leading-snug max-w-[220px]">{x.ket}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          );
-        })}
-      </div>
-
-      {/* Ringkasan kontinuitas RO antar tahun */}
-      {(()=>{ const stats = ros.reduce((m,r)=>{ const i=inisiatifStatus(r,year); if(i){ m[i.kind]=m[i.kind]||{n:0,bud:0,label:i.label,pill:i.pill}; m[i.kind].n++; m[i.kind].bud+=r.anggaran; } return m; },{}); const arr=Object.entries(stats); if(arr.length===0) return null;
-        const pivot = year===2027 ? "TA 2026" : "TA 2027";
-        return (
-          <div className="card p-4 mb-5">
-            <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kontinuitas RO TA {year} vs {pivot}</div>
-              <div className="text-[10px] text-[var(--text-3)]">Identitas RO lintas tahun dibandingkan pada level <b>kombinasi kegiatan + kode RO</b>.</div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {arr.map(([k,v])=>{ const pct=Math.round(v.bud/total*100); const col=k==="new"?"#059669":(k==="cont"?"#2563eb":"#6b7280"); return (
-                <div key={k} className="card-2 p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium" style={{color:col}}>{v.label}</span>
-                    <span className={`pill ${v.pill} text-[9px]`}>{v.n} RO</span>
-                  </div>
-                  <div className="serif text-base mt-1" style={{color:col}}>{fmtRp(v.bud)}</div>
-                  <div className="impact-bar mt-1"><div className="impact-fill" style={{width:`${pct}%`,background:col}}></div></div>
-                  <div className="text-[10px] text-[var(--text-3)] mt-1">{pct}% dari total pagu · {k==="new"?"RO baru, tidak ada di tahun pembanding":(k==="cont"?"RO berlanjut antar tahun":"RO 2026 tidak diusulkan kembali di 2027")}</div>
-                </div>
-              );})}
-            </div>
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Lampiran Nota Dinas Usulan SBKK TA 2027, Biro Perencanaan Kemendag. Seluruh besaran bersifat usulan awal — belum final, menunggu penetapan resmi melalui PMK Standar Biaya TA 2027.</div>
           </div>
         );
       })()}
@@ -6362,7 +6299,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17b · SBKK resmi TA 2026 (9 RO) terintegrasi ke Analisis Anggaran &amp; skor K2 · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17d · Bagian Analisis Kandidat RO PKPN TA 2027 dihapus · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
