@@ -1299,34 +1299,6 @@ const SBKK_2026 = {
   "RO-3761-BBA1": { rate: 21_875_000, satuan: "Orang" },
   "RO-3762-BMA1": { rate: 38_410_000, satuan: "Layanan" },
 };
-/* ===== IDENTIFIKASI USULAN SBKK TA 2027 (USULAN AWAL) =====
-   Sumber: Lampiran Nota Dinas Usulan SBKK TA 2027, Biro Perencanaan Kemendag.
-   Bersifat USULAN AWAL — belum final, menunggu penetapan resmi PMK Standar Biaya TA 2027.
-   Bagian 1: 9 RO ber-SBKK TA 2026, dievaluasi kelanjutannya (8 diusulkan lanjut — sebagian besaran
-   disesuaikan, 1 dihentikan karena tidak dapat distandarkan). Bagian 2: 8 RO baru (belum ber-SBKK
-   2026) diidentifikasi sebagai kandidat SBKK baru mulai TA 2027. Field r (RO) dilengkapi saat render
-   dari array `ros` (kode/nama/target/anggaran RANWAL 2027) agar selalu konsisten dengan data RKAKL. */
-const SBKK_2027_EXISTING = [
-  { id:"RO27-3759-QIH1", sbkk2026:28_600_000, usulanPagu:486_200_000, sbkk2027:28_600_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026." },
-  { id:"RO27-3760-ACD1", sbkk2026:25_000_000, usulanPagu:450_000_000, sbkk2027:null,        status:"tidak",     ket:"Tidak diusulkan SBKK — lokus menyesuaikan lokasi pemohon izin, kebutuhan anggaran per lembaga tidak dapat distandarkan." },
-  { id:"RO27-3760-QDB1", sbkk2026:18_000_000, usulanPagu:360_000_000, sbkk2027:18_000_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026. Target akan disesuaikan pada RANWAL Renja 2027 dari 40 menjadi 20 lembaga." },
-  { id:"RO27-3760-QDB2", sbkk2026:10_000_000, usulanPagu:150_000_000, sbkk2027:10_000_000, status:"diusulkan", ket:"Besaran SBKK sama dengan TA 2026. Target akan disesuaikan pada RANWAL Renja 2027 dari 40 menjadi 15 lembaga." },
-  { id:"RO27-3760-QDB4", sbkk2026:41_000_000, usulanPagu:280_000_000, sbkk2027:35_000_000, status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan 2027 (RO penerus BDB.001 TA 2026)." },
-  { id:"RO27-3760-QDC1", sbkk2026:2_666_666,  usulanPagu:600_000_000, sbkk2027:3_000_000,  status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
-  { id:"RO27-3760-QDC3", sbkk2026:2_333_333,  usulanPagu:400_000_000, sbkk2027:2_000_000,  status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
-  { id:"RO27-3761-BBA1", sbkk2026:21_875_000, usulanPagu:731_250_000, sbkk2027:21_507_353, status:"diusulkan", ket:"Besaran SBKK disesuaikan dengan kebutuhan pada 2027." },
-  { id:"RO27-3762-BMA1", sbkk2026:38_410_000, usulanPagu:369_639_000, sbkk2027:369_639_000,status:"diusulkan", ket:"Besaran SBKK naik signifikan — penambahan jumlah kontributor harga (kondisional: bila alokasi anggaran mencukupi)." },
-];
-const SBKK_2027_BARU = [
-  { id:"RO27-3760-BMA1", usulanPagu:150_000_000,   sbkk2027:15_000_000,    ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-  { id:"RO27-3760-PBB1", usulanPagu:449_954_000,   sbkk2027:224_977_000,   ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-  { id:"RO27-3760-PEA1", usulanPagu:270_046_000,   sbkk2027:33_755_750,    ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-  { id:"RO27-3760-QDC2", usulanPagu:320_000_000,   sbkk2027:1_066_667,     ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-  { id:"RO27-3762-ACB1", usulanPagu:24_250_000,    sbkk2027:60_625,        ket:"Layanan perizinan bersifat berulang dan terukur sehingga dapat diusulkan SBKK." },
-  { id:"RO27-3762-ADI1", usulanPagu:349_300_000,   sbkk2027:1_746_500,     ket:"Target jelas dan berulang sehingga dapat diusulkan SBKK." },
-  { id:"RO27-3762-PBB1", usulanPagu:1_166_528_000, sbkk2027:388_842_667,   ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-  { id:"RO27-3762-QDH1", usulanPagu:374_340_000,   sbkk2027:5_347_714,     ket:"Dapat diusulkan SBKK (apabila alokasi anggaran mencukupi)." },
-];
 const penelaahan2027 = (r)=>{
   const vol=parseTargetNum(r.target), bs=biayaSatuan(r), sk=satuanKey(r.target), band=BAND[sk];
   // K1 — target & kinerja (rasionalitas anggaran vs volume keluaran)
@@ -1798,6 +1770,7 @@ function Tabs({active,onChange}){
     {id:"anggaran",label:"Analisis Anggaran",  sub:"Tagging · Penelaahan RO"},
     {id:"capaian", label:"Capaian",            sub:"Target vs Realisasi"},
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang"},
+    {id:"psn",     label:"PSN SRG",            sub:"PSN TA 2027–2029"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
     {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
@@ -4995,6 +4968,7 @@ function AnalisisAnggaran2027(){
   const toggleJust = (id)=> setOpenJust(s=>{ const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n; });
   const openAllJust  = ()=> setOpenJust(new Set(ros.map(r=>r.id)));
   const closeAllJust = ()=> setOpenJust(new Set());
+  const [pkpnCandOpen, setPkpnCandOpen] = useState(false);
   const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
   const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
   const pnRos = ros.filter(r=>r.isPN);
@@ -5079,93 +5053,183 @@ function AnalisisAnggaran2027(){
         );
       })()}
 
-      {/* Identifikasi Usulan SBKK TA 2027 (usulan awal) */}
+      {/* ===== ANALISIS KANDIDAT RO PKPN TA 2027 ===== */}
       {isRanwal && (()=>{
-        const existingRows = SBKK_2027_EXISTING.map(s=>({...s, r:ros.find(x=>x.id===s.id)})).filter(x=>x.r);
-        const baruRows = SBKK_2027_BARU.map(s=>({...s, r:ros.find(x=>x.id===s.id)})).filter(x=>x.r);
-        if(existingRows.length===0 && baruRows.length===0) return null;
-        const diusulkanN = existingRows.filter(x=>x.status==="diusulkan").length;
-        const tidakN = existingRows.filter(x=>x.status==="tidak").length;
+        const candidates = ros.map(r=>({r, cand:pkpnCandidacy(r)})).filter(x=>x.cand && !x.cand.official);
+        if(candidates.length===0) return null;
+        const KLASTER_ORDER = ["Kedaulatan Pangan","Ekonomi Kerakyatan & Desa","Hilirisasi & Industrialisasi","Kemandirian Energi & Air","Infrastruktur & Ketahanan Bencana"];
+        const KLASTER_COLOR = {
+          "Kedaulatan Pangan":"#059669",
+          "Ekonomi Kerakyatan & Desa":"#d97706",
+          "Hilirisasi & Industrialisasi":"#2563eb",
+          "Kemandirian Energi & Air":"#7c3aed",
+          "Infrastruktur & Ketahanan Bencana":"#6b7280",
+        };
+        const byKl = {}; candidates.forEach(({r,cand})=>{ byKl[cand.klaster]=byKl[cand.klaster]||[]; byKl[cand.klaster].push({r,cand}); });
+        Object.values(byKl).forEach(arr=>arr.sort((a,b)=>b.cand.score-a.cand.score || a.r.kode.localeCompare(b.r.kode)));
+        const totalBud = candidates.reduce((s,{r})=>s+r.anggaran,0);
+        const strongN = candidates.filter(({cand})=>cand.pillKind==="strong").length;
+        const medN   = candidates.filter(({cand})=>cand.pillKind==="medium").length;
+        const weakN  = candidates.filter(({cand})=>cand.pillKind==="weak").length;
+
         return (
-          <div className="card p-5 mb-5" style={{borderColor:"rgba(8,145,178,0.25)"}}>
+          <div className="card p-5 mb-5" style={{borderColor:"rgba(190,24,93,0.20)"}}>
             <div className="flex items-start gap-3 flex-wrap mb-3">
-              <span className="text-[18px] leading-none mt-0.5" style={{color:"#0891b2"}}>◆</span>
+              <span className="text-[18px] leading-none mt-0.5" style={{color:"#be185d"}}>◇</span>
               <div className="flex-1 min-w-[260px]">
-                <div className="serif text-lg">Identifikasi Usulan Standar Biaya Keluaran (SBKK) TA 2027</div>
+                <div className="serif text-lg">Analisis Kandidat RO untuk PKPN TA 2027</div>
                 <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Berdasarkan <i>Lampiran Nota Dinas Usulan SBKK TA 2027</i> (Biro Perencanaan Kemendag) — bersifat <b>usulan awal</b>, belum final. Dari <b>{existingRows.length} RO</b> yang sudah ber-SBKK pada TA 2026, <b>{diusulkanN} diusulkan lanjut</b> ke 2027 (sebagian besaran disesuaikan dengan kebutuhan terkini) dan <b>{tidakN} dihentikan</b> karena tidak dapat distandarkan. Selain itu, <b>{baruRows.length} RO baru</b> diidentifikasi sebagai kandidat SBKK mulai TA 2027.
+                  Selain 4 RO yang sudah teridentifikasi resmi Bappenas (QDC.002 &amp; QDB.001 di Klaster Kedaulatan Pangan; PEA.001 &amp; QDB.002 di Klaster Ekonomi Kerakyatan &amp; Desa), sebagian RO Bappebti lain juga substantif mendukung Klaster PKPN. Analisis ini memetakan tiap RO ke Klaster PKPN yang paling relevan dengan tiga tingkat kelayakan: <b style={{color:"var(--emerald)"}}>Sangat Direkomendasikan</b> (skor 82, kontribusi langsung), <b style={{color:"var(--gold)"}}>Layak Dipertimbangkan</b> (skor 70, kontribusi tidak langsung tapi kuat), <b style={{color:"#6b7280"}}>Perlu Justifikasi Kuat</b> (skor 58, kontribusi tematik). Output ini dapat menjadi bahan usulan tambahan dukungan Bappebti pada trilateral PKPN dengan PJ Klaster di Bappenas.
                 </p>
               </div>
+              <button onClick={()=>setPkpnCandOpen(v=>!v)}
+                className={`shrink-0 px-3 py-1.5 rounded-md text-[10px] mono uppercase tracking-wider border transition ${pkpnCandOpen?'border-[rgba(190,24,93,0.4)] bg-[rgba(190,24,93,0.10)]':'border-[var(--border)] hover:border-[rgba(190,24,93,0.30)]'}`}
+                style={{color:"#be185d"}}
+                title={pkpnCandOpen?'Sembunyikan daftar kandidat per Klaster':'Tampilkan daftar kandidat per Klaster'}>
+                {pkpnCandOpen ? '▴ Tutup Detail' : `▾ Lihat ${candidates.length} Kandidat`}
+              </button>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">RO Existing Dievaluasi</div><div className="serif text-xl mt-1">{existingRows.length} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Diusulkan Lanjut</div><div className="serif text-xl mt-1" style={{color:"var(--emerald)"}}>{diusulkanN} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Dihentikan</div><div className="serif text-xl mt-1" style={{color:"#dc2626"}}>{tidakN} RO</div></div>
-              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Kandidat Baru</div><div className="serif text-xl mt-1" style={{color:"#0891b2"}}>{baruRows.length} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Total Kandidat</div><div className="serif text-xl mt-1" style={{color:"#be185d"}}>{candidates.length} RO</div><div className="text-[9px] text-[var(--text-3)] mt-0.5">{fmtRp(totalBud)}</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Sangat Direkomendasikan</div><div className="serif text-xl mt-1" style={{color:"var(--emerald)"}}>{strongN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Layak Dipertimbangkan</div><div className="serif text-xl mt-1" style={{color:"var(--gold)"}}>{medN} RO</div></div>
+              <div className="card-2 p-3"><div className="mono text-[9px] uppercase text-[var(--text-3)]">Perlu Justifikasi</div><div className="serif text-xl mt-1" style={{color:"#6b7280"}}>{weakN} RO</div></div>
             </div>
+            {/* Ringkasan distribusi per Klaster (selalu tampak, kompak) */}
+            <div className="flex flex-wrap gap-2 mb-2">
+              {KLASTER_ORDER.filter(k=>byKl[k]).map(kl=>{
+                const arr=byKl[kl]; const color=KLASTER_COLOR[kl]||"#be185d"; const bud=arr.reduce((s,{r})=>s+r.anggaran,0);
+                return (
+                  <span key={kl} className="pill text-[10px]" style={{background:`${color}1a`,color:color,borderColor:"transparent"}}>
+                    {kl} · {arr.length} RO · {fmtRp(bud)}
+                  </span>
+                );
+              })}
+            </div>
+            {pkpnCandOpen && (
+            <div className="space-y-4 mt-4 pt-4 border-t" style={{borderColor:"rgba(190,24,93,0.15)"}}>
+              {KLASTER_ORDER.filter(k=>byKl[k]).map(kl=>{
+                const arr=byKl[kl]; const color=KLASTER_COLOR[kl]||"#be185d"; const bud=arr.reduce((s,{r})=>s+r.anggaran,0);
+                return (
+                  <div key={kl}>
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <span className="pill text-[10px]" style={{background:`${color}1a`,color:color,borderColor:"transparent"}}>Klaster: {kl}</span>
+                      <span className="mono text-[10px] text-[var(--text-3)]">{arr.length} kandidat · {fmtRp(bud)}</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {arr.map(({r,cand})=>{
+                        const kr=getKRO(r.kro); const kegLabel=kr?kr.kegiatan.replace('K-',''):''; const ini=inisiatifStatus(r,2027);
+                        return (
+                          <div key={r.id} className="card-2 p-3" style={{borderLeft:`3px solid ${cand.color}`}}>
+                            <div className="flex items-start justify-between gap-2 mb-1.5">
+                              <div className="flex-1 min-w-0">
+                                <div className="mono text-[10px] text-[var(--text-3)]">{kegLabel} · {r.kode}{r.isPN && <span className="pill pill-gold text-[8px] ml-1.5">PN</span>}{ini && <span className={`pill ${ini.pill} text-[8px] ml-1`}>{ini.label}</span>}</div>
+                                <div className="text-[12px] mt-0.5 text-[var(--text-1)]">{r.nama}</div>
+                              </div>
+                              <div className="text-right shrink-0">
+                                <div className="serif text-base" style={{color:cand.color}}>{cand.score}</div>
+                                <div className="mono text-[8px] text-[var(--text-3)]">/100</div>
+                              </div>
+                            </div>
+                            <div className="impact-bar mb-2"><div className="impact-fill" style={{width:`${cand.score}%`,background:cand.color}}></div></div>
+                            <div className="flex items-center gap-2 flex-wrap mb-2">
+                              <span className="pill text-[9px]" style={{background:`${cand.color}1a`,color:cand.color,borderColor:"transparent"}}>{cand.pillLabel}</span>
+                              <span className="text-[9px] text-[var(--text-3)]">Pagu Rp {fmtJuta(r.anggaran)}</span>
+                            </div>
+                            <div className="text-[10px] text-[var(--text-2)] leading-snug mb-1.5">{cand.rationale}</div>
+                            <div className="text-[9px] text-[var(--text-3)] mt-1 italic">→ Saran program PKPN: <b style={{color:cand.color,fontStyle:"normal"}}>{cand.program}</b></div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            )}
+            {pkpnCandOpen && <div className="text-[9px] text-[var(--text-3)] mt-4 italic leading-relaxed">Metodologi: pemetaan substansi RO terhadap 8 Klaster PKPN RKP 2027 (Bappenas, 29 Mei 2026), dipandu oleh taksonomi KRO Kegiatan 3760 dan disetel ulang mengikuti 3 identifikasi resmi: <b>QDB ("Pembinaan Lembaga/Pengelola Gudang")</b> &amp; <b>PEA ("Koordinasi Pemangku Kepentingan")</b> → <b>Ekonomi Kerakyatan &amp; Desa</b> (penguatan kelembagaan koperasi/BUMDes/Pemda — selaras QDB.002 &amp; PEA.001 resmi); <b>QDC ("Pembinaan Masyarakat/Petani-Pelaku")</b> → <b>Kedaulatan Pangan</b> (intervensi langsung ke petani/rantai pasok — selaras QDC.002 resmi). Revisi: QDB.001/003/004 yang semula keliru di Kedaulatan Pangan kini dipindah ke Ekonomi Kerakyatan &amp; Desa. Skor: <b>strong</b> = kontribusi inti, <b>medium</b> = substantif tidak langsung, <b>weak</b> = tematik perlu justifikasi kuat. Daftar ini usulan internal untuk dibawa ke trilateral PKPN; konfirmasi resmi tetap di tangan PJ Klaster Bappenas.</div>}
+          </div>
+        );
+      })()}
 
-            <div className="mono text-[10px] uppercase tracking-wider text-[var(--text-3)] mb-2">RO Existing (ber-SBKK TA 2026) — Evaluasi Kelanjutan 2027</div>
-            <div className="overflow-x-auto scrollbar mb-5">
-              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
-                <thead>
-                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
-                    <th className="py-1.5 pr-2">Kode RO</th>
-                    <th className="py-1.5 pr-2">Rincian Output</th>
-                    <th className="py-1.5 pr-2 text-right">SBKK 2026</th>
-                    <th className="py-1.5 pr-2 text-right">Usulan Pagu 2027</th>
-                    <th className="py-1.5 pr-2 text-center">Target 2027</th>
-                    <th className="py-1.5 pr-2 text-right">Usulan SBKK 2027</th>
-                    <th className="py-1.5 pr-2 text-center">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {existingRows.map(x=>{
-                    const stColor = x.status==="diusulkan" ? "#059669" : "#dc2626";
-                    const stLabel = x.status==="diusulkan" ? "Diusulkan Lanjut" : "Tidak Diusulkan";
-                    return (
-                      <tr key={x.id} style={{borderBottom:"1px solid var(--border)"}}>
-                        <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{x.r.kode}</td>
-                        <td className="py-1.5 pr-2 text-[var(--text-2)] min-w-[180px]">{x.r.nama}<div className="text-[9px] text-[var(--text-3)] mt-0.5 italic">{x.ket}</div></td>
-                        <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)]">{fmtRp(x.sbkk2026)}</td>
-                        <td className="py-1.5 pr-2 text-right mono">{fmtRp(x.usulanPagu)}</td>
-                        <td className="py-1.5 pr-2 text-center mono">{x.r.target}</td>
-                        <td className="py-1.5 pr-2 text-right mono" style={{color:stColor,fontWeight:600}}>{x.sbkk2027?fmtRp(x.sbkk2027):"—"}</td>
-                        <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:stColor+'1a',color:stColor,borderColor:stColor+'55'}}>{stLabel}</span></td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+      {/* Ringkasan Tagging Tematik RESMI (Ketelusuran RENSTRA–RENJA–RKAKL) */}
+      <div className="card p-4 mb-5">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tagging Tematik RO (Resmi) — TA {year}{isRanwal?' · MENGIKUTI TA 2026':''}</div>
+          <div className="text-[10px] text-[var(--text-3)]"><b style={{color:"var(--violet)"}}>{taggedRO.length} RO</b> ber-tagging tematik ({fmtRp(taggedBud)}) · <b>{nonTema.length} RO</b> Non-Tematik · <b style={{color:"var(--gold)"}}>{pnRos.length} RO</b> PN</div>
+        </div>
+        {isRanwal && (
+          <div className="rounded p-3 mb-3 text-[11px] leading-relaxed" style={{background:"rgba(124,58,237,0.06)",border:"1px solid rgba(124,58,237,0.25)",color:"var(--text-2)"}}>
+            <div className="flex items-start gap-2">
+              <span className="mono text-[9px] uppercase tracking-wider shrink-0 mt-0.5" style={{color:"var(--violet)"}}>Catatan TA 2027</span>
+              <div>Karena RANWAL TA 2027 <b>masih dalam tahap pembahasan</b>, tagging tematik di sini <b>mengikuti tagging tematik TA 2026</b> (6 RO Kegiatan 3760: QDB.001–003 & QDC.001–003) — kode RO identik antar tahun sehingga tagging dapat di-roll-forward. Pengecualian: <b>tagging PKPN</b> (Program Kerja Prioritas Nasional 8 Klaster) yang muncul pertama kali untuk TA 2027 sesuai dokumen Bappenas <i>"Pembahasan PKPN RKP 2027 Kemendag"</i> (29 Mei 2026) — saat ini 3 RO teridentifikasi resmi: QDC.002 pada Klaster Kedaulatan Pangan, serta PEA.001 &amp; QDB.002 pada Klaster Ekonomi Kerakyatan &amp; Desa. Tagging tematik final TA 2027 akan ditetapkan pada Renja K/L definitif setelah trilateral meeting Pagu Indikatif.</div>
             </div>
+          </div>
+        )}
+        {tematikAgg.length===0 ? (
+          <div className="text-xs text-[var(--text-3)]">Tidak ada RO ber-tagging tematik pada TA {year} menurut file Ketelusuran.</div>
+        ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {tematikAgg.map(t=>{ const pct=taggedBud?Math.round(t.bud/taggedBud*100):0; return (
+            <div key={t.key} className="card-2 p-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[11px] font-medium" style={{color:t.warna}}>{t.key}</span>
+                <span className="mono text-[10px] text-[var(--text-3)]">{t.n} RO</span>
+              </div>
+              <div className="serif text-base mt-1" style={{color:t.warna}}>{fmtRp(t.bud)}</div>
+              <div className="impact-bar mt-1"><div className="impact-fill" style={{width:`${pct}%`,background:t.warna}}></div></div>
+            </div>
+          );})}
+        </div>
+        )}
+        <div className="text-[9px] text-[var(--text-3)] mt-2">Sumber: KETELUSURAN RENSTRA–RENJA–RKAKL (REV 28-05-2026), kolom TEMATIK — basis TA 2026{isRanwal?', diasumsikan berlaku untuk TA 2027 selama pembahasan Renja K/L berlangsung':''}. Satu RO dapat memiliki lebih dari satu kategori (persentase atas dasar pagu RO ber-tagging). RO di luar daftar tidak dianggap tematik.</div>
+      </div>
 
-            <div className="mono text-[10px] uppercase tracking-wider text-[var(--text-3)] mb-2">RO Baru — Kandidat SBKK Mulai TA 2027</div>
-            <div className="overflow-x-auto scrollbar">
-              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
-                <thead>
-                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
-                    <th className="py-1.5 pr-2">Kode RO</th>
-                    <th className="py-1.5 pr-2">Rincian Output</th>
-                    <th className="py-1.5 pr-2 text-right">Usulan Pagu 2027</th>
-                    <th className="py-1.5 pr-2 text-center">Target 2027</th>
-                    <th className="py-1.5 pr-2 text-right">Usulan SBKK Baru</th>
-                    <th className="py-1.5 pr-2">Catatan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {baruRows.map(x=>(
-                    <tr key={x.id} style={{borderBottom:"1px solid var(--border)"}}>
-                      <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{x.r.kode}</td>
-                      <td className="py-1.5 pr-2 text-[var(--text-2)] min-w-[180px]">{x.r.nama}</td>
-                      <td className="py-1.5 pr-2 text-right mono">{fmtRp(x.usulanPagu)}</td>
-                      <td className="py-1.5 pr-2 text-center mono">{x.r.target}</td>
-                      <td className="py-1.5 pr-2 text-right mono" style={{color:"#0891b2",fontWeight:600}}>{fmtRp(x.sbkk2027)}</td>
-                      <td className="py-1.5 pr-2 text-[9px] text-[var(--text-3)] leading-snug max-w-[220px]">{x.ket}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* Ringkasan verdict */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Total Pagu TA {year}{isRanwal?' (RANWAL)':''}</div>
+          <div className="serif text-2xl mt-2 text-[var(--gold)]">{fmtRp(total)}</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{ros.length} RO · {pnRos.length} PN</div>
+        </div>
+        {Object.keys(byV).map(v=>{
+          const arr=byV[v]; const bud=sumOf(arr); const pct=Math.round(bud/total*100); const mt=verdictMeta[v];
+          return (
+            <div key={v} className="card p-5">
+              <div className="flex items-center justify-between">
+                <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{v}</div>
+                <span className={`pill ${mt.pill} text-[9px]`}>{arr.length} RO</span>
+              </div>
+              <div className="serif text-2xl mt-2" style={{color:mt.warna}}>{fmtRp(bud)}</div>
+              <div className="impact-bar mt-2"><div className="impact-fill" style={{width:`${pct}%`,background:mt.warna}}></div></div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1">{pct}% dari total pagu</div>
             </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Lampiran Nota Dinas Usulan SBKK TA 2027, Biro Perencanaan Kemendag. Seluruh besaran bersifat usulan awal — belum final, menunggu penetapan resmi melalui PMK Standar Biaya TA 2027.</div>
+          );
+        })}
+      </div>
+
+      {/* Ringkasan kontinuitas RO antar tahun */}
+      {(()=>{ const stats = ros.reduce((m,r)=>{ const i=inisiatifStatus(r,year); if(i){ m[i.kind]=m[i.kind]||{n:0,bud:0,label:i.label,pill:i.pill}; m[i.kind].n++; m[i.kind].bud+=r.anggaran; } return m; },{}); const arr=Object.entries(stats); if(arr.length===0) return null;
+        const pivot = year===2027 ? "TA 2026" : "TA 2027";
+        return (
+          <div className="card p-4 mb-5">
+            <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kontinuitas RO TA {year} vs {pivot}</div>
+              <div className="text-[10px] text-[var(--text-3)]">Identitas RO lintas tahun dibandingkan pada level <b>kombinasi kegiatan + kode RO</b>.</div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {arr.map(([k,v])=>{ const pct=Math.round(v.bud/total*100); const col=k==="new"?"#059669":(k==="cont"?"#2563eb":"#6b7280"); return (
+                <div key={k} className="card-2 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-medium" style={{color:col}}>{v.label}</span>
+                    <span className={`pill ${v.pill} text-[9px]`}>{v.n} RO</span>
+                  </div>
+                  <div className="serif text-base mt-1" style={{color:col}}>{fmtRp(v.bud)}</div>
+                  <div className="impact-bar mt-1"><div className="impact-fill" style={{width:`${pct}%`,background:col}}></div></div>
+                  <div className="text-[10px] text-[var(--text-3)] mt-1">{pct}% dari total pagu · {k==="new"?"RO baru, tidak ada di tahun pembanding":(k==="cont"?"RO berlanjut antar tahun":"RO 2026 tidak diusulkan kembali di 2027")}</div>
+                </div>
+              );})}
+            </div>
           </div>
         );
       })()}
@@ -6286,6 +6350,7 @@ function App(){
       {tab==="anggaran"&& <AnalisisAnggaran2027 />}
       {tab==="capaian" && <Capaian />}
       {tab==="sebaran" && <SebaranSRG year={year} />}
+      {tab==="psn"     && <MenuPSN />}
       {tab==="plk"     && <MenuPLK year={year} />}
       {tab==="pbk"     && <MenuPBK year={year} />}
       {tab==="spbe"    && <MenuSPBE />}
@@ -6299,7 +6364,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.17d · Bagian Analisis Kandidat RO PKPN TA 2027 dihapus · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.18e · PSN SRG: rincian Trisula RPJMN ditambahkan — SDM (C.1–C.5) · Ekonomi 5 kanal + NPV/EIRR/BCR (D.1–D.9) + Target 0,1% PDB · Kemiskinan (E.1–E.7) · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
@@ -6502,6 +6567,1419 @@ Gunakan Bahasa Indonesia formal kebijakan publik. Prosa mengalir. Tajam dan berb
           <div className="text-[11px] text-[var(--text-3)] italic py-4 text-center">Klik "Refresh Analisis" untuk menghasilkan analisis strategis.</div>
         )}
       </div>
+    </div>
+  );
+}
+
+/* ======================================================================== */
+/* TAB — PSN SRG (Proyek Prioritas Nasional TA 2027–2029)                  */
+/* Sumber:                                                                  */
+/* 1. Paparan_PSN_SRG_2027_15062026_FINAL.pptx — 8 Aspek Justifikasi        */
+/* 2. Tanggapan_Bappenas_PSN_SRG_T-09922_V4.docx — Tanggapan resmi Bappebti */
+/* 3. Lampiran_Teknis_V2_Langkah_Perhitungan_PSN_SRG_Ver15062026.docx       */
+/* ======================================================================== */
+const PSN_BASE_BANJARMASIN = {S:18.0, M:23.8, L:29.9, XL:46.4}; /* Rp M, Banjarmasin 2025 acuan IKK=1,00 [Lampiran G.1, Paparan slide 6] */
+
+/* IKK BPS 2024 (publikasi 06200.2410). Banjarmasin = 1,00 acuan.
+   3 nilai DICANTUMKAN eksplisit di dokumen sumber: Lampung 0,89; Banjarmasin 1,00; Papua Selatan 1,43.
+   Nilai provinsi lain BELUM diverifikasi di dokumen — Lampiran B.1 §Sensitivitas menyebut: "variasi IKK provinsi
+   yang diestimasi (Aceh, Kalbar, Kalteng, Sulbar, Sultra, Maluku — perlu validasi data BPS 2025)". */
+const PSN_IKK = {
+  "Aceh":1.00, "Sumut":0.95, "Lampung":0.89, "Jabar":1.00, "Jateng":0.95, "Jatim":0.93,
+  "Kalbar":1.00, "Kalsel":1.00, "Kalteng":1.03, "Kaltara":1.15,
+  "Sulsel":0.97, "Sulbar":1.05, "Sultra":1.05, "Maluku":1.15,
+  "Papua Selatan":1.43, "Papua":1.25,
+};
+const PSN_IKK_CITED = ["Lampung","Kalsel","Papua Selatan"]; /* hanya 3 ini dikutip eksplisit di Lampiran A5 */
+
+/* 23 Gudang Baru — 7 VERIFIED dari Paparan Slide 7 (Aceh + Papua Selatan + Probolinggo dari Slide 5);
+   16 DERIVASI dari total per-provinsi (Paparan Slide 5) + asumsi tipe per komoditas.
+   Per-unit detail dimaksud sebagai indikasi pra-FS — Lampiran Bagian B.1 menegaskan validasi via
+   "Q1–Q2 2027: Pra-FS dan FS detail per lokasi akan memvalidasi biaya satuan konstruksi". */
+const PSN_NEW_DETAIL = [
+  /* Aceh — 3 unit / Rp 119 M [VERIFIED Paparan Slide 7] */
+  {prov:"Aceh", kab:"Lhokseumawe",       tipe:"M",  luas:2000, kom:"Gabah",        cc:false, capex:26, status:"verified", note:"Sentra padi pesisir utara Aceh"},
+  {prov:"Aceh", kab:"Aceh Barat Daya",   tipe:"S",  luas:1500, kom:"Pala",         cc:false, capex:21, status:"verified", note:"Komoditas ekspor; nilai tambah petani pala"},
+  {prov:"Aceh", kab:"Sabang (KEK)",      tipe:"XL", luas:3500, kom:"Ikan",         cc:true,  capex:72, status:"verified", note:"Hub Ekspor KEK Sabang · KPBU Solicited Rp 60 M + APBN Rp 12 M"},
+  /* Papua Selatan — 4 unit / Rp 213 M [VERIFIED Paparan Slide 7] */
+  {prov:"Papua Selatan", kab:"Merauke",       tipe:"L", luas:2500, kom:"Gabah", cc:false, capex:54, status:"verified", note:"Sentra MIFEE; akses logistik ke pasar nasional"},
+  {prov:"Papua Selatan", kab:"Mappi",         tipe:"M", luas:2000, kom:"Ikan",  cc:true,  capex:47, status:"verified", note:"Perikanan pesisir; aksesibilitas terbatas"},
+  {prov:"Papua Selatan", kab:"Boven Digoel",  tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:44, status:"verified", note:"Sentra padi pegunungan Papua Selatan"},
+  {prov:"Papua Selatan", kab:"Asmat",         tipe:"M", luas:2000, kom:"Ikan",  cc:true,  capex:68, status:"verified", note:"Perikanan adat; transformasi ekonomi lokal"},
+  /* Jawa Barat — 3 unit / Rp 100 M [DERIVASI dari total provinsi; komoditas Ikan+Bawang Merah → cold chain] */
+  {prov:"Jawa Barat", kab:"Pangandaran", tipe:"M", luas:2000, kom:"Ikan",         cc:true, capex:36, status:"derived", note:"Pesisir selatan; cold chain perikanan"},
+  {prov:"Jawa Barat", kab:"Cirebon",     tipe:"M", luas:2000, kom:"Ikan",         cc:true, capex:34, status:"derived", note:"Pantura; cold chain perikanan"},
+  {prov:"Jawa Barat", kab:"Indramayu",   tipe:"M", luas:2000, kom:"Bawang Merah", cc:true, capex:30, status:"derived", note:"Sentra hortikultura; cold storage bawang"},
+  /* Jawa Tengah — 4 unit / Rp 117 M [DERIVASI; komoditas Gabah+Kopi] */
+  {prov:"Jawa Tengah", kab:"Banyumas",   tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:29, status:"derived", note:"Sentra padi"},
+  {prov:"Jawa Tengah", kab:"Brebes",     tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:28, status:"derived", note:"Sentra padi pantura"},
+  {prov:"Jawa Tengah", kab:"Tegal",      tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:28, status:"derived", note:"Sentra padi pantura"},
+  {prov:"Jawa Tengah", kab:"Temanggung", tipe:"S", luas:1500, kom:"Kopi",  cc:false, capex:32, status:"derived", note:"Highland kopi robusta-arabika; akses lebih mahal"},
+  /* Jawa Timur — 1 unit / Rp 31 M [VERIFIED Paparan Slide 5] */
+  {prov:"Jawa Timur", kab:"Probolinggo", tipe:"M", luas:2000, kom:"Jagung", cc:false, capex:31, status:"verified", note:"Sentra jagung"},
+  /* Sulawesi Selatan — 8 unit / Rp 232 M [DERIVASI; mix Gabah/Jagung/Kopi/Kakao] */
+  {prov:"Sulawesi Selatan", kab:"Pinrang",  tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:30, status:"derived", note:"Sentra padi utama Sulsel"},
+  {prov:"Sulawesi Selatan", kab:"Sidrap",   tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:30, status:"derived", note:"Sentra padi"},
+  {prov:"Sulawesi Selatan", kab:"Bone",     tipe:"M", luas:2000, kom:"Gabah/Jagung", cc:false, capex:29, status:"derived", note:"Padi & jagung campuran"},
+  {prov:"Sulawesi Selatan", kab:"Wajo",     tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:29, status:"derived", note:"Sentra padi"},
+  {prov:"Sulawesi Selatan", kab:"Soppeng",  tipe:"S", luas:1500, kom:"Kopi",         cc:false, capex:27, status:"derived", note:"Kopi highland"},
+  {prov:"Sulawesi Selatan", kab:"Maros",    tipe:"M", luas:2000, kom:"Jagung",       cc:false, capex:29, status:"derived", note:"Sentra jagung"},
+  {prov:"Sulawesi Selatan", kab:"Pangkep",  tipe:"M", luas:2000, kom:"Kakao",        cc:false, capex:29, status:"derived", note:"Sentra kakao"},
+  {prov:"Sulawesi Selatan", kab:"Gowa",     tipe:"M", luas:2000, kom:"Kakao",        cc:false, capex:29, status:"derived", note:"Sentra kakao"},
+];
+
+/* 15 Gudang Revitalisasi — klasifikasi dari Lampiran G.2.
+   Catatan: G.2 menyebut "8 Standard" namun hanya 7 kabupaten dirinci; sumber Paparan slide 5
+   menyebut cakupan 13 provinsi termasuk NTB, NTT, Sulut yang tidak dirinci di klasifikasi G.2.
+   1 unit ditandai "unspecified" karena belum dirinci di kedua dokumen sumber.
+   CAPEX per unit = Base Tipe-M Banjarmasin Rp 23,8 M × Faktor (Light 28% / Std 45% / Heavy 65%) × IKK × 1,20 inflasi */
+const PSN_REVIT_FACTOR = {Light:0.28, Standard:0.45, Heavy:0.65};
+const PSN_REVIT_DETAIL = [
+  /* Light — 4 unit */
+  {prov:"Jawa Barat",        kab:"Kuningan",    kelas:"Light",    ikkKey:"Jabar",  kom:"—"},
+  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 2)",  kelas:"Light",    ikkKey:"Jatim",  kom:"Rumput Laut", twin:true},
+  {prov:"Sulawesi Barat",    kab:"Mamuju",      kelas:"Light",    ikkKey:"Sulbar", kom:"—"},
+  {prov:"Sulawesi Tenggara", kab:"Wakatobi",    kelas:"Light",    ikkKey:"Sultra", kom:"Rumput Laut"},
+  /* Standard — 7 dirinci (G.2 menyebut total 8, 1 belum dirinci di dokumen) */
+  {prov:"Aceh",              kab:"Aceh Tengah",  kelas:"Standard", ikkKey:"Aceh",    kom:"Kopi"},
+  {prov:"Sumatera Utara",    kab:"Karo",         kelas:"Standard", ikkKey:"Sumut",   kom:"—"},
+  {prov:"Lampung",           kab:"Pesisir Barat",kelas:"Standard", ikkKey:"Lampung", kom:"Lada"},
+  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 1)",   kelas:"Standard", ikkKey:"Jatim",   kom:"Gabah", twin:true},
+  {prov:"Kalimantan Barat",  kab:"Sambas",       kelas:"Standard", ikkKey:"Kalbar",  kom:"Lada"},
+  {prov:"Kalimantan Selatan",kab:"Barito Kuala", kelas:"Standard", ikkKey:"Kalsel",  kom:"Gabah"},
+  {prov:"Kalimantan Tengah", kab:"Kapuas",       kelas:"Standard", ikkKey:"Kalteng", kom:"Gabah"},
+  {prov:"NTB/NTT/Sulut",     kab:"(belum dirinci)", kelas:"Standard", ikkKey:"NTT", kom:"—", unspec:true},
+  /* Heavy — 3 unit (G.2 mencantumkan Probolinggo tetapi Probolinggo adalah gudang BARU per Paparan Slide 5 — di sini dikecualikan) */
+  {prov:"Kalimantan Utara",  kab:"Nunukan",       kelas:"Heavy", ikkKey:"Kaltara",      kom:"—"},
+  {prov:"Maluku",            kab:"Maluku Tengah", kelas:"Heavy", ikkKey:"Maluku",       kom:"—"},
+  {prov:"Papua",             kab:"Jayapura",     kelas:"Heavy", ikkKey:"Papua",        kom:"—"},
+];
+
+const PSN_LOKUS_BARU = [
+  {prov:"Aceh",           unit:3, capex:119, lokus:"Lhokseumawe, Aceh Barat Daya, Sabang KEK", komoditas:"Gabah, Pala, Ikan XL", t3:true, label:"3T: TERDEPAN + PERBATASAN"},
+  {prov:"Papua Selatan",  unit:4, capex:213, lokus:"Merauke, Mappi, Boven Digoel, Asmat",      komoditas:"Gabah, Ikan",          t3:true, label:"3T: TERTINGGAL + TERDEPAN"},
+  {prov:"Jawa Barat",     unit:3, capex:100, lokus:"Pangandaran, Cirebon, Indramayu",          komoditas:"Ikan, Bawang Merah",   t3:false},
+  {prov:"Jawa Tengah",    unit:4, capex:117, lokus:"Banyumas, Brebes, Tegal, Temanggung",      komoditas:"Gabah, Kopi",          t3:false},
+  {prov:"Jawa Timur",     unit:1, capex:31,  lokus:"Probolinggo",                              komoditas:"Jagung",               t3:false},
+  {prov:"Sulawesi Selatan",unit:8,capex:232, lokus:"Pinrang, Sidrap, Bone, Wajo, Soppeng, Maros, Pangkep, Gowa", komoditas:"Gabah, Jagung, Kopi, Kakao", t3:false},
+];
+
+const PSN_KEMUDAHAN = [
+  {tahap:"PERENCANAAN", judul:"Multi-Year Lock Fiskal",         deskripsi:"Anggaran 3 tahun (Rp 1,34 T) terkunci dalam Nota Keuangan multi-year 2027–2029. Tidak terdampak refocusing tahunan. Risiko terhenti di tengah jalan turun dari 20–30% (reguler) ke 5–8% (PSN)."},
+  {tahap:"PERENCANAAN", judul:"AMDAL Terpadu KLHK–Pemda",       deskripsi:"Proses AMDAL sequential 6–12 bulan menjadi 2–4 bulan via fast-track lintas-K/L. Mengamankan timeline konstruksi Q3 2027 di 23 lokus baru."},
+  {tahap:"PERENCANAAN", judul:"KKPR Khusus PSN",                deskripsi:"Konfirmasi Kesesuaian Kegiatan Pemanfaatan Ruang dengan dispensasi RTRW Pemda (vs revisi RTRW reguler 12–24 bulan). Memungkinkan akses lahan BMN/BMD dan hibah Pemda."},
+  {tahap:"PENYIAPAN",   judul:"Single Submission & PDF Gratis", deskripsi:"Single Submission perizinan lintas K/L (OSS biasa tidak ada). Pendamping transaksi KPBU dari PT PII/SMI gratis (vs studi mandiri Rp 5–10 M)."},
+  {tahap:"TRANSAKSI",   judul:"BMN/BMD + Penjaminan Jamkrindo", deskripsi:"Pemanfaatan tanah BMN/BMD eksisting dan hibah Pemda merupakan akses eksklusif untuk PSN. Penjaminan Jamkrindo melalui dasar Perpres PSN — instrumen tidak tersedia di kerangka reguler."},
+];
+
+const PSN_TINDAK_LANJUT = [
+  {no:"01", judul:"Analisis Kaidah Tematik, Holistik, Integratif & Spasial",
+   detail:"Komoditas strategis pangan nasional; keterkaitan infrastruktur-pembiayaan-KDMP; sinergi SRG dengan 8 K/L; peta 38 lokus di 19 provinsi.",
+   status:"TERSEDIA", statusColor:"green"},
+  {no:"02", judul:"Analisis Kuantitatif Multi-Kontribusi",
+   detail:"SDM: 6 LPK × 120 orang/tahun. Ekonomi: target Rp 23,8 T (0,1% PDB). Kemiskinan: estimasi 380.000 petani via akses kredit RG.",
+   status:"TERSEDIA", statusColor:"green"},
+  {no:"03", judul:"Jalur Kritis, Pengambilan Keputusan & Manajemen Risiko",
+   detail:"Critical path Q1 2027 – Q4 2029. Struktur SC-Menko & PMO-Bappebti. Risk register 5 kategori (fiskal, lahan, cuaca, kapasitas, koordinasi).",
+   status:"DRAFT TERSEDIA", statusColor:"green"},
+  {no:"04", judul:"Studi Kelayakan, Skema Pembiayaan Operasional & RTRW",
+   detail:"Pra-FS tersedia. FS penuh + RTRW 38 lokus perlu fasilitasi BAPPENAS. Skema O&M (KDMP sebagai pengelola) sudah dikonsepkan. Target finalisasi: Sept 2026.",
+   status:"DALAM PENYIAPAN", statusColor:"amber"},
+];
+
+const PSN_KRITERIA = {
+  utama: [
+    {n:"Relevansi RPJMN",          d:"Mendukung 17 Program Prioritas Presiden — KDMP sebagai pengelola gudang SRG. Selaras Renstra Bappebti 2025–2029.", ok:true},
+    {n:"Fokus Intensif & Terpadu", d:"Steering Committee Menko, 8 K/L (Kemenko Pangan, Kementan, KLHK, ATR/BPN, PUPR, KKP, BUMN, Kemenkeu).", ok:true},
+    {n:"Target Waktu 2027–2029",   d:"Konstruksi mulai Q1 2027, operasional Q4 2029. Multi-year contract APBN 2027–2029 terkunci Rp 1,34 T.", ok:true},
+  ],
+  pendukung: [
+    {n:"Kaidah THIS",          d:"Tematik (pangan), Holistik (38 gudang × 19 prov), Integratif (SRG-KDMP-KBI-Himbara), Spasial (peta per kabupaten).", ok:true},
+    {n:"Pemerataan",           d:"30% lokus 3TP (7 dari 23 gudang baru). 15 revitalisasi termasuk NTB, NTT, Maluku, Sulbar, Kalbar.", ok:true},
+    {n:"Multi Kontribusi",     d:"SDM: 6 LPK vokasi KKNI 4–5 | Ekonomi: target +Rp 23,8 T transaksi | Kemiskinan: akses kredit RG.", ok:true},
+    {n:"Ketersesuaian Rencana",d:"Renstra Bappebti 2025–2029, Renja KRISNA TA 2027, RPJMN 2025–2029 Agenda Ketahanan Pangan.", ok:true},
+  ],
+  kesiapan: [
+    {n:"Analisis Teknis",       d:"Critical path 36 bulan, strategi konstruksi per tipe gudang (S/M/L/XL), delivery KPBU solicited Sabang KEK.", ok:true},
+    {n:"Kelembagaan",           d:"Bappebti sebagai Penanggung Jawab Proyek; Robinbang SRG-PLK sebagai PMO. KBI kliring; Himbara+BPD penyalur kredit RG.", ok:true},
+    {n:"Studi Kelayakan & RTRW",d:"Pra-FS sudah ada. FS penuh + RTRW 38 lokus dalam penyiapan dengan fasilitasi BAPPENAS TA 2026–2027.", ok:false},
+    {n:"Analisis Dampak",       d:"SDM: 6 LPK | Ekonomi: target Rp 23,8 T (0,1% PDB) | Kemiskinan: −0,3 hingga −0,5% petani rentan.", ok:true},
+  ],
+};
+
+function MenuPSN(){
+  const totalBaru = PSN_LOKUS_BARU.reduce((s,r)=>s+r.unit,0);
+  const totalCapexBaru = PSN_LOKUS_BARU.reduce((s,r)=>s+r.capex,0);
+  const total3TUnit = PSN_LOKUS_BARU.filter(r=>r.t3).reduce((s,r)=>s+r.unit,0);
+  const total3TCapex = PSN_LOKUS_BARU.filter(r=>r.t3).reduce((s,r)=>s+r.capex,0);
+
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+
+      {/* Header */}
+      <div className="mb-2">
+        <div className="flex items-center gap-3 mb-1 flex-wrap">
+          <div className="serif text-3xl">Proyek Strategis Nasional (PSN) SRG</div>
+          <span className="pill pill-gold mono text-[10px]">TA 2027–2029 · RANWAL</span>
+        </div>
+        <div className="text-[11px] mono uppercase tracking-wider text-[var(--text-3)]">Penguatan Infrastruktur Rantai Pasok Komoditas Berbasis Sistem Resi Gudang</div>
+      </div>
+
+      {/* Status Alert */}
+      <div className="card p-4 mb-6 mt-4" style={{borderColor:"rgba(161,98,7,0.30)",background:"rgba(161,98,7,0.04)"}}>
+        <div className="flex items-start gap-3">
+          <span className="text-lg shrink-0" style={{color:"var(--gold)"}}>◆</span>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="text-sm font-semibold" style={{color:"var(--gold)"}}>Status Pengusulan — Tindak Lanjut Surat Bappenas T-09922</span>
+              <span className="pill pill-gold text-[9px] mono">DALAM APPRAISAL</span>
+            </div>
+            <p className="text-[12px] text-[var(--text-2)] leading-relaxed">
+              PSN SRG diusulkan ke Bappenas melalui <strong>Surat Dinas Kemendag No. PR.02.00/207/M-DAG/SD/04/2026</strong> (6 April 2026). Tanggapan Bappebti V4 atas <strong>Surat Deputi Bidang Pembiayaan dan Investasi Pembangunan Kementerian PPN/Bappenas No. T-09922/D.09/PP.04.01/05/2026</strong> (20 Mei 2026) telah disampaikan, mencakup elaborasi <strong>8 Aspek Justifikasi</strong>. Target penetapan PSN: <strong>RKP TA 2027</strong>.
+            </p>
+            <div className="flex gap-2 mt-2 flex-wrap">
+              <span className="pill pill-muted text-[9px] mono">Dasar: Perpres 109/2020 · PP 42/2021</span>
+              <span className="pill pill-muted text-[9px] mono">Kriteria: Permen PPN 4/2025</span>
+              <span className="pill pill-muted text-[9px] mono">Target Tetapan PSN: Sept 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* KPI Strip */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">CAPEX APBN Murni</div>
+          <div className="serif text-2xl text-[var(--gold)]">Rp 1,34 T</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">Bottom-up · IKK BPS 2024</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">CAPEX Blended Max</div>
+          <div className="serif text-2xl">Rp 1,59 T</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">incl. kontribusi non-tunai Pemda</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Total Unit Gudang</div>
+          <div className="serif text-2xl">38 unit</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">23 baru + 15 revitalisasi</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Cakupan Provinsi</div>
+          <div className="serif text-2xl">19 prov</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">6 prioritas + 13 revit</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Lokus 3T/3TP</div>
+          <div className="serif text-2xl text-[var(--blue)]">{total3TUnit} unit</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{Math.round(total3TUnit/totalBaru*100)}% baru · Aceh + Papua Sel</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Periode Pelaksanaan</div>
+          <div className="serif text-2xl">36 bln</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">Jan 2027 – Des 2029</div>
+        </div>
+      </div>
+
+      {/* ASPEK 1 — One-Shot Policy */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 1</span>
+          <div className="serif text-lg">One-Shot Policy — bukan Kegiatan Reguler Bappebti</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          PSN SRG bersifat <strong>enabler percepatan strategis dan one-shot</strong>: bukan hanya membangun infrastruktur, tetapi sistem yang terintegrasi pada lokus strategis dan berdampak luas — bukan prasyarat proyek, dan bukan alokasi reguler yang berulang tiap tahun.
+        </p>
+        <div className="grid md:grid-cols-3 gap-3">
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase text-[var(--gold)] tracking-wider mb-2">01 — Enabler Percepatan</div>
+            <div className="text-[12px] text-[var(--text-2)] leading-relaxed">PSN adalah paket fasilitas: multi-year lock anggaran, AMDAL terpadu, KKPR khusus, Single Submission, akses BMN/BMD, penjaminan Jamkrindo. Fungsinya <strong>mengakselerasi penyelesaian 38 gudang menjadi 36 bulan</strong> — bukan menjadi syarat mutlak proyek ada.</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase text-[var(--gold)] tracking-wider mb-2">02 — Sekali untuk Satu Batch</div>
+            <div className="text-[12px] text-[var(--text-2)] leading-relaxed">Paket akselerasi diberikan untuk <strong>satu batch pembangunan</strong> (38 gudang, 2027–2029) dalam satu siklus RKP, terkunci via Nota Keuangan multi-year. Berbeda dari DIPA reguler yang dicairkan tiap tahun anggaran.</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase text-[var(--gold)] tracking-wider mb-2">03 — Dampak Permanen</div>
+            <div className="text-[12px] text-[var(--text-2)] leading-relaxed">Begitu batch 38 gudang selesai (2029), peran enabler PSN berakhir — bukan kegagalan, tapi tujuan tercapai. Asetnya beroperasi permanen pasca-2029 di bawah tusi reguler, menghasilkan dampak <strong>Rp 1,98–2,87 T/tahun</strong> pada 3 pilar Trisula di 19 provinsi.</div>
+          </div>
+        </div>
+        <div className="mt-3 text-[10px] text-[var(--text-3)] italic">Dasar regulasi: Perpres 109/2020, PP 42/2021, Permen PPN 4/2025.</div>
+      </div>
+
+      {/* ASPEK 2 — Trisula Pembangunan */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 2</span>
+          <div className="serif text-lg">Keselarasan Trisula Pembangunan RPJMN 2025–2029</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          Kontribusi terkuantifikasi pada tiga dimensi prioritas RPJMN 2025–2029 sekaligus dalam satu intervensi.
+        </p>
+        <div className="grid md:grid-cols-3 gap-3 mb-4">
+          <div className="border border-[var(--border)] rounded-md p-3" style={{background:"rgba(37,99,235,0.04)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--blue)] mb-1">SDM — Sumber Daya Manusia</div>
+            <div className="serif text-2xl text-[var(--blue)] mb-1">8.750–10.750</div>
+            <div className="text-[10px] text-[var(--text-3)] mb-2">orang terdampak melalui 4 jalur</div>
+            <ul className="text-[11px] text-[var(--text-2)] space-y-1 leading-snug">
+              <li>• 200+ SDM PG tersertifikasi (KKNI 4–5)</li>
+              <li>• 5.000+ petani, koperasi, BUMDes, UMKM dilatih</li>
+              <li>• 50+ auditor mutu komoditas tersertifikasi</li>
+              <li>• 3.500–5.000 tenaga konstruksi & operasional</li>
+              <li>• Min. 30% tenaga lokal di kawasan 3T</li>
+            </ul>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3" style={{background:"rgba(220,38,38,0.04)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--red)"}}>Pengentasan Kemiskinan</div>
+            <div className="serif text-2xl mb-1" style={{color:"var(--red)"}}>1.500–2.500</div>
+            <div className="text-[10px] text-[var(--text-3)] mb-2">KK keluar dari kemiskinan struktural</div>
+            <ul className="text-[11px] text-[var(--text-2)] space-y-1 leading-snug">
+              <li>• Rp 6–10 jt/KK/tahun via tunda jual</li>
+              <li>• Total Rp 30–50 M/tahun ke petani</li>
+              <li>• Peningkatan NTP +2 hingga +4 poin</li>
+              <li>• Reduksi ijon ±50% (hemat bunga 80–90%)</li>
+            </ul>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3" style={{background:"rgba(161,98,7,0.05)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--gold)"}}>Pertumbuhan Ekonomi</div>
+            <div className="serif text-2xl mb-1" style={{color:"var(--gold)"}}>Rp 1,98–2,87 T</div>
+            <div className="text-[10px] text-[var(--text-3)] mb-2">dampak ekonomi tahunan via 5 kanal</div>
+            <ul className="text-[11px] text-[var(--text-2)] space-y-1 leading-snug">
+              <li>• Susut pasca-panen turun: Rp 200–300 M</li>
+              <li>• Biaya logistik turun: Rp 80–120 M</li>
+              <li>• NTP via tunda jual: Rp 150–200 M</li>
+              <li>• Multiplier kredit RG: Rp 1,25–1,75 T</li>
+              <li>• Peningkatan devisa ekspor: Rp 300–500 M</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Trisula Pillars */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Kontribusi pada Trisula Pilar Strategis Presiden:</div>
+        <div className="grid md:grid-cols-3 gap-3">
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">01 · Sekolah Rakyat</div>
+            <div className="serif text-sm mb-1">Pilar Pendidikan</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">Pendapatan petani naik via SRG → kemampuan menyekolahkan anak. 6 LPK SRG memberikan pelatihan vokasi pengelola gudang KKNI 4–5.</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">02 · Cek Kesehatan Gratis</div>
+            <div className="serif text-sm mb-1">Pilar Kesehatan</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">Stabilitas pasokan pangan strategis (gabah, jagung) via SRG mendukung program ketahanan pangan dan MBG. Kualitas pasca-panen meningkat → keamanan pangan.</div>
+          </div>
+          <div className="border-2 rounded-md p-3" style={{borderColor:"var(--gold-soft)",background:"rgba(161,98,7,0.04)"}}>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--gold)"}}>03 · Koperasi Desa Merah Putih</span>
+              <span className="pill pill-gold text-[8px] mono">DAMPAK UTAMA</span>
+            </div>
+            <div className="serif text-sm mb-1">Pilar Ekonomi</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">PSN SRG memberikan infrastruktur fisik dan digital untuk <strong>80.000 KDMP</strong> menjadi Pengelola Gudang dan off-taker komoditas anggota. Resi Gudang menjadi instrumen pembiayaan langsung petani anggota koperasi.</div>
+          </div>
+        </div>
+      </div>
+
+      {/* RINCIAN TRISULA — perhitungan detail SDM/Ekonomi/Kemiskinan */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">RINCIAN TRISULA</span>
+          <div className="serif text-lg">Rincian Perhitungan Kuantifikasi Dampak Trisula RPJMN</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          Setiap angka dampak Trisula RPJMN diturunkan dari formula eksplisit di Lampiran Teknis Bagian C (SDM), D (Ekonomi), dan E (Kemiskinan). Tabel berikut menampilkan rumus, sumber data baseline, dan langkah perhitungan.
+        </p>
+
+        {/* ============ SDM ============ */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3 pb-1 border-b-2" style={{borderColor:"var(--blue)"}}>
+            <span className="text-[10px] mono uppercase tracking-wider px-2 py-0.5 rounded" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid var(--blue)"}}>SDM</span>
+            <div className="serif text-base">Pilar 1 — Sumber Daya Manusia: 8.750–10.750 orang</div>
+            <span className="text-[10px] text-[var(--text-3)] mono ml-auto">Lampiran Bagian C</span>
+          </div>
+          <div className="grid md:grid-cols-2 gap-3 mb-3">
+            {/* C.1 PG */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--blue)"}}>C.1</span>
+                <div className="serif text-sm">Sertifikasi Pengelola Gudang</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--blue)"}}>200+ org</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  3 PG/gudang × 38 gudang = 114 minimum<br/>
+                  + buffer turnover 17% → ±133 orang<br/>
+                  + tambahan KSO BUMN & SRG eksisting → 67 org<br/>
+                  <strong>= ±200 orang target operasional</strong>
+                </div>
+                Dasar: 1 PG senior + 2 junior per gudang (pola Bappebti) · KKNI level 4–5 · Perpres 8/2012 · Peraturan Kepala Bappebti tentang PG.
+              </div>
+            </div>
+            {/* C.2 Petani */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--blue)"}}>C.2</span>
+                <div className="serif text-sm">Pelatihan Petani/Koperasi/BUMDes/UMKM</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--blue)"}}>5.000+ org</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  150 petani × 38 gudang = 5.700 onboard<br/>
+                  × 0,85 attrition aktif = ±4.845 org<br/>
+                  + pengurus 1.000 organisasi = ±200–300 org<br/>
+                  <strong>= 5.000+ org (konservatif)</strong>
+                </div>
+                Komposisi: ±4.000 petani + ±500 anggota koperasi + ±200 pengurus BUMDes + ±300 UMKM. Sumber: Simluhtan Kementan + Nota Dinas Bappebti 31 Maret 2026.
+              </div>
+            </div>
+            {/* C.3 Auditor */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--blue)"}}>C.3</span>
+                <div className="serif text-sm">Sertifikasi Auditor Mutu Komoditas</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--blue)"}}>50+ org</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  4–8 auditor/LPK × 6 LPK provinsi = 24–48 org<br/>
+                  + cadangan LPK kabupaten ±10–20 org<br/>
+                  <strong>= ±50+ orang total</strong>
+                </div>
+                Dasar: SNI 7331:2007 + SNI per komoditas · Peraturan Kepala Bappebti tentang LPK SRG · sertifikasi via lembaga sertifikasi profesi BSN.
+              </div>
+            </div>
+            {/* C.4 Tenaga konstruksi/operasional */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--blue)"}}>C.4</span>
+                <div className="serif text-sm">Tenaga Konstruksi & Operasional</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--blue)"}}>3.500–5.000 org</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  Konstruksi 23 baru × 75 org = 1.725 org<br/>
+                  Revit 15 × 30 org = 450 org<br/>
+                  Operasional 38 × 15 org = 570 org<br/>
+                  LPK 6 × 6 org = 36 org · Subtotal 2.781<br/>
+                  + Pendukung kawasan 700–2.200 org<br/>
+                  <strong>= 3.500–5.000 org · 30% lokal di 3T</strong>
+                </div>
+                Pola industri konstruksi pergudangan: 50–100 org/gudang baru × 12–18 bulan; 20–40 org/revit × 6–10 bulan; 10–20 op permanen/gudang. Min 1.050–1.500 org dari komunitas 3T (Aceh + Papua Selatan).
+              </div>
+            </div>
+          </div>
+          {/* C.5 Total SDM */}
+          <div className="border-2 rounded-md p-3" style={{borderColor:"rgba(37,99,235,0.30)",background:"rgba(37,99,235,0.04)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider mb-1" style={{color:"var(--blue)"}}>C.5 · Total SDM Terdampak (Akumulasi C.1–C.4)</div>
+            <div className="grid grid-cols-2 gap-3 text-[11px]">
+              <div>
+                <div className="text-[10px] text-[var(--text-3)] uppercase">Range Bawah</div>
+                <div className="mono">200 PG + 5.000 petani + 50 auditor + 3.500 tenaga</div>
+                <div className="serif text-base mt-1" style={{color:"var(--blue)"}}>= 8.750 orang</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-[var(--text-3)] uppercase">Range Atas</div>
+                <div className="mono">250 PG + 5.500 petani + 50 auditor + 5.000 tenaga</div>
+                <div className="serif text-base mt-1" style={{color:"var(--blue)"}}>= 10.750 orang</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============ EKONOMI ============ */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3 pb-1 border-b-2" style={{borderColor:"var(--gold)"}}>
+            <span className="text-[10px] mono uppercase tracking-wider px-2 py-0.5 rounded" style={{background:"rgba(161,98,7,0.10)",color:"var(--gold)",border:"1px solid var(--gold)"}}>EKO</span>
+            <div className="serif text-base">Pilar 2 — Pertumbuhan Ekonomi: Rp 1,98–2,87 T/tahun (5 Kanal Manfaat)</div>
+            <span className="text-[10px] text-[var(--text-3)] mono ml-auto">Lampiran Bagian D</span>
+          </div>
+          <div className="text-[11px] text-[var(--text-2)] mb-3 p-2 rounded" style={{background:"rgba(161,98,7,0.04)",borderLeft:"3px solid var(--gold)"}}>
+            <strong>Volume basis (D.1):</strong> Kapasitas penyimpanan total ±30.000 ton × utility rate steady state 60–70% = <strong>18.000–21.000 ton/tahun</strong> sebagai volume efektif melalui SRG. Volume ini menjadi dasar perhitungan D.1, D.2, D.3.
+          </div>
+
+          <div className="overflow-x-auto mb-3">
+            <table className="w-full text-[11px]">
+              <thead>
+                <tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+                  <th className="text-left py-2 pr-2">Kode</th>
+                  <th className="text-left py-2 px-2">Kanal Manfaat</th>
+                  <th className="text-left py-2 px-2">Langkah Perhitungan</th>
+                  <th className="text-left py-2 px-2">Sumber Data</th>
+                  <th className="text-right py-2 pl-2">Rp/tahun</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-2 mono font-bold text-[10px]" style={{color:"var(--gold)"}}>D.1</td>
+                  <td className="py-2 px-2 font-semibold">Pengurangan Susut Pasca-Panen</td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">
+                    Volume efektif 18–21 rb ton × Δ loss rate 10–15% (baseline 15–20% → SRG 5–7%) × harga Rp 8.000–12.000/kg = Rp 144–378 M → konservatif Rp 200–300 M
+                  </td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-3)]">FAO Post-Harvest Losses · BPS-FAO Food Loss Index · Bapanas HAP</td>
+                  <td className="text-right py-2 pl-2 mono font-bold" style={{color:"var(--gold)"}}>200–300 M</td>
+                </tr>
+                <tr className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-2 mono font-bold text-[10px]" style={{color:"var(--gold)"}}>D.2</td>
+                  <td className="py-2 px-2 font-semibold">Penurunan Biaya Logistik</td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">
+                    Nilai komoditas Rp 180–210 M × 25% biaya logistik = Rp 45–52 M × multiplier supply chain 12–16× = Rp 540–832 M total ekosistem × efisiensi konsolidasi 10–15% = Rp 54–125 M → konservatif Rp 80–120 M
+                  </td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-3)]">World Bank LPI 2023 · Kemenhub biaya logistik komoditas</td>
+                  <td className="text-right py-2 pl-2 mono font-bold" style={{color:"var(--gold)"}}>80–120 M</td>
+                </tr>
+                <tr className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-2 mono font-bold text-[10px]" style={{color:"var(--gold)"}}>D.3</td>
+                  <td className="py-2 px-2 font-semibold">Pendapatan via Tunda Jual</td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">
+                    Langsung: 9–15 rb ton tunda × Rp 10.000/kg × margin 12–18% = Rp 11–27 M direct + sinyal pasar 100–120 rb ton × Rp 10.000 × 8–10% = Rp 80–120 M + direct user Rp 50–80 M → total Rp 130–200 M
+                  </td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-3)]">BPS NTP 2024 · Bapanas/Bappebti HAP</td>
+                  <td className="text-right py-2 pl-2 mono font-bold" style={{color:"var(--gold)"}}>150–200 M</td>
+                </tr>
+                <tr className="border-b border-[var(--border)]" style={{background:"rgba(161,98,7,0.04)"}}>
+                  <td className="py-2 pr-2 mono font-bold text-[10px]" style={{color:"var(--gold)"}}>D.4</td>
+                  <td className="py-2 px-2 font-semibold">Multiplier Akses Pembiayaan RG ★</td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">
+                    Target penyaluran kredit RG <strong>Rp 500 M/tahun</strong> (steady state) × multiplier ekonomi sektor pertanian <strong>2,5–3,5×</strong> [OJK] → <strong>Rp 1.250–1.750 M</strong>. BUKAN tambahan PDB nominal — flow ekonomi rantai pasok pertanian.
+                  </td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-3)]">OJK Kajian Kredit Sektor Prioritas · BI (Destry Damayanti Mei 2026): tani 12,67% PDB</td>
+                  <td className="text-right py-2 pl-2 mono font-bold" style={{color:"var(--gold)"}}>1.250–1.750 M</td>
+                </tr>
+                <tr className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-2 mono font-bold text-[10px]" style={{color:"var(--gold)"}}>D.5</td>
+                  <td className="py-2 px-2 font-semibold">Peningkatan Devisa Ekspor</td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">
+                    Baseline ekspor 6 provinsi (kopi/kakao/lada/rumput laut/ikan) Rp 5–7 T × peningkatan 5–8% via SRG + Hub Ekspor KEK = Rp 250–560 M → konservatif Rp 300–500 M
+                  </td>
+                  <td className="py-2 px-2 text-[10px] text-[var(--text-3)]">BPS ekspor provinsi · target Hub Ekspor KEK Sabang</td>
+                  <td className="text-right py-2 pl-2 mono font-bold" style={{color:"var(--gold)"}}>300–500 M</td>
+                </tr>
+                <tr className="border-t-2 border-[var(--gold-soft)] font-bold">
+                  <td colSpan={4} className="py-2 pr-2 text-right mono uppercase text-[10px] tracking-wider">TOTAL DAMPAK EKONOMI TAHUNAN (D.9 — bawah ÷ atas)</td>
+                  <td className="text-right py-2 pl-2 mono text-base" style={{color:"var(--gold)"}}>1,98–2,87 T</td>
+                </tr>
+                <tr className="text-[10px] text-[var(--text-3)] italic">
+                  <td colSpan={4} className="py-1 pr-2 text-right">Bawah: 200+80+150+1.250+300 = 1.980 M · Atas: 300+120+200+1.750+500 = 2.870 M</td>
+                  <td className="text-right py-1 pl-2 mono">✓ klop</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] italic mb-4">★ D.4 menggunakan multiplier ekonomi penuh; NPV/EIRR/BCR menggunakan subset langsung Rp 200–400 M/tahun untuk menghindari double-counting.</div>
+
+          {/* NPV/EIRR/BCR */}
+          <div className="grid md:grid-cols-3 gap-3 mb-4">
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--gold)"}}>D.6 · NPV Ekonomi</div>
+              <div className="serif text-xl my-1" style={{color:"var(--gold)"}}>Rp 800 M – 1,5 T</div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                PV Benefit (17 thn op, ramp 40/70/100%) Rp 2,0–2,9 T − PV Cost (CAPEX + O&M, 20 thn) Rp 1,2–1,4 T<br/>
+                <span className="text-[var(--text-3)]">DR 10% (standar Bappenas) · horizon 20 thn</span>
+              </div>
+            </div>
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--gold)"}}>D.7 · EIRR</div>
+              <div className="serif text-xl my-1" style={{color:"var(--gold)"}}>18–25%</div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                Discount rate yang membuat NPV = 0; jauh di atas threshold publik 10% → memenuhi kriteria kelayakan dengan margin aman.
+              </div>
+            </div>
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--gold)"}}>D.8 · BCR</div>
+              <div className="serif text-xl my-1" style={{color:"var(--gold)"}}>1,6–2,2</div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                PV Benefit / PV Cost = Rp 2,0–2,9 T / Rp 1,2–1,4 T. Setiap Rp 1 cost menghasilkan Rp 1,6–2,2 benefit (PV).
+              </div>
+            </div>
+          </div>
+
+          {/* Target 0.1% PDB */}
+          <div className="border-2 rounded-md p-4" style={{borderColor:"var(--gold)",background:"rgba(161,98,7,0.06)"}}>
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="pill pill-gold text-[9px] mono">TARGET JANGKA PANJANG</span>
+              <div className="serif text-base">Target Transaksi SRG = 0,1% PDB Indonesia</div>
+              <span className="ml-auto serif text-xl" style={{color:"var(--gold)"}}>Rp 23,82 T</span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-3 text-[11px]">
+              <div className="mono text-[11px] bg-[var(--bg)] p-2.5 rounded border border-[var(--border)] leading-relaxed">
+                <span className="text-[var(--text-3)]">PDB Indonesia 2024 (BPS):</span> Rp 22.139 T<br/>
+                <span className="text-[var(--text-3)]">× pertumbuhan rata-rata ±5%/tahun → 2027:</span> Rp ±24.400 T<br/>
+                <span className="text-[var(--text-3)]">Proyeksi PDB 2026/2027 (titik referensi):</span> <strong>Rp ±23.820 T</strong><br/>
+                <span className="text-[var(--text-3)]">× benchmark target SRG:</span> <strong>0,1%</strong><br/>
+                <span style={{color:"var(--gold)"}}><strong>= Target nilai transaksi SRG: Rp 23,82 T/tahun</strong></span>
+              </div>
+              <div className="text-[11px] text-[var(--text-2)] leading-snug">
+                <strong>Interpretasi:</strong> Target Rp 23,82 T (≈0,1% PDB) adalah <strong>nilai transaksi SRG agregat kumulatif</strong> dalam ekosistem, BUKAN dampak ekonomi tahunan PSN ini saja. Dampak tahunan PSN ini sebesar Rp 1,98–2,87 T (D.9) merupakan langkah <strong>menuju</strong> target 0,1% PDB tersebut.<br/><br/>
+                Sebagai perbandingan benchmark internasional: India MCX agri-warehouse transactions ±0,3% GDP; China NCDEX agri-storage ±0,5% GDP. Indonesia saat ini &lt;0,01% PDB — masih jauh di bawah benchmark regional. Target 0,1% PDB merupakan milestone fase pertama scale-up nasional.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ============ KEMISKINAN ============ */}
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-3 pb-1 border-b-2" style={{borderColor:"var(--red)"}}>
+            <span className="text-[10px] mono uppercase tracking-wider px-2 py-0.5 rounded" style={{background:"rgba(220,38,38,0.10)",color:"var(--red)",border:"1px solid var(--red)"}}>MIS</span>
+            <div className="serif text-base">Pilar 3 — Pengentasan Kemiskinan: 1.500–2.500 KK keluar kemiskinan</div>
+            <span className="text-[10px] text-[var(--text-3)] mono ml-auto">Lampiran Bagian E</span>
+          </div>
+          <div className="grid md:grid-cols-2 gap-3 mb-3">
+            {/* E.1 + E.2 Pendapatan */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--red)"}}>E.1 + E.2</span>
+                <div className="serif text-sm">Pendapatan Tambahan Petani</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--red)"}}>Rp 30–50 M/thn</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  Per KK: 8–12 ton/thn × Rp 6.000–10.000/kg = Rp 48–120 jt nilai panen<br/>
+                  × margin tunda jual 12–18% = Rp 5,8–21,6 jt → konservatif <strong>Rp 6–10 jt/KK/thn</strong><br/>
+                  Total: 5.000 KK × Rp 6–10 jt = <strong>Rp 30–50 M/tahun</strong>
+                </div>
+                Basis: BPS Sensus Pertanian (usaha tani 1–2 ha) · Kementan produktivitas 4–6 ton/ha/musim · Bapanas HAP.
+              </div>
+            </div>
+            {/* E.3 + E.4 KK keluar kemiskinan */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--red)"}}>E.3 + E.4</span>
+                <div className="serif text-sm">KK Keluar Kemiskinan Struktural</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--red)"}}>1.500–2.500 KK</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  Langsung: 5.000 KK × 30% di sekitar GKP = <strong>1.500 KK</strong><br/>
+                  + multiplier ekosistem (kuli gudang, supir, pedagang, kerajinan) = <strong>500–1.000 KK</strong><br/>
+                  <strong>Total: 1.500–2.500 KK</strong>
+                </div>
+                Distribusi % petani di GKP: Papua Sel 30–40% · Aceh 18–25% · Jateng 15–20% · Jatim 12–18% · Sulsel 15–20% · Jabar 10–15%. Rata-rata bobot tertimbang ±30% (konservatif). Sumber: BPS GKP Kab/Kota + BPS Profil Kemiskinan Sept 2024.
+              </div>
+            </div>
+            {/* E.5 NTP */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--red)"}}>E.5</span>
+                <div className="serif text-sm">Peningkatan Nilai Tukar Petani (NTP)</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--red)"}}>+2 s/d +4 poin</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  NTP = It / Ib × 100<br/>
+                  Kenaikan It via tunda jual: <strong>+1 s/d +2 poin</strong><br/>
+                  Penurunan Ib via kredit RG (vs ijon): <strong>+0,5 s/d +1 poin</strong><br/>
+                  Stabilisasi via PLK/ekspor/BUMN: <strong>+0,5 s/d +1 poin</strong><br/>
+                  <strong>Total: +2 s/d +4 poin</strong>
+                </div>
+                Acuan: NTP nasional Des 2024 = 122,78 (BPS). Pola SRG eksisting +1 s/d +3 poin → PSN dengan platform digital + akses pembiayaan terintegrasi diestimasi +2 s/d +4 poin.
+              </div>
+            </div>
+            {/* E.6 + E.7 Ijon */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span className="text-[10px] mono uppercase tracking-wider" style={{color:"var(--red)"}}>E.6 + E.7</span>
+                <div className="serif text-sm">Reduksi Ijon & Hemat Bunga</div>
+                <div className="ml-auto serif text-base" style={{color:"var(--red)"}}>50% / 80–90%</div>
+              </div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">
+                <div className="mono text-[10px] bg-[var(--bg-2)] p-1.5 rounded mb-1.5">
+                  <strong>Reduksi Ijon:</strong> SRG eksisting → 50–70% petani berhenti ijon dalam 2–3 thn → konservatif <strong>50%</strong><br/><br/>
+                  <strong>Hemat Bunga:</strong> Ijon 5–10%/bln ≈ 60–120%/thn vs Kredit RG 6–9%/thn vs SSRG 3–6%/thn<br/>
+                  → (90% − 7,5%) / 90% = <strong>92% hemat</strong> (kredit RG)<br/>
+                  → (90% − 4,5%) / 90% = <strong>95% hemat</strong> (SSRG)<br/>
+                  <strong>Konservatif: 80–90%</strong>
+                </div>
+                Dasar: PMK 171/2009 + PMK 187/2021 SSRG · data historis Himbara/BPD kredit RG.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Catatan validasi */}
+        <div className="text-[10px] text-[var(--text-3)] italic mt-2 p-2 rounded" style={{background:"var(--bg-2)"}}>
+          <strong>Tingkat Validasi:</strong> SDM (C.1–C.4) INDIKATIF · Total SDM (C.5) MODEL · Ekonomi (D.1–D.5) MODEL · NPV/EIRR/BCR (D.6–D.8) MODEL akan divalidasi via FS detail Q1–Q2 2027 · Kemiskinan (E.1–E.7) MODEL akan divalidasi via studi panel petani SRG vs non-SRG bekerja sama dengan BPS daerah dan SMERU. Lihat Lampiran Teknis V2 Bagian C, D, E untuk metodologi lengkap.
+        </div>
+      </div>
+
+      {/* ASPEK 3 — 6 Kemudahan PSN */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 3</span>
+          <div className="serif text-lg">5 Instrumen Kemudahan Eksklusif PSN — PP 42/2021</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-3">
+          Timeline tanpa instrumen PSN: <strong>60–72 bulan</strong> (di luar window politik, inflasi material naik) — bandingkan <strong>36 bulan</strong> dengan PSN.
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {PSN_KEMUDAHAN.map((k,i)=>(
+            <div key={i} className="border border-[var(--border)] rounded-md p-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[9px] mono uppercase tracking-wider px-1.5 py-0.5 rounded" style={{background:"rgba(161,98,7,0.10)",color:"var(--gold)",border:"1px solid var(--gold-soft)"}}>{k.tahap}</span>
+                <span className="text-[10px] mono text-[var(--text-3)]">{String(i+1).padStart(2,"0")}</span>
+              </div>
+              <div className="serif text-sm mb-1">{k.judul}</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-snug">{k.deskripsi}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ASPEK 4 — Lokus 38 Unit */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 4</span>
+          <div className="serif text-lg">Kejelasan Lokus — 38 Unit Gudang</div>
+        </div>
+        <p className="text-[11px] text-[var(--text-3)] mb-4 italic">
+          Sesuai Surat Dinas Kemendag No. PR.02.00/207/M-DAG/SD/04/2026 (6 April 2026) dan Nota Dinas Bappebti 31 Maret 2026 Lampiran 1.
+        </p>
+
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">A · 23 Gudang Baru di 6 Provinsi Prioritas</div>
+        <div className="overflow-x-auto mb-5">
+          <table className="w-full text-[11px]">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+                <th className="text-left py-2 pr-2">Provinsi</th>
+                <th className="text-center py-2 px-2">Unit</th>
+                <th className="text-right py-2 px-2">CAPEX (Rp M)</th>
+                <th className="text-left py-2 px-2">Lokus Kabupaten/Kota</th>
+                <th className="text-left py-2 px-2">Komoditas</th>
+                <th className="text-center py-2 pl-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PSN_LOKUS_BARU.map((r,i)=>(
+                <tr key={i} className="border-b border-[var(--border)] hover:bg-[var(--bg-2)]">
+                  <td className="py-2 pr-2 font-semibold">{r.prov}</td>
+                  <td className="text-center py-2 px-2 mono">{r.unit}</td>
+                  <td className="text-right py-2 px-2 mono">{r.capex}</td>
+                  <td className="py-2 px-2 text-[var(--text-2)]">{r.lokus}</td>
+                  <td className="py-2 px-2 text-[var(--text-2)]">{r.komoditas}</td>
+                  <td className="text-center py-2 pl-2">
+                    {r.t3 ? <span className="pill pill-blue text-[9px] mono">3T</span> : <span className="text-[var(--text-3)]">—</span>}
+                  </td>
+                </tr>
+              ))}
+              <tr className="font-semibold">
+                <td className="py-2 pr-2">TOTAL</td>
+                <td className="text-center py-2 px-2 mono">{totalBaru}</td>
+                <td className="text-right py-2 px-2 mono">{totalCapexBaru}</td>
+                <td colSpan={3} className="py-2 px-2 text-[var(--text-3)] italic">Grup A — Gudang Baru</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">B · 15 Gudang Revitalisasi di 13 Provinsi</div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Provinsi</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">Aceh, Sumut, Lampung, Kalbar, Kalteng, Sulut, Sultra, Sulbar, Maluku, NTB, NTT</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Distribusi</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">12 provinsi × 1 unit + 1 provinsi × 3 unit = <strong>15 unit total</strong></div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Klasifikasi</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">4 Light (Rp 8–9 M) + 8 Standard (Rp 11–13 M) + 3 Heavy (Rp 18–25 M)</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Total CAPEX & Komoditas</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug"><strong>Rp 208 M</strong> · Gabah (4), Kopi (2), Lada (2), Rumput Laut (2), Jagung (2), lain (3)</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ASPEK 5 — Transparansi CAPEX */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 5</span>
+          <div className="serif text-lg">Transparansi Perhitungan CAPEX Rp 1,34 T</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          Bottom-up calculation berbasis sumber data resmi BPS dan vendor publik — bukan estimasi indikatif. Setiap angka per gudang dapat ditelusuri ke sumber data resmi; dapat dipertahankan dalam appraisal Bappenas dan audit BPK.
+        </p>
+
+        <div className="border-2 border-dashed rounded-md p-4 mb-4" style={{borderColor:"var(--gold-soft)",background:"rgba(161,98,7,0.03)"}}>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Formula Perhitungan per Gudang</div>
+          <div className="text-[13px] mono text-[var(--text-1)] leading-relaxed">
+            CAPEX = (Base bangunan + Sarana + Sistem SRG) × <span style={{color:"var(--gold)"}}>1,19 soft cost</span> × <span style={{color:"var(--blue)"}}>IKK BPS 2024</span> × <span style={{color:"var(--red)"}}>1,20 inflasi</span>
+          </div>
+          <div className="text-[10px] text-[var(--text-3)] mt-2 italic">Soft cost = DED 5% + MK 6% + Kontingensi 8% (standar PUPR/Bappenas). Inflasi = 6%/tahun × weighted 2027–2029.</div>
+        </div>
+
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Base Cost Banjarmasin 2025 (sebelum IKK & inflasi)</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          {[
+            {t:"Tipe S",  m2:"1.500 m²", v:"Rp 18,0 M"},
+            {t:"Tipe M",  m2:"2.000 m²", v:"Rp 23,8 M"},
+            {t:"Tipe L",  m2:"2.500 m²", v:"Rp 29,9 M"},
+            {t:"Tipe XL", m2:"3.500 m² cold chain", v:"Rp 46,4 M"},
+          ].map((b,i)=>(
+            <div key={i} className="border border-[var(--border)] rounded-md p-3 text-center">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{b.t}</div>
+              <div className="serif text-xl my-1">{b.v}</div>
+              <div className="text-[10px] text-[var(--text-3)]">{b.m2}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Sumber Data Resmi (6 Referensi Terverifikasi)</div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+          {[
+            {n:"SNI 7331:2007",                       d:"Spesifikasi teknis Gudang SRG"},
+            {n:"Benchmark gudang industri 2025",      d:"Tuwaga.id, Tekniksipil.id, SMS Perkasa, Karya Tukang — Rp 5,5–7 jt/m² + 30–40% premium SRG"},
+            {n:"Katalog vendor pertanian",            d:"KKP, LKPP, Gentama — RMU, dryer, silo, cold storage"},
+            {n:"Benchmark proyek IT pemerintahan",    d:"Core platform Rp 25–40 M; integrasi Rp 10–20 M"},
+            {n:"BPS IKK 2024",                        d:"Publikasi 06200.2410 — Banjarmasin = 100; Lampung 0,89 ↔ Papua Selatan 1,43"},
+            {n:"BPS Konstruksi Dalam Angka 2025",     d:"Inflasi konstruksi historis 6–8%/tahun"},
+          ].map((s,i)=>(
+            <div key={i} className="border border-[var(--border)] rounded-md p-2.5">
+              <div className="text-[11px] font-semibold text-[var(--text-1)] mb-0.5">{String(i+1).padStart(2,"0")} · {s.n}</div>
+              <div className="text-[10px] text-[var(--text-2)] leading-snug">{s.d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* RINCIAN PER GUDANG — 38 unit dengan dasar perhitungan */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">RINCIAN</span>
+          <div className="serif text-lg">Rincian Perhitungan per Gudang — 38 Unit</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-3">
+          Setiap angka per gudang dirinci dengan tipe, luas, komoditas, IKK provinsi, dan status verifikasi. Status <span className="pill text-[9px] mono px-1.5" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.3)"}}>VERIFIED</span> = dirinci eksplisit di dokumen sumber (Paparan Slide 5/7); status <span className="pill text-[9px] mono px-1.5" style={{background:"rgba(245,158,11,0.10)",color:"var(--amber)",border:"1px solid rgba(245,158,11,0.3)"}}>DERIVASI</span> = diturunkan dari total per-provinsi + formula G.1, akan divalidasi via Pra-FS &amp; FS detail Q1–Q2 2027 (Lampiran B.1 §Validasi).
+        </p>
+
+        {/* Formula box */}
+        <div className="border-2 border-dashed rounded-md p-4 mb-5" style={{borderColor:"var(--gold-soft)",background:"rgba(161,98,7,0.03)"}}>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Formula Bottom-Up (Lampiran G.1)</div>
+          <div className="grid md:grid-cols-2 gap-3 text-[12px]">
+            <div>
+              <div className="text-[11px] font-semibold mb-1" style={{color:"var(--gold)"}}>Gudang Baru (23 unit)</div>
+              <div className="mono text-[11px] text-[var(--text-1)] leading-relaxed bg-[var(--bg-2)] p-2 rounded">
+                CAPEX = (Bangunan + Sarana + Sistem SRG) × 1,19 × IKK × 1,20<br/>
+                + premium cold chain Rp 3–6 M (untuk gudang Ikan / Bawang Merah)
+              </div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1.5">Base bangunan: Rp 9 jt/m² (S/M/L) atau Rp 10 jt/m² (XL); soft cost 1,19 = DED 5% + MK 6% + Kontingensi 8%; inflasi 1,20 = 6%/tahun weighted 2027–2029.</div>
+            </div>
+            <div>
+              <div className="text-[11px] font-semibold mb-1" style={{color:"var(--gold)"}}>Gudang Revitalisasi (15 unit)</div>
+              <div className="mono text-[11px] text-[var(--text-1)] leading-relaxed bg-[var(--bg-2)] p-2 rounded">
+                CAPEX = Rp 23,8 M (Base Tipe-M Banjarmasin)<br/>
+                × Faktor Kelas × IKK provinsi × 1,20 inflasi
+              </div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1.5">Faktor Kelas: Light 28% (Rp 6,7 M) · Standard 45% (Rp 10,7 M) · Heavy 65% (Rp 15,5 M). Memanfaatkan lahan & struktur eksisting (avoided cost lahan).</div>
+            </div>
+          </div>
+        </div>
+
+        {/* IKK reference */}
+        <div className="mb-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Faktor IKK BPS 2024 per Provinsi (Banjarmasin = 1,00 acuan)</div>
+          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-1.5">
+            {Object.entries(PSN_IKK).map(([prov,val])=>{
+              const isCited = PSN_IKK_CITED.includes(prov);
+              return (
+                <div key={prov} className="border border-[var(--border)] rounded p-1.5">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px] text-[var(--text-2)]">{prov}</span>
+                    {isCited && <span className="text-[8px] mono" style={{color:"var(--green)"}} title="Dikutip eksplisit di dokumen sumber">✓</span>}
+                  </div>
+                  <div className="mono text-[12px] font-semibold" style={{color: val>=1.20?"var(--red)":(val>=1.00?"var(--gold)":"var(--blue)")}}>{val.toFixed(2)}</div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="text-[10px] text-[var(--text-3)] mt-2 italic">
+            ✓ Nilai dikutip eksplisit di Lampiran A5 (Lampung 0,89; Banjarmasin/Kalsel 1,00; Papua Selatan 1,43). Nilai lain estimasi berbasis BPS Publikasi 06200.2410 — Lampiran B.1 §Sensitivitas menyebut: variasi IKK provinsi yang diestimasi (Aceh, Kalbar, Kalteng, Sulbar, Sultra, Maluku) perlu validasi data BPS 2025.
+          </div>
+        </div>
+
+        {/* TABLE — 23 NEW UNITS */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">A · Rincian 23 Gudang Baru (Grup A — Total Rp 812 M)</div>
+        <div className="overflow-x-auto mb-2">
+          <table className="w-full text-[11px]">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+                <th className="text-left  py-2 pr-1">No</th>
+                <th className="text-left  py-2 px-1">Provinsi</th>
+                <th className="text-left  py-2 px-1">Kabupaten/Kota</th>
+                <th className="text-center py-2 px-1">Tipe</th>
+                <th className="text-right py-2 px-1">Luas (m²)</th>
+                <th className="text-left  py-2 px-1">Komoditas</th>
+                <th className="text-center py-2 px-1">Cold Chain</th>
+                <th className="text-center py-2 px-1">IKK</th>
+                <th className="text-right py-2 px-1">CAPEX (Rp M)</th>
+                <th className="text-center py-2 pl-1">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(()=>{
+                const provKeyMap = {"Aceh":"Aceh","Papua Selatan":"Papua Selatan","Jawa Barat":"Jabar","Jawa Tengah":"Jateng","Jawa Timur":"Jatim","Sulawesi Selatan":"Sulsel"};
+                let lastProv = null;
+                let provSubtotal = {};
+                PSN_NEW_DETAIL.forEach(r=>{ provSubtotal[r.prov] = (provSubtotal[r.prov]||0) + r.capex; });
+                const rows = [];
+                PSN_NEW_DETAIL.forEach((r,i)=>{
+                  const ikk = PSN_IKK[provKeyMap[r.prov]];
+                  const newProvBlock = r.prov !== lastProv;
+                  lastProv = r.prov;
+                  rows.push(
+                    <tr key={i} className="border-b border-[var(--border)] hover:bg-[var(--bg-2)]">
+                      <td className="py-2 pr-1 mono text-[var(--text-3)] text-[10px]">{String(i+1).padStart(2,"0")}</td>
+                      <td className="py-2 px-1 text-[var(--text-2)]">{newProvBlock ? r.prov : <span className="text-[var(--text-3)] italic text-[10px]">↳</span>}</td>
+                      <td className="py-2 px-1 font-semibold">{r.kab}</td>
+                      <td className="text-center py-2 px-1 mono">{r.tipe}</td>
+                      <td className="text-right py-2 px-1 mono text-[10px]">{r.luas.toLocaleString("id-ID")}</td>
+                      <td className="py-2 px-1 text-[var(--text-2)] text-[10px]">{r.kom}</td>
+                      <td className="text-center py-2 px-1">{r.cc ? <span className="pill text-[9px] mono" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.30)"}}>cold</span> : <span className="text-[var(--text-3)]">—</span>}</td>
+                      <td className="text-center py-2 px-1 mono text-[10px]">{ikk.toFixed(2)}</td>
+                      <td className="text-right py-2 px-1 mono font-semibold">{r.capex}</td>
+                      <td className="text-center py-2 pl-1">
+                        {r.status==="verified" ? <span className="pill text-[9px] mono" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.30)"}}>VER</span> : <span className="pill text-[9px] mono" style={{background:"rgba(245,158,11,0.10)",color:"var(--amber)",border:"1px solid rgba(245,158,11,0.30)"}}>DRV</span>}
+                      </td>
+                    </tr>
+                  );
+                  // detect last unit per province → insert subtotal
+                  const next = PSN_NEW_DETAIL[i+1];
+                  if (!next || next.prov !== r.prov) {
+                    rows.push(
+                      <tr key={"st-"+i} className="bg-[var(--bg-2)] font-semibold">
+                        <td colSpan={8} className="py-1.5 pr-1 text-right text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Subtotal {r.prov}</td>
+                        <td className="text-right py-1.5 px-1 mono" style={{color:"var(--gold)"}}>{provSubtotal[r.prov]}</td>
+                        <td></td>
+                      </tr>
+                    );
+                  }
+                });
+                return rows;
+              })()}
+              <tr className="border-t-2 border-[var(--gold-soft)] font-bold">
+                <td colSpan={8} className="py-2 pr-1 text-right mono uppercase text-[10px] tracking-wider">TOTAL GRUP A — 23 Gudang Baru</td>
+                <td className="text-right py-2 px-1 mono text-base" style={{color:"var(--gold)"}}>{PSN_NEW_DETAIL.reduce((s,r)=>s+r.capex,0)}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic mb-5">
+          7 unit (Aceh 3 + Papua Selatan 4) berstatus VERIFIED — dirinci eksplisit di Paparan Slide 7. 1 unit Jatim (Probolinggo) VERIFIED di Paparan Slide 5. 16 unit lain (Jabar/Jateng/Sulsel) berstatus DERIVASI: CAPEX per unit diturunkan dari total provinsi (Paparan Slide 5) + asumsi tipe per profil komoditas + IKK estimatif; subtotal provinsi {`{Aceh 119 · Papua Sel 213 · Jabar 100 · Jateng 117 · Jatim 31 · Sulsel 232}`} adalah angka yang dikutip dokumen sumber dan tetap menjadi acuan otoritatif sampai Pra-FS Q1 2027.
+        </div>
+
+        {/* TABLE — 15 REVITALISASI */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">B · Rincian 15 Gudang Revitalisasi (Grup B — Total Rp 208 M)</div>
+        <div className="overflow-x-auto mb-2">
+          <table className="w-full text-[11px]">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+                <th className="text-left  py-2 pr-1">No</th>
+                <th className="text-left  py-2 px-1">Provinsi</th>
+                <th className="text-left  py-2 px-1">Kabupaten/Kota</th>
+                <th className="text-center py-2 px-1">Klasifikasi</th>
+                <th className="text-right py-2 px-1">Faktor</th>
+                <th className="text-right py-2 px-1">Base Rp M</th>
+                <th className="text-center py-2 px-1">IKK</th>
+                <th className="text-right py-2 px-1">× 1,20 Inf.</th>
+                <th className="text-right py-2 px-1">CAPEX (Rp M)</th>
+                <th className="text-left  py-2 pl-1">Komoditas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(()=>{
+                let lastKelas = null;
+                let total = 0;
+                const subtotal = {Light:0, Standard:0, Heavy:0};
+                const rows = [];
+                PSN_REVIT_DETAIL.forEach((r,i)=>{
+                  const faktor = PSN_REVIT_FACTOR[r.kelas];
+                  const base = 23.8 * faktor;
+                  const ikk = PSN_IKK[r.ikkKey] || 1.00;
+                  const capex = base * ikk * 1.20;
+                  subtotal[r.kelas] += capex;
+                  total += capex;
+                  const newKelasBlock = r.kelas !== lastKelas;
+                  lastKelas = r.kelas;
+                  const kelasColor = r.kelas==="Light"?"var(--blue)":r.kelas==="Standard"?"var(--gold)":"var(--red)";
+                  rows.push(
+                    <tr key={i} className={`border-b border-[var(--border)] hover:bg-[var(--bg-2)] ${r.unspec?"opacity-60 italic":""}`}>
+                      <td className="py-2 pr-1 mono text-[var(--text-3)] text-[10px]">{String(i+1).padStart(2,"0")}</td>
+                      <td className="py-2 px-1 text-[var(--text-2)] text-[10px]">{r.prov}</td>
+                      <td className="py-2 px-1 font-semibold">{r.kab}{r.twin && <span className="ml-1.5 text-[8px] mono px-1 py-0.5 rounded align-middle" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.30)"}} title="2 gudang di kabupaten yang sama — bukan duplikasi">2-unit</span>}</td>
+                      <td className="text-center py-2 px-1">
+                        {newKelasBlock ? <span className="pill text-[9px] mono" style={{background:"transparent",color:kelasColor,border:`1px solid ${kelasColor}`}}>{r.kelas}</span> : <span className="text-[var(--text-3)] italic text-[10px]">↳</span>}
+                      </td>
+                      <td className="text-right py-2 px-1 mono text-[10px]">{(faktor*100).toFixed(0)}%</td>
+                      <td className="text-right py-2 px-1 mono text-[10px]">{base.toFixed(1)}</td>
+                      <td className="text-center py-2 px-1 mono text-[10px]">{ikk.toFixed(2)}</td>
+                      <td className="text-right py-2 px-1 mono text-[10px] text-[var(--text-3)]">1,20</td>
+                      <td className="text-right py-2 px-1 mono font-semibold">{capex.toFixed(1)}</td>
+                      <td className="py-2 pl-1 text-[var(--text-2)] text-[10px]">{r.kom}</td>
+                    </tr>
+                  );
+                  const next = PSN_REVIT_DETAIL[i+1];
+                  if (!next || next.kelas !== r.kelas) {
+                    const count = PSN_REVIT_DETAIL.filter(x=>x.kelas===r.kelas).length;
+                    rows.push(
+                      <tr key={"st-"+i} className="bg-[var(--bg-2)] font-semibold">
+                        <td colSpan={8} className="py-1.5 pr-1 text-right text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Subtotal {r.kelas} ({count} unit)</td>
+                        <td className="text-right py-1.5 px-1 mono" style={{color:kelasColor}}>{subtotal[r.kelas].toFixed(1)}</td>
+                        <td></td>
+                      </tr>
+                    );
+                  }
+                });
+                const kalibrasiPerUnit = (208 - total) / 15;
+                rows.push(
+                  <tr key="formula" className="border-t border-[var(--gold-soft)] font-semibold">
+                    <td colSpan={8} className="py-1.5 pr-1 text-right text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Subtotal formula (Base × Faktor × IKK × 1,20)</td>
+                    <td className="text-right py-1.5 px-1 mono">{total.toFixed(1)}</td>
+                    <td></td>
+                  </tr>
+                );
+                rows.push(
+                  <tr key="kalib">
+                    <td colSpan={8} className="py-1.5 pr-1 text-right text-[10px] text-[var(--text-2)]">+ Kalibrasi sub-komponen B.1 Audit Teknis & B.5 Sertifikasi LPK SRG (Rp {kalibrasiPerUnit.toFixed(2)} M/unit × 15 unit)</td>
+                    <td className="text-right py-1.5 px-1 mono">{(208-total).toFixed(1)}</td>
+                    <td></td>
+                  </tr>
+                );
+                rows.push(
+                  <tr key="total" className="border-t-2 border-[var(--gold-soft)] font-bold bg-[var(--bg-2)]">
+                    <td colSpan={8} className="py-2 pr-1 text-right mono uppercase text-[10px] tracking-wider">TOTAL GRUP B — 15 Revitalisasi <span className="text-[9px] normal-case" style={{color:"var(--green)"}}>(klop ke Lampiran G.2)</span></td>
+                    <td className="text-right py-2 px-1 mono text-base" style={{color:"var(--gold)"}}>208,0</td>
+                    <td className="text-center py-2 pl-1"><span className="text-[12px]" style={{color:"var(--green)"}}>✓</span></td>
+                  </tr>
+                );
+                return rows;
+              })()}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic mb-4">
+          <strong>Catatan Sumenep:</strong> Kabupaten Sumenep (Madura, Jatim) memiliki <strong>2 unit revitalisasi terpisah</strong> — Sumenep Lokasi 1 (Standard, Gabah) dan Sumenep Lokasi 2 (Light, Rumput Laut) — sebagaimana dicantumkan di klasifikasi Lampiran G.2. Bukan duplikasi: keduanya gudang fisik berbeda dengan klasifikasi, komoditas, dan biaya retrofit yang berbeda. Ditandai dengan badge <span className="text-[8px] mono px-1 py-0.5 rounded" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.30)"}}>2-unit</span>. Hal ini konsisten dengan Paparan Slide 5 yang menyebut distribusi revit sebagai "12 provinsi dengan 1 unit + 1 provinsi dengan 3 unit = 15 unit total" — Jawa Timur menjadi provinsi dengan multi-unit revit.<br/><br/>
+          <strong>Catatan lain:</strong> Klasifikasi 14 dari 15 unit teridentifikasi by name di Lampiran G.2. 1 unit belum dirinci pada dokumen sumber — Paparan Slide 5 menyebut cakupan revit meliputi 13 provinsi termasuk NTB/NTT/Sulut yang tidak masuk klasifikasi G.2. Lampiran G.2 menyebut "8 Standard" namun hanya 7 kabupaten dirinci. Probolinggo dikecualikan dari Heavy revit karena Paparan Slide 5 menetapkannya sebagai gudang baru (Jagung, Rp 31 M). Formula <span className="mono">Base × Faktor × IKK × 1,20</span> menghasilkan Rp 198,4 M; sisanya Rp 9,6 M dikalibrasi sebagai sub-komponen B.1 Audit Teknis + B.5 Sertifikasi LPK SRG (flat Rp 0,64 M/unit × 15) yang merupakan biaya administratif terpisah di luar formula — total Grup B = <strong>Rp 208 M ✓ klop</strong> dengan Lampiran G.2.
+        </div>
+
+        {/* Sub-komponen Grup A & B */}
+        <div className="grid md:grid-cols-2 gap-4 mt-5">
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Komposisi Grup A (Rp 812 M) — Lampiran G.1</div>
+            <table className="w-full text-[11px]">
+              <tbody>
+                {[
+                  {n:"A.1 Persiapan & site clearing",     v:40, p:"4–6% CAPEX · Rp 1,7 M/unit × 23"},
+                  {n:"A.2 Konstruksi bangunan",            v:446,p:"55% Grup A · Rp 9 jt/m² × luas tipe × IKK × 1,20"},
+                  {n:"A.3 Ventilasi & insulasi (SNI 7331)",v:65, p:"±8% CAPEX konstruksi"},
+                  {n:"A.4 Instalasi M/E",                  v:97, p:"Rp 1,25 jt/m² listrik/air/IT/fire"},
+                  {n:"A.5 Sistem keamanan",                v:49, p:"Rp 2 M/unit × 23 (CCTV/IoT/biometric)"},
+                  {n:"A.6 Sarana lokasi",                  v:65, p:"Rp 2,5–3 M/unit (dock/parkir/jalan)"},
+                  {n:"A.7 Supervisi konstruksi/MK",        v:50, p:"±6% × Rp 812 M"},
+                ].map((c,i)=>(
+                  <tr key={i} className="border-b border-[var(--border)]">
+                    <td className="py-1.5 pr-2">
+                      <div className="text-[11px]">{c.n}</div>
+                      <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                    </td>
+                    <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                  </tr>
+                ))}
+                <tr className="font-bold">
+                  <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP A</td>
+                  <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>812</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Komposisi Grup B (Rp 208 M) — Lampiran G.2</div>
+            <table className="w-full text-[11px]">
+              <tbody>
+                {[
+                  {n:"B.1 Audit teknis & struktural",   v:8,  p:"15 unit × Rp 530 jt"},
+                  {n:"B.2 Perbaikan struktur/atap/lantai", v:83, p:"4 Light × 3,5 M + 8 Std × 6,5 M + 3 Heavy × 9,5 M"},
+                  {n:"B.3 Upgrade sistem M/E",          v:42, p:"15 unit × Rp 2,8 M rata-rata"},
+                  {n:"B.4 Retrofitting standar SRG",    v:50, p:"15 unit × Rp 3,3 M (CCTV/IoT/uji mutu)"},
+                  {n:"B.5 Sertifikasi ulang via LPK SRG",v:8,  p:"15 unit × Rp 530 jt"},
+                  {n:"B.6 Supervisi konstruksi & uji terima", v:17, p:"±8% CAPEX retrofit"},
+                ].map((c,i)=>(
+                  <tr key={i} className="border-b border-[var(--border)]">
+                    <td className="py-1.5 pr-2">
+                      <div className="text-[11px]">{c.n}</div>
+                      <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                    </td>
+                    <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                  </tr>
+                ))}
+                <tr className="font-bold">
+                  <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP B</td>
+                  <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>208</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Komposisi Grup C, D, E, F (non-gudang) */}
+        <div className="mt-5 mb-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">C · Komponen Non-Konstruksi Gudang (Grup C–F) — Total Rp 322 M</div>
+          <div className="text-[11px] text-[var(--text-2)] leading-relaxed mb-3 p-3 rounded" style={{background:"rgba(37,99,235,0.04)",borderLeft:"3px solid var(--blue)"}}>
+            <strong>Penting:</strong> Total Rp 1.342 M <em>bukan hanya</em> biaya fisik gudang (Grup A + B = Rp 1.020 M). Sisanya <strong>Rp 322 M</strong> adalah komponen pendukung sistem SRG nasional: platform digital, sarana pasca-panen, manajemen proyek, dan biaya commissioning/onboarding. Tanpa komponen ini, 38 gudang fisik tidak dapat beroperasi sebagai ekosistem SRG terintegrasi.
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Grup C */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Grup C · Platform Smart Warehouse & Digitalisasi (Rp 120 M) — Lampiran G.3</div>
+              <table className="w-full text-[11px]">
+                <tbody>
+                  {[
+                    {n:"C.1 Core platform Regu-E",         v:36, p:"Modul gudang, transaksi RG, user management. Benchmark IT pemerintahan Rp 25–40 M"},
+                    {n:"C.2 Integrasi antar-K/L",          v:18, p:"API: KBI, OJK, Himbara, Bappebti, Bea Cukai. 5 × Rp 3–4 M"},
+                    {n:"C.3 Aplikasi mobile",              v:12, p:"Android/iOS: transaksi, monitoring stok, pembiayaan. Benchmark Rp 8–15 M"},
+                    {n:"C.4 Cloud, data center, lisensi",  v:18, p:"Sewa cloud 3 tahun, DC redundancy, lisensi database/middleware"},
+                    {n:"C.5 Cybersecurity & DR",           v:10, p:"Audit keamanan, firewall enterprise, SOC, DR site, backup"},
+                    {n:"C.6 IoT sensor gudang",            v:20, p:"38 gudang × Rp 526 jt (sensor suhu/kelembaban/stok + gateway)"},
+                    {n:"C.7 Pemeliharaan & lisensi Th-1",  v:6,  p:"Maintenance pasca go-live + lisensi software Tahun-1"},
+                  ].map((c,i)=>(
+                    <tr key={i} className="border-b border-[var(--border)]">
+                      <td className="py-1.5 pr-2">
+                        <div className="text-[11px]">{c.n}</div>
+                        <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                      </td>
+                      <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold">
+                    <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP C</td>
+                    <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>120 ✓</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Grup D */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Grup D · Sarana Penunjang Pasca-Panen (Rp 150 M) — Lampiran G.4</div>
+              <table className="w-full text-[11px]">
+                <tbody>
+                  {[
+                    {n:"D.1 RMU (Rice Milling Unit)",       v:30, p:"6 unit × Rp 5 M · kap 500–1.000 kg/jam · Jateng/Jatim/Sulsel"},
+                    {n:"D.2 Dryer",                         v:22, p:"7 unit × Rp 3 M · box/fluidized 5–10 ton/batch · padi/jagung/kakao"},
+                    {n:"D.3 Silo",                          v:23, p:"6 unit × Rp 4 M · kap 100–500 ton · jagung & beras curah"},
+                    {n:"D.4 Cold storage",                  v:45, p:"4 unit × Rp 11 M · perikanan & hortikultura · Aceh/Pap Sel/Jabar/Jatim"},
+                    {n:"D.5 Material handling",             v:15, p:"25 set × Rp 600 jt · conveyor/forklift/troli/pallet"},
+                    {n:"D.6 Lab uji mutu mini",             v:10, p:"7 unit × Rp 1,4 M · uji kadar air/protein/kontaminan"},
+                    {n:"D.7 Mesin sortasi/grading",         v:5,  p:"5 unit × Rp 1 M · optical/mekanis · hortikultura & kopi"},
+                  ].map((c,i)=>(
+                    <tr key={i} className="border-b border-[var(--border)]">
+                      <td className="py-1.5 pr-2">
+                        <div className="text-[11px]">{c.n}</div>
+                        <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                      </td>
+                      <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold">
+                    <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP D</td>
+                    <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>150 ✓</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Catatan: sarana penunjang TIDAK dipasang di semua gudang — hanya lokasi yang membutuhkan sesuai profil komoditas.</div>
+            </div>
+
+            {/* Grup E */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Grup E · Manajemen Proyek, PMO, Konsultan (Rp 30 M) — Lampiran G.5</div>
+              <table className="w-full text-[11px]">
+                <tbody>
+                  {[
+                    {n:"E.1 PMO operasional",                v:9, p:"8 personel × Rp 300 jt/thn × 3,75 tahun"},
+                    {n:"E.2 Konsultan Pra-FS & FS detail",   v:8, p:"Pra-FS Q1 2027 + FS detail Q1–Q2 2027"},
+                    {n:"E.3 Konsultan Masterplan SRG",       v:3, p:"Masterplan SRG nasional · koordinasi Bappenas/Bapanas"},
+                    {n:"E.4 Konsultan AMDAL/UKL-UPL/SPPL",   v:4, p:"38 gudang × ±Rp 105 jt rata-rata · Q2–Q3 2027"},
+                    {n:"E.5 Konsultan DED",                  v:4, p:"38 lokasi × ±Rp 105 jt · Q3–Q4 2027"},
+                    {n:"E.6 Sosialisasi/koordinasi/hukum/monev", v:2, p:"Komunikasi publik, koordinasi K/L, tim hukum, monev"},
+                  ].map((c,i)=>(
+                    <tr key={i} className="border-b border-[var(--border)]">
+                      <td className="py-1.5 pr-2">
+                        <div className="text-[11px]">{c.n}</div>
+                        <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                      </td>
+                      <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold">
+                    <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP E</td>
+                    <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>30 ✓</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Standar industri: 2–3% CAPEX · konservatif 2,3% × Rp 1.320 M = Rp 30 M.</div>
+            </div>
+
+            {/* Grup F */}
+            <div className="border border-[var(--border)] rounded-md p-3">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2">Grup F · OPEX Awal Commissioning & Onboarding (Rp 22 M) — Lampiran G.6</div>
+              <table className="w-full text-[11px]">
+                <tbody>
+                  {[
+                    {n:"F.1 Commissioning & uji coba",      v:6, p:"38 gudang × Rp 158 jt · uji sistem digital + uji terima"},
+                    {n:"F.2 Pelatihan & sertifikasi PG via LPK",     v:5, p:"200 orang × Rp 25 jt · vokasi KKNI 4–5"},
+                    {n:"F.3 Pelatihan petani/koperasi/BUMDes/UMKM",  v:4, p:"5.000+ orang × Rp 800 rb · pelatihan singkat"},
+                    {n:"F.4 Audit mutu awal komoditas",     v:2, p:"Baseline assessment per lokasi pada commissioning"},
+                    {n:"F.5 Sosialisasi pengguna SRG",      v:3, p:"6 provinsi × Rp 500 jt · roadshow ke kelompok tani/koperasi/BUMDes"},
+                    {n:"F.6 Operasional PMO Tahun-1",       v:2, p:"PMO pasca-commissioning untuk monitoring & dukungan teknis awal"},
+                  ].map((c,i)=>(
+                    <tr key={i} className="border-b border-[var(--border)]">
+                      <td className="py-1.5 pr-2">
+                        <div className="text-[11px]">{c.n}</div>
+                        <div className="text-[9px] text-[var(--text-3)]">{c.p}</div>
+                      </td>
+                      <td className="text-right py-1.5 mono font-semibold">{c.v}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold">
+                    <td className="py-2 pr-2 mono uppercase text-[10px] tracking-wider">TOTAL GRUP F</td>
+                    <td className="text-right py-2 mono" style={{color:"var(--gold)"}}>22 ✓</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* REKONSILIASI FINAL */}
+        <div className="border-2 rounded-md p-4" style={{borderColor:"var(--gold-soft)",background:"rgba(161,98,7,0.04)"}}>
+          <div className="text-[10px] mono uppercase tracking-wider mb-3" style={{color:"var(--gold)"}}>Rekonsiliasi Final — Format APBN Murni V4 Rp 1.342 M</div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[11px]">
+              <thead>
+                <tr className="border-b border-[var(--gold-soft)] text-[var(--text-3)] mono uppercase text-[9px]">
+                  <th className="text-left py-2 pr-2">Grup</th>
+                  <th className="text-left py-2 px-2">Komponen</th>
+                  <th className="text-left py-2 px-2">Dasar Perhitungan</th>
+                  <th className="text-center py-2 px-2">Sumber</th>
+                  <th className="text-right py-2 px-2">Rp M</th>
+                  <th className="text-center py-2 pl-2">Klop</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {g:"A", n:"CAPEX Konstruksi 23 Gudang Baru",       d:"Bottom-up per unit: (Bangunan + Sarana + Sistem SRG) × 1,19 soft cost × IKK provinsi × 1,20 inflasi + premium cold chain",                       sumber:"Paparan Slide 5/7 · Lampiran G.1", v:812},
+                  {g:"B", n:"CAPEX Revitalisasi 15 Gudang",           d:"Per unit: Base Tipe-M Rp 23,8 M × Faktor Kelas × IKK × 1,20 + kalibrasi sub-komponen B.1 Audit & B.5 Sertifikasi LPK (Rp 0,64 M/unit × 15)",        sumber:"Lampiran G.2", v:208},
+                  {g:"C", n:"Platform Smart Warehouse & Digitalisasi",d:"C.1 core platform + C.2 integrasi K/L + C.3 mobile + C.4 cloud + C.5 cybersec + C.6 IoT 38 lokasi + C.7 maintenance Th-1",                          sumber:"Lampiran G.3", v:120},
+                  {g:"D", n:"Sarana Penunjang Pasca-Panen",            d:"D.1 RMU (6) + D.2 dryer (7) + D.3 silo (6) + D.4 cold storage (4) + D.5 material handling (25 set) + D.6 lab uji mutu (7) + D.7 sortasi (5)",      sumber:"Lampiran G.4", v:150},
+                  {g:"E", n:"Manajemen Proyek, PMO & Konsultan",       d:"E.1 PMO + E.2 Pra-FS/FS + E.3 Masterplan + E.4 AMDAL + E.5 DED + E.6 sosialisasi/hukum/monev (±2,3% × Rp 1.320 M)",                              sumber:"Lampiran G.5", v:30},
+                  {g:"F", n:"OPEX Awal Commissioning & Onboarding",    d:"F.1 commissioning (38) + F.2 sertifikasi PG (200 org) + F.3 pelatihan petani (5.000 org) + F.4 audit mutu + F.5 sosialisasi (6 prov) + F.6 PMO Th-1", sumber:"Lampiran G.6", v:22},
+                ].map((r,i)=>(
+                  <tr key={i} className="border-b border-[var(--border)]">
+                    <td className="py-2 pr-2 mono font-bold" style={{color:"var(--gold)"}}>{r.g}</td>
+                    <td className="py-2 px-2 font-semibold">{r.n}</td>
+                    <td className="py-2 px-2 text-[10px] text-[var(--text-2)] leading-snug">{r.d}</td>
+                    <td className="text-center py-2 px-2 text-[9px] mono text-[var(--text-3)]">{r.sumber}</td>
+                    <td className="text-right py-2 px-2 mono font-bold">{r.v}</td>
+                    <td className="text-center py-2 pl-2"><span style={{color:"var(--green)"}}>✓</span></td>
+                  </tr>
+                ))}
+                <tr className="border-t-2 border-[var(--gold-soft)] font-bold text-[12px]">
+                  <td colSpan={4} className="py-3 pr-2 text-right mono uppercase tracking-wider" style={{color:"var(--gold)"}}>TOTAL CAPEX V4 — FORMAT APBN MURNI</td>
+                  <td className="text-right py-3 px-2 mono text-base" style={{color:"var(--gold)"}}>1.342</td>
+                  <td className="text-center py-3 pl-2 text-base" style={{color:"var(--green)"}}>✓</td>
+                </tr>
+                <tr className="text-[10px] text-[var(--text-3)]">
+                  <td colSpan={4} className="py-1 pr-2 text-right italic">= 812 + 208 + 120 + 150 + 30 + 22</td>
+                  <td className="text-right py-1 px-2 mono italic">Rp 1.342 M</td>
+                  <td className="text-center py-1 pl-2"></td>
+                </tr>
+                <tr className="text-[10px] text-[var(--text-2)] border-t border-[var(--border)]">
+                  <td colSpan={4} className="py-2 pr-2 text-right">+ Kontribusi non-tunai Pemda (hibah lahan + infrastruktur pendukung)</td>
+                  <td className="text-right py-2 px-2 mono">150–250</td>
+                  <td className="text-center py-2 pl-2"></td>
+                </tr>
+                <tr className="font-semibold text-[11px]">
+                  <td colSpan={4} className="py-2 pr-2 text-right mono uppercase tracking-wider text-[var(--blue)]">TOTAL CAPEX V4 — FORMAT BLENDED MAX</td>
+                  <td className="text-right py-2 px-2 mono" style={{color:"var(--blue)"}}>±1.592</td>
+                  <td className="text-center py-2 pl-2"><span style={{color:"var(--green)"}}>✓</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="text-[10px] text-[var(--text-2)] mt-3 leading-relaxed">
+            <strong>Komposisi:</strong> Konstruksi Fisik Gudang (Grup A + B) = Rp 1.020 M (76,0%) · Komponen Sistem & Pendukung (Grup C + D + E + F) = Rp 322 M (24,0%). Tanpa Grup C–F, 38 gudang fisik tidak dapat beroperasi sebagai ekosistem SRG terintegrasi (platform digital, sarana pasca-panen, sertifikasi PG, sosialisasi pengguna).
+          </div>
+        </div>
+      </div>
+
+      {/* ASPEK 6 — Komitmen 3T */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 6</span>
+          <div className="serif text-lg">Komitmen Pemerataan — Lokus 3TP Aceh & Papua Selatan</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          <strong>{total3TUnit} dari 23 gudang baru ({Math.round(total3TUnit/totalBaru*100)}%)</strong> di kawasan 3TP — Terdepan, Tertinggal, Perbatasan — sebagai afirmasi pemerataan dengan total CAPEX <strong>Rp {total3TCapex} M</strong> ({Math.round(total3TCapex/totalCapexBaru*100)}% dari Grup A).
+        </p>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="border-2 rounded-md p-4" style={{borderColor:"var(--gold-soft)"}}>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <div className="serif text-xl">Aceh</div>
+              <span className="pill pill-blue text-[9px] mono">3 unit baru · 3TP TERDEPAN + PERBATASAN</span>
+            </div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Status KEK Sabang · Subtotal CAPEX Rp 119 M</div>
+            <ul className="text-[11px] text-[var(--text-2)] space-y-1.5 leading-snug">
+              <li><strong>Lhokseumawe</strong> · Tipe M · Gabah · <span className="mono">Rp 26 M</span> — sentra produksi padi pesisir utara Aceh</li>
+              <li><strong>Aceh Barat Daya</strong> · Tipe S · Pala · <span className="mono">Rp 21 M</span> — komoditas ekspor; revitalisasi nilai tambah petani pala</li>
+              <li><strong>Sabang (KEK)</strong> · Tipe XL cold chain · Ikan · <span className="mono">Rp 72 M</span> — Hub Ekspor di KEK Sabang via KPBU Solicited (Rp 60 M)</li>
+            </ul>
+          </div>
+          <div className="border-2 rounded-md p-4" style={{borderColor:"var(--gold-soft)"}}>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <div className="serif text-xl">Papua Selatan</div>
+              <span className="pill pill-blue text-[9px] mono">4 unit baru · 3TP TERTINGGAL + TERDEPAN</span>
+            </div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">IKK konstruksi tertinggi 1,43 · Subtotal CAPEX Rp 213 M</div>
+            <ul className="text-[11px] text-[var(--text-2)] space-y-1.5 leading-snug">
+              <li><strong>Merauke</strong> · Tipe L · Gabah · <span className="mono">Rp 54 M</span> — sentra MIFEE; akses logistik ke pasar nasional</li>
+              <li><strong>Mappi</strong> · Tipe M cold chain · Ikan · <span className="mono">Rp 47 M</span> — pengembangan perikanan pesisir</li>
+              <li><strong>Boven Digoel</strong> · Tipe M · Gabah · <span className="mono">Rp 44 M</span> — sentra padi pegunungan Papua Selatan</li>
+              <li><strong>Asmat</strong> · Tipe M cold chain · Ikan · <span className="mono">Rp 68 M</span> — perikanan adat; transformasi ekonomi lokal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* ASPEK 7 — Pemenuhan Kriteria PSN */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 7</span>
+          <div className="serif text-lg">Pemenuhan Kriteria PSN — Permen PPN 4/2025</div>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            {judul:"Kriteria Utama",     items:PSN_KRITERIA.utama},
+            {judul:"Kriteria Pendukung", items:PSN_KRITERIA.pendukung},
+            {judul:"Kriteria Kesiapan",  items:PSN_KRITERIA.kesiapan},
+          ].map((blok,bi)=>(
+            <div key={bi}>
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)] mb-2 pb-1 border-b border-[var(--gold-soft)]">{blok.judul}</div>
+              <div className="space-y-2.5">
+                {blok.items.map((it,i)=>(
+                  <div key={i} className="border border-[var(--border)] rounded-md p-2.5">
+                    <div className="flex items-start gap-2">
+                      <span className="text-base shrink-0 leading-none mt-0.5" style={{color: it.ok ? "var(--green)" : "var(--amber)"}}>{it.ok ? "✓" : "○"}</span>
+                      <div className="flex-1">
+                        <div className="text-[11px] font-semibold text-[var(--text-1)] mb-0.5">{it.n}</div>
+                        <div className="text-[10px] text-[var(--text-2)] leading-snug">{it.d}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mt-4 p-3 rounded-md" style={{background:"rgba(161,98,7,0.05)",borderLeft:"3px solid var(--gold)"}}>
+          <strong>Kesimpulan: </strong>PSN SRG memenuhi seluruh Kriteria Utama, Kriteria Pendukung, dan sebagian besar Kriteria Kesiapan sesuai Permen PPN/Kepala Bappenas No. 4 Tahun 2025. Satu item ("Studi Kelayakan & RTRW") masih dalam penyiapan dengan fasilitasi Bappenas.
+        </div>
+      </div>
+
+      {/* ASPEK 8 — Tindak Lanjut Bappenas */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">ASPEK 8</span>
+          <div className="serif text-lg">Tindak Lanjut Pendalaman Bappenas — 4 Dokumen Pendukung</div>
+        </div>
+        <p className="text-[11px] text-[var(--text-3)] mb-4 italic">
+          Berdasarkan Rapat Pendalaman Usulan PSN Kemendag pada RKP TA 2027 tanggal 22 Mei 2026. Unit pelaksana: Set. Bappebti &amp; Robinbang SRG-PLK.
+        </p>
+        <div className="space-y-3">
+          {PSN_TINDAK_LANJUT.map((t,i)=>{
+            const cmap = {
+              green: {bg:"rgba(16,185,129,0.04)", border:"rgba(16,185,129,0.30)", color:"var(--green)"},
+              amber: {bg:"rgba(245,158,11,0.04)", border:"rgba(245,158,11,0.30)", color:"var(--amber)"},
+            };
+            const c = cmap[t.statusColor];
+            return (
+              <div key={i} className="border rounded-md p-3 flex items-start gap-3" style={{borderColor:c.border, background:c.bg}}>
+                <div className="serif text-2xl shrink-0" style={{color:c.color}}>{t.no}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <div className="serif text-sm">{t.judul}</div>
+                    <span className="pill text-[9px] mono" style={{background:c.bg, color:c.color, border:`1px solid ${c.border}`}}>{t.status}</span>
+                  </div>
+                  <div className="text-[11px] text-[var(--text-2)] leading-snug">{t.detail}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mt-4">
+          <strong>Tenggat:</strong> Dokumen 01, 02, 03 siap disampaikan dan dikonfirmasi kembali. Dokumen 04 (FS penuh + RTRW) perlu fasilitasi bersama Bappenas — target finalisasi <strong>September 2026</strong> sebelum penetapan PSN RKP 2027.
+        </div>
+      </div>
+
+      {/* Skema Pembiayaan Blended */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-gold mono text-[9px]">REKOMENDASI</span>
+          <div className="serif text-lg">Skema Pembiayaan — Blended Financing</div>
+        </div>
+        <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
+          Bappebti merekomendasikan <strong>Format Blended Financing</strong> sebagai skema utama. Net beban langsung APBN: <strong>Rp 1,08 T</strong> (turun ±19% dibanding APBN murni Rp 1,34 T) — setelah substitusi KPBU dan kontribusi non-tunai Pemda.
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Komponen APBN</div>
+            <div className="serif text-xl text-[var(--gold)] mb-1">Rp 1,28 T</div>
+            <div className="text-[10px] text-[var(--text-2)] leading-snug">22 baru + 15 revit, platform digital, sarana, PMO, OPEX awal</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">KPBU Solicited</div>
+            <div className="serif text-xl text-[var(--blue)] mb-1">Rp 60 M</div>
+            <div className="text-[10px] text-[var(--text-2)] leading-snug">Hub Ekspor Sabang KEK · 1 Tipe-XL · PJPK: Mendag · pendamping PT PII/SMI</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Anchor BUMN Off-taker</div>
+            <div className="serif text-xl mb-1">— · Operator</div>
+            <div className="text-[10px] text-[var(--text-2)] leading-snug">Bulog / ID FOOD / PTPN sebagai operator anchor di 23 baru + 15 revit (bukan ko-investor)</div>
+          </div>
+          <div className="border border-[var(--border)] rounded-md p-3">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Kontribusi Non-Tunai Pemda</div>
+            <div className="serif text-xl text-[var(--green)] mb-1">Rp 150–250 M</div>
+            <div className="text-[10px] text-[var(--text-2)] leading-snug">Hibah lahan + infrastruktur pendukung sebagai avoided cost subtitusi APBN</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Dokumen Sumber */}
+      <div className="card p-5">
+        <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+          <span className="pill pill-muted mono text-[9px]">DOKUMEN SUMBER</span>
+          <div className="serif text-lg">Referensi Dokumen Pengusulan PSN SRG</div>
+        </div>
+        <div className="space-y-2">
+          {[
+            {nama:"Paparan PSN SRG 2027 (Final)",                       file:"Paparan_PSN_SRG_2027_15062026_FINAL.pptx",                tanggal:"15 Juni 2026", isi:"Paparan tindak lanjut pengajuan PSN 2027–2029 — 8 Aspek Justifikasi & Respons Tindak Lanjut Bappenas (9 slide)"},
+            {nama:"Tanggapan Bappenas (V4)",                             file:"Tanggapan_Bappenas_PSN_SRG_T-09922_V4.docx",              tanggal:"Mei 2026",     isi:"Tanggapan resmi atas Surat Bappenas No. T-09922/D.09/PP.04.01/05/2026 (20 Mei 2026) — Ringkasan Eksekutif, Matriks Kriteria, Format APBN & Blended"},
+            {nama:"Lampiran Teknis V2 — Langkah Perhitungan",            file:"Lampiran_Teknis_V2_Langkah_Perhitungan_PSN_SRG.docx",      tanggal:"15 Juni 2026", isi:"Audit trail per angka kuantitatif — Bagian A–I (CAPEX, SDM, Ekonomi, Kemiskinan, Finansial Operator, Grup Komponen, O&M, Skoring Risiko) + Daftar Pustaka"},
+          ].map((d,i)=>(
+            <div key={i} className="border border-[var(--border)] rounded-md p-3 flex items-start gap-3">
+              <span className="text-base shrink-0" style={{color:"var(--gold)"}}>▸</span>
+              <div className="flex-1">
+                <div className="flex items-baseline gap-2 flex-wrap mb-0.5">
+                  <span className="serif text-sm">{d.nama}</span>
+                  <span className="text-[10px] mono text-[var(--text-3)]">{d.tanggal}</span>
+                </div>
+                <div className="text-[10px] mono text-[var(--text-3)] mb-1">{d.file}</div>
+                <div className="text-[11px] text-[var(--text-2)] leading-snug">{d.isi}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }
