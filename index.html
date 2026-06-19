@@ -6364,7 +6364,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.18i · PSN SRG: ditambahkan 3 bagian baru — Kaidah THIS (Tematik/Holistik/Integratif/Spasial) + Critical Path 20 kegiatan/4 fase/6 bottleneck/4 milestone + Struktur Kelembagaan 9 tier · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.19 · PSN SRG: Spasial dikoreksi (13 prov revit · 16 unik · NTB/NTT/Sulut dihapus) · Critical Path → Gantt chart 24 baris × 36 bulan · Kelembagaan diperkuat unit ekspor (Menlu, LPEI, BKI, BPOM, Ditjen PLN) · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
@@ -6768,8 +6768,8 @@ function MenuPSN(){
         </div>
         <div className="card p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Cakupan Provinsi</div>
-          <div className="serif text-2xl">19 prov</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">6 prioritas + 13 revit</div>
+          <div className="serif text-2xl">16 prov</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">6 prioritas baru + 13 revit · 3 overlap</div>
         </div>
         <div className="card p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Lokus 3T/3TP</div>
@@ -7973,13 +7973,14 @@ function MenuPSN(){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1 mt-3">Cakupan Total: 19 Provinsi</div>
             <ul className="text-[11px] text-[var(--text-2)] space-y-1 leading-snug">
               <li>• 6 provinsi prioritas (gudang baru): Aceh, Jabar, Jateng, Jatim, Sulsel, Papua Sel</li>
-              <li>• 13 provinsi revitalisasi: Sumut, Lampung, Kalbar, Kalsel, Kalteng, Kaltara, Sulbar, Sultra, Maluku, Papua, NTB/NTT/Sulut</li>
+              <li>• 13 provinsi revitalisasi: Aceh, Sumut, Lampung, Jabar, Jatim, Kalbar, Kalsel, Kalteng, Kaltara, Sulbar, Sultra, Maluku, Papua</li>
+              <li>• <strong>16 provinsi unik</strong> bila digabung (3 provinsi overlap: Aceh, Jabar, Jatim memiliki gudang baru sekaligus revit)</li>
             </ul>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1 mt-3">Persebaran Topografi (Spasial Vertikal):</div>
             <ul className="text-[11px] text-[var(--text-2)] space-y-1 leading-snug">
               <li>• Highland Kopi: Aceh Tengah · Enrekang · Tana Toraja · Temanggung · Bandung</li>
               <li>• Lowland Pangan: Lhokseumawe · Merauke · Sukabumi · Wajo · Banyumas · Tegal</li>
-              <li>• Pesisir Ikan/Rumput Laut: Sabang · Pangandaran · Mappi · Asmat · Bone · Pangkep · Nunukan</li>
+              <li>• Pesisir Ikan/Rumput Laut: Sabang · Pangandaran · Mappi · Asmat · Bone · Pangkep · Nunukan · Wakatobi</li>
               <li>• Hortikultura CAS: Brebes · Probolinggo (Bawang Merah)</li>
             </ul>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1 mt-3">Hub Konektivitas Global:</div>
@@ -8003,150 +8004,103 @@ function MenuPSN(){
           20 kegiatan disusun dalam 4 fase. Kegiatan <span className="text-[var(--red)] font-semibold">kritis</span> tidak boleh terlambat (jalur kritis); <span className="text-[var(--amber)] font-semibold">bottleneck</span> adalah risiko delay yang berdampak luas; <span className="text-[var(--green)] font-semibold">milestone</span> adalah titik kunci pelaporan ke Bappenas &amp; DPR.
         </p>
 
-        {/* PHASE 1 */}
-        <div className="border-l-4 pl-4 mb-5" style={{borderColor:"var(--blue)"}}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <div className="serif text-base">Fase 1 — Persiapan</div>
-            <span className="text-[10px] mono text-[var(--text-3)]">Q1–Q2 2027 · 6 bulan</span>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {[
-              {n:"A01", t:"Penetapan Tim PMO Bappebti",        d:"Jan 2027",    tag:"kritis"},
-              {n:"A02", t:"Konsultan Pra-FS & FS detail 38 lokus", d:"Q1–Q2 2027", tag:"kritis"},
-              {n:"A03", t:"Penetapan lokasi final per kabupaten", d:"Q1 2027",   tag:"kritis"},
-              {n:"A04", t:"AMDAL/UKL-UPL via fast-track PSN",  d:"Q2 2027",     tag:"bottleneck", note:"Cold chain unit: AMDAL paralel lintas KLHK–KKP"},
-              {n:"A05", t:"DED 38 lokasi",                    d:"Q2 2027",     tag:"kritis"},
-              {n:"A06", t:"KKPR & sosialisasi RTRW Pemda",     d:"Q2 2027",     tag:"bottleneck", note:"Aceh 3T &amp; Papua Sel: tanpa fast-track akan tertunda 6–12 bulan"},
-              {n:"A07", t:"Persiapan lahan BMN/BMD & hibah",   d:"Q2 2027",     tag:"bottleneck", note:"Akses BMN/BMD eksklusif PSN; tanpanya FS gagal"},
-              {n:"M-Q2",t:"MILESTONE: FS detail siap",         d:"Jun 2027",    tag:"milestone"},
-            ].map((a,i)=>{
-              const tagStyle = {
-                kritis:    {bg:"rgba(220,38,38,0.06)", border:"rgba(220,38,38,0.30)", color:"var(--red)", label:"KRITIS"},
-                bottleneck:{bg:"rgba(245,158,11,0.06)",border:"rgba(245,158,11,0.30)",color:"var(--amber)",label:"BOTTLENECK"},
-                milestone: {bg:"rgba(16,185,129,0.06)",border:"rgba(16,185,129,0.30)",color:"var(--green)",label:"MILESTONE"},
-                std:       {bg:"transparent",          border:"var(--border)",         color:"var(--text-3)",label:"STD"},
-              }[a.tag] || {bg:"transparent",border:"var(--border)",color:"var(--text-3)",label:"STD"};
+        {/* GANTT CHART */}
+        <div className="overflow-x-auto mb-3 border border-[var(--border)] rounded-md bg-[var(--bg-2)]" style={{padding:"8px"}}>
+          <svg viewBox="0 0 1200 720" style={{minWidth:"1100px",width:"100%",height:"auto",display:"block"}} xmlns="http://www.w3.org/2000/svg">
+            {(()=>{
+              const activities = [
+                {id:"A01", lab:"Penetapan Tim PMO Bappebti",            s:1,  e:1,  t:"kritis"},
+                {id:"A02", lab:"Konsultan Pra-FS & FS detail",          s:1,  e:6,  t:"kritis"},
+                {id:"A03", lab:"Penetapan lokasi final per kabupaten",  s:1,  e:3,  t:"kritis"},
+                {id:"A04", lab:"AMDAL/UKL-UPL fast-track PSN",          s:4,  e:6,  t:"bottleneck"},
+                {id:"A05", lab:"DED 38 lokasi",                         s:4,  e:6,  t:"kritis"},
+                {id:"A06", lab:"KKPR & sosialisasi RTRW Pemda",         s:4,  e:6,  t:"bottleneck"},
+                {id:"A07", lab:"Persiapan lahan BMN/BMD",               s:4,  e:6,  t:"bottleneck"},
+                {id:"M1",  lab:"\u25C6 FS detail siap",                 s:6,  e:6,  t:"milestone"},
+                {id:"A08", lab:"Lelang & kontrak konstruksi",           s:7,  e:9,  t:"kritis"},
+                {id:"A09", lab:"\u25C6 Ground breaking 23 lokus",       s:9,  e:9,  t:"milestone"},
+                {id:"A10", lab:"Konstruksi 23 gudang baru",             s:10, e:22, t:"kritis"},
+                {id:"A11", lab:"Revitalisasi 15 gudang eksisting",      s:13, e:21, t:"std"},
+                {id:"A12", lab:"Procurement Sarana D + IT C",           s:7,  e:13, t:"bottleneck"},
+                {id:"A13", lab:"Platform Smart Warehouse deployment",   s:13, e:24, t:"kritis"},
+                {id:"A14", lab:"Pelatihan PG Wave-1 (100 org)",         s:13, e:18, t:"std"},
+                {id:"M2",  lab:"\u25C6 Konstruksi 50% & Uji Coba",      s:18, e:18, t:"milestone"},
+                {id:"A15", lab:"Pelatihan PG Wave-2 via LPK",           s:19, e:24, t:"std"},
+                {id:"A16", lab:"Audit mutu awal komoditas 38 lokus",    s:22, e:27, t:"std"},
+                {id:"A17", lab:"Konstruksi 100% gudang baru & revit",   s:28, e:30, t:"kritis"},
+                {id:"M3",  lab:"\u25C6 Konstruksi 100% selesai",        s:30, e:30, t:"milestone"},
+                {id:"A18", lab:"Commissioning & uji terima 38 gudang",  s:31, e:33, t:"kritis"},
+                {id:"A19", lab:"Integrasi sistem SRG Nasional 100%",    s:34, e:36, t:"kritis"},
+                {id:"A20", lab:"Sosialisasi pengguna (6 provinsi)",     s:34, e:36, t:"std"},
+                {id:"M4",  lab:"\u25C6 Full Smart Warehouse + Evaluasi",s:36, e:36, t:"milestone"},
+              ];
+              const colors = {kritis:"#dc2626", bottleneck:"#f59e0b", std:"#64748b", milestone:"#10b981"};
+              const monthW = 25;
+              const labelW = 295;
+              const rowH = 22;
+              const headerH = 65;
+              const totalH = headerH + activities.length*rowH + 15;
+              const phases = [
+                {n:1, label:"Fase 1 \u2014 Persiapan",            start:1,  end:6,  color:"rgba(37,99,235,0.07)",  hd:"#2563eb"},
+                {n:2, label:"Fase 2 \u2014 Konstruksi Awal",      start:7,  end:18, color:"rgba(161,98,7,0.07)",   hd:"#a16207"},
+                {n:3, label:"Fase 3 \u2014 Konstruksi Lanjutan",  start:19, end:30, color:"rgba(161,98,7,0.12)",   hd:"#a16207"},
+                {n:4, label:"Fase 4 \u2014 Commissioning",        start:31, end:36, color:"rgba(16,185,129,0.07)", hd:"#10b981"},
+              ];
               return (
-                <div key={i} className="border rounded-md p-2" style={{borderColor:tagStyle.border, background:tagStyle.bg}}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px] mono px-1 py-0.5 rounded" style={{background:tagStyle.color,color:"#fff"}}>{a.n}</span>
-                    <span className="text-[8px] mono ml-auto" style={{color:tagStyle.color}}>{tagStyle.label}</span>
-                  </div>
-                  <div className="text-[11px] font-semibold leading-tight">{a.t}</div>
-                  <div className="text-[10px] mono text-[var(--text-3)] mt-1">{a.d}</div>
-                  {a.note && <div className="text-[9px] italic text-[var(--text-3)] mt-1 leading-snug">{a.note}</div>}
-                </div>
+                <g>
+                  {phases.map((p,i)=>(
+                    <g key={"ph"+i}>
+                      <rect x={labelW + (p.start-1)*monthW} y={headerH-25} width={(p.end-p.start+1)*monthW} height={activities.length*rowH + 25} fill={p.color} />
+                      <text x={labelW + (p.start-1)*monthW + (p.end-p.start+1)*monthW/2} y={18} textAnchor="middle" fontSize="11" fontWeight="700" fill={p.hd} fontFamily="serif">{p.label}</text>
+                    </g>
+                  ))}
+                  {[0,1,2].map(y=>(
+                    <text key={"yr"+y} x={labelW + (y*12 + 6)*monthW} y={36} textAnchor="middle" fontSize="11" fontWeight="700" fill="#334155" fontFamily="ui-monospace,monospace">{2027+y}</text>
+                  ))}
+                  {[...Array(12)].map((_,i)=>(
+                    <text key={"q"+i} x={labelW + (i*3 + 1.5)*monthW} y={54} textAnchor="middle" fontSize="9" fill="#64748b" fontFamily="ui-monospace,monospace">Q{i%4 + 1}</text>
+                  ))}
+                  {[...Array(13)].map((_,i)=>(
+                    <line key={"v"+i} x1={labelW + i*3*monthW} x2={labelW + i*3*monthW} y1={headerH-25} y2={headerH + activities.length*rowH} stroke="rgba(0,0,0,0.08)" strokeWidth={1} />
+                  ))}
+                  {[12, 24].map((m,i)=>(
+                    <line key={"y"+i} x1={labelW + m*monthW} x2={labelW + m*monthW} y1={28} y2={headerH + activities.length*rowH} stroke="rgba(0,0,0,0.30)" strokeWidth={1.5} strokeDasharray="4,3" />
+                  ))}
+                  {activities.map((a,i)=>{
+                    const y = headerH + i*rowH;
+                    const isM = a.t === "milestone";
+                    const cx = labelW + (a.s-1)*monthW + monthW/2;
+                    const cy = y + rowH/2;
+                    return (
+                      <g key={a.id}>
+                        {i%2===0 && <rect x={0} y={y} width={labelW + 36*monthW} height={rowH} fill="rgba(0,0,0,0.025)" />}
+                        <text x={labelW-10} y={cy+3.5} textAnchor="end" fontSize="9.5" fontWeight="600" fill={colors[a.t]} fontFamily="ui-monospace,monospace">{a.id}</text>
+                        <text x={labelW-48} y={cy+3.5} textAnchor="end" fontSize="10" fill="#334155">{a.lab}</text>
+                        {!isM ? (
+                          <rect x={labelW + (a.s-1)*monthW + 2} y={y + 4} width={(a.e-a.s+1)*monthW - 4} height={rowH - 8} fill={colors[a.t]} rx={3} opacity={0.92} />
+                        ) : (
+                          <polygon points={`${cx-7},${cy} ${cx},${cy-7} ${cx+7},${cy} ${cx},${cy+7}`} fill={colors.milestone} stroke="#fff" strokeWidth={1.5} />
+                        )}
+                      </g>
+                    );
+                  })}
+                  <line x1={labelW} x2={labelW + 36*monthW} y1={headerH + activities.length*rowH} y2={headerH + activities.length*rowH} stroke="rgba(0,0,0,0.30)" strokeWidth={1} />
+                  <line x1={labelW} x2={labelW} y1={headerH-25} y2={headerH + activities.length*rowH} stroke="rgba(0,0,0,0.30)" strokeWidth={1} />
+                </g>
               );
-            })}
-          </div>
+            })()}
+          </svg>
         </div>
 
-        {/* PHASE 2 */}
-        <div className="border-l-4 pl-4 mb-5" style={{borderColor:"var(--gold)"}}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <div className="serif text-base">Fase 2 — Konstruksi Awal</div>
-            <span className="text-[10px] mono text-[var(--text-3)]">Q3 2027 – Q2 2028 · 12 bulan</span>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {[
-              {n:"A08", t:"Lelang & penandatanganan kontrak konstruksi", d:"Q3 2027", tag:"kritis", note:"Single Submission via OSS PSN"},
-              {n:"A09", t:"Ground breaking 23 lokus baru",   d:"Sep 2027",  tag:"milestone"},
-              {n:"A10", t:"Konstruksi 23 gudang baru",       d:"Q4 2027 – Q4 2028", tag:"kritis"},
-              {n:"A11", t:"Revitalisasi 15 gudang eksisting",d:"Q1–Q3 2028", tag:"std"},
-              {n:"A12", t:"Procurement Sarana D + IT C",     d:"Q3 2027 – Q1 2028", tag:"bottleneck", note:"Cold storage & IT custom: spec creep risiko"},
-              {n:"A13", t:"Platform Smart Warehouse deployment", d:"Q1 2028 – Q4 2028", tag:"kritis", note:"Integrasi K/L (OJK/BI/Himbara) jalur kritis"},
-              {n:"A14", t:"Pelatihan PG Wave-1 (100 org)",   d:"Q1–Q2 2028", tag:"std"},
-              {n:"M-Q2",t:"MILESTONE: Konstruksi 50% & Uji Coba",d:"Jun 2028",tag:"milestone"},
-            ].map((a,i)=>{
-              const tagStyle = {
-                kritis:    {bg:"rgba(220,38,38,0.06)", border:"rgba(220,38,38,0.30)", color:"var(--red)", label:"KRITIS"},
-                bottleneck:{bg:"rgba(245,158,11,0.06)",border:"rgba(245,158,11,0.30)",color:"var(--amber)",label:"BOTTLENECK"},
-                milestone: {bg:"rgba(16,185,129,0.06)",border:"rgba(16,185,129,0.30)",color:"var(--green)",label:"MILESTONE"},
-                std:       {bg:"transparent",          border:"var(--border)",         color:"var(--text-3)",label:"STD"},
-              }[a.tag] || {bg:"transparent",border:"var(--border)",color:"var(--text-3)",label:"STD"};
-              return (
-                <div key={i} className="border rounded-md p-2" style={{borderColor:tagStyle.border, background:tagStyle.bg}}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px] mono px-1 py-0.5 rounded" style={{background:tagStyle.color,color:"#fff"}}>{a.n}</span>
-                    <span className="text-[8px] mono ml-auto" style={{color:tagStyle.color}}>{tagStyle.label}</span>
-                  </div>
-                  <div className="text-[11px] font-semibold leading-tight">{a.t}</div>
-                  <div className="text-[10px] mono text-[var(--text-3)] mt-1">{a.d}</div>
-                  {a.note && <div className="text-[9px] italic text-[var(--text-3)] mt-1 leading-snug">{a.note}</div>}
-                </div>
-              );
-            })}
-          </div>
+        {/* Legend */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mb-5 text-[10px] mono">
+          <div className="flex items-center gap-1.5"><span className="inline-block" style={{width:"18px",height:"10px",background:"#dc2626",borderRadius:"2px"}}></span>KRITIS — jalur kritis tidak boleh terlambat</div>
+          <div className="flex items-center gap-1.5"><span className="inline-block" style={{width:"18px",height:"10px",background:"#f59e0b",borderRadius:"2px"}}></span>BOTTLENECK — risiko delay luas</div>
+          <div className="flex items-center gap-1.5"><span className="inline-block" style={{width:"18px",height:"10px",background:"#64748b",borderRadius:"2px"}}></span>STANDARD — paralel</div>
+          <div className="flex items-center gap-1.5"><span style={{display:"inline-block",width:"14px",height:"14px",position:"relative"}}><svg width="14" height="14"><polygon points="7,1 13,7 7,13 1,7" fill="#10b981" /></svg></span>MILESTONE — titik pelaporan</div>
         </div>
 
-        {/* PHASE 3 */}
-        <div className="border-l-4 pl-4 mb-5" style={{borderColor:"var(--gold)"}}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <div className="serif text-base">Fase 3 — Konstruksi Lanjutan</div>
-            <span className="text-[10px] mono text-[var(--text-3)]">Q3 2028 – Q2 2029 · 12 bulan</span>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {[
-              {n:"A15", t:"Pelatihan PG Wave-2 (100 org via LPK)", d:"Q3–Q4 2028", tag:"std"},
-              {n:"A16", t:"Audit mutu awal komoditas (38 lokus)", d:"Q4 2028 – Q1 2029", tag:"std"},
-              {n:"A17", t:"Konstruksi 100% gudang baru & revit", d:"Q2 2029", tag:"kritis"},
-              {n:"M-Q2",t:"MILESTONE: Konstruksi 100% selesai",d:"Jun 2029", tag:"milestone"},
-            ].map((a,i)=>{
-              const tagStyle = {
-                kritis:    {bg:"rgba(220,38,38,0.06)", border:"rgba(220,38,38,0.30)", color:"var(--red)", label:"KRITIS"},
-                bottleneck:{bg:"rgba(245,158,11,0.06)",border:"rgba(245,158,11,0.30)",color:"var(--amber)",label:"BOTTLENECK"},
-                milestone: {bg:"rgba(16,185,129,0.06)",border:"rgba(16,185,129,0.30)",color:"var(--green)",label:"MILESTONE"},
-                std:       {bg:"transparent",          border:"var(--border)",         color:"var(--text-3)",label:"STD"},
-              }[a.tag] || {bg:"transparent",border:"var(--border)",color:"var(--text-3)",label:"STD"};
-              return (
-                <div key={i} className="border rounded-md p-2" style={{borderColor:tagStyle.border, background:tagStyle.bg}}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px] mono px-1 py-0.5 rounded" style={{background:tagStyle.color,color:"#fff"}}>{a.n}</span>
-                    <span className="text-[8px] mono ml-auto" style={{color:tagStyle.color}}>{tagStyle.label}</span>
-                  </div>
-                  <div className="text-[11px] font-semibold leading-tight">{a.t}</div>
-                  <div className="text-[10px] mono text-[var(--text-3)] mt-1">{a.d}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* PHASE 4 */}
-        <div className="border-l-4 pl-4 mb-5" style={{borderColor:"var(--green)"}}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <div className="serif text-base">Fase 4 — Commissioning &amp; Full Operasional</div>
-            <span className="text-[10px] mono text-[var(--text-3)]">Q3 2029 – Q4 2029 · 6 bulan</span>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {[
-              {n:"A18", t:"Commissioning & uji terima 38 gudang", d:"Q3 2029", tag:"kritis"},
-              {n:"A19", t:"Integrasi sistem SRG Nasional 100%", d:"Q4 2029", tag:"kritis", note:"Final integrasi K/L OJK/BI/Himbara"},
-              {n:"A20", t:"Sosialisasi pengguna (6 provinsi)", d:"Q4 2029", tag:"std"},
-              {n:"M-Q4",t:"MILESTONE: Full Smart Warehouse + Evaluasi", d:"Des 2029", tag:"milestone"},
-            ].map((a,i)=>{
-              const tagStyle = {
-                kritis:    {bg:"rgba(220,38,38,0.06)", border:"rgba(220,38,38,0.30)", color:"var(--red)", label:"KRITIS"},
-                bottleneck:{bg:"rgba(245,158,11,0.06)",border:"rgba(245,158,11,0.30)",color:"var(--amber)",label:"BOTTLENECK"},
-                milestone: {bg:"rgba(16,185,129,0.06)",border:"rgba(16,185,129,0.30)",color:"var(--green)",label:"MILESTONE"},
-                std:       {bg:"transparent",          border:"var(--border)",         color:"var(--text-3)",label:"STD"},
-              }[a.tag] || {bg:"transparent",border:"var(--border)",color:"var(--text-3)",label:"STD"};
-              return (
-                <div key={i} className="border rounded-md p-2" style={{borderColor:tagStyle.border, background:tagStyle.bg}}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px] mono px-1 py-0.5 rounded" style={{background:tagStyle.color,color:"#fff"}}>{a.n}</span>
-                    <span className="text-[8px] mono ml-auto" style={{color:tagStyle.color}}>{tagStyle.label}</span>
-                  </div>
-                  <div className="text-[11px] font-semibold leading-tight">{a.t}</div>
-                  <div className="text-[10px] mono text-[var(--text-3)] mt-1">{a.d}</div>
-                  {a.note && <div className="text-[9px] italic text-[var(--text-3)] mt-1 leading-snug">{a.note}</div>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* BOTTLENECK ANALYSIS */}
+                {/* BOTTLENECK ANALYSIS */}
         <div className="border-2 rounded-md p-4 mt-4" style={{borderColor:"rgba(245,158,11,0.30)",background:"rgba(245,158,11,0.04)"}}>
           <div className="text-[10px] mono uppercase tracking-wider mb-2" style={{color:"var(--amber)"}}>Analisis Bottleneck Utama &amp; Mitigasi</div>
           <div className="overflow-x-auto">
@@ -8213,7 +8167,7 @@ function MenuPSN(){
           <span className="text-[10px] mono text-[var(--text-3)] ml-auto">Permen PPN 4/2025 Pasal 5 ayat 4b · ND 153 Pemilik Proyek</span>
         </div>
         <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-4">
-          Struktur 9 tier menghubungkan Steering Committee tingkat Menko hingga Pengguna Akhir (petani &amp; KDMP), memastikan akuntabilitas politis, manajerial, dan operasional. Dasar: Tujuan Bappebti sebagai Pelaksana Teknis (ND 153) + ekosistem 14 K/L pendukung.
+          Struktur 9 tier menghubungkan Steering Committee tingkat Menko hingga Pengguna Akhir (petani &amp; KDMP), memastikan akuntabilitas politis, manajerial, dan operasional. Dasar: Tujuan Bappebti sebagai Pelaksana Teknis (ND 153) + ekosistem <strong>18 K/L pendukung</strong> (termasuk 4 K/L ekspor: LPEI, BKI, BPOM, Menlu). Diperkuat unit teknis ekspor <strong>Ditjen PLN Kemendag</strong> untuk dampak devisa ekspor Rp 300–500 M/tahun (D.5) dan Hub Ekspor KEK Sabang.
         </p>
 
         {/* Tier 1 - Steering */}
@@ -8228,8 +8182,8 @@ function MenuPSN(){
             <div><strong style={{color:"var(--gold)"}}>Wakil:</strong> Menko Perekonomian</div>
             <div><strong style={{color:"var(--gold)"}}>Sekretaris:</strong> Mendag</div>
           </div>
-          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-2 mb-1">Anggota (8 Menteri):</div>
-          <div className="text-[11px] text-[var(--text-2)] leading-snug">Mentan · Menkeu · Mendes PDTT · MenPUPR · MenKKP · MenKop · MenUMKM · Kepala Bapanas</div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-2 mb-1">Anggota (9 Menteri):</div>
+          <div className="text-[11px] text-[var(--text-2)] leading-snug">Mentan · Menkeu · Mendes PDTT · MenPUPR · MenKKP · MenKop · MenUMKM · Kepala Bapanas · <strong style={{color:"var(--gold)"}}>Menlu</strong> (koordinasi Hub Ekspor &amp; market access internasional)</div>
         </div>
 
         {/* Tier 2-4 - Owner/Sponsor/Executive */}
@@ -8291,27 +8245,32 @@ function MenuPSN(){
             <span className="text-[9px] mono uppercase tracking-wider px-2 py-0.5 rounded" style={{background:"var(--text-3)",color:"#fff"}}>TIER 6</span>
             <div className="serif text-base">Pelaksana Teknis Internal Kemendag</div>
           </div>
-          <div className="grid md:grid-cols-3 gap-2 text-[11px]">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2 text-[11px]">
             <div>
               <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Bappebti Internal</div>
               <div className="text-[11px]">Sekretariat · Robinbang SRG-PLK · Bidang Pengawasan SRG · Bidang LPK</div>
             </div>
             <div>
-              <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Direktorat Jenderal PDN</div>
-              <div className="text-[11px]">Direktorat Sarana Perdagangan · Direktorat Logistik &amp; Konsumen Cerdas</div>
+              <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Ditjen PDN (Dalam Negeri)</div>
+              <div className="text-[11px]">Dit. Sarana Perdagangan · Dit. Logistik &amp; Konsumen Cerdas</div>
+            </div>
+            <div style={{borderLeft:"2px solid var(--gold)",paddingLeft:"6px"}}>
+              <div className="text-[10px] mono uppercase mb-1" style={{color:"var(--gold)"}}>Ditjen PLN (Luar Negeri) ★</div>
+              <div className="text-[11px]">Dit. Pengembangan Pasar &amp; Informasi Ekspor · Dit. Fasilitasi Ekspor &amp; Impor · ITPC luar negeri</div>
             </div>
             <div>
               <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Unit Pendukung Kemendag</div>
-              <div className="text-[11px]">Setjen Kemendag · BPSDMP (pelatihan PG &amp; LPK) · Itjen (audit internal)</div>
+              <div className="text-[11px]">Setjen Kemendag · BPSDMP · Itjen</div>
             </div>
           </div>
+          <div className="text-[10px] text-[var(--text-3)] italic mt-2">★ Ditjen PLN sebagai unit teknis ekspor — pendukung dampak devisa Rp 300–500 M/tahun (D.5) dan Hub Ekspor KEK Sabang.</div>
         </div>
 
         {/* Tier 7 - K/L Pendukung */}
         <div className="border rounded-md p-3 mb-3" style={{borderColor:"var(--border)"}}>
           <div className="flex items-baseline gap-2 mb-2 flex-wrap">
             <span className="text-[9px] mono uppercase tracking-wider px-2 py-0.5 rounded" style={{background:"var(--text-3)",color:"#fff"}}>TIER 7</span>
-            <div className="serif text-base">K/L Pendukung — 14 Stakeholder Nasional</div>
+            <div className="serif text-base">K/L Pendukung — 18 Stakeholder Nasional</div>
             <span className="text-[10px] mono text-[var(--text-3)] ml-auto">peran spesifik per fase &amp; per komoditas</span>
           </div>
           <div className="overflow-x-auto">
@@ -8324,29 +8283,34 @@ function MenuPSN(){
               </thead>
               <tbody>
                 {[
-                  ["Kemenko Pangan",        "Ketua Steering Committee · koordinasi kebijakan pangan strategis"],
-                  ["Kemenko Perekonomian",  "Wakil SC · koordinasi makro-ekonomi &amp; investasi"],
-                  ["Kementan",              "Suplai data Simluhtan · sinergi dengan KDMP · validasi komoditas pangan"],
-                  ["KKP",                   "Komoditas perikanan (Sabang, Pangandaran, Mappi, Asmat, Bone, Pangkep)"],
-                  ["Kemenkeu",              "Multi-year budget · jaminan Jamkrindo · skema KPBU PT PII/SMI"],
-                  ["PUPR",                  "Standar teknis konstruksi · audit kualitas · supervisi MK"],
-                  ["Kemendes PDTT",         "Sinergi Dana Desa · KDMP sebagai pengelola gudang lokal"],
-                  ["Kemenkop",              "Pembinaan 80.000 KDMP sebagai Pengelola Gudang"],
-                  ["KemUMKM",               "Onboarding 5.000+ UMKM komoditas via pelatihan F.3"],
-                  ["Bapanas",               "Stok pangan strategis · Harga Acuan Penjualan (HAP)"],
-                  ["ATR/BPN",               "KKPR fast-track · konfirmasi lahan BMN/BMD"],
-                  ["KLHK",                  "AMDAL fast-track terpadu · sustainable warehouse"],
-                  ["Komdigi",               "Infrastruktur jaringan digital · cybersecurity platform"],
-                  ["Bappenas",              "Penetapan PSN · monev kinerja RKP 2027–2029"],
+                  ["Kemenko Pangan",                  "Ketua Steering Committee · koordinasi kebijakan pangan strategis", false],
+                  ["Kemenko Perekonomian",            "Wakil SC · koordinasi makro-ekonomi &amp; investasi", false],
+                  ["Kementan",                        "Suplai data Simluhtan · sinergi dengan KDMP · validasi komoditas pangan", false],
+                  ["KKP",                             "Komoditas perikanan (Sabang, Pangandaran, Mappi, Asmat, Bone, Pangkep)", false],
+                  ["Kemenkeu",                        "Multi-year budget · jaminan Jamkrindo · skema KPBU PT PII/SMI", false],
+                  ["LPEI Indonesia Eximbank ★",        "<strong>Pembiayaan &amp; asuransi ekspor</strong> komoditas SRG (kopi, kakao, lada, pala, rumput laut, ikan) · KUR ekspor (BUMN khusus Kemenkeu)", true],
+                  ["PUPR",                            "Standar teknis konstruksi · audit kualitas · supervisi MK", false],
+                  ["Kemendes PDTT",                   "Sinergi Dana Desa · KDMP sebagai pengelola gudang lokal", false],
+                  ["Kemenkop",                        "Pembinaan 80.000 KDMP sebagai Pengelola Gudang", false],
+                  ["KemUMKM",                         "Onboarding 5.000+ UMKM komoditas via pelatihan F.3", false],
+                  ["Bapanas",                         "Stok pangan strategis · Harga Acuan Penjualan (HAP)", false],
+                  ["ATR/BPN",                         "KKPR fast-track · konfirmasi lahan BMN/BMD", false],
+                  ["KLHK",                            "AMDAL fast-track terpadu · sustainable warehouse", false],
+                  ["Badan Karantina Indonesia (BKI) ★","<strong>Sertifikasi karantina komoditas ekspor</strong> — Karantina Pertanian (kopi, kakao, lada, pala, rumput laut) &amp; Karantina Ikan (ekspor perikanan Sabang/Pangandaran/Papua Sel)", true],
+                  ["BPOM ★",                           "<strong>Sertifikasi keamanan pangan ekspor</strong> — CPOTB, HACCP, registrasi pangan olahan untuk akses pasar global", true],
+                  ["Kementerian Luar Negeri ★",        "<strong>ITPC luar negeri &amp; Trade Attache</strong> — koordinasi market access komoditas SRG, promosi dagang antarnegara, hubungan G2G untuk ekspor", true],
+                  ["Komdigi",                         "Infrastruktur jaringan digital · cybersecurity platform", false],
+                  ["Bappenas",                        "Penetapan PSN · monev kinerja RKP 2027–2029", false],
                 ].map((r,i)=>(
-                  <tr key={i} className="border-b border-[var(--border)]">
-                    <td className="py-1.5 pr-2 font-semibold text-[11px]">{r[0]}</td>
+                  <tr key={i} className="border-b border-[var(--border)]" style={r[2] ? {background:"rgba(161,98,7,0.04)"} : {}}>
+                    <td className="py-1.5 pr-2 font-semibold text-[11px]" style={r[2] ? {color:"var(--gold)"} : {}}>{r[0]}</td>
                     <td className="py-1.5 px-2 text-[10px] text-[var(--text-2)] leading-snug" dangerouslySetInnerHTML={{__html:r[1]}} />
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <div className="text-[10px] text-[var(--text-3)] italic mt-2">★ Empat K/L tambahan terkait ekspor — LPEI (pembiayaan), BKI (karantina), BPOM (keamanan pangan), Menlu (market access via ITPC). Mendukung target devisa ekspor Rp 300–500 M/tahun (D.5) dan operasionalisasi Hub Ekspor KEK Sabang.</div>
         </div>
 
         {/* Tier 8 - Pemerintah Daerah */}
@@ -8380,8 +8344,10 @@ function MenuPSN(){
             </div>
             <ul className="text-[10px] text-[var(--text-2)] space-y-1 leading-snug">
               <li>• <strong>Pengelola Gudang:</strong> 80.000 KDMP (per Inpres 9/2025) · BUMN (Bulog, ID FOOD, PTPN, BGR) · swasta tersertifikasi</li>
-              <li>• <strong>Anchor Off-taker:</strong> Bulog (padi), ID FOOD (komoditas pangan), PTPN (perkebunan), eksportir (ikan/kopi/lada)</li>
-              <li>• <strong>Lembaga Pembiayaan:</strong> KBI (kliring Resi Gudang) · Himbara (BRI, BNI, Mandiri, BTN) · BPD 6 provinsi prioritas</li>
+              <li>• <strong>Off-taker domestik:</strong> Bulog (padi), ID FOOD (pangan strategis), PTPN (perkebunan)</li>
+              <li>• <strong style={{color:"var(--gold)"}}>Off-taker &amp; mitra ekspor ★:</strong> Eksportir kopi/kakao/lada/pala/rumput laut/ikan · ITPC luar negeri (40+ kota) · Trade Attache Kemendag/Kemenlu · forwarder ekspor</li>
+              <li>• <strong>Pembiayaan domestik:</strong> KBI (kliring Resi Gudang) · Himbara (BRI, BNI, Mandiri, BTN) · BPD 6 provinsi prioritas</li>
+              <li>• <strong style={{color:"var(--gold)"}}>Pembiayaan ekspor ★:</strong> LPEI Indonesia Eximbank (KUR ekspor, term financing) · ASEI (asuransi ekspor)</li>
               <li>• <strong>Asuransi &amp; Jaminan:</strong> Jasindo (asuransi gudang) · Jamkrindo (penjaminan kredit RG) · PT PII (KPBU Solicited)</li>
               <li>• <strong>Konstruksi:</strong> Kontraktor PUPR-class · konsultan FS/DED/MK · vendor IT &amp; sarana</li>
             </ul>
@@ -8396,7 +8362,7 @@ function MenuPSN(){
               <li>• <strong>80.000 KDMP nasional</strong> tersambung ekosistem (sebagian sebagai PG, sebagian sebagai off-taker anggota)</li>
               <li>• <strong>200+ Pengelola Gudang</strong> bersertifikasi KKNI 4–5</li>
               <li>• <strong>50+ auditor mutu komoditas</strong> via LPK SRG (6 provinsi prioritas)</li>
-              <li>• <strong>Industri pengolahan SDA</strong>: processor kopi, kakao, ikan, rumput laut, bawang merah</li>
+              <li>• <strong>Industri pengolahan &amp; eksportir SDA</strong>: processor + eksportir kopi (Aceh Tengah, Enrekang, Tana Toraja, Temanggung), kakao, ikan (Sabang KEK), rumput laut (Bone, Pangkep, Wakatobi, Nunukan), lada, pala, bawang merah</li>
               <li>• <strong>1.500–2.500 KK</strong> keluar kemiskinan struktural (estimasi MODEL)</li>
             </ul>
           </div>
