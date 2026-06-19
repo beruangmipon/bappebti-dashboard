@@ -232,7 +232,7 @@ const META = {
   parent: "Kementerian Perdagangan",
   period: "Renstra 2025 — 2029",
   fy: "Tahun Anggaran 2026",
-  lastUpdate: "16 Juni 2026",
+  lastUpdate: "19 Juni 2026",
   visi: "Perdagangan Berjangka Komoditi, Sistem Resi Gudang, dan Pasar Lelang Komoditas yang Maju dan Berkelanjutan dalam rangka Mewujudkan Perdagangan yang Ekspansif dan Terintegrasi dengan Rantai Pasar Domestik dan Global.",
   misi: [
     "Meningkatkan kinerja PBK, SRG, PLK yang tangguh dan berkelanjutan pada periode 2025–2029.",
@@ -3038,6 +3038,69 @@ function PenerbitanResiGudang({year}){
   );
 }
 
+function GudangPusatRecap(){
+  const [openYr,setOpenYr] = useState(null);
+  const ST = {aktif:{c:"#059669",l:"Aktif"},berakhir:{c:"#d97706",l:"Berakhir"},belum:{c:"#2563eb",l:"Belum"},dicabut:{c:"#dc2626",l:"Dicabut"}};
+  // Gudang Pemerintah Pusat (Kemendag) = gudang dengan tahun pembangunan (field th) terisi.
+  const byYear = {};
+  GUDANG.forEach(g=>{ if(g.th==null) return; (byYear[g.th]=byYear[g.th]||[]).push(g); });
+  const years = Object.keys(byYear).map(Number).sort((a,b)=>a-b);
+  const maxN = Math.max(1,...years.map(y=>byYear[y].length));
+  const total = years.reduce((s,y)=>s+byYear[y].length,0);
+  return (
+    <div className="card p-5 mb-6">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rekap Pembangunan Gudang SRG Pemerintah Pusat</div>
+          <div className="serif text-xl">Gudang Pemerintah Pusat per Tahun &amp; Daerah</div>
+        </div>
+        <span className="text-[10px] mono text-[var(--text-3)]">{total} gudang &middot; {years.length} tahun program &middot; sumber: Direktori Gudang SRG Bappebti</span>
+      </div>
+      <div className="text-[11px] text-[var(--text-2)] mb-3">Klik tahun untuk melihat daftar daerah (kabupaten/kota) tempat Pemerintah Pusat (Kemendag) membangun gudang SRG pada tahun tersebut &mdash; lengkap dengan provinsi, komoditas, dan status terkini gudang.</div>
+      <div className="space-y-1">
+        {years.map(yr=>{
+          const items = [...byYear[yr]].sort((a,b)=> (a.pr||"").localeCompare(b.pr||"") || (a.kb||"").localeCompare(b.kb||""));
+          const isOpen = openYr===yr;
+          const cnt = {aktif:0,berakhir:0,belum:0,dicabut:0};
+          items.forEach(g=>{ if(cnt[g.st]!=null) cnt[g.st]++; });
+          return (
+            <div key={yr}>
+              <button onClick={()=>setOpenYr(isOpen?null:yr)} className="w-full flex items-center gap-2 text-[11px] py-1 rounded px-1 text-left transition hover:bg-[var(--card)]">
+                <span className="mono text-[7px] text-[var(--text-3)] w-2 shrink-0">{isOpen?"\u25BC":"\u25B6"}</span>
+                <span className="mono text-[var(--text-2)] w-9 shrink-0">{yr}</span>
+                <div className="impact-bar flex-1 max-w-[160px] shrink-0"><div className="impact-fill" style={{width:`${Math.round(byYear[yr].length/maxN*100)}%`,background:yr===2009?"#a16207":"rgba(161,98,7,0.55)"}}></div></div>
+                <span className="mono text-[var(--text-3)] w-16 text-right shrink-0">{byYear[yr].length} gudang</span>
+                <span className="hidden sm:flex items-center gap-1.5 ml-1">
+                  {Object.keys(ST).map(k=> cnt[k]>0 ? (<span key={k} className="inline-flex items-center gap-0.5 mono text-[9px]" style={{color:ST[k].c}}><span className="w-1.5 h-1.5 rounded-full" style={{background:ST[k].c}}></span>{cnt[k]}</span>) : null)}
+                </span>
+              </button>
+              {isOpen && (
+                <div className="pl-4 pr-1 pb-2 pt-1">
+                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Daerah penerima ({items.length} gudang)</div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5">
+                    {items.map((g,i)=>{ const s=ST[g.st]||{c:"var(--text-3)",l:g.st}; return (
+                      <div key={i} className="flex items-start gap-2 text-[11px] py-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:s.c}} title={s.l}></span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[var(--text-2)]">{g.kb}</span>
+                          <span className="text-[var(--text-3)]"> &middot; {g.pr}</span>
+                          <span className="text-[var(--text-3)]"> &mdash; {g.km}</span>
+                        </div>
+                        <span className="mono text-[9px] shrink-0" style={{color:s.c}}>{s.l}</span>
+                      </div>
+                    );})}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Cakupan: {total} gudang Pemerintah Pusat (Kemendag) yang tahun pembangunannya tercatat &mdash; mayoritas via Dana Stimulus Fiskal / DAK sejak 2009. Status (Aktif/Berakhir/Belum/Dicabut) menunjukkan kondisi gudang saat ini, bukan status pada tahun pembangunan. Sumber: Direktori Gudang SRG Bappebti per {SRG_DATA_UPDATE}.</div>
+    </div>
+  );
+}
+
 function ProvinsiPengelolaChart(){
   const [open,setOpen] = useState(null);
   const data = PROV_AKTIF_RANK.slice(0,8);
@@ -3945,6 +4008,8 @@ function SebaranSRG({year}){
           </div>
         </div>
       </div>
+
+      <GudangPusatRecap/>
 
       {/* Pengelola Gudang SRG */}
       <div className="card p-5 mb-6">
@@ -8248,7 +8313,7 @@ function MenuPSN(){
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2 text-[11px]">
             <div>
               <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Bappebti Internal</div>
-              <div className="text-[11px]">Sekretariat · Robinbang SRG-PLK · Bidang Pengawasan SRG · Bidang LPK</div>
+              <div className="text-[11px]">Sekretariat · Robinbang SRG-PLK · Rowasdak PBK SRG PLK</div>
             </div>
             <div>
               <div className="text-[10px] mono uppercase text-[var(--text-3)] mb-1">Ditjen PDN (Dalam Negeri)</div>
