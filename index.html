@@ -6364,7 +6364,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.18e · PSN SRG: rincian Trisula RPJMN ditambahkan — SDM (C.1–C.5) · Ekonomi 5 kanal + NPV/EIRR/BCR (D.1–D.9) + Target 0,1% PDB · Kemiskinan (E.1–E.7) · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.18g · PSN SRG: rekonsiliasi 23 baru (Aceh Selatan dieliminasi — duplikat Pala) + 15 revit · Probolinggo dual-listing: baru Bawang Merah + revit Gabah/Beras · Grup A=812 M, Grup B=208 M klop · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
@@ -6597,35 +6597,35 @@ const PSN_IKK_CITED = ["Lampung","Kalsel","Papua Selatan"]; /* hanya 3 ini dikut
    Per-unit detail dimaksud sebagai indikasi pra-FS — Lampiran Bagian B.1 menegaskan validasi via
    "Q1–Q2 2027: Pra-FS dan FS detail per lokasi akan memvalidasi biaya satuan konstruksi". */
 const PSN_NEW_DETAIL = [
-  /* Aceh — 3 unit / Rp 119 M [VERIFIED Paparan Slide 7] */
-  {prov:"Aceh", kab:"Lhokseumawe",       tipe:"M",  luas:2000, kom:"Gabah",        cc:false, capex:26, status:"verified", note:"Sentra padi pesisir utara Aceh"},
-  {prov:"Aceh", kab:"Aceh Barat Daya",   tipe:"S",  luas:1500, kom:"Pala",         cc:false, capex:21, status:"verified", note:"Komoditas ekspor; nilai tambah petani pala"},
-  {prov:"Aceh", kab:"Sabang (KEK)",      tipe:"XL", luas:3500, kom:"Ikan",         cc:true,  capex:72, status:"verified", note:"Hub Ekspor KEK Sabang · KPBU Solicited Rp 60 M + APBN Rp 12 M"},
-  /* Papua Selatan — 4 unit / Rp 213 M [VERIFIED Paparan Slide 7] */
-  {prov:"Papua Selatan", kab:"Merauke",       tipe:"L", luas:2500, kom:"Gabah", cc:false, capex:54, status:"verified", note:"Sentra MIFEE; akses logistik ke pasar nasional"},
-  {prov:"Papua Selatan", kab:"Mappi",         tipe:"M", luas:2000, kom:"Ikan",  cc:true,  capex:47, status:"verified", note:"Perikanan pesisir; aksesibilitas terbatas"},
-  {prov:"Papua Selatan", kab:"Boven Digoel",  tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:44, status:"verified", note:"Sentra padi pegunungan Papua Selatan"},
-  {prov:"Papua Selatan", kab:"Asmat",         tipe:"M", luas:2000, kom:"Ikan",  cc:true,  capex:68, status:"verified", note:"Perikanan adat; transformasi ekonomi lokal"},
-  /* Jawa Barat — 3 unit / Rp 100 M [DERIVASI dari total provinsi; komoditas Ikan+Bawang Merah → cold chain] */
-  {prov:"Jawa Barat", kab:"Pangandaran", tipe:"M", luas:2000, kom:"Ikan",         cc:true, capex:36, status:"derived", note:"Pesisir selatan; cold chain perikanan"},
-  {prov:"Jawa Barat", kab:"Cirebon",     tipe:"M", luas:2000, kom:"Ikan",         cc:true, capex:34, status:"derived", note:"Pantura; cold chain perikanan"},
-  {prov:"Jawa Barat", kab:"Indramayu",   tipe:"M", luas:2000, kom:"Bawang Merah", cc:true, capex:30, status:"derived", note:"Sentra hortikultura; cold storage bawang"},
-  /* Jawa Tengah — 4 unit / Rp 117 M [DERIVASI; komoditas Gabah+Kopi] */
-  {prov:"Jawa Tengah", kab:"Banyumas",   tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:29, status:"derived", note:"Sentra padi"},
-  {prov:"Jawa Tengah", kab:"Brebes",     tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:28, status:"derived", note:"Sentra padi pantura"},
-  {prov:"Jawa Tengah", kab:"Tegal",      tipe:"M", luas:2000, kom:"Gabah", cc:false, capex:28, status:"derived", note:"Sentra padi pantura"},
-  {prov:"Jawa Tengah", kab:"Temanggung", tipe:"S", luas:1500, kom:"Kopi",  cc:false, capex:32, status:"derived", note:"Highland kopi robusta-arabika; akses lebih mahal"},
-  /* Jawa Timur — 1 unit / Rp 31 M [VERIFIED Paparan Slide 5] */
-  {prov:"Jawa Timur", kab:"Probolinggo", tipe:"M", luas:2000, kom:"Jagung", cc:false, capex:31, status:"verified", note:"Sentra jagung"},
-  /* Sulawesi Selatan — 8 unit / Rp 232 M [DERIVASI; mix Gabah/Jagung/Kopi/Kakao] */
-  {prov:"Sulawesi Selatan", kab:"Pinrang",  tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:30, status:"derived", note:"Sentra padi utama Sulsel"},
-  {prov:"Sulawesi Selatan", kab:"Sidrap",   tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:30, status:"derived", note:"Sentra padi"},
-  {prov:"Sulawesi Selatan", kab:"Bone",     tipe:"M", luas:2000, kom:"Gabah/Jagung", cc:false, capex:29, status:"derived", note:"Padi & jagung campuran"},
-  {prov:"Sulawesi Selatan", kab:"Wajo",     tipe:"M", luas:2000, kom:"Gabah",        cc:false, capex:29, status:"derived", note:"Sentra padi"},
-  {prov:"Sulawesi Selatan", kab:"Soppeng",  tipe:"S", luas:1500, kom:"Kopi",         cc:false, capex:27, status:"derived", note:"Kopi highland"},
-  {prov:"Sulawesi Selatan", kab:"Maros",    tipe:"M", luas:2000, kom:"Jagung",       cc:false, capex:29, status:"derived", note:"Sentra jagung"},
-  {prov:"Sulawesi Selatan", kab:"Pangkep",  tipe:"M", luas:2000, kom:"Kakao",        cc:false, capex:29, status:"derived", note:"Sentra kakao"},
-  {prov:"Sulawesi Selatan", kab:"Gowa",     tipe:"M", luas:2000, kom:"Kakao",        cc:false, capex:29, status:"derived", note:"Sentra kakao"},
+  /* Aceh — 3 unit / Rp 119 M [Lokus per ND 153 — Aceh Selatan tidak dipilih karena komoditas Pala duplikat dengan Aceh Barat Daya; reconciles indikator ND 153 ke 23 baru] */
+  {prov:"Aceh", kab:"Aceh Barat Daya",   tipe:"S",  luas:1500, kom:"Pala",         cc:false, capex:21, status:"nd153", note:"Pala komoditas ekspor; nilai tambah petani · 3T"},
+  {prov:"Aceh", kab:"Lhokseumawe",       tipe:"M",  luas:2000, kom:"Gabah/Beras",  cc:false, capex:26, status:"nd153", note:"Sentra padi pesisir utara Aceh"},
+  {prov:"Aceh", kab:"Sabang (KEK)",      tipe:"XL", luas:3500, kom:"Ikan",         cc:true,  capex:72, status:"nd153", note:"Hub Ekspor KEK Sabang · Tipe XL cold chain · APBN Rp 12 M + KPBU Solicited Rp 60 M dalam Format Blended"},
+  /* Papua Selatan — 4 unit / Rp 213 M [lokus tetap per ND 153] */
+  {prov:"Papua Selatan", kab:"Merauke",       tipe:"L", luas:2500, kom:"Gabah/Beras", cc:false, capex:54, status:"nd153", note:"Sentra MIFEE; akses logistik ke pasar nasional"},
+  {prov:"Papua Selatan", kab:"Mappi",         tipe:"M", luas:2000, kom:"Ikan",        cc:true,  capex:47, status:"nd153", note:"Perikanan pesisir; aksesibilitas terbatas"},
+  {prov:"Papua Selatan", kab:"Boven Digoel",  tipe:"M", luas:2000, kom:"Gabah/Beras/Kopi", cc:false, capex:44, status:"nd153", note:"Sentra padi & kopi pegunungan Papua Selatan"},
+  {prov:"Papua Selatan", kab:"Asmat",         tipe:"M", luas:2000, kom:"Ikan",        cc:true,  capex:68, status:"nd153", note:"Perikanan adat; transformasi ekonomi lokal"},
+  /* Jawa Barat — 3 unit / Rp 100 M [lokus ND 153: Bandung, Pangandaran, Sukabumi] */
+  {prov:"Jawa Barat", kab:"Bandung",      tipe:"M", luas:2000, kom:"Kopi/Teh",    cc:false, capex:35, status:"nd153", note:"Highland kopi & teh; sentra perkebunan Jabar"},
+  {prov:"Jawa Barat", kab:"Pangandaran",  tipe:"M", luas:2000, kom:"Ikan",        cc:true,  capex:36, status:"nd153", note:"Pesisir selatan; cold chain perikanan"},
+  {prov:"Jawa Barat", kab:"Sukabumi",     tipe:"M", luas:2000, kom:"Gabah/Beras", cc:false, capex:29, status:"nd153", note:"Sentra padi pesisir selatan Jabar"},
+  /* Jawa Tengah — 4 unit / Rp 117 M [lokus ND 153, komoditas dari ND 153] */
+  {prov:"Jawa Tengah", kab:"Banyumas",   tipe:"M", luas:2000, kom:"Gabah/Beras",  cc:false, capex:29, status:"nd153", note:"Sentra padi"},
+  {prov:"Jawa Tengah", kab:"Brebes",     tipe:"M", luas:2000, kom:"Bawang Merah", cc:true,  capex:33, status:"nd153", note:"Sentra bawang merah nasional; cold storage CAS"},
+  {prov:"Jawa Tengah", kab:"Tegal",      tipe:"M", luas:2000, kom:"Gabah/Beras",  cc:false, capex:28, status:"nd153", note:"Sentra padi pantura"},
+  {prov:"Jawa Tengah", kab:"Temanggung", tipe:"S", luas:1500, kom:"Kopi",         cc:false, capex:27, status:"nd153", note:"Highland kopi robusta-arabika"},
+  /* Jawa Timur — 1 unit / Rp 31 M [lokus ND 153: Probolinggo Bawang Merah — beda dari komoditas Paparan] */
+  {prov:"Jawa Timur", kab:"Probolinggo", tipe:"M", luas:2000, kom:"Bawang Merah", cc:true, capex:31, status:"nd153", note:"Sentra bawang merah Jatim; cold storage CAS · juga ada gudang revit eksisting (lihat Grup B)"},
+  /* Sulawesi Selatan — 8 unit / Rp 232 M [lokus baru per ND 153: Barru, Bone, Bulukumba, Enrekang, Pangkep, Takalar, Tana Toraja, Wajo] */
+  {prov:"Sulawesi Selatan", kab:"Barru",      tipe:"M", luas:2000, kom:"Jagung",       cc:false, capex:29, status:"nd153", note:"Sentra jagung pesisir barat Sulsel"},
+  {prov:"Sulawesi Selatan", kab:"Bone",       tipe:"M", luas:2000, kom:"Rumput Laut",  cc:true,  capex:33, status:"nd153", note:"Sentra rumput laut Teluk Bone"},
+  {prov:"Sulawesi Selatan", kab:"Bulukumba",  tipe:"M", luas:2000, kom:"Gabah/Beras",  cc:false, capex:28, status:"nd153", note:"Sentra padi pesisir selatan"},
+  {prov:"Sulawesi Selatan", kab:"Enrekang",   tipe:"S", luas:1500, kom:"Kopi",         cc:false, capex:26, status:"nd153", note:"Highland kopi arabika"},
+  {prov:"Sulawesi Selatan", kab:"Pangkep",    tipe:"M", luas:2000, kom:"Rumput Laut",  cc:true,  capex:33, status:"nd153", note:"Sentra rumput laut & garam"},
+  {prov:"Sulawesi Selatan", kab:"Takalar",    tipe:"M", luas:2000, kom:"Jagung",       cc:false, capex:28, status:"nd153", note:"Sentra jagung & rumput laut"},
+  {prov:"Sulawesi Selatan", kab:"Tana Toraja",tipe:"S", luas:1500, kom:"Kopi",         cc:false, capex:26, status:"nd153", note:"Highland kopi specialty Toraja"},
+  {prov:"Sulawesi Selatan", kab:"Wajo",       tipe:"M", luas:2000, kom:"Gabah/Beras",  cc:false, capex:29, status:"nd153", note:"Sentra padi Sulsel"},
 ];
 
 /* 15 Gudang Revitalisasi — klasifikasi dari Lampiran G.2.
@@ -6635,33 +6635,36 @@ const PSN_NEW_DETAIL = [
    CAPEX per unit = Base Tipe-M Banjarmasin Rp 23,8 M × Faktor (Light 28% / Std 45% / Heavy 65%) × IKK × 1,20 inflasi */
 const PSN_REVIT_FACTOR = {Light:0.28, Standard:0.45, Heavy:0.65};
 const PSN_REVIT_DETAIL = [
+  /* Lokus per Nota Dinas Bappebti 153 (31 Mar 2026) — 15 unit di 14 kabupaten (Sumenep = 2 unit).
+     Komoditas ditarik dari registry GUDANG SRG eksisting (lihat menu SRG).
+     Klasifikasi Light/Standard/Heavy dari Lampiran Teknis V2 G.2. */
   /* Light — 4 unit */
-  {prov:"Jawa Barat",        kab:"Kuningan",    kelas:"Light",    ikkKey:"Jabar",  kom:"—"},
-  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 2)",  kelas:"Light",    ikkKey:"Jatim",  kom:"Rumput Laut", twin:true},
-  {prov:"Sulawesi Barat",    kab:"Mamuju",      kelas:"Light",    ikkKey:"Sulbar", kom:"—"},
-  {prov:"Sulawesi Tenggara", kab:"Wakatobi",    kelas:"Light",    ikkKey:"Sultra", kom:"Rumput Laut"},
-  /* Standard — 7 dirinci (G.2 menyebut total 8, 1 belum dirinci di dokumen) */
-  {prov:"Aceh",              kab:"Aceh Tengah",  kelas:"Standard", ikkKey:"Aceh",    kom:"Kopi"},
-  {prov:"Sumatera Utara",    kab:"Karo",         kelas:"Standard", ikkKey:"Sumut",   kom:"—"},
-  {prov:"Lampung",           kab:"Pesisir Barat",kelas:"Standard", ikkKey:"Lampung", kom:"Lada"},
-  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 1)",   kelas:"Standard", ikkKey:"Jatim",   kom:"Gabah", twin:true},
-  {prov:"Kalimantan Barat",  kab:"Sambas",       kelas:"Standard", ikkKey:"Kalbar",  kom:"Lada"},
-  {prov:"Kalimantan Selatan",kab:"Barito Kuala", kelas:"Standard", ikkKey:"Kalsel",  kom:"Gabah"},
-  {prov:"Kalimantan Tengah", kab:"Kapuas",       kelas:"Standard", ikkKey:"Kalteng", kom:"Gabah"},
-  {prov:"NTB/NTT/Sulut",     kab:"(belum dirinci)", kelas:"Standard", ikkKey:"NTT", kom:"—", unspec:true},
-  /* Heavy — 3 unit (G.2 mencantumkan Probolinggo tetapi Probolinggo adalah gudang BARU per Paparan Slide 5 — di sini dikecualikan) */
-  {prov:"Kalimantan Utara",  kab:"Nunukan",       kelas:"Heavy", ikkKey:"Kaltara",      kom:"—"},
-  {prov:"Maluku",            kab:"Maluku Tengah", kelas:"Heavy", ikkKey:"Maluku",       kom:"—"},
-  {prov:"Papua",             kab:"Jayapura",     kelas:"Heavy", ikkKey:"Papua",        kom:"—"},
+  {prov:"Jawa Barat",        kab:"Kuningan",            kelas:"Light",    ikkKey:"Jabar",  kom:"Jagung",                regSrg:"PT KBI · Tipe Flat 1.500 ton · aktif sejak 2009"},
+  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 2)",  kelas:"Light",    ikkKey:"Jatim",  kom:"Jagung",                twin:true, regSrg:"Sumenep Silo · Tipe Silo 400 ton · status belum"},
+  {prov:"Sulawesi Barat",    kab:"Mamuju",              kelas:"Light",    ikkKey:"Sulbar", kom:"Gabah/Beras/Jagung",    regSrg:"PT Pertani · Tipe Flat 1.500 ton · berakhir 2010"},
+  {prov:"Sulawesi Tenggara", kab:"Wakatobi",            kelas:"Light",    ikkKey:"Sultra", kom:"Rumput Laut",           regSrg:"Kop Sinergis Sulsel · Tipe Flat 1.500 ton · aktif sejak 2014"},
+  /* Standard — 8 unit (termasuk Probolinggo revit Heavy → ditukar; 7 named + Probolinggo) */
+  {prov:"Aceh",              kab:"Aceh Tengah",         kelas:"Standard", ikkKey:"Aceh",    kom:"Kopi",                  regSrg:"PT Ketiara dll · multiple gudang Kopi Gayo · aktif/berakhir"},
+  {prov:"Sumatera Utara",    kab:"Karo",                kelas:"Standard", ikkKey:"Sumut",   kom:"Jagung",                regSrg:"PT BGR · Tipe Flat 1.500 ton · berakhir 2011"},
+  {prov:"Lampung",           kab:"Pesisir Barat",       kelas:"Standard", ikkKey:"Lampung", kom:"Kopi",                  regSrg:"Kop Tanera · Tipe Flat 1.500 ton · berakhir 2012"},
+  {prov:"Jawa Timur",        kab:"Sumenep (Lokasi 1)",  kelas:"Standard", ikkKey:"Jatim",   kom:"Gabah/Beras/Jagung",    twin:true, regSrg:"Sumenep Gudang Flat · Tipe Flat 1.500 ton · status belum"},
+  {prov:"Kalimantan Barat",  kab:"Sambas",              kelas:"Standard", ikkKey:"Kalbar",  kom:"Jagung",                regSrg:"Kop Tebas Gemilang Jaya · Tipe Flat 1.500 ton · berakhir 2013"},
+  {prov:"Kalimantan Selatan",kab:"Barito Kuala",        kelas:"Standard", ikkKey:"Kalsel",  kom:"Gabah/Beras",           regSrg:"KUD Basunondo · 2 gudang Flat (Anjir Muara + Mandastana) · aktif"},
+  {prov:"Kalimantan Tengah", kab:"Kapuas",              kelas:"Standard", ikkKey:"Kalteng", kom:"Gabah/Beras",           regSrg:"KUD Terusan Jaya · Tipe Flat 1.500 ton · berakhir 2015"},
+  {prov:"Jawa Timur",        kab:"Probolinggo (Revit)", kelas:"Standard", ikkKey:"Jatim",   kom:"Gabah/Beras",           regSrg:"PT CUAN multiple gudang Flat aktif (Kraksaan, Banyuanyar, UD Maju Bersama, UD Murah Rejeki, UD Putra Gunung, UD Ratna Jaya, UD Surya Kencana) — fokus revit pada gudang Gabah/Beras eksisting (terpisah dari gudang BARU Bawang Merah di Grup A)"},
+  /* Heavy — 3 unit */
+  {prov:"Kalimantan Utara",  kab:"Nunukan",             kelas:"Heavy", ikkKey:"Kaltara", kom:"Rumput Laut",              regSrg:"Kop SP Merdeka Indonesia · Tipe Flat 1.500 ton · berakhir 2014"},
+  {prov:"Maluku",            kab:"Maluku Tengah",       kelas:"Heavy", ikkKey:"Maluku",  kom:"Gabah/Beras/Jagung",       regSrg:"Tipe Flat 1.500 ton · status belum sejak 2010"},
+  {prov:"Papua",             kab:"Jayapura",            kelas:"Heavy", ikkKey:"Papua",   kom:"Gabah/Beras/Jagung",       regSrg:"Tipe Flat 1.500 ton · status belum sejak 2014"},
 ];
 
 const PSN_LOKUS_BARU = [
-  {prov:"Aceh",           unit:3, capex:119, lokus:"Lhokseumawe, Aceh Barat Daya, Sabang KEK", komoditas:"Gabah, Pala, Ikan XL", t3:true, label:"3T: TERDEPAN + PERBATASAN"},
-  {prov:"Papua Selatan",  unit:4, capex:213, lokus:"Merauke, Mappi, Boven Digoel, Asmat",      komoditas:"Gabah, Ikan",          t3:true, label:"3T: TERTINGGAL + TERDEPAN"},
-  {prov:"Jawa Barat",     unit:3, capex:100, lokus:"Pangandaran, Cirebon, Indramayu",          komoditas:"Ikan, Bawang Merah",   t3:false},
-  {prov:"Jawa Tengah",    unit:4, capex:117, lokus:"Banyumas, Brebes, Tegal, Temanggung",      komoditas:"Gabah, Kopi",          t3:false},
-  {prov:"Jawa Timur",     unit:1, capex:31,  lokus:"Probolinggo",                              komoditas:"Jagung",               t3:false},
-  {prov:"Sulawesi Selatan",unit:8,capex:232, lokus:"Pinrang, Sidrap, Bone, Wajo, Soppeng, Maros, Pangkep, Gowa", komoditas:"Gabah, Jagung, Kopi, Kakao", t3:false},
+  {prov:"Aceh",           unit:3, capex:119, lokus:"Aceh Barat Daya, Lhokseumawe, Sabang KEK", komoditas:"Pala, Gabah/Beras, Ikan XL", t3:true, label:"3T: TERDEPAN + PERBATASAN"},
+  {prov:"Papua Selatan",  unit:4, capex:213, lokus:"Merauke, Mappi, Boven Digoel, Asmat",                    komoditas:"Gabah/Beras, Ikan, Kopi",    t3:true, label:"3T: TERTINGGAL + TERDEPAN"},
+  {prov:"Jawa Barat",     unit:3, capex:100, lokus:"Bandung, Pangandaran, Sukabumi",                         komoditas:"Kopi/Teh, Ikan, Gabah/Beras",t3:false},
+  {prov:"Jawa Tengah",    unit:4, capex:117, lokus:"Banyumas, Brebes, Tegal, Temanggung",                    komoditas:"Gabah/Beras, Bawang Merah, Kopi", t3:false},
+  {prov:"Jawa Timur",     unit:1, capex:31,  lokus:"Probolinggo",                                            komoditas:"Bawang Merah",               t3:false},
+  {prov:"Sulawesi Selatan",unit:8,capex:232, lokus:"Barru, Bone, Bulukumba, Enrekang, Pangkep, Takalar, Tana Toraja, Wajo", komoditas:"Gabah/Beras, Jagung, Rumput Laut, Kopi", t3:false},
 ];
 
 const PSN_KEMUDAHAN = [
@@ -6761,7 +6764,7 @@ function MenuPSN(){
         <div className="card p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Total Unit Gudang</div>
           <div className="serif text-2xl">38 unit</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">23 baru + 15 revitalisasi</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">23 baru + 15 revitalisasi · sesuai indikator ND 153</div>
         </div>
         <div className="card p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Cakupan Provinsi</div>
@@ -7267,23 +7270,23 @@ function MenuPSN(){
           </table>
         </div>
 
-        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">B · 15 Gudang Revitalisasi di 13 Provinsi</div>
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">B · 15 Gudang Revitalisasi di 14 Kabupaten (13 Provinsi)</div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="border border-[var(--border)] rounded-md p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Provinsi</div>
-            <div className="text-[11px] text-[var(--text-2)] leading-snug">Aceh, Sumut, Lampung, Kalbar, Kalteng, Sulut, Sultra, Sulbar, Maluku, NTB, NTT</div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Kabupaten/Kota (per ND 153)</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">Aceh Tengah, Barito Kuala, Jayapura, Kapuas, Nunukan, Sambas, Karo, Pesisir Barat, Kuningan, Probolinggo, <strong>Sumenep (2 unit)</strong>, Maluku Tengah, Mamuju, Wakatobi</div>
           </div>
           <div className="border border-[var(--border)] rounded-md p-3">
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Distribusi</div>
-            <div className="text-[11px] text-[var(--text-2)] leading-snug">12 provinsi × 1 unit + 1 provinsi × 3 unit = <strong>15 unit total</strong></div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug">13 kabupaten × 1 unit + Sumenep × 2 unit = <strong>15 unit di 14 kabupaten</strong> (13 provinsi)</div>
           </div>
           <div className="border border-[var(--border)] rounded-md p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Klasifikasi</div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Klasifikasi (Lamp. V2 G.2)</div>
             <div className="text-[11px] text-[var(--text-2)] leading-snug">4 Light (Rp 8–9 M) + 8 Standard (Rp 11–13 M) + 3 Heavy (Rp 18–25 M)</div>
           </div>
           <div className="border border-[var(--border)] rounded-md p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Total CAPEX & Komoditas</div>
-            <div className="text-[11px] text-[var(--text-2)] leading-snug"><strong>Rp 208 M</strong> · Gabah (4), Kopi (2), Lada (2), Rumput Laut (2), Jagung (2), lain (3)</div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Total CAPEX &amp; Komoditas (dari registry SRG)</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-snug"><strong>Rp 208 M</strong> · Gabah/Beras (7), Jagung (4), Kopi (2), Rumput Laut (2). Komoditas per kabupaten ditarik dari menu SRG (gudang eksisting).</div>
           </div>
         </div>
       </div>
@@ -7347,7 +7350,7 @@ function MenuPSN(){
           <div className="serif text-lg">Rincian Perhitungan per Gudang — 38 Unit</div>
         </div>
         <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-3">
-          Setiap angka per gudang dirinci dengan tipe, luas, komoditas, IKK provinsi, dan status verifikasi. Status <span className="pill text-[9px] mono px-1.5" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.3)"}}>VERIFIED</span> = dirinci eksplisit di dokumen sumber (Paparan Slide 5/7); status <span className="pill text-[9px] mono px-1.5" style={{background:"rgba(245,158,11,0.10)",color:"var(--amber)",border:"1px solid rgba(245,158,11,0.3)"}}>DERIVASI</span> = diturunkan dari total per-provinsi + formula G.1, akan divalidasi via Pra-FS &amp; FS detail Q1–Q2 2027 (Lampiran B.1 §Validasi).
+          Setiap angka per gudang dirinci dengan tipe, luas, komoditas, IKK provinsi, dan status verifikasi. Status <span className="pill text-[9px] mono px-1.5" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.3)"}}>ND-153</span> = lokus &amp; komoditas resmi dari Nota Dinas Bappebti 153/BAPPEBTI.1/ND/03/2026 (31 Maret 2026) — dokumen pengajuan PSN ke Biro Perencanaan Kemendag. Total CAPEX per-provinsi dari Lampiran Teknis V2 (Juni 2026) direalokasi proporsional ke lokus ND 153. Per-unit final akan divalidasi via Pra-FS &amp; FS detail Q1–Q2 2027.
         </p>
 
         {/* Formula box */}
@@ -7436,7 +7439,7 @@ function MenuPSN(){
                       <td className="text-center py-2 px-1 mono text-[10px]">{ikk.toFixed(2)}</td>
                       <td className="text-right py-2 px-1 mono font-semibold">{r.capex}</td>
                       <td className="text-center py-2 pl-1">
-                        {r.status==="verified" ? <span className="pill text-[9px] mono" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.30)"}}>VER</span> : <span className="pill text-[9px] mono" style={{background:"rgba(245,158,11,0.10)",color:"var(--amber)",border:"1px solid rgba(245,158,11,0.30)"}}>DRV</span>}
+                        <span className="pill text-[9px] mono" style={{background:"rgba(16,185,129,0.10)",color:"var(--green)",border:"1px solid rgba(16,185,129,0.30)"}}>ND-153</span>
                       </td>
                     </tr>
                   );
@@ -7556,8 +7559,8 @@ function MenuPSN(){
           </table>
         </div>
         <div className="text-[10px] text-[var(--text-3)] italic mb-4">
-          <strong>Catatan Sumenep:</strong> Kabupaten Sumenep (Madura, Jatim) memiliki <strong>2 unit revitalisasi terpisah</strong> — Sumenep Lokasi 1 (Standard, Gabah) dan Sumenep Lokasi 2 (Light, Rumput Laut) — sebagaimana dicantumkan di klasifikasi Lampiran G.2. Bukan duplikasi: keduanya gudang fisik berbeda dengan klasifikasi, komoditas, dan biaya retrofit yang berbeda. Ditandai dengan badge <span className="text-[8px] mono px-1 py-0.5 rounded" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.30)"}}>2-unit</span>. Hal ini konsisten dengan Paparan Slide 5 yang menyebut distribusi revit sebagai "12 provinsi dengan 1 unit + 1 provinsi dengan 3 unit = 15 unit total" — Jawa Timur menjadi provinsi dengan multi-unit revit.<br/><br/>
-          <strong>Catatan lain:</strong> Klasifikasi 14 dari 15 unit teridentifikasi by name di Lampiran G.2. 1 unit belum dirinci pada dokumen sumber — Paparan Slide 5 menyebut cakupan revit meliputi 13 provinsi termasuk NTB/NTT/Sulut yang tidak masuk klasifikasi G.2. Lampiran G.2 menyebut "8 Standard" namun hanya 7 kabupaten dirinci. Probolinggo dikecualikan dari Heavy revit karena Paparan Slide 5 menetapkannya sebagai gudang baru (Jagung, Rp 31 M). Formula <span className="mono">Base × Faktor × IKK × 1,20</span> menghasilkan Rp 198,4 M; sisanya Rp 9,6 M dikalibrasi sebagai sub-komponen B.1 Audit Teknis + B.5 Sertifikasi LPK SRG (flat Rp 0,64 M/unit × 15) yang merupakan biaya administratif terpisah di luar formula — total Grup B = <strong>Rp 208 M ✓ klop</strong> dengan Lampiran G.2.
+          <strong>Catatan Sumenep:</strong> Kabupaten Sumenep (Madura, Jatim) memiliki <strong>2 unit revitalisasi terpisah</strong> — Sumenep Lokasi 1 (Standard, Gabah) dan Sumenep Lokasi 2 (Light, Rumput Laut) — sebagaimana dicantumkan di klasifikasi Lampiran G.2. Bukan duplikasi: keduanya gudang fisik berbeda di kabupaten Sumenep (Madura). Per registry SRG dashboard: <strong>Sumenep Lokasi 1</strong> = Gudang Flat 1.500 ton, komoditas Gabah/Beras/Jagung (Standard); <strong>Sumenep Lokasi 2</strong> = Gudang Silo 400 ton, komoditas Jagung (Light). Ditandai dengan badge <span className="text-[8px] mono px-1 py-0.5 rounded" style={{background:"rgba(37,99,235,0.10)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.30)"}}>2-unit</span>. Konsisten dengan ND 153: 15 unit revit di 14 kabupaten — Sumenep adalah kabupaten dengan 2 unit revit (per registry SRG, 2 gudang fisik berbeda dengan tipe & komoditas berbeda).<br/><br/>
+          <strong>Catatan tambahan dari ND 153:</strong> (a) <strong>Probolinggo masuk dua kali</strong> di ND 153 — sekali sebagai gudang BARU untuk komoditas <strong>Bawang Merah</strong> (Grup A, belum ada gudang SRG eksisting untuk Bawang Merah di Probolinggo) dan sekali sebagai gudang REVITALISASI untuk komoditas <strong>Gabah/Beras</strong> (Grup B, gudang SRG eksisting Kraksaan/Banyuanyar/UD Maju Bersama dll). Keduanya unit fisik berbeda di kabupaten yang sama. (b) Klasifikasi Light/Standard/Heavy mengikuti Lampiran V2 G.2; Probolinggo revit diklasifikasikan Standard. (c) Formula <span className="mono">Base × Faktor × IKK × 1,20</span> menghasilkan Rp 198,4 M; sisanya Rp 9,6 M dikalibrasi sebagai sub-komponen B.1 Audit Teknis + B.5 Sertifikasi LPK SRG (flat Rp 0,64 M/unit × 15) — total Grup B = <strong>Rp 208 M ✓ klop</strong> dengan Lampiran V2 G.2.
         </div>
 
         {/* Sub-komponen Grup A & B */}
@@ -7827,10 +7830,10 @@ function MenuPSN(){
               <div className="serif text-xl">Aceh</div>
               <span className="pill pill-blue text-[9px] mono">3 unit baru · 3TP TERDEPAN + PERBATASAN</span>
             </div>
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Status KEK Sabang · Subtotal CAPEX Rp 119 M</div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Status KEK Sabang · Subtotal CAPEX Rp 119 M (per ND 153)</div>
             <ul className="text-[11px] text-[var(--text-2)] space-y-1.5 leading-snug">
-              <li><strong>Lhokseumawe</strong> · Tipe M · Gabah · <span className="mono">Rp 26 M</span> — sentra produksi padi pesisir utara Aceh</li>
-              <li><strong>Aceh Barat Daya</strong> · Tipe S · Pala · <span className="mono">Rp 21 M</span> — komoditas ekspor; revitalisasi nilai tambah petani pala</li>
+              <li><strong>Aceh Barat Daya</strong> · Tipe S · Pala · <span className="mono">Rp 21 M</span> — komoditas ekspor; nilai tambah petani pala (1 lokus Pala dipilih untuk Aceh)</li>
+              <li><strong>Lhokseumawe</strong> · Tipe M · Gabah/Beras · <span className="mono">Rp 26 M</span> — sentra padi pesisir utara Aceh</li>
               <li><strong>Sabang (KEK)</strong> · Tipe XL cold chain · Ikan · <span className="mono">Rp 72 M</span> — Hub Ekspor di KEK Sabang via KPBU Solicited (Rp 60 M)</li>
             </ul>
           </div>
@@ -7843,7 +7846,7 @@ function MenuPSN(){
             <ul className="text-[11px] text-[var(--text-2)] space-y-1.5 leading-snug">
               <li><strong>Merauke</strong> · Tipe L · Gabah · <span className="mono">Rp 54 M</span> — sentra MIFEE; akses logistik ke pasar nasional</li>
               <li><strong>Mappi</strong> · Tipe M cold chain · Ikan · <span className="mono">Rp 47 M</span> — pengembangan perikanan pesisir</li>
-              <li><strong>Boven Digoel</strong> · Tipe M · Gabah · <span className="mono">Rp 44 M</span> — sentra padi pegunungan Papua Selatan</li>
+              <li><strong>Boven Digoel</strong> · Tipe M · Gabah/Beras/Kopi · <span className="mono">Rp 44 M</span> — sentra padi & kopi pegunungan Papua Selatan</li>
               <li><strong>Asmat</strong> · Tipe M cold chain · Ikan · <span className="mono">Rp 68 M</span> — perikanan adat; transformasi ekonomi lokal</li>
             </ul>
           </div>
@@ -7964,6 +7967,7 @@ function MenuPSN(){
             {nama:"Paparan PSN SRG 2027 (Final)",                       file:"Paparan_PSN_SRG_2027_15062026_FINAL.pptx",                tanggal:"15 Juni 2026", isi:"Paparan tindak lanjut pengajuan PSN 2027–2029 — 8 Aspek Justifikasi & Respons Tindak Lanjut Bappenas (9 slide)"},
             {nama:"Tanggapan Bappenas (V4)",                             file:"Tanggapan_Bappenas_PSN_SRG_T-09922_V4.docx",              tanggal:"Mei 2026",     isi:"Tanggapan resmi atas Surat Bappenas No. T-09922/D.09/PP.04.01/05/2026 (20 Mei 2026) — Ringkasan Eksekutif, Matriks Kriteria, Format APBN & Blended"},
             {nama:"Lampiran Teknis V2 — Langkah Perhitungan",            file:"Lampiran_Teknis_V2_Langkah_Perhitungan_PSN_SRG.docx",      tanggal:"15 Juni 2026", isi:"Audit trail per angka kuantitatif — Bagian A–I (CAPEX, SDM, Ekonomi, Kemiskinan, Finansial Operator, Grup Komponen, O&M, Skoring Risiko) + Daftar Pustaka"},
+            {nama:"Nota Dinas Bappebti 153 (Sekretaris Bappebti → Roren)",   file:"ND_Usulan_PSN_SRG_2027-2029_Bappebti_ke_Roren_Nomor_153.pdf", tanggal:"31 Maret 2026", isi:"Daftar resmi lokus pengajuan PSN 2027-2029: 23 gudang baru di 6 provinsi (Aceh Selatan dieliminasi karena komoditas Pala duplikat Aceh Barat Daya) + 15 revit di 14 kabupaten (Sumenep 2 unit, Probolinggo dual-listing: baru Bawang Merah + revit Gabah/Beras). Mencakup komoditas per kabupaten, lingkup proyek (5 komponen), indikasi jadwal 2027-2029, dan tujuan khusus (Pengamanan Pasar Dalam Negeri, Ketahanan Pangan, Desa Bisa Ekspor, Daya Saing Ekspor)"},
           ].map((d,i)=>(
             <div key={i} className="border border-[var(--border)] rounded-md p-3 flex items-start gap-3">
               <span className="text-base shrink-0" style={{color:"var(--gold)"}}>▸</span>
