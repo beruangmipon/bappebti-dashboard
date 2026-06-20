@@ -3038,65 +3038,72 @@ function PenerbitanResiGudang({year}){
   );
 }
 
-function GudangPusatRecap(){
-  const [openYr,setOpenYr] = useState(null);
+function KepemilikanGudangPanel(){
+  const [selYr,setSelYr] = useState(null);
   const ST = {aktif:{c:"#059669",l:"Aktif"},berakhir:{c:"#d97706",l:"Berakhir"},belum:{c:"#2563eb",l:"Belum"},dicabut:{c:"#dc2626",l:"Dicabut"}};
-  // Gudang Pemerintah Pusat (Kemendag) = gudang dengan tahun pembangunan (field th) terisi.
-  const byYear = {};
-  GUDANG.forEach(g=>{ if(g.th==null) return; (byYear[g.th]=byYear[g.th]||[]).push(g); });
-  const years = Object.keys(byYear).map(Number).sort((a,b)=>a-b);
-  const maxN = Math.max(1,...years.map(y=>byYear[y].length));
-  const total = years.reduce((s,y)=>s+byYear[y].length,0);
+  const maxN = Math.max(...TAHUN_PEMBANGUNAN_PUSAT.map(x=>x.n));
+  // Daerah penerima per tahun (field th terisi = gudang Pemerintah Pusat / Kemendag).
+  const itemsForYear = (yr)=> GUDANG.filter(g=>g.th===yr)
+        .sort((a,b)=> (a.pr||"").localeCompare(b.pr||"") || (a.kb||"").localeCompare(b.kb||""));
+  const sel = selYr!=null ? itemsForYear(selYr) : [];
+  const selCnt = {aktif:0,berakhir:0,belum:0,dicabut:0};
+  sel.forEach(g=>{ if(selCnt[g.st]!=null) selCnt[g.st]++; });
   return (
-    <div className="card p-5 mb-6">
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-        <div>
-          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rekap Pembangunan Gudang SRG Pemerintah Pusat</div>
-          <div className="serif text-xl">Gudang Pemerintah Pusat per Tahun &amp; Daerah</div>
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="card-2 p-3">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Rincian Kepemilikan</div>
+          <div className="space-y-1.5">
+            {Object.entries(KEPEMILIKAN_DETIL).map(([k,v])=>{ const col = k==="Pemkab/kota (Kemendag)"?'#a16207' : k==="Pemkab"?'#d97706' : k==="Swasta (K/L Lain)"?'#2563eb' : '#059669'; const pct=Math.round(v/KEPEMILIKAN_TOTAL.total*100); return (
+              <div key={k} className="flex items-center gap-2 text-[11px]">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{background:col}}></span>
+                <span className="flex-1 text-[var(--text-2)]">{k}</span>
+                <span className="mono text-[var(--text-3)] w-10 text-right">{v}</span>
+                <span className="mono text-[9px] text-[var(--text-3)] w-9 text-right">{pct}%</span>
+              </div>
+            );})}
+          </div>
         </div>
-        <span className="text-[10px] mono text-[var(--text-3)]">{total} gudang &middot; {years.length} tahun program &middot; sumber: Direktori Gudang SRG Bappebti</span>
-      </div>
-      <div className="text-[11px] text-[var(--text-2)] mb-3">Klik tahun untuk melihat daftar daerah (kabupaten/kota) tempat Pemerintah Pusat (Kemendag) membangun gudang SRG pada tahun tersebut &mdash; lengkap dengan provinsi, komoditas, dan status terkini gudang.</div>
-      <div className="space-y-1">
-        {years.map(yr=>{
-          const items = [...byYear[yr]].sort((a,b)=> (a.pr||"").localeCompare(b.pr||"") || (a.kb||"").localeCompare(b.kb||""));
-          const isOpen = openYr===yr;
-          const cnt = {aktif:0,berakhir:0,belum:0,dicabut:0};
-          items.forEach(g=>{ if(cnt[g.st]!=null) cnt[g.st]++; });
-          return (
-            <div key={yr}>
-              <button onClick={()=>setOpenYr(isOpen?null:yr)} className="w-full flex items-center gap-2 text-[11px] py-1 rounded px-1 text-left transition hover:bg-[var(--card)]">
-                <span className="mono text-[7px] text-[var(--text-3)] w-2 shrink-0">{isOpen?"\u25BC":"\u25B6"}</span>
-                <span className="mono text-[var(--text-2)] w-9 shrink-0">{yr}</span>
-                <div className="impact-bar flex-1 max-w-[160px] shrink-0"><div className="impact-fill" style={{width:`${Math.round(byYear[yr].length/maxN*100)}%`,background:yr===2009?"#a16207":"rgba(161,98,7,0.55)"}}></div></div>
-                <span className="mono text-[var(--text-3)] w-16 text-right shrink-0">{byYear[yr].length} gudang</span>
-                <span className="hidden sm:flex items-center gap-1.5 ml-1">
-                  {Object.keys(ST).map(k=> cnt[k]>0 ? (<span key={k} className="inline-flex items-center gap-0.5 mono text-[9px]" style={{color:ST[k].c}}><span className="w-1.5 h-1.5 rounded-full" style={{background:ST[k].c}}></span>{cnt[k]}</span>) : null)}
-                </span>
+        <div className="card-2 p-3">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Tahun Pembangunan Gudang Pemerintah Pusat</div>
+          <div className="flex items-end gap-1 h-24">
+            {TAHUN_PEMBANGUNAN_PUSAT.map(t=>{ const h=Math.round(t.n/maxN*86); const active=selYr===t.tahun; return (
+              <button key={t.tahun} onClick={()=>setSelYr(active?null:t.tahun)} title={`${t.tahun}: ${t.n} gudang \u2014 klik untuk lihat daerah`} className="flex-1 flex flex-col items-center gap-1 cursor-pointer group">
+                <div className="text-[9px] mono" style={{color:active?'#a16207':'var(--text-3)'}}>{t.n}</div>
+                <div className="w-full rounded-t transition-all" style={{height:h,background:active?'#a16207':(t.tahun===2009?'rgba(161,98,7,0.85)':'rgba(161,98,7,0.45)'),outline:active?'2px solid #a16207':'none',outlineOffset:'1px'}}></div>
+                <div className="text-[9px] mono" style={{color:active?'#a16207':'var(--text-3)'}}>{String(t.tahun).slice(2)}</div>
               </button>
-              {isOpen && (
-                <div className="pl-4 pr-1 pb-2 pt-1">
-                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Daerah penerima ({items.length} gudang)</div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5">
-                    {items.map((g,i)=>{ const s=ST[g.st]||{c:"var(--text-3)",l:g.st}; return (
-                      <div key={i} className="flex items-start gap-2 text-[11px] py-0.5">
-                        <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:s.c}} title={s.l}></span>
-                        <div className="flex-1 min-w-0">
-                          <span className="text-[var(--text-2)]">{g.kb}</span>
-                          <span className="text-[var(--text-3)]"> &middot; {g.pr}</span>
-                          <span className="text-[var(--text-3)]"> &mdash; {g.km}</span>
-                        </div>
-                        <span className="mono text-[9px] shrink-0" style={{color:s.c}}>{s.l}</span>
-                      </div>
-                    );})}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+            );})}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-2">{selYr!=null ? `Menampilkan ${sel.length} gudang dibangun tahun ${selYr}. Klik lagi batang yang sama untuk menutup.` : `Klik batang tahun untuk melihat daftar daerah penerima. Total ${TAHUN_PEMBANGUNAN_PUSAT.reduce((a,t)=>a+t.n,0)} gudang ber-tahun (dari ${KEPEMILIKAN_TOTAL.pusat} gudang Pemerintah Pusat).`}</div>
+        </div>
       </div>
-      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Cakupan: {total} gudang Pemerintah Pusat (Kemendag) yang tahun pembangunannya tercatat &mdash; mayoritas via Dana Stimulus Fiskal / DAK sejak 2009. Status (Aktif/Berakhir/Belum/Dicabut) menunjukkan kondisi gudang saat ini, bukan status pada tahun pembangunan. Sumber: Direktori Gudang SRG Bappebti per {SRG_DATA_UPDATE}.</div>
+
+      {selYr!=null && (
+        <div className="card-2 p-4 mt-3" style={{borderLeft:"3px solid #a16207"}}>
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <div className="text-[11px]"><span className="mono uppercase tracking-wider text-[var(--text-3)]">Daerah penerima gudang Pemerintah Pusat </span><span className="serif text-base text-[var(--gold)]">Tahun {selYr}</span><span className="text-[var(--text-3)]"> &middot; {sel.length} gudang</span></div>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {Object.keys(ST).map(k=> selCnt[k]>0 ? (<span key={k} className="inline-flex items-center gap-1 mono text-[10px]" style={{color:ST[k].c}}><span className="w-1.5 h-1.5 rounded-full" style={{background:ST[k].c}}></span>{selCnt[k]} {ST[k].l}</span>) : null)}
+              <button onClick={()=>setSelYr(null)} className="mono text-[10px] text-[var(--text-3)] hover:text-[var(--text-1)] px-1.5 py-0.5 rounded border border-[var(--border)]">tutup \u2715</button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5">
+            {sel.map((g,i)=>{ const st=ST[g.st]||{c:"var(--text-3)",l:g.st}; return (
+              <div key={i} className="flex items-start gap-2 text-[11px] py-0.5">
+                <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:st.c}} title={st.l}></span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[var(--text-2)]">{g.kb}</span>
+                  <span className="text-[var(--text-3)]"> &middot; {g.pr}</span>
+                  <span className="text-[var(--text-3)]"> &mdash; {g.km}</span>
+                </div>
+                <span className="mono text-[9px] shrink-0" style={{color:st.c}}>{st.l}</span>
+              </div>
+            );})}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Status menunjukkan kondisi gudang saat ini (bukan saat tahun pembangunan). Sumber: Direktori Gudang SRG Bappebti per {SRG_DATA_UPDATE}.</div>
+        </div>
+      )}
     </div>
   );
 }
@@ -3978,38 +3985,9 @@ function SebaranSRG({year}){
           );})}
         </div>
 
-        {/* Komposisi detail + Distribusi tahun program pemerintah pusat */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Rincian Kepemilikan</div>
-            <div className="space-y-1.5">
-              {Object.entries(KEPEMILIKAN_DETIL).map(([k,v])=>{ const col = k==="Pemkab/kota (Kemendag)"?'#a16207' : k==="Pemkab"?'#d97706' : k==="Swasta (K/L Lain)"?'#2563eb' : '#059669'; const pct=Math.round(v/KEPEMILIKAN_TOTAL.total*100); return (
-                <div key={k} className="flex items-center gap-2 text-[11px]">
-                  <span className="w-2 h-2 rounded-full shrink-0" style={{background:col}}></span>
-                  <span className="flex-1 text-[var(--text-2)]">{k}</span>
-                  <span className="mono text-[var(--text-3)] w-10 text-right">{v}</span>
-                  <span className="mono text-[9px] text-[var(--text-3)] w-9 text-right">{pct}%</span>
-                </div>
-              );})}
-            </div>
-          </div>
-          <div className="card-2 p-3">
-            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Tahun Pembangunan Gudang Pemerintah Pusat</div>
-            <div className="flex items-end gap-1 h-24">
-              {TAHUN_PEMBANGUNAN_PUSAT.map(t=>{ const maxN=Math.max(...TAHUN_PEMBANGUNAN_PUSAT.map(x=>x.n)); const h=Math.round(t.n/maxN*86); return (
-                <div key={t.tahun} className="flex-1 flex flex-col items-center gap-1" title={`${t.tahun}: ${t.n} gudang`}>
-                  <div className="text-[9px] mono text-[var(--text-3)]">{t.n}</div>
-                  <div className="w-full rounded-t" style={{height:h,background:t.tahun===2009?'#a16207':'rgba(161,98,7,0.55)'}}></div>
-                  <div className="text-[9px] mono text-[var(--text-3)]">{String(t.tahun).slice(2)}</div>
-                </div>
-              );})}
-            </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-2">Puncak 2009 (41 gudang) — gelombang awal program Dana Stimulus Fiskal Kemendag. Total {TAHUN_PEMBANGUNAN_PUSAT.reduce((s,t)=>s+t.n,0)} gudang ber-tahun terisi (dari {KEPEMILIKAN_TOTAL.pusat} gudang Pemerintah Pusat).</div>
-          </div>
-        </div>
+        {/* Komposisi detail + Distribusi tahun + drilldown per tahun (klik batang untuk lihat daerah) */}
+        <KepemilikanGudangPanel/>
       </div>
-
-      <GudangPusatRecap/>
 
       {/* Pengelola Gudang SRG */}
       <div className="card p-5 mb-6">
