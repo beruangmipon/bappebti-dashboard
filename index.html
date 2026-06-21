@@ -6753,6 +6753,148 @@ const PSN_KRITERIA = {
   ],
 };
 
+/* ----------------------------------------------------------------------- */
+/* MANAJEMEN & PETA RISIKO PSN SRG — acuan Lampiran Teknis V2 Bagian I       */
+/* ----------------------------------------------------------------------- */
+const PSN_RISK_LABEL = ["Sangat Rendah","Rendah","Sedang","Tinggi","Sangat Tinggi"];
+const PSN_RISIKO = [
+  {no:1,  kat:"Fiskal",       risiko:"Refocusing / pemotongan anggaran tahunan di tengah jalan",            pIn:4, iIn:4, pRes:2, iRes:4, mitigasi:"Multi-Year Lock dalam Nota Keuangan 2027–2029 — anggaran Rp 1,34 T terkunci, tak terdampak refocusing tahunan (risiko terhenti 20–30% → 5–8%).", owner:"DJA · Set. Bappebti"},
+  {no:2,  kat:"Lahan/Regulasi",risiko:"Keterlambatan pengadaan lahan, RTRW & perizinan (KKPR)",               pIn:4, iIn:5, pRes:2, iRes:5, mitigasi:"KKPR khusus PSN dengan dispensasi RTRW Pemda, akses BMN/BMD + hibah Pemda, dan Single Submission (vs revisi RTRW reguler 12–24 bulan).", owner:"ATR/BPN · Pemda"},
+  {no:3,  kat:"Operasional",  risiko:"Gudang idle / utilisasi rendah pasca-pembangunan (idle nasional 52%)",  pIn:5, iIn:5, pRes:3, iRes:5, mitigasi:"Prasyarat serah terima: pengelola terlatih (QDB) + koneksi lelang (PEA/BDB) + akses pembiayaan terpasang sebelum operasional. KPI utama = tingkat utilisasi, bukan jumlah unit.", owner:"Robinbang SRG-PLK"},
+  {no:4,  kat:"Konstruksi",   risiko:"Keterlambatan konstruksi di lokus 3T (Aceh, Papua Selatan) — cuaca, logistik, material", pIn:4, iIn:4, pRes:3, iRes:4, mitigasi:"Paket design-build, mobilisasi material dini, kontingensi cuaca dalam jadwal 36 bulan, pengawasan PMO atas jalur kritis.", owner:"PMO · Kontraktor"},
+  {no:5,  kat:"SDM",          risiko:"Kesiapan & sertifikasi Pengelola Gudang (PG) belum memadai",            pIn:4, iIn:4, pRes:2, iRes:4, mitigasi:"Pelatihan & sertifikasi PG (Grup QDB) paralel dengan konstruksi; pemanfaatan jaringan 80.000 KDMP sebagai calon pengelola/off-taker.", owner:"Bappebti · KDMP"},
+  {no:6,  kat:"Kelembagaan",  risiko:"Kompleksitas koordinasi 18 K/L pendukung & 9-tier kelembagaan",        pIn:3, iIn:3, pRes:2, iRes:3, mitigasi:"PMO terpadu + struktur kelembagaan 9 tier yang jelas, payung Perpres PSN sebagai dasar mengikat antar-K/L.", owner:"PMO · Set. Bappebti"},
+  {no:7,  kat:"Daerah",       risiko:"Komitmen Pemda (hibah lahan & infrastruktur pendukung) tak terpenuhi",  pIn:3, iIn:4, pRes:2, iRes:4, mitigasi:"MoU / komitmen tertulis pra-DIPA, dikunci melalui KKPR khusus PSN; kontribusi non-tunai Pemda Rp 150–250 M diperhitungkan sebagai avoided cost.", owner:"Pemda · Set. Bappebti"},
+  {no:8,  kat:"Pasar",        risiko:"Fluktuasi harga komoditas menekan daya tarik Resi Gudang bagi petani",  pIn:3, iIn:3, pRes:3, iRes:3, mitigasi:"Operator anchor BUMN (Bulog/ID FOOD/PTPN) sebagai off-taker, diversifikasi komoditas per lokus, integrasi akses pembiayaan + lelang.", owner:"BUMN Pangan · Robinbang"},
+  {no:9,  kat:"Strategis",    risiko:"Usulan PSN tidak ditetapkan / mundur dari RKP TA 2027",                 pIn:3, iIn:5, pRes:2, iRes:5, mitigasi:"Pelengkapan 4 dokumen pendukung & fasilitasi bersama Bappenas; target finalisasi dan penetapan PSN September 2026.", owner:"Bappenas · Set. Bappebti"},
+  {no:10, kat:"Pembiayaan",   risiko:"Skema blended (KPBU Sabang, anchor BUMN) gagal terealisasi",            pIn:3, iIn:3, pRes:2, iRes:3, mitigasi:"Fallback skema APBN murni Rp 1,34 T tetap layak; pendampingan PT PII/SMI untuk KPBU Tipe-XL Hub Ekspor Sabang.", owner:"DJA · PT PII/SMI"},
+  {no:11, kat:"Data",         risiko:"Kelengkapan FS penuh + RTRW (Dokumen 04) belum tuntas",                pIn:4, iIn:4, pRes:2, iRes:4, mitigasi:"Fasilitasi penyusunan FS & RTRW bersama Bappenas; tenggat finalisasi September 2026 sebelum penetapan PSN.", owner:"Bappenas · Robinbang"},
+  {no:12, kat:"Keberlanjutan",risiko:"Keberlanjutan O&M aset pasca-2029 (setelah peran enabler PSN berakhir)", pIn:3, iIn:4, pRes:3, iRes:4, mitigasi:"Aset beralih ke tusi reguler Bappebti pasca-2029; OPEX awal sudah dialokasikan dalam CAPEX; operator anchor BUMN menjaga keberlangsungan.", owner:"Bappebti"},
+];
+function psnRiskLv(score){
+  if(score>=15) return {l:"Ekstrem", c:"#dc2626"};
+  if(score>=10) return {l:"Tinggi",  c:"#ea580c"};
+  if(score>=5)  return {l:"Sedang",  c:"#d97706"};
+  return {l:"Rendah", c:"#059669"};
+}
+function psnCellBg(score){
+  if(score>=15) return "rgba(220,38,38,0.16)";
+  if(score>=10) return "rgba(234,88,12,0.15)";
+  if(score>=5)  return "rgba(217,119,6,0.13)";
+  return "rgba(5,150,105,0.12)";
+}
+function PSNRiskPanel(){
+  const [mode,setMode] = useState("residual");
+  const inheren = mode==="inheren";
+  const data = PSN_RISIKO.map(r=>{ const pp = inheren?r.pIn:r.pRes; const ii = inheren?r.iIn:r.iRes; return {no:r.no, risiko:r.risiko, p:pp, i:ii, lv:psnRiskLv(pp*ii)}; });
+  const dist = {Ekstrem:0,Tinggi:0,Sedang:0,Rendah:0};
+  data.forEach(d=> dist[d.lv.l]++);
+  return (
+    <div className="card p-5 mb-6">
+      <div className="flex items-baseline gap-3 mb-1 flex-wrap">
+        <span className="pill pill-gold mono text-[9px]">MANAJEMEN RISIKO</span>
+        <div className="serif text-lg">Peta &amp; Register Risiko PSN SRG 2027–2029</div>
+      </div>
+      <p className="text-[11px] text-[var(--text-3)] mb-4 italic">12 risiko utama lintas dimensi fiskal, regulasi, konstruksi, operasional, dan strategis untuk paket 38 gudang (Rp 1,34 T · 36 bulan). Acuan: Lampiran Teknis V2 Bagian I — Skoring Risiko. Skor = Probabilitas × Dampak (skala 1–5).</p>
+
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Posisi peta:</span>
+        {[["inheren","Inheren"],["residual","Residual (pasca-mitigasi)"]].map(([k,lbl])=>(
+          <button key={k} onClick={()=>setMode(k)} className="pill text-[9px] mono" style={{background: mode===k?"var(--gold)":"transparent", color: mode===k?"#fff":"var(--text-3)", border:`1px solid ${mode===k?"var(--gold)":"var(--border)"}`}}>{lbl}</button>
+        ))}
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Peta Risiko 5×5 — {inheren?"Inheren":"Residual"}</div>
+          <div className="grid gap-0.5" style={{gridTemplateColumns:"58px repeat(5,1fr)"}}>
+            {[5,4,3,2,1].map(pr=>(
+              <React.Fragment key={pr}>
+                <div className="text-[8px] mono text-[var(--text-3)] flex items-center justify-end pr-1 text-right leading-tight">{PSN_RISK_LABEL[pr-1]}</div>
+                {[1,2,3,4,5].map(ic=>{
+                  const cell = data.filter(d=>d.p===pr && d.i===ic);
+                  return (
+                    <div key={ic} className="aspect-square rounded-sm flex flex-wrap items-center justify-center gap-0.5 p-0.5" style={{background:psnCellBg(pr*ic)}}>
+                      {cell.map(d=>(
+                        <span key={d.no} title={`${d.no}. ${d.risiko}`} className="inline-flex items-center justify-center rounded-full mono font-bold text-white" style={{width:16,height:16,fontSize:9,background:d.lv.c}}>{d.no}</span>
+                      ))}
+                    </div>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+            <div></div>
+            {PSN_RISK_LABEL.map((lbl,k)=>(<div key={k} className="text-[8px] mono text-[var(--text-3)] text-center pt-1 leading-tight">{lbl.split(" ").map(w=>w[0]).join("")}</div>))}
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-[8px] mono text-[var(--text-3)]">↑ Probabilitas</span>
+            <span className="text-[8px] mono text-[var(--text-3)]">Dampak →</span>
+          </div>
+          <div className="flex items-center gap-3 mt-3 flex-wrap">
+            {[["Rendah","#059669"],["Sedang","#d97706"],["Tinggi","#ea580c"],["Ekstrem","#dc2626"]].map(([l,c])=>(
+              <span key={l} className="inline-flex items-center gap-1 text-[10px] mono" style={{color:c}}><span className="w-2.5 h-2.5 rounded-sm" style={{background:c}}></span>{l} <span className="text-[var(--text-3)]">({dist[l]})</span></span>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Profil Risiko {inheren?"Inheren":"Residual"}</div>
+          <div className="space-y-1.5">
+            {[["Ekstrem","#dc2626"],["Tinggi","#ea580c"],["Sedang","#d97706"],["Rendah","#059669"]].map(([l,c])=>{
+              const pct = Math.round(dist[l]/data.length*100);
+              return (
+                <div key={l} className="flex items-center gap-2 text-[11px]">
+                  <span className="w-16 mono text-[10px]" style={{color:c}}>{l}</span>
+                  <div className="impact-bar flex-1"><div className="impact-fill" style={{width:`${pct}%`,background:c}}></div></div>
+                  <span className="mono text-[var(--text-3)] w-8 text-right">{dist[l]}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="text-[11px] text-[var(--text-2)] leading-relaxed mt-3 border-t border-[var(--border)] pt-3">
+            <strong>Insight:</strong> Instrumen kemudahan PSN (multi-year lock, KKPR khusus, BMN/BMD, Single Submission) menggeser mayoritas risiko inheren kelas Ekstrem/Tinggi ke kelas Sedang. Risiko residual tertinggi tersisa pada <strong>utilisasi gudang pasca-pembangunan</strong> dan <strong>keberlanjutan O&amp;M pasca-2029</strong> — keduanya dijawab via prasyarat serah terima (pengelola terlatih + koneksi lelang + akses pembiayaan) dan KPI berbasis utilisasi, bukan jumlah unit.
+          </div>
+        </div>
+      </div>
+
+      <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-5 mb-2">Register Risiko — Inheren → Mitigasi → Residual</div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[11px] border-collapse">
+          <thead>
+            <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="text-left py-2 pr-2">#</th>
+              <th className="text-left py-2 pr-2">Kategori</th>
+              <th className="text-left py-2 pr-2">Risiko</th>
+              <th className="text-center py-2 px-1 whitespace-nowrap">Inheren</th>
+              <th className="text-left py-2 px-2">Mitigasi (Instrumen PSN)</th>
+              <th className="text-center py-2 px-1 whitespace-nowrap">Residual</th>
+              <th className="text-left py-2 pl-2">Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {PSN_RISIKO.map(r=>{
+              const inh = psnRiskLv(r.pIn*r.iIn);
+              const res = psnRiskLv(r.pRes*r.iRes);
+              return (
+                <tr key={r.no} className="border-b border-[var(--border)] align-top">
+                  <td className="py-2 pr-2 mono text-[var(--text-3)]">{r.no}</td>
+                  <td className="py-2 pr-2"><span className="pill pill-muted text-[9px] mono whitespace-nowrap">{r.kat}</span></td>
+                  <td className="py-2 pr-2 text-[var(--text-2)]">{r.risiko}</td>
+                  <td className="py-2 px-1 text-center"><span className="pill text-[9px] mono whitespace-nowrap" style={{color:inh.c,border:`1px solid ${inh.c}`,background:"transparent"}}>{inh.l} · {r.pIn*r.iIn}</span></td>
+                  <td className="py-2 px-2 text-[var(--text-2)] leading-snug">{r.mitigasi}</td>
+                  <td className="py-2 px-1 text-center"><span className="pill text-[9px] mono whitespace-nowrap" style={{color:res.c,border:`1px solid ${res.c}`,background:"transparent"}}>{res.l} · {r.pRes*r.iRes}</span></td>
+                  <td className="py-2 pl-2 text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.owner}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Skala Probabilitas &amp; Dampak: 1 (Sangat Rendah) – 5 (Sangat Tinggi). Skor = P×D. Level: Rendah (1–4) · Sedang (5–9) · Tinggi (10–14) · Ekstrem (15–25). Sumber: Lampiran Teknis V2 PSN SRG — Bagian I Skoring Risiko.</div>
+    </div>
+  );
+}
+
 function MenuPSN(){
   const totalBaru = PSN_LOKUS_BARU.reduce((s,r)=>s+r.unit,0);
   const totalCapexBaru = PSN_LOKUS_BARU.reduce((s,r)=>s+r.capex,0);
@@ -8515,6 +8657,9 @@ function MenuPSN(){
           <strong>Tenggat:</strong> Dokumen 01, 02, 03 siap disampaikan dan dikonfirmasi kembali. Dokumen 04 (FS penuh + RTRW) perlu fasilitasi bersama Bappenas — target finalisasi <strong>September 2026</strong> sebelum penetapan PSN RKP 2027.
         </div>
       </div>
+
+      {/* Manajemen & Peta Risiko */}
+      <PSNRiskPanel/>
 
       {/* Skema Pembiayaan Blended */}
       <div className="card p-5 mb-6">
