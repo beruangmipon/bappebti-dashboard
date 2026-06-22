@@ -1299,6 +1299,33 @@ const SBKK_2026 = {
   "RO-3761-BBA1": { rate: 21_875_000, satuan: "Orang" },
   "RO-3762-BMA1": { rate: 38_410_000, satuan: "Layanan" },
 };
+/* ===== USULAN SBKK TA 2027 (Lampiran Nota Dinas — Identifikasi Usulan SBKK Bappebti TA 2027) =====
+   Dua kelompok: (A) RO existing ber-SBKK 2026 yang diusulkan/disesuaikan untuk 2027; (B) RO baru
+   yang dapat diusulkan SBKK 2027. besaran = Usulan Pagu / Target; usulan = "Besaran SBKK 2027" final
+   (null bila tidak diusulkan). Sumber: sheet "Usulan SBKK 2027". */
+const USULAN_SBKK_2027 = {
+  existing: [
+    { kode:"3759.QIH.002", nama:"Pengawasan Pelaku Usaha SRG", sbkk2026:28_600_000, target:17, satuan:"Badan Usaha", pagu:486_200_000, usulan:28_600_000, diusulkan:true, tag:"Sama dgn 2026", ket:"Diusulkan SBKK. Besaran SBKK sama dengan TA 2026." },
+    { kode:"3760.ACD.001", nama:"Perizinan Lembaga SRG", sbkk2026:25_000_000, target:18, satuan:"Lembaga", pagu:450_000_000, usulan:null, diusulkan:false, tag:"Tidak diusulkan", ket:"Tidak diusulkan SBKK pada 2027 karena besaran (kebutuhan anggaran per lembaga) tidak dapat distandarkan — lokus menyesuaikan lokasi pemohon izin." },
+    { kode:"3760.QDB.001", nama:"Fasilitasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG", sbkk2026:18_000_000, target:40, satuan:"Lembaga", pagu:360_000_000, usulan:18_000_000, diusulkan:true, tag:"Sama dgn 2026 · target 40→20", ket:"Diusulkan SBKK. Besaran sama dengan TA 2026. Target akan disesuaikan pada Ranwal Renja 2027 dari 40 menjadi 20 lembaga." },
+    { kode:"3760.QDB.002", nama:"Fasilitasi dan Pembinaan Calon Pengelola Gudang SRG", sbkk2026:10_000_000, target:40, satuan:"Lembaga", pagu:150_000_000, usulan:10_000_000, diusulkan:true, tag:"Sama dgn 2026 · target 40→15", ket:"Diusulkan SBKK. Besaran sama dengan TA 2026. Target akan disesuaikan pada Ranwal Renja 2027 dari 40 menjadi 15 lembaga." },
+    { kode:"3760.QDB.004", nama:"Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", sbkk2026:41_000_000, target:8, satuan:"Lembaga", pagu:280_000_000, usulan:35_000_000, diusulkan:true, tag:"Disesuaikan 2027", ket:"Diusulkan SBKK. Besaran disesuaikan dengan kebutuhan pada 2027." },
+    { kode:"3760.QDC.001", nama:"Pembinaan/Pendampingan pada Pertemuan Teknis Pelaku Usaha PLK", sbkk2026:2_666_666, target:200, satuan:"Orang", pagu:600_000_000, usulan:3_000_000, diusulkan:true, tag:"Disesuaikan 2027", ket:"Diusulkan SBKK. Besaran disesuaikan dengan kebutuhan pada 2027." },
+    { kode:"3760.QDC.003", nama:"Pembinaan/Pendampingan pada Kegiatan Asistensi Pelaku Usaha PLK", sbkk2026:2_333_333, target:200, satuan:"Orang", pagu:400_000_000, usulan:2_000_000, diusulkan:true, tag:"Disesuaikan 2027", ket:"Diusulkan SBKK. Besaran disesuaikan dengan kebutuhan pada 2027." },
+    { kode:"3761.BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG, dan PLK", sbkk2026:21_875_000, target:34, satuan:"Orang", pagu:731_250_000, usulan:21_507_353, diusulkan:true, tag:"Disesuaikan 2027", ket:"Diusulkan SBKK. Besaran disesuaikan dengan kebutuhan pada 2027." },
+    { kode:"3762.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang PBK", sbkk2026:38_410_000, target:1, satuan:"Dokumen", pagu:369_639_000, usulan:369_639_000, diusulkan:true, tag:"Bersyarat alokasi · naik signifikan", ket:"Diusulkan SBKK apabila alokasi anggaran mencukupi. Besaran meningkat signifikan dari tahun sebelumnya karena penambahan jumlah kontributor harga." },
+  ],
+  baru: [
+    { kode:"3760.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", target:10, satuan:"Dokumen", pagu:150_000_000, usulan:15_000_000, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+    { kode:"3760.PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di Bidang SRG/PLK", target:2, satuan:"Rekomendasi Kebijakan", pagu:449_954_000, usulan:224_977_000, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+    { kode:"3760.PEA.001", nama:"Koordinasi dengan Pemangku Kepentingan di bidang SRG", target:8, satuan:"Kegiatan", pagu:270_046_000, usulan:33_755_750, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+    { kode:"3760.QDC.002", nama:"Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", target:300, satuan:"Orang", pagu:320_000_000, usulan:1_066_667, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+    { kode:"3762.ACB.001", nama:"Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", target:400, satuan:"Orang", pagu:24_250_000, usulan:60_625, tag:"Output berulang & terukur", ket:"Layanan perizinan bersifat berulang dan memiliki output yang terukur sehingga dapat diusulkan SBKK." },
+    { kode:"3762.ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka atau Wakil Penasihat Berjangka", target:200, satuan:"Orang", pagu:349_300_000, usulan:1_746_500, tag:"Output berulang & terukur", ket:"Pelaksanaan kegiatan memiliki target yang jelas dan berulang sehingga dapat diusulkan SBKK." },
+    { kode:"3762.PBB.G01", nama:"Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang PBK", target:3, satuan:"Rekomendasi Kebijakan", pagu:1_166_528_000, usulan:388_842_667, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+    { kode:"3762.QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", target:70, satuan:"Badan Usaha", pagu:374_340_000, usulan:5_347_714, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
+  ],
+};
 const penelaahan2027 = (r)=>{
   const vol=parseTargetNum(r.target), bs=biayaSatuan(r), sk=satuanKey(r.target), band=BAND[sk];
   // K1 — target & kinerja (rasionalitas anggaran vs volume keluaran)
@@ -5359,6 +5386,82 @@ function AnalisisAnggaran2027(){
         );
       })()}
 
+      {/* Usulan SBKK TA 2027 (RANWAL) */}
+      {isRanwal && (()=>{
+        const ex = USULAN_SBKK_2027.existing, br = USULAN_SBKK_2027.baru;
+        const exDiusulkan = ex.filter(r=>r.diusulkan).length;
+        const totalDiusulkan = exDiusulkan + br.length;
+        const sumPagu = [...ex.filter(r=>r.diusulkan), ...br].reduce((s,r)=>s+r.pagu,0);
+        const tagColor = (t)=> t.startsWith("Tidak") ? "#dc2626"
+                            : t.startsWith("Bersyarat") ? "#d97706"
+                            : "#059669";
+        const Baris = ({r, showSbkk2026})=>{
+          const c = tagColor(r.tag);
+          return (
+            <tr style={{borderBottom:"1px solid var(--border)"}}>
+              <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.kode}</td>
+              <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.nama}</td>
+              {showSbkk2026 && <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)] whitespace-nowrap">{r.sbkk2026!=null?fmtRp(r.sbkk2026):"—"}</td>}
+              <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)] whitespace-nowrap">{r.target} <span className="text-[9px]">{r.satuan}</span></td>
+              <td className="py-1.5 pr-2 text-right mono whitespace-nowrap">{fmtRp(r.pagu)}</td>
+              <td className="py-1.5 pr-2 text-right mono whitespace-nowrap" style={{fontWeight:600,color:r.usulan!=null?"var(--text-1)":"#9ca3af"}}>{r.usulan!=null?fmtRp(r.usulan):"—"}</td>
+              <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:c+'1a',color:c,borderColor:c+'55'}} title={r.ket}>{r.tag}</span></td>
+            </tr>
+          );
+        };
+        return (
+          <div className="card p-5 mb-6" style={{borderColor:"rgba(161,98,7,0.30)"}}>
+            <div className="flex items-start gap-3 flex-wrap mb-3">
+              <span className="text-[18px] leading-none mt-0.5" style={{color:"var(--gold)"}}>◆</span>
+              <div className="flex-1 min-w-[260px]">
+                <div className="serif text-lg">Usulan Standar Biaya Keluaran Khusus (SBKK) TA 2027</div>
+                <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
+                  Identifikasi usulan SBKK Bappebti TA 2027 sesuai <i>Lampiran Nota Dinas — Identifikasi Usulan SBKK Bappebti TA 2027</i>: <b>{totalDiusulkan} RO diusulkan</b> ber-SBKK ({exDiusulkan} RO existing penyesuaian dari SBKK 2026 + {br.length} RO baru), dengan total usulan pagu <b>{fmtRp(sumPagu)}</b>. Sebagian usulan bersifat <b>bersyarat</b> (apabila alokasi anggaran mencukupi). Besaran final mengikuti penetapan SBK TA 2027 oleh Kemenkeu.
+                </p>
+              </div>
+              <span className="pill pill-gold text-[10px] self-start">RANWAL · belum ditetapkan</span>
+            </div>
+
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1 mt-2">A · RO Existing (penyesuaian dari SBKK 2026)</div>
+            <div className="overflow-x-auto scrollbar mb-4">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">SBKK 2026</th>
+                    <th className="py-1.5 pr-2 text-right">Target 2027</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan Pagu</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan SBKK 2027</th>
+                    <th className="py-1.5 pr-2 text-center">Keterangan</th>
+                  </tr>
+                </thead>
+                <tbody>{ex.map(r=><Baris key={r.kode} r={r} showSbkk2026={true} />)}</tbody>
+              </table>
+            </div>
+
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">B · RO Baru (usulan SBKK baru)</div>
+            <div className="overflow-x-auto scrollbar">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">Target 2027</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan Pagu</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan SBKK 2027</th>
+                    <th className="py-1.5 pr-2 text-center">Keterangan</th>
+                  </tr>
+                </thead>
+                <tbody>{br.map(r=><Baris key={r.kode} r={r} showSbkk2026={false} />)}</tbody>
+              </table>
+            </div>
+
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Lampiran Nota Dinas — Identifikasi Usulan SBKK Bappebti TA 2027, Satker 090.07 Bappebti, Kementerian Perdagangan. "Usulan SBKK 2027" = besaran SBK per output yang diusulkan; "—" berarti tidak diusulkan SBKK (besaran tidak dapat distandarkan). Status <b>Bersyarat alokasi</b> = diusulkan apabila alokasi anggaran mencukupi. Angka bersifat RANWAL; penetapan final mengikuti SBK TA 2027 oleh Kementerian Keuangan.</div>
+          </div>
+        );
+      })()}
+
       {/* Tabel per kegiatan — matriks 5 kriteria */}
       <div className="space-y-6 mb-6">
         {kegOrder.map(kid=>{
@@ -6407,7 +6510,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.19 · PSN SRG: Spasial dikoreksi (13 prov revit · 16 unik · NTB/NTT/Sulut dihapus) · Critical Path → Gantt chart 24 baris × 36 bulan · Kelembagaan diperkuat unit ekspor (Menlu, LPEI, BKI, BPOM, Ditjen PLN) · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.22 · Analisis Anggaran TA 2027: ditambahkan panel Usulan SBKK TA 2027 (8 RO existing penyesuaian + 8 RO baru) dari Lampiran ND Identifikasi Usulan SBKK Bappebti TA 2027 · PSN SRG: Spasial dikoreksi (13 prov revit · 16 unik · NTB/NTT/Sulut dihapus) · Critical Path → Gantt chart 24 baris × 36 bulan · Kelembagaan diperkuat unit ekspor (Menlu, LPEI, BKI, BPOM, Ditjen PLN) · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
