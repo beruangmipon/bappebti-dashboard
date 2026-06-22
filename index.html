@@ -5506,6 +5506,7 @@ function AnalisisAnggaran2027(){
         const pnRows = rows.filter(r=>r.pkpn==="PN");
         const usulPnRows = rows.filter(r=>r.pkpn==="Usulan PN");
         const pkpnRows = byTag("PKPN");
+        const nonTagRows = rows.filter(r=>!r.pkpn);
         const sbkkRows = rows.filter(r=>r.sbkk);
         const kegList = ["3758","3759","3760","3761","3762"];
         const kegNama = {"3758":"Dukungan Manajemen","3759":"Pengawasan & Penindakan","3760":"Pembinaan SRG & PLK","3761":"Penyusunan Kebijakan & Hukum","3762":"Pembinaan PBK"};
@@ -5526,13 +5527,14 @@ function AnalisisAnggaran2027(){
               <span className="pill pill-red text-[10px] self-start">RANWAL · di atas pagu indikatif</span>
             </div>
 
-            {/* ringkasan kategori */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            {/* ringkasan kategori — PN + Usulan PN + PKPN + Non-tematik = Total */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-1">
               {[
                 {label:"Total Usulan Tambahan", val:fmtRp(total), sub:`${rows.length} RO`, c:"#c8102e"},
                 {label:"Tagging PN", val:fmtRp(sumOfRows(pnRows)), sub:`${pnRows.length} RO`, c:"#c8102e"},
                 {label:"Usulan PN (kandidat)", val:fmtRp(sumOfRows(usulPnRows)), sub:`${usulPnRows.length} RO`, c:"#d97706"},
                 {label:"PKPN", val:fmtRp(sumOfRows(pkpnRows)), sub:`${pkpnRows.length} RO`, c:"#2563eb"},
+                {label:"Non-tematik / Lainnya", val:fmtRp(sumOfRows(nonTagRows)), sub:`${nonTagRows.length} RO`, c:"#64748b"},
               ].map((k,i)=>(
                 <div key={i} className="rounded-lg p-3" style={{background:"var(--surface-2)",border:"1px solid var(--border)"}}>
                   <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">{k.label}</div>
@@ -5541,6 +5543,7 @@ function AnalisisAnggaran2027(){
                 </div>
               ))}
             </div>
+            <div className="text-[9px] text-[var(--text-3)] mb-4 italic">PN + Usulan PN + PKPN + Non-tematik = {fmtRp(sumOfRows(pnRows)+sumOfRows(usulPnRows)+sumOfRows(pkpnRows)+sumOfRows(nonTagRows))} (sama dengan Total). Non-tematik mencakup kekurangan operasional Dukungan Manajemen (EBA) serta RO ber-SBKK yang belum bertag PN/PKPN.</div>
 
             <div className="overflow-x-auto scrollbar">
               <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
@@ -6590,7 +6593,16 @@ function matrixSheets(tab){
     const a=[["Kode","Rincian Output","Pagu (Rp)","PN","Klaster PKPN","Impact","Alignment","Urgency","Leverage"]];
     RO_2027.forEach(r=>{const km=r.id.match(/(37\d\d)/);const keg=km?('K-'+km[1]):'';const pk=PKPN_KLASTER_MAP[`${keg}|${r.kode}`];a.push([r.kode,r.nama,r.anggaran,r.isPN?"Ya":"-",pk?pk.klaster:"-",r.impact,r.alignment,r.urgency,r.leverage]);});
     sheets.push({name:"RO x PN-PKPN 2027",rows:a});
-  } else {
+    // Usulan SBKK TA 2027 (existing + baru)
+    const us=[["Kelompok","Kode RO","Rincian Output","SBKK 2026 (Rp)","Target 2027","Satuan","Usulan Pagu (Rp)","Usulan SBKK 2027 (Rp)","Status","Keterangan"]];
+    USULAN_SBKK_2027.existing.forEach(r=>us.push(["Existing (penyesuaian)",r.kode,r.nama,r.sbkk2026??"",r.target,r.satuan,r.pagu,r.usulan??"-",r.tag,r.ket]));
+    USULAN_SBKK_2027.baru.forEach(r=>us.push(["Baru",r.kode,r.nama,"",r.target,r.satuan,r.pagu,r.usulan??"-",r.tag,r.ket]));
+    sheets.push({name:"Usulan SBKK 2027",rows:us});
+    // Usulan Tambahan Pagu Anggaran TA 2027
+    const ut=[["Kegiatan","Kode RO","Rincian Output","Target","Satuan","Usulan Tambahan Pagu (Rp)","PKPN/PN","SBKK","Keterangan"]];
+    USULAN_TAMBAHAN_PA_2027.forEach(r=>ut.push([r.keg,r.kode,r.nama,r.target,r.satuan,r.pagu,r.pkpn||"-",r.sbkk?"Ya":"-",r.ket||""]));
+    ut.push(["","","TOTAL Seluruhnya","","",USULAN_TAMBAHAN_PA_2027.reduce((s,r)=>s+r.pagu,0),"","",""]);
+    sheets.push({name:"Usulan Tambahan PA 2027",rows:ut});
     sheets.push({name:"Info",rows:[["Menu ini belum memiliki matriks untuk diekspor."],["Buka menu Capaian, SRG, atau Analisis Anggaran / Analisa PN, lalu klik Ekspor Matriks."]]});
   }
   return sheets;
