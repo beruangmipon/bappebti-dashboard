@@ -1326,24 +1326,25 @@ const USULAN_SBKK_2027 = {
     { kode:"3762.QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", target:70, satuan:"Badan Usaha", pagu:374_340_000, usulan:5_347_714, tag:"Bersyarat alokasi", ket:"Dapat diusulkan SBKK apabila alokasi anggaran mencukupi." },
   ],
 };
-/* ===== USULAN TAMBAHAN PAGU ANGGARAN TA 2027 (Rincian Usulan Tambahan PA Bappebti 2027) =====
-   Usulan tambahan anggaran di atas Pagu Indikatif TA 2027. pkpn: "PN" | "Usulan PN" | "PKPN" | null.
-   sbkk: true bila output ditandai dapat ber-SBKK. Total sesuai lampiran: Rp 9.907.634.000.
-   Catatan: 3759 dikoreksi QIH.002 → QIH.001 (RO 2027 yang berlaku). Sumber: sheet "Usulan Tambahan PA 2027". */
+/* ===== USULAN TAMBAHAN PAGU ANGGARAN TA 2027 (Rincian Usulan Tambahan PA Bappebti 2027 — REV) =====
+   Usulan tambahan anggaran di atas Pagu Indikatif TA 2027. pkpn: "PN" | "Prioritas Unit" | "PKPN" | null.
+   "Prioritas Unit" = prioritas tingkat unit yang diusulkan menjadi PN. sbkk: true bila output dapat ber-SBKK.
+   Total sesuai lampiran: Rp 9.907.634.000 (30 RO). Catatan: 3759 dikoreksi QIH.002 -> QIH.001.
+   Sumber: sheet "Usulan Tambahan PA 2027" (revisi). */
 const USULAN_TAMBAHAN_PA_2027 = [
   { keg:"3758", kode:"3758.EBA.994", nama:"Layanan Perkantoran", target:1, satuan:"Layanan", pagu:1_037_634_000, pkpn:null, sbkk:false, ket:"Kekurangan Operasional" },
-  { keg:"3758", kode:"3758.EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:1, satuan:"Layanan", pagu:700_000_000, pkpn:null, sbkk:false, ket:"Sosialisasi (Fasilitasi DPR)" },
-  { keg:"3758", kode:"3758.EBA.Z08", nama:"Layanan Organisasi dan Tata Kelola Internal", target:1, satuan:"Layanan", pagu:500_000_000, pkpn:null, sbkk:false, ket:"Operasional Dukman" },
-  { keg:"3759", kode:"3759.BIH.001", nama:"Pengawasan Pelaku Usaha PBK melalui Audit", target:20, satuan:"Badan Usaha", pagu:832_000_000, pkpn:"Usulan PN", sbkk:false, ket:"" },
+  { keg:"3758", kode:"3758.EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:1, satuan:"Layanan", pagu:700_000_000, pkpn:null, sbkk:false, ket:"Sosialisasi dan kehumasan (Fasilitasi DPR)" },
+  { keg:"3758", kode:"3758.EBA.Z08", nama:"Layanan Organisasi dan Tata Kelola Internal", target:1, satuan:"Layanan", pagu:590_000_000, pkpn:null, sbkk:false, ket:"Operasional Dukman (BMN, kepegawaian, RB, pengelolaan TU, perencanaan, keuangan, evaluasi)" },
+  { keg:"3759", kode:"3759.BIH.001", nama:"Pengawasan Pelaku Usaha PBK melalui Audit", target:20, satuan:"Badan Usaha", pagu:832_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"Diusulkan menjadi PN" },
   { keg:"3759", kode:"3759.QIH.001", nama:"Pengawasan Pelaku Usaha SRG", target:10, satuan:"Badan Usaha", pagu:286_000_000, pkpn:null, sbkk:true, ket:"" },
-  { keg:"3759", kode:"3759.BIH.003", nama:"Tindak lanjut Pengawasan Pelaku Usaha Legal/Ilegal melalui penindakan di Bidang PBK, SRG dan PLK", target:20, satuan:"Badan Usaha", pagu:665_000_000, pkpn:"Usulan PN", sbkk:false, ket:"" },
+  { keg:"3759", kode:"3759.BIH.003", nama:"Tindak lanjut Pengawasan Pelaku Usaha Legal/Ilegal melalui penindakan di Bidang PBK, SRG dan PLK", target:20, satuan:"Badan Usaha", pagu:665_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"Diusulkan menjadi PN" },
   { keg:"3760", kode:"3760.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", target:10, satuan:"Dokumen", pagu:150_000_000, pkpn:null, sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di Bidang SRG/PLK", target:1, satuan:"Rekomendasi Kebijakan", pagu:224_977_000, pkpn:"PN", sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.PBB.G02", nama:"Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", target:1, satuan:"Rekomendasi Kebijakan", pagu:361_000_000, pkpn:"PN", sbkk:false, ket:"" },
   { keg:"3760", kode:"3760.QDB.001", nama:"Fasilitasi dan Pembinaan dalam Rangka Peningkatan Kompetensi Pengelola Gudang SRG", target:40, satuan:"Lembaga", pagu:360_000_000, pkpn:"PKPN", sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.QDB.002", nama:"Fasilitasi dan Pembinaan Calon Pengelola Gudang SRG", target:40, satuan:"Lembaga", pagu:150_000_000, pkpn:"PKPN", sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.QDB.003", nama:"Pembinaan/Pendampingan Pengelola Gudang SRG dalam Mengimplementasikan Warehouse Management System (WMS)", target:10, satuan:"Lembaga", pagu:360_356_000, pkpn:"PN", sbkk:false, ket:"" },
-  { keg:"3760", kode:"3760.QDB.004", nama:"Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", target:4, satuan:"Lembaga", pagu:140_000_000, pkpn:"Usulan PN", sbkk:true, ket:"" },
+  { keg:"3760", kode:"3760.QDB.004", nama:"Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", target:4, satuan:"Lembaga", pagu:140_000_000, pkpn:"Prioritas Unit", sbkk:true, ket:"Diusulkan menjadi PN" },
   { keg:"3760", kode:"3760.QDC.001", nama:"Pembinaan/Pendampingan pada pertemuan teknis pelaku usaha PLK", target:50, satuan:"Orang", pagu:150_000_000, pkpn:"PN", sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.QDC.002", nama:"Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", target:300, satuan:"Orang", pagu:320_000_000, pkpn:"PKPN", sbkk:true, ket:"" },
   { keg:"3760", kode:"3760.QDC.003", nama:"Pembinaan/Pendampingan pada kegiatan Asistensi pelaku usaha PLK", target:50, satuan:"Orang", pagu:100_000_000, pkpn:"PN", sbkk:true, ket:"" },
@@ -1351,13 +1352,14 @@ const USULAN_TAMBAHAN_PA_2027 = [
   { keg:"3760", kode:"3760.PEA.002", nama:"Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", target:1, satuan:"Kegiatan", pagu:105_000_000, pkpn:"PN", sbkk:false, ket:"" },
   { keg:"3760", kode:"3760.UAB.001", nama:"Sistem Aplikasi SPLT (Sistem Pasar Lelang Terpadu)", target:1, satuan:"Sistem Aplikasi", pagu:60_000_000, pkpn:"PN", sbkk:false, ket:"" },
   { keg:"3760", kode:"3760.UAB.002", nama:"Sistem Aplikasi Warehouse Management System (WMS)", target:1, satuan:"Sistem Aplikasi", pagu:60_000_000, pkpn:"PN", sbkk:false, ket:"" },
-  { keg:"3761", kode:"3761.AAH.F01", nama:"Peraturan Bappebti di bidang PBK, SRG dan PLK", target:12, satuan:"Peraturan", pagu:438_000_000, pkpn:"Usulan PN", sbkk:false, ket:"" },
-  { keg:"3761", kode:"3761.AEA.001", nama:"Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", target:8, satuan:"Kegiatan", pagu:200_000_000, pkpn:"Usulan PN", sbkk:false, ket:"" },
-  { keg:"3761", kode:"3761.BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG, dan PLK", target:34, satuan:"Orang", pagu:731_250_000, pkpn:"Usulan PN", sbkk:true, ket:"" },
-  { keg:"3761", kode:"3761.BBA.002", nama:"Layanan Penyelesaian Perselisihan di Bidang PBK, SRG dan PLK", target:100, satuan:"Orang", pagu:200_000_000, pkpn:"Usulan PN", sbkk:false, ket:"" },
+  { keg:"3761", kode:"3761.AAH.F01", nama:"Peraturan Bappebti di bidang PBK, SRG dan PLK", target:10, satuan:"Peraturan", pagu:365_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"Diusulkan menjadi PN" },
+  { keg:"3761", kode:"3761.AEA.001", nama:"Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", target:5, satuan:"Kegiatan", pagu:125_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"Diusulkan menjadi PN" },
+  { keg:"3761", kode:"3761.BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG, dan PLK", target:34, satuan:"Orang", pagu:719_250_000, pkpn:"Prioritas Unit", sbkk:true, ket:"Diusulkan menjadi PN" },
+  { keg:"3761", kode:"3761.BBA.002", nama:"Layanan Penyelesaian Perselisihan di Bidang PBK, SRG dan PLK", target:100, satuan:"Orang", pagu:200_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"Diusulkan menjadi PN" },
   { keg:"3762", kode:"3762.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang Perdagangan Berjangka Komoditi", target:1, satuan:"Dokumen", pagu:369_639_000, pkpn:null, sbkk:true, ket:"" },
   { keg:"3762", kode:"3762.ACB.001", nama:"Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", target:400, satuan:"Orang", pagu:24_250_000, pkpn:null, sbkk:true, ket:"" },
-  { keg:"3762", kode:"3762.ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka atau Wakil Penasihat Berjangka", target:200, satuan:"Orang", pagu:349_300_000, pkpn:null, sbkk:true, ket:"" },
+  { keg:"3762", kode:"3762.ACD.001", nama:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", target:100, satuan:"Badan Usaha", pagu:160_000_000, pkpn:"Prioritas Unit", sbkk:false, ket:"" },
+  { keg:"3762", kode:"3762.ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka atau Wakil Penasihat Berjangka", target:100, satuan:"Orang", pagu:259_300_000, pkpn:null, sbkk:true, ket:"" },
   { keg:"3762", kode:"3762.PBB.G01", nama:"Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", target:1, satuan:"Rekomendasi Kebijakan", pagu:388_842_000, pkpn:"PN", sbkk:true, ket:"" },
   { keg:"3762", kode:"3762.QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", target:70, satuan:"Badan Usaha", pagu:374_340_000, pkpn:"PN", sbkk:true, ket:"" },
 ];
@@ -5407,14 +5409,14 @@ function AnalisisAnggaran2027(){
         const byTag = (t)=> rows.filter(r=>r.pkpn===t);
         const sumOfRows = (arr)=> arr.reduce((s,r)=>s+r.pagu,0);
         const pnRows = rows.filter(r=>r.pkpn==="PN");
-        const usulPnRows = rows.filter(r=>r.pkpn==="Usulan PN");
+        const usulPnRows = rows.filter(r=>r.pkpn==="Prioritas Unit");
         const pkpnRows = byTag("PKPN");
         const nonTagRows = rows.filter(r=>!r.pkpn);
         const sbkkRows = rows.filter(r=>r.sbkk);
         const kegList = ["3758","3759","3760","3761","3762"];
         const kegNama = {"3758":"Dukungan Manajemen","3759":"Pengawasan & Penindakan","3760":"Pembinaan SRG & PLK","3761":"Penyusunan Kebijakan & Hukum","3762":"Pembinaan PBK"};
         const pkpnStyle = (p)=> p==="PN" ? {bg:"rgba(200,16,46,0.10)",c:"#c8102e",label:"PN"}
-                              : p==="Usulan PN" ? {bg:"rgba(217,119,6,0.10)",c:"#d97706",label:"Usulan PN"}
+                              : p==="Prioritas Unit" ? {bg:"rgba(217,119,6,0.10)",c:"#d97706",label:"Prioritas Unit"}
                               : p==="PKPN" ? {bg:"rgba(37,99,235,0.10)",c:"#2563eb",label:"PKPN"}
                               : {bg:"rgba(148,163,184,0.12)",c:"#94a3b8",label:"—"};
         return (
@@ -5430,12 +5432,12 @@ function AnalisisAnggaran2027(){
               <span className="pill pill-red text-[10px] self-start">RANWAL · di atas pagu indikatif</span>
             </div>
 
-            {/* ringkasan kategori — PN + Usulan PN + PKPN + Non-tematik = Total */}
+            {/* ringkasan kategori — PN + Prioritas Unit + PKPN + Non-tematik = Total */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-1">
               {[
                 {label:"Total Usulan Tambahan", val:fmtRp(total), sub:`${rows.length} RO`, c:"#c8102e"},
                 {label:"Tagging PN", val:fmtRp(sumOfRows(pnRows)), sub:`${pnRows.length} RO`, c:"#c8102e"},
-                {label:"Usulan PN (kandidat)", val:fmtRp(sumOfRows(usulPnRows)), sub:`${usulPnRows.length} RO`, c:"#d97706"},
+                {label:"Prioritas Unit (usulan PN)", val:fmtRp(sumOfRows(usulPnRows)), sub:`${usulPnRows.length} RO`, c:"#d97706"},
                 {label:"PKPN", val:fmtRp(sumOfRows(pkpnRows)), sub:`${pkpnRows.length} RO`, c:"#2563eb"},
                 {label:"Non-tematik / Lainnya", val:fmtRp(sumOfRows(nonTagRows)), sub:`${nonTagRows.length} RO`, c:"#64748b"},
               ].map((k,i)=>(
@@ -5446,7 +5448,7 @@ function AnalisisAnggaran2027(){
                 </div>
               ))}
             </div>
-            <div className="text-[9px] text-[var(--text-3)] mb-4 italic">PN + Usulan PN + PKPN + Non-tematik = {fmtRp(sumOfRows(pnRows)+sumOfRows(usulPnRows)+sumOfRows(pkpnRows)+sumOfRows(nonTagRows))} (sama dengan Total). Non-tematik mencakup kekurangan operasional Dukungan Manajemen (EBA) serta RO ber-SBKK yang belum bertag PN/PKPN.</div>
+            <div className="text-[9px] text-[var(--text-3)] mb-4 italic">PN + Prioritas Unit + PKPN + Non-tematik = {fmtRp(sumOfRows(pnRows)+sumOfRows(usulPnRows)+sumOfRows(pkpnRows)+sumOfRows(nonTagRows))} (sama dengan Total). "Prioritas Unit" = prioritas tingkat unit yang diusulkan menjadi PN. Non-tematik mencakup kekurangan operasional Dukungan Manajemen (EBA) serta RO ber-SBKK yang belum bertag PN/PKPN.</div>
 
             <div className="overflow-x-auto scrollbar">
               <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
@@ -5498,7 +5500,7 @@ function AnalisisAnggaran2027(){
                 </tbody>
               </table>
             </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Rincian Usulan Tambahan PA Bappebti TA 2027, Satker 090.07 Bappebti, Kementerian Perdagangan. Angka merupakan usulan tambahan <b>di atas Pagu Indikatif</b> dan bersifat RANWAL — penetapan mengikuti hasil penelaahan/Pagu Anggaran. Kolom PKPN/PN: <b>PN</b> sudah ditandai Prioritas Nasional; <b>Usulan PN</b> kandidat penajaman PN; <b>PKPN</b> Program Khusus Prioritas Nasional; <b>—</b> non-tematik (a.l. kekurangan operasional Dukungan Manajemen). Tanda ✓ pada kolom SBKK = output dapat diusulkan ber-SBKK. RO 3759 dikoreksi dari QIH.002 menjadi QIH.001 sesuai nomenklatur RO TA 2027 yang berlaku.</div>
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Rincian Usulan Tambahan PA Bappebti TA 2027, Satker 090.07 Bappebti, Kementerian Perdagangan. Angka merupakan usulan tambahan <b>di atas Pagu Indikatif</b> dan bersifat RANWAL — penetapan mengikuti hasil penelaahan/Pagu Anggaran. Kolom PKPN/PN: <b>PN</b> sudah ditandai Prioritas Nasional; <b>Prioritas Unit</b> prioritas tingkat unit yang diusulkan menjadi PN; <b>PKPN</b> Program Khusus Prioritas Nasional; <b>—</b> non-tematik (a.l. kekurangan operasional Dukungan Manajemen). Tanda ✓ pada kolom SBKK = output dapat diusulkan ber-SBKK. RO 3759 dikoreksi dari QIH.002 menjadi QIH.001 sesuai nomenklatur RO TA 2027 yang berlaku.</div>
           </div>
         );
       })()}
@@ -6560,7 +6562,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.22 · Analisis Anggaran TA 2027: ditambahkan panel Usulan SBKK TA 2027 + panel Usulan Tambahan Pagu Anggaran TA 2027 (29 RO · Rp 9,908 M, tagging PN/PKPN/SBKK per kegiatan) · PSN SRG: Spasial dikoreksi (13 prov revit · 16 unik · NTB/NTT/Sulut dihapus) · Critical Path → Gantt chart 24 baris × 36 bulan · Kelembagaan diperkuat unit ekspor (Menlu, LPEI, BKI, BPOM, Ditjen PLN) · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Versi 2026.06.23 · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
