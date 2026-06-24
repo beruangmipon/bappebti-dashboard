@@ -1,172 +1,152 @@
-/* ===== Tampilan bersama semua halaman (tidak perlu diubah) ===== */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* ============================================================
+   styles.css — tema halaman login/register/admin
+   Selaras dengan dashboard (IBM Plex Sans, Chakra Petch, emas #a16207)
+   ============================================================ */
 
-:root {
-  --hijau: #15604a;
-  --hijau-tua: #0e4537;
-  --hijau-muda: #e7f1ed;
-  --kuning: #e0a52e;
-  --teks: #1d2b26;
-  --teks-lembut: #5b6b65;
-  --garis: #d9e3df;
-  --bg: #f4f7f5;
-  --putih: #ffffff;
-  --merah: #c0392b;
-  --merah-bg: #fdeceb;
-  --radius: 14px;
-  --bayang: 0 10px 30px rgba(14, 69, 55, 0.10);
+:root{
+  --bg:#eef0f2;
+  --bg-2:#f6f7f8;
+  --paper:#ffffff;
+  --ink:#0f1115;
+  --ink-2:#3f4651;
+  --ink-3:#6b7280;
+  --gold:#a16207;
+  --gold-2:#ca8a04;
+  --gold-soft:#e7d8b5;
+  --green:#15803d;
+  --red:#b91c1c;
+  --amber:#b45309;
+  --border:#e3e5e8;
+  --border-2:#cfd3d8;
+  --shadow:0 10px 40px rgba(15,23,42,.10);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--teks);
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.5;
-}
-
-/* Halaman terpusat untuk login & daftar */
-.layar-tengah {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--ink);
   background:
-    radial-gradient(900px 500px at 100% 0%, rgba(21, 96, 74, 0.08), transparent 60%),
-    radial-gradient(700px 500px at 0% 100%, rgba(224, 165, 46, 0.10), transparent 55%),
+    radial-gradient(1100px 600px at 12% -8%, #fff 0%, rgba(255,255,255,0) 55%),
+    radial-gradient(900px 500px at 110% 110%, #f1e9d6 0%, rgba(241,233,214,0) 55%),
     var(--bg);
+  -webkit-font-smoothing:antialiased;
 }
+.mono{ font-family:'JetBrains Mono',ui-monospace,monospace; }
 
-.kartu {
-  width: 100%;
-  max-width: 420px;
-  background: var(--putih);
-  border: 1px solid var(--garis);
-  border-radius: var(--radius);
-  box-shadow: var(--bayang);
-  padding: 36px 32px;
+/* ---------- Layout pembungkus ---------- */
+.auth-wrap{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:28px 16px;
 }
+.auth-card{
+  width:100%; max-width:430px;
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:34px 30px 26px;
+}
+.auth-card.wide{ max-width:980px; }
 
-.merek {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 22px;
+/* ---------- Brand ---------- */
+.brand{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+.brand .logo{
+  width:46px; height:46px; border-radius:11px; flex:none;
+  background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:20px;
+  box-shadow:0 6px 16px rgba(161,98,7,.28);
 }
-.merek .titik {
-  width: 38px; height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--hijau), var(--hijau-tua));
-  display: grid; place-items: center;
-  color: #fff; font-weight: 800; font-size: 18px;
-}
-.merek b { font-size: 16px; letter-spacing: -0.2px; }
-.merek span { display: block; font-size: 12px; color: var(--teks-lembut); font-weight: 500; }
+.brand .bt-name{ font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:15px; line-height:1.1; letter-spacing:.2px; }
+.brand .bt-sub{ font-size:11px; color:var(--ink-3); margin-top:2px; letter-spacing:.3px; }
 
-h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 4px; }
-.sub { color: var(--teks-lembut); font-size: 14px; margin-bottom: 24px; }
+/* ---------- Tipografi ---------- */
+h1.title{ font-family:'Chakra Petch',sans-serif; font-size:25px; font-weight:700; margin:4px 0 2px; }
+.sub{ color:var(--ink-3); font-size:13px; margin:0 0 20px; }
+.eyebrow{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); }
 
-label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
-input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--garis);
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 15px;
-  background: #fbfdfc;
-  transition: border-color .15s, box-shadow .15s;
+/* ---------- Form ---------- */
+label{ display:block; font-size:12px; font-weight:600; color:var(--ink-2); margin:14px 0 6px; }
+input[type=text],input[type=email],input[type=password]{
+  width:100%; padding:12px 13px; font-size:14px;
+  border:1px solid var(--border-2); border-radius:11px; background:var(--bg-2);
+  color:var(--ink); outline:none; transition:border-color .15s, box-shadow .15s, background .15s;
+  font-family:inherit;
 }
-input:focus {
-  outline: none;
-  border-color: var(--hijau);
-  box-shadow: 0 0 0 3px rgba(21, 96, 74, 0.12);
-  background: #fff;
+input:focus{ border-color:var(--gold-2); background:#fff; box-shadow:0 0 0 3px rgba(202,138,4,.15); }
+.pw-row{ position:relative; }
+.pw-toggle{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; color:var(--ink-3); font-size:11px;
+  font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.5px; padding:4px 6px;
 }
+.pw-toggle:hover{ color:var(--gold); }
 
-.tombol {
-  width: 100%;
-  margin-top: 22px;
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  background: var(--hijau);
-  color: #fff;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background .15s, transform .05s;
+.btn-primary{
+  width:100%; margin-top:22px; padding:13px 16px;
+  background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);
+  color:#fff; font-weight:700; font-size:14px; border:none; border-radius:11px; cursor:pointer;
+  font-family:inherit; letter-spacing:.3px; box-shadow:0 6px 18px rgba(161,98,7,.25);
+  transition:transform .08s, box-shadow .15s, opacity .15s;
 }
-.tombol:hover { background: var(--hijau-tua); }
-.tombol:active { transform: translateY(1px); }
-.tombol:disabled { opacity: .6; cursor: default; }
+.btn-primary:hover{ box-shadow:0 8px 22px rgba(161,98,7,.34); }
+.btn-primary:active{ transform:translateY(1px); }
+.btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
 
-.tautan { margin-top: 18px; font-size: 14px; text-align: center; color: var(--teks-lembut); }
-.tautan a { color: var(--hijau); font-weight: 600; text-decoration: none; }
-.tautan a:hover { text-decoration: underline; }
-
-.pesan {
-  margin-top: 16px;
-  padding: 11px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  display: none;
+.btn-ghost{
+  padding:9px 14px; background:#fff; border:1px solid var(--border-2); border-radius:10px;
+  font-weight:600; font-size:13px; color:var(--ink); cursor:pointer; font-family:inherit;
 }
-.pesan.tampil { display: block; }
-.pesan.sukses { background: var(--hijau-muda); color: var(--hijau-tua); }
-.pesan.gagal { background: var(--merah-bg); color: var(--merah); }
-.pesan.info { background: #fff6e3; color: #8a5b06; }
+.btn-ghost:hover{ border-color:var(--gold-soft); color:var(--gold); }
 
-/* ===== Tata letak halaman dengan header (admin & dashboard) ===== */
-.atas {
-  background: var(--putih);
-  border-bottom: 1px solid var(--garis);
-  padding: 14px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky; top: 0; z-index: 5;
-}
-.atas .kanan { display: flex; align-items: center; gap: 14px; }
-.email-kecil { font-size: 13px; color: var(--teks-lembut); }
-.keluar {
-  padding: 8px 14px; border: 1px solid var(--garis); background: #fff;
-  border-radius: 9px; font-family: inherit; font-weight: 600; font-size: 13px;
-  cursor: pointer; color: var(--teks);
-}
-.keluar:hover { background: var(--bg); }
+/* ---------- Pesan ---------- */
+.msg{ margin:6px 0 2px; padding:11px 13px; border-radius:10px; font-size:12.5px; line-height:1.5; }
+.msg.info{ background:#fef7e6; border:1px solid #f0d98a; color:#7a5800; }
+.msg.ok{ background:#e8f6ee; border:1px solid #a8d8bb; color:#14653a; }
+.msg.err{ background:#fdeaea; border:1px solid #f0b4b4; color:#9b1c1c; }
 
-.isi { max-width: 920px; margin: 0 auto; padding: 32px 24px; }
-.judul-halaman { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
-.ket { color: var(--teks-lembut); font-size: 14px; margin-bottom: 26px; }
+/* ---------- Links / footer ---------- */
+.links{ margin-top:18px; font-size:13px; color:var(--ink-3); text-align:center; }
+.links a{ color:var(--gold); font-weight:600; text-decoration:none; }
+.links a:hover{ text-decoration:underline; }
+.foot{ margin-top:20px; padding-top:16px; border-top:1px solid var(--border); text-align:center; font-size:10.5px; color:var(--ink-3); letter-spacing:.3px; }
 
-/* Daftar pendaftar pending */
-.daftar { display: flex; flex-direction: column; gap: 12px; }
-.baris {
-  background: var(--putih);
-  border: 1px solid var(--garis);
-  border-radius: 12px;
-  padding: 16px 18px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-}
-.baris .nama { font-weight: 700; font-size: 15px; }
-.baris .e { font-size: 13px; color: var(--teks-lembut); }
-.aksi { display: flex; gap: 8px; }
-.btn-setuju, .btn-tolak {
-  padding: 9px 16px; border: none; border-radius: 9px;
-  font-family: inherit; font-weight: 700; font-size: 13px; cursor: pointer;
-}
-.btn-setuju { background: var(--hijau); color: #fff; }
-.btn-setuju:hover { background: var(--hijau-tua); }
-.btn-tolak { background: var(--merah-bg); color: var(--merah); }
-.btn-tolak:hover { background: #f7d9d6; }
+/* ---------- Admin: tabel ---------- */
+.admin-head{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+.stat-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.stat{ background:var(--bg-2); border:1px solid var(--border); border-radius:12px; padding:10px 14px; min-width:108px; }
+.stat .n{ font-family:'Chakra Petch',sans-serif; font-size:22px; font-weight:700; }
+.stat .l{ font-size:10px; text-transform:uppercase; letter-spacing:.8px; color:var(--ink-3); margin-top:1px; }
 
-.kosong {
-  background: var(--putih); border: 1px dashed var(--garis); border-radius: 12px;
-  padding: 40px; text-align: center; color: var(--teks-lembut); font-size: 14px;
+.tbl-wrap{ overflow-x:auto; border:1px solid var(--border); border-radius:12px; }
+table{ width:100%; border-collapse:collapse; font-size:13px; min-width:640px; }
+thead th{
+  text-align:left; padding:11px 12px; background:var(--bg-2);
+  font-size:10px; letter-spacing:.8px; text-transform:uppercase; color:var(--ink-3);
+  border-bottom:1px solid var(--border-2); font-family:'JetBrains Mono',monospace; font-weight:600;
 }
+tbody td{ padding:11px 12px; border-bottom:1px solid var(--border); vertical-align:middle; }
+tbody tr:last-child td{ border-bottom:none; }
 
-.memuat { text-align: center; padding: 60px; color: var(--teks-lembut); }
+.pill{ display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:600; border:1px solid transparent; }
+.pill.pending{ background:#fef7e6; color:#7a5800; border-color:#f0d98a; }
+.pill.approved{ background:#e8f6ee; color:#14653a; border-color:#a8d8bb; }
+.pill.rejected{ background:#fdeaea; color:#9b1c1c; border-color:#f0b4b4; }
+.pill.admin{ background:#eef2ff; color:#3730a3; border-color:#c7d2fe; }
+.pill.user{ background:#f1f5f9; color:#475569; border-color:#cbd5e1; }
+
+.act{ display:flex; gap:6px; flex-wrap:wrap; }
+.btn-xs{ padding:5px 10px; border-radius:8px; font-size:11.5px; font-weight:600; border:1px solid var(--border-2); background:#fff; cursor:pointer; font-family:inherit; }
+.btn-xs.ok{ border-color:#a8d8bb; color:#14653a; }
+.btn-xs.ok:hover{ background:#e8f6ee; }
+.btn-xs.no{ border-color:#f0b4b4; color:#9b1c1c; }
+.btn-xs.no:hover{ background:#fdeaea; }
+.btn-xs.adm{ border-color:#c7d2fe; color:#3730a3; }
+.btn-xs.adm:hover{ background:#eef2ff; }
+.btn-xs:disabled{ opacity:.45; cursor:default; }
+
+.center-state{ text-align:center; color:var(--ink-3); padding:40px 10px; font-size:13.5px; }
+.spinner{ width:34px;height:34px;border-radius:50%;border:3px solid var(--gold-soft);border-top-color:var(--gold);animation:spin .8s linear infinite;margin:0 auto 14px; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
