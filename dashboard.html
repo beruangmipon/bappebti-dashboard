@@ -870,9 +870,15 @@ const PENGELOLA_SRG = {"total":148,"status":[{"k":"Aktif","n":73},{"k":"Berakhir
    sheet "Orientasi Ekspor" & "Gudang Komoditas Pangan"; kumulatif s.d. 22 Juni 2026).
    nilai = nilai resi gudang (Rp), biaya = nilai pembiayaan (Rp). */
 const SRG_EKSPOR_KOM = [{kom:"Timah",gudang:4,rg:740,vol:3717.7,nilai:1757554607425,biaya:1291244712411},{kom:"Kopi",gudang:4,rg:245,vol:3256.6,nilai:258881320000,biaya:141926680000},{kom:"Ikan",gudang:3,rg:111,vol:200.5,nilai:215023250000,biaya:119421875000},{kom:"Rumput Laut",gudang:4,rg:80,vol:5650.1,nilai:144237350000,biaya:53753710000},{kom:"Gabah",gudang:1,rg:7,vol:252.5,nilai:1913585000,biaya:1624600000},{kom:"Lada",gudang:3,rg:7,vol:17,nilai:1294309620,biaya:0},{kom:"Teh",gudang:1,rg:3,vol:40,nilai:710000000,biaya:0}];
-const SRG_EKSPOR_TOTAL = {gudang:20, pengelola:12, rg:1193, vol:13134.3, nilai:2379614422045, biaya:1607971577411};
+const SRG_EKSPOR_TOTAL = {gudang:20, pengelola:12, rg:1193, vol:13134.3, nilai:2379614422045, biaya:1607971577411, periode:"2020–2026"};
 const SRG_PANGAN_KOM = [{kom:"Gula",gudang:5,rg:173,vol:115780,nilai:1678510000000,biaya:961495000000},{kom:"Beras",gudang:12,rg:202,vol:24140.4,nilai:305087085000,biaya:174159500000},{kom:"Ikan",gudang:4,rg:58,vol:710.3,nilai:181737640700,biaya:94065825000},{kom:"Gabah",gudang:17,rg:284,vol:16072.2,nilai:153540425880,biaya:91429000000},{kom:"Bawang Merah",gudang:1,rg:4,vol:121.5,nilai:2794500000,biaya:1425700000},{kom:"Kedelai",gudang:1,rg:6,vol:240,nilai:2571680000,biaya:1735000000}];
-const SRG_PANGAN_TOTAL = {gudang:34, pengelola:17, kota:18, rg:727, vol:157064.4, nilai:2324241331580, biaya:1324310025000};
+const SRG_PANGAN_TOTAL = {gudang:34, pengelola:17, kota:18, rg:727, vol:157064.4, nilai:2324241331580, biaya:1324310025000, periode:"2024–2026"};
+const SRG_EKSPOR_YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+const SRG_EKSPOR_BYKOM = [{key:"Timah",rg:[45,131,164,0,400,0,0],vol:[225.8,659.2,824.3,0,2008.4,0,0],nilai:[55788217626,313700912112,437687779622,0,950377698066,0,0],biaya:[39523603016,242450601711,349495000000,0,659775507684,0,0]},{key:"Kopi",rg:[43,18,26,40,51,31,36],vol:[686.7,325.1,167,379.9,659,385,654],nilai:[43812400000,22465920000,15595000000,34358000000,56750000000,30900000000,55000000000],biaya:[28738580000,11140500000,9396000000,21096600000,32305000000,10270000000,28980000000]},{key:"Ikan",rg:[0,0,10,71,25,5,0],vol:[0,0,6,92.8,76.8,25,0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"Rumput Laut",rg:[11,20,19,10,20,0,0],vol:[1097,1443,1299.2,463,1348,0,0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"Gabah",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0,0,0,0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"Lada",rg:[0,4,2,1,0,0,0],vol:[0,7.4,5.5,4.1,0,0,0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"Teh",rg:[0,0,0,3,0,0,0],vol:[0,0,0,40,0,0,0],nilai:[0,0,0,710000000,0,0,0],biaya:[0,0,0,0,0,0,0]}];
+const SRG_EKSPOR_BYPG = [{key:"PT. BGR Logistik Indonesia",rg:[0,0,35,0,400,0,0],vol:[0,0,175.3,0,2008.4,0,0],nilai:[0,0,63516558611,0,950377698066,0,0],biaya:[0,0,50795000000,0,659775507684,0,0]},{key:"PT. BGR Logistik",rg:[25,131,29,0,0,0,0],vol:[125.8,659.2,146,0,0,0,0],nilai:[33252065126,313700912112,75258795010,0,0,0,0],biaya:[21494681016,242450601711,59975000000,0,0,0,0]},{key:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:[0,0,100,0,0,0,0],vol:[0,0,503,0,0,0,0],nilai:[0,0,298912426001,0,0,0,0],biaya:[0,0,238725000000,0,0,0,0]},{key:"PT. Siriman Jaya Abadi",rg:[0,0,10,71,15,3,0],vol:[0,0,6,92.8,76.8,25,0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"PT. Wahana Pronatural",rg:[11,20,19,10,20,0,0],vol:[1097,1443,1299.2,463,1348,0,0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"PT. Ketiara",rg:[32,13,12,34,26,9,20],vol:[609,270,122,319.9,179,61,114],nilai:[38440000000,19150000000,11995000000,31138000000,17900000000,6100000000,13800000000],biaya:[26001500000,10885000000,6996000000,19096600000,10710000000,4270000000,6230000000]},{key:"Koperasi Gunung Luhur Berkah",rg:[9,3,14,9,25,22,16],vol:[37.7,15.1,45,100,480,324,540],nilai:[2972400000,1115920000,3600000000,3930000000,38850000000,24800000000,41200000000],biaya:[1057080000,255500000,2400000000,2000000000,21595000000,6000000000,22750000000]},{key:"PT. Sucofindo (Persero)",rg:[20,0,0,0,0,0,0],vol:[100,0,0,0,0,0,0],nilai:[22536152500,0,0,0,0,0,0],biaya:[18028922000,0,0,0,0,0,0]},{key:"Koperasi Gayo Megah Berseri",rg:[2,2,0,0,0,0,0],vol:[40,40,0,0,0,0,0],nilai:[2400000000,2200000000,0,0,0,0,0],biaya:[1680000000,0,0,0,0,0,0]},{key:"PT. Pengayom Tani Sejagad",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0,0,0,0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"Koperasi Petani Lada Bangka",rg:[0,4,2,1,0,0,0],vol:[0,7.4,5.5,4.1,0,0,0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[0,0,0,0,10,2,0],vol:[0,0,0,0,0,0,0],nilai:[0,0,0,0,0,0,0],biaya:[0,0,0,0,0,0,0]}];
+const SRG_PANGAN_YEARS = [2024, 2025, 2026];
+const SRG_PANGAN_BYKOM = [{key:"Gula",rg:[87,86,0],vol:[42620,73160,0],nilai:[617690000000,1060820000000,0],biaya:[440800000000,520695000000,0]},{key:"Beras",rg:[124,72,6],vol:[14188.9,9555,396.5],nilai:[179642115000,121154970000,4290000000],biaya:[117853000000,53806500000,2500000000]},{key:"Ikan",rg:[43,12,3],vol:[546.6,163.7,0],nilai:[151146455000,28420285700,2170900000],biaya:[73745625000,18875000000,1445200000]},{key:"Gabah",rg:[149,115,20],vol:[9001,5045.9,2025.4],nilai:[78829510700,53161475600,21549439580],biaya:[50320000000,30109000000,11000000000]},{key:"Bawang Merah",rg:[3,1,0],vol:[89.5,32,0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]},{key:"Kedelai",rg:[3,3,0],vol:[100,140,0],nilai:[1165000000,1406680000,0],biaya:[773000000,962000000,0]}];
+const SRG_PANGAN_BYPG = [{key:"PT. Pabrik Gula Candi Baru",rg:[85,73,0],vol:[42500,63600,0],nilai:[616250000000,922200000000,0],biaya:[440800000000,444570000000,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[165,103,14],vol:[12966.3,6509.9,1754.9],nilai:[143605707000,71401330200,17873744580],biaya:[94299000000,29500000000,8000000000]},{key:"PT. Thara Jaya Niaga",rg:[34,17,0],vol:[7290,5300,0],nilai:[93790000000,71550000000,0],biaya:[58583000000,35154000000,0]},{key:"PT Siriman Jaya Abadi",rg:[22,3,0],vol:[120.2,25,0],nilai:[136739000000,21250000000,0],biaya:[64896875000,14875000000,0]},{key:"PT. Pabrik Gula Rajawali I",rg:[0,10,0],vol:[0,9500,0],nilai:[0,137750000000,0],biaya:[0,76125000000,0]},{key:"PT. Fiona Pusaka SRG",rg:[15,32,11],vol:[960,1920,660],nilai:[11520000000,23040000000,7920000000],biaya:[8000000000,15000000000,5500000000]},{key:"PT Anugrah Pesona Mandiri",rg:[9,7,3],vol:[244.4,111.7,0],nilai:[6523875000,5741305000,2170900000],biaya:[4498750000,3000000000,1445200000]},{key:"PT Merdeka Bahari Indonesia",rg:[3,0,0],vol:[502.7,0,0],nilai:[6895965000,0,0],biaya:[4430000000,0,0]},{key:"Koperasi Basunondo",rg:[36,17,1],vol:[647.7,491.3,7],nilai:[1824012700,4226136100,45695000],biaya:[2690500000,2119000000,0]},{key:"Koperasi Niaga Mukti",rg:[22,2,0],vol:[819.4,20,0],nilai:[5830446000,190000000,0],biaya:[3996500000,0,0]},{key:"Koperasi Gunung Luhur Berkah",rg:[2,9,0],vol:[50,225,0],nilai:[700000000,3075000000,0],biaya:[490000000,2152500000,0]},{key:"PD Sumber Bhakti",rg:[4,9,0],vol:[50,161.6,0],nilai:[625000000,2262960000,0],biaya:[0,990000000,0]},{key:"PT Mitra Pilar",rg:[3,1,0],vol:[89.5,32,0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]},{key:"KUD Tani Harjo",rg:[4,3,0],vol:[106.6,140,0],nilai:[1214500000,1406680000,0],biaya:[807000000,962000000,0]},{key:"KSU Sarana Hidup Sejahtera",rg:[2,3,0],vol:[120,60,0],nilai:[1440000000,870000000,0],biaya:[0,0,0]},{key:"PT Satya Trinadi Komira Perkasa",rg:[2,0,0],vol:[64,0,0],nilai:[1408000000,0,0],biaya:[0,0,0]},{key:"Koperasi Kelompok Usaha Serba jadi",rg:[1,0,0],vol:[15.2,0,0],nilai:[106575000,0,0],biaya:[0,0,0]}];
 
 /* PERINGKAT PENGELOLA berdasarkan jumlah GUDANG AKTIF yang dikelola (operasional, dari data gudang).
    Catatan: "gudang aktif" = gudang yang mengimplementasikan Sistem Resi Gudang.
@@ -3929,9 +3935,74 @@ function KomoditasSRG({year}){
   );
 }
 
+function SRGYearBreakdown({years, byKom, byPg, accent}){
+  const [dim,setDim] = useState("kom");
+  const [met,setMet] = useState("rg");
+  const [open,setOpen] = useState(false);
+  const rows = dim==="kom" ? byKom : byPg;
+  const metInfo = {
+    rg:   {fmt:(v)=>v.toLocaleString('id-ID')},
+    vol:  {fmt:(v)=>v.toLocaleString('id-ID',{maximumFractionDigits:1})},
+    nilai:{fmt:fmtRp},
+    biaya:{fmt:fmtRp},
+  };
+  const fmt = metInfo[met].fmt;
+  const rowTotal = (r)=> r[met].reduce((a,b)=>a+b,0);
+  const colTotal = (j)=> rows.reduce((a,r)=>a+r[met][j],0);
+  const grand = rows.reduce((a,r)=>a+rowTotal(r),0);
+  const sorted = rows.slice().sort((a,b)=>rowTotal(b)-rowTotal(a));
+  const tabBtn = (active)=> "px-2 py-0.5 rounded text-[9px] mono uppercase tracking-wider border transition "+(active?"text-[var(--text-1)] border-[var(--border-strong)] bg-[rgba(0,0,0,0.03)]":"text-[var(--text-3)] border-transparent hover:text-[var(--text-2)]");
+  return (
+    <div className="mt-4 pt-3" style={{borderTop:"1px solid var(--border)"}}>
+      <button onClick={()=>setOpen(o=>!o)} className="flex items-center gap-1.5 text-[10px] mono uppercase tracking-wider text-[var(--text-3)] hover:text-[var(--text-2)] transition no-print">
+        <span>{open?"\u25be":"\u25b8"}</span> Rincian per tahun ({years[0]}\u2013{years[years.length-1]})
+      </button>
+      {open && (
+        <div className="mt-3">
+          <div className="flex items-center gap-1 flex-wrap mb-2 no-print">
+            {[{k:"kom",l:"Komoditas"},{k:"pg",l:"Pengelola"}].map(o=>(
+              <button key={o.k} onClick={()=>setDim(o.k)} className={tabBtn(dim===o.k)}>{o.l}</button>
+            ))}
+            <span className="inline-block w-px h-3 mx-1" style={{background:"var(--border-strong)"}}></span>
+            {[{k:"rg",l:"RG"},{k:"vol",l:"Volume"},{k:"nilai",l:"Nilai"},{k:"biaya",l:"Pembiayaan"}].map(o=>(
+              <button key={o.k} onClick={()=>setMet(o.k)} className={tabBtn(met===o.k)}>{o.l}</button>
+            ))}
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[10px] mono" style={{borderCollapse:"collapse"}}>
+              <thead>
+                <tr className="text-[var(--text-3)]">
+                  <th className="text-left font-normal py-1 pr-2">{dim==="kom"?"Komoditas":"Pengelola"}</th>
+                  {years.map(y=><th key={y} className="text-right font-normal py-1 px-1.5">{y}</th>)}
+                  <th className="text-right font-normal py-1 pl-2" style={{color:accent}}>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map(r=>(
+                  <tr key={r.key} style={{borderTop:"1px solid var(--border)"}}>
+                    <td className="text-left py-1 pr-2 text-[var(--text-2)] whitespace-nowrap">{r.key}</td>
+                    {r[met].map((v,j)=><td key={j} className="text-right py-1 px-1.5 text-[var(--text-3)]">{v?fmt(v):"\u2013"}</td>)}
+                    <td className="text-right py-1 pl-2" style={{color:accent}}>{fmt(rowTotal(r))}</td>
+                  </tr>
+                ))}
+                <tr style={{borderTop:"2px solid var(--border-strong)"}}>
+                  <td className="text-left py-1 pr-2 text-[var(--text-1)] font-semibold">TOTAL</td>
+                  {years.map((y,j)=><td key={j} className="text-right py-1 px-1.5 text-[var(--text-2)] font-semibold">{fmt(colTotal(j))}</td>)}
+                  <td className="text-right py-1 pl-2 font-semibold" style={{color:accent}}>{fmt(grand)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-1.5 italic">&ldquo;\u2013&rdquo; = tidak ada penerbitan pada tahun tersebut. {met==="vol"?"Satuan ton.":(met==="rg"?"Satuan jumlah resi gudang.":"Satuan Rupiah (dipadatkan: jt/M/T).")} Geser tabel ke samping bila terpotong.</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function KategoriKomoditasSRG(){
   const fmtTon = (n)=> n>=1000 ? (n/1000).toLocaleString('id-ID',{maximumFractionDigits:1})+' rb ton' : Math.round(n).toLocaleString('id-ID')+' ton';
-  const Card = ({title, subtitle, accent, total, data, badge})=>{
+  const Card = ({title, subtitle, accent, total, data, badge, years, byKom, byPg})=>{
     const maxNilai = Math.max(...data.map(d=>d.nilai), 1);
     return (
       <div className="card p-5">
@@ -3940,7 +4011,10 @@ function KategoriKomoditasSRG(){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{subtitle}</div>
             <div className="serif text-xl">{title}</div>
           </div>
-          <span className="pill mono text-[10px]" style={{color:accent, background:accent+'1a', borderColor:accent+'4d'}}>{badge}</span>
+          <div className="flex items-center gap-1.5">
+            <span className="pill mono text-[9px] text-[var(--text-3)]">PERIODE {total.periode}</span>
+            <span className="pill mono text-[10px]" style={{color:accent, background:accent+'1a', borderColor:accent+'4d'}}>{badge}</span>
+          </div>
         </div>
         <div className="grid grid-cols-3 gap-2 mb-4">
           <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Gudang</div><div className="serif text-2xl mt-1">{total.gudang}</div></div>
@@ -3964,6 +4038,7 @@ function KategoriKomoditasSRG(){
             </div>
           ))}
         </div>
+        <SRGYearBreakdown years={years} byKom={byKom} byPg={byPg} accent={accent}/>
       </div>
     );
   };
@@ -3971,13 +4046,13 @@ function KategoriKomoditasSRG(){
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <span className="pill pill-emerald mono text-[10px]">KATEGORI KOMODITAS SRG</span>
-        <span className="text-xs text-[var(--text-3)]">Kumulatif s.d. <b className="text-[var(--text-2)]">{SRG_DATA_UPDATE}</b> &middot; sumber: Rekap RG Bappebti (sheet Orientasi Ekspor &amp; Gudang Komoditas Pangan)</span>
+        <span className="text-xs text-[var(--text-3)]">Akumulasi sesuai rentang data tiap sheet (Ekspor 2020&ndash;2026; Pangan 2024&ndash;2026), s.d. <b className="text-[var(--text-2)]">{SRG_DATA_UPDATE}</b> &middot; sumber: Rekap RG Bappebti (sheet Orientasi Ekspor &amp; Gudang Komoditas Pangan)</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card title="Komoditas Orientasi Ekspor" subtitle="Gudang SRG &middot; Komoditas Ekspor" accent="#7c3aed" badge="EKSPOR" total={SRG_EKSPOR_TOTAL} data={SRG_EKSPOR_KOM}/>
-        <Card title="Gudang Komoditas Pangan" subtitle="Gudang SRG &middot; Komoditas Pangan" accent="#059669" badge="PANGAN" total={SRG_PANGAN_TOTAL} data={SRG_PANGAN_KOM}/>
+        <Card title="Komoditas Orientasi Ekspor" subtitle="Gudang SRG &middot; Komoditas Ekspor" accent="#7c3aed" badge="EKSPOR" total={SRG_EKSPOR_TOTAL} data={SRG_EKSPOR_KOM} years={SRG_EKSPOR_YEARS} byKom={SRG_EKSPOR_BYKOM} byPg={SRG_EKSPOR_BYPG}/>
+        <Card title="Gudang Komoditas Pangan" subtitle="Gudang SRG &middot; Komoditas Pangan" accent="#059669" badge="PANGAN" total={SRG_PANGAN_TOTAL} data={SRG_PANGAN_KOM} years={SRG_PANGAN_YEARS} byKom={SRG_PANGAN_BYKOM} byPg={SRG_PANGAN_BYPG}/>
       </div>
-      <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Catatan: pengelompokan mengikuti kategori internal Bappebti. Komoditas orientasi ekspor (mis. timah, kopi, rumput laut, lada) menopang devisa; komoditas pangan (gula, beras, gabah) menopang ketahanan pangan &amp; Trisula KDMP. Satu gudang dapat menerbitkan resi untuk lebih dari satu komoditas, sehingga jumlah gudang per komoditas tidak selalu menjumlah ke total gudang unik. Volume, nilai resi, dan pembiayaan bersifat kumulatif lintas tahun.</div>
+      <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Catatan: pengelompokan mengikuti kategori internal Bappebti. Komoditas orientasi ekspor (mis. timah, kopi, rumput laut, lada) menopang devisa; komoditas pangan (gula, beras, gabah) menopang ketahanan pangan &amp; Trisula KDMP. Satu gudang dapat menerbitkan resi untuk lebih dari satu komoditas, sehingga jumlah gudang per komoditas tidak selalu menjumlah ke total gudang unik. Volume, nilai resi, dan pembiayaan adalah akumulasi pada rentang data masing-masing sheet (Orientasi Ekspor 2020&ndash;2026; Gudang Komoditas Pangan 2024&ndash;2026), <b>bukan</b> sejak 2008.</div>
     </div>
   );
 }
