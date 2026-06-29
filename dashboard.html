@@ -3940,11 +3940,18 @@ function SRGYearBreakdown({years, byKom, byPg, accent}){
   const [met,setMet] = useState("rg");
   const [open,setOpen] = useState(false);
   const rows = dim==="kom" ? byKom : byPg;
+  // format Rupiah ringkas (tanpa "Rp ") agar muat di kolom tahun
+  const rpC = (n)=>{
+    if(n>=1e12) return (n/1e12).toLocaleString('id-ID',{maximumFractionDigits:2})+' T';
+    if(n>=1e9)  return (n/1e9).toLocaleString('id-ID',{maximumFractionDigits:1})+' M';
+    if(n>=1e6)  return (n/1e6).toLocaleString('id-ID',{maximumFractionDigits:0})+' jt';
+    return Math.round(n).toLocaleString('id-ID');
+  };
   const metInfo = {
-    rg:   {fmt:(v)=>v.toLocaleString('id-ID')},
-    vol:  {fmt:(v)=>v.toLocaleString('id-ID',{maximumFractionDigits:1})},
-    nilai:{fmt:fmtRp},
-    biaya:{fmt:fmtRp},
+    rg:   {fmt:(v)=>v.toLocaleString('id-ID'),                              unit:"resi"},
+    vol:  {fmt:(v)=>v.toLocaleString('id-ID',{maximumFractionDigits:1}),    unit:"ton"},
+    nilai:{fmt:rpC,                                                         unit:"Rp"},
+    biaya:{fmt:rpC,                                                         unit:"Rp"},
   };
   const fmt = metInfo[met].fmt;
   const rowTotal = (r)=> r[met].reduce((a,b)=>a+b,0);
@@ -3969,31 +3976,31 @@ function SRGYearBreakdown({years, byKom, byPg, accent}){
             ))}
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-[10px] mono" style={{borderCollapse:"collapse"}}>
+            <table className="w-full text-[10px] mono" style={{borderCollapse:"collapse", fontVariantNumeric:"tabular-nums"}}>
               <thead>
                 <tr className="text-[var(--text-3)]">
-                  <th className="text-left font-normal py-1 pr-2">{dim==="kom"?"Komoditas":"Pengelola"}</th>
-                  {years.map(y=><th key={y} className="text-right font-normal py-1 px-1.5">{y}</th>)}
-                  <th className="text-right font-normal py-1 pl-2" style={{color:accent}}>Total</th>
+                  <th className="text-left font-normal py-1 pr-3 whitespace-nowrap">{dim==="kom"?"Komoditas":"Pengelola"} <span className="text-[8px] opacity-70">({metInfo[met].unit})</span></th>
+                  {years.map(y=><th key={y} className="text-right font-normal py-1 px-2 whitespace-nowrap">{y}</th>)}
+                  <th className="text-right font-normal py-1 pl-3 whitespace-nowrap" style={{color:accent}}>Total</th>
                 </tr>
               </thead>
               <tbody>
                 {sorted.map(r=>(
                   <tr key={r.key} style={{borderTop:"1px solid var(--border)"}}>
-                    <td className="text-left py-1 pr-2 text-[var(--text-2)] whitespace-nowrap">{r.key}</td>
-                    {r[met].map((v,j)=><td key={j} className="text-right py-1 px-1.5 text-[var(--text-3)]">{v?fmt(v):"\u2013"}</td>)}
-                    <td className="text-right py-1 pl-2" style={{color:accent}}>{fmt(rowTotal(r))}</td>
+                    <td className="text-left py-1 pr-3 text-[var(--text-2)] whitespace-nowrap">{r.key}</td>
+                    {r[met].map((v,j)=><td key={j} className="text-right py-1 px-2 text-[var(--text-3)] whitespace-nowrap tabular-nums">{v?fmt(v):"\u2013"}</td>)}
+                    <td className="text-right py-1 pl-3 whitespace-nowrap tabular-nums font-medium" style={{color:accent}}>{fmt(rowTotal(r))}</td>
                   </tr>
                 ))}
                 <tr style={{borderTop:"2px solid var(--border-strong)"}}>
-                  <td className="text-left py-1 pr-2 text-[var(--text-1)] font-semibold">TOTAL</td>
-                  {years.map((y,j)=><td key={j} className="text-right py-1 px-1.5 text-[var(--text-2)] font-semibold">{fmt(colTotal(j))}</td>)}
-                  <td className="text-right py-1 pl-2 font-semibold" style={{color:accent}}>{fmt(grand)}</td>
+                  <td className="text-left py-1 pr-3 text-[var(--text-1)] font-semibold whitespace-nowrap">TOTAL</td>
+                  {years.map((y,j)=><td key={j} className="text-right py-1 px-2 text-[var(--text-2)] font-semibold whitespace-nowrap tabular-nums">{fmt(colTotal(j))}</td>)}
+                  <td className="text-right py-1 pl-3 font-semibold whitespace-nowrap tabular-nums" style={{color:accent}}>{fmt(grand)}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div className="text-[9px] text-[var(--text-3)] mt-1.5 italic">&ldquo;\u2013&rdquo; = tidak ada penerbitan pada tahun tersebut. {met==="vol"?"Satuan ton.":(met==="rg"?"Satuan jumlah resi gudang.":"Satuan Rupiah (dipadatkan: jt/M/T).")} Geser tabel ke samping bila terpotong.</div>
+          <div className="text-[9px] text-[var(--text-3)] mt-1.5 italic">&ldquo;\u2013&rdquo; = tidak ada penerbitan pada tahun tersebut. {met==="vol"?"Satuan ton.":(met==="rg"?"Satuan jumlah resi gudang.":"Satuan Rupiah, dipadatkan: jt = juta, M = miliar, T = triliun.")} Geser tabel ke samping bila terpotong.</div>
         </div>
       )}
     </div>
