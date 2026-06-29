@@ -48,6 +48,7 @@
     --gold-soft:#d4a437;
     --amber:#d97706;
     --emerald:#059669;
+    --green:#059669;
     --blue:#2563eb;
     --violet:#7c3aed;
     /* warna teks aksen yang kontras di kedua mode */
@@ -74,6 +75,7 @@
     --gold-soft:#a16207;
     --blue:#60a5fa;
     --emerald:#34d399;
+    --green:#34d399;
     --red:#f87171;
     --amber:#fbbf24;
     --violet:#a78bfa;
@@ -8628,8 +8630,8 @@ function MenuPSN(){
                     return (
                       <g key={a.id}>
                         {i%2===0 && <rect x={0} y={y} width={labelW + 36*monthW} height={rowH} fill="rgba(0,0,0,0.025)" />}
-                        <text x={labelW-10} y={cy+3.5} textAnchor="end" fontSize="9.5" fontWeight="600" fill={colors[a.t]} fontFamily="ui-monospace,monospace">{a.id}</text>
-                        <text x={labelW-48} y={cy+3.5} textAnchor="end" fontSize="10" fill="#334155">{a.lab}</text>
+                        <text x={8} y={cy+3.5} textAnchor="start" fontSize="9.5" fontWeight="700" fill={colors[a.t]} fontFamily="ui-monospace,monospace">{a.id}</text>
+                        <text x={labelW-8} y={cy+3.5} textAnchor="end" fontSize="10" fill="#334155">{a.lab}</text>
                         {!isM ? (
                           <rect x={labelW + (a.s-1)*monthW + 2} y={y + 4} width={(a.e-a.s+1)*monthW - 4} height={rowH - 8} fill={colors[a.t]} rx={3} opacity={0.92} />
                         ) : (
