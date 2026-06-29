@@ -3364,10 +3364,48 @@ function PeringkatPengelolaGudang({year}){
 
 function PeringkatPengelolaPerTahun({year}){
   const [open,setOpen] = useState(null);
+  const [sortBy,setSortBy] = useState("skor");
   const yr = String(year);
   const periodLabel = year===2026 ? `TA 2026 (s.d. ${RG_CUTOFF_2026})` : `TA ${year}`;
-  const rows = (PENGELOLA_BY_YEAR[yr]||[]).slice(0,5);
-  const max = rows.length ? rows[0].rg : 1;
+
+  // ==== Skor berbobot multi-kriteria (agar tidak bias pada komoditas bernilai besar/kecil) ====
+  // Tiap indikator dinormalisasi 0–100 terhadap nilai tertinggi pada tahun tsb, lalu dijumlah-bobot.
+  // Volume & Rasio Pembiayaan bersifat NETRAL nilai komoditas → menyeimbangkan dominasi "Nilai Barang".
+  const W = {rg:0.30, vol:0.25, nilai:0.20, biaya:0.15, rasio:0.10};
+  const base = (PENGELOLA_BY_YEAR[yr]||[]).map(p=>({...p, rasio: p.nilai>0 ? p.biaya/p.nilai : 0}));
+  const mx = {
+    rg:    Math.max(1,...base.map(p=>p.rg)),
+    vol:   Math.max(1,...base.map(p=>p.vol)),
+    nilai: Math.max(1,...base.map(p=>p.nilai)),
+    biaya: Math.max(1,...base.map(p=>p.biaya)),
+    rasio: Math.max(0.0001,...base.map(p=>p.rasio)),
+  };
+  const scored = base.map(p=>{
+    const n = {rg:p.rg/mx.rg*100, vol:p.vol/mx.vol*100, nilai:p.nilai/mx.nilai*100, biaya:p.biaya/mx.biaya*100, rasio:p.rasio/mx.rasio*100};
+    const skor = n.rg*W.rg + n.vol*W.vol + n.nilai*W.nilai + n.biaya*W.biaya + n.rasio*W.rasio;
+    return {...p, n, skor};
+  });
+
+  const SORT = {
+    skor: {label:"Skor Berbobot", color:"#7c3aed", fmt:v=>v.toFixed(1).replace(".",","), get:r=>r.skor},
+    rg:   {label:"Resi",          color:"#0d9488", fmt:fmtNumRG,                 get:r=>r.rg},
+    vol:  {label:"Volume",        color:"#2563eb", fmt:v=>fmtNumRG(v)+" t",      get:r=>r.vol},
+    nilai:{label:"Nilai",         color:"#059669", fmt:fmtRpRG,                  get:r=>r.nilai},
+    biaya:{label:"Pembiayaan",    color:"#a16207", fmt:fmtRpRG,                  get:r=>r.biaya},
+  };
+  const sc = SORT[sortBy] || SORT.skor;
+  const ranked = [...scored].sort((a,b)=> sc.get(b)-sc.get(a));
+  const rows = ranked.slice(0,5);
+  const max = rows.length ? sc.get(rows[0]) : 1;
+
+  const COMP = [
+    {k:"rg",    l:"Resi Gudang"},
+    {k:"vol",   l:"Volume (ton)"},
+    {k:"nilai", l:"Nilai Barang"},
+    {k:"biaya", l:"Pembiayaan"},
+    {k:"rasio", l:"Rasio Pembiayaan"},
+  ];
+
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
@@ -3375,9 +3413,15 @@ function PeringkatPengelolaPerTahun({year}){
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tabel 2 · Peringkat {periodLabel}</div>
           <div className="serif text-xl">Pengelola Gudang SRG Terbaik — {periodLabel}</div>
         </div>
-        <span className="text-[10px] mono text-[var(--text-3)]">5 terbaik · menurut resi gudang diterbitkan</span>
+        <span className="text-[10px] mono text-[var(--text-3)]">5 terbaik · skor berbobot 5 kriteria</span>
       </div>
-      <div className="text-[11px] text-[var(--text-2)] mb-3">Klik nama pengelola untuk melihat rincian: jumlah resi gudang, volume, nilai barang, dan pembiayaan pada tahun tersebut.</div>
+      <div className="text-[11px] text-[var(--text-2)] mb-2">Peringkat memakai <b>skor berbobot</b> dari lima indikator yang dinormalisasi, bukan sekadar jumlah resi atau nilai — sehingga pengelola komoditas bernilai kecil (mis. gabah) dan bernilai besar (mis. gula/timah) dinilai setara. Klik nama pengelola untuk rincian & uraian skor.</div>
+      <div className="flex items-center gap-1 flex-wrap mb-2 no-print">
+        <span className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mr-0.5">Urutkan:</span>
+        {Object.keys(SORT).map(k=>(
+          <button key={k} onClick={()=>setSortBy(k)} className={"px-2 py-0.5 rounded text-[9px] mono uppercase tracking-wider border transition "+(sortBy===k?"text-white border-transparent":"text-[var(--text-3)] border-[var(--border-strong)] hover:text-[var(--text-2)]")} style={sortBy===k?{background:SORT[k].color}:{}}>{SORT[k].label}</button>
+        ))}
+      </div>
       {rows.length===0 ? (
         <div className="card-2 p-5 text-center">
           <div className="text-sm text-[var(--text-2)]">Data realisasi penerbitan Resi Gudang TA {year} belum tersedia{year===2027?" (RANWAL — rencana awal)":""}.</div>
@@ -3393,8 +3437,8 @@ function PeringkatPengelolaPerTahun({year}){
               <button onClick={()=>setOpen(isOpen?null:r.pg)} className="w-full flex items-center gap-3 py-2 text-left rounded px-1 transition hover:bg-[var(--card-2)]">
                 <span className="mono text-[11px] w-6 text-right shrink-0" style={{color:medal||"var(--text-3)",fontWeight:medal?700:400}}>{i+1}</span>
                 <span className="flex-1 text-[12px] truncate" style={medal?{color:medal,fontWeight:600}:{}}>{r.pg}</span>
-                <div className="impact-bar w-20 hidden sm:block shrink-0"><div className="impact-fill" style={{width:`${Math.round(r.rg/max*100)}%`,background:"#0d9488"}}></div></div>
-                <span className="mono text-[12px] w-14 text-right font-bold shrink-0" style={{color:"#0d9488"}}>{fmtNumRG(r.rg)}</span>
+                <div className="impact-bar w-20 hidden sm:block shrink-0"><div className="impact-fill" style={{width:`${Math.round(sc.get(r)/max*100)}%`,background:sc.color}}></div></div>
+                <span className="mono text-[12px] w-16 text-right font-bold shrink-0" style={{color:sc.color}}>{sc.fmt(sc.get(r))}</span>
                 <span className="mono text-[8px] text-[var(--text-3)] w-3 text-right shrink-0">{isOpen?"\u25B2":"\u25BC"}</span>
               </button>
               {isOpen && (
@@ -3403,7 +3447,23 @@ function PeringkatPengelolaPerTahun({year}){
                     <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Gudang</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(r.rg)}</div></div>
                     <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Volume</div><div className="text-sm font-semibold mt-0.5">{fmtNumRG(r.vol)} ton</div></div>
                     <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Barang</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(r.nilai)}</div></div>
-                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Pembiayaan</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(r.biaya)}</div><div className="text-[9px] text-[var(--text-3)]">{fmtNumRG(r.rgBiaya)} resi dibiayai</div></div>
+                    <div><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Pembiayaan</div><div className="text-sm font-semibold mt-0.5">{fmtRpRG(r.biaya)}</div><div className="text-[9px] text-[var(--text-3)]">{fmtNumRG(r.rgBiaya)} resi dibiayai · rasio {(r.rasio*100).toFixed(0)}%</div></div>
+                  </div>
+                  <div className="mt-3 pt-2" style={{borderTop:"1px dashed var(--border)"}}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Uraian Skor Berbobot</span>
+                      <span className="mono text-[11px] font-bold" style={{color:"#7c3aed"}}>{r.skor.toFixed(1).replace(".",",")} / 100</span>
+                    </div>
+                    <div className="space-y-1">
+                      {COMP.map(c=>(
+                        <div key={c.k} className="flex items-center gap-2 text-[10px]">
+                          <span className="w-28 shrink-0 text-[var(--text-2)]">{c.l} <span className="text-[var(--text-3)] mono text-[8px]">×{Math.round(W[c.k]*100)}%</span></span>
+                          <div className="impact-bar flex-1"><div className="impact-fill" style={{width:`${Math.round(r.n[c.k])}%`,background:"#7c3aed",opacity:0.7}}></div></div>
+                          <span className="mono text-[9px] text-[var(--text-3)] w-20 text-right shrink-0">{(r.n[c.k]*W[c.k]).toFixed(1).replace(".",",")} poin</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-[8px] text-[var(--text-3)] mt-1.5 italic">Tiap indikator dinormalisasi 0–100 terhadap pengelola tertinggi pada {periodLabel}, lalu dikali bobotnya; total = skor.</div>
                   </div>
                 </div>
               )}
@@ -3412,7 +3472,7 @@ function PeringkatPengelolaPerTahun({year}){
         })}
       </div>
       )}
-      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Mengikuti Tahun Anggaran pada header. Peringkat dihitung dari jumlah resi gudang yang diterbitkan pada TA tersebut (bila seri, diurutkan menurut nilai barang). TA 2026 mencakup data s.d. {RG_CUTOFF_2026}. Pengelola yang menerbitkan resi pada suatu tahun berarti aktif beroperasi pada tahun itu. Sumber: Laporan Rekap Resi Gudang Bappebti.</div>
+      <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Skor berbobot = Resi Gudang (30%) + Volume (25%) + Nilai Barang (20%) + Pembiayaan (15%) + Rasio Pembiayaan (10%), masing-masing dinormalisasi 0–100 terhadap pengelola tertinggi pada TA tersebut. Volume dan rasio pembiayaan bersifat netral terhadap nilai komoditas, sehingga peringkat tidak bias pada komoditas bernilai besar. Tombol "Urutkan" memungkinkan pemeringkatan ulang menurut indikator tunggal. TA 2026 mencakup data s.d. {RG_CUTOFF_2026}. Sumber: Laporan Rekap Resi Gudang Bappebti.</div>
     </div>
   );
 }
