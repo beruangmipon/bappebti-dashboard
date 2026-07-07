@@ -1888,6 +1888,7 @@ function MetricStrip(){
                  : yearHasOwnRO(year) ? yroList.reduce((s,r)=>s+r.anggaran,0)
                  : totalAnggaran;
   const roCount = yroList.length;
+  const kroCount = new Set(yroList.map(r=>r.kro)).size;
   const roSub = year===2027 ? `${yroList.filter(r=>r.isPN).length} PN · RANWAL`
               : year===2025 ? `${pnCount2025} PN · ${nonPnCount2025} Non-PN`
               : `${pnCount} PN · ${nonPnCount} Non-PN`;
@@ -1896,7 +1897,7 @@ function MetricStrip(){
     {label:"Sasaran Program",   value:SS.length, sub:"Bappebti (Eselon I)"},
     {label:"Indikator Kinerja", value:IKSS.length, sub:"ISP terdaftar"},
     {label:"Kegiatan",          value:KEGIATAN.length, sub:"unit eselon II"},
-    {label:"KRO",               value:KRO.length, sub:"klasifikasi output"},
+    {label:"KRO",               value:kroCount, sub:"klasifikasi output"},
     {label:"Rincian Output",    value:roCount, sub:roSub},
     {label:"Total Pagu",        value:fmtRp(paguYear), sub:year===2027?'TA 2027 · RANWAL *':(year===2025?'TA 2025 · RKAKL Rev.9':'TA 2026'), big:true},
   ];
@@ -1940,7 +1941,7 @@ function AIInsightCard({title, prompt, precomputed, sources}){
     <div className="card p-5 ai-glow mb-6">
       <div className="flex items-center gap-2 mb-1">
         <span className="w-1.5 h-1.5 rounded-full bg-[var(--gold)] pulse"></span>
-        <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)]">Analisa AI · Claude</div>
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)]">Analisa AI</div>
       </div>
       <div className="serif text-xl mb-3">{title}</div>
       <button onClick={run} disabled={loading}
@@ -2646,7 +2647,7 @@ function SebabAkibat(){
         <div className="card p-5 ai-glow self-start">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)]">Analisa AI · Claude</div>
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--gold)]">Analisa AI</div>
               <div className="serif text-xl">Penilaian dampak rantai</div>
             </div>
           </div>
@@ -7612,7 +7613,7 @@ function MenuPSN(){
                 </tr>
                 <tr className="border-t-2 border-[var(--gold-soft)] font-bold">
                   <td colSpan={4} className="py-2 pr-2 text-right mono uppercase text-[10px] tracking-wider">TOTAL DAMPAK EKONOMI TAHUNAN (D.9 — bawah ÷ atas)</td>
-                  <td className="text-right py-2 pl-2 mono text-base" style={{color:"var(--gold)"}}>1,98–2,87 T</td>
+                  <td className="text-right py-2 pl-2 mono text-sm font-bold whitespace-nowrap align-middle" style={{color:"var(--gold)"}}>1,98–2,87 T</td>
                 </tr>
                 <tr className="text-[10px] text-[var(--text-3)] italic">
                   <td colSpan={4} className="py-1 pr-2 text-right">Bawah: 200+80+150+1.250+300 = 1.980 M · Atas: 300+120+200+1.750+500 = 2.870 M</td>
