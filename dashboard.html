@@ -1384,6 +1384,59 @@ const USULAN_TAMBAHAN_PA_2027 = [
   { keg:"3762", kode:"3762.PBB.G01", nama:"Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", target:1, satuan:"Rekomendasi Kebijakan", pagu:388_842_000, pkpn:"PN", sbkk:true, ket:"" },
   { keg:"3762", kode:"3762.QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", target:70, satuan:"Badan Usaha", pagu:374_340_000, pkpn:"PN", sbkk:true, ket:"" },
 ];
+/* ===== USULAN (BELUM DISETUJUI) — Hasil Pembahasan dengan Biro, Renja PA Bappebti TA 2027 (070726) =====
+   Data ini adalah USULAN BARU hasil pembahasan dengan Biro yang BELUM DISETUJUI. Disimpan terpisah &
+   ditampilkan sebagai kartu informasi tambahan; TIDAK mengubah data pohon kinerja / analisis anggaran /
+   analisa PN yang sudah ada. tag: "PN" | "PN Baru" | "PKPN" | "Prioritas Unit" | null. */
+const USULAN_PEMBAHASAN_2027 = {
+  sumber: "Hasil Pembahasan dengan Biro — Renja PA Bappebti TA 2027 (ND 07-07-2026)",
+  ikk: [
+    { kode:"IKK-1",  nama:"Pertumbuhan Pelaku PBK",                             lama:"4%",  usulan:"6%", ket:"Penyesuaian dengan capaian tahun sebelumnya" },
+    { kode:"IKK-5",  nama:"Pertumbuhan Pengguna Layanan Informasi PBK",         lama:"13%", usulan:"6%", ket:"Dampak peralihan Aset Kripto ke OJK" },
+    { kode:"IKK-9",  nama:"Indeks kepuasan layanan perizinan SRG & PLK",        lama:"87",  usulan:"92", ket:"Realisasi TW II 2026 = 92" },
+    { kode:"IKK-13", nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK/SRG/PLK",  lama:"65",  usulan:"77", ket:"Disesuaikan realisasi 2026 = 76,66" },
+  ],
+  ro: [
+    { keg:"3758", kode:"3758.EBA.994", nama:"Layanan Perkantoran", target:"1 Layanan".trim(), pagu:1_037_634_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:"1 Layanan".trim(), pagu:700_000_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBA.Z07", nama:"Layanan BMN", target:"1 Layanan".trim(), pagu:60_000_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBC.Z10", nama:"Layanan Manajemen SDM Lingkup Kementerian/Lembaga tanpa Satker Vertikal dan tanpa UPT", target:"1 Layanan".trim(), pagu:160_000_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBD.Z27", nama:"Layanan Manajemen Keuangan", target:"1 Layanan".trim(), pagu:210_000_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBD.Z32", nama:"Layanan Reformasi Kinerja", target:"1 Layanan".trim(), pagu:30_000_000, tag:null, sbkk:false },
+    { keg:"3758", kode:"3758.EBD.Z36", nama:"Layanan Manajemen Kinerja", target:"1 Layanan".trim(), pagu:130_000_000, tag:null, sbkk:false },
+    { keg:"3759", kode:"3759.BIC.001", nama:"Pengawasan Penyelenggara PLK", target:"2 Lembaga".trim(), pagu:80_000_000, tag:"Prioritas Unit", sbkk:false },
+    { keg:"3759", kode:"3759.BIH.001", nama:"Pengawasan Pelaku Usaha PBK melalui Audit", target:"20 Badan Usaha".trim(), pagu:752_000_000, tag:"PN Baru", sbkk:false },
+    { keg:"3759", kode:"3759.BIH.003", nama:"Tindak lanjut Pengawasan Pelaku Usaha Legal/Illegal melalui penindakan di Bidang PBK, SRG dan PLK", target:"20 Badan Usaha".trim(), pagu:665_000_000, tag:"PN Baru", sbkk:false },
+    { keg:"3759", kode:"3759.QIH.002", nama:"Pengawasan Pelaku Usaha SRG", target:"10 Badan Usaha".trim(), pagu:286_000_000, tag:"PN Baru", sbkk:true },
+    { keg:"3760", kode:"3760.ACD.001", nama:"Perizinan Lembaga SRG", target:"6 Lembaga".trim(), pagu:150_000_000, tag:null, sbkk:false },
+    { keg:"3760", kode:"3760.ACD.002", nama:"Perizinan Lembaga PLK", target:"1 Lembaga".trim(), pagu:18_000_000, tag:null, sbkk:false },
+    { keg:"3760", kode:"3760.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", target:"10 Dokumen".trim(), pagu:150_000_000, tag:null, sbkk:true },
+    { keg:"3760", kode:"3760.PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di Bidang SRG/PLK", target:"1 Rekomendasi Kebijakan".trim(), pagu:224_977_000, tag:null, sbkk:true },
+    { keg:"3760", kode:"3760.PBB.G02", nama:"Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", target:"1 Rekomendasi Kebijakan".trim(), pagu:337_000_000, tag:null, sbkk:false },
+    { keg:"3760", kode:"3760.PEA.001", nama:"Koordinasi dengan Pemangku Kepentingan di bidang SRG", target:"8 Kegiatan".trim(), pagu:270_046_000, tag:"PKPN", sbkk:true },
+    { keg:"3760", kode:"3760.PEA.002", nama:"Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", target:"1 Kegiatan".trim(), pagu:105_000_000, tag:"PN", sbkk:false },
+    { keg:"3760", kode:"3760.QDB.001", nama:"Fasilitasi dan Pembinaan dalam Rangka Peningkatan Kompetensi Pengelola Gudang SRG", target:"40 Lembaga".trim(), pagu:360_000_000, tag:"PKPN", sbkk:true },
+    { keg:"3760", kode:"3760.QDB.002", nama:"Fasilitasi dan Pembinaan Calon Pengelola Gudang SRG", target:"40 Lembaga".trim(), pagu:150_000_000, tag:"PKPN", sbkk:true },
+    { keg:"3760", kode:"3760.QDB.003", nama:"Pembinaan/Pendampingan Pengelola Gudang SRG dalam Mengimplementasikan Warehouse Management System (WMS)", target:"6 Lembaga".trim(), pagu:216_356_000, tag:null, sbkk:false },
+    { keg:"3760", kode:"3760.QDB.004", nama:"Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", target:"4 Lembaga".trim(), pagu:140_000_000, tag:"PN Baru", sbkk:true },
+    { keg:"3760", kode:"3760.QDC.001", nama:"Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK", target:"50 Orang".trim(), pagu:150_000_000, tag:null, sbkk:true },
+    { keg:"3760", kode:"3760.QDC.002", nama:"Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", target:"300 Orang".trim(), pagu:320_000_000, tag:"PKPN", sbkk:true },
+    { keg:"3760", kode:"3760.QDC.003", nama:"Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK", target:"50 Orang".trim(), pagu:100_000_000, tag:null, sbkk:true },
+    { keg:"3760", kode:"3760.UAB.001", nama:"Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)", target:"1 Sistem Aplikasi".trim(), pagu:60_000_000, tag:"PN", sbkk:false },
+    { keg:"3760", kode:"3760.UAB.002", nama:"Sistem Aplikasi Warehouse Management System (WMS)", target:"1 Sistem Aplikasi".trim(), pagu:60_000_000, tag:"PN", sbkk:false },
+    { keg:"3761", kode:"3761.AAH.F01", nama:"Peraturan Bappebti di bidang PBK, SRG dan PLK", target:"4 Peraturan".trim(), pagu:146_000_000, tag:"PN Baru", sbkk:false },
+    { keg:"3761", kode:"3761.AEA.001", nama:"Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", target:"4 Kegiatan".trim(), pagu:344_000_000, tag:"PN Baru", sbkk:false },
+    { keg:"3761", kode:"3761.BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG, dan PLK", target:"34 Orang".trim(), pagu:719_250_000, tag:"PN Baru", sbkk:true },
+    { keg:"3761", kode:"3761.BCB.001", nama:"Layanan Penanganan Perkara  di Badan Peradilan dan/atau Alternatif Penyelesaian Perselisihan di Bidang PBK,SRG dan PLK", target:"5 Perkara".trim(), pagu:200_000_000, tag:"Prioritas Unit", sbkk:false },
+    { keg:"3762", kode:"3762.ACD.001", nama:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", target:"200 Badan Usaha".trim(), pagu:330_750_000, tag:null, sbkk:false },
+    { keg:"3762", kode:"3762.ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka atau Wakil Penasihat Berjangka", target:"100 Orang".trim(), pagu:109_300_000, tag:null, sbkk:false },
+    { keg:"3762", kode:"3762.AFA.001", nama:"SKKNI di Bidang Perdagangan Berjangka Komoditi", target:"1 NSPK".trim(), pagu:198_500_000, tag:null, sbkk:false },
+    { keg:"3762", kode:"3762.BMA.001", nama:"Data dan Informasi Harga Komoditi di Bidang Perdagangan Berjangka Komoditi", target:"1 Dokumen".trim(), pagu:269_639_000, tag:null, sbkk:true },
+    { keg:"3762", kode:"3762.FAB.002", nama:"Sistem Infomasi Manajemen Pelaku Usaha Perdagangan Berjangka Komoditi", target:"2 Sistem Informasi".trim(), pagu:105_000_000, tag:null, sbkk:false },
+    { keg:"3762", kode:"3762.PBB.G01", nama:"Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", target:"2 Rekomendasi Kebijakan".trim(), pagu:388_842_000, tag:null, sbkk:true },
+    { keg:"3762", kode:"3762.QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", target:"65 Badan Usaha".trim(), pagu:174_340_000, tag:null, sbkk:true },
+  ],
+};
 const penelaahan2027 = (r)=>{
   const vol=parseTargetNum(r.target), bs=biayaSatuan(r), sk=satuanKey(r.target), band=BAND[sk];
   // K1 — target & kinerja (rasionalitas anggaran vs volume keluaran)
@@ -5714,6 +5767,131 @@ function AnalisisAnggaran2027(){
               </table>
             </div>
             <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Rincian Usulan Tambahan PA Bappebti TA 2027, Satker 090.07 Bappebti, Kementerian Perdagangan. Angka merupakan usulan tambahan <b>di atas Pagu Indikatif</b> dan bersifat RANWAL — penetapan mengikuti hasil penelaahan/Pagu Anggaran. Kolom PKPN/PN: <b>PN</b> sudah ditandai Prioritas Nasional; <b>Prioritas Unit</b> prioritas tingkat unit yang diusulkan menjadi PN; <b>PKPN</b> Program Khusus Prioritas Nasional; <b>—</b> non-tematik (a.l. kekurangan operasional Dukungan Manajemen). Tanda ✓ pada kolom SBKK = output dapat diusulkan ber-SBKK. RO 3759 dikoreksi dari QIH.002 menjadi QIH.001 sesuai nomenklatur RO TA 2027 yang berlaku.</div>
+          </div>
+        );
+      })()}
+
+      {/* Usulan Hasil Pembahasan dengan Biro TA 2027 — BELUM DISETUJUI (kartu tambahan, tidak mengubah data existing) */}
+      {isRanwal && (()=>{
+        const d = USULAN_PEMBAHASAN_2027;
+        const total = d.ro.reduce((s,r)=>s+r.pagu,0);
+        const kegList = ["3758","3759","3760","3761","3762"];
+        const kegNama = {"3758":"Dukungan Manajemen","3759":"Pengawasan & Penindakan","3760":"Pembinaan SRG & PLK","3761":"Penyusunan Kebijakan & Hukum","3762":"Pembinaan PBK"};
+        const tagStyle = (t)=> t==="PN Baru" ? {bg:"rgba(147,51,234,0.12)",c:"#9333ea",label:"PN Baru"}
+                              : t==="PN" ? {bg:"rgba(200,16,46,0.10)",c:"#c8102e",label:"PN"}
+                              : t==="Prioritas Unit" ? {bg:"rgba(217,119,6,0.10)",c:"#d97706",label:"Prioritas Unit"}
+                              : t==="PKPN" ? {bg:"rgba(37,99,235,0.10)",c:"#2563eb",label:"PKPN"}
+                              : {bg:"rgba(148,163,184,0.12)",c:"#94a3b8",label:"—"};
+        const pnBaru = d.ro.filter(r=>r.tag==="PN Baru");
+        return (
+          <div className="card p-5 mb-6" style={{borderColor:"rgba(147,51,234,0.35)"}}>
+            <div className="flex items-start gap-3 flex-wrap mb-4">
+              <span className="text-[18px] leading-none mt-0.5" style={{color:"#9333ea"}}>◇</span>
+              <div className="flex-1 min-w-[260px]">
+                <div className="serif text-lg">Usulan Hasil Pembahasan dengan Biro TA 2027</div>
+                <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
+                  Rincian usulan penyesuaian target IKK dan usulan tambahan anggaran per RO hasil pembahasan dengan Biro ({d.sumber}). Termasuk pengajuan <b>RO Prioritas Nasional (PN) baru</b>. Angka ini bersifat <b>usulan awal yang belum disetujui</b> dan belum mengubah data pohon kinerja, analisis anggaran, maupun analisa PN yang berlaku saat ini.
+                </p>
+              </div>
+              <span className="pill text-[10px] self-start" style={{background:"rgba(147,51,234,0.14)",color:"#9333ea",borderColor:"#9333ea55"}}>USULAN · BELUM DISETUJUI</span>
+            </div>
+
+            {/* (A) Penyesuaian Target IKK 2027 */}
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">A. Penyesuaian Target IKK 2027 (usulan)</div>
+            <div className="overflow-x-auto scrollbar mb-5">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">IKK</th>
+                    <th className="py-1.5 pr-2">Uraian</th>
+                    <th className="py-1.5 pr-2 text-right">Target Saat Ini</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan</th>
+                    <th className="py-1.5 pr-2">Keterangan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {d.ikk.map(k=>(
+                    <tr key={k.kode} style={{borderBottom:"1px solid var(--border)"}}>
+                      <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{k.kode}</td>
+                      <td className="py-1.5 pr-2 text-[var(--text-2)]">{k.nama}</td>
+                      <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)]">{k.lama}</td>
+                      <td className="py-1.5 pr-2 text-right mono font-semibold" style={{color:"#9333ea"}}>{k.usulan}</td>
+                      <td className="py-1.5 pr-2 text-[10px] text-[var(--text-3)]">{k.ket}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* (B) Usulan Tambahan Anggaran per RO */}
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">B. Usulan Tambahan Anggaran per RO (usulan)</div>
+              <span className="pill text-[9px]" style={{background:"rgba(147,51,234,0.12)",color:"#9333ea",borderColor:"#9333ea55"}}>{d.ro.length} RO · {fmtRp(total)}</span>
+            </div>
+            <div className="overflow-x-auto scrollbar mb-4">
+              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
+                <thead>
+                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                    <th className="py-1.5 pr-2">Kode RO</th>
+                    <th className="py-1.5 pr-2">Rincian Output</th>
+                    <th className="py-1.5 pr-2 text-right">Target</th>
+                    <th className="py-1.5 pr-2 text-right">Usulan Tambahan Pagu</th>
+                    <th className="py-1.5 pr-2 text-center">Tag</th>
+                    <th className="py-1.5 pr-2 text-center">SBKK</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {kegList.map(kid=>{
+                    const krows = d.ro.filter(r=>r.keg===kid);
+                    if(!krows.length) return null;
+                    const ksum = krows.reduce((s,r)=>s+r.pagu,0);
+                    return (
+                      <React.Fragment key={kid}>
+                        <tr style={{background:"var(--surface-2)"}}>
+                          <td colSpan={3} className="py-1 pr-2 mono text-[10px] font-semibold text-[var(--text-2)]">Kegiatan {kid} · {kegNama[kid]}</td>
+                          <td className="py-1 pr-2 text-right mono text-[10px] font-semibold text-[var(--text-2)]">{fmtRp(ksum)}</td>
+                          <td colSpan={2} className="py-1 pr-2 text-[10px] text-[var(--text-3)]">{krows.length} RO</td>
+                        </tr>
+                        {krows.map(r=>{
+                          const ts = tagStyle(r.tag);
+                          const isNew = r.tag==="PN Baru";
+                          return (
+                            <tr key={r.kode} style={{borderBottom:"1px solid var(--border)", background:isNew?"rgba(147,51,234,0.05)":"transparent"}}>
+                              <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.kode}</td>
+                              <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.nama}</td>
+                              <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)] whitespace-nowrap">{r.target}</td>
+                              <td className="py-1.5 pr-2 text-right mono whitespace-nowrap" style={{fontWeight:600}}>{fmtRp(r.pagu)}</td>
+                              <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:ts.bg,color:ts.c,borderColor:ts.c+'55'}}>{ts.label}</span></td>
+                              <td className="py-1.5 pr-2 text-center">{r.sbkk ? <span style={{color:"var(--emerald)"}} title="Output dapat ber-SBKK">✓</span> : <span className="text-[var(--text-3)]">—</span>}</td>
+                            </tr>
+                          );
+                        })}
+                      </React.Fragment>
+                    );
+                  })}
+                  <tr style={{borderTop:"2px solid var(--border-strong)"}}>
+                    <td colSpan={3} className="py-2 pr-2 font-semibold text-[var(--text-1)]">TOTAL Usulan</td>
+                    <td className="py-2 pr-2 text-right mono font-bold" style={{color:"#9333ea"}}>{fmtRp(total)}</td>
+                    <td colSpan={2}></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* (C) RO Usulan PN Baru */}
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">C. RO Usulan Prioritas Nasional (PN) Baru</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {pnBaru.map(r=>(
+                <div key={r.kode} className="rounded-lg p-3 flex items-center gap-2" style={{background:"rgba(147,51,234,0.06)",border:"1px solid rgba(147,51,234,0.25)"}}>
+                  <span className="pill text-[9px]" style={{background:"rgba(147,51,234,0.14)",color:"#9333ea",borderColor:"#9333ea55"}}>PN Baru</span>
+                  <span className="mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.kode}</span>
+                  <span className="flex-1 text-[11px] text-[var(--text-2)]">{r.nama}</span>
+                  <span className="mono text-[10px]" style={{color:"#9333ea"}}>{fmtRp(r.pagu)}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-[9px] text-[var(--text-3)] mt-4 italic">Sumber: {d.sumber}. Data ini merupakan <b>usulan hasil pembahasan dengan Biro yang belum disetujui</b> dan disajikan sebagai informasi tambahan. Belum menggantikan/mengubah data resmi pada Pohon Kinerja, Analisis Anggaran, maupun Analisa PN.</div>
           </div>
         );
       })()}
