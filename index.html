@@ -1,17 +1,3386 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="refresh" content="0; url=login.html" />
-<title>Bappebti Performance Intelligence</title>
-<link rel="stylesheet" href="styles.css" />
-<script>location.replace("login.html");</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layanan Servis BMN — Peralatan & Mesin | Bappebti</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  /* ==========================================================
+     DESIGN SYSTEM — Layanan Servis BMN (Bappebti)
+     Display : Plus Jakarta Sans  ·  Body : Inter  ·  Data : JetBrains Mono
+     ========================================================== */
+
+  html, body{ margin:0; padding:0; min-height:100%; }
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1100px 520px at 85% -10%, rgba(16,185,129,0.09) 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(245,185,66,0.05) 0%, transparent 55%),
+      linear-gradient(165deg, #070C0A 0%, #0C1511 48%, #080E0B 100%);
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:40px 24px 56px;
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  @media (max-width:640px){
+    body{ padding:0; }
+    #bst-root{ border-radius:0; box-shadow:none; max-width:100%; }
+  }
+
+  #bst-root {
+    --ink:#141F1A;
+    --paper:#FBFBF9;
+    --paper-dim:#F2F3EE;
+    --line:#E4E7DF;
+    --line-soft:#EDEFE8;
+    --primary:#0B9E6E;
+    --primary-strong:#088457;
+    --primary-bright:#22C68B;
+    --primary-dim:#DCF6EA;
+    --primary-text:#0A6647;
+    --amber:#D97706;
+    --amber-dim:#FDF0D5;
+    --amber-text:#8F4E0A;
+    --yellow:#CA8A04;
+    --yellow-dim:#FDF6CE;
+    --yellow-text:#7E5306;
+    --red:#DC2626;
+    --red-dim:#FCE4E4;
+    --red-text:#8C1B1B;
+    --info:#2563EB;
+    --info-dim:#DEE9FC;
+    --info-text:#1D3F8F;
+    --slate:#67736D;
+
+    /* dark-surface tokens (layar login/landing) */
+    --dk-ink:#EDF3EF;
+    --dk-muted:#9FB0A7;
+    --dk-faint:#6E7F76;
+    --dk-card:rgba(255,255,255,0.035);
+    --dk-card-hi:rgba(255,255,255,0.065);
+    --dk-line:rgba(255,255,255,0.09);
+    --dk-line-hi:rgba(255,255,255,0.16);
+    --dk-mint:#5EEAB4;
+
+    --r-lg:20px; --r-md:14px; --r-sm:10px;
+    --shadow-card:0 1px 2px rgba(20,31,26,0.05), 0 6px 18px rgba(20,31,26,0.06);
+    --shadow-pop:0 12px 34px rgba(20,31,26,0.16), 0 3px 9px rgba(20,31,26,0.08);
+    --focus-ring:0 0 0 3px rgba(34,198,139,0.35);
+
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:14px;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(11,158,110,0.055) 0%, transparent 36%),
+      radial-gradient(circle at 0% 100%, rgba(217,119,6,0.04) 0%, transparent 40%),
+      var(--paper);
+    border-radius:var(--r-lg);
+    padding:0;
+    min-height:100%;
+    box-sizing:border-box;
+    width:100%;
+    max-width:1200px;
+    box-shadow:0 40px 90px -18px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  #bst-root *{ box-sizing:border-box; }
+  #bst-root .disp{ font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:-0.01em; }
+  #bst-root .mono{ font-family:'JetBrains Mono',monospace; }
+  #bst-root :is(button, input, select, textarea, a):focus-visible{
+    outline:none; box-shadow:var(--focus-ring);
+  }
+
+  @keyframes bstFadeIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes bstFloatIn{ from{ opacity:0; transform:translateY(14px) scale(0.99); } to{ opacity:1; transform:translateY(0) scale(1); } }
+  @media (prefers-reduced-motion: reduce){
+    #bst-root *{ animation:none !important; transition:none !important; }
+  }
+
+  /* ---------- Login / landing (permukaan gelap) ---------- */
+  #bst-root .bst-login{
+    position:relative; overflow:hidden;
+    min-height:min(640px, 80vh);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:64px 34px 48px; text-align:center;
+    color:var(--dk-ink);
+    background:
+      linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px),
+      radial-gradient(1000px 460px at 78% -8%, rgba(16,185,129,0.16) 0%, transparent 62%),
+      radial-gradient(760px 420px at 8% 108%, rgba(37,99,235,0.10) 0%, transparent 58%),
+      linear-gradient(158deg, #0D1714 0%, #12211B 52%, #0C1512 100%);
+    background-size:34px 34px, 34px 34px, 100% 100%, 100% 100%, 100% 100%;
+    border-radius:var(--r-lg);
+  }
+  #bst-root .bst-login::before{
+    content:""; position:absolute; top:-190px; left:50%; transform:translateX(-50%);
+    width:760px; height:760px; border-radius:50%;
+    background:radial-gradient(circle, rgba(16,185,129,0.20) 0%, rgba(16,185,129,0) 66%);
+    pointer-events:none;
+  }
+  /* Emblem dekoratif (gir) — ditata sebagai watermark besar sisi kanan, memudar ke bawah */
+  #bst-root .bst-building{
+    position:absolute; right:-120px; top:46%; transform:translateY(-50%) rotate(8deg);
+    width:560px; height:auto; max-width:64%;
+    opacity:0.07; pointer-events:none; color:var(--primary-bright);
+    -webkit-mask-image:linear-gradient(115deg, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 82%);
+            mask-image:linear-gradient(115deg, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 82%);
+  }
+  #bst-root .bst-login > *:not(.bst-building){ position:relative; z-index:1; }
+  #bst-root .bst-login-badge{
+    display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px;
+    background:rgba(16,185,129,0.10); border:1px solid rgba(94,234,180,0.32);
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; color:var(--dk-mint);
+    text-transform:uppercase; letter-spacing:0.14em; margin:0 auto 22px;
+    backdrop-filter:blur(4px);
+  }
+  #bst-root .bst-login-badge .dot{ width:6px; height:6px; border-radius:50%; background:var(--dk-mint); box-shadow:0 0 10px rgba(94,234,180,0.9); animation:bstpulse 2.2s infinite; }
+  #bst-root .bst-login h2{
+    font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+    font-size:clamp(26px, 4.4vw, 36px); line-height:1.15;
+    margin:0 auto 12px; max-width:640px; letter-spacing:-0.025em;
+    background:linear-gradient(180deg, #FFFFFF 20%, #C4D8CE 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  #bst-root .bst-login p{ color:var(--dk-muted); font-size:14.5px; line-height:1.65; margin:0 auto 30px; max-width:500px; }
+
+  #bst-root .role-grid{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:12px; max-width:820px; margin:0 auto 26px;
+  }
+  #bst-root .role-card{
+    background:var(--dk-card); border:1px solid var(--dk-line);
+    border-radius:var(--r-md); padding:18px 12px; cursor:pointer;
+    transition:border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    color:var(--dk-ink);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  #bst-root .role-card:hover{ border-color:rgba(34,198,139,0.55); background:rgba(16,185,129,0.10); transform:translateY(-3px); box-shadow:0 12px 26px rgba(0,0,0,0.3); }
+  #bst-root .role-card.selected{ border-color:var(--primary-bright); background:rgba(16,185,129,0.16); }
+  #bst-root .role-card .ric{ font-size:24px; margin-bottom:10px; }
+  #bst-root .role-card .rn{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:14px; letter-spacing:-0.01em; }
+  #bst-root .role-card .rd{ font-size:11.5px; color:var(--dk-muted); margin-top:5px; line-height:1.5; }
+
+  #bst-root .bst-login-form{ max-width:340px; margin:0 auto; }
+  #bst-root .bst-login-form input, #bst-root .bst-login-form select{
+    width:100%; padding:12px 15px; border-radius:var(--r-sm); border:1px solid var(--dk-line-hi);
+    background:rgba(255,255,255,0.055); color:var(--dk-ink); font-family:'Inter',sans-serif; font-size:14px;
+    margin-bottom:12px; transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  #bst-root .bst-login-form select{ cursor:pointer; }
+  #bst-root .bst-login-form select:disabled{ opacity:.5; cursor:not-allowed; }
+  #bst-root .bst-login-form select option{ color:#131313; }
+  #bst-root .bst-login-form input::placeholder{ color:var(--dk-faint); }
+  #bst-root .bst-login-form input:focus, #bst-root .bst-login-form select:focus{
+    outline:none; border-color:var(--primary-bright); background:rgba(16,185,129,0.08); box-shadow:var(--focus-ring);
+  }
+  #bst-root #pemohon-preview .note{
+    background:rgba(16,185,129,0.10); border:1px solid rgba(94,234,180,0.3); color:#CDEFDF;
+    text-align:left; font-size:12.5px; line-height:1.65;
+  }
+  #bst-root .bst-disclaimer{
+    font-size:11px; color:var(--dk-faint); max-width:460px; margin:22px auto 0; line-height:1.6;
+    padding-top:16px;
+  }
+
+  /* ---------- Grafik RKBMN (layar awal, sebelum login) ---------- */
+  #bst-root .data-columns{
+    display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:38px; align-items:start;
+    text-align:left;
+  }
+  #bst-root .rkbmn-section{
+    text-align:left; height:100%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.02) 100%);
+    border:1px solid var(--dk-line);
+    border-radius:var(--r-md); padding:24px 22px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+    animation:bstFloatIn .4s ease both;
+  }
+  #bst-root .rkbmn-header{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  #bst-root .rkbmn-title{ font-size:17px; font-weight:700; color:var(--dk-ink); letter-spacing:-0.015em; }
+  #bst-root .rkbmn-sub{ font-size:11px; color:var(--dk-muted); margin-top:5px; font-family:'JetBrains Mono',monospace; line-height:1.55; letter-spacing:0.02em; }
+  #bst-root .rkbmn-tabs{ display:inline-flex; gap:4px; flex-wrap:wrap; margin-bottom:18px; padding:4px; background:rgba(0,0,0,0.22); border:1px solid var(--dk-line); border-radius:999px; }
+  #bst-root .rkbmn-tab{
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600; padding:7px 15px; border-radius:999px;
+    background:transparent; border:none; color:var(--dk-muted); cursor:pointer;
+    transition:background .18s ease, color .18s ease;
+  }
+  #bst-root .rkbmn-tab:hover{ color:#fff; background:rgba(255,255,255,0.07); }
+  #bst-root .rkbmn-tab.active{ background:linear-gradient(135deg, var(--primary), var(--primary-bright)); color:#fff; box-shadow:0 3px 10px rgba(11,158,110,0.4); }
+  #bst-root .rkbmn-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+  #bst-root .rkbmn-stat{
+    background:var(--dk-card); border:1px solid var(--dk-line); border-radius:12px; padding:14px 10px 12px; text-align:center;
+    position:relative; overflow:hidden;
+  }
+  #bst-root .rkbmn-stat::after{ content:""; position:absolute; left:0; right:0; top:0; height:2px; background:linear-gradient(90deg, transparent, rgba(34,198,139,0.7), transparent); }
+  #bst-root .rkbmn-stat-num{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:24px; color:var(--dk-mint); font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+  #bst-root .rkbmn-stat-lbl{ font-size:9.5px; font-weight:600; color:var(--dk-muted); margin-top:4px; text-transform:uppercase; letter-spacing:0.12em; }
+
+  #bst-root .rkbmn-table-wrap{ overflow-x:auto; border-radius:12px; border:1px solid var(--dk-line); background:rgba(0,0,0,0.14); }
+  #bst-root .rkbmn-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  #bst-root .rkbmn-table thead th{
+    text-align:left; font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--dk-faint); background:rgba(255,255,255,0.04);
+    padding:10px 12px; border-bottom:1px solid var(--dk-line-hi); white-space:nowrap;
+  }
+  #bst-root .rkbmn-table thead th:last-child, #bst-root .rkbmn-table td.rkbmn-td-jumlah{ text-align:right; }
+  #bst-root .rkbmn-table thead th:first-child, #bst-root .rkbmn-table td.rkbmn-td-no{ text-align:center; }
+  #bst-root .rkbmn-table tbody td{ padding:11px 12px; border-bottom:1px solid rgba(255,255,255,0.05); vertical-align:middle; }
+  #bst-root .rkbmn-table tbody tr:nth-child(even){ background:rgba(255,255,255,0.016); }
+  #bst-root .rkbmn-table tbody tr:last-child td{ border-bottom:none; }
+  #bst-root .rkbmn-table tbody tr{ transition:background .15s ease; }
+  #bst-root .rkbmn-table tbody tr:hover{ background:rgba(16,185,129,0.08); }
+  #bst-root .rkbmn-td-no{ color:var(--dk-faint); font-family:'JetBrains Mono',monospace; font-size:10.5px; }
+  #bst-root .rkbmn-td-nama{ color:#E3EAE5; font-weight:600; font-size:12.5px; letter-spacing:-0.005em; }
+  #bst-root .rkbmn-td-kode{ color:var(--dk-faint); font-family:'JetBrains Mono',monospace; font-size:9.5px; margin-top:2px; letter-spacing:0.03em; }
+  #bst-root .rkbmn-kat-badge{
+    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:600; padding:4px 10px; border-radius:999px;
+    text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; border:1px solid transparent;
+  }
+  #bst-root .rkbmn-kat-kendaraan{ background:rgba(217,119,6,0.14); color:#F6C476; border-color:rgba(217,119,6,0.35); }
+  #bst-root .rkbmn-kat-elektronik{ background:rgba(16,185,129,0.12); color:#7BE8BE; border-color:rgba(16,185,129,0.32); }
+  #bst-root .rkbmn-td-jumlah{ font-family:'JetBrains Mono',monospace; font-weight:700; color:#fff; font-size:15px; font-variant-numeric:tabular-nums; min-width:104px; }
+  #bst-root .rkbmn-td-pct{ display:inline-block; font-size:9.5px; font-weight:500; color:var(--dk-faint); margin-left:5px; }
+  #bst-root .rkbmn-bar{ display:block; height:4px; margin-top:6px; border-radius:99px; background:rgba(255,255,255,0.08); overflow:hidden; }
+  #bst-root .rkbmn-bar-fill{ display:block; height:100%; border-radius:99px; background:linear-gradient(90deg, var(--primary), var(--primary-bright)); box-shadow:0 0 8px rgba(34,198,139,0.45); transition:width .4s ease; }
+  #bst-root .rkbmn-empty{ font-size:12.5px; color:var(--dk-muted); padding:18px; text-align:center; }
+  #bst-root .rkbmn-footnote{ margin-top:16px; font-size:10px; color:var(--dk-faint); font-family:'JetBrains Mono',monospace; line-height:1.7; }
+  #bst-root .rkbmn-changes{
+    margin-top:20px; padding:18px 20px; border-radius:var(--r-md);
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.018));
+    border:1px solid var(--dk-line);
+    text-align:left;
+  }
+  #bst-root .rkbmn-changes-title{ font-family:'Plus Jakarta Sans',sans-serif; font-size:12.5px; font-weight:700; color:var(--dk-ink); margin-bottom:12px; letter-spacing:-0.01em; }
+  #bst-root .rkbmn-change-row{ display:flex; align-items:center; gap:9px; padding:6px 0; font-size:11.5px; flex-wrap:wrap; }
+  #bst-root .rkbmn-change-icon{
+    width:20px; height:20px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:700; flex-shrink:0;
+  }
+  #bst-root .rkbmn-change-icon.rkbmn-delta-naik{ background:rgba(16,185,129,0.16); color:var(--dk-mint); border:1px solid rgba(16,185,129,0.4); }
+  #bst-root .rkbmn-change-icon.rkbmn-delta-turun{ background:rgba(220,38,38,0.14); color:#FCA5A5; border:1px solid rgba(220,38,38,0.4); }
+  #bst-root .rkbmn-change-name{ color:#E3EAE5; font-weight:600; }
+  #bst-root .rkbmn-change-detail{ color:var(--dk-muted); font-family:'JetBrains Mono',monospace; font-size:10.5px; }
+  #bst-root .rkbmn-change-detail .rkbmn-delta-naik{ color:var(--dk-mint); }
+  #bst-root .rkbmn-change-detail .rkbmn-delta-turun{ color:#FCA5A5; }
+
+  /* ---------- Sandingan RKBMN vs RKAKL (grafik kupu-kupu) ---------- */
+  #bst-root .compare-legend{ display:flex; gap:18px; margin-bottom:18px; flex-wrap:wrap; }
+  #bst-root .compare-legend-item{ display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:500; color:var(--dk-muted); }
+  #bst-root .compare-swatch{ width:12px; height:12px; border-radius:4px; display:inline-block; }
+  #bst-root .compare-swatch-rkbmn{ background:linear-gradient(135deg, var(--primary), var(--primary-bright)); box-shadow:0 0 8px rgba(34,198,139,0.4); }
+  #bst-root .compare-swatch-rkakl{ background:linear-gradient(135deg, #60A5FA, var(--info)); box-shadow:0 0 8px rgba(96,165,250,0.4); }
+  #bst-root .compare-chart{ display:flex; flex-direction:column; gap:15px; position:relative; padding:4px 0; }
+  #bst-root .compare-chart::before{
+    content:""; position:absolute; top:0; bottom:0; left:50%; width:1px;
+    background:linear-gradient(180deg, transparent, var(--dk-line-hi) 12%, var(--dk-line-hi) 88%, transparent);
+    pointer-events:none;
+  }
+  #bst-root .compare-row{ display:grid; grid-template-columns:1fr 128px 1fr; align-items:center; gap:10px; }
+  #bst-root .compare-side{ display:flex; align-items:center; gap:8px; }
+  #bst-root .compare-left{ flex-direction:row; }
+  #bst-root .compare-left .compare-track{ display:flex; justify-content:flex-end; }
+  #bst-root .compare-track{
+    flex:1; height:13px; border-radius:99px; background:rgba(255,255,255,0.06);
+    box-shadow:inset 0 1px 2px rgba(0,0,0,0.35); overflow:hidden;
+  }
+  #bst-root .compare-right .compare-track{ display:flex; justify-content:flex-start; }
+  #bst-root .compare-fill{ height:100%; border-radius:99px; transition:width .45s cubic-bezier(.22,.9,.35,1); }
+  #bst-root .compare-fill-rkbmn{ background:linear-gradient(270deg, var(--primary-bright), var(--primary)); box-shadow:0 0 10px rgba(34,198,139,0.35); }
+  #bst-root .compare-fill-rkakl{ background:linear-gradient(90deg, #60A5FA, var(--info)); box-shadow:0 0 10px rgba(96,165,250,0.3); }
+  #bst-root .compare-val{
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#fff;
+    min-width:30px; text-align:center; padding:3px 4px; border-radius:7px;
+    background:rgba(255,255,255,0.06); border:1px solid var(--dk-line);
+    font-variant-numeric:tabular-nums;
+  }
+  #bst-root .compare-label{ font-size:11px; color:#DCE4DF; text-align:center; font-weight:600; line-height:1.35; letter-spacing:-0.005em; }
+
+  /* ---------- Rekomendasi Tindak Lanjut ---------- */
+  #bst-root .rekom-section{ margin-top:22px; }
+  #bst-root .rekom-list{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  #bst-root .rekom-item{
+    display:flex; gap:14px; align-items:flex-start; padding:16px; border-radius:var(--r-md);
+    background:var(--dk-card); border:1px solid var(--dk-line); border-left:3px solid var(--primary);
+    transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+  }
+  #bst-root .rekom-item:hover{ transform:translateY(-3px); background:var(--dk-card-hi); box-shadow:0 10px 24px rgba(0,0,0,0.28); }
+  #bst-root .rekom-accent-a{ border-left-color:var(--primary-bright); }
+  #bst-root .rekom-accent-b{ border-left-color:#60A5FA; }
+  #bst-root .rekom-accent-c{ border-left-color:#F6C476; }
+  #bst-root .rekom-num{
+    width:26px; height:26px; border-radius:9px; flex-shrink:0;
+    background:linear-gradient(135deg, var(--primary), var(--primary-bright)); color:#fff;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 8px rgba(11,158,110,0.4);
+  }
+  #bst-root .rekom-judul{ font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:var(--dk-ink); margin-bottom:5px; line-height:1.35; letter-spacing:-0.01em; }
+  #bst-root .rekom-isi{ font-size:11.5px; color:var(--dk-muted); line-height:1.65; }
+
+  /* ---------- Rekap Proses Pemeliharaan (inline) ---------- */
+  #bst-root .rekap-inline{ margin-top:34px; text-align:left; max-width:680px; margin-left:auto; margin-right:auto; }
+  #bst-root .rekap-live{
+    display:flex; align-items:center; gap:7px; font-size:10.5px; color:var(--dk-muted);
+    font-family:'JetBrains Mono',monospace; margin-top:5px; letter-spacing:0.03em;
+  }
+  #bst-root .rekap-inline-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px; }
+  #bst-root .rekap-stat{
+    display:flex; align-items:center; gap:12px; padding:15px 14px; border-radius:var(--r-md);
+    background:var(--dk-card); border:1px solid var(--dk-line);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+    transition:transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+  #bst-root .rekap-stat:hover{ transform:translateY(-3px); background:var(--dk-card-hi); border-color:var(--dk-line-hi); }
+  #bst-root .rekap-icon{
+    width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:17px; flex-shrink:0; border:1px solid transparent;
+  }
+  #bst-root .rekap-stat-selesai .rekap-icon{ background:rgba(16,185,129,0.14); border-color:rgba(16,185,129,0.35); }
+  #bst-root .rekap-stat-proses .rekap-icon{ background:rgba(217,119,6,0.14); border-color:rgba(217,119,6,0.35); }
+  #bst-root .rekap-stat-permohonan .rekap-icon{ background:rgba(255,255,255,0.08); border-color:var(--dk-line-hi); }
+  #bst-root .rekap-num{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:23px; color:#fff; line-height:1.1; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+  #bst-root .rekap-lbl{ font-size:9.5px; font-weight:600; color:var(--dk-muted); margin-top:3px; text-transform:uppercase; letter-spacing:0.12em; }
+
+  /* ---------- Pilih jalur masuk (Pemohon vs Staf) ---------- */
+  #bst-root .choose-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:560px; margin:0 auto 26px;
+  }
+  #bst-root .choose-card{
+    position:relative;
+    background:linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+    border:1px solid var(--dk-line-hi);
+    border-radius:var(--r-md); padding:30px 20px 26px; cursor:pointer;
+    transition:border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    text-align:center;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  #bst-root .choose-card:hover{
+    border-color:rgba(34,198,139,0.6); background:rgba(16,185,129,0.10);
+    transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,0,0,0.35), 0 0 0 1px rgba(34,198,139,0.2);
+  }
+  #bst-root .choose-card .ric{
+    font-size:26px; width:56px; height:56px; margin:0 auto 14px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:16px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3);
+  }
+  #bst-root .choose-card .rn{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:16px; margin-bottom:7px; letter-spacing:-0.015em; }
+  #bst-root .choose-card .rd{ font-size:12px; color:var(--dk-muted); line-height:1.6; }
+
+  /* ---------- Link & error area login staf ---------- */
+  #bst-root .auth-links{
+    max-width:340px; margin:16px auto 0; display:flex; flex-direction:column; gap:9px; align-items:center;
+  }
+  #bst-root .auth-links a{ color:var(--dk-mint); font-size:13px; text-decoration:none; font-weight:500; border-radius:6px; }
+  #bst-root .auth-links a:hover{ text-decoration:underline; }
+  #bst-root .auth-error{
+    max-width:340px; margin:0 auto 16px; background:rgba(220,38,38,0.13); border:1px solid rgba(220,38,38,0.42);
+    color:#FCA5A5; font-size:12.5px; line-height:1.55; padding:10px 14px; border-radius:var(--r-sm); text-align:left;
+  }
+  #bst-root .status-icon{ font-size:38px; margin-bottom:8px; }
+
+  /* ---------- Panel Kelola Pengguna (Admin) ---------- */
+  #bst-root .user-section-title{
+    font-family:'JetBrains Mono',monospace; font-weight:600; font-size:10px; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--slate); margin:18px 0 8px;
+  }
+  #bst-root .user-section-title:first-child{ margin-top:0; }
+  #bst-root .user-row{
+    display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line-soft); flex-wrap:wrap;
+  }
+  #bst-root .user-info{ flex:1; min-width:150px; }
+  #bst-root .user-name{ font-weight:600; font-size:13.5px; color:var(--ink); }
+  #bst-root .user-email{ font-size:11.5px; color:var(--slate); margin-top:2px; }
+  #bst-root .user-role-select{
+    font-family:'Inter',sans-serif; font-size:12.5px; padding:7px 9px; border-radius:9px;
+    border:1px solid var(--line); background:#fff; color:var(--ink);
+  }
+  #bst-root .user-actions{ display:flex; gap:6px; }
+  #bst-root .danger-text{ color:var(--red); border-color:var(--red); }
+  #bst-root .danger-text:hover{ background:var(--red-dim); }
+  #bst-root .user-self-tag{ font-size:10.5px; color:var(--slate); font-weight:400; }
+
+  /* ---------- Header dashboard ---------- */
+  #bst-root .bst-header{
+    background:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      radial-gradient(680px 300px at 88% -30%, rgba(16,185,129,0.20) 0%, transparent 65%),
+      linear-gradient(150deg, #0D1714 0%, #14231C 58%, #0C1512 100%);
+    background-size:30px 30px, 30px 30px, 100% 100%, 100% 100%;
+    color:var(--dk-ink); padding:26px 30px; border-radius:var(--r-lg) var(--r-lg) 0 0;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    position:relative; overflow:hidden;
+  }
+  #bst-root .bst-header::after{
+    content:""; position:absolute; right:-60px; top:-70px; width:200px; height:200px;
+    border:1px solid rgba(34,198,139,0.22); border-radius:50%;
+  }
+  #bst-root .bst-header::before{
+    content:""; position:absolute; right:-30px; top:-40px; width:130px; height:130px;
+    border:1px dashed rgba(34,198,139,0.3); border-radius:50%;
+  }
+  #bst-root .bst-title{ font-family:'Plus Jakarta Sans',sans-serif; font-size:20px; font-weight:800; letter-spacing:-0.02em; }
+  #bst-root .bst-sub{ font-size:11px; color:var(--dk-muted); margin-top:4px; font-family:'JetBrains Mono',monospace; letter-spacing:0.04em; }
+  #bst-root .bst-header-actions{ display:flex; gap:9px; align-items:center; z-index:1; flex-wrap:wrap; }
+  #bst-root .bst-count-pill{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; background:rgba(255,255,255,0.07);
+    border:1px solid var(--dk-line-hi); padding:7px 14px; border-radius:999px; color:var(--dk-ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- Tombol ---------- */
+  #bst-root .btn{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px; padding:10px 18px; border-radius:var(--r-sm);
+    border:none; cursor:pointer; line-height:1.2;
+    transition:transform .12s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  #bst-root .btn:active{ transform:scale(0.97); }
+  #bst-root .btn-primary{
+    background:linear-gradient(135deg, var(--primary-strong), var(--primary-bright));
+    color:#fff; box-shadow:0 2px 6px rgba(11,158,110,0.35), inset 0 1px 0 rgba(255,255,255,0.22);
+  }
+  #bst-root .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(11,158,110,0.45), inset 0 1px 0 rgba(255,255,255,0.22); }
+  #bst-root .btn-primary:disabled{ background:#9CA3AF; cursor:not-allowed; opacity:.55; box-shadow:none; transform:none; }
+  #bst-root .btn-ghost{ background:rgba(255,255,255,0.04); color:var(--dk-ink); border:1px solid var(--dk-line-hi); }
+  #bst-root .btn-ghost:hover{ background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.28); }
+  #bst-root .btn-sm{ padding:6px 12px; font-size:12px; border-radius:8px; }
+  #bst-root .btn-logout{
+    background:transparent; color:#F1A5A5; border:1px solid rgba(220,38,38,0.5);
+    font-weight:600;
+  }
+  #bst-root .btn-logout:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
+  /* user bar */
+  #bst-root .bst-userbar{
+    display:flex; align-items:center; gap:10px; padding:5px 14px 5px 5px;
+    background:rgba(255,255,255,0.06); border:1px solid var(--dk-line);
+    border-radius:999px; font-size:12.5px; backdrop-filter:blur(4px);
+  }
+  #bst-root .bst-avatar{
+    width:30px; height:30px; border-radius:50%;
+    background:linear-gradient(135deg, var(--primary-strong), var(--primary-bright)); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    box-shadow:0 2px 6px rgba(11,158,110,0.4);
+  }
+  #bst-root .bst-role-tag{
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--dk-muted);
+    text-transform:uppercase; letter-spacing:0.08em;
+  }
+
+  /* ---------- Toolbar ---------- */
+  #bst-root .bst-toolbar{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap; padding:15px 30px;
+    background:var(--paper-dim); border-bottom:1px solid var(--line);
+  }
+  #bst-root .bst-search{
+    flex:1; min-width:220px; font-family:'Inter',sans-serif; font-size:13.5px; padding:10px 15px;
+    border-radius:999px; border:1px solid var(--line); background:var(--paper); color:var(--ink);
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  #bst-root .bst-search:focus{ outline:none; border-color:var(--primary); box-shadow:var(--focus-ring); }
+  #bst-root select.bst-filter{
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:500; padding:10px 12px; border-radius:999px;
+    border:1px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer;
+  }
+  #bst-root .bst-sync{ font-size:10.5px; color:var(--slate); font-family:'JetBrains Mono',monospace; display:flex; align-items:center; gap:7px; letter-spacing:0.03em; }
+  #bst-root .dot-live{ width:7px; height:7px; border-radius:50%; background:var(--primary); box-shadow:0 0 8px rgba(11,158,110,0.7); animation:bstpulse 2s infinite; }
+  #bst-root .dot-live.warn{ background:var(--red); box-shadow:0 0 8px rgba(220,38,38,0.6); animation:none; }
+  @keyframes bstpulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+  /* ---------- Body / tickets ---------- */
+  #bst-root .bst-body{ padding:22px 30px 30px; }
+
+  /* ---------- Footer ---------- */
+  #bst-root .bst-footer{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;
+    padding:16px 30px; border-top:1px solid var(--line); background:var(--paper-dim);
+    border-radius:0 0 var(--r-lg) var(--r-lg);
+  }
+  #bst-root .bst-footer-title{
+    font-family:'JetBrains Mono',monospace; font-weight:600; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.12em; color:var(--ink);
+  }
+  #bst-root .bst-footer-right{ text-align:right; }
+  #bst-root .bst-footer-sub{
+    margin-top:4px; font-family:'JetBrains Mono',monospace; font-weight:400;
+    font-size:10px; color:var(--slate); letter-spacing:0.02em;
+  }
+  #bst-root .bst-empty{ text-align:center; padding:64px 20px; color:var(--slate); font-size:13.5px; }
+  #bst-root .bst-empty .empty-icon{
+    font-size:36px; margin-bottom:14px; opacity:.6;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:88px; height:88px; border-radius:24px;
+    background:var(--paper-dim); border:1px dashed var(--line);
+  }
+  #bst-root .bst-empty .disp{ font-size:16px; margin-bottom:6px; color:var(--ink); font-weight:700; }
+
+  /* ---------- Kartu tiket permohonan ---------- */
+  #bst-root .ticket{
+    background:#fff; border:1px solid var(--line); border-left:4px solid var(--line);
+    border-radius:var(--r-md); margin-bottom:14px; overflow:hidden;
+    box-shadow:var(--shadow-card);
+    transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+    animation:bstFadeIn .3s ease both;
+  }
+  #bst-root .ticket:hover{ box-shadow:0 12px 30px rgba(20,31,26,0.11), 0 2px 6px rgba(20,31,26,0.05); transform:translateY(-2px); }
+  #bst-root .ticket-baru{ border-left-color:#C6CCC3; }
+  #bst-root .ticket-disetujui{ border-left-color:var(--info); }
+  #bst-root .ticket-proses{ border-left-color:var(--amber); }
+  #bst-root .ticket-telat{ border-left-color:var(--red); }
+  #bst-root .ticket-ditolak{ border-left-color:var(--red); }
+  #bst-root .ticket-selesai{ border-left-color:var(--primary); }
+  #bst-root .ticket-selesai-kuning{ border-left-color:var(--yellow); }
+  #bst-root .ticket-selesai-merah{ border-left-color:var(--red); }
+
+  #bst-root .ticket-top{ display:flex; align-items:flex-start; justify-content:space-between; padding:17px 20px 8px; gap:12px; flex-wrap:wrap; }
+  #bst-root .ticket-name{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:16.5px; color:var(--ink); letter-spacing:-0.015em; }
+  #bst-root .ticket-jenis{ font-size:13px; color:var(--slate); margin-top:3px; font-weight:500; }
+  #bst-root .ticket-kendala{ font-size:12px; color:var(--slate); margin-top:4px; font-style:italic; max-width:440px; line-height:1.5; }
+  #bst-root .badge{ font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; padding:5px 12px; border-radius:999px; text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+  #bst-root .badge-baru{ background:var(--paper-dim); color:var(--slate); border:1px solid var(--line); }
+  #bst-root .badge-disetujui{ background:var(--info-dim); color:var(--info-text); }
+  #bst-root .badge-proses{ background:var(--amber-dim); color:var(--amber-text); }
+  #bst-root .badge-selesai{ background:var(--primary-dim); color:var(--primary-text); }
+  #bst-root .badge-selesai-kuning{ background:var(--yellow-dim); color:var(--yellow-text); }
+  #bst-root .badge-selesai-merah{ background:var(--red-dim); color:var(--red-text); }
+  #bst-root .badge-telat{ background:var(--red-dim); color:var(--red-text); }
+  #bst-root .badge-ditolak{ background:var(--red-dim); color:var(--red-text); }
+  #bst-root .ticket-actions{ display:flex; gap:6px; }
+  #bst-root .icon-btn{ background:#fff; border:1px solid var(--line); cursor:pointer; width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; color:var(--slate); transition:all .15s ease; }
+  #bst-root .icon-btn:hover{ background:var(--paper-dim); color:var(--ink); transform:translateY(-1px); box-shadow:0 3px 8px rgba(20,31,26,0.1); }
+  #bst-root .icon-btn.danger:hover{ background:var(--red-dim); color:var(--red); border-color:var(--red); }
+
+  /* ---------- Stepper alur 5 tahap ---------- */
+  #bst-root .stepper{ display:flex; align-items:flex-start; padding:12px 20px 20px; gap:0; }
+  #bst-root .step{ display:flex; flex-direction:column; align-items:center; flex:1; position:relative; }
+  #bst-root .step .node{
+    width:32px; height:32px; border-radius:50%; background:#fff; border:2px solid var(--line);
+    z-index:1; transition:all .22s ease; display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--slate);
+  }
+  #bst-root .step.done .node{
+    background:linear-gradient(135deg, var(--primary-strong), var(--primary-bright)); border-color:transparent; color:#fff;
+    box-shadow:0 3px 9px rgba(11,158,110,0.4);
+  }
+  #bst-root .step.current .node{
+    background:linear-gradient(135deg, var(--amber), #F59E0B); border-color:transparent; color:#fff;
+    box-shadow:0 0 0 5px var(--amber-dim), 0 3px 10px rgba(217,119,6,0.4);
+    animation:bstStepPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes bstStepPulse{
+    0%,100%{ box-shadow:0 0 0 5px var(--amber-dim), 0 3px 10px rgba(217,119,6,0.4); }
+    50%{ box-shadow:0 0 0 9px var(--amber-dim), 0 3px 14px rgba(217,119,6,0.55); }
+  }
+  #bst-root .step .lbl{ font-size:9.5px; font-weight:500; font-family:'Inter',sans-serif; color:var(--slate); margin-top:8px; text-align:center; line-height:1.3; max-width:82px; letter-spacing:0.01em; }
+  #bst-root .step.done .lbl, #bst-root .step.current .lbl{ color:var(--ink); font-weight:600; }
+  #bst-root .step .dt{ font-size:9.5px; color:var(--primary-text); font-weight:600; margin-top:2px; font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums; }
+  #bst-root .step:not(:last-child)::after{ content:""; position:absolute; top:15px; left:calc(50% + 20px); right:calc(-50% + 20px); height:2px; border-radius:2px; background:var(--line); z-index:0; }
+  #bst-root .step.done:not(:last-child)::after{ background:linear-gradient(90deg, var(--primary), var(--primary-bright)); }
+
+  #bst-root .ticket-foot{ display:flex; justify-content:space-between; align-items:center; padding:11px 20px; background:var(--paper-dim); border-top:1px solid var(--line-soft); font-size:11.5px; color:var(--slate); flex-wrap:wrap; gap:6px; }
+  #bst-root .ticket-foot .nup{ font-family:'JetBrains Mono',monospace; color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; }
+  #bst-root .ticket-foot .estimasi{ font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums; }
+  #bst-root .ticket-foot .estimasi.overdue{ color:var(--red); font-weight:600; }
+  #bst-root .hasil-preview{ font-size:12px; color:var(--primary-text); background:var(--primary-dim); margin:0 20px 14px; border-radius:var(--r-sm); padding:10px 13px; line-height:1.55; border:1px solid rgba(11,158,110,0.18); }
+  #bst-root .hasil-preview b{ font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:3px; color:var(--primary-text); }
+  #bst-root .catatan-preview{ background:var(--info-dim); color:var(--info-text); border-color:rgba(37,99,235,0.18); }
+  #bst-root .catatan-preview b{ color:var(--info-text); }
+
+  /* ---------- Modal ---------- */
+  #bst-root .bst-overlay{ position:fixed; inset:0; background:rgba(8,14,11,0.62); backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+  #bst-root .bst-modal{ background:var(--paper); border-radius:var(--r-lg); width:100%; max-width:580px; max-height:88vh; overflow-y:auto; box-shadow:0 32px 80px rgba(0,0,0,0.45); animation:bstFloatIn .25s ease both; }
+  #bst-root .bst-modal-head{
+    padding:18px 24px;
+    background:
+      radial-gradient(420px 180px at 92% -40%, rgba(16,185,129,0.22) 0%, transparent 65%),
+      linear-gradient(145deg, #0D1714, #16261E);
+    color:var(--dk-ink); border-radius:var(--r-lg) var(--r-lg) 0 0;
+    display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:2;
+  }
+  #bst-root .bst-modal-head .disp{ font-size:16px; font-weight:700; letter-spacing:-0.015em; }
+  #bst-root .bst-modal-body{ padding:22px 24px; }
+  #bst-root .field{ margin-bottom:15px; }
+  #bst-root .field label{ display:block; font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:600; color:var(--slate); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.1em; }
+  #bst-root .field .req{ color:var(--red); }
+  #bst-root .field input, #bst-root .field textarea, #bst-root .field select{ width:100%; padding:10px 13px; border-radius:var(--r-sm); border:1px solid var(--line); background:#fff; font-family:'Inter',sans-serif; font-size:13.5px; color:var(--ink); transition:border-color .15s ease, box-shadow .15s ease; }
+  #bst-root .field select{ cursor:pointer; }
+  #bst-root .field input:focus, #bst-root .field textarea:focus, #bst-root .field select:focus{ outline:none; border-color:var(--primary); box-shadow:var(--focus-ring); }
+  #bst-root .field input:disabled, #bst-root .field textarea:disabled, #bst-root .field select:disabled{ background:var(--paper-dim); color:var(--slate); cursor:not-allowed; }
+  #bst-root .field input:read-only{ background:var(--primary-dim); color:var(--primary-text); cursor:default; border-color:rgba(11,158,110,0.4); }
+  #bst-root .field textarea{ resize:vertical; min-height:60px; font-family:'Inter',sans-serif; line-height:1.5; }
+  #bst-root .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  #bst-root .field-hint{ font-size:11px; color:var(--slate); margin-top:5px; font-style:italic; line-height:1.45; }
+  #bst-root .field-hint.locked{ color:#A39A87; }
+  #bst-root .field input[type=file]{ padding:9px 11px; background:var(--paper-dim); cursor:pointer; font-size:12.5px; }
+  #bst-root .field input[type=file]::file-selector-button{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:12px; color:var(--primary-text);
+    background:var(--primary-dim); border:1px solid rgba(11,158,110,0.35); border-radius:8px;
+    padding:6px 12px; margin-right:10px; cursor:pointer;
+  }
+  #bst-root .foto-thumb{
+    display:block; max-width:100%; max-height:200px; margin-top:6px; border-radius:var(--r-sm);
+    border:1px solid var(--line); box-shadow:var(--shadow-card); cursor:zoom-in; object-fit:contain;
+  }
+  .foto-lightbox{
+    position:fixed; inset:0; z-index:2000; background:rgba(8,14,11,0.88); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center; padding:24px; cursor:zoom-out;
+  }
+  .foto-lightbox img{ max-width:96%; max-height:92vh; border-radius:12px; box-shadow:0 24px 70px rgba(0,0,0,0.6); }
+
+  #bst-root .section-card{ border:1px solid var(--line); border-radius:var(--r-md); margin-bottom:14px; overflow:hidden; background:#fff; }
+  #bst-root .section-head{ display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--paper-dim); border-bottom:1px solid var(--line); }
+  #bst-root .section-head .st{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:-0.01em; }
+  #bst-root .section-head .who{ font-size:9.5px; font-family:'JetBrains Mono',monospace; color:var(--slate); text-transform:uppercase; letter-spacing:0.08em; }
+  #bst-root .section-body{ padding:16px; }
+  #bst-root .section-card.locked .section-head{ background:var(--paper-dim); }
+  #bst-root .lock-icon{ font-size:11px; }
+  #bst-root .approved-note{ font-size:12px; background:var(--primary-dim); color:var(--primary-text); border-radius:9px; padding:9px 12px; margin-top:6px; line-height:1.5; }
+  #bst-root .rejected-note{ font-size:12px; background:var(--red-dim); color:var(--red-text); border-radius:9px; padding:9px 12px; margin-top:6px; line-height:1.6; }
+  #bst-root .decision-buttons{ display:flex; gap:10px; flex-wrap:wrap; }
+  #bst-root .decision-buttons .btn{ flex:1; min-width:120px; }
+
+  #bst-root .bst-modal-foot{ padding:14px 24px 22px; display:flex; justify-content:flex-end; gap:10px; }
+  #bst-root .close-x{ background:rgba(255,255,255,0.08); border:1px solid var(--dk-line); color:var(--dk-ink); cursor:pointer; font-size:15px; width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; transition:background .15s ease; }
+  #bst-root .close-x:hover{ background:rgba(255,255,255,0.16); }
+  #bst-root .note{ font-size:11.5px; color:var(--slate); background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--r-sm); padding:10px 13px; margin-top:2px; line-height:1.55; }
+
+  @media (max-width:860px){
+    #bst-root .data-columns{ grid-template-columns:1fr; }
+    #bst-root .rekom-list{ grid-template-columns:1fr; }
+    #bst-root .bst-building{ width:420px; right:-140px; opacity:0.05; }
+  }
+
+  @media (max-width:560px){
+    #bst-root .bst-login{ padding:44px 18px 36px; }
+    #bst-root .bst-login h2{ font-size:24px; }
+    #bst-root .rekap-inline-stats{ grid-template-columns:1fr; gap:8px; }
+    #bst-root .field-row{ grid-template-columns:1fr; }
+    #bst-root .rkbmn-table{ font-size:10.5px; }
+    #bst-root .rkbmn-table thead th, #bst-root .rkbmn-table tbody td{ padding:8px 8px; }
+    #bst-root .rkbmn-kat-badge{ font-size:8.5px; padding:3px 7px; }
+    #bst-root .rkbmn-stats{ grid-template-columns:1fr 1fr 1fr; gap:6px; }
+    #bst-root .rkbmn-stat{ padding:10px 6px; }
+    #bst-root .rkbmn-stat-num{ font-size:19px; }
+    #bst-root .rkbmn-header{ flex-direction:column; }
+    #bst-root .compare-row{ grid-template-columns:1fr 98px 1fr; gap:6px; }
+    #bst-root .compare-label{ font-size:9.5px; }
+    #bst-root .compare-val{ font-size:10px; min-width:24px; }
+    #bst-root .compare-track{ height:10px; }
+    #bst-root .bst-header{ padding:18px 16px; border-radius:var(--r-lg) var(--r-lg) 0 0; }
+    #bst-root .bst-title{ font-size:17px; }
+    #bst-root .bst-sub{ font-size:10px; }
+    #bst-root .bst-header-actions{ width:100%; }
+    #bst-root .bst-header-actions .btn{ flex:1; min-width:calc(50% - 5px); text-align:center; }
+    #bst-root .bst-userbar{ width:100%; }
+    #bst-root .bst-count-pill{ width:100%; text-align:center; }
+    #bst-root .bst-toolbar{ flex-direction:column; align-items:stretch; padding:12px 14px; }
+    #bst-root .bst-search{ width:100%; }
+    #bst-root select.bst-filter{ width:100%; }
+    #bst-root .bst-sync{ justify-content:center; }
+    #bst-root .bst-body{ padding:14px; }
+    #bst-root .ticket-top{ padding:14px 15px 8px; }
+    #bst-root .ticket-foot{ padding:10px 15px; }
+    #bst-root .stepper{ padding:2px 10px 16px; }
+    #bst-root .step .lbl{ display:none; }
+    #bst-root .role-grid{ grid-template-columns:1fr 1fr; }
+    #bst-root .choose-grid{ grid-template-columns:1fr; }
+    #bst-root .user-row{ flex-direction:column; align-items:flex-start; }
+    #bst-root .user-actions{ width:100%; }
+    #bst-root .user-actions .btn{ flex:1; }
+
+    /* Target sentuh lebih besar & cegah auto-zoom iOS Safari saat fokus input (butuh font-size >= 16px) */
+    #bst-root .btn{ min-height:44px; font-size:14px; }
+    #bst-root .btn-sm{ min-height:36px; }
+    #bst-root .icon-btn{ width:38px; height:38px; }
+    #bst-root .field input, #bst-root .field textarea, #bst-root .field select,
+    #bst-root .bst-search, #bst-root select.bst-filter,
+    #bst-root .bst-login-form input, #bst-root .user-role-select{ font-size:16px; }
+
+    #bst-root .bst-overlay{ padding:0; align-items:flex-end; }
+    #bst-root .bst-modal{ max-width:100%; max-height:92vh; border-radius:var(--r-lg) var(--r-lg) 0 0; }
+    #bst-root .decision-buttons{ flex-direction:column; }
+    #bst-root .decision-buttons .btn{ min-width:100%; }
+    #bst-root .bst-footer{ flex-direction:column; padding:12px 14px; }
+    #bst-root .bst-footer-right{ text-align:left; }
+  }
+
+  /* ---------- Cetak Rekapitulasi ---------- */
+  #bst-print-area{ display:none; }
+  #bst-print-area .print-head h1{ font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; margin:0 0 4px; color:#141F1A; }
+  #bst-print-area .print-meta{ font-size:10.5px; color:#555; margin-bottom:14px; font-family:'JetBrains Mono',monospace; }
+  #bst-print-area .print-table{ width:100%; border-collapse:collapse; font-size:9px; font-family:'Inter',sans-serif; }
+  #bst-print-area .print-table th, #bst-print-area .print-table td{ border:1px solid #999; padding:4px 5px; text-align:left; vertical-align:top; }
+  #bst-print-area .print-table th{ background:#eee; }
+  @media print{
+    body *{ visibility:hidden; }
+    #bst-print-area, #bst-print-area *{ visibility:visible; }
+    #bst-print-area{ display:block; position:absolute; left:0; top:0; width:100%; padding:16px; }
+  }
+</style>
+
 </head>
 <body>
-  <div class="center-state" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <div class="spinner"></div>
-    Mengalihkan ke halaman masuk… &nbsp;<a href="login.html">Klik di sini bila tidak otomatis</a>
-  </div>
+<div id="bst-root"></div>
+
+<script>
+const DUK_DATA = {
+  "Sekretariat": [
+    {
+      "nama": "ADITYA G ANGGALAKSANA, S.E",
+      "nip": "198505112025211026",
+      "jabatan": "Penata layanan operasional"
+    },
+    {
+      "nama": "ANITA NURAHMI, S.E.",
+      "nip": "199410182022032013",
+      "jabatan": "Penelaah Teknis Kebijakan"
+    },
+    {
+      "nama": "ANZAR NISPIANSYAH",
+      "nip": "198704142025211069",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "APRILIYANTO, S.P., M.M.",
+      "nip": "198204082010121004",
+      "jabatan": "Kepala Subbagian Barang Milik Negara dan Rumah Tangga"
+    },
+    {
+      "nama": "ARDHIE ACHMAD FARIDY, S.AB.",
+      "nip": "199605202025051001",
+      "jabatan": "Analis Kebijakan Ahli Pertama"
+    },
+    {
+      "nama": "ARYO GURITNO, M.M.",
+      "nip": "197407212008011005",
+      "jabatan": "Analis Kebijakan Ahli Muda"
+    },
+    {
+      "nama": "ASTINA CLAUDEA AZARIA, S.E",
+      "nip": "199710282022032006",
+      "jabatan": "Penelaah Teknis Kebijakan"
+    },
+    {
+      "nama": "DARA RESMI ASBIANTARI, S.E., M.Si.",
+      "nip": "198709102009122004",
+      "jabatan": "Analis SDM Aparatur Ahli Muda"
+    },
+    {
+      "nama": "DENI U SUTISNA",
+      "nip": "198402062025212015",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "DIESE MARIA IRIANTY, S.E.",
+      "nip": "198412302008012004",
+      "jabatan": "Pustakawan Ahli Pertama"
+    },
+    {
+      "nama": "DWI ANJANI KAMISWARA, S.E.",
+      "nip": "198709232014022004",
+      "jabatan": "Analis SDM Aparatur Ahli Pertama"
+    },
+    {
+      "nama": "ERNI ARTATI, S.E., M.M.",
+      "nip": "197108222002122003",
+      "jabatan": "Analis Pengelolaan Keuangan Anggaran Pendapatan dan Belanja Negara Ahli Muda"
+    },
+    {
+      "nama": "FAHMI SYAEFUL MILLAH, S.ST.",
+      "nip": "199106112024211008",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "FITRIANA PUJI LESTARI, A.Md.M.",
+      "nip": "199503052020122016",
+      "jabatan": "Pengolah Data dan Informasi"
+    },
+    {
+      "nama": "GURUH SETYO NUGROHO, S.T.",
+      "nip": "199504012024211012",
+      "jabatan": "Arsiparis Ahli Pertama"
+    },
+    {
+      "nama": "HARIS FADILAH HUSEIN, S.I.Kom.",
+      "nip": "199902222023211001",
+      "jabatan": "Pranata Hubungan Masyarakat Ahli Pertama"
+    },
+    {
+      "nama": "HARRI YANSAH, S.E",
+      "nip": "199007062025211038",
+      "jabatan": "Analis SDM Aparatur Ahli Pertama"
+    },
+    {
+      "nama": "HARRY PRIHATMOKO, S.E.,M.M.",
+      "nip": "198202152006041004",
+      "jabatan": "Analis Pengelolaan Keuangan Anggaran Pendapatan dan Belanja Negara Ahli Madya"
+    },
+    {
+      "nama": "HENDRA GUNAWAN",
+      "nip": "198203282025211023",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "HENDRAWAN SETYAJI JOEWARTO, S.E.",
+      "nip": "198110252009121001",
+      "jabatan": "Analis Pengelolaan Keuangan Anggaran Pendapatan dan Belanja Negara Ahli Muda"
+    },
+    {
+      "nama": "INTAN PURNAMA, A.Md",
+      "nip": "199011102020122017",
+      "jabatan": "Pengolah Data dan Informasi"
+    },
+    {
+      "nama": "IRTAN WAHYUDIN, S.E",
+      "nip": "197710252025211015",
+      "jabatan": "Analis Kebijakan Ahli Pertama"
+    },
+    {
+      "nama": "IVAN FITHRIYANTO, S.T., M.S.E.",
+      "nip": "197311032003121006",
+      "jabatan": "Sekretaris Bappebti"
+    },
+    {
+      "nama": "JOSE NATANAEL SITUMEANG, S.E.",
+      "nip": "199912262025051001",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "LAURENTIUS SANTOSO WIBOWO, S.P., M.Si.",
+      "nip": "198407042009121001",
+      "jabatan": "Perencana Ahli Muda"
+    },
+    {
+      "nama": "LELI WULANDARI, A.Md",
+      "nip": "198402062025212015",
+      "jabatan": "Pengelola Layanan Operasional"
+    },
+    {
+      "nama": "MELINDA, S.E.",
+      "nip": "198305022010122003",
+      "jabatan": "Pranata Keuangan APBN Mahir"
+    },
+    {
+      "nama": "MUARA MAS MURNI ROSALINA, S.P., M.S.E.",
+      "nip": "198403142009122001",
+      "jabatan": "Kepala Bagian Program dan Kerja Sama"
+    },
+    {
+      "nama": "MUFLIHAH WIDIYANI, S.P., M.Si.",
+      "nip": "198509282009122001",
+      "jabatan": "Pranata Hubungan Masyarakat Ahli Madya"
+    },
+    {
+      "nama": "MUHAMAD RIZKY SAPUTRA, S.Ak.",
+      "nip": "199601092025211019",
+      "jabatan": "Penata layanan operasional"
+    },
+    {
+      "nama": "NURHADI PANCA WIBOWO, S.E.",
+      "nip": "198306012009121001",
+      "jabatan": "Perencana Ahli Muda"
+    },
+    {
+      "nama": "NURI SYAMSIAH, S.E.",
+      "nip": "198303102006042004",
+      "jabatan": "Pranata Keuangan APBN Penyelia"
+    },
+    {
+      "nama": "RENA AFRIANY, S.E.",
+      "nip": "198104102005022001",
+      "jabatan": "Analis Anggaran Muda"
+    },
+    {
+      "nama": "RENATHA SAVIRA EKASETYA PUTRI, S.S",
+      "nip": "197608182006042001",
+      "jabatan": "Penelaah Teknis Kebijakan"
+    },
+    {
+      "nama": "RISA TRIJULIYANI",
+      "nip": "199206232025212022",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "SAMINO",
+      "nip": "197108112025211025",
+      "jabatan": "Operator Layanan Operasional"
+    },
+    {
+      "nama": "SEPTI ANGGRAENI, S.AB",
+      "nip": "199106152024212029",
+      "jabatan": "Pranata Hubungan Masyarakat Ahli Pertama"
+    },
+    {
+      "nama": "SUNNA LAILA AZHARI, A.Md.Bns.",
+      "nip": "199806112025052006",
+      "jabatan": "Pranata Keuangan APBN Terampil"
+    },
+    {
+      "nama": "SUTRISNO, S.E.",
+      "nip": "198512102005021001",
+      "jabatan": "Kepala Bagian Umum"
+    },
+    {
+      "nama": "SUYATNO",
+      "nip": "197908022025211015",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "SYAM HABIB PAMUNGKAS, S.T.",
+      "nip": "199106282025051001",
+      "jabatan": "Pranata Komputer Ahli Pertama"
+    },
+    {
+      "nama": "TIRTA KARMA SENJAYA, S.Si. M.SE.",
+      "nip": "197507182005021001",
+      "jabatan": "Kepala Badan Pengawas Perdagangan Berjangka Komoditi"
+    },
+    {
+      "nama": "VERA HENDRIAS KUMALASARI, S.E., M.M.",
+      "nip": "198203232006042027",
+      "jabatan": "Analis SDM Aparatur Ahli Madya"
+    },
+    {
+      "nama": "VERAWATI",
+      "nip": "199404052025212032",
+      "jabatan": "Pengadministrasi Perkantoran"
+    },
+    {
+      "nama": "WINDY WULANDARI, S.Kom.",
+      "nip": "198402052009122002",
+      "jabatan": "Pranata Keuangan APBN Penyelia"
+    },
+    {
+      "nama": "YESSI ULI CAHAYANA, S.E.",
+      "nip": "198707192022032002",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "YETTY WIDYAWARINI, S.Kom, M.Si.",
+      "nip": "197801292002122001",
+      "jabatan": "Perencana Ahli Madya"
+    },
+    {
+      "nama": "YOANITA",
+      "nip": "199204222025212025",
+      "jabatan": "Pengadministrasi Perkantoran"
+    }
+  ],
+  "Biro Peraturan Perundang-undangan PBK, SRG, PBK": [
+    {
+      "nama": "ANASTASIA, S.A.B.",
+      "nip": "199703292025052003",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "ANDY PANROYTUA ZULKARNAEN,S.H.",
+      "nip": "198609232022031001",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "ASEP IRVAN NUROHIM, S.H.",
+      "nip": "198412262019021002",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "DWI RISA PUSTI,S.E.",
+      "nip": "199009302022032004",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "FITRHAH ADZAN, S.H.",
+      "nip": "199210232015022002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "HANNA HERVIANA, S.H.",
+      "nip": "198212142010122002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "HARY LESMANA,S.H.",
+      "nip": "198507292014021004",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "IRA DELVINA, S.E., M.Ak., CA",
+      "nip": "198910032014022001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "MAS AJI ENGGAR BUWONO, S.M",
+      "nip": "199612202025211017",
+      "jabatan": "Penata layanan operasional"
+    },
+    {
+      "nama": "MUHAMMAD IQBAL ISNAENI, S.H.",
+      "nip": "199109142018011001",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "NANDA AINNUR ROCHMAH, A.Md.Ak.",
+      "nip": "200303082025052001",
+      "jabatan": "Pranata Keuangan APBN Terampil"
+    },
+    {
+      "nama": "NILAM DYAH PUSPITO SARI, S.H.,M.",
+      "nip": "198310062009122003",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "OCTAVIAN HENDRYANSYAH",
+      "nip": "199710042025211031",
+      "jabatan": "Penata Layanan Operasional"
+    },
+    {
+      "nama": "REZA ARDIANSYAH, S.Kom.",
+      "nip": "199204092024211012",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "RIDWAN FACHRUDIN,S.TP.",
+      "nip": "199410232019021006",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "RIFAH ARINY, S.H., MSi.",
+      "nip": "197905122002122002",
+      "jabatan": "Kepala Biro Perundang-Undangan PBK, SRG dan PLK"
+    },
+    {
+      "nama": "RIO RAMADHANI, S.H.",
+      "nip": "198804242014021004",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "ROSA WINARNI, S.E.",
+      "nip": "196909111989032001",
+      "jabatan": "Kepala Subbagian Tata Usaha"
+    },
+    {
+      "nama": "SIGIT NUGROHO,S.E.,S.H., M.H.",
+      "nip": "197905192006041001",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "TEUKU FERNANDI NOVAL,S.E.",
+      "nip": "197911082014021001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "TRINANDA ULTARI, S.P.,M.S.E.",
+      "nip": "198908172014022002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "WIDYANINGSIH SARI S, S.H., M.H.",
+      "nip": "198708182009122002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "YOVIAN ANDRI P.,S.H.,S.E.,Ak., M.M.,L.L.M",
+      "nip": "197904022005021001",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "YULIA KURNIASARI, A.Md",
+      "nip": "199307042020122023",
+      "jabatan": "Pengolah Data dan Informasi"
+    }
+  ],
+  "Biro Pengawasan dan Penindakan PBK, SRG, PLK": [
+    {
+      "nama": "AGUS SALIM SUSENO, S.H.,LL.M.",
+      "nip": "198808172015021001",
+      "jabatan": "Pengawas Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "AGUS SULISTIYANTO, S.Kom, M.E.",
+      "nip": "198011082009011007",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "AMSER IRAWAN PANJAITAN, S.H.",
+      "nip": "198203282009011003",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "ANGGIA SHINTIA DEWI, S.E., M.M.",
+      "nip": "198509082010122003",
+      "jabatan": "Kepala Subbagian Tata Usaha"
+    },
+    {
+      "nama": "APRILIA RAHMADINI, S.E",
+      "nip": "198704292025212010",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "APRILLIA RIZKY DWI UTAMI, S.E.",
+      "nip": "199804272025052004",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "AULIA PUSPA RAMADHANI, S.T.P.",
+      "nip": "199801272022032005",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "BERNARD ASIDO SILITONGA, S.H.",
+      "nip": "199008242014021001",
+      "jabatan": "Pengawas Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "CHANDRA FREDRIK PURBA, S.E.",
+      "nip": "198812142020121007",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "CHRISTIAN ANGGORO, S.E.",
+      "nip": "198911032019021006",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "DAROJATUN MAYUNIRMALA, S.E.",
+      "nip": "198005032006042005",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "DEVI PRIYANTI, S.T.P.",
+      "nip": "200012222025052003",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "DHARMAWAN PRAKARSO RY PUTRA, M.M.",
+      "nip": "197604302010121002",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "ERYALFAN SETYO PRAKOSO, S.TP.",
+      "nip": "199306042022031003",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "FAHMIANDI KABUL AHSAN, S.E.",
+      "nip": "199611042022031005",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "GRESIA B, S.P",
+      "nip": "199904292022032011",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "HASNA ANINTYA ISNURSASI, S.T.P.",
+      "nip": "199602022022032005",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "INDRA SETIAWAN, S.Kom., M.M.",
+      "nip": "198306062006041003",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "INSANIYAH MAHARANI, S.T.P.",
+      "nip": "199912232025052008",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "MATHEUS HENDRO PURNOMO, S.T., M.S.E.",
+      "nip": "196812271989011001",
+      "jabatan": "Kepala Ronabang PBK, SRG, PLK"
+    },
+    {
+      "nama": "MAWARDI KARTASASMITA, S.TP.",
+      "nip": "199207062019021003",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "MELINDA ARIANI, S.E",
+      "nip": "198306042025212015",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "MUHAMAD IRZAL, S.E., M.E.",
+      "nip": "197902032009011007",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "PAULUS TARIPAR LUMBAN BATU, S.E.",
+      "nip": "198909292024211016",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "PIRDAUS SABANA, SP, M.P.",
+      "nip": "198804052019021005",
+      "jabatan": "Pengawas Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "RAIZA GUMALA, S.Psi.",
+      "nip": "199510302024212023",
+      "jabatan": "Arsiparis Ahli Pertama"
+    },
+    {
+      "nama": "RENDY CISARA SANDY, S.T.P.",
+      "nip": "199707042022031003",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "REYSA RACHMAT TOENGKAGIE, S.H., M.S.E.",
+      "nip": "199202082018011001",
+      "jabatan": "Pengawas Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "RIZKA TRIANITA, S.Sos",
+      "nip": "198709272025212038",
+      "jabatan": "Penata layanan operasional"
+    },
+    {
+      "nama": "SHILLA NOVIRA PERTIWI, S.P.",
+      "nip": "199911102022032002",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "SRI SUNDAYANI, S.E.,Ak. M.Si.",
+      "nip": "197404072002122004",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "SYLVIA SHELA SONDANG H, A.Md.Ak.",
+      "nip": "200302052025052003",
+      "jabatan": "Pranata Keuangan APBN Terampil"
+    },
+    {
+      "nama": "TAUFIK HIDAYAT, S.E., M.E.",
+      "nip": "198110192006041001",
+      "jabatan": "Pengawas Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "TITO YASSIN, S.TP., MM",
+      "nip": "199103272022031002",
+      "jabatan": "Pengawas Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "VINA HARIYUNINGSIH, A.Md.",
+      "nip": "199806022020122010",
+      "jabatan": "Pengolah Data dan Informasi"
+    },
+    {
+      "nama": "YASA ISKANDAR, A.Md",
+      "nip": "199211242025211034",
+      "jabatan": "Pengelola Layanan Operasional"
+    },
+    {
+      "nama": "YESI ADVENTINA SINAGA",
+      "nip": "199812172025052004",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    }
+  ],
+  "Biro Pembinaan dan Pengembangan SRG dan PLK": [
+    {
+      "nama": "ANGGA FARIZ PRAYOGA, SE",
+      "nip": "198905132019021004",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "ANINDYA DEWI SEKARTAJI, S.H.",
+      "nip": "200003152022032003",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "APRILIA ANGGITA PUTRI",
+      "nip": "200104052025052004",
+      "jabatan": "Analis Kebijakan Ahli Pertama"
+    },
+    {
+      "nama": "ATHIKA BUDI PRIHATINI, S.P. M.Si.",
+      "nip": "198310272009012002",
+      "jabatan": "Analis Kebijakan Ahli Madya"
+    },
+    {
+      "nama": "AULIA EDLIN PRADANA, S.H.",
+      "nip": "199608012022031005",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "BUSROL KARIM, S.E.,M.M.",
+      "nip": "197106301992031002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "CHRISTIANI FANOLO DAELI, S.P.",
+      "nip": "199512102022032009",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "DARA LAKSMITA AYUNINGTYAS K, S.E",
+      "nip": "198706262022032001",
+      "jabatan": "Analis Pengelolaan Keuangan Anggaran Pendapatan dan Belanja Negara Ahli Pertama"
+    },
+    {
+      "nama": "DIAH SANDITA ARISANTI, S.E., Msi",
+      "nip": "197504052002122004",
+      "jabatan": "Kepala Biro Pembinaan dan Pengembangan Sistem Resi Gudang, dan Pasar Lelang"
+    },
+    {
+      "nama": "EKKY ENDAH SAFITRI, S.E.",
+      "nip": "199603082020122016",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "LAVINIA CINDY CAROLINA, S.E",
+      "nip": "199504052025212069",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "MAULIDA AFIATY, S.H.",
+      "nip": "198312282009122001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "MEINDRO BAYU K, S.E., M.Si., M.App.Ec.",
+      "nip": "198105012009121002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "MOHAMMAD HAIRULLOH, S.kom",
+      "nip": "197908072025211041",
+      "jabatan": "Penata Layanan Operasional"
+    },
+    {
+      "nama": "MUHAMMAD RASYID SHIDIQ, S.E.",
+      "nip": "199709032022031008",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "MUTIA ENDANG NOVIANTI, S.E.",
+      "nip": "198311202009122002",
+      "jabatan": "Kepala Subbagian Tata Usaha"
+    },
+    {
+      "nama": "NAHDA RATU AULIA, S.A.B.",
+      "nip": "200110172025052003",
+      "jabatan": "Analis Kebijakan Ahli Pertama"
+    },
+    {
+      "nama": "NOVAL NAZWANURIL WAFI, S.TP",
+      "nip": "199505282018011001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "PUTRANTI MUMPUNI, SE.",
+      "nip": "199209192024212020",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "RACHMAD WAHYUDI, S.Kom.",
+      "nip": "197905202006041002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "RAYUNG KIRTI MALINI, S.T.P.",
+      "nip": "199804292022032009",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "RIDA ZUANDA, S.T.P.",
+      "nip": "198904082018011003",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "RISKY IRAWAN, S.E",
+      "nip": "198607122025211062",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "RUTKAYA SIMANUNGKALIT, SP",
+      "nip": "198701132020122010",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "SRI PUJI ASTUTI, S.T.P.",
+      "nip": "199505262022032009",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "SYIFA YASMINE SEPTIANI, S.E.",
+      "nip": "199909092022032007",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "TIARA KENCANA AYU, S.Stat.",
+      "nip": "198802092014022001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "TOMI SETIAWAN, S.IP., M.Eng.",
+      "nip": "197906022008011011",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "YUDHA SKRIPSI ANGGRAHITA, S.H.",
+      "nip": "198307022018011002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    }
+  ],
+  "Biro Pembinaan dan Pengembangan PBK": [
+    {
+      "nama": "ALVIN RIFQY ABDILLA, S.T.P.",
+      "nip": "199603312020121010",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "ANISA WAHYU UTAMI, S.T.P",
+      "nip": "199710312020122017",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "ARIFUDIN AKBAR, S.E., Ak.",
+      "nip": "198607152010121002",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "BOBBY RAJA INDRA, S.E.",
+      "nip": "199206252020121011",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "COHEN WILLIAM MANGGADING N, S.M.",
+      "nip": "199302042020121010",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "DANNY AGUS SETIANTO S.E., M.SE.",
+      "nip": "198008022002121002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "DIAN ILLUH LENTARI, S.E.",
+      "nip": "198105312006042003",
+      "jabatan": "Penelaah Teknis Kebijakan"
+    },
+    {
+      "nama": "DODY FRANDIKA A. SIMANJUNTAK, SE, M.Sc.",
+      "nip": "198602122014021001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "Drs. SAHUDI, M.M.",
+      "nip": "196108011982031002",
+      "jabatan": "Analis Perdagangan Ahli Utama"
+    },
+    {
+      "nama": "ELISABET MARTAULINA BR.S., S.H.",
+      "nip": "198209182006042002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "ENI BAITI SARAH, S.E.",
+      "nip": "198209102025212027",
+      "jabatan": "Penata layanan operasional"
+    },
+    {
+      "nama": "GITA REGINA NAPITUPULU, S.I.P., MIDS, MPA",
+      "nip": "198607222014022001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "HAIDIR ALI, S.I.Kom",
+      "nip": "199409032025211022",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "HERA LIANA, S.T.P.",
+      "nip": "199306042020122016",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "HERMAWAN SUSANTO, S.T.",
+      "nip": "198512172010121002",
+      "jabatan": "Kepala Subbagian Tata Usaha"
+    },
+    {
+      "nama": "HILDA ROMA ULI SIAHAAN, S.Sosio.",
+      "nip": "199104302019022006",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "IMA SITI FATIMAH, S.Kom., M.Si.",
+      "nip": "197907022002122002",
+      "jabatan": "Kepala Biro Pembinaan dan Pengembangan Perdagangan Berjangka Komoditi"
+    },
+    {
+      "nama": "IVANA ELABAESA SUMBAYAK,S.E.",
+      "nip": "199103142020122012",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "KURNIATI, A.Md.",
+      "nip": "198910292020122011",
+      "jabatan": "Pengolah Data dan Informasi"
+    },
+    {
+      "nama": "LAMINAR PURBA, S.T.P.",
+      "nip": "199706072022032005",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "LELY RACHMA SEPTIANA, S.T.P., M.Si.",
+      "nip": "198809042019022005",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "M. SYIST, S.H., M.H.",
+      "nip": "196110221993011001",
+      "jabatan": "Analis Perdagangan Ahli Utama"
+    },
+    {
+      "nama": "NIEKE LINA IKAWATI, S.P., M.M.",
+      "nip": "198408052014022001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "PIPIET FAIZAL AMIN, S.T., M.T.I.",
+      "nip": "198507282009011006",
+      "jabatan": "Pranata Komputer Ahli Madya"
+    },
+    {
+      "nama": "POPPY JULIYANTI, S.S., M.M.",
+      "nip": "197607172008012019",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    },
+    {
+      "nama": "RAFII RABBANI THALIB, A.Md.Kom",
+      "nip": "199803302025211007",
+      "jabatan": "Pengelola Layanan Operasional"
+    },
+    {
+      "nama": "REZKY FEBRIANSYAH, SH, MH",
+      "nip": "198202012010121001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "RIANA SEPTIANI, S.Kom",
+      "nip": "199309252025212030",
+      "jabatan": "Pemeriksa PBK Ahli Pertama"
+    },
+    {
+      "nama": "SAMURI, S.M.",
+      "nip": "198901042024211007",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "SONI SUGIHARTO, S.E",
+      "nip": "198411202020121006",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "TASHA KHARISMAPUTRI, S.H.I",
+      "nip": "199206062019022009",
+      "jabatan": "Analis Perdagangan Ahli Pertama"
+    },
+    {
+      "nama": "VERDINA LARAS, S.M.",
+      "nip": "200110052025052007",
+      "jabatan": "Perencana Ahli Pertama"
+    },
+    {
+      "nama": "WINAHYU SARASWATI, S.E.",
+      "nip": "198710162010122001",
+      "jabatan": "Analis Perdagangan Ahli Muda"
+    },
+    {
+      "nama": "YEVI ATHALIA, M.S.M.",
+      "nip": "198401022010122002",
+      "jabatan": "Analis Perdagangan Ahli Madya"
+    }
+  ]
+};
+
+
+(function(){
+  const USER_KEY = 'bst-pemohon-session'; // hanya dipakai untuk sesi Pemohon (tanpa password)
+  const root = document.getElementById('bst-root');
+
+  let entries = [];
+  let currentUser = null; // { name, role } untuk pemohon, atau { uid, email, name, role, status } untuk staf
+  let unsubscribeEntries = null;
+  let unsubscribeUsers = null;
+  let unsubscribeLandingRecap = null;
+
+  const ROLES = [
+    { key:'pemohon',   icon:'&#128100;', name:'Pemohon',    desc:'Ajukan permohonan servis baru — tanpa akun' },
+    { key:'kasub_bmn', icon:'&#9989;',   name:'Kasub BMN',  desc:'Menyetujui permohonan & Tanggal Selesai Pekerjaan' },
+    { key:'vendor',    icon:'&#128295;', name:'Vendor',     desc:'Pemeriksaan & Estimasi Penyelesaian' },
+    { key:'monitor',   icon:'&#128065;', name:'Monitor',    desc:'Proses Permohonan' },
+    { key:'admin',     icon:'&#128737;', name:'Admin',      desc:'Akses penuh & menyetujui akun staf lain' },
+  ];
+  const ROLE_LABEL = Object.fromEntries(ROLES.map(r=>[r.key, r.name]));
+  const STAFF_ROLES = ROLES.filter(r=> r.key !== 'pemohon'); // peran yang wajib pakai email + password
+
+  // Pilihan baku Jenis Peralatan & Mesin — dipilih, bukan diketik, agar nama seragam
+  const JENIS_OPTIONS = ['PC Komputer','Printer','Scanner','Mesin Fotokopi','Laptop','AC'];
+
+  const STEPS = [
+    { key:'tglPermohonan',      label:'Permohonan',          icon:'&#128221;' },
+    { key:'tglPersetujuan',     label:'Persetujuan Kasub BMN',icon:'&#9989;' },
+    { key:'tglProses',          label:'Proses Permohonan',   icon:'&#128295;' },
+    { key:'tglPemeriksaan',     label:'Pemeriksaan',         icon:'&#128269;' },
+    { key:'tglSelesaiPekerjaan',label:'Selesai Pekerjaan',   icon:'&#127937;' },
+  ];
+
+  // Ilustrasi siluet gedung (dekoratif, generik — bukan foto/lambang resmi apa pun)
+  const BUILDING_SVG = `<svg class="bst-building" viewBox="0 0 760 460" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <polygon points="435.0,270.0 394.5,300.7 417.7,345.9 367.9,356.0 369.1,406.8 319.9,394.3 298.9,440.6 260.0,408.0 221.1,440.6 200.1,394.3 150.9,406.8 152.1,356.0 102.3,345.9 125.5,300.7 85.0,270.0 125.5,239.3 102.3,194.1 152.1,184.0 150.9,133.2 200.1,145.7 221.1,99.4 260.0,132.0 298.9,99.4 319.9,145.7 369.1,133.2 367.9,184.0 417.7,194.1 394.5,239.3"/>
+    <polygon points="610.9,140.4 581.7,158.5 580.6,192.8 546.3,190.3 525.2,217.5 499.0,195.3 466.0,204.9 457.8,171.5 425.5,159.9 438.4,128.0 419.1,99.6 448.3,81.5 449.4,47.2 483.7,49.7 504.8,22.5 531.0,44.7 564.0,35.1 572.2,68.5 604.5,80.1 591.6,112.0"/>
+  </svg>`;
+  const INSTANSI_BADGE = `<div class="bst-login-badge"><span class="dot"></span>Kementerian Perdagangan RI &middot; Bappebti</div>`;
+
+  // ============================================================
+  //  Data RKBMN Pemeliharaan TA 2026 — Sekretariat Bappebti
+  //  Sumber: RKBMN Kuasa Pengguna Barang (Pemeliharaan), revisi Februari 2026
+  //  (memperbarui data RKBMN Induk sebelumnya)
+  // ============================================================
+  const RKBMN_DATA = {
+    tahun: 2026,
+    revisi: 'Februari 2026',
+    satker: 'Sekretariat Badan Pengawas Perdagangan Berjangka Komoditi (Bappebti)',
+    items: [
+      { nama:'Sedan', kode:'3020101001', jumlah:1, kategori:'kendaraan' },
+      { nama:'Station Wagon', kode:'3020101003', jumlah:5, kategori:'kendaraan' },
+      { nama:'Mini Bus (Penumpang 14 Orang Kebawah)', kode:'3020102003', jumlah:1, kategori:'kendaraan' },
+      { nama:'Mesin Fotocopy Electronic', kode:'3050103009', jumlah:3, kategori:'elektronik' },
+      { nama:'P.C Unit', kode:'3100102001', jumlah:33, kategori:'elektronik' },
+      { nama:'Lap Top', kode:'3100102002', jumlah:23, kategori:'elektronik' },
+      { nama:'Note Book', kode:'3100102003', jumlah:8, kategori:'elektronik' },
+      { nama:'Printer (Peralatan Personal Komputer)', kode:'3100203003', jumlah:27, kategori:'elektronik' },
+      { nama:'Scanner (Peralatan Personal Komputer)', kode:'3100203004', jumlah:19, kategori:'elektronik' },
+      { nama:'Air Conditioning (AC)', kode:'3150405006', jumlah:2, kategori:'elektronik' },
+    ],
+    // Perbandingan terhadap RKBMN Induk sebelum revisi
+    perubahan: [
+      { nama:'Mini Bus (Penumpang 14 Orang Kebawah)', dari:3, ke:1 },
+      { nama:'Lap Top', dari:26, ke:23 },
+      { nama:'Note Book', dari:12, ke:8 },
+      { nama:'Air Conditioning (AC)', dari:0, ke:2 },
+      { nama:'Mesin Fotocopy Folio', dari:1, ke:0 },
+    ],
+  };
+
+  function rkbmnRowsHtml(filterCat){
+    const total = RKBMN_DATA.items.reduce((s,i)=>s+i.jumlah,0);
+    const list = RKBMN_DATA.items.filter(i=> filterCat==='semua' || i.kategori===filterCat)
+      .sort((a,b)=> b.jumlah - a.jumlah);
+    if(list.length === 0) return '<tr><td colspan="4" class="rkbmn-empty">Tidak ada data pada kategori ini.</td></tr>';
+    const maxJumlah = list.reduce((m,i)=> Math.max(m, i.jumlah), 1);
+    const kategoriLabel = { kendaraan:'Kendaraan Dinas', elektronik:'Elektronik &amp; Fasilitas' };
+    return list.map((i, idx)=>{
+      const pct = Math.round(i.jumlah/total*100);
+      const barPct = Math.max(5, Math.round(i.jumlah/maxJumlah*100));
+      return `<tr>
+        <td class="rkbmn-td-no">${idx+1}</td>
+        <td>
+          <div class="rkbmn-td-nama">${escapeHtml(i.nama)}</div>
+          <div class="rkbmn-td-kode">${escapeHtml(i.kode)}</div>
+        </td>
+        <td class="rkbmn-td-kat"><span class="rkbmn-kat-badge rkbmn-kat-${i.kategori}">${kategoriLabel[i.kategori] || i.kategori}</span></td>
+        <td class="rkbmn-td-jumlah">${i.jumlah}<span class="rkbmn-td-pct">${pct}%</span><span class="rkbmn-bar"><span class="rkbmn-bar-fill" style="width:${barPct}%"></span></span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function rkbmnPerubahanHtml(){
+    if(!RKBMN_DATA.perubahan || RKBMN_DATA.perubahan.length === 0) return '';
+    const rows = RKBMN_DATA.perubahan.map(p=>{
+      const naik = p.ke > p.dari;
+      const dihapus = p.ke === 0;
+      const baru = p.dari === 0;
+      const delta = p.ke - p.dari;
+      const cls = dihapus ? 'rkbmn-delta-turun' : (naik ? 'rkbmn-delta-naik' : 'rkbmn-delta-turun');
+      const tag = dihapus ? 'Dihapus dari daftar' : (baru ? 'Baru ditambahkan' : (naik ? `Naik ${delta} unit` : `Turun ${Math.abs(delta)} unit`));
+      const arrow = dihapus ? '&#10007;' : (naik ? '&#8593;' : '&#8595;');
+      return `<div class="rkbmn-change-row">
+        <span class="rkbmn-change-icon ${cls}">${arrow}</span>
+        <span class="rkbmn-change-name">${escapeHtml(p.nama)}</span>
+        <span class="rkbmn-change-detail">${dihapus ? `${p.dari} &rarr; 0` : (baru ? `0 &rarr; ${p.ke}` : `${p.dari} &rarr; ${p.ke}`)} <span class="${cls}">(${tag})</span></span>
+      </div>`;
+    }).join('');
+    return `
+      <div class="rkbmn-changes">
+        <div class="rkbmn-changes-title">&#128260; Perubahan dari RKBMN Induk (Revisi ${RKBMN_DATA.revisi})</div>
+        ${rows}
+      </div>`;
+  }
+
+  function renderRkbmnSection(){
+    const total = RKBMN_DATA.items.reduce((s,i)=>s+i.jumlah,0);
+    return `
+      <div class="rkbmn-section">
+        <div class="rkbmn-header">
+          <div>
+            <div class="rkbmn-title disp">Data RKBMN &mdash; Rencana Pemeliharaan TA ${RKBMN_DATA.tahun}</div>
+            <div class="rkbmn-sub">Sekretariat Bappebti &middot; ${total} unit aset &middot; direvisi ${RKBMN_DATA.revisi}</div>
+          </div>
+        </div>
+        <div class="rkbmn-tabs" id="rkbmn-tabs">
+          <button class="rkbmn-tab active" data-cat="semua">Semua</button>
+          <button class="rkbmn-tab" data-cat="kendaraan">Kendaraan Dinas</button>
+          <button class="rkbmn-tab" data-cat="elektronik">Elektronik &amp; Fasilitas</button>
+        </div>
+        <div class="rkbmn-stats">
+          <div class="rkbmn-stat"><div class="rkbmn-stat-num">${total}</div><div class="rkbmn-stat-lbl">Total Unit</div></div>
+          <div class="rkbmn-stat"><div class="rkbmn-stat-num">100%</div><div class="rkbmn-stat-lbl">Kondisi Baik</div></div>
+          <div class="rkbmn-stat"><div class="rkbmn-stat-num">${RKBMN_DATA.items.length}</div><div class="rkbmn-stat-lbl">Jenis Barang</div></div>
+        </div>
+        <div class="rkbmn-table-wrap">
+          <table class="rkbmn-table">
+            <thead><tr><th>No</th><th>Uraian Barang</th><th>Kategori</th><th>Jumlah</th></tr></thead>
+            <tbody id="rkbmn-chart">${rkbmnRowsHtml('semua')}</tbody>
+          </table>
+        </div>
+        <div class="rkbmn-footnote">Sumber: RKBMN Pemeliharaan TA ${RKBMN_DATA.tahun} (revisi ${RKBMN_DATA.revisi}) &middot; Kuasa Pengguna Barang, Sekretariat Bappebti</div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  //  Sandingan RKBMN vs RKAKL Revisi 5 — Pemeliharaan TA 2026
+  //  Sumber RKAKL: Rincian Kertas Kerja Satker T.A. 2026 (Revisi 5),
+  //  akun 523121 Belanja Pemeliharaan Peralatan dan Mesin, hal. 25
+  // ============================================================
+  const COMPARE_DATA = [
+    { nama:'Kendaraan Es. I (Sedan)',        rkbmn:1,  rkakl:1   },
+    { nama:'Kendaraan Operasional',          rkbmn:5,  rkakl:6   },
+    { nama:'Motor Listrik Roda 2',           rkbmn:0,  rkakl:16  },
+    { nama:'PC / Laptop / Notebook',         rkbmn:64, rkakl:171 },
+    { nama:'Air Conditioning (AC)',          rkbmn:2,  rkakl:11  },
+    { nama:'Mesin Fotokopi',                 rkbmn:3,  rkakl:4   },
+    { nama:'Printer / Scanner',              rkbmn:46, rkakl:46  },
+  ];
+
+  function renderCompareSection(){
+    const rows = COMPARE_DATA.map(c=>{
+      const rowMax = Math.max(c.rkbmn, c.rkakl, 1);
+      const leftPct = c.rkbmn === 0 ? 0 : Math.max(4, Math.round(c.rkbmn/rowMax*100));
+      const rightPct = c.rkakl === 0 ? 0 : Math.max(4, Math.round(c.rkakl/rowMax*100));
+      return `<div class="compare-row">
+        <div class="compare-side compare-left" title="RKBMN: ${c.rkbmn} unit">
+          <div class="compare-track"><div class="compare-fill compare-fill-rkbmn" style="width:${leftPct}%"></div></div>
+          <span class="compare-val">${c.rkbmn}</span>
+        </div>
+        <div class="compare-label">${escapeHtml(c.nama)}</div>
+        <div class="compare-side compare-right" title="RKAKL: ${c.rkakl} unit">
+          <span class="compare-val">${c.rkakl}</span>
+          <div class="compare-track"><div class="compare-fill compare-fill-rkakl" style="width:${rightPct}%"></div></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `
+      <div class="rkbmn-section compare-section">
+        <div class="rkbmn-header">
+          <div>
+            <div class="rkbmn-title disp">Sandingan RKBMN vs RKAKL</div>
+            <div class="rkbmn-sub">Jumlah unit BMN dibanding jumlah unit yang dianggarkan (Revisi 5)</div>
+          </div>
+        </div>
+        <div class="compare-legend">
+          <span class="compare-legend-item"><span class="compare-swatch compare-swatch-rkbmn"></span>RKBMN</span>
+          <span class="compare-legend-item"><span class="compare-swatch compare-swatch-rkakl"></span>RKAKL Revisi 5</span>
+        </div>
+        <div class="compare-chart">${rows}</div>
+        <div class="rkbmn-footnote">Sumber RKAKL: Rincian Kertas Kerja Satker T.A. 2026 Revisi 5, akun 523121 Belanja Pemeliharaan Peralatan dan Mesin (hal. 25). Angka RKBMN mencerminkan catatan BMN Sekretariat; angka RKAKL adalah volume yang dianggarkan untuk satu Satuan Kerja (BADAN PENGAWAS PERDAGANGAN BERJANGKA KOMODITI) sehingga cakupannya bisa lebih luas &mdash; selisih besar (mis. PC/Laptop/Notebook, Motor Listrik) wajar terjadi karena perbedaan cakupan ini, bukan berarti kesalahan data.</div>
+      </div>
+      ${rkbmnPerubahanHtml()}
+    `;
+  }
+
+  function renderDataSection(){
+    return `
+      <div class="data-columns">
+        <div class="data-col">${renderRkbmnSection()}</div>
+        <div class="data-col">${renderCompareSection()}</div>
+      </div>
+      ${renderRekomendasiSection()}
+    `;
+  }
+
+  // ============================================================
+  //  Rekomendasi tindak lanjut berdasarkan sandingan RKBMN vs RKAKL
+  //  (langkah administratif umum untuk mencegah temuan audit BPK/Itjen
+  //  terkait ketidaksesuaian volume BMN vs anggaran pemeliharaan)
+  // ============================================================
+  const REKOMENDASI_DATA = [
+    {
+      judul: 'Perluas cakupan RKBMN agar setara satu Satker penuh',
+      isi: 'Pengajuan RKAKL memang disusun untuk satu Satker penuh (BADAN PENGAWAS PERDAGANGAN BERJANGKA KOMODITI), bukan hanya Sekretariat. Agar sepadan, RKBMN yang dijadikan dasar perbandingan juga perlu mencakup seluruh unit dalam Satker tersebut, bukan hanya data Sekretariat, sehingga volume kedua dokumen benar-benar dapat disandingkan secara apple-to-apple.',
+    },
+    {
+      judul: 'Klarifikasi & catat aset Motor Listrik Roda 2',
+      isi: '16 unit motor listrik dianggarkan pemeliharaannya di RKAKL namun 0 tercatat di RKBMN Sekretariat. Telusuri unit pengelola aset ini dan pastikan tercatat di RKBMN unit yang benar sebelum tahun anggaran berjalan.',
+    },
+    {
+      judul: 'Rekonsiliasi berkala SIMAK-BMN, RKBMN, dan RKAKL',
+      isi: 'Lakukan rekonsiliasi rutin (disarankan triwulanan) antara data SIMAK-BMN, RKBMN, dan realisasi RKAKL, agar setiap revisi RKBMN otomatis diikuti penyesuaian RKAKL revisi berikutnya (dan sebaliknya).',
+    },
+    {
+      judul: 'Dokumentasikan dasar perhitungan volume RKAKL',
+      isi: 'Untuk kategori dengan volume RKAKL lebih besar dari RKBMN (mis. AC 2 vs 11, PC/Laptop/Notebook 64 vs 171), simpan dokumentasi tertulis alasan selisih (cakupan lebih luas, proyeksi kebutuhan, dsb) agar auditor dapat menelusuri dengan mudah tanpa dianggap anomali.',
+    },
+    {
+      judul: 'Jadikan kategori yang sudah sesuai sebagai acuan',
+      isi: 'Kendaraan Eselon I (1=1) dan Printer/Scanner (46=46) menunjukkan kesesuaian sempurna antara RKBMN dan RKAKL. Terapkan proses/pola pencatatan yang sama pada kategori lain yang masih timpang.',
+    },
+    {
+      judul: 'Perbarui RKBMN setiap ada revisi RKAKL',
+      isi: 'Saat RKAKL direvisi (seperti Revisi 5 ini), pastikan RKBMN turut diperbarui pada periode yang sama, bukan menunggu revisi RKBMN terpisah di lain waktu, untuk menjaga kedua dokumen tetap sinkron sepanjang tahun anggaran.',
+    },
+  ];
+
+  function renderRekomendasiSection(){
+    const accents = ['rekom-accent-a','rekom-accent-b','rekom-accent-c'];
+    const items = REKOMENDASI_DATA.map((r, idx)=> `
+      <div class="rekom-item ${accents[idx % accents.length]}">
+        <div class="rekom-num">${idx+1}</div>
+        <div>
+          <div class="rekom-judul">${escapeHtml(r.judul)}</div>
+          <div class="rekom-isi">${escapeHtml(r.isi)}</div>
+        </div>
+      </div>`).join('');
+    return `
+      <div class="rkbmn-section rekom-section">
+        <div class="rkbmn-header">
+          <div>
+            <div class="rkbmn-title disp">&#128161; Rekomendasi Tindak Lanjut</div>
+          </div>
+        </div>
+        <div class="rekom-list">${items}</div>
+        <div class="rkbmn-footnote">Rekomendasi bersifat administratif umum berdasarkan pola selisih pada sandingan data di atas &mdash; bukan pengganti kajian oleh Itjen/APIP.</div>
+      </div>
+    `;
+  }
+
+
+
+  // ---- field permission rules: who can edit + when ----
+  /* ---------- Foto barang: kompresi di browser lalu disimpan base64 di Firestore ----------
+     Batas dokumen Firestore = 1 MiB, jadi foto di-resize (maks 1024px) & dikompresi JPEG
+     hingga hasil encode aman di bawah ~800 KB. Tanpa Firebase Storage / biaya tambahan. */
+  let pendingFotoData = null;      // foto untuk permohonan baru
+  let pendingEditFotoData = null;  // foto pengganti di modal edit
+
+  function compressImageFile(file){
+    return new Promise((resolve, reject)=>{
+      if(!file || !file.type || !file.type.startsWith('image/')){
+        reject(new Error('File harus berupa gambar (JPEG/PNG).')); return;
+      }
+      if(file.size > 2 * 1024 * 1024){
+        reject(new Error('Ukuran file maksimal 2 MB.')); return;
+      }
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{
+        URL.revokeObjectURL(url);
+        const attempt = (maxSide, quality)=>{
+          const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          return canvas.toDataURL('image/jpeg', quality);
+        };
+        let dataUrl = attempt(1024, 0.72);
+        if(dataUrl.length > 780000) dataUrl = attempt(800, 0.6);
+        if(dataUrl.length > 780000) dataUrl = attempt(640, 0.5);
+        if(dataUrl.length > 780000){ reject(new Error('Foto terlalu kompleks untuk dikompresi. Coba foto lain.')); return; }
+        resolve(dataUrl);
+      };
+      img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('File gambar tidak dapat dibaca.')); };
+      img.src = url;
+    });
+  }
+
+  // Pasang handler pada input file: kompres, tampilkan pratinjau, teruskan hasil ke setter
+  function wireFotoInput(inputId, previewId, setData){
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    if(!input) return;
+    input.addEventListener('change', async ()=>{
+      const file = input.files && input.files[0];
+      setData(null);
+      if(preview) preview.innerHTML = '';
+      if(!file) return;
+      if(preview) preview.innerHTML = '<div class="field-hint">Mengompresi foto&hellip;</div>';
+      try{
+        const dataUrl = await compressImageFile(file);
+        setData(dataUrl);
+        const kb = Math.round(dataUrl.length * 3 / 4 / 1024);
+        if(preview) preview.innerHTML = '<img class="foto-thumb" src="'+dataUrl+'" alt="Pratinjau foto barang">'
+          + '<div class="field-hint">Terkompresi otomatis &mdash; &plusmn;'+kb+' KB tersimpan.</div>';
+      }catch(err){
+        input.value = '';
+        if(preview) preview.innerHTML = '<div class="field-hint" style="color:var(--red);">'+escapeHtml(err.message)+'</div>';
+      }
+    });
+  }
+
+  function showFotoLightbox(src){
+    const box = document.createElement('div');
+    box.className = 'foto-lightbox';
+    box.innerHTML = '<img src="'+src+'" alt="Foto barang">';
+    box.addEventListener('click', ()=> box.remove());
+    document.body.appendChild(box);
+  }
+
+  const FIELD_RULES = {
+    nama:               { role:'pemohon',   ok:e=> false },
+    nip:                { role:'pemohon',   ok:e=> false },
+    eselonII:           { role:'pemohon',   ok:e=> false },
+    jabatan:            { role:'pemohon',   ok:e=> false },
+    nup:                { role:'pemohon',   ok:e=> !e.tglPersetujuan },
+    jenis:              { role:'pemohon',   ok:e=> !e.tglPersetujuan },
+    fotoBarang:         { role:'pemohon',   ok:e=> !e.tglPersetujuan },
+    kendala:            { role:'pemohon',   ok:e=> !e.tglPersetujuan },
+    tglPermohonan:      { role:'pemohon',   ok:e=> !e.tglPersetujuan },
+    tglPersetujuan:     { role:'kasub_bmn', ok:e=> !!e.tglPermohonan && !e.tglPersetujuan },
+    tglProses:          { role:'monitor',   ok:e=> !!e.tglPersetujuan && !e.tglProses },
+    tglPemeriksaan:     { role:'vendor',    ok:e=> !!e.tglProses && !e.tglPemeriksaan },
+    hasilPemeriksaan:   { role:'vendor',    ok:e=> !!e.tglProses && !e.tglSelesaiPekerjaan },
+    estimasi:           { role:'vendor',    ok:e=> !!e.tglProses && !e.tglSelesaiPekerjaan },
+    tglSelesaiPekerjaan:{ role:'kasub_bmn', ok:e=> !!e.tglPemeriksaan && !!e.hasilPemeriksaan && !e.tglSelesaiPekerjaan },
+    catatanSelesai:     { role:'kasub_bmn', ok:e=> !!e.tglPemeriksaan && !!e.hasilPemeriksaan && !e.tglSelesaiPekerjaan },
+  };
+
+  function canEdit(fieldKey, entry){
+    if(!currentUser) return false;
+    if(currentUser.role === 'admin') return true; // admin: akses penuh untuk koreksi data
+    const r = FIELD_RULES[fieldKey];
+    if(!r) return false;
+    if(currentUser.role !== r.role) return false;
+    return r.ok(entry || {});
+  }
+
+  function fieldHint(fieldKey, entry){
+    if(currentUser.role === 'admin') return 'Admin dapat mengoreksi field ini kapan saja.';
+    const r = FIELD_RULES[fieldKey];
+    if(!r) return '';
+    if(currentUser.role !== r.role) return 'Hanya diisi oleh peran: ' + ROLE_LABEL[r.role] + '.';
+    if(r.ok(entry||{})) return '';
+    switch(fieldKey){
+      case 'nama': case 'nip': case 'eselonII': case 'jabatan':
+        return 'Dipilih dari Daftar Urut Kepangkatan (DUK) saat masuk sebagai Pemohon, tidak dapat diketik ulang.';
+      case 'tglPersetujuan': return entry.tglPersetujuan ? 'Sudah disetujui.' : 'Menunggu Tanggal Permohonan.';
+      case 'tglProses': return entry.tglProses ? 'Sudah diproses.' : 'Menunggu persetujuan Kasub BMN.';
+      case 'tglPemeriksaan': return entry.tglPemeriksaan ? 'Sudah diperiksa.' : 'Menunggu tahap Proses Permohonan.';
+      case 'hasilPemeriksaan': return entry.tglSelesaiPekerjaan ? 'Pekerjaan sudah selesai, tidak dapat diubah.' : 'Menunggu tahap Proses Permohonan.';
+      case 'estimasi': return entry.tglSelesaiPekerjaan ? 'Pekerjaan sudah selesai.' : 'Menunggu tahap Proses Permohonan.';
+      case 'tglSelesaiPekerjaan': return entry.tglSelesaiPekerjaan ? 'Sudah selesai.' : 'Menunggu Tanggal Pemeriksaan & Hasil Pemeriksaan diisi.';
+      case 'catatanSelesai': return entry.tglSelesaiPekerjaan ? 'Pekerjaan sudah selesai, catatan terkunci.' : 'Menunggu Tanggal Pemeriksaan & Hasil Pemeriksaan diisi. Isi bersamaan dengan Tanggal Selesai Pekerjaan.';
+      default: return entry.tglPersetujuan ? 'Sudah disetujui, data terkunci.' : '';
+    }
+  }
+
+  function todayISO(){
+    const d = new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function fmtDate(iso){
+    if(!iso) return null;
+    const d = new Date(iso + 'T00:00:00');
+    if(isNaN(d)) return null;
+    const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return d.getDate() + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str||''; return d.innerHTML; }
+  function escapeAttr(str){ return (str||'').replace(/"/g,'&quot;'); }
+
+  function getStatus(e){
+    if(e.persetujuanStatus === 'ditolak') return 'ditolak';
+    const doneCount = STEPS.filter(s => e[s.key]).length;
+    const isOverdue = e.estimasi && !e.tglSelesaiPekerjaan && e.estimasi < todayISO();
+    if(doneCount === STEPS.length) return 'selesai';
+    if(isOverdue) return 'telat';
+    if(doneCount === 0) return 'baru';
+    if(e.tglPersetujuan && !e.tglProses) return 'disetujui';
+    return 'proses';
+  }
+  // Menghitung ketepatan waktu penyelesaian dibanding tanggal estimasi.
+  // null = belum selesai / tidak ada estimasi untuk dibandingkan.
+  function getLateness(e){
+    if(!e.tglSelesaiPekerjaan || !e.estimasi) return null;
+    const est = new Date(e.estimasi + 'T00:00:00');
+    const done = new Date(e.tglSelesaiPekerjaan + 'T00:00:00');
+    if(isNaN(est) || isNaN(done)) return null;
+    const diffDays = Math.round((done - est) / (1000*60*60*24));
+    if(diffDays <= 0) return 'ontime';
+    if(diffDays <= 3) return 'late1_3';
+    return 'late_gt3';
+  }
+  function statusBadge(status, e){
+    if(status === 'selesai'){
+      const lateness = e ? getLateness(e) : null;
+      if(lateness === 'late1_3') return '<span class="badge badge-selesai-kuning">Selesai &middot; Terlambat 1&ndash;3 Hari</span>';
+      if(lateness === 'late_gt3') return '<span class="badge badge-selesai-merah">Selesai &middot; Terlambat &gt;3 Hari</span>';
+      return '<span class="badge badge-selesai">Selesai &middot; Tepat Waktu</span>';
+    }
+    const map = {
+      baru:{cls:'badge-baru',txt:'Baru'}, disetujui:{cls:'badge-disetujui',txt:'Disetujui'},
+      proses:{cls:'badge-proses',txt:'Proses'},
+      telat:{cls:'badge-telat',txt:'Lewat Estimasi'}, ditolak:{cls:'badge-ditolak',txt:'Ditolak'},
+    };
+    const m = map[status];
+    return '<span class="badge '+m.cls+'">'+m.txt+'</span>';
+  }
+  function statusCssClass(status, e){
+    if(status === 'selesai'){
+      const lateness = e ? getLateness(e) : null;
+      if(lateness === 'late1_3') return 'ticket-selesai-kuning';
+      if(lateness === 'late_gt3') return 'ticket-selesai-merah';
+      return 'ticket-selesai';
+    }
+    return 'ticket-' + status;
+  }
+
+  /* ============ PERSETUJUAN KASUB BMN (Setuju / Tidak Setuju) ============ */
+  function renderPersetujuanSection(e){
+    if(e.tglPersetujuan && e.persetujuanStatus !== 'ditolak'){
+      let html = `<div class="approved-note">Disetujui oleh <b>${escapeHtml(e.approvedBy||'-')}</b> pada ${fmtDate(e.tglPersetujuan)}.</div>`;
+      if(currentUser.role === 'admin'){
+        html += `<button class="btn btn-ghost btn-sm" id="btn-reset-persetujuan" style="margin-top:8px;">Reset Keputusan (Admin)</button>`;
+      }
+      return html;
+    }
+    if(e.persetujuanStatus === 'ditolak'){
+      let html = `<div class="rejected-note">Ditolak oleh <b>${escapeHtml(e.ditolakOleh||'-')}</b> pada ${fmtDate(e.tglPenolakan)}.<br>Alasan: ${escapeHtml(e.alasanPenolakan||'-')}</div>`;
+      if(currentUser.role === 'admin'){
+        html += `<button class="btn btn-ghost btn-sm" id="btn-reset-persetujuan" style="margin-top:8px;">Reset Keputusan (Admin)</button>`;
+      }
+      return html;
+    }
+    const canDecide = (currentUser.role === 'kasub_bmn' || currentUser.role === 'admin') && !!e.tglPermohonan;
+    if(canDecide){
+      return `<div class="decision-buttons">
+        <button class="btn btn-primary" id="btn-setuju">&#10003; Setuju</button>
+        <button class="btn btn-ghost danger-text" id="btn-tolak">&#10007; Tidak Setuju</button>
+      </div>`;
+    }
+    return `<div class="field-hint locked">${!e.tglPermohonan ? 'Menunggu Tanggal Permohonan.' : 'Hanya dapat diputuskan oleh Kasub BMN.'}</div>`;
+  }
+
+  async function decidePersetujuan(id, approve){
+    const e = entries.find(x=>x.id===id);
+    if(!e) return;
+    if(approve){
+      if(!confirm('Setujui permohonan ini?')) return;
+      closeModal();
+      await updateEntryRemote(id, {
+        tglPersetujuan: todayISO(), approvedBy: currentUser.name, persetujuanStatus: 'disetujui',
+      });
+    } else {
+      const reason = prompt('Alasan tidak menyetujui permohonan ini:');
+      if(reason === null) return; // dibatalkan
+      const trimmed = reason.trim();
+      if(!trimmed){ alert('Alasan wajib diisi.'); return; }
+      closeModal();
+      await updateEntryRemote(id, {
+        persetujuanStatus: 'ditolak', tglPenolakan: todayISO(),
+        ditolakOleh: currentUser.name, alasanPenolakan: trimmed,
+      });
+    }
+  }
+
+  async function resetPersetujuan(id){
+    if(!confirm('Reset keputusan persetujuan? Kasub BMN akan bisa memutuskan ulang.')) return;
+    closeModal();
+    await updateEntryRemote(id, {
+      tglPersetujuan: null, approvedBy: null, persetujuanStatus: null,
+      tglPenolakan: null, ditolakOleh: null, alasanPenolakan: null,
+    });
+  }
+
+  /* ============================================================
+     AUTENTIKASI
+     - Pemohon: tanpa akun, hanya isi nama, sesi disimpan di localStorage perangkat.
+     - Kasub BMN / Vendor / Monitor / Admin: WAJIB akun email+password (Firebase Auth),
+       dan baru bisa memakai dashboard setelah statusnya "approved" oleh seorang Admin
+       (disimpan di Firestore, koleksi 'bst_users').
+  ============================================================ */
+  function loadPemohonSession(){
+    try{
+      const raw = localStorage.getItem(USER_KEY);
+      const u = raw ? JSON.parse(raw) : null;
+      if(u && u.role === 'pemohon'){ currentUser = u; }
+    }catch(err){ /* abaikan */ }
+  }
+  function savePemohonSession(u){
+    currentUser = u;
+    try{ localStorage.setItem(USER_KEY, JSON.stringify(u)); }
+    catch(err){ console.error('Gagal menyimpan sesi Pemohon', err); }
+  }
+
+  async function logout(){
+    if(unsubscribeEntries){ unsubscribeEntries(); unsubscribeEntries = null; }
+    if(unsubscribeUsers){ unsubscribeUsers(); unsubscribeUsers = null; }
+    if(currentUser && currentUser.role !== 'pemohon'){
+      try{ await window.bstAuth.logoutStaff(); }catch(err){ console.error(err); }
+      // window.bstOnAuthChange akan otomatis dipanggil ulang oleh Firebase setelah sign-out
+    } else {
+      currentUser = null;
+      try{ localStorage.removeItem(USER_KEY); }catch(err){}
+      renderChoose();
+    }
+  }
+
+  // Dipanggil oleh modul Firebase setiap kali status login berubah (masuk / keluar / muat ulang halaman)
+  async function handleAuthChange(fbUser){
+    if(unsubscribeEntries){ unsubscribeEntries(); unsubscribeEntries = null; }
+    if(unsubscribeUsers){ unsubscribeUsers(); unsubscribeUsers = null; }
+
+    if(fbUser){
+      let profile = null;
+      try{ profile = await window.bstAuth.getUserProfile(fbUser.uid); }
+      catch(err){ console.error('Gagal memuat profil pengguna:', err); renderChoose(); return; }
+
+      if(!profile){
+        renderPendingScreen({ email: fbUser.email, name: fbUser.email });
+        return;
+      }
+      if(profile.status === 'approved'){
+        currentUser = { uid: fbUser.uid, email: profile.email, name: profile.name || profile.email, role: profile.role, status:'approved' };
+        initDashboard();
+      } else if(profile.status === 'rejected'){
+        renderRejectedScreen(profile);
+      } else {
+        renderPendingScreen(profile);
+      }
+    } else {
+      loadPemohonSession();
+      if(currentUser && currentUser.role === 'pemohon'){
+        initDashboard();
+      } else {
+        currentUser = null;
+        renderChoose();
+      }
+    }
+  }
+  window.bstOnAuthChange = handleAuthChange; // dipanggil dari modul Firebase (lihat <script type="module">)
+
+  function startEntriesSync(){
+    if(unsubscribeEntries) unsubscribeEntries();
+    setSync(false, 'menyambungkan...');
+    unsubscribeEntries = window.bstFirestore.listenEntries(
+      (list)=>{
+        entries = list;
+        setSync(false, 'tersinkron realtime ' + new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}));
+        renderDashboard();
+      },
+      (err)=>{
+        console.error('Firestore listen error:', err);
+        setSync(true, 'gangguan koneksi — memuat ulang dapat membantu');
+      }
+    );
+  }
+
+  async function createEntryRemote(entryData){
+    setSync(false, 'menyimpan...');
+    try{
+      await window.bstFirestore.addEntry(entryData);
+      setSync(false, 'tersimpan');
+      return true;
+    }catch(err){
+      console.error('Gagal menyimpan permohonan:', err);
+      alert('Gagal menyimpan permohonan ke server: ' + err.message);
+      setSync(true, 'GAGAL MENYIMPAN');
+      return false;
+    }
+  }
+  async function updateEntryRemote(id, patch){
+    setSync(false, 'menyimpan...');
+    try{
+      await window.bstFirestore.updateEntry(id, patch);
+      setSync(false, 'tersimpan');
+      return true;
+    }catch(err){
+      console.error('Gagal menyimpan perubahan:', err);
+      alert('Gagal menyimpan perubahan ke server: ' + err.message);
+      setSync(true, 'GAGAL MENYIMPAN');
+      return false;
+    }
+  }
+  async function deleteEntryRemote(id){
+    setSync(false, 'menghapus...');
+    try{
+      await window.bstFirestore.deleteEntry(id);
+      setSync(false, 'tersimpan');
+      return true;
+    }catch(err){
+      console.error('Gagal menghapus:', err);
+      alert('Gagal menghapus di server: ' + err.message);
+      setSync(true, 'GAGAL MENGHAPUS');
+      return false;
+    }
+  }
+
+  function setSync(isWarn, text){
+    const dot = document.getElementById('bst-dot');
+    const txt = document.getElementById('bst-sync-text');
+    if(dot) dot.classList.toggle('warn', isWarn);
+    if(txt) txt.textContent = text;
+  }
+
+  function authErrorMessage(err){
+    const code = err && err.code;
+    const map = {
+      'auth/invalid-email': 'Format email tidak valid.',
+      'auth/user-disabled': 'Akun ini telah dinonaktifkan.',
+      'auth/user-not-found': 'Email atau kata sandi salah.',
+      'auth/wrong-password': 'Email atau kata sandi salah.',
+      'auth/invalid-credential': 'Email atau kata sandi salah.',
+      'auth/email-already-in-use': 'Email ini sudah terdaftar. Silakan masuk, atau hubungi Admin jika akun Anda belum disetujui.',
+      'auth/weak-password': 'Kata sandi minimal 6 karakter.',
+      'auth/too-many-requests': 'Terlalu banyak percobaan. Coba lagi beberapa saat lagi.',
+      'auth/network-request-failed': 'Gangguan jaringan. Periksa koneksi internet Anda.',
+    };
+    return map[code] || ('Terjadi kesalahan: ' + (err && err.message ? err.message : 'tidak diketahui'));
+  }
+
+  /* ============ REKAP PROSES PEMELIHARAAN (sidebar layar awal, realtime) ============ */
+  function stopLandingRecap(){
+    if(unsubscribeLandingRecap){ unsubscribeLandingRecap(); unsubscribeLandingRecap = null; }
+  }
+  function updateLandingRecapUI(selesai, proses, permohonan, ok){
+    const dot = document.getElementById('rekap-dot');
+    const txt = document.getElementById('rekap-sync-text');
+    if(dot) dot.classList.toggle('warn', !ok);
+    if(txt) txt.textContent = ok ? 'Live' : 'Gangguan koneksi';
+    const setNum = (id, val)=>{ const el = document.getElementById(id); if(el) el.textContent = (val===null ? '-' : val); };
+    setNum('rekap-num-selesai', selesai);
+    setNum('rekap-num-proses', proses);
+    setNum('rekap-num-permohonan', permohonan);
+  }
+  function startLandingRecap(){
+    stopLandingRecap();
+    if(!window.bstFirestore) return;
+    unsubscribeLandingRecap = window.bstFirestore.listenEntries(
+      (list)=>{
+        const selesai = list.filter(e=> getStatus(e) === 'selesai').length;
+        const proses = list.filter(e=> ['disetujui','proses','telat'].includes(getStatus(e))).length;
+        const permohonan = list.filter(e=> getStatus(e) === 'baru').length;
+        updateLandingRecapUI(selesai, proses, permohonan, true);
+      },
+      (err)=>{
+        console.error('Gagal memuat rekap layar awal:', err);
+        updateLandingRecapUI(null, null, null, false);
+      }
+    );
+  }
+  function renderPemeliharaanRekapInline(){
+    return `
+      <div class="rekap-inline">
+        <div class="rkbmn-header">
+          <div>
+            <div class="rkbmn-title disp">Rekap Proses Pemeliharaan</div>
+            <div class="rekap-live"><span class="dot-live" id="rekap-dot"></span><span id="rekap-sync-text">memuat...</span></div>
+          </div>
+        </div>
+        <div class="rekap-inline-stats">
+          <div class="rekap-stat rekap-stat-selesai">
+            <div class="rekap-icon">&#9989;</div>
+            <div><div class="rekap-num" id="rekap-num-selesai">&hellip;</div><div class="rekap-lbl">Selesai</div></div>
+          </div>
+          <div class="rekap-stat rekap-stat-proses">
+            <div class="rekap-icon">&#128295;</div>
+            <div><div class="rekap-num" id="rekap-num-proses">&hellip;</div><div class="rekap-lbl">Proses</div></div>
+          </div>
+          <div class="rekap-stat rekap-stat-permohonan">
+            <div class="rekap-icon">&#128221;</div>
+            <div><div class="rekap-num" id="rekap-num-permohonan">&hellip;</div><div class="rekap-lbl">Permohonan</div></div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ============ LAYAR: PILIH JALUR MASUK ============ */
+  function renderChoose(){
+    stopLandingRecap();
+    root.innerHTML = `
+      <div class="bst-login">
+        ${BUILDING_SVG}
+        ${INSTANSI_BADGE}
+        <h2 class="disp">Layanan Servis BMN &mdash; Peralatan &amp; Mesin</h2>
+        <p>Pilih jalur masuk sesuai posisi Anda.</p>
+        <div class="choose-grid">
+          <div class="choose-card" id="choose-pemohon">
+            <div class="ric">&#128100;</div>
+            <div class="rn disp">Saya Pemohon</div>
+            <div class="rd">Ajukan permohonan servis baru. Cukup isi nama, tanpa akun/kata sandi.</div>
+          </div>
+          <div class="choose-card" id="choose-staff">
+            <div class="ric">&#128274;</div>
+            <div class="rn disp">Saya Petugas</div>
+            <div class="rd">Kasub BMN, Vendor, Monitor, atau Admin. Wajib masuk dengan email &amp; kata sandi yang sudah disetujui.</div>
+          </div>
+        </div>
+        ${renderPemeliharaanRekapInline()}
+        ${renderDataSection()}
+        <div class="bst-disclaimer">Dirancang sebagai prototipe &middot; &copy; 2026 &mdash; dibuat oleh beruangmipon</div>
+      </div>`;
+    document.getElementById('choose-pemohon').addEventListener('click', ()=>{ stopLandingRecap(); renderPemohonForm(); });
+    document.getElementById('choose-staff').addEventListener('click', ()=>{ stopLandingRecap(); renderStaffLogin(); });
+    document.querySelectorAll('#rkbmn-tabs .rkbmn-tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('#rkbmn-tabs .rkbmn-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const chartEl = document.getElementById('rkbmn-chart');
+        if(chartEl) chartEl.innerHTML = rkbmnRowsHtml(btn.getAttribute('data-cat'));
+      });
+    });
+    startLandingRecap();
+  }
+
+  /* ============ LAYAR: FORM PEMOHON (tanpa password) ============ */
+  function renderPemohonForm(){
+    const eselonList = Object.keys(DUK_DATA);
+    root.innerHTML = `
+      <div class="bst-login">
+        ${BUILDING_SVG}
+        <h2 class="disp">Masuk sebagai Pemohon</h2>
+        <p>Pilih Eselon II dan nama Anda sesuai Daftar Urut Kepangkatan (DUK). Tidak perlu akun atau kata sandi.</p>
+        <div class="bst-login-form">
+          <select id="f-pemohon-eselon2">
+            <option value="">-- Pilih Eselon II --</option>
+            ${eselonList.map(es => `<option value="${escapeAttr(es)}">${escapeHtml(es)}</option>`).join('')}
+          </select>
+          <select id="f-pemohon-name" disabled>
+            <option value="">-- Pilih Eselon II dahulu --</option>
+          </select>
+          <div id="pemohon-preview"></div>
+          <button class="btn btn-primary" id="btn-pemohon-masuk" style="width:100%;" disabled>Pilih nama Anda terlebih dahulu</button>
+          <button class="btn btn-ghost" id="btn-pemohon-back" style="width:100%;margin-top:8px;">&larr; Kembali</button>
+        </div>
+        <div class="bst-disclaimer">Daftar nama bersumber dari Daftar Urut Kepangkatan (DUK) per unit Eselon II. Jika nama Anda belum/tidak terdaftar, hubungi Admin.</div>
+      </div>`;
+
+    const eselonSel = document.getElementById('f-pemohon-eselon2');
+    const nameSel = document.getElementById('f-pemohon-name');
+    const preview = document.getElementById('pemohon-preview');
+    const masukBtn = document.getElementById('btn-pemohon-masuk');
+
+    let selectedPerson = null;
+
+    function updateMasukBtn(){
+      if(selectedPerson){
+        masukBtn.disabled = false;
+        masukBtn.textContent = 'Masuk sebagai Pemohon';
+      } else {
+        masukBtn.disabled = true;
+        masukBtn.textContent = 'Pilih nama Anda terlebih dahulu';
+      }
+    }
+
+    eselonSel.addEventListener('change', ()=>{
+      const es = eselonSel.value;
+      selectedPerson = null;
+      preview.innerHTML = '';
+      updateMasukBtn();
+      if(!es){
+        nameSel.innerHTML = '<option value="">-- Pilih Eselon II dahulu --</option>';
+        nameSel.disabled = true;
+        return;
+      }
+      const people = DUK_DATA[es] || [];
+      nameSel.innerHTML = '<option value="">-- Pilih Nama --</option>'
+        + people.map((p,i)=> `<option value="${i}">${escapeHtml(p.nama)}</option>`).join('');
+      nameSel.disabled = false;
+    });
+
+    nameSel.addEventListener('change', ()=>{
+      const es = eselonSel.value;
+      const idx = nameSel.value;
+      if(es && idx !== ''){
+        selectedPerson = DUK_DATA[es][idx];
+        preview.innerHTML = `<div class="note">NIP: <b>${escapeHtml(selectedPerson.nip)}</b><br>Jabatan: ${escapeHtml(selectedPerson.jabatan || '-')}</div>`;
+      } else {
+        selectedPerson = null;
+        preview.innerHTML = '';
+      }
+      updateMasukBtn();
+    });
+
+    document.getElementById('btn-pemohon-back').addEventListener('click', renderChoose);
+    masukBtn.addEventListener('click', ()=>{
+      if(!selectedPerson) return;
+      savePemohonSession({
+        name: selectedPerson.nama, nip: selectedPerson.nip,
+        eselonII: eselonSel.value, jabatan: selectedPerson.jabatan,
+        role:'pemohon',
+      });
+      initDashboard();
+    });
+  }
+
+  /* ============ LAYAR: LOGIN STAF (email + password) ============ */
+  function renderStaffLogin(errorMsg){
+    root.innerHTML = `
+      <div class="bst-login">
+        ${BUILDING_SVG}
+        <h2 class="disp">Masuk sebagai Petugas</h2>
+        <p>Untuk peran Kasub BMN, Vendor, Monitor, dan Admin.</p>
+        ${errorMsg ? `<div class="auth-error">${escapeHtml(errorMsg)}</div>` : ''}
+        <div class="bst-login-form">
+          <input type="email" id="f-staff-email" placeholder="Email">
+          <input type="password" id="f-staff-password" placeholder="Kata sandi">
+          <button class="btn btn-primary" id="btn-staff-masuk" style="width:100%;">Masuk</button>
+        </div>
+        <div class="auth-links">
+          <a href="javascript:void(0)" id="link-to-register">Daftar sebagai Admin baru</a>
+          <a href="javascript:void(0)" id="link-staff-back">&larr; Kembali</a>
+        </div>
+        <div class="bst-disclaimer" style="margin-top:20px;">Akun <b>Kasub BMN, Vendor, dan Monitor</b> tidak bisa mendaftar sendiri &mdash; akun tersebut hanya dibuatkan oleh Admin lewat menu "Kelola Pengguna". Silakan hubungi Admin Anda untuk dibuatkan akun. Pendaftaran mandiri di halaman ini hanya tersedia untuk peran Admin (memerlukan persetujuan Admin lain yang sudah aktif).</div>
+      </div>`;
+    document.getElementById('link-staff-back').addEventListener('click', renderChoose);
+    document.getElementById('link-to-register').addEventListener('click', ()=> renderStaffRegister());
+    document.getElementById('btn-staff-masuk').addEventListener('click', async ()=>{
+      const email = document.getElementById('f-staff-email').value.trim();
+      const password = document.getElementById('f-staff-password').value;
+      if(!email || !password){ alert('Isi email dan kata sandi.'); return; }
+      const btn = document.getElementById('btn-staff-masuk');
+      btn.disabled = true; btn.textContent = 'Memeriksa...';
+      try{
+        await window.bstAuth.loginStaff(email, password);
+        // window.bstOnAuthChange akan otomatis dipanggil dan mengarahkan ke dashboard/layar tunggu
+      }catch(err){
+        console.error('Login gagal:', err);
+        renderStaffLogin(authErrorMessage(err));
+      }
+    });
+  }
+
+  /* ============ LAYAR: DAFTAR AKUN ADMIN (satu-satunya peran yang boleh daftar mandiri) ============ */
+  function renderStaffRegister(errorMsg){
+    root.innerHTML = `
+      <div class="bst-login">
+        ${BUILDING_SVG}
+        <h2 class="disp">Daftar Akun Admin</h2>
+        <p>Akun akan berstatus <b>menunggu persetujuan</b> hingga disetujui oleh Admin yang sudah aktif. (Akun Kasub BMN, Vendor, dan Monitor tidak mendaftar di sini &mdash; hubungi Admin untuk dibuatkan akun.)</p>
+        ${errorMsg ? `<div class="auth-error">${escapeHtml(errorMsg)}</div>` : ''}
+        <div class="bst-login-form">
+          <input type="text" id="f-reg-name" placeholder="Nama lengkap">
+          <input type="email" id="f-reg-email" placeholder="Email">
+          <input type="password" id="f-reg-password" placeholder="Kata sandi (min. 6 karakter)">
+          <input type="password" id="f-reg-password2" placeholder="Ulangi kata sandi">
+          <button class="btn btn-primary" id="btn-staff-daftar" style="width:100%;">Daftar sebagai Admin</button>
+        </div>
+        <div class="auth-links">
+          <a href="javascript:void(0)" id="link-to-login">Sudah punya akun? Masuk di sini</a>
+        </div>
+      </div>`;
+    const regRole = 'admin'; // satu-satunya peran yang boleh mendaftar sendiri
+    document.getElementById('link-to-login').addEventListener('click', ()=> renderStaffLogin());
+    document.getElementById('btn-staff-daftar').addEventListener('click', async ()=>{
+      const name = document.getElementById('f-reg-name').value.trim();
+      const email = document.getElementById('f-reg-email').value.trim();
+      const password = document.getElementById('f-reg-password').value;
+      const password2 = document.getElementById('f-reg-password2').value;
+      if(!name || !email || !password){ alert('Lengkapi semua kolom.'); return; }
+      if(password.length < 6){ alert('Kata sandi minimal 6 karakter.'); return; }
+      if(password !== password2){ alert('Konfirmasi kata sandi tidak cocok.'); return; }
+
+      const btn = document.getElementById('btn-staff-daftar');
+      btn.disabled = true; btn.textContent = 'Mendaftarkan...';
+      try{
+        await window.bstAuth.registerStaff(name, email, password, regRole);
+        // window.bstOnAuthChange akan otomatis dipanggil dan menampilkan layar "menunggu persetujuan"
+      }catch(err){
+        console.error('Registrasi gagal:', err);
+        renderStaffRegister(authErrorMessage(err));
+      }
+    });
+  }
+
+  /* ============ LAYAR: MENUNGGU / DITOLAK ============ */
+  function renderPendingScreen(profile){
+    root.innerHTML = `
+      <div class="bst-login">
+        <div class="status-icon">&#8987;</div>
+        <h2 class="disp">Menunggu Persetujuan</h2>
+        <p>Akun <b>${escapeHtml(profile.email||'')}</b>${profile.role ? ' (peran diajukan: '+escapeHtml(ROLE_LABEL[profile.role]||profile.role)+')' : ''} sedang menunggu persetujuan Admin. Anda akan bisa masuk setelah disetujui.</p>
+        <button class="btn btn-ghost" id="btn-pending-logout">Keluar</button>
+      </div>`;
+    document.getElementById('btn-pending-logout').addEventListener('click', logout);
+  }
+  function renderRejectedScreen(profile){
+    root.innerHTML = `
+      <div class="bst-login">
+        <div class="status-icon">&#10060;</div>
+        <h2 class="disp">Pendaftaran Ditolak</h2>
+        <p>Akun <b>${escapeHtml(profile.email||'')}</b> tidak disetujui. Hubungi penanggung jawab sistem untuk informasi lebih lanjut.</p>
+        <button class="btn btn-ghost" id="btn-rejected-logout">Keluar</button>
+      </div>`;
+    document.getElementById('btn-rejected-logout').addEventListener('click', logout);
+  }
+
+  /* ============ DASHBOARD SHELL ============ */
+  function renderShell(){
+    const initials = currentUser.name.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    root.innerHTML = `
+      <div class="bst-header">
+        <div>
+          <div class="bst-title disp">Layanan Servis BMN &mdash; Peralatan &amp; Mesin</div>
+          <div class="bst-sub">${currentUser.role === 'pemohon' ? 'Permohonan servis Anda - Bappebti' : 'Pelacakan permohonan servis - Bappebti'}</div>
+        </div>
+        <div class="bst-header-actions">
+          <span class="bst-count-pill mono" id="bst-count-pill">0 permohonan</span>
+          <div class="bst-userbar">
+            <div class="bst-avatar">${escapeHtml(initials)}</div>
+            <div>
+              <div>${escapeHtml(currentUser.name)}</div>
+              <div class="bst-role-tag">${ROLE_LABEL[currentUser.role]}</div>
+            </div>
+          </div>
+          <button class="btn btn-logout" id="bst-logout">Keluar</button>
+          ${currentUser.role === 'admin' ? '<button class="btn btn-ghost" id="bst-users-btn">&#128101; Kelola Pengguna</button>' : ''}
+          <button class="btn btn-ghost" id="bst-print-btn">&#128424; ${currentUser.role === 'pemohon' ? 'Cetak Permohonan Saya' : 'Cetak Rekapitulasi'}</button>
+          ${(currentUser.role === 'pemohon' || currentUser.role === 'admin') ? '<button class="btn btn-primary" id="bst-add-btn">+ Permohonan Baru</button>' : ''}
+        </div>
+      </div>
+      <div class="bst-toolbar">
+        <input type="text" class="bst-search" id="bst-search" placeholder="${currentUser.role === 'pemohon' ? 'Cari NUP atau jenis peralatan Anda...' : 'Cari nama pemohon, NIP, NUP, atau jenis peralatan...'}">
+        <select class="bst-filter" id="bst-filter">
+          <option value="all">Semua Status</option>
+          <option value="baru">Baru</option>
+          <option value="disetujui">Disetujui</option>
+          <option value="proses">Proses</option>
+          <option value="selesai">Selesai</option>
+          <option value="telat">Melewati Estimasi</option>
+          <option value="ditolak">Ditolak</option>
+        </select>
+        <div class="bst-sync"><span class="dot-live" id="bst-dot"></span><span id="bst-sync-text">memuat...</span></div>
+      </div>
+      <div class="bst-body" id="bst-body"><div class="bst-empty">Memuat data&hellip;</div></div>
+      <div class="bst-footer">
+        <div>
+          <div class="bst-footer-title">Layanan Servis BMN &mdash; Peralatan &amp; Mesin</div>
+          <div class="bst-footer-sub">Bappebti &middot; Multi-pengguna</div>
+        </div>
+        <div class="bst-footer-right">
+          <div class="bst-footer-title">Dirancang sebagai prototipe</div>
+          <div class="bst-footer-sub">&copy; 2026 &mdash; dibuat oleh beruangmipon</div>
+        </div>
+      </div>
+    `;
+    document.getElementById('bst-logout').addEventListener('click', logout);
+    if(currentUser.role === 'pemohon' || currentUser.role === 'admin'){
+      document.getElementById('bst-add-btn').addEventListener('click', ()=> openCreateModal());
+    }
+    if(currentUser.role === 'admin'){
+      document.getElementById('bst-users-btn').addEventListener('click', openUserManagementModal);
+    }
+    document.getElementById('bst-print-btn').addEventListener('click', printRecap);
+    document.getElementById('bst-search').addEventListener('input', renderDashboard);
+    document.getElementById('bst-filter').addEventListener('change', renderDashboard);
+  }
+
+  function initDashboard(){
+    renderShell();
+    startEntriesSync();
+  }
+
+  /* ============ PANEL ADMIN: KELOLA PENGGUNA ============ */
+  function userStatusBadge(status){
+    const map = {
+      pending:{cls:'badge-proses',txt:'Menunggu'},
+      approved:{cls:'badge-selesai',txt:'Disetujui'},
+      rejected:{cls:'badge-telat',txt:'Ditolak'},
+    };
+    const m = map[status] || {cls:'badge-baru',txt:status};
+    return '<span class="badge '+m.cls+'">'+m.txt+'</span>';
+  }
+
+  function openUserManagementModal(){
+    const overlay = document.createElement('div');
+    overlay.className = 'bst-overlay';
+    overlay.id = 'bst-overlay';
+    overlay.innerHTML = `
+      <div class="bst-modal">
+        <div class="bst-modal-head">
+          <div class="disp">Kelola Pengguna Staf</div>
+          <button class="close-x" id="bst-close">&times;</button>
+        </div>
+        <div class="bst-modal-body">
+          <button class="btn btn-primary" id="bst-add-user-btn" style="width:100%;margin-bottom:16px;">+ Tambah Akun Staf</button>
+          <div id="add-user-form-area"></div>
+          <div id="user-list-area"><div class="bst-empty">Memuat daftar pengguna&hellip;</div></div>
+        </div>
+        <div class="bst-modal-foot">
+          <button class="btn btn-ghost" id="bst-cancel" style="color:var(--ink);border-color:var(--line);">Tutup</button>
+        </div>
+      </div>`;
+    root.appendChild(overlay);
+    const close = ()=>{
+      if(unsubscribeUsers){ unsubscribeUsers(); unsubscribeUsers = null; }
+      closeModal();
+    };
+    document.getElementById('bst-close').addEventListener('click', close);
+    document.getElementById('bst-cancel').addEventListener('click', close);
+    overlay.addEventListener('click', ev=>{ if(ev.target === overlay) close(); });
+    document.getElementById('bst-add-user-btn').addEventListener('click', toggleAddUserForm);
+
+    unsubscribeUsers = window.bstAuth.listenUsers(
+      (list)=> renderUserList(list),
+      (err)=>{
+        console.error('Gagal memuat daftar pengguna:', err);
+        const area = document.getElementById('user-list-area');
+        if(area) area.innerHTML = '<div class="bst-empty">Gagal memuat daftar pengguna.</div>';
+      }
+    );
+  }
+
+  function randomPassword(){
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+    let out = '';
+    for(let i=0;i<10;i++){ out += chars[Math.floor(Math.random()*chars.length)]; }
+    return out;
+  }
+
+  function toggleAddUserForm(){
+    const area = document.getElementById('add-user-form-area');
+    if(!area) return;
+    if(area.innerHTML.trim() !== ''){ area.innerHTML = ''; return; }
+
+    area.innerHTML = `
+      <div class="section-card">
+        <div class="section-head"><span class="st">Buat Akun Staf Baru</span><span class="who">Langsung Disetujui</span></div>
+        <div class="section-body">
+          <div class="field"><label>Nama Lengkap</label><input type="text" id="nu-name" placeholder="Nama lengkap staf"></div>
+          <div class="field-row">
+            <div class="field"><label>Email</label><input type="email" id="nu-email" placeholder="Email staf"></div>
+            <div class="field"><label>Peran</label>
+              <select id="nu-role">
+                ${STAFF_ROLES.map(r=>`<option value="${r.key}">${r.name}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Kata Sandi Awal</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="nu-password" placeholder="Kata sandi awal (min. 6 karakter)" style="flex:1;">
+              <button type="button" class="btn btn-ghost btn-sm" id="nu-generate">Buat Acak</button>
+            </div>
+            <div class="field-hint">Bagikan kata sandi ini langsung/pribadi ke staf yang bersangkutan. Kata sandi tidak akan bisa dilihat lagi setelah akun dibuat.</div>
+          </div>
+          <button class="btn btn-primary" id="nu-submit" style="width:100%;">Buat Akun</button>
+        </div>
+      </div>`;
+
+    document.getElementById('nu-generate').addEventListener('click', ()=>{
+      document.getElementById('nu-password').value = randomPassword();
+    });
+    document.getElementById('nu-submit').addEventListener('click', async ()=>{
+      const name = document.getElementById('nu-name').value.trim();
+      const email = document.getElementById('nu-email').value.trim();
+      const role = document.getElementById('nu-role').value;
+      const password = document.getElementById('nu-password').value;
+      if(!name || !email || !password){ alert('Lengkapi semua kolom.'); return; }
+      if(password.length < 6){ alert('Kata sandi minimal 6 karakter.'); return; }
+
+      const btn = document.getElementById('nu-submit');
+      btn.disabled = true; btn.textContent = 'Membuat akun...';
+      try{
+        await window.bstAuth.adminCreateStaffAccount(name, email, password, role, currentUser.name);
+        alert('Akun berhasil dibuat untuk ' + name + ' (' + ROLE_LABEL[role] + ').\n\nEmail: ' + email + '\nKata sandi awal: ' + password + '\n\nCatat/salin kata sandi ini sekarang dan bagikan langsung/pribadi ke staf tersebut — kata sandi ini tidak akan ditampilkan lagi.');
+        area.innerHTML = '';
+      }catch(err){
+        console.error('Gagal membuat akun staf:', err);
+        alert('Gagal membuat akun: ' + authErrorMessage(err));
+        btn.disabled = false; btn.textContent = 'Buat Akun';
+      }
+    });
+  }
+
+  function renderUserList(list){
+    const area = document.getElementById('user-list-area');
+    if(!area) return; // modal sudah ditutup
+
+    if(list.length === 0){
+      area.innerHTML = '<div class="bst-empty">Belum ada pendaftaran akun staf.</div>';
+      return;
+    }
+
+    const order = { pending:0, approved:1, rejected:2 };
+    list.sort((a,b)=> (order[a.status]??9) - (order[b.status]??9) || (a.name||'').localeCompare(b.name||''));
+
+    const groups = { pending:[], approved:[], rejected:[] };
+    list.forEach(u=>{ (groups[u.status] || groups.pending).push(u); });
+
+    const roleOptions = (currentRole)=> STAFF_ROLES.map(r=>
+      `<option value="${r.key}" ${currentRole===r.key?'selected':''}>${r.name}</option>`
+    ).join('');
+
+    function row(u){
+      let actions = '';
+      if(u.status === 'pending'){
+        actions = `<button class="btn btn-primary btn-sm" data-action="approve" data-uid="${u.id}">Setujui</button>
+                   <button class="btn btn-ghost btn-sm danger-text" data-action="reject" data-uid="${u.id}">Tolak</button>`;
+      } else if(u.status === 'approved'){
+        actions = `<button class="btn btn-ghost btn-sm danger-text" data-action="revoke" data-uid="${u.id}">Cabut Akses</button>`;
+      } else {
+        actions = `<button class="btn btn-primary btn-sm" data-action="approve" data-uid="${u.id}">Setujui Kembali</button>`;
+      }
+      const isSelf = currentUser.uid && u.id === currentUser.uid;
+      return `<div class="user-row" data-row-uid="${u.id}">
+        <div class="user-info">
+          <div class="user-name" id="uname-${u.id}">${escapeHtml(u.name||'(tanpa nama)')}${isSelf ? ' <span class="user-self-tag">(Anda)</span>' : ''}</div>
+          <div class="user-email mono">${escapeHtml(u.email||'-')}</div>
+        </div>
+        <select class="user-role-select" id="role-${u.id}">${roleOptions(u.role)}</select>
+        ${userStatusBadge(u.status)}
+        <div class="user-actions">
+          ${actions}
+          <button class="icon-btn" data-action="edit" data-uid="${u.id}" title="Edit nama">&#9998;</button>
+          ${isSelf ? '' : `<button class="icon-btn danger" data-action="delete" data-uid="${u.id}" title="Hapus akun">&#128465;</button>`}
+        </div>
+      </div>`;
+    }
+
+    area.innerHTML = `
+      ${groups.pending.length ? `<div class="user-section-title">Menunggu Persetujuan (${groups.pending.length})</div>${groups.pending.map(row).join('')}` : ''}
+      ${groups.approved.length ? `<div class="user-section-title">Disetujui (${groups.approved.length})</div>${groups.approved.map(row).join('')}` : ''}
+      ${groups.rejected.length ? `<div class="user-section-title">Ditolak (${groups.rejected.length})</div>${groups.rejected.map(row).join('')}` : ''}
+    `;
+
+    area.querySelectorAll('button[data-action]').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const uidTarget = btn.getAttribute('data-uid');
+        const action = btn.getAttribute('data-action');
+        const roleSel = document.getElementById('role-'+uidTarget);
+        const chosenRole = roleSel ? roleSel.value : null;
+
+        if(action === 'approve'){
+          btn.disabled = true; btn.textContent = 'Memproses...';
+          try{
+            await window.bstAuth.setUserStatus(uidTarget, {
+              status:'approved', role:chosenRole,
+              approvedBy: currentUser.name, approvedAt: new Date().toISOString(),
+            });
+          }catch(err){ console.error(err); alert('Gagal menyetujui pengguna: ' + err.message); }
+        } else if(action === 'reject'){
+          if(!confirm('Tolak pendaftaran akun ini?')) return;
+          btn.disabled = true; btn.textContent = 'Memproses...';
+          try{ await window.bstAuth.setUserStatus(uidTarget, { status:'rejected' }); }
+          catch(err){ console.error(err); alert('Gagal menolak pengguna: ' + err.message); }
+        } else if(action === 'revoke'){
+          if(!confirm('Cabut akses akun ini? Pengguna tidak akan bisa masuk lagi sampai disetujui ulang.')) return;
+          btn.disabled = true; btn.textContent = 'Memproses...';
+          try{ await window.bstAuth.setUserStatus(uidTarget, { status:'rejected' }); }
+          catch(err){ console.error(err); alert('Gagal mencabut akses: ' + err.message); }
+        } else if(action === 'edit'){
+          const nameEl = document.getElementById('uname-'+uidTarget);
+          if(!nameEl) return;
+          const currentName = nameEl.textContent.replace('(Anda)','').trim();
+          const newName = prompt('Ubah nama pengguna:', currentName);
+          if(newName === null) return; // dibatalkan
+          const trimmed = newName.trim();
+          if(!trimmed){ alert('Nama tidak boleh kosong.'); return; }
+          btn.disabled = true;
+          try{
+            await window.bstAuth.setUserStatus(uidTarget, { name: trimmed, role: chosenRole });
+          }catch(err){ console.error(err); alert('Gagal menyimpan perubahan: ' + err.message); }
+          finally{ btn.disabled = false; }
+        } else if(action === 'delete'){
+          const rowEl = document.querySelector('[data-row-uid="'+uidTarget+'"]');
+          const nameTxt = rowEl ? rowEl.querySelector('.user-name').textContent.trim() : 'akun ini';
+          if(!confirm('Hapus akun "'+nameTxt+'" secara permanen dari daftar pengguna? Pengguna tidak akan bisa masuk lagi.\\n\\nCatatan: ini menghapus profil di aplikasi. Kredensial login (email/kata sandi) di Firebase Authentication tidak ikut terhapus otomatis — hapus manual lewat Firebase Console jika ingin benar-benar menutup aksesnya.')) return;
+          btn.disabled = true;
+          try{ await window.bstAuth.deleteUserProfile(uidTarget); }
+          catch(err){ console.error(err); alert('Gagal menghapus pengguna: ' + err.message); }
+        }
+        // Tampilan akan diperbarui otomatis lewat listener realtime.
+      });
+    });
+  }
+
+  /* ============ LIST RENDER ============ */
+  function getFilteredEntries(){
+    const searchEl = document.getElementById('bst-search');
+    const filterEl = document.getElementById('bst-filter');
+    const q = (searchEl && searchEl.value.trim().toLowerCase()) || '';
+    const filter = (filterEl && filterEl.value) || 'all';
+
+    let filtered = visibleEntries().filter(e=>{
+      const matchQ = !q || (e.nama||'').toLowerCase().includes(q) || (e.nup||'').toLowerCase().includes(q) || (e.jenis||'').toLowerCase().includes(q) || (e.nip||'').toLowerCase().includes(q);
+      const status = getStatus(e);
+      const matchF = filter === 'all' || status === filter;
+      return matchQ && matchF;
+    });
+    filtered.sort((a,b)=> (b.tglPermohonan||'').localeCompare(a.tglPermohonan||''));
+    return filtered;
+  }
+
+  // Pemohon hanya melihat permohonan miliknya sendiri; staf melihat semua.
+  function isOwnEntry(e){
+    if(!currentUser) return false;
+    if(e.nip && currentUser.nip) return String(e.nip).trim() === String(currentUser.nip).trim();
+    return (e.nama||'').trim().toLowerCase() === (currentUser.name||'').trim().toLowerCase();
+  }
+  function visibleEntries(){
+    return (currentUser && currentUser.role === 'pemohon') ? entries.filter(isOwnEntry) : entries;
+  }
+
+  // Hasil Pemeriksaan hanya boleh DILIHAT oleh Admin & Kasub BMN.
+  // Vendor tetap dapat mengakses field-nya di modal karena dialah yang mengisi.
+  function canViewHasil(){
+    return currentUser && (currentUser.role === 'admin' || currentUser.role === 'kasub_bmn');
+  }
+
+  function statusText(status, e){
+    if(status === 'selesai'){
+      const lateness = e ? getLateness(e) : null;
+      if(lateness === 'late1_3') return 'Selesai - Terlambat 1-3 Hari';
+      if(lateness === 'late_gt3') return 'Selesai - Terlambat >3 Hari';
+      return 'Selesai - Tepat Waktu';
+    }
+    const map = { baru:'Baru', disetujui:'Disetujui', proses:'Proses', telat:'Lewat Estimasi', ditolak:'Ditolak' };
+    return map[status] || status;
+  }
+
+  function printRecap(){
+    const list = getFilteredEntries();
+    if(list.length === 0){ alert('Tidak ada data untuk dicetak sesuai pencarian/filter saat ini.'); return; }
+
+    const rows = list.map((e,i)=>{
+      const status = getStatus(e);
+      return '<tr>'
+        + '<td>'+(i+1)+'</td>'
+        + '<td>'+escapeHtml(e.nama)+'</td>'
+        + '<td>'+escapeHtml(e.nip||'-')+'</td>'
+        + '<td>'+escapeHtml(e.eselonII||'-')+'</td>'
+        + '<td>'+escapeHtml(e.jabatan||'-')+'</td>'
+        + '<td>'+escapeHtml(e.nup)+'</td>'
+        + '<td>'+escapeHtml(e.jenis||'-')+'</td>'
+        + '<td>'+escapeHtml(e.kendala||'-')+'</td>'
+        + '<td>'+(e.tglPermohonan?fmtDate(e.tglPermohonan):'-')+'</td>'
+        + '<td>'+(e.tglPersetujuan?(fmtDate(e.tglPersetujuan)+(e.approvedBy?(' ('+escapeHtml(e.approvedBy)+')'):'')):'-')+'</td>'
+        + '<td>'+(e.tglProses?fmtDate(e.tglProses):'-')+'</td>'
+        + '<td>'+(e.tglPemeriksaan?fmtDate(e.tglPemeriksaan):'-')+'</td>'
+        + '<td>'+(canViewHasil() ? escapeHtml(e.hasilPemeriksaan||'-') : (e.hasilPemeriksaan ? '(terbatas)' : '-'))+'</td>'
+        + '<td>'+(e.estimasi?fmtDate(e.estimasi):'-')+'</td>'
+        + '<td>'+(e.tglSelesaiPekerjaan?fmtDate(e.tglSelesaiPekerjaan):'-')+'</td>'
+        + '<td>'+escapeHtml(e.catatanSelesai||'-')+'</td>'
+        + '<td>'+statusText(status, e)+'</td>'
+        + '</tr>';
+    }).join('');
+
+    let printArea = document.getElementById('bst-print-area');
+    if(!printArea){
+      printArea = document.createElement('div');
+      printArea.id = 'bst-print-area';
+      document.body.appendChild(printArea);
+    }
+    printArea.innerHTML = '<div class="print-head">'
+      + '<h1>Rekapitulasi Layanan Servis BMN &mdash; Peralatan &amp; Mesin</h1>'
+      + '<div class="print-meta">Dicetak oleh: '+escapeHtml(currentUser.name)+' ('+ROLE_LABEL[currentUser.role]+') &middot; '+new Date().toLocaleString('id-ID')+' &middot; Total: '+list.length+' permohonan'+(currentUser.role === 'pemohon' ? ' (hanya permohonan Anda)' : '')+'</div>'
+      + '</div>'
+      + '<table class="print-table"><thead><tr>'
+        + '<th>No</th><th>Nama Pemohon</th><th>NIP</th><th>Eselon II</th><th>Jabatan</th><th>NUP</th><th>Jenis Peralatan &amp; Mesin</th><th>Kendala</th>'
+        + '<th>Tgl Permohonan</th><th>Tgl Persetujuan Kasub BMN</th><th>Tgl Proses</th><th>Tgl Pemeriksaan</th>'
+        + '<th>Hasil Pemeriksaan</th><th>Estimasi Selesai</th><th>Tgl Selesai Pekerjaan</th><th>Catatan Kasub BMN</th><th>Status</th>'
+      + '</tr></thead><tbody>'+rows+'</tbody></table>';
+
+    setTimeout(()=> window.print(), 80);
+  }
+
+  function renderDashboard(){
+    const bodyEl = document.getElementById('bst-body');
+    const countPill = document.getElementById('bst-count-pill');
+    if(!bodyEl) return;
+
+    const filtered = getFilteredEntries();
+
+    if(countPill) countPill.textContent = visibleEntries().length + (currentUser.role === 'pemohon' ? ' permohonan Anda' : ' permohonan');
+
+    if(filtered.length === 0){
+      const emptyTitle = (currentUser.role === 'pemohon' && visibleEntries().length === 0)
+        ? 'Anda belum pernah mengajukan permohonan servis'
+        : 'Belum ada permohonan yang cocok';
+      bodyEl.innerHTML = '<div class="bst-empty"><div class="empty-icon">&#128203;</div><div class="disp" style="font-size:16px;margin-bottom:6px;">'+emptyTitle+'</div>'
+        + ((currentUser.role === 'pemohon' || currentUser.role === 'admin') ? 'Klik "+ Permohonan Baru" untuk mulai mencatat, atau ubah pencarian/filter.' : 'Coba ubah kata kunci pencarian atau filter status.')
+        + '</div>';
+      return;
+    }
+
+    bodyEl.innerHTML = filtered.map(e => renderTicket(e)).join('');
+    filtered.forEach(e=>{
+      const openBtn = document.getElementById('open-'+e.id);
+      const delBtn = document.getElementById('del-'+e.id);
+      if(openBtn) openBtn.addEventListener('click', ()=> openDetailModal(e.id));
+      if(delBtn) delBtn.addEventListener('click', ()=> deleteEntry(e.id));
+    });
+  }
+
+  function renderTicket(e){
+    const status = getStatus(e);
+    const statusCls = statusCssClass(status, e);
+    const doneCount = STEPS.filter(s=>e[s.key]).length;
+    const stepsHtml = STEPS.map((s, idx)=>{
+      const val = e[s.key];
+      let cls = '';
+      if(val) cls = 'done'; else if(idx === doneCount) cls = 'current';
+      const nodeIcon = val ? '&#10003;' : s.icon;
+      return '<div class="step '+cls+'"><div class="node"><span class="node-icon">'+nodeIcon+'</span></div><div class="lbl">'+s.label+'</div>'
+        + (val ? '<div class="dt">'+fmtDate(val)+'</div>' : '') + '</div>';
+    }).join('');
+
+    const overdue = e.estimasi && !e.tglSelesaiPekerjaan && e.estimasi < todayISO();
+    const canDelete = (currentUser.role === 'pemohon' && !e.tglPersetujuan) || currentUser.role === 'admin';
+
+    return '<div class="ticket '+statusCls+'">'
+      + '<div class="ticket-top">'
+        + '<div>'
+          + '<div class="ticket-name">'+escapeHtml(e.nama||'(tanpa nama)')+'</div>'
+          + '<div class="ticket-jenis">'+escapeHtml(e.jenis||'-')+'</div>'
+          + (e.kendala ? '<div class="ticket-kendala">Kendala: '+escapeHtml(e.kendala)+'</div>' : '')
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:10px;">'
+          + statusBadge(status, e)
+          + '<div class="ticket-actions">'
+            + '<button class="icon-btn" id="open-'+e.id+'" title="Lihat / Ubah">&#128065;</button>'
+            + (canDelete ? '<button class="icon-btn danger" id="del-'+e.id+'" title="Hapus">&#128465;</button>' : '')
+          + '</div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="stepper">'+stepsHtml+'</div>'
+      + (canViewHasil() && e.hasilPemeriksaan ? '<div class="hasil-preview"><b>Hasil Pemeriksaan</b>'+escapeHtml(e.hasilPemeriksaan)+'</div>' : '')
+      + (e.catatanSelesai ? '<div class="hasil-preview catatan-preview"><b>Catatan Kasub BMN</b>'+escapeHtml(e.catatanSelesai)+'</div>' : '')
+      + '<div class="ticket-foot">'
+        + '<span>NUP: <span class="nup">'+escapeHtml(e.nup||'-')+'</span> &middot; NIP: <span class="nup">'+escapeHtml(e.nip||'-')+'</span></span>'
+        + '<span class="estimasi '+(overdue?'overdue':'')+'">Estimasi selesai: '+(e.estimasi ? fmtDate(e.estimasi) : '-')+(overdue ? ' (lewat)' : '')+'</span>'
+      + '</div>'
+    + '</div>';
+  }
+
+  /* ============ CREATE MODAL (pemohon & admin) ============ */
+  function openCreateModal(){
+    const isPemohon = currentUser.role === 'pemohon';
+    const overlay = document.createElement('div');
+    overlay.className = 'bst-overlay';
+    overlay.id = 'bst-overlay';
+    overlay.innerHTML = `
+      <div class="bst-modal">
+        <div class="bst-modal-head">
+          <div class="disp">Permohonan Servis Baru</div>
+          <button class="close-x" id="bst-close">&times;</button>
+        </div>
+        <div class="bst-modal-body">
+          ${isPemohon ? `
+          <div class="note">Diajukan sebagai: <b>${escapeHtml(currentUser.name)}</b> (NIP ${escapeHtml(currentUser.nip||'-')})<br>${escapeHtml(currentUser.eselonII||'-')} &middot; ${escapeHtml(currentUser.jabatan||'-')}</div>
+          ` : `
+          <div class="field-row">
+            <div class="field"><label>Nama Pemohon <span class="req">*</span></label>
+              <input type="text" id="f-nama" placeholder="Nama lengkap pemohon"></div>
+            <div class="field"><label>NIP <span class="req">*</span></label>
+              <input type="text" id="f-nip" placeholder="NIP"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Eselon II <span class="req">*</span></label>
+              <input type="text" id="f-eselon2" placeholder="Eselon II"></div>
+            <div class="field"><label>Jabatan</label>
+              <input type="text" id="f-jabatan" placeholder="Jabatan"></div>
+          </div>
+          `}
+          <div class="field-row">
+            <div class="field"><label>NUP <span class="req">*</span></label>
+              <input type="text" id="f-nup" placeholder="Nomor Urut Pendaftaran"></div>
+            <div class="field"><label>Jenis Peralatan &amp; Mesin <span class="req">*</span></label>
+              <select id="f-jenis">
+                <option value="">-- Pilih Jenis --</option>
+                ${JENIS_OPTIONS.map(j=> `<option value="${escapeAttr(j)}">${escapeHtml(j)}</option>`).join('')}
+              </select></div>
+          </div>
+          <div class="field"><label>Kendala / Keluhan dari Pemohon</label>
+            <textarea id="f-kendala" placeholder="Jelaskan kendala atau kerusakan yang dialami"></textarea></div>
+          <div class="field"><label>Foto Barang yang Diajukan <span class="req">*</span></label>
+            <input type="file" id="f-foto" accept="image/jpeg,image/png,image/webp" capture="environment">
+            <div class="field-hint">JPEG/PNG, maks 2 MB &mdash; foto akan dikompresi otomatis. Di ponsel dapat langsung memotret.</div>
+            <div id="f-foto-preview"></div></div>
+          <div class="field"><label>Tanggal Permohonan</label>
+            <input type="date" id="f-tglPermohonan" value="${todayISO()}"></div>
+          <div class="note">Setelah diajukan, permohonan menunggu persetujuan Kasub BMN sebelum dapat diproses vendor.</div>
+        </div>
+        <div class="bst-modal-foot">
+          <button class="btn btn-ghost" id="bst-cancel" style="color:var(--ink);border-color:var(--line);">Batal</button>
+          <button class="btn btn-primary" id="bst-save">Ajukan Permohonan</button>
+        </div>
+      </div>`;
+    root.appendChild(overlay);
+    pendingFotoData = null;
+    wireFotoInput('f-foto', 'f-foto-preview', d=>{ pendingFotoData = d; });
+    document.getElementById('bst-close').addEventListener('click', closeModal);
+    document.getElementById('bst-cancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', ev=>{ if(ev.target === overlay) closeModal(); });
+    document.getElementById('bst-save').addEventListener('click', submitCreate);
+  }
+
+  async function submitCreate(){
+    const isPemohon = currentUser.role === 'pemohon';
+    let nama, nip, eselonII, jabatan;
+    if(isPemohon){
+      nama = currentUser.name; nip = currentUser.nip; eselonII = currentUser.eselonII; jabatan = currentUser.jabatan;
+    } else {
+      nama = document.getElementById('f-nama').value.trim();
+      nip = document.getElementById('f-nip').value.trim();
+      eselonII = document.getElementById('f-eselon2').value.trim();
+      jabatan = document.getElementById('f-jabatan').value.trim();
+      if(!nama || !nip || !eselonII){ alert('Nama, NIP, dan Eselon II wajib diisi.'); return; }
+    }
+    const nup = document.getElementById('f-nup').value.trim();
+    const jenis = document.getElementById('f-jenis').value;
+    const tglPermohonan = document.getElementById('f-tglPermohonan').value;
+    if(!nup){ alert('NUP wajib diisi.'); return; }
+    if(!jenis){ alert('Pilih Jenis Peralatan & Mesin.'); return; }
+    if(!pendingFotoData){ alert('Foto barang wajib dilampirkan (JPEG/PNG).'); return; }
+    if(!tglPermohonan){ alert('Tanggal Permohonan wajib diisi.'); return; }
+
+    const entryData = {
+      nama, nip, eselonII, jabatan, nup,
+      jenis,
+      fotoBarang: pendingFotoData,
+      kendala: document.getElementById('f-kendala').value.trim(),
+      tglPermohonan,
+      tglPersetujuan: null, approvedBy: null, persetujuanStatus: null,
+      tglPenolakan: null, ditolakOleh: null, alasanPenolakan: null,
+      tglProses: null,
+      tglPemeriksaan: null, hasilPemeriksaan: '',
+      estimasi: null,
+      tglSelesaiPekerjaan: null,
+      catatanSelesai: '',
+      createdBy: currentUser.name, createdByRole: currentUser.role,
+      createdAt: new Date().toISOString(),
+    };
+    closeModal();
+    await createEntryRemote(entryData); // tampilan akan otomatis diperbarui oleh listener realtime
+  }
+
+  /* ============ DETAIL / EDIT MODAL (semua peran, dibatasi per bagian) ============ */
+  function openDetailModal(id){
+    const e = entries.find(x=>x.id===id);
+    if(!e) return;
+    if(currentUser.role === 'pemohon' && !isOwnEntry(e)){ alert('Anda hanya dapat melihat permohonan Anda sendiri.'); return; }
+
+    function inputField(labelText, fieldKey, type, opts){
+      opts = opts || {};
+      const editable = canEdit(fieldKey, e);
+      const isLockedToday = !!(opts.lockToRole && editable && currentUser.role === opts.lockToRole);
+      let hint = fieldHint(fieldKey, e);
+      let val = e[fieldKey] || '';
+      if(isLockedToday){
+        val = todayISO();
+        hint = 'Otomatis terkunci ke tanggal hari ini (' + fmtDate(val) + ') &mdash; tidak dapat dimundurkan atau dimajukan.';
+      }
+      const inputAttrs = !editable ? 'disabled' : (isLockedToday ? 'readonly' : '');
+      let tag;
+      if(type === 'select'){
+        const opts_ = (opts.options || []).slice();
+        if(val && !opts_.includes(val)) opts_.unshift(val); // nilai lama (di luar daftar baku) tetap tampil
+        tag = `<select id="fe-${fieldKey}" ${!editable ? 'disabled' : ''}>
+            <option value="">-- Pilih --</option>
+            ${opts_.map(o=> `<option value="${escapeAttr(o)}" ${o===val?'selected':''}>${escapeHtml(o)}</option>`).join('')}
+          </select>`;
+      } else if(type === 'textarea'){
+        tag = `<textarea id="fe-${fieldKey}" ${inputAttrs} placeholder="${opts.placeholder||''}">${escapeHtml(val)}</textarea>`;
+      } else {
+        tag = `<input type="${type}" id="fe-${fieldKey}" value="${escapeAttr(val)}" ${inputAttrs}>`;
+      }
+      return `<div class="field" data-editable="${editable}">
+          <label>${labelText}</label>
+          ${tag}
+          ${hint ? `<div class="field-hint ${editable?'':'locked'}">${hint}</div>` : ''}
+        </div>`;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'bst-overlay';
+    overlay.id = 'bst-overlay';
+    overlay.innerHTML = `
+      <div class="bst-modal">
+        <div class="bst-modal-head">
+          <div class="disp">${escapeHtml(e.nama)} &mdash; NUP ${escapeHtml(e.nup)}</div>
+          <button class="close-x" id="bst-close">&times;</button>
+        </div>
+        <div class="bst-modal-body">
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">1. Data Permohonan</span><span class="who">Pemohon</span></div>
+            <div class="section-body">
+              <div class="field-row">
+                ${inputField('Nama Pemohon','nama','text')}
+                ${inputField('NIP','nip','text')}
+              </div>
+              <div class="field-row">
+                ${inputField('Eselon II','eselonII','text')}
+                ${inputField('Jabatan','jabatan','text')}
+              </div>
+              <div class="field-row">
+                ${inputField('NUP','nup','text')}
+                ${inputField('Jenis Peralatan &amp; Mesin','jenis','select',{options:JENIS_OPTIONS})}
+              </div>
+              ${inputField('Kendala / Keluhan dari Pemohon','kendala','textarea')}
+              <div class="field"><label>Foto Barang</label>
+                ${e.fotoBarang
+                  ? `<img class="foto-thumb" id="fe-foto-view" src="${e.fotoBarang}" alt="Foto barang" title="Klik untuk memperbesar">`
+                  : `<div class="field-hint">Tidak ada foto (permohonan dibuat sebelum lampiran foto diwajibkan).</div>`}
+                ${canEdit('fotoBarang', e)
+                  ? `<input type="file" id="fe-foto" accept="image/jpeg,image/png,image/webp" capture="environment" style="margin-top:8px;">
+                     <div class="field-hint">${e.fotoBarang ? 'Pilih file baru untuk mengganti foto.' : 'Lampirkan foto barang (JPEG/PNG).'}</div>
+                     <div id="fe-foto-preview"></div>`
+                  : `<div class="field-hint">${e.tglPersetujuan ? 'Terkunci setelah persetujuan.' : 'Hanya dapat diubah oleh Pemohon atau Admin.'}</div>`}
+              </div>
+              ${inputField('Tanggal Permohonan','tglPermohonan','date')}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">2. Persetujuan Kasub BMN</span><span class="who">Kasub BMN</span></div>
+            <div class="section-body">
+              ${renderPersetujuanSection(e)}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">3. Proses Permohonan</span><span class="who">Monitor</span></div>
+            <div class="section-body">
+              ${inputField('Tanggal Proses Permohonan','tglProses','date',{lockToRole:'monitor'})}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">4. Pemeriksaan</span><span class="who">Vendor</span></div>
+            <div class="section-body">
+              ${inputField('Tanggal Pemeriksaan','tglPemeriksaan','date')}
+              ${(canViewHasil() || currentUser.role === 'vendor')
+                ? inputField('Hasil Pemeriksaan','hasilPemeriksaan','textarea',{placeholder:'Diagnosis / temuan kerusakan / tindakan yang diperlukan'})
+                : `<div class="field">
+                    <label>Hasil Pemeriksaan</label>
+                    <div class="note">${e.hasilPemeriksaan ? 'Sudah diisi oleh Vendor.' : 'Belum diisi.'} Isi hasil pemeriksaan hanya dapat dilihat oleh Admin dan Kasub BMN.</div>
+                  </div>`}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">5. Estimasi Penyelesaian</span><span class="who">Vendor</span></div>
+            <div class="section-body">
+              ${inputField('Estimasi Penyelesaian Pekerjaan','estimasi','date')}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head"><span class="st">6. Selesai Pekerjaan</span><span class="who">Kasub BMN</span></div>
+            <div class="section-body">
+              ${inputField('Tanggal Selesai Pekerjaan','tglSelesaiPekerjaan','date')}
+              ${inputField('Catatan Kasub BMN','catatanSelesai','textarea',{placeholder:'Catatan penyelesaian, kualitas hasil pekerjaan, atau hal yang perlu ditindaklanjuti (opsional)'})}
+            </div>
+          </div>
+
+          ${currentUser.role === 'monitor' ? '<div class="note">Sebagai Monitor, Anda dapat mengisi Tanggal Proses Permohonan (setelah Kasub BMN menyetujui). Field lain hanya untuk dilihat.</div>' : ''}
+          ${currentUser.role === 'kasub_bmn' ? '<div class="note">Sebagai Kasub BMN, Anda memberikan keputusan Persetujuan (tahap 2) dan mengisi Tanggal Selesai Pekerjaan (tahap 6, setelah Tanggal Pemeriksaan &amp; Hasil Pemeriksaan diisi Vendor). Field lain hanya untuk dilihat.</div>' : ''}
+        </div>
+        <div class="bst-modal-foot">
+          <button class="btn btn-ghost" id="bst-cancel" style="color:var(--ink);border-color:var(--line);">Batal</button>
+          <button class="btn btn-primary" id="bst-save">Simpan Perubahan</button>
+        </div>
+      </div>`;
+    root.appendChild(overlay);
+    document.getElementById('bst-close').addEventListener('click', closeModal);
+    document.getElementById('bst-cancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', ev=>{ if(ev.target === overlay) closeModal(); });
+    document.getElementById('bst-save').addEventListener('click', ()=> submitEdit(id));
+    pendingEditFotoData = null;
+    wireFotoInput('fe-foto', 'fe-foto-preview', d=>{ pendingEditFotoData = d; });
+    const fotoView = document.getElementById('fe-foto-view');
+    if(fotoView) fotoView.addEventListener('click', ()=> showFotoLightbox(e.fotoBarang));
+    const setujuBtn = document.getElementById('btn-setuju');
+    const tolakBtn = document.getElementById('btn-tolak');
+    const resetBtn = document.getElementById('btn-reset-persetujuan');
+    if(setujuBtn) setujuBtn.addEventListener('click', ()=> decidePersetujuan(id, true));
+    if(tolakBtn) tolakBtn.addEventListener('click', ()=> decidePersetujuan(id, false));
+    if(resetBtn) resetBtn.addEventListener('click', ()=> resetPersetujuan(id));
+  }
+
+  async function submitEdit(id){
+    const e = entries.find(x=>x.id===id);
+    if(!e) return;
+    if(currentUser.role === 'pemohon' && !isOwnEntry(e)){ alert('Anda hanya dapat mengubah permohonan Anda sendiri.'); return; }
+
+    const editableFields = Array.from(document.querySelectorAll('#bst-overlay .field[data-editable="true"]'));
+    if(editableFields.length === 0 && !pendingEditFotoData){ closeModal(); return; }
+
+    const patch = {};
+    editableFields.forEach(fieldDiv=>{
+      const input = fieldDiv.querySelector('input, textarea, select');
+      if(!input) return;
+      const key = input.id.replace('fe-','');
+      patch[key] = input.value.trim();
+    });
+    if(pendingEditFotoData && canEdit('fotoBarang', e)){ patch.fotoBarang = pendingEditFotoData; }
+
+    // Kunci keras: Tanggal Persetujuan Kasub BMN & Tanggal Proses Permohonan (Vendor)
+    // selalu memakai tanggal hari ini, apa pun nilai yang ada di input (jaga-jaga dari
+    // manipulasi nilai lewat DevTools browser).
+    if('tglPersetujuan' in patch && currentUser.role === 'kasub_bmn'){ patch.tglPersetujuan = todayISO(); }
+    if('tglProses' in patch && currentUser.role === 'vendor'){ patch.tglProses = todayISO(); }
+
+    if('nama' in patch && !patch.nama){ alert('Nama Pemohon tidak boleh kosong.'); return; }
+    if('nip' in patch && !patch.nip){ alert('NIP tidak boleh kosong.'); return; }
+    if('eselonII' in patch && !patch.eselonII){ alert('Eselon II tidak boleh kosong.'); return; }
+    if('nup' in patch && !patch.nup){ alert('NUP tidak boleh kosong.'); return; }
+    if('tglPermohonan' in patch && !patch.tglPermohonan){ alert('Tanggal Permohonan tidak boleh kosong.'); return; }
+
+    const chronoChecks = [
+      ['tglPersetujuan','tglPermohonan','Tanggal Persetujuan Kasub BMN tidak boleh sebelum Tanggal Permohonan.'],
+      ['tglProses','tglPersetujuan','Tanggal Proses Permohonan tidak boleh sebelum Tanggal Persetujuan Kasub BMN.'],
+      ['tglPemeriksaan','tglProses','Tanggal Pemeriksaan tidak boleh sebelum Tanggal Proses Permohonan.'],
+      ['tglSelesaiPekerjaan','tglPemeriksaan','Tanggal Selesai Pekerjaan tidak boleh sebelum Tanggal Pemeriksaan.'],
+    ];
+    for(const [curKey, prevKey, msg] of chronoChecks){
+      const curVal = patch[curKey] !== undefined ? patch[curKey] : e[curKey];
+      const prevVal = patch[prevKey] !== undefined ? patch[prevKey] : e[prevKey];
+      if(curVal && prevVal && curVal < prevVal){ alert(msg); return; }
+    }
+
+    for(const key of Object.keys(patch)){
+      if(!canEdit(key, e)){
+        alert('Anda tidak memiliki izin untuk mengubah field ini pada tahap ini.');
+        return;
+      }
+    }
+
+    if('tglPersetujuan' in patch && patch.tglPersetujuan){
+      patch.approvedBy = currentUser.name;
+    }
+
+    patch.lastEditedBy = currentUser.name;
+    patch.lastEditedAt = new Date().toISOString();
+
+    closeModal();
+    await updateEntryRemote(id, patch);
+  }
+
+  async function deleteEntry(id){
+    const e = entries.find(x=>x.id===id);
+    if(!e) return;
+    if(currentUser.role === 'pemohon' && !isOwnEntry(e)){ alert('Anda hanya dapat menghapus permohonan Anda sendiri.'); return; }
+
+    if(e.tglPersetujuan && currentUser.role !== 'admin'){
+      alert('Permohonan ini sudah disetujui oleh Kasub BMN ('+(e.approvedBy?escapeHtml(e.approvedBy):'-')+' pada '+fmtDate(e.tglPersetujuan)+') sehingga tidak dapat dihapus.');
+      return;
+    }
+
+    const confirmMsg = (currentUser.role === 'admin' && e.tglPersetujuan)
+      ? 'PERINGATAN: permohonan ini sudah disetujui Kasub BMN dan mungkin sedang/sudah diproses. Menghapus akan menghilangkan seluruh riwayat proses secara permanen. Lanjutkan sebagai Admin?'
+      : 'Hapus permohonan ini? Tindakan ini tidak dapat dibatalkan.';
+    if(!confirm(confirmMsg)) return;
+    await deleteEntryRemote(id);
+  }
+
+  function closeModal(){
+    const overlay = document.getElementById('bst-overlay');
+    if(overlay) overlay.remove();
+    pendingFotoData = null;
+    pendingEditFotoData = null;
+  }
+
+  window.bstBoot = function(){ renderChoose(); }; // fallback awal sebelum status auth pertama diketahui
+  window.bstBoot();
+})();
+
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, getDoc, setDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+  const secondaryAuth = getAuth(secondaryApp);
+
+  const ENTRIES_COLLECTION = 'bmn_permohonan';
+  const USERS_COLLECTION = 'bst_users';
+  const entriesCol = collection(db, ENTRIES_COLLECTION);
+  const usersCol = collection(db, USERS_COLLECTION);
+
+  window.bstFirestore = {
+    listenEntries(onData, onError){
+      return onSnapshot(entriesCol, (snap)=>{
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        onData(list);
+      }, onError);
+    },
+    async addEntry(data){ await addDoc(entriesCol, data); },
+    async updateEntry(id, patch){ await updateDoc(doc(db, ENTRIES_COLLECTION, id), patch); },
+    async deleteEntry(id){ await deleteDoc(doc(db, ENTRIES_COLLECTION, id)); },
+  };
+
+  window.bstAuth = {
+    async registerStaff(name, email, password, role){
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, USERS_COLLECTION, cred.user.uid), {
+        name, email, role, status: 'pending', createdAt: new Date().toISOString(),
+      });
+      return cred.user.uid;
+    },
+    async loginStaff(email, password){
+      return await signInWithEmailAndPassword(auth, email, password);
+    },
+    async logoutStaff(){
+      await signOut(auth);
+    },
+    async getUserProfile(uid){
+      const snap = await getDoc(doc(db, USERS_COLLECTION, uid));
+      return snap.exists() ? snap.data() : null;
+    },
+    listenUsers(onData, onError){
+      return onSnapshot(usersCol, (snap)=>{
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        onData(list);
+      }, onError);
+    },
+    async setUserStatus(uid, patch){
+      await updateDoc(doc(db, USERS_COLLECTION, uid), patch);
+    },
+    async deleteUserProfile(uid){
+      await deleteDoc(doc(db, USERS_COLLECTION, uid));
+    },
+    async adminCreateStaffAccount(name, email, password, role, adminName){
+      const cred = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+      const newUid = cred.user.uid;
+      await signOut(secondaryAuth);
+      await setDoc(doc(db, USERS_COLLECTION, newUid), {
+        name, email, role, status: 'approved',
+        createdAt: new Date().toISOString(),
+        approvedBy: adminName, approvedAt: new Date().toISOString(),
+        createdByAdmin: true,
+      });
+      return newUid;
+    },
+  };
+
+  onAuthStateChanged(auth, (fbUser)=>{
+    if(window.bstOnAuthChange){ window.bstOnAuthChange(fbUser); }
+  });
+</script>
+
 </body>
 </html>
