@@ -194,7 +194,17 @@
   </div>
 </noscript>
 
-<div id="root">
+<div id="authOverlay" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#52555b;padding:24px;text-align:center;">
+  <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 6px 18px rgba(161,98,7,0.25);">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9h18M3 9l2-5h14l2 5M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/>
+    </svg>
+  </div>
+  <div style="font-size:18px;font-weight:500;color:#1a1d21;margin-bottom:6px;letter-spacing:-0.01em;">Bappebti Performance Intelligence</div>
+  <div id="authOverlayMsg" style="font-size:13px;color:#8b8f96;">Memeriksa status autentikasi…</div>
+</div>
+
+<div id="root" style="display:none">
   <!-- Loading indicator yang muncul sebelum React/Babel selesai compile (~1-2 detik di koneksi normal) -->
   <div id="__boot_loader" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#52555b;padding:24px;text-align:center;">
     <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 6px 18px rgba(161,98,7,0.25);">
@@ -211,6 +221,51 @@
   </div>
   <style>@keyframes __boot_slide{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}</style>
 </div>
+
+<script type="module">
+  // ============================================================
+  //  Gerbang login — memverifikasi sesi Firebase & status approved
+  //  sebelum menampilkan dashboard. Tombol "Keluar" di header
+  //  memanggil window.bappebtiLogout() yang didefinisikan di sini.
+  // ============================================================
+  import { auth, onAuthStateChanged, signOut, getProfil } from './auth.js';
+
+  const overlay = document.getElementById('authOverlay');
+  const overlayMsg = document.getElementById('authOverlayMsg');
+  const rootEl = document.getElementById('root');
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    try {
+      const profil = await getProfil(user.uid);
+      if (!profil || profil.status !== 'approved') {
+        if (overlayMsg) overlayMsg.textContent = 'Akun belum disetujui admin. Mengalihkan ke halaman login…';
+        await signOut(auth);
+        setTimeout(()=>{ window.location.href = 'login.html?pending=1'; }, 1200);
+        return;
+      }
+      window.__BAPPEBTI_USER__ = {
+        email: user.email,
+        nama: profil.nama || user.displayName || user.email,
+        role: profil.role || 'user'
+      };
+    } catch (e) {
+      console.error('Auth check gagal:', e);
+      window.location.href = 'login.html';
+      return;
+    }
+    window.bappebtiLogout = async () => {
+      try { await signOut(auth); } catch (e) { console.error(e); }
+      window.location.href = 'login.html';
+    };
+    if (overlay) overlay.style.display = 'none';
+    if (rootEl) rootEl.style.display = '';
+    window.dispatchEvent(new CustomEvent('bappebti-auth-ready', { detail: window.__BAPPEBTI_USER__ }));
+  });
+</script>
 
 <script type="text/babel" data-presets="react">
 const { useState, useMemo, useEffect, useRef } = React;
@@ -1898,6 +1953,18 @@ SATU KALIMAT UNTUK PIMPINAN: pasar yang tersisa di tangan Bappebti tumbuh 47% se
 /* HEADER                                                                   */
 /* ======================================================================== */
 function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme}){
+  const [authUser, setAuthUser] = React.useState(()=> (typeof window!=="undefined" ? window.__BAPPEBTI_USER__ : null) || null);
+  React.useEffect(()=>{
+    const onReady = (e)=> setAuthUser(e.detail || (window.__BAPPEBTI_USER__||null));
+    window.addEventListener('bappebti-auth-ready', onReady);
+    if (window.__BAPPEBTI_USER__) setAuthUser(window.__BAPPEBTI_USER__);
+    return ()=> window.removeEventListener('bappebti-auth-ready', onReady);
+  },[]);
+  const handleLogout = ()=>{
+    if (!window.confirm('Keluar dari dashboard?')) return;
+    if (window.bappebtiLogout) window.bappebtiLogout();
+    else window.location.href = 'login.html';
+  };
   return (
     <header className="app-header border-b border-[var(--border)] backdrop-blur-md sticky top-0 z-20">
       <div className="max-w-[1400px] mx-auto px-8 py-5 flex items-end justify-between">
@@ -1946,6 +2013,15 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
           <button onClick={()=>exportMatrix(activeTab)} className="no-print px-3 py-1.5 rounded-md border border-[var(--gold-soft)] bg-[rgba(161,98,7,0.10)] hover:bg-[rgba(161,98,7,0.18)] text-[10px] mono uppercase tracking-wider text-[var(--gold)] transition">
             ▦ Ekspor Matriks
           </button>
+          {authUser && (
+            <div className="no-print flex items-center gap-2 pl-3 ml-1 border-l border-[var(--border)]">
+              <span className="text-[10px] mono text-[var(--text-3)] max-w-[140px] truncate" title={authUser.email}>{authUser.nama || authUser.email}</span>
+              <button onClick={handleLogout} title="Keluar dari akun"
+                className="w-8 h-8 flex items-center justify-center rounded-md border border-[var(--border-strong)] hover:border-[var(--red)] hover:bg-[rgba(220,38,38,0.08)] text-[var(--text-2)] hover:text-[var(--red)] transition">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>
