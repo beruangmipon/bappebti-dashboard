@@ -510,15 +510,15 @@ const RO = [
 /* Realisasi per RO s/d Mei 2026 (SAKTI — Laporan Ketersediaan Dana Detail).
    Nilai = realisasi rupiah. Serapan% dihitung terhadap pagu RO. */
 const REALISASI_RO = {
-  "RO-3759-1":142_675_000, "RO-3759-2":80_176_000, "RO-3759-3":52_456_746,
-  "RO-3760-ACD1":2_767_400, "RO-3760-ACD2":0, "RO-3760-AFA1":6_657_500, "RO-3760-BDB1":17_945_201,
-  "RO-3760-BMA1":290_000, "RO-3760-FAB1":0, "RO-3760-PBB2":5_149_000, "RO-3760-PEA1":13_261_238,
+  "RO-3759-1":155_275_000, "RO-3759-2":81_316_000, "RO-3759-3":52_796_746,
+  "RO-3760-ACD1":15_882_900, "RO-3760-ACD2":0, "RO-3760-AFA1":6_657_500, "RO-3760-BDB1":17_945_201,
+  "RO-3760-BMA1":290_000, "RO-3760-FAB1":0, "RO-3760-PBB2":10_808_000, "RO-3760-PEA1":13_261_238,
   "RO-3760-QDB1":1_450_000, "RO-3760-QDB2":0, "RO-3760-QDB3":0, "RO-3760-QDC1":14_225_000,
-  "RO-3760-QDC2":37_160_000, "RO-3760-QDC3":0, "RO-3760-UAB1":0, "RO-3760-UAB2":0,
-  "RO-3761-AAH1":58_597_100, "RO-3761-AAH2":4_579_780, "RO-3761-AEA1":1_722_800, "RO-3761-BBA1":95_559_630, "RO-3761-BCB1":19_435_200,
-  "RO-3762-ACB1":21_645_800, "RO-3762-ACD1":43_804_500, "RO-3762-ADI1":29_611_000, "RO-3762-BMA1":11_260_000,
-  "RO-3762-FAB1":7_760_000, "RO-3762-PBB1":35_305_430, "RO-3762-QDH1":41_732_600,
-  "RO-3758-CAN1":28_480_507, "RO-3758-EBA1":1_722_368_583, "RO-3758-EBA2":145_634_168,
+  "RO-3760-QDC2":37_160_000, "RO-3760-QDC3":7_036_500, "RO-3760-UAB1":0, "RO-3760-UAB2":0,
+  "RO-3761-AAH1":59_605_100, "RO-3761-AAH2":5_735_480, "RO-3761-AEA1":4_045_600, "RO-3761-BBA1":96_725_830, "RO-3761-BCB1":26_305_400,
+  "RO-3762-ACB1":23_545_800, "RO-3762-ACD1":45_399_500, "RO-3762-ADI1":29_611_000, "RO-3762-BMA1":12_040_000,
+  "RO-3762-FAB1":7_760_000, "RO-3762-PBB1":41_955_430, "RO-3762-QDH1":77_896_600,
+  "RO-3758-CAN1":47_481_507, "RO-3758-EBA1":2_039_723_403, "RO-3758-EBA2":186_933_168,
 };
 const getReal = (roId)=> REALISASI_RO[roId] ?? null;
 const serapanRO = (r)=>{ const v=getReal(r.id); return v==null||!r.anggaran ? null : Math.round(v/r.anggaran*100); };
@@ -1027,26 +1027,26 @@ const CAPAIAN_RO_TW2 = [
   {id:"RO-3758-EBAZ08",keg:"3758",uraian:"Layanan Organisasi dan Tata Kelola Internal",pagu:398370000,real:186933168,target:"1",sat:"Layanan",cap:"0",persen:50.15},
 ];
 const CAPAIAN_IKSS = [
-  { id:"ISP-1", realNow:"25% · agr. IKK", cap:[25,null,null,null] },
-  { id:"ISP-2", realNow:"17% · agr. IKK", cap:[17,null,null,null] },
-  { id:"ISP-3", realNow:"102% · agr. IKK", cap:[102,null,null,null] },
-  { id:"ISP-4", realNow:"blm diukur",    cap:[null,null,null,null] },
-  { id:"ISP-5", realNow:"blm diukur",    cap:[null,null,null,null] },
-  { id:"ISP-6", realNow:"38% · agr. IKK", cap:[38,null,null,null] },
+  { id:"ISP-1", realNow:"70,56% · Real 2,82% dari target 4%", cap:[25,70.56,null,null] },
+  { id:"ISP-2", realNow:"45,66% · Real 2,74% dari target 6%", cap:[17,45.66,null,null] },
+  { id:"ISP-3", realNow:"95,00% · Real 77,90% dari target 82%", cap:[102,95.00,null,null] },
+  { id:"ISP-4", realNow:"100,23% · Real 90,21 dari target 90", cap:[null,100.23,null,null] },
+  { id:"ISP-5", realNow:"100% · Real 69,79 dari target 69,79", cap:[null,100,null,null] },
+  { id:"ISP-6", realNow:"0% · belum dinilai (SAKIP dievaluasi tahunan)", cap:[38,0,null,null] },
   { id:"ISP-7", realNow:"blm diukur",    cap:[null,null,null,null] },
 ];
-/* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Mei 2026, ditaruh di slot Q2). */
+/* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Juni 2026 / Triwulan II, ditaruh di slot Q2). */
 const SERAPAN = [
-  { id:"K-3759", real:[null,80,null,null] },
-  { id:"K-3760", real:[null,22,null,null] },
-  { id:"K-3761", real:[null,73,null,null] },
-  { id:"K-3762", real:[null,41,null,null] },
-  { id:"K-3758", real:[null,38,null,null] },
+  { id:"K-3759", real:[null,84.0,null,null] },
+  { id:"K-3760", real:[null,27.7,null,null] },
+  { id:"K-3761", real:[null,78.3,null,null] },
+  { id:"K-3762", real:[null,51.0,null,null] },
+  { id:"K-3758", real:[null,45.8,null,null] },
 ];
-/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Mei 2026 = 40,83% (slot Q2). */
+/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Triwulan II 2026 = 37,85% (Rp3.118.867.903 dari pagu Rp8.239.547.000), slot Q2. */
 const KURVA_S = [
   { q:"Q1", rencana:22,  anggaran:19,   fisik:26 },
-  { q:"Q2", rencana:48,  anggaran:41,   fisik:45 },
+  { q:"Q2", rencana:48,  anggaran:37.85,fisik:53 },
   { q:"Q3", rencana:76,  anggaran:null, fisik:null },
   { q:"Q4", rencana:100, anggaran:null, fisik:null },
 ];
