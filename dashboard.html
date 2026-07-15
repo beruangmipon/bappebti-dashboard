@@ -255,7 +255,7 @@ const META = {
     sumber: "Permendag 34/2025 ttg Renstra Kemendag 2025-2029, Tabel II.2 hal. 110",
   },
   pnAlokasi: 318_000_000,   // Alokasi PN "Melanjutkan Hilirisasi" (Renja REKAP 2A)
-  realisasiPer: "Mei 2026", // periode data realisasi SAKTI
+  realisasiPer: "Juni 2026", // periode data realisasi SAKTI (cutoff s.d. akhir Juni; laporan ditarik 15 Juli 2026)
 };
 
 /* ===== SASARAN STRATEGIS KEMENTERIAN (LEVEL 1) — sumber Permendag 34/2025 hal. 110 Tabel II.2 =====
@@ -4896,7 +4896,7 @@ function Capaian(){
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Periode Realisasi</div>
           <div className="serif text-3xl mt-2">{META.realisasiPer}</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">sumber SAKTI</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">sumber SAKTI · update 15 Juli 2026</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian Fisik</div>
@@ -5083,8 +5083,8 @@ function Capaian(){
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian per Indikator Kinerja</div>
-            <div className="serif text-lg">Target tahunan vs capaian Triwulan I (TW I) 2026</div>
-            <div className="text-[10px] text-[var(--text-3)] mt-1">Nilai ISP merupakan agregat (rata-rata) capaian IKK Triwulan I yang terkait. Indikator survei/penilaian (ISP-4 &amp; ISP-5) belum diukur pada TW I (dijadwalkan TW II/III).</div>
+            <div className="serif text-lg">Target tahunan vs capaian Triwulan II (TW II) 2026</div>
+            <div className="text-[10px] text-[var(--text-3)] mt-1">Nilai ISP merupakan agregat capaian s.d. Triwulan II. ISP-4 (Indeks Kepuasan Layanan) &amp; ISP-5 (Indeks Integritas/SPI) kini sudah terukur; ISP-6 (Nilai SAKIP) belum dinilai karena dievaluasi tahunan pada akhir TA.</div>
           </div>
           <div className="flex items-center gap-3 text-[10px] mono text-[var(--text-3)]">
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{background:"#059669"}}></span>ON TRACK</span>
