@@ -194,17 +194,7 @@
   </div>
 </noscript>
 
-<div id="authOverlay" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#52555b;padding:24px;text-align:center;">
-  <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 6px 18px rgba(161,98,7,0.25);">
-    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 9h18M3 9l2-5h14l2 5M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/>
-    </svg>
-  </div>
-  <div style="font-size:18px;font-weight:500;color:#1a1d21;margin-bottom:6px;letter-spacing:-0.01em;">Bappebti Performance Intelligence</div>
-  <div id="authOverlayMsg" style="font-size:13px;color:#8b8f96;">Memeriksa status autentikasi…</div>
-</div>
-
-<div id="root" style="display:none">
+<div id="root">
   <!-- Loading indicator yang muncul sebelum React/Babel selesai compile (~1-2 detik di koneksi normal) -->
   <div id="__boot_loader" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#52555b;padding:24px;text-align:center;">
     <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#a16207 0%,#ca8a04 100%);display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 6px 18px rgba(161,98,7,0.25);">
@@ -221,51 +211,6 @@
   </div>
   <style>@keyframes __boot_slide{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}</style>
 </div>
-
-<script type="module">
-  // ============================================================
-  //  Gerbang login — memverifikasi sesi Firebase & status approved
-  //  sebelum menampilkan dashboard. Tombol "Keluar" di header
-  //  memanggil window.bappebtiLogout() yang didefinisikan di sini.
-  // ============================================================
-  import { auth, onAuthStateChanged, signOut, getProfil } from './auth.js';
-
-  const overlay = document.getElementById('authOverlay');
-  const overlayMsg = document.getElementById('authOverlayMsg');
-  const rootEl = document.getElementById('root');
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = 'login.html';
-      return;
-    }
-    try {
-      const profil = await getProfil(user.uid);
-      if (!profil || profil.status !== 'approved') {
-        if (overlayMsg) overlayMsg.textContent = 'Akun belum disetujui admin. Mengalihkan ke halaman login…';
-        await signOut(auth);
-        setTimeout(()=>{ window.location.href = 'login.html?pending=1'; }, 1200);
-        return;
-      }
-      window.__BAPPEBTI_USER__ = {
-        email: user.email,
-        nama: profil.nama || user.displayName || user.email,
-        role: profil.role || 'user'
-      };
-    } catch (e) {
-      console.error('Auth check gagal:', e);
-      window.location.href = 'login.html';
-      return;
-    }
-    window.bappebtiLogout = async () => {
-      try { await signOut(auth); } catch (e) { console.error(e); }
-      window.location.href = 'login.html';
-    };
-    if (overlay) overlay.style.display = 'none';
-    if (rootEl) rootEl.style.display = '';
-    window.dispatchEvent(new CustomEvent('bappebti-auth-ready', { detail: window.__BAPPEBTI_USER__ }));
-  });
-</script>
 
 <script type="text/babel" data-presets="react">
 const { useState, useMemo, useEffect, useRef } = React;
@@ -893,23 +838,23 @@ const RESI_GUDANG_TAHUNAN = [
   {th:"2022", rg:659,  vol:64441.0,  nilai:1244092409002, rgBiaya:525, nilaiBiaya:837385610958},
   {th:"2023", rg:484,  vol:61079.0,  nilai:945797109000,  rgBiaya:407, nilaiBiaya:631461482700},
   {th:"2024", rg:1052, vol:75542.6,  nilai:2867719709566, rgBiaya:968, nilaiBiaya:1913667307684},
-  {th:"2025", rg:532,  vol:92692.5,  nilai:1909312256300, rgBiaya:402, nilaiBiaya:961680835375, p:true},
-  {th:"2026", rg:144,  vol:3973.8,   nilai:137977767580,  rgBiaya:85,  nilaiBiaya:63732644600, p:true},
+  {th:"2025", rg:532,  vol:92692.5,  nilai:1909312256300, rgBiaya:400, nilaiBiaya:966067835375, p:true},
+  {th:"2026", rg:157,  vol:4261.4,   nilai:149397767580,  rgBiaya:97,  nilaiBiaya:69301644600, p:true},
 ];
-const RESI_GUDANG_TOTAL = {rg:7312, vol:432106.6, nilai:8543531015044, rgBiaya:5733, nilaiBiaya:5305907347508};
-const RESI_GUDANG_UPDATE = "22 Juni 2026";
+const RESI_GUDANG_TOTAL = {rg:7325, vol:432394.2, nilai:8554951015044, rgBiaya:5743, nilaiBiaya:5315863347508};
+const RESI_GUDANG_UPDATE = "9 Juli 2026";
 
 /* === Data penerbitan Resi Gudang (kumulatif 2008–2026) dari Laporan Rekap RG Bappebti. */
 /* Jumlah RG = jumlah resi unik (akurat). Nilai/volume/pembiayaan diselaraskan ke total resmi rekap tahunan. */
 const PENGELOLA_ISSUANCE = [{pg:"PT. Pertani (Persero)",rg:1454,nilai:338713150600,vol:68317,rgBiaya:1249,biaya:208366000200},{pg:"PT. Cipta Usaha Agro Niaga",rg:596,nilai:669615226780,vol:36676,rgBiaya:504,biaya:415656310000},{pg:"PT. Bhanda Ghara Reksa (Persero)",rg:533,nilai:483985920750,vol:5738,rgBiaya:336,biaya:353007558266},{pg:"Koperasi Niaga Mukti",rg:476,nilai:73032903300,vol:10382,rgBiaya:454,biaya:46504729266},{pg:"PT. BGR Logistik Indonesia",rg:435,nilai:1013894256676,vol:2184,rgBiaya:431,biaya:710570507684},{pg:"KSU Annisa",rg:317,nilai:46099952500,vol:6530,rgBiaya:304,biaya:29881770000},{pg:"PT. Pabrik Gula Candi Baru",rg:314,nilai:2464770500000,vol:183867,rgBiaya:296,biaya:1549769350000},{pg:"Koperasi Basunondo",rg:203,nilai:22556161100,vol:3045,rgBiaya:117,biaya:10310196300},{pg:"KSU Sarana Hidup Sejahtera",rg:196,nilai:58823527000,vol:7042,rgBiaya:167,biaya:32560200000},{pg:"PT. Thara Jaya Niaga",rg:192,nilai:1214772000000,vol:19246,rgBiaya:164,biaya:733631435000},{pg:"PT. Ketiara",rg:184,nilai:186793000000,vol:2359,rgBiaya:169,biaya:119228100000},{pg:"Koperasi Gunung Luhur Berkah",rg:163,nilai:127451440000,vol:3674,rgBiaya:122,biaya:61781105000},{pg:"PT Atma Mulya Jaya",rg:160,nilai:28430678580,vol:1372,rgBiaya:146,biaya:18215412814},{pg:"KUD Tuntung Pandang",rg:137,nilai:13432922500,vol:2072,rgBiaya:76,biaya:4707400000},{pg:"PT. Food Station Tjipinang Jaya",rg:116,nilai:56535877000,vol:7600,rgBiaya:59,biaya:21592518800},{pg:"PT. Pos Indonesia (Persero)",rg:110,nilai:10073769000,vol:2085,rgBiaya:79,biaya:5232525000},{pg:"PT Siriman Jaya Abadi",rg:108,nilai:264339000000,vol:244,rgBiaya:93,biaya:144421875000},{pg:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:100,nilai:298912426001,vol:503,rgBiaya:100,biaya:238725000000},{pg:"KSU Adi Luwung",rg:99,nilai:3825450000,vol:617,rgBiaya:15,biaya:931800000},{pg:"PT. Fiona Pusaka SRG",rg:93,nilai:66152000000,vol:6296,rgBiaya:89,biaya:42980000000},{pg:"PT. Wahana Pronatural",rg:92,nilai:163037670000,vol:6548,rgBiaya:65,biaya:61388323500},{pg:"PT. Pengayom Tani Sejagad",rg:92,nilai:68684691000,vol:7318,rgBiaya:89,biaya:45331200000},{pg:"KSU Item Reje Gayo",rg:76,nilai:46399707000,vol:435,rgBiaya:51,biaya:22543725000},{pg:"Kospermindo",rg:72,nilai:37502155000,vol:4104,rgBiaya:62,biaya:22813202300},{pg:"PT. Pabrik Gula Rajawali I",rg:71,nilai:237790000000,vol:17667,rgBiaya:45,biaya:146153000000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:68,nilai:49353911000,vol:784,rgBiaya:47,biaya:18741592375},{pg:"PT Sinergi Karya Nusa",rg:52,nilai:933646606,vol:189,rgBiaya:9,biaya:194000000},{pg:"Koperasi Kelompok Usaha Serba jadi",rg:42,nilai:1809147400,vol:329,rgBiaya:12,biaya:380577750},{pg:"PT Panca Pujangga Perkasa",rg:41,nilai:10244400000,vol:1164,rgBiaya:37,biaya:6896135000},{pg:"KUD Penerus Baru",rg:40,nilai:3276251500,vol:432,rgBiaya:2,biaya:460480000}];
-const PENERBITAN_PROV = [{key:"Jawa Barat",rg:2374,nilai:1209334027780,vol:67869.7},{key:"Jawa Timur",rg:1625,nilai:4010759987679,vol:279388},{key:"Kepulauan Bangka Belitung",rg:794,nilai:1767131298245,vol:3892.1},{key:"Jawa Tengah",rg:620,nilai:237068145195,vol:22959.5},{key:"Sulawesi Selatan",rg:590,nilai:637707223300,vol:29742.8},{key:"Kalimantan Selatan",rg:481,nilai:44852849566,vol:6693.4},{key:"Aceh",rg:349,nilai:294090850037,vol:4323.9},{key:"Lampung",rg:145,nilai:80813958086,vol:1793.4},{key:"Nusa Tenggara Barat",rg:103,nilai:57115064054,vol:4947.9},{key:"Banten",rg:78,nilai:142547165000,vol:7259.7},{key:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Sumatera Selatan",rg:15,nilai:4700555000,vol:266.5},{key:"Bali",rg:14,nilai:3795942000,vol:481.9},{key:"Jakarta",rg:9,nilai:2166600000,vol:273},{key:"Sumatera Barat",rg:8,nilai:231355800,vol:51.3},{key:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Sumatera Utara",rg:4,nilai:811534000,vol:65.9},{key:"Kalimantan Tengah",rg:3,nilai:328274000,vol:46},{key:"Kalimantan Barat",rg:3,nilai:104711000,vol:22.4},{key:"Sulawesi Tenggara",rg:3,nilai:164378800,vol:27.5},{key:"Sulawesi Tengah",rg:2,nilai:95774000,vol:12.2},{key:"Gorontalo",rg:2,nilai:17500000,vol:5},{key:"Maluku",rg:2,nilai:2400000,vol:0.2},{key:"Kepulauan Riau",rg:1,nilai:214630000,vol:16.5},{key:"Sulawesi Barat",rg:1,nilai:23000000,vol:5}];
+const PENERBITAN_PROV = [{key:"Jawa Barat",rg:2375,nilai:1210034027780,vol:67874.7},{key:"Jawa Timur",rg:1632,nilai:4017979987680,vol:279645.5},{key:"Kepulauan Bangka Belitung",rg:794,nilai:1767131298246,vol:3892.1},{key:"Jawa Tengah",rg:620,nilai:237068145196,vol:22959.5},{key:"Sulawesi Selatan",rg:590,nilai:637707223300,vol:29742.8},{key:"Kalimantan Selatan",rg:481,nilai:44852849566,vol:6693.4},{key:"Aceh",rg:354,nilai:297590850037,vol:4348.9},{key:"Lampung",rg:145,nilai:80813958086,vol:1793.4},{key:"Nusa Tenggara Barat",rg:103,nilai:57115064054,vol:4947.9},{key:"Banten",rg:78,nilai:142547165000,vol:7259.7},{key:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Sumatera Selatan",rg:15,nilai:4700555000,vol:266.5},{key:"Bali",rg:14,nilai:3795942000,vol:481.9},{key:"Jakarta",rg:9,nilai:2166600000,vol:273.0},{key:"Sumatera Barat",rg:8,nilai:231355800,vol:51.3},{key:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Sumatera Utara",rg:4,nilai:811534000,vol:65.9},{key:"Sulawesi Tenggara",rg:3,nilai:164378800,vol:27.5},{key:"Kalimantan Tengah",rg:3,nilai:328274000,vol:46.0},{key:"Kalimantan Barat",rg:3,nilai:104711000,vol:22.4},{key:"Sulawesi Tengah",rg:2,nilai:95774000,vol:12.2},{key:"Gorontalo",rg:2,nilai:17500000,vol:5.0},{key:"Maluku",rg:2,nilai:2400000,vol:0.2},{key:"Kepulauan Riau",rg:1,nilai:214630000,vol:16.5},{key:"Sulawesi Barat",rg:1,nilai:23000000,vol:5.0}];
 const PENERBITAN_KAB = [{key:"Subang",prov:"Jawa Barat",rg:754,nilai:954153835000,vol:32716},{key:"Pangkalpinang",prov:"Kepulauan Bangka Belitung",rg:720,nilai:1735018454926,vol:3618},{key:"Indramayu",prov:"Jawa Barat",rg:658,nilai:89662141300,vol:16209},{key:"Probolinggo",prov:"Jawa Timur",rg:583,nilai:437319880680,vol:46541},{key:"Cianjur",prov:"Jawa Barat",rg:582,nilai:88524690800,vol:12938},{key:"Barito Kuala",prov:"Kalimantan Selatan",rg:435,nilai:41249617100,vol:6208},{key:"Malang",prov:"Jawa Timur",rg:260,nilai:1944485405000,vol:144775},{key:"Grobogan",prov:"Jawa Tengah",rg:218,nilai:70653302000,vol:8843},{key:"Makassar",prov:"Sulawesi Selatan",rg:214,nilai:277889400000,vol:14100},{key:"Aceh Tengah",prov:"Aceh",rg:204,nilai:220677000000,vol:2934},{key:"Bekasi",prov:"Jawa Barat",rg:136,nilai:19322598080,vol:580},{key:"Tuban",prov:"Jawa Timur",rg:125,nilai:153013215000,vol:2634},{key:"Ngawi",prov:"Jawa Timur",rg:110,nilai:52732808500,vol:6532},{key:"Takalar",prov:"Sulawesi Selatan",rg:108,nilai:264339000000,vol:244},{key:"Bener Meriah",prov:"Aceh",rg:107,nilai:61964995787,vol:666},{key:"Tasikmalaya",prov:"Jawa Barat",rg:105,nilai:10261567400,vol:2124},{key:"Wonogiri",prov:"Jawa Tengah",rg:101,nilai:69369641000,vol:7453},{key:"Jombang",prov:"Jawa Timur",rg:97,nilai:440935000000,vol:6797},{key:"Pasuruan",prov:"Jawa Timur",rg:85,nilai:98789318000,vol:1485},{key:"Kebumen",prov:"Jawa Tengah",rg:84,nilai:1458498606,vol:275},{key:"Madiun",prov:"Jawa Timur",rg:83,nilai:543424550000,vol:39840},{key:"Lampung Selatan",prov:"Lampung",rg:78,nilai:3886605500,vol:771},{key:"Sidrap",prov:"Sulawesi Selatan",rg:77,nilai:42935117500,vol:8796},{key:"Sidoarjo",prov:"Jawa Timur",rg:75,nilai:244655380300,vol:18004},{key:"Banyuwangi",prov:"Jawa Timur",rg:62,nilai:17734242700,vol:3878}];
-const PENERBITAN_KOM = [{key:"Gabah",rg:3666,vol:118620,nilai:733947600738},{key:"Beras",rg:756,vol:58470,nilai:652948259000},{key:"Timah",rg:744,vol:3756,nilai:1772021703426},{key:"Kopi",rg:512,vol:8136,nilai:1415971768787},{key:"Gula Kristal Putih",rg:440,vol:205234,nilai:2741576500000},{key:"Tembakau",rg:276,vol:4395,nilai:365853625000},{key:"Rumput Laut",rg:268,vol:19824,nilai:416358305000},{key:"Ikan",rg:211,vol:2455,nilai:335632674600},{key:"Jagung",rg:165,vol:7773,nilai:28823039594},{key:"Ayam Karkas Beku",rg:145,vol:611,nilai:20230182080},{key:"Lada",rg:54,vol:174,nilai:9576690820},{key:"Bawang Merah",rg:19,vol:522,nilai:11696500000},{key:"Kedelai",rg:13,vol:334,nilai:3796620000},{key:"Garam",rg:10,vol:702,nilai:977498000},{key:"Rotan",rg:3,vol:31,nilai:264548000},{key:"Teh",rg:3,vol:40,nilai:710000000},{key:"Gambir",rg:1,vol:1,nilai:47000000},{key:"Kakao",rg:1,vol:3,nilai:78500000},{key:"Tapioka",rg:1,vol:540,nilai:2430000000}];
+const PENERBITAN_KOM = [{key:"Gabah",rg:3666,vol:118659.9,nilai:734305350738},{key:"Beras",rg:754,vol:58430.3,nilai:652590509000},{key:"Timah",rg:744,vol:3756.1,nilai:1772021703426},{key:"Kopi",rg:539,vol:8511.3,nilai:1449571768787},{key:"Gula",rg:413,vol:205434.0,nilai:2744476500000},{key:"Tembakau",rg:282,vol:4452.5,nilai:370173625000},{key:"Rumput Laut",rg:270,vol:19964.2,nilai:417548305000},{key:"Ikan",rg:209,vol:2455.4,nilai:335632674600},{key:"Jagung",rg:165,vol:7773.4,nilai:28823039594},{key:"Ayam Beku Karkas",rg:145,vol:610.7,nilai:20230182080},{key:"Lada",rg:54,vol:174.4,nilai:9576690820},{key:"Bawang Merah",rg:18,vol:521.5,nilai:11696500000},{key:"Kedelai",rg:13,vol:333.5,nilai:3796620000},{key:"Garam",rg:10,vol:701.7,nilai:977498000},{key:"Rotan",rg:3,vol:31.2,nilai:264548000},{key:"Teh",rg:3,vol:40.0,nilai:710000000},{key:"Kakao",rg:1,vol:3.1,nilai:78500000},{key:"Gambir",rg:1,vol:1.0,nilai:47000000},{key:"Tepung Tapioka",rg:1,vol:540.0,nilai:2430000000}];
 const PEMBIAYAAN_BANK = [{key:"PT KPBI Jakarta",rg:1112,biaya:2167472145225},{key:"Bank BJB",rg:2617,biaya:1764142996166},{key:"Bank Jatim",rg:451,biaya:766638657700},{key:"BRI",rg:537,biaya:310162688793},{key:"PKBL KBI",rg:200,biaya:62558627959},{key:"Bank Jateng",rg:269,biaya:61980149500},{key:"Bank BSI",rg:64,biaya:27948325000},{key:"PT Danareksa Capital",rg:25,biaya:20004250000},{key:"Bank Kalsel",rg:235,biaya:17105873250},{key:"Bank Aceh Syariah",rg:34,biaya:15307000000},{key:"Bank Sulselbar",rg:12,biaya:5195000000},{key:"LPDB KUKM",rg:15,biaya:4970637700},{key:"BSI",rg:9,biaya:4196000000},{key:"BLU LPMUKP",rg:9,biaya:2515573490},{key:"BNI",rg:4,biaya:2000000000}];
-const PEMBIAYAAN_TOTAL = {nilai:5305907347508, rgBiaya:5733, rgTotal:7312};
+const PEMBIAYAAN_TOTAL = {nilai:5315863347508, rgBiaya:5743, rgTotal:7325};
 /* Peringkat penerbitan Resi Gudang per pengelola PER TAHUN (sumber: Penerbitan Detail). Top 8 tiap tahun. */
 const PENGELOLA_BY_YEAR = {"2024":[{pg:"PT. BGR Logistik Indonesia",rg:400,nilai:950377698066,vol:2008,rgBiaya:396,biaya:659775507684},{pg:"PT. Cipta Usaha Agro Niaga",rg:243,nilai:311901601000,vol:14558,rgBiaya:235,biaya:210784000000},{pg:"PT. Pabrik Gula Candi Baru",rg:85,nilai:616250000000,vol:42500,rgBiaya:83,biaya:440800000000},{pg:"PT. Thara Jaya Niaga",rg:76,nilai:646120000000,vol:8763,rgBiaya:67,biaya:429450750000},{pg:"Koperasi Basunondo",rg:36,nilai:4864346500,vol:648,rgBiaya:20,biaya:2690500000},{pg:"KSU Item Reje Gayo",rg:35,nilai:21327147000,vol:223,rgBiaya:34,biaya:14467725000},{pg:"Koperasi Gunung Luhur Berkah",rg:27,nilai:39550000000,vol:530,rgBiaya:18,biaya:22085000000},{pg:"PT. Ketiara",rg:26,nilai:17900000000,vol:179,rgBiaya:22,biaya:10710000000}],"2025":[{pg:"PT. Cipta Usaha Agro Niaga",rg:210,nilai:172914730200,vol:7839,rgBiaya:156,biaya:96815000000},{pg:"PT. Pabrik Gula Candi Baru",rg:73,nilai:922200000000,vol:63600,rgBiaya:58,biaya:444570000000},{pg:"PT. Thara Jaya Niaga",rg:59,nilai:525313500000,vol:6570,rgBiaya:45,biaya:275470475000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:46,nilai:32722025000,vol:493,rgBiaya:38,biaya:15078660375},{pg:"Koperasi Gunung Luhur Berkah",rg:35,nilai:36380120000,vol:658,rgBiaya:21,biaya:8152500000},{pg:"PT. Fiona Pusaka SRG",rg:32,nilai:23040000000,vol:1920,rgBiaya:30,biaya:15000000000},{pg:"Koperasi Basunondo",rg:17,nilai:4226136100,vol:491,rgBiaya:10,biaya:2119000000},{pg:"PT. Pabrik Gula Rajawali I",rg:10,nilai:137750000000,vol:9500,rgBiaya:8,biaya:76125000000}],"2026":[{pg:"KSU Item Reje Gayo",rg:31,nilai:18400560000,vol:147,rgBiaya:8,biaya:3792000000},{pg:"PT. Cipta Usaha Agro Niaga",rg:28,nilai:27883744580,vol:1955,rgBiaya:9,biaya:4500000000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:20,nilai:15633800000,vol:257,rgBiaya:7,biaya:3003932000},{pg:"PT. Fiona Pusaka SRG",rg:11,nilai:7920000000,vol:660,rgBiaya:11,biaya:5500000000},{pg:"PT. Ketiara",rg:9,nilai:6100000000,vol:59,rgBiaya:7,biaya:3290000000},{pg:"Koperasi Produsen Sumatera Permata Gayo",rg:8,nilai:5500000000,vol:53,rgBiaya:3,biaya:1290000000},{pg:"Koperasi Gunung Luhur Berkah",rg:6,nilai:19500000000,vol:250,rgBiaya:6,biaya:13650000000},{pg:"PT Anugrah Pesona Mandiri",rg:3,nilai:2170900000,vol:26,rgBiaya:3,biaya:1445200000}]};
-const RG_CUTOFF_2026 = "22 Juni 2026";
+const RG_CUTOFF_2026 = "9 Juli 2026";
 const PENERBITAN_PROV_2025 = [{key:"Jawa Timur",rg:1603,nilai:3990715343100,vol:277607.5},{key:"Kepulauan Bangka Belitung",rg:794,nilai:1767131298246,vol:3892.1},{key:"Jawa Barat",rg:2346,nilai:1157032309780,vol:66609.0},{key:"Sulawesi Selatan",rg:587,nilai:636517223300,vol:29602.8},{key:"Aceh",rg:290,nilai:256390290037,vol:4010.3},{key:"Jawa Tengah",rg:643,nilai:253746515196,vol:23689.6},{key:"Banten",rg:80,nilai:143955165000,vol:7323.7},{key:"Lampung",rg:145,nilai:80813958086,vol:1793.4},{key:"Nusa Tenggara Barat",rg:89,nilai:47105064054,vol:4747.7},{key:"Kalimantan Selatan",rg:480,nilai:44807154566,vol:6686.4},{key:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Sumatera Selatan",rg:15,nilai:4700555000,vol:266.6},{key:"Bali",rg:14,nilai:3795942000,vol:481.9},{key:"Jakarta",rg:9,nilai:2166600000,vol:273.0},{key:"Sumatera Utara",rg:4,nilai:811534000,vol:65.9},{key:"Kalimantan Tengah",rg:3,nilai:328274000,vol:46.0},{key:"Sumatera Barat",rg:8,nilai:231355800,vol:51.3},{key:"Kepulauan Riau",rg:1,nilai:214630000,vol:16.5},{key:"Sulawesi Tenggara",rg:3,nilai:164378800,vol:27.5},{key:"Kalimantan Barat",rg:3,nilai:104711000,vol:22.4},{key:"Sulawesi Tengah",rg:2,nilai:95774000,vol:12.2},{key:"Sulawesi Barat",rg:1,nilai:23000000,vol:5.0},{key:"Gorontalo",rg:2,nilai:17500000,vol:5.0},{key:"Maluku",rg:2,nilai:2400000,vol:0.2}];
 const PENERBITAN_KAB_2025 = [{key:"Malang",prov:"Jawa Timur",rg:260,nilai:1944485405000,vol:144774.9},{key:"Pangkalpinang",prov:"Kepulauan Bangka Belitung",rg:720,nilai:1735018454926,vol:3617.7},{key:"Subang",prov:"Jawa Barat",rg:737,nilai:926733835000,vol:31806.2},{key:"Madiun",prov:"Jawa Timur",rg:83,nilai:543424550000,vol:39840.5},{key:"Jombang",prov:"Jawa Timur",rg:97,nilai:440935000000,vol:6796.9},{key:"Probolinggo",prov:"Jawa Timur",rg:566,nilai:417275236100,vol:44760.5},{key:"Makassar",prov:"Sulawesi Selatan",rg:214,nilai:277889400000,vol:14100.0},{key:"Takalar",prov:"Sulawesi Selatan",rg:108,nilai:264339000000,vol:243.9},{key:"Sidoarjo",prov:"Jawa Timur",rg:75,nilai:244655380300,vol:18003.9},{key:"Aceh Tengah",prov:"Aceh",rg:195,nilai:214577000000,vol:2874.9},{key:"Tuban",prov:"Jawa Timur",rg:125,nilai:153013215000,vol:2634.5},{key:"Tangerang",prov:"Banten",rg:30,nilai:132935425000,vol:5295.6},{key:"Pasuruan",prov:"Jawa Timur",rg:85,nilai:98789318000,vol:1484.7},{key:"Indramayu",prov:"Jawa Barat",rg:658,nilai:89662141300,vol:16209.5},{key:"Cianjur",prov:"Jawa Barat",rg:580,nilai:84739672800,vol:12867.2},{key:"Lampung",prov:"Lampung",rg:8,nilai:71421000000,vol:250.6},{key:"Grobogan",prov:"Jawa Tengah",rg:218,nilai:70653302000,vol:8843.0},{key:"Wonogiri",prov:"Jawa Tengah",rg:101,nilai:69369641000,vol:7452.9},{key:"Ngawi",prov:"Jawa Timur",rg:110,nilai:52732808500,vol:6532.3},{key:"Bondowoso",prov:"Jawa Timur",rg:10,nilai:45006200000,vol:3810.1},{key:"Sidrap",prov:"Sulawesi Selatan",rg:77,nilai:42935117500,vol:8796.2},{key:"Barito Kuala",prov:"Kalimantan Selatan",rg:434,nilai:41203922100,vol:6201.2},{key:"Tegal",prov:"Jawa Tengah",rg:25,nilai:38532866000,vol:1547.1},{key:"Bener Meriah",prov:"Aceh",rg:68,nilai:38064435787,vol:466.3},{key:"Temanggung",prov:"Jawa Tengah",rg:48,nilai:33720111000,vol:526.9},{key:"Lombok Timur",prov:"Nusa Tenggara Barat",rg:47,nilai:28280354054,vol:986.3},{key:"Bangka Barat",prov:"Kepulauan Bangka Belitung",rg:20,nilai:22536152500,vol:100.0},{key:"Gowa",prov:"Sulawesi Selatan",rg:33,nilai:20613245400,vol:1367.0},{key:"Bekasi",prov:"Jawa Barat",rg:136,nilai:19322598080,vol:580.3},{key:"Banyuwangi",prov:"Jawa Timur",rg:62,nilai:17734242700,vol:3878.1},{key:"Pinrang",prov:"Sulawesi Selatan",rg:28,nilai:14980687000,vol:3271.0},{key:"Lombok Barat",prov:"Nusa Tenggara Barat",rg:15,nilai:14291090000,vol:2598.4},{key:"Brebes",prov:"Jawa Tengah",rg:19,nilai:11696500000,vol:521.5},{key:"Mojokerto",prov:"Jawa Timur",rg:23,nilai:11508255000,vol:2382.0},{key:"Banjarnegara",prov:"Jawa Tengah",rg:12,nilai:11261250000,vol:1005.0},{key:"Blitar",prov:"Jawa Timur",rg:38,nilai:11147342000,vol:469.2},{key:"Wajo",prov:"Sulawesi Selatan",rg:12,nilai:10945000000,vol:980.0},{key:"Tasikmalaya",prov:"Jawa Barat",rg:105,nilai:10261567400,vol:2124.3},{key:"Karawang",prov:"Jawa Barat",rg:41,nilai:10244400000,vol:1163.9},{key:"Kepahiang",prov:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Purwakarta",prov:"Jawa Barat",rg:14,nilai:7944775000,vol:690.9},{key:"Nganjuk",prov:"Jawa Timur",rg:27,nilai:6548455000,vol:1352.8},{key:"Pandeglang",prov:"Banten",rg:42,nilai:5919740000,vol:1008.0},{key:"Bantul",prov:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Bangka Tengah",prov:"Kepulauan Bangka Belitung",rg:27,nilai:5615671420,vol:99.3},{key:"Lebak",prov:"Banten",rg:8,nilai:5100000000,vol:1020.0},{key:"Sumbawa",prov:"Nusa Tenggara Barat",rg:27,nilai:4533620000,vol:1163.0},{key:"Pringsewu",prov:"Lampung",rg:39,nilai:4327883000,vol:524.2},{key:"Bangka",prov:"Kepulauan Bangka Belitung",rg:27,nilai:3961019400,vol:75.1},{key:"Lampung Selatan",prov:"Lampung",rg:78,nilai:3886605500,vol:770.6},{key:"Pati",prov:"Jawa Tengah",rg:9,nilai:3834000000,vol:1010.0},{key:"Tapin",prov:"Kalimantan Selatan",rg:46,nilai:3603232466,vol:485.2},{key:"Pagar Alam",prov:"Sumatera Selatan",rg:9,nilai:3286000000,vol:68.0},{key:"Bireuen",prov:"Aceh",rg:15,nilai:2879004250,vol:547.0},{key:"Sumedang",prov:"Jawa Barat",rg:19,nilai:2385460000,vol:257.4},{key:"Majalengka",prov:"Jawa Barat",rg:22,nilai:2372650000,vol:450.8},{key:"Luwu Timur",prov:"Sulawesi Selatan",rg:55,nilai:2358450000,vol:327.2},{key:"Jepara",prov:"Jawa Tengah",rg:40,nilai:2319167500,vol:477.4},{key:"Jakarta Timur",prov:"Jakarta",rg:9,nilai:2166600000,vol:273.0},{key:"Luwu Utara",prov:"Sulawesi Selatan",rg:53,nilai:2154040000,vol:418.8}];
 const PENERBITAN_KOM_2025 = [{key:"Gula Kristal Putih",rg:440,vol:205234.0,nilai:2741576500000},{key:"Timah",rg:744,vol:3756.1,nilai:1772021703426},{key:"Kopi",rg:455,vol:7551.8,nilai:1362238140787},{key:"Gabah",rg:3646,vol:116594.7,nilai:712398161158},{key:"Beras",rg:750,vol:58073.5,nilai:648658259000},{key:"Rumput Laut",rg:268,vol:19824.2,nilai:416358305000},{key:"Tembakau",rg:242,vol:3938.0,nilai:340209825000},{key:"Ikan",rg:208,vol:2429.9,nilai:333461774600},{key:"Jagung",rg:165,vol:7773.4,nilai:28823039594},{key:"Ayam Karkas Beku",rg:145,vol:610.7,nilai:20230182080},{key:"Bawang Merah",rg:19,vol:521.5,nilai:11696500000},{key:"Lada",rg:54,vol:174.4,nilai:9576690820},{key:"Kedelai",rg:13,vol:333.5,nilai:3796620000},{key:"Tapioka",rg:1,vol:540.0,nilai:2430000000},{key:"Garam",rg:10,vol:701.7,nilai:977498000},{key:"Teh",rg:3,vol:40.0,nilai:710000000},{key:"Rotan",rg:3,vol:31.2,nilai:264548000},{key:"Kakao",rg:1,vol:3.1,nilai:78500000},{key:"Gambir",rg:1,vol:1.0,nilai:47000000}];
@@ -921,16 +866,16 @@ const PENGELOLA_SRG = {"total":151,"status":[{"k":"Aktif","n":76},{"k":"Berakhir
 /* Komoditas Orientasi Ekspor & Gudang Komoditas Pangan (sumber: LAPORAN REKAP RG UPDATED 2026,
    sheet "Orientasi Ekspor" & "Gudang Komoditas Pangan"; kumulatif s.d. 22 Juni 2026).
    nilai = nilai resi gudang (Rp), biaya = nilai pembiayaan (Rp). */
-const SRG_EKSPOR_KOM = [{kom:"Timah",gudang:4,rg:740,vol:3717.7,nilai:1757554607425,biaya:1291244712411},{kom:"Kopi",gudang:4,rg:245,vol:3256.6,nilai:258881320000,biaya:141926680000},{kom:"Ikan",gudang:3,rg:111,vol:200.5,nilai:215023250000,biaya:119421875000},{kom:"Rumput Laut",gudang:4,rg:80,vol:5650.1,nilai:144237350000,biaya:53753710000},{kom:"Gabah",gudang:1,rg:7,vol:252.5,nilai:1913585000,biaya:1624600000},{kom:"Lada",gudang:3,rg:7,vol:17,nilai:1294309620,biaya:0},{kom:"Teh",gudang:1,rg:3,vol:40,nilai:710000000,biaya:0}];
-const SRG_EKSPOR_TOTAL = {gudang:20, pengelola:12, rg:1193, vol:13134.3, nilai:2379614422045, biaya:1607971577411, periode:"2020–2026"};
-const SRG_PANGAN_KOM = [{kom:"Gula",gudang:5,rg:173,vol:115780,nilai:1678510000000,biaya:961495000000},{kom:"Beras",gudang:12,rg:202,vol:24140.4,nilai:305087085000,biaya:174159500000},{kom:"Ikan",gudang:4,rg:58,vol:710.3,nilai:181737640700,biaya:94065825000},{kom:"Gabah",gudang:17,rg:284,vol:16072.2,nilai:153540425880,biaya:91429000000},{kom:"Bawang Merah",gudang:1,rg:4,vol:121.5,nilai:2794500000,biaya:1425700000},{kom:"Kedelai",gudang:1,rg:6,vol:240,nilai:2571680000,biaya:1735000000}];
-const SRG_PANGAN_TOTAL = {gudang:34, pengelola:17, kota:18, rg:727, vol:157064.4, nilai:2324241331580, biaya:1324310025000, periode:"2024–2026"};
+const SRG_EKSPOR_KOM = [{kom:"Timah",gudang:4,rg:740,vol:3717.7,nilai:1757554607425,biaya:1291244712411},{kom:"Kopi",gudang:4,rg:251,vol:3286.6,nilai:263081320000,biaya:143886680000},{kom:"Ikan",gudang:3,rg:111,vol:200.5,nilai:215023250000,biaya:119421875000},{kom:"Rumput Laut",gudang:4,rg:80,vol:5650.1,nilai:144237350000,biaya:53753710000},{kom:"Gabah",gudang:1,rg:7,vol:252.5,nilai:1913585000,biaya:1624600000},{kom:"Lada",gudang:3,rg:7,vol:17,nilai:1294309620,biaya:0},{kom:"Teh",gudang:1,rg:3,vol:40,nilai:710000000,biaya:0}];
+const SRG_EKSPOR_TOTAL = {gudang:20, pengelola:12, rg:1199, vol:13164.3, nilai:2383814422045, biaya:1609931577411, periode:"2020–2026"};
+const SRG_PANGAN_KOM = [{kom:"Gula",gudang:5,rg:174,vol:115980,nilai:1681410000000,biaya:961495000000},{kom:"Beras",gudang:12,rg:202,vol:24140.4,nilai:305087085000,biaya:174159500000},{kom:"Ikan",gudang:4,rg:58,vol:710.3,nilai:181737640700,biaya:94065825000},{kom:"Gabah",gudang:17,rg:284,vol:16072.2,nilai:153540425880,biaya:91429000000},{kom:"Bawang Merah",gudang:1,rg:4,vol:121.5,nilai:2794500000,biaya:1425700000},{kom:"Kedelai",gudang:1,rg:6,vol:240,nilai:2571680000,biaya:1735000000}];
+const SRG_PANGAN_TOTAL = {gudang:34, pengelola:17, kota:18, rg:728, vol:157264.4, nilai:2327141331580, biaya:1324310025000, periode:"2024–2026"};
 const SRG_EKSPOR_YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
-const SRG_EKSPOR_BYKOM = [{key:"Timah",rg:[45,131,164,0,400,0,0],vol:[225.8,659.2,824.3,0,2008.4,0,0],nilai:[55788217626,313700912112,437687779622,0,950377698066,0,0],biaya:[39523603016,242450601711,349495000000,0,659775507684,0,0]},{key:"Kopi",rg:[43,18,26,40,51,31,36],vol:[686.7,325.1,167,379.9,659,385,654],nilai:[43812400000,22465920000,15595000000,34358000000,56750000000,30900000000,55000000000],biaya:[28738580000,11140500000,9396000000,21096600000,32305000000,10270000000,28980000000]},{key:"Ikan",rg:[0,0,10,71,25,5,0],vol:[0,0,6,92.8,76.8,25,0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"Rumput Laut",rg:[11,20,19,10,20,0,0],vol:[1097,1443,1299.2,463,1348,0,0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"Gabah",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0,0,0,0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"Lada",rg:[0,4,2,1,0,0,0],vol:[0,7.4,5.5,4.1,0,0,0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"Teh",rg:[0,0,0,3,0,0,0],vol:[0,0,0,40,0,0,0],nilai:[0,0,0,710000000,0,0,0],biaya:[0,0,0,0,0,0,0]}];
-const SRG_EKSPOR_BYPG = [{key:"PT. BGR Logistik Indonesia",rg:[0,0,35,0,400,0,0],vol:[0,0,175.3,0,2008.4,0,0],nilai:[0,0,63516558611,0,950377698066,0,0],biaya:[0,0,50795000000,0,659775507684,0,0]},{key:"PT. BGR Logistik",rg:[25,131,29,0,0,0,0],vol:[125.8,659.2,146,0,0,0,0],nilai:[33252065126,313700912112,75258795010,0,0,0,0],biaya:[21494681016,242450601711,59975000000,0,0,0,0]},{key:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:[0,0,100,0,0,0,0],vol:[0,0,503,0,0,0,0],nilai:[0,0,298912426001,0,0,0,0],biaya:[0,0,238725000000,0,0,0,0]},{key:"PT. Siriman Jaya Abadi",rg:[0,0,10,71,15,3,0],vol:[0,0,6,92.8,76.8,25,0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"PT. Wahana Pronatural",rg:[11,20,19,10,20,0,0],vol:[1097,1443,1299.2,463,1348,0,0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"PT. Ketiara",rg:[32,13,12,34,26,9,20],vol:[609,270,122,319.9,179,61,114],nilai:[38440000000,19150000000,11995000000,31138000000,17900000000,6100000000,13800000000],biaya:[26001500000,10885000000,6996000000,19096600000,10710000000,4270000000,6230000000]},{key:"Koperasi Gunung Luhur Berkah",rg:[9,3,14,9,25,22,16],vol:[37.7,15.1,45,100,480,324,540],nilai:[2972400000,1115920000,3600000000,3930000000,38850000000,24800000000,41200000000],biaya:[1057080000,255500000,2400000000,2000000000,21595000000,6000000000,22750000000]},{key:"PT. Sucofindo (Persero)",rg:[20,0,0,0,0,0,0],vol:[100,0,0,0,0,0,0],nilai:[22536152500,0,0,0,0,0,0],biaya:[18028922000,0,0,0,0,0,0]},{key:"Koperasi Gayo Megah Berseri",rg:[2,2,0,0,0,0,0],vol:[40,40,0,0,0,0,0],nilai:[2400000000,2200000000,0,0,0,0,0],biaya:[1680000000,0,0,0,0,0,0]},{key:"PT. Pengayom Tani Sejagad",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0,0,0,0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"Koperasi Petani Lada Bangka",rg:[0,4,2,1,0,0,0],vol:[0,7.4,5.5,4.1,0,0,0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[0,0,0,0,10,2,0],vol:[0,0,0,0,0,0,0],nilai:[0,0,0,0,0,0,0],biaya:[0,0,0,0,0,0,0]}];
+const SRG_EKSPOR_BYKOM = [{key:"Timah",rg:[45,131,164,0,400,0,0],vol:[225.8,659.2,824.3,0.0,2008.4,0.0,0.0],nilai:[55788217626,313700912112,437687779621,0,950377698065,0,0],biaya:[39523603016,242450601711,349495000000,0,659775507684,0,0]},{key:"Kopi",rg:[43,18,26,40,51,31,42],vol:[686.7,325.1,167.0,379.9,659.0,385.0,684.0],nilai:[43812400000,22465920000,15595000000,34358000000,56750000000,30900000000,59200000000],biaya:[28738580000,11140500000,9396000000,21096600000,32305000000,10270000000,30940000000]},{key:"Ikan",rg:[0,0,10,71,25,5,0],vol:[0.0,0.0,6.0,92.8,76.8,25.0,0.0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"Rumput Laut",rg:[11,20,19,10,20,0,0],vol:[1097.0,1443.0,1299.2,463.0,1348.0,0.0,0.0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"Gabah",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0.0,0.0,0.0,0.0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"Lada",rg:[0,4,2,1,0,0,0],vol:[0.0,7.4,5.5,4.1,0.0,0.0,0.0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"Teh",rg:[0,0,0,3,0,0,0],vol:[0.0,0.0,0.0,40.0,0.0,0.0,0.0],nilai:[0,0,0,710000000,0,0,0],biaya:[0,0,0,0,0,0,0]}];
+const SRG_EKSPOR_BYPG = [{key:"PT. Ketiara",rg:[32,13,12,34,26,9,25],vol:[609.0,270.0,122.0,319.9,179.0,61.0,139.0],nilai:[38440000000,19150000000,11995000000,31138000000,17900000000,6100000000,17300000000],biaya:[26001500000,10885000000,6996000000,19096600000,10710000000,4270000000,8190000000]},{key:"Koperasi Gayo Megah Berseri",rg:[2,2,0,0,0,0,0],vol:[40.0,40.0,0.0,0.0,0.0,0.0,0.0],nilai:[2400000000,2200000000,0,0,0,0,0],biaya:[1680000000,0,0,0,0,0,0]},{key:"PT. Wahana Pronatural",rg:[11,20,19,10,20,0,0],vol:[1097.0,1443.0,1299.2,463.0,1348.0,0.0,0.0],nilai:[24446800000,35676300000,43547250000,14107000000,26460000000,0,0],biaya:[10413960000,17339750000,3500000000,7000000000,15500000000,0,0]},{key:"Koperasi Petani Lada Bangka",rg:[0,4,2,1,0,0,0],vol:[0.0,7.4,5.5,4.1,0.0,0.0,0.0],nilai:[0,508212500,446046120,340051000,0,0,0],biaya:[0,0,0,0,0,0,0]},{key:"Koperasi Gunung Luhur Berkah",rg:[9,3,14,9,25,22,17],vol:[37.7,15.1,45.0,100.0,480.0,324.0,545.0],nilai:[2972400000,1115920000,3600000000,3930000000,38850000000,24800000000,41900000000],biaya:[1057080000,255500000,2400000000,2000000000,21595000000,6000000000,22750000000]},{key:"PT. BGR Logistik",rg:[25,131,29,0,0,0,0],vol:[125.8,659.2,146.0,0.0,0.0,0.0,0.0],nilai:[33252065126,313700912112,75258795009,0,0,0,0],biaya:[21494681016,242450601711,59975000000,0,0,0,0]},{key:"PT. Sucofindo (Persero)",rg:[20,0,0,0,0,0,0],vol:[100.0,0.0,0.0,0.0,0.0,0.0,0.0],nilai:[22536152500,0,0,0,0,0,0],biaya:[18028922000,0,0,0,0,0,0]},{key:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:[0,0,100,0,0,0,0],vol:[0.0,0.0,503.0,0.0,0.0,0.0,0.0],nilai:[0,0,298912426001,0,0,0,0],biaya:[0,0,238725000000,0,0,0,0]},{key:"PT. BGR Logistik Indonesia",rg:[0,0,35,0,400,0,0],vol:[0.0,0.0,175.3,0.0,2008.4,0.0,0.0],nilai:[0,0,63516558610,0,950377698065,0,0],biaya:[0,0,50795000000,0,659775507684,0,0]},{key:"PT. Pengayom Tani Sejagad",rg:[2,2,3,0,0,0,0],vol:[13.2,99.5,139.8,0.0,0.0,0.0,0.0],nilai:[109760000,740750000,1063075000,0,0,0,0],biaya:[76000000,665525000,883075000,0,0,0,0]},{key:"PT. Siriman Jaya Abadi",rg:[0,0,10,71,15,3,0],vol:[0.0,0.0,6.0,92.8,76.8,25.0,0.0],nilai:[0,0,7200000000,99150000000,87423250000,21250000000,0],biaya:[0,0,5000000000,59650000000,39896875000,14875000000,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[0,0,0,0,10,2,0],vol:[0.0,0.0,0.0,0.0,0.0,0.0,0.0],nilai:[0,0,0,0,0,0,0],biaya:[0,0,0,0,0,0,0]}];
 const SRG_PANGAN_YEARS = [2024, 2025, 2026];
-const SRG_PANGAN_BYKOM = [{key:"Gula",rg:[87,86,0],vol:[42620,73160,0],nilai:[617690000000,1060820000000,0],biaya:[440800000000,520695000000,0]},{key:"Beras",rg:[124,72,6],vol:[14188.9,9555,396.5],nilai:[179642115000,121154970000,4290000000],biaya:[117853000000,53806500000,2500000000]},{key:"Ikan",rg:[43,12,3],vol:[546.6,163.7,0],nilai:[151146455000,28420285700,2170900000],biaya:[73745625000,18875000000,1445200000]},{key:"Gabah",rg:[149,115,20],vol:[9001,5045.9,2025.4],nilai:[78829510700,53161475600,21549439580],biaya:[50320000000,30109000000,11000000000]},{key:"Bawang Merah",rg:[3,1,0],vol:[89.5,32,0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]},{key:"Kedelai",rg:[3,3,0],vol:[100,140,0],nilai:[1165000000,1406680000,0],biaya:[773000000,962000000,0]}];
-const SRG_PANGAN_BYPG = [{key:"PT. Pabrik Gula Candi Baru",rg:[85,73,0],vol:[42500,63600,0],nilai:[616250000000,922200000000,0],biaya:[440800000000,444570000000,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[165,103,14],vol:[12966.3,6509.9,1754.9],nilai:[143605707000,71401330200,17873744580],biaya:[94299000000,29500000000,8000000000]},{key:"PT. Thara Jaya Niaga",rg:[34,17,0],vol:[7290,5300,0],nilai:[93790000000,71550000000,0],biaya:[58583000000,35154000000,0]},{key:"PT Siriman Jaya Abadi",rg:[22,3,0],vol:[120.2,25,0],nilai:[136739000000,21250000000,0],biaya:[64896875000,14875000000,0]},{key:"PT. Pabrik Gula Rajawali I",rg:[0,10,0],vol:[0,9500,0],nilai:[0,137750000000,0],biaya:[0,76125000000,0]},{key:"PT. Fiona Pusaka SRG",rg:[15,32,11],vol:[960,1920,660],nilai:[11520000000,23040000000,7920000000],biaya:[8000000000,15000000000,5500000000]},{key:"PT Anugrah Pesona Mandiri",rg:[9,7,3],vol:[244.4,111.7,0],nilai:[6523875000,5741305000,2170900000],biaya:[4498750000,3000000000,1445200000]},{key:"PT Merdeka Bahari Indonesia",rg:[3,0,0],vol:[502.7,0,0],nilai:[6895965000,0,0],biaya:[4430000000,0,0]},{key:"Koperasi Basunondo",rg:[36,17,1],vol:[647.7,491.3,7],nilai:[1824012700,4226136100,45695000],biaya:[2690500000,2119000000,0]},{key:"Koperasi Niaga Mukti",rg:[22,2,0],vol:[819.4,20,0],nilai:[5830446000,190000000,0],biaya:[3996500000,0,0]},{key:"Koperasi Gunung Luhur Berkah",rg:[2,9,0],vol:[50,225,0],nilai:[700000000,3075000000,0],biaya:[490000000,2152500000,0]},{key:"PD Sumber Bhakti",rg:[4,9,0],vol:[50,161.6,0],nilai:[625000000,2262960000,0],biaya:[0,990000000,0]},{key:"PT Mitra Pilar",rg:[3,1,0],vol:[89.5,32,0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]},{key:"KUD Tani Harjo",rg:[4,3,0],vol:[106.6,140,0],nilai:[1214500000,1406680000,0],biaya:[807000000,962000000,0]},{key:"KSU Sarana Hidup Sejahtera",rg:[2,3,0],vol:[120,60,0],nilai:[1440000000,870000000,0],biaya:[0,0,0]},{key:"PT Satya Trinadi Komira Perkasa",rg:[2,0,0],vol:[64,0,0],nilai:[1408000000,0,0],biaya:[0,0,0]},{key:"Koperasi Kelompok Usaha Serba jadi",rg:[1,0,0],vol:[15.2,0,0],nilai:[106575000,0,0],biaya:[0,0,0]}];
+const SRG_PANGAN_BYKOM = [{key:"Gabah",rg:[149,115,20],vol:[9001.0,5045.9,2025.4],nilai:[78829510700,53161475600,21549439580],biaya:[50320000000,30109000000,11000000000]},{key:"Beras",rg:[124,72,6],vol:[14188.9,9555.0,396.5],nilai:[179642115000,121154970000,4290000000],biaya:[117853000000,53806500000,2500000000]},{key:"Gula",rg:[87,86,1],vol:[42620.0,73160.0,200.0],nilai:[617690000000,1060820000000,2900000000],biaya:[440800000000,520695000000,0]},{key:"Ikan",rg:[43,12,3],vol:[546.6,163.7,0.0],nilai:[151146455000,28420285700,2170900000],biaya:[73745625000,18875000000,1445200000]},{key:"Kedelai",rg:[3,3,0],vol:[100.0,140.0,0.0],nilai:[1165000000,1406680000,0],biaya:[773000000,962000000,0]},{key:"Bawang Merah",rg:[3,1,0],vol:[89.5,32.0,0.0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]}];
+const SRG_PANGAN_BYPG = [{key:"PD Sumber Bhakti",rg:[4,9,0],vol:[50.0,161.6,0.0],nilai:[625000000,2262960000,0],biaya:[0,990000000,0]},{key:"PT. Cipta Usaha Agro Niaga",rg:[165,103,14],vol:[12966.3,6509.9,1754.9],nilai:[143605707000,71401330200,17873744580],biaya:[94299000000,29500000000,8000000000]},{key:"Koperasi Niaga Mukti",rg:[22,2,0],vol:[819.4,20.0,0.0],nilai:[5830446000,190000000,0],biaya:[3996500000,0,0]},{key:"PT. Pabrik Gula Rajawali I",rg:[0,10,1],vol:[0.0,9500.0,200.0],nilai:[0,137750000000,2900000000],biaya:[0,76125000000,0]},{key:"PT. Pabrik Gula Candi Baru",rg:[85,73,0],vol:[42500.0,63600.0,0.0],nilai:[616250000000,922200000000,0],biaya:[440800000000,444570000000,0]},{key:"Koperasi Gunung Luhur Berkah",rg:[2,9,0],vol:[50.0,225.0,0.0],nilai:[700000000,3075000000,0],biaya:[490000000,2152500000,0]},{key:"PT. Fiona Pusaka SRG",rg:[15,32,11],vol:[960.0,1920.0,660.0],nilai:[11520000000,23040000000,7920000000],biaya:[8000000000,15000000000,5500000000]},{key:"PT. Thara Jaya Niaga",rg:[34,17,0],vol:[7290.0,5300.0,0.0],nilai:[93790000000,71550000000,0],biaya:[58583000000,35154000000,0]},{key:"Koperasi Basunondo",rg:[36,17,1],vol:[647.7,491.3,7.0],nilai:[1824012700,4226136100,45695000],biaya:[2690500000,2119000000,0]},{key:"KUD Tani Harjo",rg:[4,3,0],vol:[106.6,140.0,0.0],nilai:[1214500000,1406680000,0],biaya:[807000000,962000000,0]},{key:"KSU Sarana Hidup Sejahtera",rg:[2,3,0],vol:[120.0,60.0,0.0],nilai:[1440000000,870000000,0],biaya:[0,0,0]},{key:"Koperasi Kelompok Usaha Serba jadi",rg:[1,0,0],vol:[15.2,0.0,0.0],nilai:[106575000,0,0],biaya:[0,0,0]},{key:"PT Anugrah Pesona Mandiri",rg:[9,7,3],vol:[244.4,111.7,0.0],nilai:[6523875000,5741305000,2170900000],biaya:[4498750000,3000000000,1445200000]},{key:"PT Merdeka Bahari Indonesia",rg:[3,0,0],vol:[502.7,0.0,0.0],nilai:[6895965000,0,0],biaya:[4430000000,0,0]},{key:"PT Mitra Pilar",rg:[3,1,0],vol:[89.5,32.0,0.0],nilai:[2058500000,736000000,0],biaya:[1425700000,0,0]},{key:"PT Siriman Jaya Abadi",rg:[22,3,0],vol:[120.2,25.0,0.0],nilai:[136739000000,21250000000,0],biaya:[64896875000,14875000000,0]},{key:"PT Satya Trinadi Komira Perkasa",rg:[2,0,0],vol:[64.0,0.0,0.0],nilai:[1408000000,0,0],biaya:[0,0,0]}];
 
 /* PERINGKAT PENGELOLA berdasarkan jumlah GUDANG AKTIF yang dikelola (operasional, dari data gudang).
    Catatan: "gudang aktif" = gudang yang mengimplementasikan Sistem Resi Gudang.
@@ -983,7 +928,7 @@ const PROV_AKTIF_RANK = Object.entries(PROV_AKTIF_NAMES)
    Capaian FISIK indikator (pertumbuhan, indeks) belum tersedia — menunggu e-Monev/laporan tahunan. */
 const CURRENT_Q = 2;
 const DATA_REALISASI_TERSEDIA = true;  // serapan anggaran tersedia
-const DATA_FISIK_TERSEDIA = true;      // capaian fisik indikator TW II sudah tersedia (kecuali Kegiatan 3760)
+const DATA_FISIK_TERSEDIA = false;     // capaian fisik indikator belum tersedia
 
 /* Capaian Indikator Kinerja Kegiatan (IKK) — Triwulan I TA 2026.
    Sumber: laporan "Realisasi Indikator Kinerja Triwulan 1 TA 2026" (Satker 412492). */
@@ -1009,35 +954,6 @@ const CAPAIAN_IKK_TW1 = [
 ];
 const KEG_NAMA_TW1 = {"3758":"Dukungan Manajemen & Teknis","3759":"Pengawasan & Penindakan PBK/SRG/PLK","3760":"Pembinaan & Pengembangan SRG dan PLK","3761":"Peningkatan Efektivitas Kebijakan & Pelayanan Hukum","3762":"Pembinaan & Pengembangan PBK"};
 const CAPAIAN_IKK_SUMBER = "Realisasi Indikator Kinerja Triwulan I TA 2026 (Satker 412492)";
-
-/* Capaian Indikator Kinerja Kegiatan (IKK) — Triwulan II TA 2026.
-   Sumber: Formulir/Lembar Pengukuran Pencapaian Sasaran (PPS) TW II 2026 per Biro —
-   SEKRE (Sekretariat, ttd. Ivan Fithriyanto), ROWASDAK (Biro Pengawasan & Penindakan,
-   ttd. Matheus Hendro Purnomo, 8 Jul 2026), RORUN (Biro Perundang-Undangan,
-   ttd. Rifah Ariny, 9 Jul 2026), RONABANG PBK (Biro Pembinaan & Pengembangan PBK,
-   ttd. Ima Siti Fatimah, 9 Jul 2026). Kegiatan 3760 (SRG/PLK) belum ada laporan PPS
-   TW II terpisah — nilai dipertahankan dari TW I sampai laporan resmi tersedia. */
-const CAPAIAN_IKK_TW2 = [
-  {keg:"3758", ind:"Nilai WTA Bappebti", sat:"Predikat", target:"WTA Madya", real:"0", cap:0},
-  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Bappebti", sat:"Nilai", target:"97", real:"99,64", cap:102.7},
-  {keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)", sat:"Nilai", target:"82", real:"83,08", cap:101.3},
-  {keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", sat:"%", target:"83", real:"88", cap:106},
-  {keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)", sat:"%", target:"77", real:"74", cap:96},
-  {keg:"3760", ind:"Pertumbuhan Pengelola Gudang SRG", sat:"%", target:"5", real:"0", cap:0},
-  {keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas", sat:"%", target:"5", real:"0,4", cap:8.6},
-  {keg:"3760", ind:"% peserta Bimtek SRG/PLK yang meningkat pemahaman", sat:"%", target:"90", real:"0", cap:0},
-  {keg:"3760", ind:"Indeks kepuasan layanan perizinan SRG/PLK", sat:"Nilai", target:"86", real:"0", cap:0},
-  {keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti", sat:"%", target:"75", real:"37,5", cap:50},
-  {keg:"3761", ind:"Indeks Evaluasi Kemanfaatan Kebijakan (PBK/SRG/PLK)", sat:"Nilai", target:"71", real:"76,66", cap:107.97},
-  {keg:"3761", ind:"Penyelesaian Perselisihan PBK sesuai SLA", sat:"%", target:"91", real:"87,50", cap:96.15},
-  {keg:"3761", ind:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum", sat:"Nilai", target:"83", real:"92,21", cap:111.09},
-  {keg:"3762", ind:"Rekomendasi Kebijakan PBK yang ditindaklanjuti", sat:"%", target:"85", real:"0", cap:0},
-  {keg:"3762", ind:"Pertumbuhan Pengguna Layanan Informasi PBK", sat:"%", target:"11", real:"11", cap:100.02},
-  {keg:"3762", ind:"Pertumbuhan Pelaku PBK", sat:"%", target:"4", real:"3,14", cap:78.61},
-  {keg:"3762", ind:"Indeks Kepuasan Layanan Perizinan PBK", sat:"Nilai", target:"93", real:"93,04", cap:100.04},
-  {keg:"3762", ind:"% Peserta Bimtek PBK yang meningkat pemahaman", sat:"%", target:"85", real:"97", cap:113.59},
-];
-const CAPAIAN_IKK_TW2_SUMBER = "Lembar Pengukuran Pencapaian Sasaran (PPS) Triwulan II TA 2026 — SEKRE, ROWASDAK, RORUN, RONABANG PBK";
 const CAPAIAN_RO_TW1 = [
   {id:"RO-3759-1",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK (Audit)",pagu:173695000,real:142675000,target:"16",sat:"Badan Usaha",cap:"14",persen:90.1},
   {id:"RO-3759-2",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:96301000,real:80176000,target:"6",sat:"Badan Usaha",cap:"5",persen:83.1},
@@ -1074,16 +990,10 @@ const CAPAIAN_RO_TW1 = [
   {id:"RO-3758-EBA1",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:1722368583,target:"1",sat:"Layanan",cap:"0",persen:41.82},
   {id:"RO-3758-EBA2",keg:"3758",uraian:"Layanan Organisasi & Tata Kelola Internal",pagu:398370000,real:145634168,target:"1",sat:"Layanan",cap:"0",persen:41.82},
 ];
-/* Capaian per-RO Triwulan II TA 2026 — kolom `persen` = %Capaian TW II resmi.
-   Sumber: Formulir Pengukuran Pencapaian Sasaran (PPS) TW II 2026 per Biro —
-   ROWASDAK (Biro Pengawasan & Penindakan, ttd. Matheus Hendro Purnomo, 8 Jul 2026),
-   RORUN (Biro Perundang-Undangan, ttd. Rifah Ariny, 9 Jul 2026),
-   RONABANG PBK (Biro Pembinaan & Pengembangan PBK, ttd. Ima Siti Fatimah, 9 Jul 2026),
-   SEKRE (Sekretariat Bappebti, ttd. Ivan Fithriyanto, Jul 2026). */
 const CAPAIAN_RO_TW2 = [
-  {id:"RO-3759-BIH001",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK melalui Audit",pagu:173695000,real:155275000,target:"32",sat:"Badan Usaha",cap:"15",persen:89.40},
-  {id:"RO-3759-BIH002",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:96301000,real:81316000,target:"6",sat:"Badan Usaha",cap:"5",persen:84.44},
-  {id:"RO-3759-BIH003",keg:"3759",uraian:"Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK",pagu:74406000,real:52796746,target:"8",sat:"Badan Usaha",cap:"5",persen:70.96},
+  {id:"RO-3759-BIH001",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK melalui Audit",pagu:173695000,real:155275000,target:"32",sat:"Badan Usaha",cap:"15",persen:92.1},
+  {id:"RO-3759-BIH002",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:96301000,real:81316000,target:"6",sat:"Badan Usaha",cap:"5",persen:85.1},
+  {id:"RO-3759-BIH003",keg:"3759",uraian:"Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK",pagu:74406000,real:52796746,target:"8",sat:"Badan Usaha",cap:"5",persen:84.1},
   {id:"RO-3760-ACD001",keg:"3760",uraian:"Perizinan Lembaga SRG",pagu:35592000,real:15882900,target:"2",sat:"Lembaga",cap:"1",persen:45.4},
   {id:"RO-3760-ACD002",keg:"3760",uraian:"Perizinan Lembaga PLK",pagu:3000000,real:0,target:"1",sat:"Lembaga",cap:"0",persen:2.4},
   {id:"RO-3760-AFA001",keg:"3760",uraian:"Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG",pagu:18750000,real:6657500,target:"1",sat:"NSPK",cap:"0",persen:36.41},
@@ -1100,21 +1010,21 @@ const CAPAIAN_RO_TW2 = [
   {id:"RO-3760-QDC003",keg:"3760",uraian:"Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK",pagu:19280000,real:7036500,target:"15",sat:"Orang",cap:"0",persen:37.4},
   {id:"RO-3760-UAB001",keg:"3760",uraian:"Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)",pagu:30000000,real:0,target:"1",sat:"Sistem Informasi",cap:"0",persen:0.6},
   {id:"RO-3760-UAB002",keg:"3760",uraian:"Sistem Aplikasi Warehouse Management System (WMS)",pagu:60000000,real:0,target:"1",sat:"Sistem Informasi",cap:"0",persen:4.0},
-  {id:"RO-3761-AAHF01",keg:"3761",uraian:"Peraturan Bappebti di bidang PBK",pagu:60516000,real:59605100,target:"4",sat:"peraturan",cap:"1",persen:98.49},
-  {id:"RO-3761-AAHF02",keg:"3761",uraian:"Peraturan Bappebti di bidang SRG dan PLK",pagu:6053000,real:5735480,target:"1",sat:"peraturan",cap:"0",persen:94.75},
+  {id:"RO-3761-AAHF01",keg:"3761",uraian:"Peraturan Bappebti di bidang PBK",pagu:60516000,real:59605100,target:"4",sat:"peraturan",cap:"1",persen:99.1},
+  {id:"RO-3761-AAHF02",keg:"3761",uraian:"Peraturan Bappebti di bidang SRG dan PLK",pagu:6053000,real:5735480,target:"1",sat:"peraturan",cap:"0",persen:95.2},
   {id:"RO-3761-AEA001",keg:"3761",uraian:"Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK",pagu:37900000,real:4045600,target:"3",sat:"kegiatan",cap:"0",persen:10.67},
-  {id:"RO-3761-BBA001",keg:"3761",uraian:"Layanan Asistensi hukum di bidang PBK, SRG dan PLK",pagu:109142000,real:96725830,target:"6",sat:"Orang",cap:"3",persen:88.62},
-  {id:"RO-3761-BCB001",keg:"3761",uraian:"Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK",pagu:32164000,real:26305400,target:"5",sat:"Perkara",cap:"2",persen:81.79},
-  {id:"RO-3762-ACB001",keg:"3762",uraian:"Perizinan Wakil Pialang Berjangka dan Wakil Penasehat Berjangka",pagu:24250000,real:23545800,target:"500",sat:"Orang",cap:"312",persen:97.10},
-  {id:"RO-3762-ACD001",keg:"3762",uraian:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:60180000,real:45399500,target:"500",sat:"Badan Usaha",cap:"208",persen:75.44},
-  {id:"RO-3762-ADI001",keg:"3762",uraian:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka",pagu:128078000,real:29611000,target:"200",sat:"Orang",cap:"84",persen:23.12},
-  {id:"RO-3762-BMA001",keg:"3762",uraian:"Data dan Informasi Harga Komoditi di Bidang PBK",pagu:20505000,real:12040000,target:"1",sat:"dokumen",cap:"0",persen:58.72},
-  {id:"RO-3762-FAB002",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:7760000,target:"1",sat:"Sistem Informasi",cap:"0",persen:13.04},
-  {id:"RO-3762-PBBG01",keg:"3762",uraian:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di bidang PBK",pagu:96438000,real:41955430,target:"1",sat:"Rekomendasi Kebijakan",cap:"0",persen:43.51},
-  {id:"RO-3762-QDH001",keg:"3762",uraian:"Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:78049000,real:77896600,target:"60",sat:"Badan usaha",cap:"60",persen:99.80},
-  {id:"RO-3758-CAN001",keg:"3758",uraian:"Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti",pagu:115200000,real:47481507,target:"1",sat:"Unit",cap:"0",persen:41.22},
-  {id:"RO-3758-EBA994",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:2039723403,target:"1",sat:"Layanan",cap:"0",persen:45.84},
-  {id:"RO-3758-EBAZ08",keg:"3758",uraian:"Layanan Organisasi dan Tata Kelola Internal",pagu:398370000,real:186933168,target:"1",sat:"Layanan",cap:"0",persen:46.93},
+  {id:"RO-3761-BBA001",keg:"3761",uraian:"Layanan Asistensi hukum di bidang PBK, SRG dan PLK",pagu:109142000,real:96725830,target:"6",sat:"Orang",cap:"3",persen:90.2},
+  {id:"RO-3761-BCB001",keg:"3761",uraian:"Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK",pagu:32164000,real:26305400,target:"5",sat:"Perkara",cap:"2",persen:82.3},
+  {id:"RO-3762-ACB001",keg:"3762",uraian:"Perizinan Wakil Pialang Berjangka dan Wakil Penasehat Berjangka",pagu:24250000,real:23545800,target:"500",sat:"Orang",cap:"312",persen:62.4},
+  {id:"RO-3762-ACD001",keg:"3762",uraian:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:60180000,real:45399500,target:"500",sat:"Badan Usaha",cap:"208",persen:54.74},
+  {id:"RO-3762-ADI001",keg:"3762",uraian:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka",pagu:128078000,real:29611000,target:"200",sat:"Orang",cap:"84",persen:48.0},
+  {id:"RO-3762-BMA001",keg:"3762",uraian:"Data dan Informasi Harga Komoditi di Bidang PBK",pagu:20505000,real:12040000,target:"1",sat:"dokumen",cap:"0",persen:60.0},
+  {id:"RO-3762-FAB002",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:7760000,target:"1",sat:"Sistem Informasi",cap:"0",persen:16.1},
+  {id:"RO-3762-PBBG01",keg:"3762",uraian:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di bidang PBK",pagu:96438000,real:41955430,target:"1",sat:"Rekomendasi Kebijakan",cap:"0",persen:48.0},
+  {id:"RO-3762-QDH001",keg:"3762",uraian:"Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:78049000,real:77896600,target:"60",sat:"Badan usaha",cap:"60",persen:100.0},
+  {id:"RO-3758-CAN001",keg:"3758",uraian:"Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti",pagu:115200000,real:47481507,target:"1",sat:"Unit",cap:"0",persen:49.98},
+  {id:"RO-3758-EBA994",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:2039723403,target:"1",sat:"Layanan",cap:"0",persen:50.15},
+  {id:"RO-3758-EBAZ08",keg:"3758",uraian:"Layanan Organisasi dan Tata Kelola Internal",pagu:398370000,real:186933168,target:"1",sat:"Layanan",cap:"0",persen:50.15},
 ];
 const CAPAIAN_IKSS = [
   { id:"ISP-1", realNow:"70,56% · Real 2,82% dari target 4%", cap:[25,70.56,null,null] },
@@ -1862,7 +1772,7 @@ Pelajaran kebijakan untuk 2026-2027: (1) Lindungi anggaran substantif dari bloki
 
     2026: `Realisasi s.d. Mei 2026: Rp3,42 miliar (52,8% dari pagu Rp6,47 miliar) — di atas garis linear, namun distribusinya mengulang pola lama: 3761 Hukum 72%, 3759 Pengawasan 67%, 3758 Dukungan Manajemen 56%, 3762 PBK 35%, dan 3760 SRG/PLK hanya 17%.
 
-Kegiatan 3760 memuat seluruh RO PN dan menanggung beban pemulihan dua pasar sekaligus. Data pasar per Mei 2026 menunjukkan urgensinya: penerbitan resi gudang baru 120 resi senilai Rp107,4 miliar (proyeksi setahun ±290 resi — terendah sejak 2017 jika tren berlanjut); PLK baru Rp13,27 miliar dengan hanya 2 penyelenggara aktif dan total peserta anjlok dari 1.245 orang (2025) menjadi 200 orang. Enam RO PN yang dirancang merespons persis masalah ini masih 0%: WMS (Rp60 jt), SPLT (Rp30 jt), Pendampingan WMS (Rp35 jt), Asistensi PLK (Rp19 jt), Pembinaan Calon Pengelola (Rp8,2 jt), Sistem Persetujuan (Rp30 jt) — total Rp182 juta yang seluruhnya dapat dikontrakkan via penunjukan langsung dalam 4-6 minggu.
+Kegiatan 3760 memuat seluruh RO PN dan menanggung beban pemulihan dua pasar sekaligus. Data pasar per 9 Juli 2026 menunjukkan urgensinya: penerbitan resi gudang baru 157 resi senilai Rp149,4 miliar (proyeksi setahun ±300 resi — terendah sejak 2017 jika tren berlanjut); PLK baru Rp13,27 miliar dengan hanya 2 penyelenggara aktif dan total peserta anjlok dari 1.245 orang (2025) menjadi 200 orang. Enam RO PN yang dirancang merespons persis masalah ini masih 0%: WMS (Rp60 jt), SPLT (Rp30 jt), Pendampingan WMS (Rp35 jt), Asistensi PLK (Rp19 jt), Pembinaan Calon Pengelola (Rp8,2 jt), Sistem Persetujuan (Rp30 jt) — total Rp182 juta yang seluruhnya dapat dikontrakkan via penunjukan langsung dalam 4-6 minggu.
 
 Catatan positif yang sering luput: 3762 PBK walau serapannya 35%, pasarnya tumbuh sendiri — emas fisik digital sudah 42,16 ton dalam 4 bulan (proyeksi setahun ±126 ton, dua kali lipat rekor 60,2 ton tahun 2025), dan CPOTR 37.000 MT s.d. April. Ini menegaskan strategi yang benar untuk PBK bukan belanja besar, melainkan kecepatan regulasi dan kepastian hukum — apalagi menjelang beroperasinya BMKS-OJK 1 Januari 2027.
 
@@ -1910,7 +1820,7 @@ REKOMENDASI STRUKTURAL: jadikan pohon kinerja ini laporan triwulanan resmi ke pi
 
   spbe: `Status clearance SPBE Bappebti TA 2026 lengkap: 7 dari 7 RO TIK (total Rp362,1 juta) telah submit EGA. Namun clearance bukan tujuan — eksekusi dan keberfungsian sistemlah ukurannya, dan di situ persoalannya.
 
-GAP CLEARANCE-EKSEKUSI: Per Mei 2026, sistem yang lolos clearance namun 0% realisasi mencakup UAB.002 WMS (Rp60 jt), UAB.001 SPLT (Rp30 jt), dan FAB.001 Sistem Persetujuan (Rp30 jt) — Rp120 juta dari Rp362,1 juta (33%) belum bergerak. Konteks bisnisnya: WMS adalah tulang punggung data stok 147 gudang aktif yang menerbitkan resi senilai Rp107 miliar hanya dalam lima bulan 2026; SPLT adalah satu-satunya jalur digitalisasi lelang ketika penyelenggara aktif tinggal 2 dari 14. Sistem-sistem kecil ini menopang pasar bernilai ratusan miliar — disproporsi antara nilai belanja dan nilai yang ditopang justru argumen untuk mempercepat, bukan menunda.
+GAP CLEARANCE-EKSEKUSI: Per 9 Juli 2026, sistem yang lolos clearance namun 0% realisasi mencakup UAB.002 WMS (Rp60 jt), UAB.001 SPLT (Rp30 jt), dan FAB.001 Sistem Persetujuan (Rp30 jt) — Rp120 juta dari Rp362,1 juta (33%) belum bergerak. Konteks bisnisnya: WMS adalah tulang punggung data stok 147 gudang aktif yang menerbitkan resi senilai Rp149,4 miliar hingga awal Juli 2026; SPLT adalah satu-satunya jalur digitalisasi lelang ketika penyelenggara aktif tinggal 2 dari 14. Sistem-sistem kecil ini menopang pasar bernilai ratusan miliar — disproporsi antara nilai belanja dan nilai yang ditopang justru argumen untuk mempercepat, bukan menunda.
 
 KOMPOSISI: belanja didominasi pemeliharaan, bukan pembangunan. Defensif dan hemat, tetapi dua sistem inti (WMS, SPLT) sudah perlu pengembangan fitur, bukan sekadar pemeliharaan: WMS perlu modul pelaporan stok real-time per komoditas (mendukung data seperti yang kini ditampilkan manual di dashboard ini), SPLT perlu modul lelang daring penuh agar penyelenggara dinas yang tanpa anggaran fasilitasi tetap bisa menyelenggarakan lelang secara digital dengan biaya marginal rendah.
 
@@ -1953,18 +1863,6 @@ SATU KALIMAT UNTUK PIMPINAN: pasar yang tersisa di tangan Bappebti tumbuh 47% se
 /* HEADER                                                                   */
 /* ======================================================================== */
 function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme}){
-  const [authUser, setAuthUser] = React.useState(()=> (typeof window!=="undefined" ? window.__BAPPEBTI_USER__ : null) || null);
-  React.useEffect(()=>{
-    const onReady = (e)=> setAuthUser(e.detail || (window.__BAPPEBTI_USER__||null));
-    window.addEventListener('bappebti-auth-ready', onReady);
-    if (window.__BAPPEBTI_USER__) setAuthUser(window.__BAPPEBTI_USER__);
-    return ()=> window.removeEventListener('bappebti-auth-ready', onReady);
-  },[]);
-  const handleLogout = ()=>{
-    if (!window.confirm('Keluar dari dashboard?')) return;
-    if (window.bappebtiLogout) window.bappebtiLogout();
-    else window.location.href = 'login.html';
-  };
   return (
     <header className="app-header border-b border-[var(--border)] backdrop-blur-md sticky top-0 z-20">
       <div className="max-w-[1400px] mx-auto px-8 py-5 flex items-end justify-between">
@@ -2013,15 +1911,6 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
           <button onClick={()=>exportMatrix(activeTab)} className="no-print px-3 py-1.5 rounded-md border border-[var(--gold-soft)] bg-[rgba(161,98,7,0.10)] hover:bg-[rgba(161,98,7,0.18)] text-[10px] mono uppercase tracking-wider text-[var(--gold)] transition">
             ▦ Ekspor Matriks
           </button>
-          {authUser && (
-            <div className="no-print flex items-center gap-2 pl-3 ml-1 border-l border-[var(--border)]">
-              <span className="text-[10px] mono text-[var(--text-3)] max-w-[140px] truncate" title={authUser.email}>{authUser.nama || authUser.email}</span>
-              <button onClick={handleLogout} title="Keluar dari akun"
-                className="w-8 h-8 flex items-center justify-center rounded-md border border-[var(--border-strong)] hover:border-[var(--red)] hover:bg-[rgba(220,38,38,0.08)] text-[var(--text-2)] hover:text-[var(--red)] transition">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </header>
@@ -3441,9 +3330,9 @@ const fmtNumRG = n => Math.round(n).toLocaleString("id-ID");
 function PeringkatPengelolaGudang({year}){
   const [crit,setCrit] = useState("agregat");
   const [open,setOpen] = useState(null);
-  // Sumber penerbitan kumulatif s.d. Tahun Anggaran terpilih (TA 2025 → s.d. 2025; TA 2026/2027 → s.d. 28 Mei 2026).
+  // Sumber penerbitan kumulatif s.d. Tahun Anggaran terpilih (TA 2025 → s.d. 2025; TA 2026/2027 → s.d. 9 Juli 2026).
   const ISS = (year && year<=2025) ? PENGELOLA_ISSUANCE_2025 : PENGELOLA_ISSUANCE;
-  const cutoffLabel = (year && year<=2025) ? "s.d. TA 2025" : (year===2027 ? "s.d. TA 2026" : "s.d. 28 Mei 2026");
+  const cutoffLabel = (year && year<=2025) ? "s.d. TA 2025" : (year===2027 ? "s.d. TA 2026" : "s.d. 9 Juli 2026");
 
   // ==== Agregat 3 kriteria (normalisasi nama agar cocok antara data operasional & penerbitan) ====
   const normName = s => (s||"").toLowerCase().replace(/\./g,"").replace(/\s+/g," ").trim();
@@ -4779,7 +4668,7 @@ function Capaian(){
   });
   const totalPagu = serapanRows.reduce((s,r)=>s+r.pagu,0);
   const serapanTertimbang = Math.round(serapanRows.reduce((s,r)=>s+r.pagu*r.pct,0)/totalPagu);
-  const avgIKK = Math.round(CAPAIAN_IKK_TW2.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW2.length);
+  const avgIKK = Math.round(CAPAIAN_IKK_TW1.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW1.length);
   const avgFisikRO = Math.round(CAPAIAN_RO_TW2.reduce((s,r)=>s+r.pagu*r.persen,0)/CAPAIAN_RO_TW2.reduce((s,r)=>s+r.pagu,0));
 
   const cntOntrack = rows.filter(r=>r.st.key==="ontrack").length;
@@ -4988,17 +4877,16 @@ function Capaian(){
           </div>
         </>
       ) : (<>
-      {DATA_FISIK_TERSEDIA && (
+      {!DATA_FISIK_TERSEDIA && (
         <div className="card p-5 mb-6" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.06)"}}>
           <div className="flex items-start gap-3">
             <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
             <div>
-              <div className="serif text-lg">Capaian indikator kinerja kegiatan (IKK) Triwulan II TA 2026 sudah dimuat</div>
+              <div className="serif text-lg">Capaian indikator kinerja kegiatan (IKK) Triwulan I TA 2026 sudah dimuat</div>
               <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                Matriks capaian 18 IKK per Triwulan II ditampilkan di bawah (sumber: PPS TW II — SEKRE, ROWASDAK, RORUN, RONABANG PBK).
-                Indikator <b>Kegiatan 3760 (SRG/PLK)</b> belum ada laporan PPS TW II terpisah, sehingga nilai yang ditampilkan masih mengacu ke TW I
-                sampai laporan resmi tersedia. Indikator <b>Nilai WTA Bappebti</b> masih 0% karena dinilai tahunan pada akhir TA.
-                Capaian level <b>program (ISP/IKP)</b> bersifat agregat tahunan dan menyusul pada laporan kinerja tahunan.
+                Matriks capaian 18 IKK per Triwulan I ditampilkan di bawah (sumber: laporan Realisasi Indikator Kinerja TW I).
+                Sebagian indikator masih <b>0% karena dijadwalkan diukur pada TW II/III</b> (mis. survei kepuasan, SKM, penilaian WTA),
+                bukan keterlambatan. Capaian level <b>program (ISP/IKP)</b> bersifat agregat tahunan dan menyusul pada laporan kinerja tahunan.
               </p>
             </div>
           </div>
@@ -5032,15 +4920,15 @@ function Capaian(){
         </div>
       </div>
 
-      {/* Matriks Capaian IKK — Triwulan II TA 2026 */}
+      {/* Matriks Capaian IKK — Triwulan I TA 2026 */}
       <div className="card p-5 mb-6">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Indikator Kinerja Kegiatan (IKK)</div>
-            <div className="serif text-xl">Capaian Target — Triwulan II TA 2026</div>
+            <div className="serif text-xl">Capaian Target — Triwulan I TA 2026</div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_TW2_SUMBER}</span>
+            <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_SUMBER}</span>
             <button onClick={()=>setBukaIKK(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{bukaIKK?"▾ Tutup":"▸ Buka"}</button>
           </div>
         </div>
@@ -5051,14 +4939,14 @@ function Capaian(){
                 <th className="text-left py-2 px-2">Indikator Kinerja Kegiatan</th>
                 <th className="text-center py-2 px-2" style={{width:"8%"}}>Satuan</th>
                 <th className="text-center py-2 px-2" style={{width:"12%"}}>Target 2026</th>
-                <th className="text-center py-2 px-2" style={{width:"12%"}}>Realisasi TW II</th>
+                <th className="text-center py-2 px-2" style={{width:"12%"}}>Realisasi TW I</th>
                 <th className="text-center py-2 px-2" style={{width:"10%"}}>Capaian</th>
                 <th className="text-center py-2 px-2" style={{width:"14%"}}>Status</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(KEG_NAMA_TW1).map(keg=>{
-                const items = CAPAIAN_IKK_TW2.filter(r=>r.keg===keg);
+                const items = CAPAIAN_IKK_TW1.filter(r=>r.keg===keg);
                 return (
                   <React.Fragment key={keg}>
                     <tr style={{background:"rgba(161,98,7,0.07)"}}>
@@ -5085,7 +4973,7 @@ function Capaian(){
           </table>
         </div>
         <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]" style={{display:bukaIKK?undefined:"none"}}>
-          Capaian dihitung terhadap <b>target tahunan</b>. Indikator Kegiatan 3760 (SRG/PLK) masih menampilkan nilai TW I karena laporan PPS TW II belum tersedia; Nilai WTA Bappebti dinilai tahunan pada akhir TA. Rata-rata capaian 18 IKK pada TW II: <b>{avgIKK}%</b>.
+          Capaian dihitung terhadap <b>target tahunan</b>. Indikator 0% umumnya <b>belum diukur pada TW I</b> (dijadwalkan TW II/III), bukan keterlambatan. Rata-rata capaian 18 IKK pada TW I: <b>{avgIKK}%</b>.
         </div>
       </div>
 
@@ -6961,7 +6849,7 @@ function matrixSheets(tab){
     a1.push(["","JUMLAH SELURUHNYA",pT,rT,pT-rT,+(pT?rT/pT*100:0).toFixed(1)]);
     sheets.push({name:"Realisasi Anggaran",rows:a1});
     const a2=[["Kegiatan","Indikator Kinerja Kegiatan","Satuan","Target 2026","Realisasi TW I","Capaian %"]];
-    CAPAIAN_IKK_TW2.forEach(r=>a2.push([KEG_NAMA_TW1[r.keg],r.ind,r.sat,NUM(r.target),r.cap===0?"-":NUM(r.real),r.cap]));
+    CAPAIAN_IKK_TW1.forEach(r=>a2.push([KEG_NAMA_TW1[r.keg],r.ind,r.sat,NUM(r.target),r.cap===0?"-":NUM(r.real),r.cap]));
     sheets.push({name:"Capaian IKK TW I",rows:a2});
     const a3=[["Kegiatan","Rincian Output","Pagu (Rp)","Realisasi (Rp)","Target","Capaian","Satuan","% Kinerja"]];
     CAPAIAN_RO_TW2.forEach(r=>a3.push([KEG_NAMA_TW1[r.keg],r.uraian,r.pagu,r.real,NUM(r.target),NUM(r.cap),r.sat,r.persen]));
