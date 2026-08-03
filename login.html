@@ -34,6 +34,9 @@
         <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
         <button type="button" class="pw-toggle" id="togglePw">Lihat</button>
       </div>
+      <div class="links" style="text-align:right;margin-top:6px;">
+        <a href="#" id="lupaPw">Lupa kata sandi?</a>
+      </div>
 
       <button id="btnMasuk" class="btn-primary">Masuk</button>
 
@@ -43,7 +46,7 @@
   </div>
 
   <script type="module">
-    import { auth, signInWithEmailAndPassword, signOut, getProfil } from "./auth.js";
+    import { auth, signInWithEmailAndPassword, signOut, getProfil, sendPasswordResetEmail } from "./auth.js";
 
     const $ = (id) => document.getElementById(id);
     const pesan = $("pesan");
@@ -100,6 +103,40 @@
 
     btn.addEventListener("click", masuk);
     ["email","password"].forEach(id => $(id).addEventListener("keydown", (e)=>{ if(e.key==="Enter") masuk(); }));
+
+    // Tampilkan pesan kalau datang dari redirect dashboard (akun belum di-approve)
+    if (new URLSearchParams(window.location.search).get("pending") === "1") {
+      show("info", "Akun Anda <b>menunggu persetujuan</b> administrator. Silakan coba masuk lagi setelah disetujui.");
+    }
+
+    // Lupa kata sandi — kirim email reset lewat Firebase
+    let resetCooldown = false;
+    $("lupaPw").addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (resetCooldown) return;
+      const email = $("email").value.trim();
+      if (!email) { show("err", "Isi dulu email Anda di atas, lalu klik \"Lupa kata sandi?\" lagi."); return; }
+
+      resetCooldown = true;
+      const link = $("lupaPw");
+      const linkTextAsli = link.textContent;
+      link.textContent = "Mengirim…";
+      try {
+        await sendPasswordResetEmail(auth, email);
+        show("ok", `Link reset kata sandi sudah dikirim ke <b>${email}</b>. Cek inbox (dan folder spam), lalu ikuti tautannya.`);
+      } catch (err) {
+        const c = (err && err.code) || "";
+        let m = "Gagal mengirim email reset kata sandi.";
+        if (c.includes("invalid-email")) m = "Format email tidak valid.";
+        else if (c.includes("user-not-found")) m = "Email tidak terdaftar. Periksa kembali atau daftar akun baru.";
+        else if (c.includes("too-many-requests")) m = "Terlalu banyak percobaan. Coba lagi beberapa saat.";
+        else if (c.includes("network")) m = "Gangguan jaringan. Periksa koneksi internet.";
+        show("err", m);
+      } finally {
+        link.textContent = linkTextAsli;
+        setTimeout(()=>{ resetCooldown = false; }, 30000); // cegah spam klik, 30 detik
+      }
+    });
   </script>
 </body>
 </html>
