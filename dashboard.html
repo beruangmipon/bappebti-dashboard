@@ -803,7 +803,7 @@ const PAGU_ANGGARAN_2027 = {
         {kode:"EBA.994", nama:"Layanan Perkantoran", target:"1 Layanan", pagu:5_298_546_000, pn:false, pkpn:false, pnbp:0},
         {kode:"EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:"1 Layanan", pagu:700_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"EBA.Z07", nama:"Layanan BMN", target:"1 Layanan", pagu:100_000_000, pn:false, pkpn:false, pnbp:0},
-        {kode:"EBC.Z10", nama:"Layanan Manajemen SDM", target:"1 Layanan", pagu:280_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBC.Z10", nama:"Layanan Manajemen SDM", target:"1 Orang", pagu:280_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"EBD.Z27", nama:"Layanan Manajemen Keuangan", target:"1 Layanan", pagu:270_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"EBD.Z32", nama:"Layanan Reformasi Kinerja", target:"1 Layanan", pagu:50_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"EBD.Z36", nama:"Layanan Manajemen Kinerja", target:"1 Layanan", pagu:140_800_000, pn:false, pkpn:false, pnbp:0},
@@ -824,8 +824,8 @@ const PAGU_ANGGARAN_2027 = {
         {kode:"AFA.001", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", target:"1 NSPK", pagu:340_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"BDB.001", nama:"Pembinaan/Pendampingan Implementasi PLK di Daerah Baru", target:"1 Lembaga", pagu:150_000_000, pn:false, pkpn:false, pnbp:0},
         {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi SRG/PLK", target:"15 Dokumen", pagu:394_825_000, pn:false, pkpn:false, pnbp:0},
-        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk SRG/PLK", target:"1 Rekomendasi", pagu:224_997_000, pn:true, pkpn:false, pnbp:0},
-        {kode:"PBB.G02", nama:"Rekomendasi Kebijakan Dampak Pengembangan Kelembagaan/Komoditi SRG/PLK", target:"1 Rekomendasi", pagu:62_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk SRG/PLK", target:"1 Rekomendasi Kebijakan", pagu:224_997_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"PBB.G02", nama:"Rekomendasi Kebijakan Dampak Pengembangan Kelembagaan/Komoditi SRG/PLK", target:"1 Rekomendasi Kebijakan", pagu:62_000_000, pn:true, pkpn:false, pnbp:0},
         {kode:"PEA.001", nama:"Koordinasi dengan Pemangku Kepentingan SRG", target:"8 Kegiatan", pagu:270_026_000, pn:true, pkpn:true, pnbp:0},
         {kode:"PEA.002", nama:"Koordinasi Pemda & Pelaku Usaha untuk Penguatan Ekosistem PLK", target:"1 Kegiatan", pagu:70_000_000, pn:true, pkpn:false, pnbp:0},
         {kode:"QDB.001", nama:"Peningkatan Kompetensi Pengelola Gudang SRG", target:"40 Lembaga", pagu:360_000_000, pn:true, pkpn:true, pnbp:0},
@@ -855,7 +855,7 @@ const PAGU_ANGGARAN_2027 = {
         {kode:"AFA.001", nama:"SKKNI di Bidang Perdagangan Berjangka Komoditi", target:"1 NSPK", pagu:266_285_000, pn:false, pkpn:false, pnbp:0},
         {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi PBK", target:"7 Dokumen", pagu:215_410_000, pn:false, pkpn:false, pnbp:0},
         {kode:"FAB.002", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK", target:"2 Sistem Informasi", pagu:209_250_000, pn:false, pkpn:false, pnbp:0},
-        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk PBK", target:"2 Rekomendasi", pagu:200_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk PBK", target:"2 Rekomendasi Kebijakan", pagu:200_000_000, pn:true, pkpn:false, pnbp:0},
         {kode:"QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha PBK", target:"30 Badan Usaha", pagu:70_000_000, pn:true, pkpn:false, pnbp:0},
       ] },
   ],
@@ -2260,8 +2260,8 @@ function AIInsightCard({title, prompt, precomputed, sources}){
 }
 
 /* Skala penilaian RO per kategori — untuk evaluasi internal Bappebti. */
-function TargetTriple({ro, compact}){
-  const t = { 2025: targetForRO(ro,2025), 2026: targetForRO(ro,2026), 2027: targetForRO(ro,2027) };
+function TargetTriple({ro, compact, override2027}){
+  const t = { 2025: targetForRO(ro,2025), 2026: targetForRO(ro,2026), 2027: override2027 || targetForRO(ro,2027) };
   const Row = ({y,v})=>(
     <div className="flex items-center gap-2 text-[10px] leading-tight">
       <span className="mono text-[var(--text-3)] w-10 shrink-0">TA {y}</span>
@@ -5972,7 +5972,7 @@ function AnalisisAnggaran2027(){
                             {ini && <span className={`pill ${ini.pill} text-[8px] shrink-0`} title={ini.kind==="new"?"RO baru pada TA 2027 — tidak ada padanan di TA 2026":(ini.kind==="cont"?"RO berlanjut dari tahun sebelumnya/berikutnya":"RO TA 2026 tidak diusulkan kembali di TA 2027")}>{ini.label}</span>}
                           </div>
                           <div className="text-[9px] text-[var(--text-3)] mt-0.5">Target output:</div>
-                          <TargetTriple ro={r} compact/>
+                          <TargetTriple ro={r} compact override2027={isRanwal?r.target:undefined}/>
                           <div className="text-[9px] text-[var(--text-3)] mt-0.5">{t.readiness.label} <span title={t.readiness.note}>ⓘ</span></div>
                         </td>
                         <td className="py-1 pr-2 text-right mono text-[var(--gold)] whitespace-nowrap">{fmtRp(r.anggaran)}</td>
