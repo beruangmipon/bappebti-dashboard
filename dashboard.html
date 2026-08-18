@@ -338,13 +338,16 @@ const SS = [
 ];
 
 /* TINGKAT 2 — Indikator Sasaran Program (dari Renstra Bab IV; target = kolom 2026).
-   Bila berbeda dengan Renja, mengikuti Renja sesuai arahan. */
+   Bila berbeda dengan Renja, mengikuti Renja sesuai arahan.
+   Target t.2027 diperbarui sesuai KRISNA REKAP 2A — Program K/L TA 2027 (diakses 17 Agustus 2026):
+   Program Dukungan Manajemen (SAKIP, Indeks Integritas) & Program Perdagangan Dalam Negeri
+   (Pertumbuhan Pelaku, Pertumbuhan Gudang SRG, Kepatuhan & Penegakan Hukum, Indeks Kepuasan Layanan). */
 const IKSS = [
   { id:"ISP-1", ss:"SP-01", nama:"Pertumbuhan pelaku yang bertransaksi di PBK dan PLK", target:"4%",    t:{2027:"4%"},    baseline:"-5,75%" },
   { id:"ISP-2", ss:"SP-01", nama:"Pertumbuhan Gudang yang mengimplementasikan SRG",     target:"6%",    t:{2027:"6%"},    baseline:"6,3%" },
   { id:"ISP-3", ss:"SP-01", nama:"Tingkat kepatuhan & penegakan hukum Pelaku Usaha PBK, SRG, PLK", target:"82%", t:{2027:"82%"}, baseline:"75,36%" },
-  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"84"},    baseline:"88,28" },
-  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas (SPI) Bappebti",          target:"69,79", t:{2027:"74,6"},  baseline:"74,34" },
+  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"91"},    baseline:"88,28" },
+  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas (SPI) Bappebti",          target:"69,79", t:{2027:"70"},  baseline:"74,34" },
   { id:"ISP-6", ss:"SP-02", nama:"Nilai Akuntabilitas Kinerja (SAKIP) Bappebti",        target:"82,50", t:{2027:"82,75"}, baseline:"82,56" },
   { id:"ISP-7", ss:"SP-02", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94"}, baseline:"-" },
 ];
@@ -784,7 +787,11 @@ const has2025 = (kegId)=> ["K-3758","K-3759","K-3760","K-3761","K-3762"].include
    Rp3,33 M, dan berbeda dari usulan RANWAL Rp35,02 M yang dipakai pada tabel penelaahan 5-kriteria
    di bawah). Nilai pagu & target = RO (Rincian Output) sesuai dokumen resmi, dalam Rupiah penuh
    (dokumen aslinya dalam ribuan). IKK & target 2027 pada blok ini mengikuti kolom "TARGET 2027"
-   Rekap 3A — telah dipakai untuk memperbarui kolom t.2027 pada array IKK master di atas. */
+   Rekap 3A — telah dipakai untuk memperbarui kolom t.2027 pada array IKK master di atas.
+   Field pn/pkpn di-cross-reference dari tagging RO_2027/RO_2027_KL (RANWAL, kode RO identik/setara)
+   dan PKPN_KLASTER_MAP (4 RO resmi: QDC.002 & QDB.001 Klaster Kedaulatan Pangan; PEA.001 & QDB.002
+   Klaster Ekonomi Kerakyatan & Desa). Field pnbp = porsi PNBP dalam pagu RO (dari tabel C. Sumber
+   Pendanaan tiap dokumen Rekap 3A); sisanya Rupiah Murni (RM/Operasional). */
 const PAGU_ANGGARAN_2027 = {
   sumber: "KRISNA Rekap 3A — Renja K/L TA 2027 (diakses 17 Agustus 2026)",
   totalAll: 15_735_346_000,
@@ -792,64 +799,64 @@ const PAGU_ANGGARAN_2027 = {
     { kode:"3758", nama:"Dukungan Manajemen dan Dukungan Teknis Lainnya", unit:"Sekretariat Bappebti", total:7_075_346_000,
       ikk:[ {nama:"Nilai WTA Bappebti", target:"WTA Madya"}, {nama:"IKPA Bappebti", target:"97"}, {nama:"Survei Kepuasan Masyarakat PBK/SRG/PLK", target:"83"} ],
       ro:[
-        {kode:"CAN.001", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti", target:"2 Unit", pagu:236_000_000},
-        {kode:"EBA.994", nama:"Layanan Perkantoran", target:"1 Layanan", pagu:5_298_546_000},
-        {kode:"EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:"1 Layanan", pagu:700_000_000},
-        {kode:"EBA.Z07", nama:"Layanan BMN", target:"1 Layanan", pagu:100_000_000},
-        {kode:"EBC.Z10", nama:"Layanan Manajemen SDM", target:"1 Layanan", pagu:280_000_000},
-        {kode:"EBD.Z27", nama:"Layanan Manajemen Keuangan", target:"1 Layanan", pagu:270_000_000},
-        {kode:"EBD.Z32", nama:"Layanan Reformasi Kinerja", target:"1 Layanan", pagu:50_000_000},
-        {kode:"EBD.Z36", nama:"Layanan Manajemen Kinerja", target:"1 Layanan", pagu:140_800_000},
+        {kode:"CAN.001", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti", target:"2 Unit", pagu:236_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBA.994", nama:"Layanan Perkantoran", target:"1 Layanan", pagu:5_298_546_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBA.Z03", nama:"Layanan Hubungan Masyarakat dan Informasi", target:"1 Layanan", pagu:700_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBA.Z07", nama:"Layanan BMN", target:"1 Layanan", pagu:100_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBC.Z10", nama:"Layanan Manajemen SDM", target:"1 Layanan", pagu:280_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBD.Z27", nama:"Layanan Manajemen Keuangan", target:"1 Layanan", pagu:270_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBD.Z32", nama:"Layanan Reformasi Kinerja", target:"1 Layanan", pagu:50_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"EBD.Z36", nama:"Layanan Manajemen Kinerja", target:"1 Layanan", pagu:140_800_000, pn:false, pkpn:false, pnbp:0},
       ] },
     { kode:"3759", nama:"Pengawasan dan Penindakan PBK, SRG, dan PLK", unit:"Biro Pengawasan dan Penindakan", total:2_033_000_000,
       ikk:[ {nama:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", target:"85%"}, {nama:"% Penanganan Pelanggaran Ketentuan", target:"79%"} ],
       ro:[
-        {kode:"BIC.001", nama:"Pengawasan Penyelenggara PLK", target:"4 Lembaga", pagu:106_990_000},
-        {kode:"BIH.001", nama:"Pengawasan Pelaku Usaha PBK melalui Audit", target:"24 Badan Usaha", pagu:879_930_000},
-        {kode:"BIH.002", nama:"Pengawasan Pelaku Usaha Legal/Illegal melalui Penindakan PBK/SRG/PLK", target:"23 Badan Usaha", pagu:760_080_000},
-        {kode:"QIH.001", nama:"Pengawasan Pelaku Usaha SRG", target:"10 Badan Usaha", pagu:286_000_000},
+        {kode:"BIC.001", nama:"Pengawasan Penyelenggara PLK", target:"4 Lembaga", pagu:106_990_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BIH.001", nama:"Pengawasan Pelaku Usaha PBK melalui Audit", target:"24 Badan Usaha", pagu:879_930_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BIH.002", nama:"Pengawasan Pelaku Usaha Legal/Illegal melalui Penindakan PBK/SRG/PLK", target:"23 Badan Usaha", pagu:760_080_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"QIH.001", nama:"Pengawasan Pelaku Usaha SRG", target:"10 Badan Usaha", pagu:286_000_000, pn:true, pkpn:false, pnbp:0},
       ] },
     { kode:"3760", nama:"Pembinaan dan Pengembangan SRG dan PLK", unit:"Biro Pembinaan dan Pengembangan SRG/PLK", total:3_061_379_000,
       ikk:[ {nama:"Pertumbuhan Pengelola Gudang SRG", target:"5%"}, {nama:"Pertumbuhan Pelaku PLK", target:"5%"}, {nama:"% Peserta Bimtek SRG/PLK Meningkat Pemahaman", target:"90%"}, {nama:"Indeks Kepuasan Layanan Perizinan SRG/PLK", target:"92"}, {nama:"Rekomendasi Kebijakan SRG/PLK ditindaklanjuti", target:"75%"} ],
       ro:[
-        {kode:"ACD.001", nama:"Perizinan Lembaga SRG", target:"10 Lembaga", pagu:250_000_000},
-        {kode:"ACD.002", nama:"Perizinan Lembaga PLK", target:"1 Lembaga", pagu:25_000_000},
-        {kode:"AFA.001", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", target:"1 NSPK", pagu:340_000_000},
-        {kode:"BDB.001", nama:"Pembinaan/Pendampingan Implementasi PLK di Daerah Baru", target:"1 Lembaga", pagu:150_000_000},
-        {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi SRG/PLK", target:"15 Dokumen", pagu:394_825_000},
-        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk SRG/PLK", target:"1 Rekomendasi", pagu:224_997_000},
-        {kode:"PBB.G02", nama:"Rekomendasi Kebijakan Dampak Pengembangan Kelembagaan/Komoditi SRG/PLK", target:"1 Rekomendasi", pagu:62_000_000},
-        {kode:"PEA.001", nama:"Koordinasi dengan Pemangku Kepentingan SRG", target:"8 Kegiatan", pagu:270_026_000},
-        {kode:"PEA.002", nama:"Koordinasi Pemda & Pelaku Usaha untuk Penguatan Ekosistem PLK", target:"1 Kegiatan", pagu:70_000_000},
-        {kode:"QDB.001", nama:"Peningkatan Kompetensi Pengelola Gudang SRG", target:"40 Lembaga", pagu:360_000_000},
-        {kode:"QDB.002", nama:"Pembinaan Calon Pengelola Gudang SRG", target:"40 Lembaga", pagu:150_000_000},
-        {kode:"QDB.003", nama:"Pendampingan Implementasi WMS", target:"2 Lembaga", pagu:72_237_000},
-        {kode:"QDB.004", nama:"Fasilitasi Lembaga Penyalur Skema Subsidi Resi Gudang", target:"1 Lembaga", pagu:72_294_000},
-        {kode:"QDC.001", nama:"Pembinaan/Pendampingan Pertemuan Teknis Pelaku Usaha PLK", target:"50 Orang", pagu:150_000_000},
-        {kode:"QDC.002", nama:"Fasilitasi dan Pembinaan Pelaku Usaha dan Petani SRG", target:"260 Orang", pagu:320_000_000},
-        {kode:"QDC.003", nama:"Pembinaan/Pendampingan Asistensi Pelaku Usaha PLK", target:"50 Orang", pagu:90_000_000},
-        {kode:"UAB.001", nama:"Sistem Aplikasi SPLT", target:"1 Sistem Informasi", pagu:30_000_000},
-        {kode:"UAB.002", nama:"Sistem Aplikasi WMS", target:"1 Sistem Informasi", pagu:30_000_000},
+        {kode:"ACD.001", nama:"Perizinan Lembaga SRG", target:"10 Lembaga", pagu:250_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"ACD.002", nama:"Perizinan Lembaga PLK", target:"1 Lembaga", pagu:25_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"AFA.001", nama:"Rancangan NSPK SKKNI Pengelola Gudang SRG", target:"1 NSPK", pagu:340_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BDB.001", nama:"Pembinaan/Pendampingan Implementasi PLK di Daerah Baru", target:"1 Lembaga", pagu:150_000_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi SRG/PLK", target:"15 Dokumen", pagu:394_825_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk SRG/PLK", target:"1 Rekomendasi", pagu:224_997_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"PBB.G02", nama:"Rekomendasi Kebijakan Dampak Pengembangan Kelembagaan/Komoditi SRG/PLK", target:"1 Rekomendasi", pagu:62_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"PEA.001", nama:"Koordinasi dengan Pemangku Kepentingan SRG", target:"8 Kegiatan", pagu:270_026_000, pn:true, pkpn:true, pnbp:0},
+        {kode:"PEA.002", nama:"Koordinasi Pemda & Pelaku Usaha untuk Penguatan Ekosistem PLK", target:"1 Kegiatan", pagu:70_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"QDB.001", nama:"Peningkatan Kompetensi Pengelola Gudang SRG", target:"40 Lembaga", pagu:360_000_000, pn:true, pkpn:true, pnbp:0},
+        {kode:"QDB.002", nama:"Pembinaan Calon Pengelola Gudang SRG", target:"40 Lembaga", pagu:150_000_000, pn:true, pkpn:true, pnbp:0},
+        {kode:"QDB.003", nama:"Pendampingan Implementasi WMS", target:"2 Lembaga", pagu:72_237_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"QDB.004", nama:"Fasilitasi Lembaga Penyalur Skema Subsidi Resi Gudang", target:"1 Lembaga", pagu:72_294_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"QDC.001", nama:"Pembinaan/Pendampingan Pertemuan Teknis Pelaku Usaha PLK", target:"50 Orang", pagu:150_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"QDC.002", nama:"Fasilitasi dan Pembinaan Pelaku Usaha dan Petani SRG", target:"260 Orang", pagu:320_000_000, pn:true, pkpn:true, pnbp:0},
+        {kode:"QDC.003", nama:"Pembinaan/Pendampingan Asistensi Pelaku Usaha PLK", target:"50 Orang", pagu:90_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"UAB.001", nama:"Sistem Aplikasi SPLT", target:"1 Sistem Informasi", pagu:30_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"UAB.002", nama:"Sistem Aplikasi WMS", target:"1 Sistem Informasi", pagu:30_000_000, pn:true, pkpn:false, pnbp:0},
       ] },
     { kode:"3761", nama:"Peningkatan Efektivitas Kebijakan dan Pelayanan Hukum", unit:"Biro Perundang-undangan PBK, SRG, dan PLK", total:1_559_250_000,
       ikk:[ {nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK/SRG/PLK", target:"77"}, {nama:"Penyelesaian Perselisihan PBK sesuai SLA", target:"92%"}, {nama:"Indeks Kepuasan Layanan Penyelesaian Perselisihan & Konsultasi Hukum", target:"85"} ],
       ro:[
-        {kode:"AAH.F01", nama:"Peraturan Bappebti di Bidang PBK, SRG dan PLK", target:"7 Peraturan", pagu:255_500_000},
-        {kode:"AEA.001", nama:"Koordinasi Uji Publik dan Harmonisasi Kebijakan PBK/SRG/PLK", target:"7 Kegiatan", pagu:524_125_000},
-        {kode:"BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG dan PLK", target:"26 Orang", pagu:568_750_000},
-        {kode:"BCB.001", nama:"Layanan Penanganan Perkara/Alternatif Penyelesaian Perselisihan", target:"5 Perkara", pagu:210_875_000},
+        {kode:"AAH.F01", nama:"Peraturan Bappebti di Bidang PBK, SRG dan PLK", target:"7 Peraturan", pagu:255_500_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"AEA.001", nama:"Koordinasi Uji Publik dan Harmonisasi Kebijakan PBK/SRG/PLK", target:"7 Kegiatan", pagu:524_125_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BBA.001", nama:"Layanan Asistensi Hukum di Bidang PBK, SRG dan PLK", target:"26 Orang", pagu:568_750_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BCB.001", nama:"Layanan Penanganan Perkara/Alternatif Penyelesaian Perselisihan", target:"5 Perkara", pagu:210_875_000, pn:false, pkpn:false, pnbp:0},
       ] },
     { kode:"3762", nama:"Pembinaan dan Pengembangan PBK", unit:"Biro Pembinaan dan Pengembangan PBK", total:2_006_371_000,
       ikk:[ {nama:"Rekomendasi Kebijakan PBK ditindaklanjuti", target:"75%"}, {nama:"Pertumbuhan Pengguna Layanan Informasi PBK", target:"6%"}, {nama:"Pertumbuhan Pelaku PBK", target:"6%"}, {nama:"Indeks Kepuasan Layanan Perizinan PBK", target:"84"}, {nama:"% Peserta Bimtek PBK Meningkat Pemahaman", target:"84%"} ],
       ro:[
-        {kode:"ACB.001", nama:"Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", target:"400 Orang", pagu:146_850_000},
-        {kode:"ACD.001", nama:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", target:"605 Badan Usaha", pagu:676_296_000},
-        {kode:"ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang/Penasihat Berjangka", target:"260 Orang", pagu:222_280_000},
-        {kode:"AFA.001", nama:"SKKNI di Bidang Perdagangan Berjangka Komoditi", target:"1 NSPK", pagu:266_285_000},
-        {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi PBK", target:"7 Dokumen", pagu:215_410_000},
-        {kode:"FAB.002", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK", target:"2 Sistem Informasi", pagu:209_250_000},
-        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk PBK", target:"2 Rekomendasi", pagu:200_000_000},
-        {kode:"QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha PBK", target:"30 Badan Usaha", pagu:70_000_000},
+        {kode:"ACB.001", nama:"Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", target:"400 Orang", pagu:146_850_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"ACD.001", nama:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", target:"605 Badan Usaha", pagu:676_296_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang/Penasihat Berjangka", target:"260 Orang", pagu:222_280_000, pn:false, pkpn:false, pnbp:90_000_000},
+        {kode:"AFA.001", nama:"SKKNI di Bidang Perdagangan Berjangka Komoditi", target:"1 NSPK", pagu:266_285_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"BMA.001", nama:"Data dan Informasi Harga Komoditi PBK", target:"7 Dokumen", pagu:215_410_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"FAB.002", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK", target:"2 Sistem Informasi", pagu:209_250_000, pn:false, pkpn:false, pnbp:0},
+        {kode:"PBB.G01", nama:"Rekomendasi Kebijakan Pengembangan Kelembagaan/Produk PBK", target:"2 Rekomendasi", pagu:200_000_000, pn:true, pkpn:false, pnbp:0},
+        {kode:"QDH.001", nama:"Fasilitasi dan Pembinaan Pelaku Usaha PBK", target:"30 Badan Usaha", pagu:70_000_000, pn:true, pkpn:false, pnbp:0},
       ] },
   ],
 };
@@ -5565,7 +5572,6 @@ function AnalisisAnggaran2027(){
   const [pkpnCandOpen, setPkpnCandOpen] = useState(false); // (panel kandidat PKPN dihapus — masa pengajuan TA 2027 berakhir; state disisakan tanpa efek)
   const [openKeg, setOpenKeg] = useState(null); // expand/collapse kartu Pagu Anggaran 2027 per Kegiatan
   const [showSBKK, setShowSBKK] = useState(true); // tampilkan/sembunyikan kartu Usulan SBKK TA 2027
-  const [showTambahanPA, setShowTambahanPA] = useState(true); // tampilkan/sembunyikan kartu Usulan Tambahan Pagu Anggaran TA 2027
   const [showPenelaahanBiro, setShowPenelaahanBiro] = useState(true); // tampilkan/sembunyikan tabel penelaahan per Biro/Kegiatan
   const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
   const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
@@ -5878,113 +5884,6 @@ function AnalisisAnggaran2027(){
         );
       })()}
 
-      {/* Usulan Tambahan Pagu Anggaran TA 2027 (RANWAL) */}
-      {isRanwal && (()=>{
-        const rows = USULAN_TAMBAHAN_PA_2027;
-        const total = rows.reduce((s,r)=>s+r.pagu,0);
-        const byTag = (t)=> rows.filter(r=>r.pkpn===t);
-        const sumOfRows = (arr)=> arr.reduce((s,r)=>s+r.pagu,0);
-        const pnRows = rows.filter(r=>r.pkpn==="PN");
-        const usulPnRows = rows.filter(r=>r.pkpn==="Prioritas Unit");
-        const pkpnRows = byTag("PKPN");
-        const nonTagRows = rows.filter(r=>!r.pkpn);
-        const sbkkRows = rows.filter(r=>r.sbkk);
-        const kegList = ["3758","3759","3760","3761","3762"];
-        const kegNama = {"3758":"Dukungan Manajemen","3759":"Pengawasan & Penindakan","3760":"Pembinaan SRG & PLK","3761":"Penyusunan Kebijakan & Hukum","3762":"Pembinaan PBK"};
-        const pkpnStyle = (p)=> p==="PN" ? {bg:"rgba(200,16,46,0.10)",c:"#c8102e",label:"PN"}
-                              : p==="Prioritas Unit" ? {bg:"rgba(217,119,6,0.10)",c:"#d97706",label:"Prioritas Unit"}
-                              : p==="PKPN" ? {bg:"rgba(37,99,235,0.10)",c:"#2563eb",label:"PKPN"}
-                              : {bg:"rgba(148,163,184,0.12)",c:"#94a3b8",label:"—"};
-        return (
-          <div className="card p-5 mb-6" style={{borderColor:"rgba(200,16,46,0.28)"}}>
-            <div className="flex items-start gap-3 flex-wrap mb-4">
-              <span className="text-[18px] leading-none mt-0.5" style={{color:"#c8102e"}}>＋</span>
-              <div className="flex-1 min-w-[260px]">
-                <div className="serif text-lg">Usulan Tambahan Pagu Anggaran TA 2027</div>
-                <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                  Rincian usulan tambahan anggaran <b>di atas Pagu Indikatif TA 2027</b> sesuai <i>Rincian Usulan Tambahan PA Bappebti 2027</i>: <b>{rows.length} RO</b> dengan total <b>{fmtRp(total)}</b>. Diajukan untuk mendukung penajaman Prioritas Nasional (PN), Program Khusus Prioritas Nasional (PKPN), penerapan SBKK, serta kekurangan operasional Dukungan Manajemen.
-                </p>
-              </div>
-              <span className="pill pill-red text-[10px] self-start">RANWAL · di atas pagu indikatif</span>
-              <button onClick={()=>setShowTambahanPA(s=>!s)} className="mono text-[9px] uppercase tracking-wider px-2 py-1 rounded border transition self-start text-[var(--text-3)] border-[var(--border)] hover:text-[var(--text-2)] hover:border-[var(--gold-soft)]">
-                {showTambahanPA?'▴ Sembunyikan':'▾ Tampilkan'}
-              </button>
-            </div>
-
-            {showTambahanPA && (<>
-            {/* ringkasan kategori — PN + Prioritas Unit + PKPN + Non-tematik = Total */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-1">
-              {[
-                {label:"Total Usulan Tambahan", val:fmtRp(total), sub:`${rows.length} RO`, c:"#c8102e"},
-                {label:"Tagging PN", val:fmtRp(sumOfRows(pnRows)), sub:`${pnRows.length} RO`, c:"#c8102e"},
-                {label:"Prioritas Unit (usulan PN)", val:fmtRp(sumOfRows(usulPnRows)), sub:`${usulPnRows.length} RO`, c:"#d97706"},
-                {label:"PKPN", val:fmtRp(sumOfRows(pkpnRows)), sub:`${pkpnRows.length} RO`, c:"#2563eb"},
-                {label:"Non-tematik / Lainnya", val:fmtRp(sumOfRows(nonTagRows)), sub:`${nonTagRows.length} RO`, c:"#64748b"},
-              ].map((k,i)=>(
-                <div key={i} className="rounded-lg p-3" style={{background:"var(--surface-2)",border:"1px solid var(--border)"}}>
-                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">{k.label}</div>
-                  <div className="serif text-[15px] mt-1" style={{color:k.c}}>{k.val}</div>
-                  <div className="text-[10px] text-[var(--text-3)] mt-0.5">{k.sub}</div>
-                </div>
-              ))}
-            </div>
-            <div className="text-[9px] text-[var(--text-3)] mb-4 italic">PN + Prioritas Unit + PKPN + Non-tematik = {fmtRp(sumOfRows(pnRows)+sumOfRows(usulPnRows)+sumOfRows(pkpnRows)+sumOfRows(nonTagRows))} (sama dengan Total). "Prioritas Unit" = prioritas tingkat unit yang diusulkan menjadi PN. Non-tematik mencakup kekurangan operasional Dukungan Manajemen (EBA) serta RO ber-SBKK yang belum bertag PN/PKPN.</div>
-
-            <div className="overflow-x-auto scrollbar">
-              <table className="w-full text-[11px]" style={{borderCollapse:"collapse"}}>
-                <thead>
-                  <tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{borderBottom:"2px solid var(--border-strong)"}}>
-                    <th className="py-1.5 pr-2">Kode RO</th>
-                    <th className="py-1.5 pr-2">Rincian Output</th>
-                    <th className="py-1.5 pr-2 text-right">Target</th>
-                    <th className="py-1.5 pr-2 text-right">Usulan Tambahan Pagu</th>
-                    <th className="py-1.5 pr-2 text-center">PKPN / PN</th>
-                    <th className="py-1.5 pr-2 text-center">SBKK</th>
-                    <th className="py-1.5 pr-2">Keterangan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {kegList.map(kid=>{
-                    const krows = rows.filter(r=>r.keg===kid);
-                    if(!krows.length) return null;
-                    const ksum = sumOfRows(krows);
-                    return (
-                      <React.Fragment key={kid}>
-                        <tr style={{background:"var(--surface-2)"}}>
-                          <td colSpan={3} className="py-1 pr-2 mono text-[10px] font-semibold text-[var(--text-2)]">Kegiatan {kid} · {kegNama[kid]}</td>
-                          <td className="py-1 pr-2 text-right mono text-[10px] font-semibold text-[var(--text-2)]">{fmtRp(ksum)}</td>
-                          <td colSpan={3} className="py-1 pr-2 text-[10px] text-[var(--text-3)]">{krows.length} RO</td>
-                        </tr>
-                        {krows.map(r=>{
-                          const ps = pkpnStyle(r.pkpn);
-                          return (
-                            <tr key={r.kode} style={{borderBottom:"1px solid var(--border)"}}>
-                              <td className="py-1.5 pr-2 mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.kode}</td>
-                              <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.nama}</td>
-                              <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)] whitespace-nowrap">{r.target} <span className="text-[9px]">{r.satuan}</span></td>
-                              <td className="py-1.5 pr-2 text-right mono whitespace-nowrap" style={{fontWeight:600}}>{fmtRp(r.pagu)}</td>
-                              <td className="py-1.5 pr-2 text-center"><span className="pill text-[9px]" style={{background:ps.bg,color:ps.c,borderColor:ps.c+'55'}}>{ps.label}</span></td>
-                              <td className="py-1.5 pr-2 text-center">{r.sbkk ? <span style={{color:"var(--emerald)"}} title="Output dapat ber-SBKK">✓</span> : <span className="text-[var(--text-3)]">—</span>}</td>
-                              <td className="py-1.5 pr-2 text-[10px] text-[var(--text-3)]">{r.ket||"—"}</td>
-                            </tr>
-                          );
-                        })}
-                      </React.Fragment>
-                    );
-                  })}
-                  <tr style={{borderTop:"2px solid var(--border-strong)"}}>
-                    <td colSpan={3} className="py-2 pr-2 font-semibold text-[var(--text-1)]">TOTAL Seluruhnya</td>
-                    <td className="py-2 pr-2 text-right mono font-bold" style={{color:"#c8102e"}}>{fmtRp(total)}</td>
-                    <td colSpan={3}></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: Rincian Usulan Tambahan PA Bappebti TA 2027, Satker 090.07 Bappebti, Kementerian Perdagangan. Angka merupakan usulan tambahan <b>di atas Pagu Indikatif</b> dan bersifat RANWAL — penetapan mengikuti hasil penelaahan/Pagu Anggaran. Kolom PKPN/PN: <b>PN</b> sudah ditandai Prioritas Nasional; <b>Prioritas Unit</b> prioritas tingkat unit yang diusulkan menjadi PN; <b>PKPN</b> Program Khusus Prioritas Nasional; <b>—</b> non-tematik (a.l. kekurangan operasional Dukungan Manajemen). Tanda ✓ pada kolom SBKK = output dapat diusulkan ber-SBKK. RO 3759 dikoreksi dari QIH.002 menjadi QIH.001 sesuai nomenklatur RO TA 2027 yang berlaku.</div>
-            </>)}
-          </div>
-        );
-      })()}
 
       {/* Tabel per kegiatan — matriks 5 kriteria */}
       <div className="flex items-center justify-between mb-2">
@@ -6249,7 +6148,26 @@ function AnalisisAnggaran2027(){
       {/* ── PAGU ANGGARAN 2027 BAPPEBTI — KRISNA REKAP 3A, diakses 17 Agustus 2026 ── */}
       {isRanwal && (()=>{
         const d = PAGU_ANGGARAN_2027;
+        const allRO = d.keg.flatMap(k=>k.ro.map(r=>({...r, keg:k.kode})));
         const maxKeg = Math.max(...d.keg.map(k=>k.total));
+        const pnRO = allRO.filter(r=>r.pn);
+        const pkpnRO = allRO.filter(r=>r.pkpn);
+        const totalPN = pnRO.reduce((s,r)=>s+r.pagu,0);
+        const totalPKPN = pkpnRO.reduce((s,r)=>s+r.pagu,0);
+        const totalPNBP = allRO.reduce((s,r)=>s+(r.pnbp||0),0);
+        const totalRM = d.totalAll - totalPNBP;
+        // "Operasional" = khusus 3758.EBA.994.002 (Operasional dan Pemeliharaan Kantor).
+        // RO 3758.EBA.994 di data ini = komponen 002 itu sendiri (RO tunggal, tanpa sub-komponen lain).
+        const roOperasional = allRO.find(r=>r.keg==="3758" && r.kode==="EBA.994");
+        const totalOperasional = roOperasional ? roOperasional.pagu : 0;
+        const totalNonOperasional = totalRM - totalOperasional;
+        const kpi = [
+          {label:"Total PN",  val:fmtRp(totalPN),  sub:`${pnRO.length} RO Prioritas Nasional`, color:"#c8102e", icon:"◆"},
+          {label:"Total PKPN", val:fmtRp(totalPKPN), sub:`${pkpnRO.length} RO Klaster PKPN`, color:"#2563eb", icon:"◈"},
+          {label:"Operasional (RM)", val:fmtRp(totalOperasional), sub:`${Math.round(totalOperasional/d.totalAll*100)}% dari total — 3758.EBA.994.002`, color:"#059669", icon:"◉"},
+          {label:"Non-Operasional (RM)", val:fmtRp(totalNonOperasional), sub:`${Math.round(totalNonOperasional/d.totalAll*100)}% dari total — RM di luar EBA.994.002`, color:"#0891b2", icon:"◐"},
+          {label:"PNBP", val:fmtRp(totalPNBP), sub:`${Math.round(totalPNBP/d.totalAll*100)}% dari total — ADI.001 Sertifikasi`, color:"#d97706", icon:"◎"},
+        ];
         return (
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4 flex-wrap">
@@ -6263,8 +6181,21 @@ function AnalisisAnggaran2027(){
 
             <div className="card p-4 mb-5" style={{borderColor:"rgba(5,150,105,0.30)",background:"rgba(5,150,105,0.04)"}}>
               <p className="text-[11px] leading-relaxed text-[var(--text-2)]">
-                Dokumen Pagu Anggaran TA 2027 ini merupakan hasil terbaru pada sistem KRISNA — <b>lebih maju dari Pagu Indikatif</b> (05 Juni 2026, Rp3,33 M, tiga kegiatan substantif masih Rp0) yang ditampilkan di atas. Seluruh <b>5 Kegiatan sudah berpagu</b> dengan total <b>{fmtRp(d.totalAll)}</b>. Target IKK 2027 pada dokumen ini sudah dipakai memperbarui target Renstra/Pohon Kinerja TA 2027 di seluruh dashboard. Angka pagu di tabel penelaahan 5-kriteria dan tagging tematik pada bagian lain tab ini masih memakai <b>usulan RANWAL</b> (Rp35,02 M) yang belum tentu identik dengan pagu resmi ini — RANWAL adalah usulan kebutuhan K/L, sementara kartu ini adalah pagu yang sudah ditetapkan di KRISNA.
+                Dokumen Pagu Anggaran TA 2027 ini merupakan hasil terbaru pada sistem KRISNA — <b>lebih maju dari Pagu Indikatif</b> (05 Juni 2026, Rp3,33 M, tiga kegiatan substantif masih Rp0) yang ditampilkan di bawah. Seluruh <b>5 Kegiatan sudah berpagu</b> dengan total <b>{fmtRp(d.totalAll)}</b>. Target IKK 2027 pada dokumen ini sudah dipakai memperbarui target Renstra/Pohon Kinerja TA 2027 di seluruh dashboard. Angka pagu di tabel penelaahan 5-kriteria dan tagging tematik pada bagian lain tab ini masih memakai <b>usulan RANWAL</b> (Rp35,02 M) yang belum tentu identik dengan pagu resmi ini — RANWAL adalah usulan kebutuhan K/L, sementara kartu ini adalah pagu yang sudah ditetapkan di KRISNA. Tagging <b>PN</b> mengikuti RO_2027/RO_2027_KL (RANWAL, kode setara); tagging <b>PKPN</b> mengikuti 4 RO resmi pada panel Identifikasi PKPN Klaster di bawah.
               </p>
+            </div>
+
+            {/* KPI 5 cards: Total PN / Total PKPN / Operasional / Non-Operasional / PNBP */}
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
+              {kpi.map((it,i)=>(
+                <div key={i} className="card p-4 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-full opacity-5" style={{background:it.color}}></div>
+                  <div className="text-lg mb-1" style={{color:it.color}}>{it.icon}</div>
+                  <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">{it.label}</div>
+                  <div className="serif text-xl font-bold" style={{color:it.color}}>{it.val}</div>
+                  <div className="text-[10px] text-[var(--text-3)] mt-1 leading-snug">{it.sub}</div>
+                </div>
+              ))}
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5">
@@ -6309,6 +6240,8 @@ function AnalisisAnggaran2027(){
                               <th className="py-1.5 pr-2">Rincian Output</th>
                               <th className="py-1.5 pr-2 text-right">Target</th>
                               <th className="py-1.5 pr-2 text-right">Pagu 2027</th>
+                              <th className="py-1.5 pr-2 text-center">Tag</th>
+                              <th className="py-1.5 pr-2 text-center">Dana</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -6318,6 +6251,16 @@ function AnalisisAnggaran2027(){
                                 <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.nama}</td>
                                 <td className="py-1.5 pr-2 text-right mono text-[10px] text-[var(--text-3)] whitespace-nowrap">{r.target}</td>
                                 <td className="py-1.5 pr-2 text-right mono whitespace-nowrap" style={{fontWeight:600}}>{fmtRp(r.pagu)}</td>
+                                <td className="py-1.5 pr-2 text-center whitespace-nowrap">
+                                  {r.pn && <span className="pill text-[9px] mr-1" style={{background:"rgba(200,16,46,0.10)",color:"#c8102e",borderColor:"#c8102e55"}}>PN</span>}
+                                  {r.pkpn && <span className="pill text-[9px]" style={{background:"rgba(37,99,235,0.10)",color:"#2563eb",borderColor:"#2563eb55"}}>PKPN</span>}
+                                  {!r.pn && !r.pkpn && <span className="text-[var(--text-3)]">—</span>}
+                                </td>
+                                <td className="py-1.5 pr-2 text-center whitespace-nowrap">
+                                  {r.pnbp>0
+                                    ? <span className="pill pill-gold text-[9px]" title={`PNBP: ${fmtRp(r.pnbp)}`}>Campuran</span>
+                                    : <span className="pill pill-blue text-[9px]">RM</span>}
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -6325,6 +6268,7 @@ function AnalisisAnggaran2027(){
                             <tr style={{borderTop:"2px solid var(--border-strong)"}}>
                               <td colSpan={3} className="py-2 pr-2 font-semibold text-[var(--text-1)]">TOTAL Kegiatan {k.kode}</td>
                               <td className="py-2 pr-2 text-right mono font-bold" style={{color:"#059669"}}>{fmtRp(k.total)}</td>
+                              <td colSpan={2}></td>
                             </tr>
                           </tfoot>
                         </table>
@@ -6334,7 +6278,7 @@ function AnalisisAnggaran2027(){
                 </div>
               );})}
             </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: {d.sumber}. Nilai RO diambil dari bagian "A. Pemetaan Kegiatan" tiap dokumen Rekap 3A per Kegiatan (3758–3762); target IKK diambil dari header "Sasaran Kegiatan" tiap dokumen. Dokumen aslinya dalam ribuan rupiah.</div>
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: {d.sumber}. Nilai RO diambil dari bagian "A. Pemetaan Kegiatan" tiap dokumen Rekap 3A per Kegiatan (3758–3762); target IKK diambil dari header "Sasaran Kegiatan" tiap dokumen. Kolom Tag: <b>PN</b> = Prioritas Nasional, <b>PKPN</b> = Program Kerja Prioritas Nasional (lihat panel Identifikasi PKPN Klaster). Kolom Dana: <b>RM</b> = Rupiah Murni, <b>Campuran</b> = RM + PNBP (rincian pada tooltip). <b>Operasional</b> = khusus RO 3758.EBA.994.002 (Operasional dan Pemeliharaan Kantor); seluruh RM lainnya (termasuk Layanan Perkantoran di luar komponen ini serta RO substantif ber-PN/PKPN) masuk <b>Non-Operasional</b>. Dokumen aslinya dalam ribuan rupiah.</div>
           </div>
         );
       })()}
