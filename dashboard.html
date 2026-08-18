@@ -6258,7 +6258,7 @@ function AnalisisAnggaran2027(){
                                 </td>
                                 <td className="py-1.5 pr-2 text-center whitespace-nowrap">
                                   {r.pnbp>0
-                                    ? <span className="pill pill-gold text-[9px]" title={`PNBP: ${fmtRp(r.pnbp)}`}>Campuran</span>
+                                    ? <span className="pill pill-gold text-[9px]" title={`PNBP: ${fmtRp(r.pnbp)}`}>RM+PNBP</span>
                                     : <span className="pill pill-blue text-[9px]">RM</span>}
                                 </td>
                               </tr>
@@ -6278,7 +6278,7 @@ function AnalisisAnggaran2027(){
                 </div>
               );})}
             </div>
-            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: {d.sumber}. Nilai RO diambil dari bagian "A. Pemetaan Kegiatan" tiap dokumen Rekap 3A per Kegiatan (3758–3762); target IKK diambil dari header "Sasaran Kegiatan" tiap dokumen. Kolom Tag: <b>PN</b> = Prioritas Nasional, <b>PKPN</b> = Program Kerja Prioritas Nasional (lihat panel Identifikasi PKPN Klaster). Kolom Dana: <b>RM</b> = Rupiah Murni, <b>Campuran</b> = RM + PNBP (rincian pada tooltip). <b>Operasional</b> = khusus RO 3758.EBA.994.002 (Operasional dan Pemeliharaan Kantor); seluruh RM lainnya (termasuk Layanan Perkantoran di luar komponen ini serta RO substantif ber-PN/PKPN) masuk <b>Non-Operasional</b>. Dokumen aslinya dalam ribuan rupiah.</div>
+            <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Sumber: {d.sumber}. Nilai RO diambil dari bagian "A. Pemetaan Kegiatan" tiap dokumen Rekap 3A per Kegiatan (3758–3762); target IKK diambil dari header "Sasaran Kegiatan" tiap dokumen. Kolom Tag: <b>PN</b> = Prioritas Nasional, <b>PKPN</b> = Program Kerja Prioritas Nasional (lihat panel Identifikasi PKPN Klaster). Kolom Dana: <b>RM</b> = Rupiah Murni, <b>RM+PNBP</b> = gabungan Rupiah Murni dan PNBP dalam satu RO (rincian porsi PNBP pada tooltip). <b>Operasional</b> = khusus RO 3758.EBA.994.002 (Operasional dan Pemeliharaan Kantor); seluruh RM lainnya (termasuk Layanan Perkantoran di luar komponen ini serta RO substantif ber-PN/PKPN) masuk <b>Non-Operasional</b>. Dokumen aslinya dalam ribuan rupiah.</div>
           </div>
         );
       })()}
