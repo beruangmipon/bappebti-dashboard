@@ -4004,7 +4004,7 @@ function ExecutiveSummary({year}){
     {l:"Resi Gudang (kumulatif)", v:fmtNumRG(srg.rg), s:`s.d. ${Math.min(year,2026)}`, c:"#a16207"},
     {l:"Nilai Penerbitan SRG", v:fmtRpRG(srg.nilai), s:`pembiayaan ${fmtRpRG(srg.biaya)}`, c:"#059669"},
     {l:"Gudang SRG", v:`${aktif}/${totalGudang}`, s:"aktif / total", c:"#ca8a04"},
-    {l:`Transaksi PLK TA ${year}`, v:plk?fmtMil(plk.nilai):"—", s:plk?(plk.p?"s.d. Mei":(plkYoY!=null?`${plkYoY>=0?"▲":"▼"} ${Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY`:"")):"belum tersedia", c:"#409B56", trend:plk&&!plk.p&&plkYoY!=null?(plkYoY>=0?"up":"down"):null},
+    {l:`Transaksi PLK TA ${year}`, v:plk?fmtMil(plk.nilai):"—", s:plk?(plk.p?"s.d. Agustus":(plkYoY!=null?`${plkYoY>=0?"▲":"▼"} ${Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY`:"")):"belum tersedia", c:"#409B56", trend:plk&&!plk.p&&plkYoY!=null?(plkYoY>=0?"up":"down"):null},
   ];
   return (
     <div className="max-w-[1400px] mx-auto px-8 pt-6">
@@ -4026,7 +4026,7 @@ function ExecutiveSummary({year}){
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 text-[12px] text-[var(--text-2)]">
           <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#a16207"}}></span><span>Sistem Resi Gudang: <b>{totalGudang}</b> gudang (<b>{aktif}</b> aktif); <b>{fmtNumRG(srg.rg)}</b> resi diterbitkan kumulatif s.d. {Math.min(year,2026)} senilai <b>{fmtRpRG(srg.nilai)}</b>.</span></div>
           <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#059669"}}></span><span>Provinsi penyumbang penerbitan terbesar: <b>{topProv?topProv.key:"—"}</b> ({topProv?fmtRpRG(topProv.nilai):"—"}); komoditas nilai terbesar: <b>{topKom?topKom.key:"—"}</b>.</span></div>
-          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>Pasar Lelang Komoditas TA {year}: {plk?<><b>{fmtMil(plk.nilai)}</b>{plk.p?" (s.d. Mei)":""}{plkYoY!=null&&!plk.p?<>, {plkYoY>=0?"naik":"turun"} {Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY</>:""}</>:<b>belum tersedia</b>}; {PLK_DAERAH.length} daerah penyelenggara; komoditas dominan Karet.</span></div>
+          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>Pasar Lelang Komoditas TA {year}: {plk?<><b>{fmtMil(plk.nilai)}</b>{plk.p?" (s.d. Agustus)":""}{plkYoY!=null&&!plk.p?<>, {plkYoY>=0?"naik":"turun"} {Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY</>:""}</>:<b>belum tersedia</b>}; {PLK_DAERAH.length} daerah penyelenggara; komoditas dominan Karet.</span></div>
           <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#7c3aed"}}></span><span>Sasaran Kemendag <b>SS1 · IKS 1.3</b> (pertumbuhan transaksi PBK/SRG/PLK): target TA {year} <b>{tgt?tgt+"%":"—"}</b>.</span></div>
         </div>
         {year===2026 && <div className="text-[10px] text-[var(--text-3)] mt-3 italic" style={{color:"#b45309"}}>Catatan TA 2026: kegiatan PLK tidak dianggarkan Kemendag — penyelenggaraan bertumpu pada penyelenggara mandiri (Riau & swasta murni). Lihat menu PLK.</div>}
@@ -6344,12 +6344,12 @@ function ensureXLSX(){
 /* ======================================================================== */
 /* MENU PLK — PASAR LELANG KOMODITAS                                         */
 /* Sumber: paparan Bappebti (DPR Feb 2026, Perteknis Riau Apr 2026,          */
-/* Palembang Des 2025, Transaksi PLK s.d. Mei 2026).                         */
+/* Palembang Des 2025, Transaksi PLK s.d. Agustus 2026).                      */
 /* ======================================================================== */
 const PLK_TRANSAKSI = [
   {th:"2021", nilai:85.5}, {th:"2022", nilai:52.5}, {th:"2023", nilai:66.1},
-  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.9}, {th:"2026", nilai:13.27, p:true},
-]; /* Rp Miliar; 2026* = s.d. Mei 2026 */
+  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.9}, {th:"2026", nilai:29.8, p:true},
+]; /* Rp Miliar; 2026* = s.d. Agustus 2026 (Rekap "Perkembangan Lelang Agustus 2026", Bappebti — GRAND TOTAL Rp29.766.040.450) */
 const PLK_BULAN_2025 = [
   {b:"Jan",n:1.027},{b:"Feb",n:3.082},{b:"Mar",n:2.217},{b:"Apr",n:1.751},{b:"Mei",n:2.262},{b:"Jun",n:2.453},
   {b:"Jul",n:2.019},{b:"Agu",n:2.957},{b:"Sep",n:1.987},{b:"Okt",n:3.872},{b:"Nov",n:3.971},{b:"Des",n:1.994},
@@ -6370,23 +6370,35 @@ const PLK_KOM_2025 = [
   {kom:"Kopi & Coklat", nilai:126100000, lelang:2, prov:"Aceh"},
 ]; /* Rp; peringkat komoditas PLK 2025 berdasarkan nilai transaksi (sheet Rekap) */
 const PLK_REKAP_2026 = [
-  {prov:"Riau", peny:"Koperasi Apkarkusi", kat:"revit", lelang:16, nilai:9470844799, kom:"Karet Bokar", pj:16, pb:163, ps:179},
-  {prov:"DKI Jakarta", peny:"PT KPBN & PT ACM", kat:"swasta", lelang:1, nilai:3795254400, kom:"Teh", pj:6, pb:15, ps:21, note:"1 lelang teh KPBN, 8 Januari 2026"},
+  {prov:"Riau", peny:"Koperasi Apkarkusi", kat:"revit", lelang:32, nilai:23004586050, kom:"Karet Bokar", pj:32, pb:307, ps:339},
+  {prov:"DKI Jakarta", peny:"PT KPBN", kat:"swasta", lelang:1, nilai:3795254400, kom:"Teh", pj:6, pb:22, ps:28, note:"1 lelang teh KPBN, 8 Januari 2026"},
+  {prov:"Jawa Barat", peny:"KPLJB", kat:"swasta", lelang:2, nilai:2205000000, kom:"Teh; Kakao, Kopi Robusta, Kopi Arabika, Kopi Liberika, Kulit Kopi", pj:54, pb:20, ps:74},
+  {prov:"Nusa Tenggara Barat", peny:"Disperindag NTB", kat:"dinas", lelang:1, nilai:687500000, kom:"Beras Premium, Biji Kakao", pj:23, pb:4, ps:27},
+  {prov:"Aceh", peny:"Disperindag Aceh", kat:"dinas", lelang:1, nilai:73700000, kom:"Kopi Arabika, Kopi Robusta, Coklat", pj:11, pb:4, ps:15},
 ];
-const PLK_REKAP_TOTAL_2026 = {lelang:17, nilai:13266099199, pj:22, pb:178, ps:200};
+const PLK_REKAP_TOTAL_2026 = {lelang:37, nilai:29766040450, pj:126, pb:357, ps:483};
+/* Sumber: "Perkembangan Lelang Agustus 2026" (rekap per-lelang, Bappebti), diupload 2026 — data lengkap
+   s.d. 23 Agustus 2026, GRAND TOTAL 37 lelang, Rp29.766.040.450, 126 penjual/357 pembeli/483 peserta —
+   sudah tervalidasi cocok persis dengan penjumlahan baris. Menggantikan rekap Mei 2026 sebelumnya
+   (2 penyelenggara) — kini 5 penyelenggara di 5 provinsi, termasuk NTB yang baru mulai lelang di 2026. */
 const PLK_KOM_2026 = [
-  {kom:"Karet Bokar", nilai:9470844799, lelang:16, prov:"Riau"},
-  {kom:"Teh", nilai:3795254400, lelang:1, prov:"DKI Jakarta"},
-]; /* Rp; peringkat komoditas PLK 2026 (s.d. Mei) — sheet Rekap */
+  {kom:"Karet Bokar", nilai:23004586050, lelang:32, prov:"Riau"},
+  {kom:"Kakao, Kopi Robusta, Kopi Arabika, Kopi Liberika, Kulit Kopi", nilai:1893000000, lelang:1, prov:"Jawa Barat"},
+  {kom:"Teh", nilai:4107254400, lelang:2, prov:"DKI Jakarta & Jawa Barat"},
+  {kom:"Beras Premium & Biji Kakao", nilai:687500000, lelang:1, prov:"Nusa Tenggara Barat"},
+  {kom:"Kopi Arabika, Kopi Robusta & Coklat", nilai:73700000, lelang:1, prov:"Aceh"},
+]; /* Rp; peringkat komoditas PLK 2026 (s.d. Agustus) — sheet "Perkembangan Lelang Agustus 2026" */
 const PLK_BULAN_2026 = [
-  {b:"Jan",n:6.034},{b:"Feb",n:1.877},{b:"Mar",n:2.857},{b:"Apr",n:1.841},{b:"Mei",n:0.656},
-]; /* Rp Miliar; lelang terdaftar Jan–Mei 2026 (sheet Rekap; total Rp13,27 M; di luar transaksi teh KPBN standing Rp82,29 M) */
+  {b:"Jan",n:6.034},{b:"Feb",n:1.877},{b:"Mar",n:2.857},{b:"Apr",n:1.841},
+  {b:"Mei",n:2.961},{b:"Jun",n:4.951},{b:"Jul",n:5.836},{b:"Agu",n:3.409},
+]; /* Rp Miliar; seluruh lelang tercatat Jan–Agu 2026 (5 penyelenggara: Apkarkusi/Riau, KPBN/DKI, KPLJB/Jabar,
+      Disperindag Aceh, Disperindag NTB); total Rp29,77 M, cocok dengan GRAND TOTAL rekap. */
 const PLK_DAERAH = [
-  {prov:"Aceh", kat:"dinas", tx:{2025:{nilai:126100000, kom:"Kopi, coklat", note:"2 lelang 2025 (Dinas Perdagangan Aceh)"}}}, {prov:"Sumatera Utara", kat:"dinas"}, {prov:"Riau", kat:"revit", peny:"Koperasi Apkarkusi", tx:{2025:{nilai:27399758377, kom:"Karet Bokar", note:"49 lelang sepanjang 2025 — penyelenggara paling aktif (APKARKUSI)"},2026:{nilai:9470844799, kom:"Karet Bokar", note:"16 lelang Jan–Mei 2026 (APKARKUSI)"}}},
+  {prov:"Aceh", kat:"dinas", tx:{2025:{nilai:126100000, kom:"Kopi, coklat", note:"2 lelang 2025 (Dinas Perdagangan Aceh)"},2026:{nilai:73700000, kom:"Kopi Arabika, Kopi Robusta, Coklat", note:"1 lelang, 18 Juni 2026 (Disperindag Aceh)"}}}, {prov:"Sumatera Utara", kat:"dinas"}, {prov:"Riau", kat:"revit", peny:"Koperasi Apkarkusi", tx:{2025:{nilai:27399758377, kom:"Karet Bokar", note:"49 lelang sepanjang 2025 — penyelenggara paling aktif (APKARKUSI)"},2026:{nilai:23004586050, kom:"Karet Bokar", note:"32 lelang Jan–Agustus 2026 (APKARKUSI) — penyelenggara paling aktif & konsisten tiap pekan"}}},
   {prov:"Sumatera Barat", kat:"dinas"}, {prov:"Jambi", kat:"dinas"}, {prov:"Lampung", kat:"revit", peny:"Koperasi Tani Serba Jadi Sukses Bersama"},
-  {prov:"Banten", kat:"dinas", tx:{2025:{nilai:386680000, kom:"Beras, kopi, gula aren, jagung, hortikultura", note:"1 lelang 13 Nov 2025"}}}, {prov:"Jawa Barat", kat:"swasta", peny:"KPLJB", tx:{2025:{nilai:0, kom:"—", note:"1 lelang 2025; nilai transaksi belum tercatat"}}}, {prov:"Jawa Tengah", kat:"revit", peny:"Kop. Wira Agri"},
-  {prov:"Nusa Tenggara Barat", kat:"dinas"}, {prov:"Sulawesi Tenggara", kat:"dinas"}, {prov:"Sulawesi Utara", kat:"dinas"},
-  {prov:"Bangka Belitung", kat:"revit", peny:"Koperasi Lada Babel"}, {prov:"DKI Jakarta", kat:"swasta", peny:"PT KPBN & PT ACM", tx:{2025:{nilai:83970000000, kom:"Teh & Kopi Robusta Greenbean", note:"transaksi teh Rp82,29 M + kopi robusta Rp1,68 M (4 lelang kopi) — PT KPBN"},2026:{nilai:3795254400, kom:"Teh", note:"1 lelang teh KPBN, 8 Januari 2026 (s.d. Mei)"}}},
+  {prov:"Banten", kat:"dinas", tx:{2025:{nilai:386680000, kom:"Beras, kopi, gula aren, jagung, hortikultura", note:"1 lelang 13 Nov 2025"}}}, {prov:"Jawa Barat", kat:"swasta", peny:"KPLJB", tx:{2025:{nilai:0, kom:"—", note:"1 lelang 2025; nilai transaksi belum tercatat"},2026:{nilai:2205000000, kom:"Teh; Kakao, Kopi Robusta, Kopi Arabika, Kopi Liberika, Kulit Kopi", note:"2 lelang, 14 Juni & 30 Juli 2026 (KPLJB) — mulai aktif bertransaksi di 2026"}}}, {prov:"Jawa Tengah", kat:"revit", peny:"Kop. Wira Agri"},
+  {prov:"Nusa Tenggara Barat", kat:"dinas", tx:{2026:{nilai:687500000, kom:"Beras Premium, Biji Kakao", note:"1 lelang, 30 Juli 2026 (Disperindag NTB) — provinsi baru mulai lelang di 2026"}}}, {prov:"Sulawesi Tenggara", kat:"dinas"}, {prov:"Sulawesi Utara", kat:"dinas"},
+  {prov:"Bangka Belitung", kat:"revit", peny:"Koperasi Lada Babel"}, {prov:"DKI Jakarta", kat:"swasta", peny:"PT KPBN & PT ACM", tx:{2025:{nilai:83970000000, kom:"Teh & Kopi Robusta Greenbean", note:"transaksi teh Rp82,29 M + kopi robusta Rp1,68 M (4 lelang kopi) — PT KPBN"},2026:{nilai:3795254400, kom:"Teh", note:"1 lelang teh KPBN, 8 Januari 2026 (s.d. Agustus — belum ada lelang lanjutan)"}}},
 ];
 /* kat: revit = swasta/koperasi hasil revitalisasi binaan Dinas; swasta = swasta murni; dinas = penyelenggara Dinas Perdagangan Provinsi. */
 const PLK_KAT = {
@@ -6402,7 +6414,7 @@ const PLK_KOM_2024 = [
   {kom:"Cengkeh", vol:80800, nilai:5.9}, {kom:"Gabah/Beras", vol:302100, nilai:4.5},
   {kom:"Cangkang Sawit", vol:2000000, nilai:2.4},
 ]; /* vol Kg; nilai Rp Miliar; Sumber: paparan Palembang (kinerja 2024) */
-const PLK_KOMODITAS_AKTIF = ["Karet","Teh","Cengkeh","Lada","Gabah/Beras","Kopi"];
+const PLK_KOMODITAS_AKTIF = ["Karet","Teh","Kopi","Kakao","Beras","Coklat"];
 const PLK_DASAR_HUKUM = [
   "Perpres No. 75 Tahun 2022 (Penataan, Pembinaan & Pengembangan PLK)",
   "Permendag No. 33 Tahun 2024 (Pelaksanaan Perpres 75/2022)",
@@ -6469,7 +6481,7 @@ const PLK_CRITICAL_PATH = [
    ],
    ind:"Nilai transaksi tumbuh stabil; referensi harga terbentuk & dirujuk pasar"},
 ];
-const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) Bappebti menunjukkan potensi yang nyata namun skala yang masih terbatas dan fluktuatif. Nilai transaksi bergerak dari Rp85,5 miliar (2021) turun ke Rp52,5 miliar (2022), pulih bertahap ke Rp66,1 miliar (2023) dan Rp97,2 miliar (2024), lalu mencapai puncak Rp111,9 miliar pada 2025 (+15,1% dibanding 2024). Namun capaian 2025 sangat terkonsentrasi: DKI Jakarta/PT KPBN menyumbang sekitar Rp84,0 miliar (75% dari total) — didorong satu transaksi teh senilai Rp82,29 miliar di samping kopi robusta Rp1,68 miliar — sedangkan Riau (Koperasi Apkarkusi/karet bokar) menyumbang Rp27,4 miliar (24%) dari 49 lelang mingguan, dengan sisanya kecil (Banten Rp0,39 miliar, Aceh Rp0,13 miliar). Tanpa transaksi teh yang bersifat satu kali, lelang reguler 2025 hanya sekitar Rp29,6 miliar — menandakan basis transaksi berulang masih tipis. Menurut rekap Mei 2026, transaksi riil TA 2026 (s.d. Mei) baru Rp13,27 miliar dari dua penyelenggara mandiri — Riau/Apkarkusi (karet bokar, Rp9,47 miliar dari 16 lelang) dan DKI/PT KPBN (teh, Rp3,80 miliar dari 1 lelang) — sejalan dengan tidak adanya anggaran PLK pada TA 2026. Baris transaksi teh KPBN Rp82,29 miliar pada rekap merupakan carryover 2025 dan tidak dihitung sebagai transaksi 2026. Diversifikasi penyelenggara dan keberlanjutan transaksi menjadi prioritas. Perlu dicatat, pada TA 2026 Kementerian Perdagangan tidak menganggarkan kegiatan PLK; akibatnya penyelenggaraan tahun berjalan diperkirakan hanya bertumpu pada penyelenggara yang mandiri secara pembiayaan — terutama Riau (Koperasi Apkarkusi) dan penyelenggara swasta murni (Jawa Barat/KPLJB serta DKI Jakarta/PT KPBN & PT ACM) — sementara penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Hal ini memperbesar risiko pelandaian nilai transaksi 2026. Secara absolut, angka ini masih kecil dibanding potensi komoditas nasional — menandakan PLK belum menjadi kanal pemasaran utama bagi petani dan pelaku usaha.
+const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) Bappebti menunjukkan potensi yang nyata namun skala yang masih terbatas dan fluktuatif. Nilai transaksi bergerak dari Rp85,5 miliar (2021) turun ke Rp52,5 miliar (2022), pulih bertahap ke Rp66,1 miliar (2023) dan Rp97,2 miliar (2024), lalu mencapai puncak Rp111,9 miliar pada 2025 (+15,1% dibanding 2024). Namun capaian 2025 sangat terkonsentrasi: DKI Jakarta/PT KPBN menyumbang sekitar Rp84,0 miliar (75% dari total) — didorong satu transaksi teh senilai Rp82,29 miliar di samping kopi robusta Rp1,68 miliar — sedangkan Riau (Koperasi Apkarkusi/karet bokar) menyumbang Rp27,4 miliar (24%) dari 49 lelang mingguan, dengan sisanya kecil (Banten Rp0,39 miliar, Aceh Rp0,13 miliar). Tanpa transaksi teh yang bersifat satu kali, lelang reguler 2025 hanya sekitar Rp29,6 miliar — menandakan basis transaksi berulang masih tipis. Menurut rekap "Perkembangan Lelang Agustus 2026" (Bappebti), transaksi riil TA 2026 hingga 23 Agustus mencapai Rp29,77 miliar dari 37 lelang, 5 penyelenggara di 5 provinsi, dengan 126 penjual, 357 pembeli, dan 483 peserta. Riau (Koperasi Apkarkusi, karet bokar) tetap penyelenggara paling aktif dan konsisten dengan 32 lelang mingguan senilai Rp23,00 miliar (77% dari total 2026) — nyaris menyamai skala 2025 penuh (Rp27,4 miliar dari 49 lelang). DKI Jakarta (PT KPBN, teh) menyumbang Rp3,80 miliar dari 1 lelang di awal Januari, sementara Jawa Barat (KPLJB) mulai aktif bertransaksi dengan 2 lelang (teh serta kakao/kopi campuran) senilai Rp2,21 miliar setelah pada 2025 belum mencatatkan nilai transaksi. Nusa Tenggara Barat muncul sebagai provinsi baru dengan 1 lelang beras premium dan biji kakao senilai Rp687,5 juta, dan Aceh mencatat 1 lelang kopi/coklat senilai Rp73,7 juta. Baris transaksi teh KPBN Rp82,29 miliar pada rekap 2025 merupakan transaksi satu kali dan tidak berulang di 2026. Diversifikasi penyelenggara mulai terlihat — dari 2 penyelenggara aktif di paruh pertama tahun menjadi 5 penyelenggara di 5 provinsi per Agustus, termasuk dua penyelenggara berbasis Dinas Perdagangan Provinsi (Aceh, NTB) yang berhasil menyelenggarakan lelang meski tanpa anggaran pusat — namun konsentrasi pada karet bokar Riau (77% nilai) tetap menjadi karakter utama dan keberlanjutan transaksi reguler di luar Riau masih perlu dikawal. Perlu dicatat, pada TA 2026 Kementerian Perdagangan tidak menganggarkan kegiatan PLK; akibatnya penyelenggaraan tahun berjalan sepenuhnya bertumpu pada penyelenggara yang mandiri secara pembiayaan — Riau (Koperasi Apkarkusi), penyelenggara swasta murni (Jawa Barat/KPLJB serta DKI Jakarta/PT KPBN), dan inisiatif mandiri Dinas Perdagangan Provinsi (Aceh, NTB). Hal ini memperbesar risiko pelandaian nilai transaksi apabila penyelenggara mandiri tidak konsisten menyelenggarakan lelang lanjutan. Secara absolut, angka ini masih kecil dibanding potensi komoditas nasional — menandakan PLK belum menjadi kanal pemasaran utama bagi petani dan pelaku usaha.
 
 Diagnosis struktural memperlihatkan tiga keterbatasan. Pertama, konsentrasi komoditas: pada 2024 karet menyumbang Rp27,1 miliar (porsi terbesar), diikuti lada, cengkeh, gabah/beras, dan cangkang sawit; basis komoditas masih sempit. Kedua, sebaran kelembagaan terbatas pada 14 daerah penyelenggara dan sebagian besar belum memiliki penyelenggara berbadan hukum yang teridentifikasi — ekosistem (penyelenggara, lembaga penjaminan, lembaga uji mutu, pergudangan) belum lengkap di banyak daerah. Ketiga, mekanisme lelang sebagian besar masih konvensional dan belum terintegrasi penuh dengan Sistem Resi Gudang maupun sistem informasi harga.
 
@@ -6507,7 +6519,7 @@ function PlkBarChart({sel}){
           <XAxis dataKey="label" tick={{fontSize:11,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={{stroke:"var(--border-strong)"}} tickLine={false}/>
           <YAxis domain={[0, Math.ceil(maxV*1.15/10)*10]} tick={{fontSize:10,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={false} tickLine={false} width={34}/>
           <Tooltip cursor={{fill:"var(--card-2)"}}
-            formatter={(v,n,p)=>["Rp "+String(v).replace(".",",")+" M"+(p&&p.payload&&p.payload.p?" (s.d. Mei)":""),"Nilai Transaksi"]}
+            formatter={(v,n,p)=>["Rp "+String(v).replace(".",",")+" M"+(p&&p.payload&&p.payload.p?" (s.d. Agustus)":""),"Nilai Transaksi"]}
             labelFormatter={(l)=>"TA "+String(l).replace("*","")}
             contentStyle={{background:"var(--card)",border:"1px solid var(--border-strong)",borderRadius:10,color:"var(--text)",fontSize:12,boxShadow:"0 4px 14px rgba(0,0,0,0.12)"}}/>
           {avg>0 && <ReferenceLine y={avg} stroke="var(--gold-soft)" strokeDasharray="5 4"
@@ -6541,15 +6553,15 @@ function MenuPLK({year}){
   const PLK_KOM_SEL = year>=2026?PLK_KOM_2026:PLK_KOM_2025;
   const PLK_BULAN_SEL = year>=2026?PLK_BULAN_2026:PLK_BULAN_2025;
   const PLK_REK_YR = year>=2026?2026:2025;
-  const PLK_REK_LBL = year>=2026?"s.d. Mei 2026":"2025";
-  const noTxLbl = year===2025?"tidak ada transaksi":(year>=2026?"tidak ada (s.d. Mei)":"belum tersedia");
+  const PLK_REK_LBL = year>=2026?"s.d. Agustus 2026":"2025";
+  const noTxLbl = year===2025?"tidak ada transaksi":(year>=2026?"tidak ada (s.d. Agustus)":"belum tersedia");
   const plkFull=PLK_TRANSAKSI.filter(d=>!d.p); const plkAvg=Math.round(plkFull.reduce((s,d)=>s+d.nilai,0)/plkFull.length*10)/10;
-  const prompt=`Anda analis kebijakan perdagangan komoditas di Bappebti, Kemendag. Berikan analisis strategis (maks 7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas kinerja Pasar Lelang Komoditas (PLK) dan rumuskan CRITICAL PATH langkah-langkah Bappebti agar PLK berjalan optimal.\\n\\nData nilai transaksi PLK (Rp miliar): 2021=85,5; 2022=52,5; 2023=66,1; 2024=97,2; 2025=111,9 (puncak, +15,1% YoY; sangat terkonsentrasi: DKI Jakarta/PT KPBN ~Rp84,0 M termasuk satu transaksi teh Rp82,29 M & kopi robusta Rp1,68 M, Riau/Koperasi Apkarkusi/karet bokar Rp27,4 M, Banten Rp0,39 M, Aceh Rp0,13 M; tanpa transaksi teh, lelang reguler ~Rp29,6 M); 2026*=13,27 (s.d. Mei, transaksi riil; hanya dua penyelenggara aktif — Riau/Apkarkusi-karet bokar Rp9,47 M/16 lelang & DKI/PT KPBN-teh Rp3,80 M/1 lelang; baris teh KPBN Rp82,29 M pada rekap adalah carryover 2025, tidak dihitung). Komoditas 2024 terbesar: Karet Rp27,1 M (1.581.739 kg), Lada Rp7,4 M, Cengkeh Rp5,9 M, Gabah/Beras Rp4,5 M, Cangkang Sawit Rp2,4 M. Daerah penyelenggara: 14 (a.l. Riau-Kop. Apkarkusi, Jabar-KPLJB, Jateng-Kop. Wira Agri, Babel-Kop. Lada Babel, DKI-PT KPBN & PT ACM). Komoditas aktif 2025–2026: karet, teh, cengkeh, lada, gabah/beras, kopi.\\n\\nDasar hukum: Perpres 75/2022 & Permendag 33/2024 (penataan, pembinaan, pengembangan PLK). Catatan anggaran: pada TA 2026 Kemendag TIDAK menganggarkan kegiatan PLK, sehingga lelang tahun berjalan diperkirakan hanya bertumpu pada penyelenggara mandiri (Riau/Koperasi Apkarkusi dan swasta murni KPLJB serta PT KPBN & PT ACM); penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Strategi Bappebti: integrasi dengan SRG, digitalisasi & integrasi TI, mekanisme lelang lebih efisien, fasilitasi UMKM/koperasi, kolaborasi pusat–daerah.\\n\\nFokus: 1) diagnosis kinerja & keterbatasan struktural (skala kecil, fluktuatif, konsentrasi komoditas, sebaran kelembagaan terbatas). 2) critical path bertahap (regulasi/NSPK → ekosistem kelembagaan daerah → integrasi SRG-PLK → digitalisasi → fasilitasi UMKM & perluasan komoditas → pengawasan/monev/stabilisasi harga) dengan indikator keberhasilan tiap tahap. 3) peran kolaborasi pusat–daerah & sinergi SRG.`;
+  const prompt=`Anda analis kebijakan perdagangan komoditas di Bappebti, Kemendag. Berikan analisis strategis (maks 7 paragraf, Bahasa Indonesia formal, prosa mengalir tanpa bullet panjang) atas kinerja Pasar Lelang Komoditas (PLK) dan rumuskan CRITICAL PATH langkah-langkah Bappebti agar PLK berjalan optimal.\\n\\nData nilai transaksi PLK (Rp miliar): 2021=85,5; 2022=52,5; 2023=66,1; 2024=97,2; 2025=111,9 (puncak, +15,1% YoY; sangat terkonsentrasi: DKI Jakarta/PT KPBN ~Rp84,0 M termasuk satu transaksi teh Rp82,29 M & kopi robusta Rp1,68 M, Riau/Koperasi Apkarkusi/karet bokar Rp27,4 M, Banten Rp0,39 M, Aceh Rp0,13 M; tanpa transaksi teh, lelang reguler ~Rp29,6 M); 2026*=29,77 (s.d. 23 Agustus, transaksi riil dari rekap "Perkembangan Lelang Agustus 2026"; 37 lelang, 5 penyelenggara di 5 provinsi, 126 penjual/357 pembeli/483 peserta — Riau/Apkarkusi-karet bokar Rp23,00 M/32 lelang (77% dari total), DKI/PT KPBN-teh Rp3,80 M/1 lelang, Jawa Barat/KPLJB-teh&kakao-kopi Rp2,21 M/2 lelang (mulai aktif 2026, sebelumnya nihil), Nusa Tenggara Barat-beras&biji kakao Rp687,5 jt/1 lelang (provinsi baru), Aceh-kopi&coklat Rp73,7 jt/1 lelang; baris teh KPBN Rp82,29 M pada rekap 2025 adalah transaksi satu kali, tidak berulang di 2026). Komoditas 2024 terbesar: Karet Rp27,1 M (1.581.739 kg), Lada Rp7,4 M, Cengkeh Rp5,9 M, Gabah/Beras Rp4,5 M, Cangkang Sawit Rp2,4 M. Daerah penyelenggara: 14 (a.l. Riau-Kop. Apkarkusi, Jabar-KPLJB, Jateng-Kop. Wira Agri, Babel-Kop. Lada Babel, DKI-PT KPBN & PT ACM). Komoditas aktif 2025–2026: karet, teh, cengkeh, lada, gabah/beras, kopi.\\n\\nDasar hukum: Perpres 75/2022 & Permendag 33/2024 (penataan, pembinaan, pengembangan PLK). Catatan anggaran: pada TA 2026 Kemendag TIDAK menganggarkan kegiatan PLK, sehingga lelang tahun berjalan diperkirakan hanya bertumpu pada penyelenggara mandiri (Riau/Koperasi Apkarkusi dan swasta murni KPLJB serta PT KPBN & PT ACM); penyelenggara berbasis Dinas Perdagangan Provinsi berisiko tidak menyelenggarakan lelang. Strategi Bappebti: integrasi dengan SRG, digitalisasi & integrasi TI, mekanisme lelang lebih efisien, fasilitasi UMKM/koperasi, kolaborasi pusat–daerah.\\n\\nFokus: 1) diagnosis kinerja & keterbatasan struktural (skala kecil, fluktuatif, konsentrasi komoditas, sebaran kelembagaan terbatas). 2) critical path bertahap (regulasi/NSPK → ekosistem kelembagaan daerah → integrasi SRG-PLK → digitalisasi → fasilitasi UMKM & perluasan komoditas → pengawasan/monev/stabilisasi harga) dengan indikator keberhasilan tiap tahap. 3) peran kolaborasi pusat–daerah & sinergi SRG.`;
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="pill mono text-[10px]" style={{background:"rgba(64,155,86,0.14)",color:"var(--emerald)",border:"1px solid rgba(64,155,86,0.3)"}}>DATA PLK</span>
-        <span className="text-xs text-[var(--text-3)]">Pasar Lelang Komoditas · sumber: paparan Bappebti (Biro Pembinaan & Pengembangan SRG & PLK) · transaksi s.d. Mei 2026</span>
+        <span className="text-xs text-[var(--text-3)]">Pasar Lelang Komoditas · sumber: rekap "Perkembangan Lelang Agustus 2026" (Bappebti) · transaksi s.d. 23 Agustus 2026</span>
       </div>
 
       <div className="mb-6">
@@ -6561,7 +6573,7 @@ function MenuPLK({year}){
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Transaksi TA {year}</div>
           {rec
-            ? <><div className="serif text-3xl mt-1" style={{color:"#409B56"}}>{fmtMil(rec.nilai)}{rec.p&&<span className="text-sm">*</span>}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{rec.p?"s.d. Mei 2026":(yoy?`${yoy.startsWith("-")?"":"+"}${yoy}% dibanding ${prev.th}`:"awal data tersedia")}</div></>
+            ? <><div className="serif text-3xl mt-1" style={{color:"#409B56"}}>{fmtMil(rec.nilai)}{rec.p&&<span className="text-sm">*</span>}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{rec.p?"s.d. Agustus 2026":(yoy?`${yoy.startsWith("-")?"":"+"}${yoy}% dibanding ${prev.th}`:"awal data tersedia")}</div></>
             : <><div className="serif text-2xl mt-1.5 text-[var(--text-3)]">Belum tersedia</div><div className="text-[10px] text-[var(--text-3)] mt-1">TA {year} = tahun rencana</div></>}
         </div>
         <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Daerah Penyelenggara</div><div className="serif text-3xl mt-1">{PLK_DAERAH.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">provinsi tercatat</div></div>
@@ -6576,10 +6588,10 @@ function MenuPLK({year}){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja Pasar Lelang Komoditas</div>
             <div className="serif text-xl">Nilai Transaksi PLK 2021–{Math.min(year,2026)} (Rp Miliar)</div>
           </div>
-          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Bappebti{year>=2026?" · 2026* s.d. Mei":""}</span>
+          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Bahan DPR RKA Bappebti PA 2027{year>=2026?" · 2026* s.d. Agustus":""}</span>
         </div>
         <PlkBarChart sel={year}/>
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{year>=2026?"Batang transparan (2026*) = data berjalan s.d. Mei 2026. ":""}Puncak transaksi pada 2025 (Rp111,9 M, +15,1% YoY), namun sangat terkonsentrasi: DKI Jakarta/PT KPBN Rp84,0 M (termasuk satu transaksi teh Rp82,29 M) dan Riau/karet bokar Rp27,4 M. Tanpa transaksi teh, lelang reguler 2025 hanya Rp29,6 M. Batang bergaris emas menandai TA terpilih.</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{year>=2026?"Batang transparan (2026*) = data berjalan s.d. Agustus 2026. ":""}Puncak transaksi pada 2025 (Rp111,9 M, +15,1% YoY), namun sangat terkonsentrasi: DKI Jakarta/PT KPBN Rp84,0 M (termasuk satu transaksi teh Rp82,29 M) dan Riau/karet bokar Rp27,4 M. Tanpa transaksi teh, lelang reguler 2025 hanya Rp29,6 M. Batang bergaris emas menandai TA terpilih.</div>
       </div>
 
       {/* Rincian bulanan 2025 */}
@@ -6607,7 +6619,7 @@ function MenuPLK({year}){
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{PLK_REK_YR===2026?"Transaksi riil TA 2026 (Jan–Mei) = Rp13,27 M dari dua penyelenggara mandiri: Apkarkusi/Riau (karet bokar, 16 lelang) & KPBN/DKI (teh, 8 Jan). Catatan: baris Teh KPBN Rp82,29 M pada Rekap adalah carryover 2025, tidak dihitung sebagai 2026. Sumber: sheet Rekap, Perkembangan Lelang PLK Mei 2026.":"Rincian lelang reguler per bulan (total Rp29,59 M); puncak November (Rp3,97 M) & Oktober (Rp3,87 M), mayoritas karet bokar mingguan APKARKUSI (Riau). Belum termasuk transaksi teh KPBN Rp82,29 M (tak bertanggal) — total 2025 = Rp111,9 M. Sumber: sheet Rekap, Perkembangan Lelang PLK Desember 2025."}</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{PLK_REK_YR===2026?"Transaksi riil TA 2026 (s.d. 23 Agustus) = Rp29,77 M dari 37 lelang, 5 penyelenggara di 5 provinsi: Apkarkusi/Riau (karet bokar, 32 lelang, Rp23,00 M), KPBN/DKI (teh, 1 lelang, Rp3,80 M), KPLJB/Jabar (teh & kakao-kopi, 2 lelang, Rp2,21 M), Disperindag NTB (beras & biji kakao, 1 lelang, Rp687,5 jt — provinsi baru), Disperindag Aceh (kopi & coklat, 1 lelang, Rp73,7 jt). Catatan: baris Teh KPBN Rp82,29 M pada Rekap 2025 tidak berulang di 2026. Sumber: rekap \"Perkembangan Lelang Agustus 2026\", Bappebti.":"Rincian lelang reguler per bulan (total Rp29,59 M); puncak November (Rp3,97 M) & Oktober (Rp3,87 M), mayoritas karet bokar mingguan APKARKUSI (Riau). Belum termasuk transaksi teh KPBN Rp82,29 M (tak bertanggal) — total 2025 = Rp111,9 M. Sumber: sheet Rekap, Perkembangan Lelang PLK Desember 2025."}</div>
       </div>
 
       {/* Rekapitulasi Transaksi PLK 2025 — sheet Rekap */}
@@ -6703,7 +6715,7 @@ function MenuPLK({year}){
               <div className="text-[11px] text-[var(--text-2)] leading-snug">Penyelenggara berbasis <b>Dinas Perdagangan Provinsi</b> ({PLK_DAERAH.filter(d=>d.kat==="dinas").length} daerah) yang pelaksanaan lelangnya bertumpu pada fasilitasi anggaran. Adapun penyelenggara <b>revitalisasi selain Riau</b> (Lampung, Jawa Tengah, Bangka Belitung) bergantung pada tingkat kemandirian pembiayaan masing-masing.</div>
             </div>
           </div>
-          <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Implikasi kinerja: realisasi 2026 (s.d. Mei Rp13,27 M) berpotensi melandai dibanding puncak 2025 (Rp111,9 M). Mitigasi: percepat kemandirian/revitalisasi penyelenggara, integrasi SRG–PLK, dan digitalisasi lelang agar transaksi tidak bergantung pada anggaran tahunan.</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Implikasi kinerja: realisasi 2026 (s.d. Agustus Rp26,5 M) berpotensi melandai dibanding puncak 2025 (Rp111,9 M). Mitigasi: percepat kemandirian/revitalisasi penyelenggara, integrasi SRG–PLK, dan digitalisasi lelang agar transaksi tidak bergantung pada anggaran tahunan.</div>
         </div>
       )}
 
@@ -6904,7 +6916,7 @@ function MenuPLK({year}){
         title="Analisa AI — Kinerja & Critical Path Optimalisasi PLK"
         prompt={prompt}
         precomputed={PLK_AI_PRECOMPUTED}
-        sources={["Paparan Kebijakan PLK — bahan DPR (Feb 2026)","Paparan Perteknis PLK — Riau (Apr 2026)","Paparan PLK — Palembang (Des 2025)","Data Transaksi PLK s.d. Mei 2026 (Bappebti)","Perpres 75/2022 & Permendag 33/2024","Strategi Bappebti: integrasi SRG, digitalisasi, fasilitasi UMKM"]}
+        sources={["Paparan Kebijakan PLK — bahan DPR (Feb 2026)","Paparan Perteknis PLK — Riau (Apr 2026)","Paparan PLK — Palembang (Des 2025)","Rekap Perkembangan Lelang Agustus 2026 (Bappebti, per-lelang)","Perpres 75/2022 & Permendag 33/2024","Strategi Bappebti: integrasi SRG, digitalisasi, fasilitasi UMKM"]}
       />
     </div>
   );
@@ -6974,7 +6986,7 @@ function matrixSheets(tab){
     sheets.push({name:"Pembiayaan RG",rows:pb});
   } else if(tab==='plk'){
     const t1=[["Tahun","Nilai Transaksi (Rp Miliar)","Keterangan"]];
-    PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. Mei 2026":""]));
+    PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. Agustus 2026":""]));
     sheets.push({name:"Transaksi PLK 2021-2026",rows:t1});
     const KAT={revit:"Revitalisasi (Swasta)",swasta:"Swasta Murni",dinas:"Dinas Perdagangan Provinsi"};
     const t2=[["No","Daerah","Status Penyelenggara","Penyelenggara","Komoditas","Nilai Transaksi TA 2025 (Rp)","Keterangan"]];
@@ -7084,27 +7096,29 @@ const PBK_VOL_TRANSAKSI = [
   {th:"2026", multilateral:997739,   spa:4449756,   total:5447495, p:true},
 ]; /* LOT; 2026* = s.d. April 2026 */
 
-/* Nilai Nominal Transaksi PBK (Rp Triliun) */
+/* Nilai Nominal Transaksi PBK (Rp Triliun) — sumber: Bahan DPR RKA Bappebti PA 2027 (31 Agustus 2026) */
 const PBK_NILAI_TRANSAKSI = [
-  {th:"2023", nilai:25679.97},
-  {th:"2024", nilai:33214.89},
-  {th:"2025", nilai:48867},
-]; /* Rp Triliun; sumber: Bappebti */
+  {th:"2022", nilai:19798.08},
+  {th:"2023", nilai:20892.10},
+  {th:"2024", nilai:31004.07},
+  {th:"2025", nilai:49454.64},
+  {th:"2026", nilai:40797.36, p:true},
+]; /* Rp Triliun; 2026* = akumulasi s.d. Juli 2026; sumber: Bursa Berjangka (diolah Bappebti) */
 
 const PBK_CPOTR = [
   {th:"2023", vol:8430},
   {th:"2024", vol:143065},
   {th:"2025", vol:162250},
-  {th:"2026", vol:37000, p:true},
-]; /* Metrik Ton; 2026* = s.d. April 2026 */
+  {th:"2026", vol:63490, p:true},
+]; /* Metrik Ton; 2026* = s.d. Juli 2026 (Bahan DPR RKA Bappebti PA 2027) */
 
 const PBK_EMAS_DIGITAL = [
   {th:"2022", vol:2.3},
   {th:"2023", vol:10.4},
   {th:"2024", vol:47.4},
   {th:"2025", vol:60.2},
-  {th:"2026", vol:42.16, p:true},
-]; /* Ton; 2026* = s.d. April 2026 */
+  {th:"2026", vol:87.64, p:true},
+]; /* Ton; 2026* = s.d. Juli 2026 (Bahan DPR RKA Bappebti PA 2027) */
 
 const PBK_TIMAH_EKSPOR = [
   {th:"2021", vol:74640.08},
@@ -7112,8 +7126,8 @@ const PBK_TIMAH_EKSPOR = [
   {th:"2023", vol:68327.33},
   {th:"2024", vol:45378.32},
   {th:"2025", vol:52299.56},
-  {th:"2026", vol:12945.2, p:true},
-]; /* Metrik Ton; 2026* = s.d. April 2026 */
+  {th:"2026", vol:23711.02, p:true},
+]; /* Metrik Ton; 2026* = s.d. Juli 2026 (Bahan DPR RKA Bappebti PA 2027) */
 
 const PBK_TIMAH_LOKAL = [
   {th:"2021", vol:3224.97},
@@ -7121,8 +7135,8 @@ const PBK_TIMAH_LOKAL = [
   {th:"2023", vol:2868.00},
   {th:"2024", vol:3704.98},
   {th:"2025", vol:2426.00},
-  {th:"2026", vol:750.00, p:true},
-]; /* Metrik Ton; 2026* = s.d. April 2026 */
+  {th:"2026", vol:1220.00, p:true},
+]; /* Metrik Ton; 2026* = s.d. Juli 2026 (Bahan DPR RKA Bappebti PA 2027) */
 
 const PBK_KRIPTO_BERALIH = {
   tanggal: "10 Januari 2025",
@@ -9481,11 +9495,11 @@ function MenuPBK({year}){
         <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
           <div>
             <div className="serif text-xl">Nilai Nominal Transaksi PBK</div>
-            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Rp Triliun · 2023–2025</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">Rp Triliun · 2022–2026*</div>
           </div>
           <div className="text-right">
-            <div className="serif text-3xl font-bold" style={{color:"var(--blue)"}}>Rp48.867 T</div>
-            <div className="text-[10px] mono text-[var(--text-3)]">puncak 2025 · +49,8% YoY</div>
+            <div className="serif text-3xl font-bold" style={{color:"var(--blue)"}}>Rp49.454,64 T</div>
+            <div className="text-[10px] mono text-[var(--text-3)]">puncak 2025 · +59,5% YoY</div>
           </div>
         </div>
         {(()=>{
@@ -9535,16 +9549,17 @@ function MenuPBK({year}){
                       const chg=prev?((d.nilai/prev-1)*100):null;
                       return (
                         <tr key={d.th} style={{borderBottom:"1px solid var(--border)",background:i%2===0?"transparent":"var(--bg-2)"}}>
-                          <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",fontWeight:"700",color:"var(--text-1)"}}>{d.th}</td>
+                          <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",fontWeight:"700",color:d.p?"var(--gold)":"var(--text-1)"}}>{d.th}{d.p?"*":""}</td>
                           <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",fontWeight:"600",color:"var(--blue)"}}>{d.nilai.toLocaleString('id-ID')}</td>
                           <td style={{padding:"10px 14px",fontFamily:"var(--font-mono)",color:chg===null?"var(--text-3)":chg>=0?"var(--blue)":"#dc2626",fontWeight:600}}>{chg===null?"—":((chg>=0?"+":"")+chg.toFixed(1)+"%")}</td>
-                          <td style={{padding:"10px 14px"}}><span className="pill pill-blue text-[9px]">{i===PBK_NILAI_TRANSAKSI.length-1?"Tertinggi":"Historis"}</span></td>
+                          <td style={{padding:"10px 14px"}}><span className="pill pill-blue text-[9px]">{d.nilai===maxNilai?"Tertinggi":(d.p?"Berjalan*":"Historis")}</span></td>
                         </tr>
                       );
                     })}
                   </tbody>
                 </table>
               </div>
+              <div className="text-[9px] text-[var(--text-3)] mt-2">*2026 akumulasi s.d. Juli 2026. Sumber: Bursa Berjangka (diolah Bappebti, Kementerian Perdagangan).</div>
             </div>
           );
         })()}
