@@ -274,6 +274,8 @@ const YearContext = React.createContext(2026);
 const useYear = ()=> React.useContext(YearContext);
 const ikkTgt = (ik, year)=> (ik && ik.t && ik.t[year]) ? ik.t[year] : (ik ? ik.target : "");
 const ikpTgt = (ip, year)=> (ip && ip.t && ip.t[year]) ? ip.t[year] : (ip ? ip.target : "");
+/* Target prakiraan maju 2028–2029 (rekap KRISNA Renja 2027) */
+const tgtFwd = (x)=> (x && x.t && x.t[2028]) ? `2028: ${x.t[2028]} · 2029: ${x.t[2029]}` : "";
 const {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,
   PieChart, Pie, RadialBarChart, RadialBar, LineChart, Line, AreaChart, Area,
@@ -344,13 +346,13 @@ const SS = [
    Program Dukungan Manajemen (SAKIP, Indeks Integritas) & Program Perdagangan Dalam Negeri
    (Pertumbuhan Pelaku, Pertumbuhan Gudang SRG, Kepatuhan & Penegakan Hukum, Indeks Kepuasan Layanan). */
 const IKSS = [
-  { id:"ISP-1", ss:"SP-01", nama:"Pertumbuhan pelaku yang bertransaksi di PBK dan PLK", target:"4%",    t:{2027:"5%"},    baseline:"-5,75%" },
-  { id:"ISP-2", ss:"SP-01", nama:"Pertumbuhan Gudang yang mengimplementasikan SRG",     target:"6%",    t:{2027:"6%"},    baseline:"6,3%" },
-  { id:"ISP-3", ss:"SP-01", nama:"Tingkat kepatuhan & penegakan hukum Pelaku Usaha PBK, SRG, PLK", target:"82%", t:{2027:"82,6%"}, baseline:"75,36%" },
-  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"91"},    baseline:"88,28" },
-  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas Badan Pengawas Perdagangan Berjangka Komoditi", target:"69,79", t:{2027:"70"},  baseline:"74,34" },
-  { id:"ISP-6", ss:"SP-02", nama:"Nilai SAKIP Badan Pengawas Perdagangan Berjangka Komoditi", target:"82,50", t:{2027:"82,75"}, baseline:"82,56" },
-  { id:"ISP-7", ss:"SP-02", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94"}, baseline:"-" },
+  { id:"ISP-1", ss:"SP-01", nama:"Pertumbuhan pelaku yang bertransaksi di PBK dan PLK", target:"4%",    t:{2027:"5,5%",2028:"5,5%",2029:"5,5%"},    baseline:"-5,75%" },
+  { id:"ISP-2", ss:"SP-01", nama:"Pertumbuhan Gudang yang mengimplementasikan SRG",     target:"6%",    t:{2027:"6%",2028:"6%",2029:"6%"},    baseline:"6,3%" },
+  { id:"ISP-3", ss:"SP-01", nama:"Tingkat kepatuhan & penegakan hukum Pelaku Usaha PBK, SRG, PLK", target:"82%", t:{2027:"82,6%",2028:"84%",2029:"86%"}, baseline:"75,36%" },
+  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"91",2028:"91",2029:"91"},    baseline:"88,28" },
+  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas Badan Pengawas Perdagangan Berjangka Komoditi", target:"69,79", t:{2027:"70",2028:"74,6",2029:"74,7"},  baseline:"74,34" },
+  { id:"ISP-6", ss:"SP-02", nama:"Nilai SAKIP Badan Pengawas Perdagangan Berjangka Komoditi", target:"82,50", t:{2027:"82,75",2028:"83",2029:"83"}, baseline:"82,56" },
+  { id:"ISP-7", ss:"SP-02", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94",2028:"94",2029:"94"}, baseline:"-" },
 ];
 
 /* ===== RENJA TA 2025 — SASARAN PROGRAM & IKP (DI LUAR KERANGKA RENSTRA 2025–2029) =====
@@ -417,28 +419,28 @@ const SK = [
 ];
 const IKK = [
   // SK1 — PBK (Kegiatan 3762)
-  { id:"IKK-1",  sk:"SK1", nama:"Pertumbuhan Pelaku PBK", target:"3%", t:{2025:"3%",2026:"3%",2027:"6%"}, ikpLinked:"ISP-1" },
-  { id:"IKK-2",  sk:"SK1", nama:"Rekomendasi Kebijakan Pengembangan kelembagaan & produk PBK yang ditindaklanjuti", target:"75%", t:{2025:"75%",2026:"75%",2027:"75%"}, ikpLinked:"ISP-1" },
-  { id:"IKK-3",  sk:"SK1", nama:"Indeks kepuasan layanan perizinan PBK", target:"82", t:{2025:"80",2026:"82",2027:"84"}, ikpLinked:"ISP-4" },
-  { id:"IKK-4",  sk:"SK1", nama:"% peserta Bimtek PBK yang meningkat pemahamannya", target:"82%", t:{2025:"80%",2026:"82%",2027:"84%"}, ikpLinked:"ISP-1" },
-  { id:"IKK-5",  sk:"SK1", nama:"Pertumbuhan Pengguna layanan informasi PBK", target:"11%", t:{2025:"10%",2026:"11%",2027:"6%"}, ikpLinked:"ISP-1" },
+  { id:"IKK-1",  sk:"SK1", nama:"Pertumbuhan Pelaku PBK", target:"3%", t:{2025:"3%",2026:"3%",2027:"6%",2028:"6%",2029:"6%"}, ikpLinked:"ISP-1" },
+  { id:"IKK-2",  sk:"SK1", nama:"Rekomendasi Kebijakan Pengembangan kelembagaan & produk PBK yang ditindaklanjuti", target:"75%", t:{2025:"75%",2026:"75%",2027:"80%",2028:"80%",2029:"80%"}, ikpLinked:"ISP-1" },
+  { id:"IKK-3",  sk:"SK1", nama:"Indeks kepuasan layanan perizinan PBK", target:"82", t:{2025:"80",2026:"82",2027:"87",2028:"87",2029:"87"}, ikpLinked:"ISP-4" },
+  { id:"IKK-4",  sk:"SK1", nama:"% peserta Bimtek PBK yang meningkat pemahamannya", target:"82%", t:{2025:"80%",2026:"82%",2027:"89%",2028:"89%",2029:"89%"}, ikpLinked:"ISP-1" },
+  { id:"IKK-5",  sk:"SK1", nama:"Pertumbuhan Pengguna layanan informasi PBK", target:"11%", t:{2025:"10%",2026:"11%",2027:"9%",2028:"14%",2029:"15%"}, ikpLinked:"ISP-1" },
   // SK2 — SRG/PLK (Kegiatan 3760)
-  { id:"IKK-6",  sk:"SK2", nama:"Pertumbuhan Pengelola Gudang SRG", target:"5%", t:{2025:"5%",2026:"5%",2027:"5%"}, ikpLinked:"ISP-2" },
-  { id:"IKK-7",  sk:"SK2", nama:"Pertumbuhan pelaku PLK", target:"5%", t:{2025:"5%",2026:"5%",2027:"5%"}, ikpLinked:"ISP-1" },
-  { id:"IKK-8",  sk:"SK2", nama:"Rekomendasi Kebijakan Pengembangan kelembagaan & produk SRG/PLK yang ditindaklanjuti", target:"75%", t:{2025:"75%",2026:"75%",2027:"75%"}, ikpLinked:"ISP-2" },
-  { id:"IKK-9",  sk:"SK2", nama:"Indeks kepuasan layanan perizinan SRG dan PLK", target:"86", t:{2025:"86",2026:"86",2027:"92"}, ikpLinked:"ISP-4" },
-  { id:"IKK-10", sk:"SK2", nama:"% peserta Bimtek SRG/PLK yang meningkat pemahamannya", target:"90%", t:{2025:"90%",2026:"90%",2027:"90%"}, ikpLinked:"ISP-2" },
+  { id:"IKK-6",  sk:"SK2", nama:"Pertumbuhan Pengelola Gudang SRG", target:"5%", t:{2025:"5%",2026:"5%",2027:"5%",2028:"5%",2029:"5%"}, ikpLinked:"ISP-2" },
+  { id:"IKK-7",  sk:"SK2", nama:"Pertumbuhan pelaku PLK", target:"5%", t:{2025:"5%",2026:"5%",2027:"5%",2028:"6%",2029:"6%"}, ikpLinked:"ISP-1" },
+  { id:"IKK-8",  sk:"SK2", nama:"Rekomendasi Kebijakan Pengembangan kelembagaan & produk SRG/PLK yang ditindaklanjuti", target:"75%", t:{2025:"75%",2026:"75%",2027:"75%",2028:"75%",2029:"75%"}, ikpLinked:"ISP-2" },
+  { id:"IKK-9",  sk:"SK2", nama:"Indeks kepuasan layanan perizinan SRG dan PLK", target:"86", t:{2025:"86",2026:"86",2027:"92",2028:"92",2029:"92"}, ikpLinked:"ISP-4" },
+  { id:"IKK-10", sk:"SK2", nama:"% peserta Bimtek SRG/PLK yang meningkat pemahamannya", target:"90%", t:{2025:"90%",2026:"90%",2027:"90%",2028:"90%",2029:"90%"}, ikpLinked:"ISP-2" },
   // SK3 — Pengawasan (Kegiatan 3759)
-  { id:"IKK-11", sk:"SK3", nama:"Pelaku Usaha yang patuh dalam kegiatan PBK, SRG, PLK", target:"83%", t:{2025:"81%",2026:"83%",2027:"85%"}, ikpLinked:"ISP-3" },
-  { id:"IKK-12", sk:"SK3", nama:"% penanganan pelanggaran ketentuan PBK, SRG, PLK", target:"77%", t:{2025:"75%",2026:"77%",2027:"79%"}, ikpLinked:"ISP-3" },
+  { id:"IKK-11", sk:"SK3", nama:"Pelaku Usaha yang patuh dalam kegiatan PBK, SRG, PLK", target:"83%", t:{2025:"81%",2026:"83%",2027:"85%",2028:"87%",2029:"89%"}, ikpLinked:"ISP-3" },
+  { id:"IKK-12", sk:"SK3", nama:"% penanganan pelanggaran ketentuan PBK, SRG, PLK", target:"77%", t:{2025:"75%",2026:"77%",2027:"79%",2028:"81%",2029:"83%"}, ikpLinked:"ISP-3" },
   // SK4 — Hukum (Kegiatan 3761)
-  { id:"IKK-13", sk:"SK4", nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK, SRG, PLK", target:"64", t:{2025:"63",2026:"64",2027:"77"}, ikpLinked:"ISP-3" },
-  { id:"IKK-14", sk:"SK4", nama:"Penyelesaian Perselisihan PBK sesuai SLA", target:"91%", t:{2025:"90%",2026:"91%",2027:"92%"}, ikpLinked:"ISP-3" },
-  { id:"IKK-15", sk:"SK4", nama:"Indeks kepuasan layanan Penyelesaian Perselisihan & Konsultasi Hukum", target:"83", t:{2025:"81",2026:"83",2027:"85"}, ikpLinked:"ISP-4" },
+  { id:"IKK-13", sk:"SK4", nama:"Indeks Evaluasi Kemanfaatan Kebijakan PBK, SRG, PLK", target:"64", t:{2025:"63",2026:"64",2027:"77",2028:"78",2029:"79"}, ikpLinked:"ISP-3" },
+  { id:"IKK-14", sk:"SK4", nama:"Penyelesaian Perselisihan PBK sesuai SLA", target:"91%", t:{2025:"90%",2026:"91%",2027:"92%",2028:"93",2029:"94"}, ikpLinked:"ISP-3" },
+  { id:"IKK-15", sk:"SK4", nama:"Indeks kepuasan layanan Penyelesaian Perselisihan & Konsultasi Hukum", target:"83", t:{2025:"81",2026:"83",2027:"85",2028:"87",2029:"89"}, ikpLinked:"ISP-4" },
   // SK5 — Dukungan Manajemen (Kegiatan 3758)
-  { id:"IKK-16", sk:"SK5", nama:"Nilai WTA Bappebti", target:"WTA Madya", t:{2025:"WTA Madya",2026:"WTA Madya",2027:"WTA Madya"}, ikpLinked:"ISP-6" },
-  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"97"}, ikpLinked:"ISP-7" },
-  { id:"IKK-18", sk:"SK5", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", target:"79", t:{2025:"79",2026:"79",2027:"83"}, ikpLinked:"ISP-5" },
+  { id:"IKK-16", sk:"SK5", nama:"Nilai WTA Bappebti", target:"WTA Madya", t:{2025:"WTA Madya",2026:"WTA Madya",2027:"WTA Madya",2028:"WTA Madya",2029:"WTA Madya"}, ikpLinked:"ISP-6" },
+  { id:"IKK-17", sk:"SK5", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"97",2028:"97",2029:"97"}, ikpLinked:"ISP-7" },
+  { id:"IKK-18", sk:"SK5", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", target:"79", t:{2025:"79",2026:"79",2027:"83",2028:"80",2029:"81"}, ikpLinked:"ISP-5" },
 ];
 
 /* TINGKAT 3 — Program (2 program nyata Bappebti) */
@@ -849,7 +851,7 @@ const PAGU_ANGGARAN_2027 = {
         {kode:"BCB.001", nama:"Layanan Penanganan Perkara/Alternatif Penyelesaian Perselisihan", target:"5 Perkara", pagu:210_875_000, pn:false, pkpn:false, pnbp:0},
       ] },
     { kode:"3762", nama:"Pembinaan dan Pengembangan PBK", unit:"Biro Pembinaan dan Pengembangan PBK", total:2_006_371_000,
-      ikk:[ {nama:"Rekomendasi Kebijakan PBK ditindaklanjuti", target:"75%"}, {nama:"Pertumbuhan Pengguna Layanan Informasi PBK", target:"6%"}, {nama:"Pertumbuhan Pelaku PBK", target:"6%"}, {nama:"Indeks Kepuasan Layanan Perizinan PBK", target:"84"}, {nama:"% Peserta Bimtek PBK Meningkat Pemahaman", target:"84%"} ],
+      ikk:[ {nama:"Rekomendasi Kebijakan PBK ditindaklanjuti", target:"80%"}, {nama:"Pertumbuhan Pengguna Layanan Informasi PBK", target:"9%"}, {nama:"Pertumbuhan Pelaku PBK", target:"6%"}, {nama:"Indeks Kepuasan Layanan Perizinan PBK", target:"87"}, {nama:"% Peserta Bimtek PBK Meningkat Pemahaman", target:"89%"} ],
       ro:[
         {kode:"ACB.001", nama:"Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", target:"400 Orang", pagu:146_850_000, pn:false, pkpn:false, pnbp:0},
         {kode:"ACD.001", nama:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", target:"605 Badan Usaha", pagu:676_296_000, pn:false, pkpn:false, pnbp:0},
@@ -866,6 +868,54 @@ const PAGU_ANGGARAN_2027 = {
    Daftar RO, nama, target volume, pagu, flag PN dibaca dari PAGU_ANGGARAN_2027; atribut analitik
    (ikkLinked, ikuLinked, skor impact/alignment/urgency/leverage) dipinjam dari RO usulan RANWAL
    dengan kode sama (alias untuk kode yang berganti: BDB.001←BDB.002, PBB.G01←PBB.001, PBB.G02←PBB.002). */
+/* KRISNA RENJA TA 2027 — Rekap Sasaran–Indikator–RO (file "rekap_sasaran_renja_sasaran-indikator_2027", diunggah 22 Okt 2026).
+   42 RO (34 RO Kegiatan 3759–3762 dari file PDN + 8 RO Kegiatan 3758 dari file Dukman, 22 Okt 2026): keterkaitan RO → Indikator Kegiatan (ikk) → Indikator Program (isp), nama resmi RO,
+   indikator RO, dan target volume 2027 (t = target 2027–2030). Kegiatan 3758 tidak termasuk dalam rekap ini. */
+const KRISNA_RENJA_2027 = [
+  {"keg": "3760", "kode": "BDB.001", "nama": "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "ind": "Jumlah Pembinaan/pendampingan dalam rangka pembentukan daerah baru yang mengimplementasikan PLK", "ikk": "IKK-7", "isp": "ISP-1", "tgt": "1 Lembaga", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "PEA.002", "nama": "Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", "ind": "Jumlah Kegiatan Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", "ikk": "IKK-7", "isp": "ISP-1", "tgt": "1 Kegiatan", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "QDC.001", "nama": "Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK", "ind": "Jumlah peserta pertemuan teknis pelaku usaha PLK", "ikk": "IKK-7", "isp": "ISP-1", "tgt": "50 Orang", "t": [50, 50, 50, 50]},
+  {"keg": "3760", "kode": "QDC.003", "nama": "Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK", "ind": "Jumlah Peserta Pelaksanaan Asistensi dan Evaluasi PLK", "ikk": "IKK-7", "isp": "ISP-1", "tgt": "50 Orang", "t": [50, 50, 50, 50]},
+  {"keg": "3760", "kode": "UAB.001", "nama": "Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)", "ind": "Jumlah Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu) yang dikelola", "ikk": "IKK-7", "isp": "ISP-1", "tgt": "1 Sistem Informasi", "t": [1, 1, 1, 1]},
+  {"keg": "3762", "kode": "AFA.001", "nama": "SKKNI di Bidang Perdagangan Berjangka Komoditi", "ind": "Jumlah SKKNI di Bidang Perdagangan Berjangka Komoditi", "ikk": "IKK-2", "isp": "ISP-1", "tgt": "1 NSPK", "t": [1, 1, 1, 1]},
+  {"keg": "3762", "kode": "PBB.G01", "nama": "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", "ind": "Jumlah rekomendasi kebijakan kelembagaan dan produk di bidang PBK", "ikk": "IKK-2", "isp": "ISP-1", "tgt": "1 Rekomendasi Kebijakan", "t": [1, 2, 2, 2]},
+  {"keg": "3762", "kode": "BMA.001", "nama": "Data dan Informasi Harga Komoditi di Bidang PBK", "ind": "Jumlah Dokumen Layanan Data dan Informasi Harga di Bidang PBK", "ikk": "IKK-5", "isp": "ISP-1", "tgt": "7 Dokumen", "t": [7, 7, 7, 7]},
+  {"keg": "3762", "kode": "FAB.002", "nama": "Sistem Informasi Manajemen Pelaku Usaha Perdagangan Berjangka Komoditi", "ind": "Jumlah sistem informasi manajemen pelaku usaha PBK", "ikk": "IKK-5", "isp": "ISP-1", "tgt": "2 Sistem Informasi", "t": [2, 2, 2, 2]},
+  {"keg": "3762", "kode": "ADI.001", "nama": "Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "ind": "Jumlah Sertifikasi profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "ikk": "IKK-1", "isp": "ISP-1", "tgt": "260 Orang", "t": [260, 260, 260, 260]},
+  {"keg": "3762", "kode": "QDH.001", "nama": "Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", "ind": "Jumlah Fasilitasi dan pembinaan pelaku usaha PBK", "ikk": "IKK-4", "isp": "ISP-1", "tgt": "30 Badan Usaha", "t": [30, 30, 30, 30]},
+  {"keg": "3760", "kode": "BMA.001", "nama": "Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "ind": "Jumlah Layanan Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "15 Dokumen", "t": [15, 15, 15, 15]},
+  {"keg": "3760", "kode": "PEA.001", "nama": "Koordinasi dengan Pemangku Kepentingan di bidang SRG", "ind": "Jumlah Koordinasi dengan Pemangku Kepentingan di bidang SRG", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "8 Kegiatan", "t": [8, 8, 8, 8]},
+  {"keg": "3760", "kode": "QDB.002", "nama": "Fasiltasi dan pembinaan calon pengelola Gudang SRG", "ind": "Jumlah calon pengelola gudang SRG yang difasiltasi dan dibina", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "40 Lembaga", "t": [40, 40, 40, 40]},
+  {"keg": "3760", "kode": "QDB.003", "nama": "Pembinaan/pendampingan pengelola gudang SRG dalam mengimplementasikan Warehouse Management System (WMS)", "ind": "Jumlah pengelola gudang SRG dibina/didampingi dalam mengimplementasikan Warehouse Management System (WMS)", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "2 Lembaga", "t": [2, 2, 2, 2]},
+  {"keg": "3760", "kode": "QDB.004", "nama": "Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", "ind": "Jumlah Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "1 Lembaga", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "UAB.002", "nama": "Sistem Aplikasi Warehouse Management System (WMS)", "ind": "Jumlah Sistem Aplikasi Warehouse Management System (WMS) yang dikelola", "ikk": "IKK-6", "isp": "ISP-2", "tgt": "1 Sistem Informasi", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "QDB.001", "nama": "Fasiltasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG", "ind": "Jumlah Pengelola Gudang SRG yang difasiltasi dan dibina dalam rangka Peningkatan Kompetensi", "ikk": "IKK-10", "isp": "ISP-2", "tgt": "40 Lembaga", "t": [40, 40, 40, 40]},
+  {"keg": "3760", "kode": "QDC.002", "nama": "Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", "ind": "Jumlah Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", "ikk": "IKK-10", "isp": "ISP-2", "tgt": "260 Orang", "t": [260, 260, 260, 260]},
+  {"keg": "3760", "kode": "AFA.001", "nama": "Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG", "ind": "Jumlah NSPK yg diterbikan", "ikk": "IKK-8", "isp": "ISP-2", "tgt": "1 NSPK", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "PBB.G01", "nama": "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "ind": "Jumlah Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "ikk": "IKK-8", "isp": "ISP-2", "tgt": "1 Rekomendasi Kebijakan", "t": [1, 1, 1, 1]},
+  {"keg": "3760", "kode": "PBB.G02", "nama": "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "ind": "Jumlah Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "ikk": "IKK-8", "isp": "ISP-2", "tgt": "1 Rekomendasi Kebijakan", "t": [1, 1, 1, 1]},
+  {"keg": "3759", "kode": "BIC.001", "nama": "Pengawasan Penyelenggara PLK", "ind": "Jumlah Penyelenggara PLK yang diawasi", "ikk": "IKK-11", "isp": "ISP-3", "tgt": "4 Lembaga", "t": [4, 4, 4, 4]},
+  {"keg": "3759", "kode": "BIH.001", "nama": "Pengawasan Pelaku Usaha PBK melalui Audit", "ind": "Jumlah Pelaku Usaha PBK yang patuh dalam Pelaksanaan Audit", "ikk": "IKK-11", "isp": "ISP-3", "tgt": "24 Badan usaha", "t": [24, 24, 24, 24]},
+  {"keg": "3759", "kode": "QIH.001", "nama": "Pengawasan Pelaku Usaha SRG", "ind": "Jumlah Lembaga SRG yang diawasi transaksinya", "ikk": "IKK-11", "isp": "ISP-3", "tgt": "10 Badan Usaha", "t": [10, 10, 10, 10]},
+  {"keg": "3759", "kode": "BIH.002", "nama": "Pengawasan Pelaku Usaha Ilegal/Illegal melalui penindakan di bidang PBK/SRG/PLK", "ind": "Jumlah Pelaku Usaha Entitas Legal/Illegal di bidang PBK, SRG, dan PLK yang dilakukan Pemeriksaan", "ikk": "IKK-12", "isp": "ISP-3", "tgt": "23 Badan Usaha", "t": [23, 23, 23, 23]},
+  {"keg": "3761", "kode": "AAH.F01", "nama": "Peraturan Bappebti di bidang PBK, SRG dan PLK", "ind": "Jumlah Regulasi Bappebti di bidang PBK, SRG dan PLK yang telah disusun", "ikk": "IKK-13", "isp": "ISP-3", "tgt": "7 Peraturan", "t": [7, 7, 7, 7]},
+  {"keg": "3761", "kode": "AEA.001", "nama": "Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", "ind": "Jumlah Koordinasi dalam rangka uji publik dan harmonisasi kebijakan PBK,SRG dan PLK", "ikk": "IKK-13", "isp": "ISP-3", "tgt": "7 Kegiatan", "t": [7, 7, 7, 7]},
+  {"keg": "3760", "kode": "ACD.001", "nama": "Perizinan Lembaga SRG", "ind": "Jumlah Lembaga SRG yang mendapatkan Layanan persetujuan", "ikk": "IKK-9", "isp": "ISP-4", "tgt": "10 Lembaga", "t": [10, 10, 10, 10]},
+  {"keg": "3760", "kode": "ACD.002", "nama": "Perizinan Lembaga PLK", "ind": "Jumlah Lembaga PLK yang mendapatkan Layanan Persetujuan", "ikk": "IKK-9", "isp": "ISP-4", "tgt": "1 Lembaga", "t": [1, 1, 1, 1]},
+  {"keg": "3761", "kode": "BBA.001", "nama": "Layanan Asistensi hukum di bidang PBK, SRG dan PLK", "ind": "Jumlah pelaku yang memperoleh layanan Asistensi Hukum di Bidang PBK, SRG dan PLK", "ikk": "IKK-15", "isp": "ISP-4", "tgt": "26 Orang", "t": [26, 26, 26, 26]},
+  {"keg": "3761", "kode": "BCB.001", "nama": "Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK", "ind": "Jumlah Layanan Berperkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK", "ikk": "IKK-15", "isp": "ISP-4", "tgt": "5 Perkara", "t": [5, 5, 5, 5]},
+  {"keg": "3762", "kode": "ACB.001", "nama": "Perizinan Masyarakat", "ind": "Jumlah Perizinan Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "ikk": "IKK-3", "isp": "ISP-4", "tgt": "400 Orang", "t": [400, 400, 400, 400]},
+  {"keg": "3762", "kode": "ACD.001", "nama": "Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", "ind": "Jumlah Perizinan Pelaku Usaha yang diterbitkan di bidang PBK", "ikk": "IKK-3", "isp": "ISP-4", "tgt": "405 Badan Usaha", "t": [405, 405, 405, 405]}
+,
+  {"keg": "3758", "kode": "CAN.001", "nama": "Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti", "ind": "Jumlah Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti", "ikk": null, "isp": null, "tgt": "2 Unit", "t": [2, 2, 2]},
+  {"keg": "3758", "kode": "EBA.994", "nama": "Layanan Perkantoran", "ind": "Layanan Perkantoran pada Eselon 1 Bappebti", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]},
+  {"keg": "3758", "kode": "EBA.Z03", "nama": "Layanan Hubungan Masyarakat dan Informasi pada Satker Vertikal", "ind": "Jumlah Layanan Hubungan Masyarakat dan Informasi", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]},
+  {"keg": "3758", "kode": "EBA.Z07", "nama": "Layanan BMN pada Satker Vertikal", "ind": "Jumlah Layanan BMN", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]},
+  {"keg": "3758", "kode": "EBC.Z10", "nama": "Layanan Manajemen SDM Lingkup Kementerian/Lembaga tanpa satker vertikal dan tanpa UPT", "ind": "Jumlah Pegawai yang mendapatkan layanan Manajemen SDM internal", "ikk": null, "isp": null, "tgt": "80 Orang", "t": [80, 80, 80]},
+  {"keg": "3758", "kode": "EBD.Z27", "nama": "Layanan Manajemen Keuangan pada Satker Vertikal", "ind": "Jumlah layanan manajemen keuangan", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]},
+  {"keg": "3758", "kode": "EBD.Z32", "nama": "Layanan Reformasi Kinerja pada Satker Vertikal", "ind": "Jumlah Layanan Reformasi Kinerja", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]},
+  {"keg": "3758", "kode": "EBD.Z36", "nama": "Layanan Manajemen Kinerja pada Satker Vertikal", "ind": "Jumlah Layanan Manajemen Kinerja", "ikk": null, "isp": null, "tgt": "1 Layanan", "t": [1, 1, 1]}
+];
 const RO_2027_ALL = (()=>{
   const ALIAS = { "3760|BDB.001":"BDB.002", "3760|PBB.G01":"PBB.001", "3760|PBB.G02":"PBB.002" };
   return PAGU_ANGGARAN_2027.keg.flatMap(k=>k.ro.map(r=>{
@@ -884,7 +934,13 @@ const RO_2027_ALL = (()=>{
       pkpn: r.pkpn,
       pnbp: r.pnbp,
     };
-  }));
+  })).map(r=>{
+    const kr = KRISNA_RENJA_2027.find(x=>r.id.startsWith(`RO27-${x.keg}-`) && x.kode===r.kode);
+    if(!kr) return r;
+    return kr.ikk
+      ? {...r, nama: kr.nama, target: kr.tgt, indikatorRO: kr.ind, ikkLinked: kr.ikk, ikkLinkedExt: undefined, ikuLinked: [kr.isp], krisna: true}
+      : {...r, nama: kr.nama, target: kr.tgt, indikatorRO: kr.ind, krisna: true}; /* 3758 (Dukman): keterkaitan IKK tetap, nama/target/indikator dari file */
+  });
 })();
 /* RO_PAGU_ANGGARAN_2027 — bentuk flat PAGU_ANGGARAN_2027 (RO + kro sintetis, konsisten dgn KRO
    TA 2026) dipakai bersama oleh tab Analisis Anggaran (isRanwal) dan ekspor Excel terkait. */
@@ -1984,13 +2040,13 @@ Kandidat tambahan yang layak diusulkan PN pada revisi/2027: BDB.001 (Fasilitasi 
 
 Rekomendasi eksekusi: target serapan 3760 70% per akhir September 2026; kontrak UAB.001-002 via penunjukan langsung sebelum akhir Juli (nilai jauh di bawah ambang Rp200 juta Perpres 16/2018); paketkan QDC.003 asistensi PLK dengan kunjungan ke 4 penyelenggara revitalisasi (Riau, Lampung, Jateng, Babel) agar daerah binaan bertambah dari 2 menjadi minimal 4 yang aktif pada 2026; laporan kemajuan dwi-mingguan RO PN ke pimpinan hingga seluruhnya terkontrak.`,
 
-    2027: `Perencanaan TA 2027 saat ini berdiri di atas dua dokumen yang sama-sama valid namun berbeda posisi: Pagu Indikatif (PI) resmi SB Menkeu-Bappenas sebesar Rp3,33 miliar (turun 48,5% dari TA 2026; kegiatan 3759/3760/3761 nol di KRISNA PI, hanya 3758 Rp3,24 M dan 3762 Rp90 jt PNBP yang berpagu) — dan RANWAL Renja KRISNA sebagai usulan kebutuhan K/L sebesar Rp35,02 miliar dengan komposisi yang jauh lebih sehat: 3758 Dukungan Manajemen Rp13,86 M (39,6%, turun dari 76,7%), empat kegiatan teknis Rp21,16 M (60,4%), 3760 SRG/PLK Rp5,29 M (11,8x dari 2026), 3759 Pengawasan Rp6,47 M, 3762 PBK Rp5,71 M, 3761 Hukum Rp3,68 M. Gap Rp31,7 miliar antara PI dan usulan inilah medan pertempuran trilateral — PI adalah titik berangkat resmi, RANWAL adalah target yang harus diperjuangkan dengan justifikasi terkuat.
+    2027: `Analisis PN TA 2027 kini berbasis Pagu Anggaran resmi KRISNA Rekap 3A sebesar Rp15,74 miliar (turun dari usulan RANWAL Rp35,02 miliar, dan jauh di atas Pagu Indikatif Rp3,33 miliar), dengan struktur kinerja mengikuti rekap Renja KRISNA (42 RO, 5 Kegiatan). Komposisinya lebih berimbang: 3758 Dukungan Manajemen Rp7,08 M (45,0%), sedangkan empat kegiatan teknis Rp8,66 M (55,0%) — 3760 SRG/PLK Rp3,06 M, 3759 Pengawasan Rp2,03 M, 3762 PBK Rp2,01 M, 3761 Hukum Rp1,56 M.
 
-Empat RO sudah teridentifikasi resmi sebagai PKPN RKP 2027: QDC.002 (Bimtek SRG pelaku usaha & petani, target 300 orang — naik 4x dari 75 orang TA 2026) dan QDB.001 (Peningkatan Kompetensi Pengelola Gudang, 40 lembaga — terkait pengembangan kawasan perkebunan lada & pala) pada Klaster Kedaulatan Pangan; PEA.001 (Koordinasi Pemangku Kepentingan SRG, 8 kegiatan) dan QDB.002 (Pembinaan Calon Pengelola) pada Klaster Ekonomi Kerakyatan & Desa.
+Prioritas Nasional terkonsentrasi di 3760: 16 dari 42 RO ber-tag PN dengan pagu Rp2,46 M (15,6% dari total), yaitu 13 RO di 3760 (Rp1,90 M, 62,1% dari pagu kegiatan), 2 RO di 3762 (PBB.G01 dan QDH.001, Rp270 jt) dan 1 RO di 3759 (QIH.001 Pengawasan Pelaku Usaha SRG, Rp286 jt). Empat RO teridentifikasi PKPN RKP 2027 dengan pagu Rp1,10 M: QDC.002 (Fasilitasi dan Pembinaan Pelaku Usaha dan Petani SRG, 260 orang) dan QDB.001 (Peningkatan Kompetensi Pengelola Gudang, 40 lembaga) pada Klaster Kedaulatan Pangan, serta PEA.001 (Koordinasi Pemangku Kepentingan SRG, 8 kegiatan) dan QDB.002 (Pembinaan Calon Pengelola, 40 lembaga) pada Klaster Ekonomi Kerakyatan & Desa. Khusus TA 2027, QDC.002 dan QDB.004 (Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang) juga ber-tag tematik Pengendali Inflasi (Rp392 jt).
 
-Risiko utama justru bersumber dari sejarah: TA 2025 juga berangkat dengan pagu besar (Rev.9 Rp32,05 M) lalu dipangkas 42,2% di tengah jalan, dengan 3760 terpangkas 52%. Tanpa mitigasi, RANWAL Rp35 M 2027 dapat bernasib sama. Tiga lapis pertahanan yang perlu disiapkan sebelum trilateral: (1) Tagging PKPN keempat RO di atas harus dikunci dalam dokumen RKP — RO ber-PKPN secara praktik lebih sulit diblokir karena terikat target RKP nasional yang dilaporkan ke Bappenas via e-Monev; (2) Setiap RO 3760 bernilai besar (ACD.001 Perizinan Rp450 jt target 18 lembaga, BDB.002 pendampingan PLK daerah baru Rp460 jt target 20 lembaga) wajib memiliki KAK+RAB selesai sebelum DIPA agar argumen "tidak siap dieksekusi" tidak menjadi pintu blokir; (3) Sajikan rasio leverage historis sebagai narasi trilateral — pembinaan SRG dengan pagu SAKTI Rp2,33 M pada 2025 berjalan seiring penerbitan resi Rp1,91 triliun; rasio nilai-resi-terhadap-anggaran-pembinaan sebesar 820:1.
+Keterkaitan RO dengan indikator mengikuti rekap Renja: seluruh RO PN di 3760 bermuara ke empat indikator kegiatan — Pertumbuhan Pengelola Gudang (target 5%), Pertumbuhan Pelaku PLK (5%), Bimtek meningkat pemahaman (90%), dan Rekomendasi Kebijakan SRG/PLK ditindaklanjuti (75%) — yang menopang ISP Pertumbuhan Pelaku (5,5%) dan Pertumbuhan Gudang SRG (6%). Artinya perlindungan pagu RO PN adalah syarat pencapaian dua ISP tersebut.
 
-Masukan kebijakan jangka menengah: keberhasilan 2027 jangan diukur dari serapan, melainkan tiga outcome yang dapat dipantau dashboard ini: (a) penerbitan resi kembali ke level 1.000+/tahun (rekor 2024); (b) gudang aktif naik dari 145 menuju 190 (reaktivasi 45 gudang idle); (c) penyelenggara PLK aktif naik dari 2 menjadi 6+ daerah.`,
+Risiko utama bersumber dari sejarah: TA 2025 berangkat dengan pagu besar (Rev.9 Rp32,05 M) lalu dipangkas 42,2% di tengah jalan, dengan 3760 terpangkas 52%. Tiga lapis pertahanan: (1) kunci tagging PN/PKPN dalam dokumen RKP agar RO sulit diblokir; (2) lengkapi KAK dan RAB seluruh RO PN sebelum DIPA agar argumen "belum siap dieksekusi" tidak menjadi pintu blokir; (3) sajikan rasio leverage historis — pembinaan SRG dengan pagu SAKTI Rp2,33 M pada 2025 berjalan seiring penerbitan resi Rp1,91 triliun. Keberhasilan 2027 sebaiknya diukur dari outcome (penerbitan resi kembali 1.000+/tahun, gudang aktif bertambah, penyelenggara PLK aktif bertambah), bukan semata serapan.`,
   },
 
   capaian: {
@@ -2258,7 +2314,7 @@ function MetricStrip(){
       {year!==2026 && (
         <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">
           {year===2027
-            ? <>* <b>TA 2027</b>: <b>Total Pagu</b> mengikuti <b>Pagu Anggaran resmi</b> KRISNA Rekap 3A ({fmtRp(PAGU_ANGGARAN_2027.totalAll)}, diakses 17 Agustus 2026) — lebih maju dari Pagu Indikatif 05 Juni 2026 (Rp3,33 M). Tab <b>Analisis Anggaran</b> (penelaahan 5-kriteria, tagging tematik, kontinuitas RO) kini juga berbasis pagu resmi ini. Pohon Kinerja &amp; SPBE di bawah juga sudah memakai daftar RO, volume, dan pagu dari <b>Pagu Anggaran resmi</b> (atribut skor &amp; keterkaitan IKK dipinjam dari analisis RO dengan kode sama). Target IKK/IKP mengikuti Renja 2027 hasil penyesuaian 8 Oktober 2026. Realisasi (SAKTI) tetap bersumber data TA 2026 (tahun berjalan).</>
+            ? <>* <b>TA 2027</b>: <b>Total Pagu</b> mengikuti <b>Pagu Anggaran resmi</b> KRISNA Rekap 3A ({fmtRp(PAGU_ANGGARAN_2027.totalAll)}, diakses 17 Agustus 2026) — lebih maju dari Pagu Indikatif 05 Juni 2026 (Rp3,33 M). Tab <b>Analisis Anggaran</b> (penelaahan 5-kriteria, tagging tematik, kontinuitas RO) kini juga berbasis pagu resmi ini. Pohon Kinerja &amp; SPBE di bawah juga sudah memakai daftar RO, volume, dan pagu dari <b>Pagu Anggaran resmi</b> (34 RO Kegiatan 3759–3762 mengikuti rekap KRISNA Renja 2027 — nama resmi, indikator RO, target volume, dan keterkaitan RO→IKK→IKP; skor analitik dipinjam dari analisis RO dengan kode sama). Target IKK/IKP mengikuti Renja 2027 hasil penyesuaian 8 Oktober 2026. Realisasi (SAKTI) tetap bersumber data TA 2026 (tahun berjalan).</>
             : <><b>TA 2025</b>: <b>Total Pagu (alokasi)</b> RKAKL Rev.9 (DOWNLOAD POK) sebesar <b>{fmtRp(PAGU_RKAKL_REV9_2025)}</b>. <b>Pagu yang dipakai</b> (acuan serapan) mengikuti <b>SAKTI</b> sebesar <b>{fmtRp(PAGU_SAKTI_2025)}</b>; selisih <b>{fmtRp(BLOKIR_TOTAL_2025)}</b> (±42%) thd RKAKL Rev.9 merupakan <b>blokir/efisiensi</b>. Realisasi s/d Des 2025 <b>{fmtRp(REALISASI_TOTAL_2025)}</b> — <b>serapan 99,09%</b> sesuai SAKTI (sisa {fmtRp(SISA_TOTAL_2025)}). Tagging <b>Prioritas Nasional</b> ditetapkan dari <b>kode KRO</b> ({pnCount2025} RO PN: KRO PBB/PEA/QDB/QDC/UAB di 3760 & ABB/QDH di 3762). Capaian & serapan rinci ada di tab <b>Capaian</b>.</>}
         </div>
       )}
@@ -2479,7 +2535,7 @@ function BottomUpDiagram(){
                     strokeWidth="0.9"
                     strokeDasharray={isPrimary?"":"3 2"}
                     opacity={isPrimary?1:0.85}/>
-                  <text className={r.isPN?"svg-gold":"svg-ink-2"} x={rx+rw/2} y={ry+13} textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono"><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}</title>{roLabel}</text>
+                  <text className={r.isPN?"svg-gold":"svg-ink-2"} x={rx+rw/2} y={ry+13} textAnchor="middle" fontSize="7.5" fontFamily="JetBrains Mono"><title>{linkLabel} — {r.nama}{r.isPN?' (PN)':''}{r.indikatorRO?` · Indikator RO: ${r.indikatorRO}`:''}</title>{roLabel}</text>
                 </g>
               );
             });
@@ -2620,7 +2676,7 @@ function PohonKinerja(){
           <div className="flex items-start gap-3">
             <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
             <p className="text-sm text-[var(--text-2)] leading-relaxed">
-              <b>TA 2027.</b> Seluruh <b>5 Kegiatan</b> (3758–3762) telah memakai data Renja 2027. <b>Pagu Anggaran resmi</b> (KRISNA Rekap 3A) = <b>Rp15,74 M</b> — sudah dipakai sebagai basis analisis di tab <b>Analisis Anggaran</b>. Pohon RO di bawah ini kini juga bersumber dari <b>Pagu Anggaran resmi</b> (daftar RO, volume, pagu, tagging PN/PKPN); keterkaitan IKK/IKP &amp; skor dipinjam dari analisis RO bersangkutan. Target IKK &amp; IKP mengikuti Renja 2027 hasil penyesuaian 8 Oktober 2026.
+              <b>TA 2027.</b> Seluruh <b>5 Kegiatan</b> (3758–3762) telah memakai data Renja 2027. <b>Pagu Anggaran resmi</b> (KRISNA Rekap 3A) = <b>Rp15,74 M</b> — sudah dipakai sebagai basis analisis di tab <b>Analisis Anggaran</b>. Pohon RO di bawah ini kini juga bersumber dari <b>Pagu Anggaran resmi</b> (daftar RO, volume, pagu, tagging PN/PKPN); anggaran (pagu) mengikuti data aplikasi/Pagu Anggaran, sedangkan keterkaitan RO→IKK→IKP, nama resmi, indikator RO, dan target volume 42 RO (3758–3762) mengikuti rekap KRISNA Renja 2027 (22 Okt 2026); skor analitik dipinjam dari analisis RO bersangkutan. Target IKK &amp; IKP mengikuti Renja 2027 hasil penyesuaian 8 Oktober 2026.
             </p>
           </div>
         </div>
@@ -2712,6 +2768,7 @@ function PohonKinerja(){
                         <div className="text-right">
                           <div className="text-[10px] text-[var(--text-3)]">Target</div>
                           <div className="text-xs mono text-[var(--gold)]">{ikpTgt(i,year)}</div>
+                          {tgtFwd(i) && <div className="text-[8px] mono text-[var(--text-3)] whitespace-nowrap">{tgtFwd(i)}</div>}
                         </div>
                         <div className="text-right">
                           <div className="text-[10px] text-[var(--text-3)]">Baseline</div>
@@ -2817,7 +2874,7 @@ function KegiatanBranch({kegiatan}){
                     <div key={ik.id} className="flex items-center gap-2 text-[11px] py-0.5">
                       <span className="mono text-[9px] text-[var(--text-3)] w-12 shrink-0">{ik.id}</span>
                       <span className="flex-1 text-[var(--text-2)] leading-snug">{ik.nama}</span>
-                      <span className="mono text-[9px] text-[var(--gold)] shrink-0">{ikkTgt(ik,year)}</span>
+                      <span className="mono text-[9px] text-[var(--gold)] shrink-0" title={tgtFwd(ik)}>{ikkTgt(ik,year)}</span>
                       <span className="text-[var(--text-3)] shrink-0">→</span>
                       <span className="pill pill-blue mono text-[9px] shrink-0" title={ikp?ikp.nama:''}>{ik.ikpLinked}</span>
                     </div>
@@ -3062,8 +3119,8 @@ function ChainRow({chain,ssColor,index}){
         <ChainStep icon="◦" label="KRO" code={`${kegiatan.kode}-${kro.kode}`} text={kro.nama} />
         <ChainStep icon="◦" label="Kegiatan"  code={kegiatan.kode} text={kegiatan.nama} />
         {sk  && <ChainStep icon="◦" label="Sasaran Keg." code={sk.id} text={sk.nama} />}
-        {ikk && <ChainStep icon="▸" label="IKK (indikator kegiatan)" code={ikk.id} text={`${ikk.nama} · target ${ikkTgt(ikk,year)}`} highlight />}
-        {ikp && <ChainStep icon="▸" label="IKP (indikator program)"  code={ikp.id} text={`${ikp.nama} · target ${ikpTgt(ikp,year)}`} highlight />}
+        {ikk && <ChainStep icon="▸" label="IKK (indikator kegiatan)" code={ikk.id} text={`${ikk.nama} · target ${ikkTgt(ikk,year)}${tgtFwd(ikk)?` (${tgtFwd(ikk)})`:""}`} highlight />}
+        {ikp && <ChainStep icon="▸" label="IKP (indikator program)"  code={ikp.id} text={`${ikp.nama} · target ${ikpTgt(ikp,year)}${tgtFwd(ikp)?` (${tgtFwd(ikp)})`:""}`} highlight />}
         <ChainStep icon="▣" label="Sasaran Program" code="" text={getSS(selectedSSId(ro)).nama} color={ssColor} bold />
       </div>
     </details>
@@ -5122,7 +5179,7 @@ function Capaian(){
                 <div key={i.id} className="flex items-center gap-2 text-[12px] py-1 border-b" style={{borderColor:"var(--border)"}}>
                   <span className="pill pill-blue mono text-[9px] shrink-0">{i.id}</span>
                   <span className="flex-1 text-[var(--text-2)] leading-snug">{i.nama}</span>
-                  <span className="mono text-[var(--gold)] shrink-0">{ikpTgt(i,2027)}</span>
+                  <span className="mono text-[var(--gold)] shrink-0" title={tgtFwd(i)}>{ikpTgt(i,2027)}</span>
                 </div>
               ))}
             </div>
