@@ -181,6 +181,7 @@
     .divider{background:#ddd!important;}
     @page{margin:1.5cm;size:A4 landscape;}
   }
+  .tabs-scroll{scrollbar-width:thin;} .tabs-scroll::-webkit-scrollbar{height:4px;} .tabs-scroll::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px;} .tabs-scroll .tab-btn{flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -2259,10 +2260,11 @@ function Tabs({active,onChange}){
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
     {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
+    {id:"pemadanan",label:"Pemadanan RO",      sub:"RO Standar TA 2027"},
   ];
   return (
     <nav className="max-w-[1400px] mx-auto px-8 border-b border-[var(--border)] sticky top-[69px] bg-[var(--bg)]/95 backdrop-blur-md z-10">
-      <div className="flex items-end gap-10">
+      <div className="flex items-end gap-8 overflow-x-auto tabs-scroll">
         {tabs.map(t=>(
           <button key={t.id} onClick={()=>onChange(t.id)} className={`tab-btn ${active===t.id?'active':''}`}>
             <div className="flex flex-col items-start gap-0.5">
@@ -7027,6 +7029,510 @@ function MenuPLK({year}){
 }
 
 
+
+/* ======================================================================== */
+/* PEMADANAN RO ↔ RO STANDAR (ROS) TA 2027                                   */
+/* Sumber: Ekspor grid pemadanan RO ↔ RO Standar, K/L Unit 090.07,           */
+/* diekspor 26 Oktober 2026 01:54 WIB (79 RO). Dasar standarisasi RO          */
+/* Bappebti mulai TA 2027 dan seterusnya.                                    */
+/* Format RAW: [kegiatan, KRO, RO, nama RO, satuan, kode ROS, uraian ROS,     */
+/*              status (T=Terkunci disetujui 2 pihak, D=Diajukan), kunci]     */
+/* ======================================================================== */
+const PEMADANAN_RO_2027_KRO = {"3759.BIC": "Pengawasan dan Pengendalian Lembaga", "3759.BIH": "Pengawasan dan Pengendalian Badan Usaha", "3759.QIH": "Pengawasan dan Pengendalian Badan Usaha", "3760.ACD": "Perizinan Lembaga", "3760.AFA": "Norma, Standard, Prosedur dan Kriteria", "3760.BDB": "Fasilitasi dan Pembinaan Lembaga", "3760.BMA": "Data dan Informasi Publik", "3760.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3760.PEA": "Koordinasi", "3760.QDB": "Fasilitasi dan Pembinaan Lembaga", "3760.QDC": "Fasilitasi dan Pembinaan Masyarakat", "3760.UAB": "Sistem Informasi Pemerintahan", "3761.AAH": "Peraturan lainnya", "3761.AEA": "Koordinasi", "3761.BBA": "Layanan Bantuan Hukum Perseorangan", "3761.BCB": "Perkara Hukum Lembaga", "3762.ACB": "Perizinan Masyarakat", "3762.ACD": "Perizinan Lembaga", "3762.ADI": "Sertifikasi Profesi dan SDM", "3762.AFA": "Norma, Standard, Prosedur dan Kriteria", "3762.BMA": "Data dan Informasi Publik", "3762.FAB": "Sistem Informasi Pemerintahan", "3762.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3762.QDH": "Fasilitasi dan Pembinaan Badan Usaha", "3758.CAN": "Sarana Bidang Teknologi Informasi dan Komunikasi", "3758.EBA": "Layanan Dukungan Manajemen Internal", "3758.EBC": "Layanan Manajemen SDM Internal", "3758.EBD": "Layanan Manajemen Kinerja Internal"};
+const PEMADANAN_RO_2027_RAW = [
+  ["3759", "BIC", "001", "Pengawasan Penyelenggara PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "002", "Kepatuhan APU PPT Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "003", "Kepatuhan Kegiatan dan pelaporan Keuangan Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "004", "Pelaku Usaha PBK yang diaudit", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "005", "Lembaga dan Transaksi SRG yang Diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "006", "Penyelenggara Pasar Lelang Komoditas yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "007", "Pelaku Usaha (Legal/Ilegal) yang ditindak sesuai ketentuan di Bidang PBK/SRG/PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "008", "Mekanisasi Sistem Pengawasan pada Gudang CCTV", "Badan Usaha", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "009", "Penilaian Tingkat Risiko Pelaku Usaha di bidang PBK dan SRG", "Laporan", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIH", "001", "Pengawasan Pelaku Usaha PBK melalui Audit", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIH", "002", "Pengawasan Pelaku Usaha Ilegal/Illegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIH", "003", "Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "BIH", "004", "Pengawasan Pelaku Usaha Legal/Ilegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
+  ["3759", "QIH", "001", "Pengawasan Pelaku Usaha SRG", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
+  ["3760", "ACD", "001", "Perizinan Lembaga SRG", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "ACD", "002", "Perizinan Lembaga PLK", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "AFA", "001", "Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "BDB", "001", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "BDB", "002", "Pembinaan/pendampingan dalam rangka pembentukan daerah baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "BDB", "003", "Pelaku Usaha yang mendapatkan pendampingan dalam rangka pembentukan Daerah Baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "BDB", "004", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "D", "Tidak"],
+  ["3760", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "BMA", "003", "Layanan Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "PBB", "001", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3760", "PBB", "002", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3760", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3760", "PBB", "G02", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3760", "PEA", "001", "Koordinasi dengan Pemangku Kepentingan di bidang SRG", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "PEA", "002", "Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
+  ["3760", "QDB", "001", "Fasiltasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "QDB", "002", "Fasiltasi dan pembinaan calon pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "QDB", "003", "Pembinaan/pendampingan pengelola gudang SRG dalam mengimplementasikan Warehouse Management System (WMS)", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "QDB", "004", "Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", "Lembaga", "QDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3760", "QDC", "001", "Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
+  ["3760", "QDC", "002", "Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
+  ["3760", "QDC", "003", "Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
+  ["3760", "UAB", "001", "Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3760", "UAB", "002", "Sistem Aplikasi Warehouse Management System (WMS)", "Sistem Informasi", "UAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3761", "AAH", "001", "Peraturan Bappebti di bidang PBK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
+  ["3761", "AAH", "002", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
+  ["3761", "AAH", "F01", "Peraturan Bappebti di bidang PBK, SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
+  ["3761", "AAH", "F02", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
+  ["3761", "AEA", "001", "Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", "kegiatan", "AEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
+  ["3761", "BBA", "001", "Layanan Asistensi hukum di bidang PBK, SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Tidak"],
+  ["3761", "BBA", "002", "Layanan penyelesaian perselisihan di bidang PBK, SRG dan PLK", "Orang", "BBA.S002", "Layanan Bantuan Hukum Perseorangan dalam Perkara Perdata", "T", "Tidak"],
+  ["3761", "BBA", "003", "Layanan konsultasi hukum dibidang PBK,SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Tidak"],
+  ["3761", "BCB", "001", "Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK", "Perkara", "BCB.S001", "Perkara Hukum Lembaga Lingkup Peradilan Umum", "T", "Tidak"],
+  ["3762", "ACB", "001", "Perizinan Masyarakat", "Orang", "ACB.S005", "Perizinan Tenaga Kerja Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "ACD", "001", "Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "ACD", "002", "Perizinan Rencana Kerja Anggaran Tahunan Bursa Berjangka Dan Lembaga Kliring Berjangka", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "ADI", "001", "Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "Orang", "ADI.S009", "Sertifikasi Bidang Profesi dan SDM Perdagangan dan Industri", "T", "Tidak"],
+  ["3762", "AFA", "001", "SKKNI di Bidang Perdagangan Berjangka Komoditi", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang PBK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "BMA", "002", "Layanan Data dan informasi Pasar Fisik Aset Kripto", "layanan", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
+  ["3762", "FAB", "001", "Sistem Informasi Pendukung Publikasi Informasi PBK", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3762", "FAB", "002", "Sistem Informasi Manajemen Pelaku Usaha Perdagangan Berjangka Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3762", "FAB", "003", "Sistem Informasi Pendukung Layanan Informasi Harga Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3762", "FAB", "005", "Sistem Informasi Pendukung Kebijakan Pimpinan", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
+  ["3762", "PBB", "001", "Analisa pengembangan kelembagaan dan produk di bidang PBK", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3762", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
+  ["3762", "QDH", "001", "Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan usaha", "BDH.S002", "Fasilitasi dan Pembinaan Badan Usaha Bidang Investasi dan Penanaman Modal", "T", "Tidak"],
+  ["3758", "CAN", "001", "Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti", "Unit", "CAN.S001", "Sarana Infrastruktur Teknologi Informasi dan Komunikasi", "T", "Tidak"],
+  ["3758", "EBA", "956", "Layanan BMN", "Layanan", "EBA.S009", "Layanan BMN", "T", "Tidak"],
+  ["3758", "EBA", "958", "Layanan Hubungan Masyarakat dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
+  ["3758", "EBA", "960", "Layanan Organisasi dan Tata Kelola Internal.", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Tidak"],
+  ["3758", "EBA", "963", "Layanan Data dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
+  ["3758", "EBA", "994", "Layanan Perkantoran", "Layanan", "EBA.S001", "Layanan Perkantoran", "T", "Tidak"],
+  ["3758", "EBA", "Z03", "Layanan Hubungan Masyarakat dan Informasi pada Satker Vertikal", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
+  ["3758", "EBA", "Z07", "Layanan BMN pada Satker Vertikal", "Layanan", "EBA.S009", "Layanan BMN", "T", "Tidak"],
+  ["3758", "EBA", "Z08", "Layanan Organisasi dan Tata Kelola Internal", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Tidak"],
+  ["3758", "EBC", "954", "Layanan Manajemen SDM", "Orang", "EBC.S001", "Layanan SDM", "T", "Tidak"],
+  ["3758", "EBC", "996", "Layanan Pendidikan dan Pelatihan", "Orang", "EBC.S002", "Layanan Pendidikan dan Pelatihan", "T", "Tidak"],
+  ["3758", "EBC", "Z10", "Layanan Manajemen SDM Lingkup Kementerian/Lembaga tanpa satker vertikal dan tanpa UPT", "Orang", "EBC.S001", "Layanan SDM", "T", "Tidak"],
+  ["3758", "EBD", "952", "Layanan Perencanaan dan Penganggaran", "Dokumen", "EBD.S001", "Layanan Perencanaan dan Penganggaran", "T", "Tidak"],
+  ["3758", "EBD", "953", "Layanan Pemantauan dan Evaluasi", "Dokumen", "EBD.S002", "Layanan Pemantauan, Evaluasi dan Pelaporan", "T", "Tidak"],
+  ["3758", "EBD", "955", "Layanan Manajemen Keuangan", "Dokumen", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Tidak"],
+  ["3758", "EBD", "Z27", "Layanan Manajemen Keuangan pada Satker Vertikal", "Layanan", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Tidak"],
+  ["3758", "EBD", "Z32", "Layanan Reformasi Kinerja pada Satker Vertikal", "Layanan", "EBD.S005", "Layanan Reformasi Kinerja", "T", "Tidak"],
+  ["3758", "EBD", "Z36", "Layanan Manajemen Kinerja pada Satker Vertikal", "Layanan", "EBD.S007", "Layanan Manajemen Kinerja", "T", "Tidak"]
+];
+
+const PEMADANAN_RO_2027_META = {
+  diekspor: "26 Oktober 2026 01:54 WIB",
+  ta: 2027,
+  unit: "090.07",
+  program: "090.07.EF (teknis) · 090.07.WA (dukungan manajemen)",
+  sumber: "Grid pemadanan RO ↔ RO Standar — link resmi, usulan berjalan, dan kandidat",
+};
+const PEMADANAN_KEG_NAMA = {
+  "3758":"Dukungan Manajemen dan Dukungan Teknis Lainnya",
+  "3759":"Pengawasan dan Penindakan PBK, SRG, dan PLK",
+  "3760":"Pembinaan dan Pengembangan SRG dan PLK",
+  "3761":"Peningkatan Efektivitas Kebijakan dan Pelayanan Hukum",
+  "3762":"Pembinaan dan Pengembangan PBK",
+};
+const PEMADANAN_RO_2027 = (()=>{
+  const paguMap = {};
+  try{ PAGU_ANGGARAN_2027.keg.forEach(k=>k.ro.forEach(r=>{ paguMap[`${k.kode}.${r.kode}`]=r; })); }catch(e){}
+  const rows = PEMADANAN_RO_2027_RAW.map((a,i)=>{
+    const [keg,kro,ro,nama,satuan,ros,rosNama,st,kunci]=a;
+    const key=`${keg}.${kro}.${ro}`;
+    const pg=paguMap[key];
+    return { no:i+1, keg, kro, ro, key, kodeLengkap:`090.07.${keg==="3758"?"WA":"EF"}.${key}`,
+      kroNama:PEMADANAN_RO_2027_KRO[`${keg}.${kro}`]||"", nama, satuan, ros, rosNama,
+      status: st==="T"?"Terkunci":"Diajukan", kunci, pagu: pg?pg.pagu:null, target: pg?pg.target:null, flags:[] };
+  });
+  // Kode RO terbaru (konfirmasi Perencana): kode lama digantikan kode baru — bukan temuan
+  const KODE_TERBARU = {"3760.PBB.001":"PBB.G01","3760.PBB.002":"PBB.G02","3761.AAH.002":"AAH.F02"};
+  const kodeBaruSet = new Set(Object.entries(KODE_TERBARU).map(([k,v])=>k.split('.')[0]+"."+v));
+  rows.forEach(r=>{ if(KODE_TERBARU[r.key]) r.kodeBaru=KODE_TERBARU[r.key]; if(kodeBaruSet.has(r.key)) r.isKodeBaru=true; });
+  // A. Pola KRO PN belum seragam — prefiks KRO ≠ prefiks ROS
+  //    (pengecualian: PBB.S002 vs ABB.S002 = pembeda PN / Non-PN, bukan temuan)
+  rows.forEach(r=>{ const p=r.ros.split('.')[0]; if(p!==r.kro && !(r.kro==="PBB" && p==="ABB")) r.flags.push({t:"A",msg:`KRO ${r.kro} dipadankan ke ROS ${r.ros} (prefiks ${p})`}); });
+  // B. Uraian ROS sama, kode ROS berbeda dengan prefiks sama (mis. ACD.S023 vs ACD.S041)
+  const byUraian={}; rows.forEach(r=>{ (byUraian[r.rosNama]=byUraian[r.rosNama]||new Set()).add(r.ros); });
+  rows.forEach(r=>{ const p=r.ros.split('.')[0]; const same=[...byUraian[r.rosNama]].filter(c=>c.split('.')[0]===p); if(same.length>1) r.flags.push({t:"B",msg:`Uraian ROS sama dipakai kode ${same.sort().join(" / ")}`}); });
+  // C. Nomenklatur RO identik dalam satu kegiatan (di luar pasangan kode lama → kode terbaru)
+  const byNama={}; rows.forEach(r=>{ const k=r.keg+"|"+r.nama.toLowerCase().replace(/[^a-z0-9]/g,''); (byNama[k]=byNama[k]||[]).push(r); });
+  Object.values(byNama).forEach(g=>{ if(g.length>1 && !g.some(r=>r.kodeBaru)) g.forEach(r=>r.flags.push({t:"C",msg:`Nama RO identik dengan ${g.filter(x=>x!==r).map(x=>x.kro+"."+x.ro).join(", ")}`})); });
+  // D. Satuan berbeda dalam satu ROS
+  const satByRos={}; rows.forEach(r=>{ (satByRos[r.ros]=satByRos[r.ros]||new Set()).add(r.satuan.toLowerCase()); });
+  const satLabel={}; rows.forEach(r=>{ (satLabel[r.ros]=satLabel[r.ros]||[]); if(!satLabel[r.ros].some(x=>x.toLowerCase()===r.satuan.toLowerCase())) satLabel[r.ros].push(r.satuan); });
+  rows.forEach(r=>{ const s=satByRos[r.ros]; if(s.size>1) r.flags.push({t:"D",msg:`Satuan di ROS ${r.ros}: ${satLabel[r.ros].join(" / ")}`}); });
+  // E. Belum terkunci
+  rows.forEach(r=>{ if(r.status!=="Terkunci") r.flags.push({t:"E",msg:"Pemadanan diajukan — menunggu persetujuan"}); });
+  const ord=["3758","3759","3760","3761","3762"];
+  return rows.slice().sort((a,b)=>ord.indexOf(a.keg)-ord.indexOf(b.keg)||a.no-b.no).map((r,i)=>({...r,no:i+1}));
+})();
+const PEMADANAN_FLAG_DEF = {
+  B:{label:"Kode ROS berbeda untuk uraian sama", color:"var(--violet)", desc:"Uraian ROS identik namun dipadankan ke dua kode ROS berprefiks sama."},
+  C:{label:"Nama RO identik", color:"var(--blue)", desc:"Lebih dari satu kode RO dengan nomenklatur sama dalam satu kegiatan."},
+  A:{label:"Pola KRO PN belum seragam", color:"var(--amber)", desc:"RO ber-KRO PN dipadankan ke ROS berprefiks berbeda, tidak seragam antar-RO sejenis."},
+  D:{label:"Satuan berbeda dalam satu ROS", color:"var(--gold)", desc:"RO di bawah ROS yang sama memakai satuan berbeda."},
+  E:{label:"Belum terkunci", color:"var(--red)", desc:"Pemadanan masih diajukan, menunggu persetujuan dua pihak."},
+};
+
+function MenuPemadananRO(){
+  const rows = PEMADANAN_RO_2027;
+  const [fKeg,setFKeg] = useState("all");
+  const [fStatus,setFStatus] = useState("all");
+  const [fPagu,setFPagu] = useState("all");
+  const [fFlag,setFFlag] = useState("all");
+  const [q,setQ] = useState("");
+  const [showAllRos,setShowAllRos] = useState(false);
+  const [openRos,setOpenRos] = useState(null);
+
+  const total = rows.length;
+  const terkunci = rows.filter(r=>r.status==="Terkunci").length;
+  const diajukan = total-terkunci;
+  const rosList = useMemo(()=>{
+    const m={}; rows.forEach(r=>{ (m[r.ros]=m[r.ros]||{kode:r.ros,nama:r.rosNama,ro:[]}).ro.push(r); });
+    return Object.values(m).sort((a,b)=>b.ro.length-a.ro.length||a.kode.localeCompare(b.kode));
+  },[]);
+  const berpagu = rows.filter(r=>r.pagu!=null);
+  const totPagu = berpagu.reduce((s,r)=>s+r.pagu,0);
+  const flagged = rows.filter(r=>r.flags.length>0);
+  const flagCount = {}; Object.keys(PEMADANAN_FLAG_DEF).forEach(k=>flagCount[k]=rows.filter(r=>r.flags.some(f=>f.t===k)).length);
+  const kegList = Object.keys(PEMADANAN_KEG_NAMA).sort();
+  const kodeLama = rows.filter(r=>r.kodeBaru);
+  const temuan = useMemo(()=>{
+    const by=(k)=>rows.filter(r=>r.flags.some(f=>f.t===k));
+    const rp=(r)=>r.pagu!=null?fmtRp(r.pagu):"—";
+    const T=[];
+    const b=by("B");
+    if(b.length){
+      const codes=[...new Set(b.map(r=>r.ros))].sort();
+      T.push({k:"B", n:b.length, judul:`Perizinan Lembaga dipadankan ke dua kode ROS berbeda (${codes.join(" dan ")})`,
+        uraian:`Uraian RO Standar "${b[0].rosNama}" muncul pada dua kode, yaitu ${codes.map(c=>`${c} (${b.filter(r=>r.ros===c).map(r=>r.keg+"."+r.kro+"."+r.ro).join(", ")})`).join(" dan ")}. Kedua kelompok RO merupakan jenis keluaran yang sama (perizinan lembaga), namun berada pada kode ROS yang berbeda antara Kegiatan 3760 (SRG/PLK) dan 3762 (PBK). Hal ini berpotensi menyulitkan agregasi capaian dan perbandingan biaya satuan layanan perizinan Bappebti.`,
+        kolom:["Kode RO","Rincian Output","ROS","Satuan","Pagu 2027"],
+        baris:b.map(r=>[r.keg+"."+r.kro+"."+r.ro, r.nama, r.ros, r.satuan, rp(r)]),
+        tl:"Konfirmasikan kepada pengelola RO Standar apakah ACD.S023 dan ACD.S041 memang ditujukan untuk lingkup berbeda; bila tidak, seragamkan seluruh RO perizinan lembaga Bappebti ke satu kode ROS."});
+    }
+    const c=by("C");
+    if(c.length){
+      const grp={}; c.forEach(r=>{ const k=r.keg+"|"+r.nama.toLowerCase().replace(/[^a-z0-9]/g,''); (grp[k]=grp[k]||[]).push(r); });
+      const gs=Object.values(grp);
+      T.push({k:"C", n:c.length, judul:"Nomenklatur RO identik dengan kode berbeda dalam satu kegiatan",
+        uraian:`Ditemukan ${gs.length} pasang RO yang bernama sama namun memiliki kode berbeda: ${gs.map(g=>g.map(r=>r.keg+"."+r.kro+"."+r.ro).join(" dan ")).join("; ")}. Pada pasangan BDB, kode BDB.001 sudah terkunci dan berpagu TA 2027, sedangkan BDB.004 dengan nama yang sama justru masih berstatus diajukan dan menunggu persetujuan. Duplikasi nomenklatur seperti ini berisiko memecah data target dan capaian satu keluaran ke dua kode.`,
+        kolom:["Kode RO","Rincian Output","ROS","Status","Pagu 2027"],
+        baris:gs.flat().map(r=>[r.keg+"."+r.kro+"."+r.ro, r.nama, r.ros, r.status, rp(r)]),
+        tl:"Tetapkan satu kode baku per keluaran. Untuk BDB.001 dan BDB.004, pertimbangkan konsolidasi ke BDB.001 (terkunci dan berpagu) atau bedakan nomenklatur BDB.004 bila memang lingkupnya berbeda, sebelum persetujuan pemadanan BDB.004 diproses."});
+    }
+    const a=by("A");
+    if(a.length){
+      const pnKro=["QIH","QDB","QDC","QDH","UAB"];
+      const pn=rows.filter(r=>pnKro.includes(r.kro));
+      const ok=pn.filter(r=>!r.flags.some(f=>f.t==="A"));
+      T.push({k:"A", n:a.length, judul:"Pola pemadanan KRO PN belum seragam",
+        uraian:`RO pada KRO PN dipadankan dengan dua pola berbeda. Sebagian dipadankan ke ROS berprefiks KRO PN yang sama (${ok.map(r=>r.kro+"."+r.ro+" → "+r.ros).join(", ")}), sementara ${a.length} RO lainnya dipadankan ke ROS berprefiks KRO generik (${a.map(r=>r.kro+"."+r.ro+" → "+r.ros).join(", ")}). Ketidakseragaman paling terlihat dalam satu KRO yang sama: QDB.001–003 ke BDB.S012 tetapi QDB.004 ke QDB.S012, serta UAB.001 ke FAB.S002 tetapi UAB.002 ke UAB.S002.`,
+        kolom:["Kode RO","Rincian Output","KRO","ROS dipadankan","Pola"],
+        baris:pn.map(r=>[r.keg+"."+r.kro+"."+r.ro, r.nama, r.kro, r.ros, r.flags.some(f=>f.t==="A")?"ROS prefiks generik":"ROS prefiks PN"]),
+        tl:"Sepakati satu pola untuk seluruh RO ber-KRO PN (dipadankan ke ROS PN atau ke ROS generik) bersama pihak penyetuju, lalu sesuaikan RO yang belum mengikuti pola tersebut."});
+    }
+    const d=by("D");
+    if(d.length){
+      const rg={}; d.forEach(r=>{ (rg[r.ros]=rg[r.ros]||[]).push(r); });
+      T.push({k:"D", n:d.length, judul:`Satuan RO berbeda dalam satu RO Standar (${Object.keys(rg).length} ROS)`,
+        uraian:`Pada ${Object.keys(rg).length} RO Standar, RO yang dinaunginya memakai satuan yang berbeda: ${Object.entries(rg).map(([k,g])=>`${k} (${[...new Set(g.map(r=>r.satuan))].join(" / ")})`).join("; ")}. Karena ROS menjadi acuan baku, satuan yang tidak seragam akan menyulitkan agregasi target dan capaian RO, penyusunan SBKK, serta perbandingan biaya satuan antar-RO sejenis.`,
+        kolom:["ROS","Uraian RO Standar","Satuan dipakai","RO"],
+        baris:Object.entries(rg).map(([k,g])=>[k, g[0].rosNama, [...new Set(g.map(r=>r.satuan))].map(s=>`${s} (${g.filter(r=>r.satuan===s).length})`).join(", "), g.map(r=>r.keg+"."+r.kro+"."+r.ro+" ("+r.satuan+")").join(", ")]),
+        tl:"Tetapkan satuan baku untuk setiap ROS (mis. Lembaga untuk pengawasan lembaga, Dokumen untuk data dan informasi, Layanan untuk layanan manajemen keuangan) dan gunakan dalam penyusunan Renja/RKA-K/L TA 2028 dan seterusnya."});
+    }
+    return T;
+  },[]);
+  const perKeg = kegList.map(k=>{
+    const g=rows.filter(r=>r.keg===k);
+    return {kode:k, nama:PEMADANAN_KEG_NAMA[k], n:g.length, kro:new Set(g.map(r=>r.kro)).size, ros:new Set(g.map(r=>r.ros)).size,
+      pagu:g.filter(r=>r.pagu!=null).length, lock:g.filter(r=>r.status==="Terkunci").length, flag:g.filter(r=>r.flags.length).length};
+  });
+
+  const filtered = rows.filter(r=>{
+    if(fKeg!=="all" && r.keg!==fKeg) return false;
+    if(fStatus!=="all" && r.status!==fStatus) return false;
+    if(fPagu==="ya" && r.pagu==null) return false;
+    if(fPagu==="tidak" && r.pagu!=null) return false;
+    if(fFlag==="any" && !r.flags.length) return false;
+    if(fFlag!=="all" && fFlag!=="any" && !r.flags.some(f=>f.t===fFlag)) return false;
+    if(q){ const s=q.toLowerCase(); if(!(r.nama+" "+r.key+" "+r.ros+" "+r.rosNama+" "+r.satuan).toLowerCase().includes(s)) return false; }
+    return true;
+  });
+
+  const Stat = ({label,value,sub,color})=>(
+    <div className="card p-5">
+      <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{label}</div>
+      <div className="serif text-4xl mt-2" style={{color:color||"var(--gold)"}}>{value}</div>
+      <div className="text-[10px] text-[var(--text-3)] mt-1">{sub}</div>
+    </div>
+  );
+  const FlagDot = ({t})=>(<span title={PEMADANAN_FLAG_DEF[t].label} className="inline-block w-2 h-2 rounded-full" style={{background:PEMADANAN_FLAG_DEF[t].color}}></span>);
+  const sel = "bg-[var(--card)] border border-[var(--border-strong)] rounded-md px-2 py-1.5 text-xs text-[var(--text)]";
+  const rosShown = showAllRos ? rosList : rosList.slice(0,12);
+
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      {/* Intro */}
+      <div className="card p-6 mb-6" style={{borderLeft:"3px solid var(--gold)"}}>
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="pill pill-gold mono text-[10px]">TA 2027</span>
+          <span className="pill pill-emerald mono text-[10px]">DASAR STANDARISASI RO · 2027 DAN SETERUSNYA</span>
+          <span className="pill pill-muted mono text-[10px]">K/L UNIT {PEMADANAN_RO_2027_META.unit}</span>
+        </div>
+        <div className="serif text-2xl leading-snug">Pemadanan Rincian Output (RO) ↔ RO Standar (ROS)</div>
+        <p className="text-sm text-[var(--text-2)] mt-2 leading-relaxed max-w-4xl">
+          Setiap RO Bappebti dipadankan ke satu <b>RO Standar (ROS)</b> sebagai acuan nomenklatur, satuan, dan klasifikasi keluaran yang baku.
+          Hasil pemadanan TA 2027 ini menjadi <b>dasar Standarisasi RO Bappebti mulai TA 2027 dan tahun-tahun berikutnya</b>: penyusunan Renja, RKA-K/L,
+          usulan SBKK, dan pengukuran capaian RO diarahkan mengacu pada ROS yang telah terkunci. Menu ini khusus TA 2027 dan tidak berubah mengikuti pemilih Tahun Anggaran di header.
+        </p>
+        <div className="text-[10px] mono text-[var(--text-3)] mt-3">Sumber: {PEMADANAN_RO_2027_META.sumber} · diekspor {PEMADANAN_RO_2027_META.diekspor} · Program {PEMADANAN_RO_2027_META.program}. Status pagu di-cross-reference dengan Pagu Anggaran TA 2027 (KRISNA Rekap 3A).</div>
+      </div>
+
+      {/* KPI */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        <Stat label="RO Dipadankan" value={total} sub={`${new Set(rows.map(r=>r.keg+"."+r.kro)).size} KRO · 5 kegiatan`} />
+        <Stat label="Terkunci" value={terkunci} sub={`${(terkunci/total*100).toFixed(1).replace('.',',')}% · disetujui 2 pihak`} color="var(--emerald)" />
+        <Stat label="Menunggu Persetujuan" value={diajukan} sub="diajukan, belum terkunci" color={diajukan?"var(--red)":"var(--emerald)"} />
+        <Stat label="RO Standar Unik" value={rosList.length} sub={`rasio ${(total/rosList.length).toFixed(1).replace('.',',')} RO per ROS`} />
+        <Stat label="RO Berpagu TA 2027" value={<>{berpagu.length}<span className="text-base text-[var(--text-3)]">/{total}</span></>} sub={`${fmtRp(totPagu)} · Pagu Anggaran`} color="var(--blue)" />
+        <Stat label="RO Terkait Temuan" value={flagged.length} sub={`dalam ${temuan.length} temuan dari data`} color="var(--amber)" />
+      </div>
+
+      {/* Per kegiatan + status */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <div className="lg:col-span-2 card p-5 overflow-x-auto">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Sebaran Pemadanan per Kegiatan</div>
+          <table className="w-full text-xs">
+            <thead><tr className="text-left text-[10px] mono uppercase text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-2 pr-2">Kegiatan</th><th className="py-2 px-2 text-right">KRO</th><th className="py-2 px-2 text-right">RO</th><th className="py-2 px-2 text-right">ROS</th><th className="py-2 px-2 text-right">Berpagu 2027</th><th className="py-2 px-2 text-right">Terkunci</th><th className="py-2 pl-2 text-right">Catatan</th>
+            </tr></thead>
+            <tbody>
+              {perKeg.map(k=>(
+                <tr key={k.kode} className="border-b border-[var(--border)] hover:bg-[rgba(161,98,7,0.05)] cursor-pointer" onClick={()=>setFKeg(fKeg===k.kode?"all":k.kode)}>
+                  <td className="py-2 pr-2"><span className="mono text-[var(--gold)]">{k.kode}</span> <span className="text-[var(--text-2)]">{k.nama}</span>{fKeg===k.kode && <span className="pill pill-gold text-[8px] ml-1">FILTER</span>}</td>
+                  <td className="py-2 px-2 text-right mono">{k.kro}</td>
+                  <td className="py-2 px-2 text-right mono">{k.n}</td>
+                  <td className="py-2 px-2 text-right mono">{k.ros}</td>
+                  <td className="py-2 px-2 text-right mono">{k.pagu}</td>
+                  <td className="py-2 px-2 text-right mono" style={{color:k.lock===k.n?"var(--emerald)":"var(--amber)"}}>{k.lock}/{k.n}</td>
+                  <td className="py-2 pl-2 text-right mono" style={{color:k.flag?"var(--amber)":"var(--text-3)"}}>{k.flag}</td>
+                </tr>
+              ))}
+              <tr className="font-medium">
+                <td className="py-2 pr-2">Total</td>
+                <td className="py-2 px-2 text-right mono">{perKeg.reduce((s,k)=>s+k.kro,0)}</td>
+                <td className="py-2 px-2 text-right mono">{total}</td>
+                <td className="py-2 px-2 text-right mono">{rosList.length}</td>
+                <td className="py-2 px-2 text-right mono">{berpagu.length}</td>
+                <td className="py-2 px-2 text-right mono">{terkunci}/{total}</td>
+                <td className="py-2 pl-2 text-right mono">{flagged.length}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="text-[10px] text-[var(--text-3)] mt-3">Klik baris kegiatan untuk memfilter tabel rinci di bawah. Kolom ROS = jumlah RO Standar unik dalam kegiatan.</div>
+        </div>
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Cakupan Pemadanan</div>
+          {[
+            {l:"Terkunci (disetujui 2 pihak)", n:terkunci, c:"var(--emerald)"},
+            {l:"Diajukan — menunggu persetujuan", n:diajukan, c:"var(--red)"},
+          ].map(x=>(
+            <div key={x.l} className="mb-3">
+              <div className="flex justify-between text-xs mb-1"><span>{x.l}</span><span className="mono text-[var(--text-3)]">{x.n} RO</span></div>
+              <div className="impact-bar"><div className="impact-fill" style={{width:`${x.n/total*100}%`,background:x.c}}></div></div>
+            </div>
+          ))}
+          <div className="border-t border-[var(--border)] my-4"></div>
+          {[
+            {l:"RO aktif — berpagu TA 2027", n:berpagu.length, c:"var(--blue)"},
+            {l:"RO dalam pool, tanpa pagu TA 2027", n:total-berpagu.length, c:"var(--text-3)"},
+          ].map(x=>(
+            <div key={x.l} className="mb-3">
+              <div className="flex justify-between text-xs mb-1"><span>{x.l}</span><span className="mono text-[var(--text-3)]">{x.n} RO</span></div>
+              <div className="impact-bar"><div className="impact-fill" style={{width:`${x.n/total*100}%`,background:x.c}}></div></div>
+            </div>
+          ))}
+          <p className="text-[11px] text-[var(--text-2)] leading-relaxed mt-3">Seluruh <b>{berpagu.length} RO berpagu</b> pada Pagu Anggaran TA 2027 sudah tercakup dalam pemadanan. {total-berpagu.length} RO lainnya adalah kode RO dalam pool Bappebti yang tidak dialokasikan pagu TA 2027, namun tetap dipadankan sehingga siap dipakai pada tahun anggaran berikutnya.</p>
+        </div>
+      </div>
+
+      {/* Katalog ROS */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Katalog RO Standar Bappebti — {rosList.length} ROS</div>
+          <div className="flex items-center gap-3 text-[10px] text-[var(--text-3)]">
+            <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm" style={{background:"rgba(37,99,235,0.15)",border:"1px solid var(--blue)"}}></span>RO berpagu 2027</span>
+            <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm" style={{border:"1px solid var(--border-strong)"}}></span>tanpa pagu</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {rosShown.map(s=>{
+            const isOpen=openRos===s.kode;
+            return (
+            <div key={s.kode} className="rounded-md border border-[var(--border)] p-3 hover:border-[var(--gold-soft)] transition cursor-pointer" onClick={()=>setOpenRos(isOpen?null:s.kode)}>
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="mono text-xs text-[var(--gold)]">{s.kode}</div>
+                  <div className="text-xs mt-0.5 leading-snug">{s.nama}</div>
+                </div>
+                <div className="text-right shrink-0"><div className="serif text-2xl leading-none">{s.ro.length}</div><div className="text-[9px] mono text-[var(--text-3)]">RO</div></div>
+              </div>
+              <div className="flex flex-wrap gap-1 mt-2">
+                {s.ro.map(r=>(
+                  <span key={r.key} title={r.nama} className="mono text-[9px] px-1.5 py-0.5 rounded"
+                    style={r.pagu!=null?{background:"rgba(37,99,235,0.12)",color:"var(--blue-text)",border:"1px solid rgba(37,99,235,0.35)"}:{color:"var(--text-3)",border:"1px solid var(--border-strong)"}}>
+                    {r.keg}.{r.kro}.{r.ro}
+                  </span>
+                ))}
+              </div>
+              {isOpen && (
+                <ul className="mt-2 pt-2 border-t border-[var(--border)] space-y-1">
+                  {s.ro.map(r=>(<li key={r.key} className="text-[11px] text-[var(--text-2)] leading-snug"><span className="mono text-[var(--text-3)]">{r.kro}.{r.ro}</span> {r.nama} <span className="text-[var(--text-3)]">· {r.satuan}</span></li>))}
+                </ul>
+              )}
+            </div>);
+          })}
+        </div>
+        {rosList.length>12 && (
+          <div className="text-center mt-4">
+            <button onClick={()=>setShowAllRos(!showAllRos)} className="px-3 py-1.5 rounded-md border border-[var(--border-strong)] hover:border-[var(--gold-soft)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition">
+              {showAllRos?"Tampilkan ringkas":`Tampilkan semua ${rosList.length} ROS`}
+            </button>
+          </div>
+        )}
+        <div className="text-[10px] text-[var(--text-3)] mt-3">Klik kartu ROS untuk melihat nama RO yang dipadankan. Satu ROS dapat menaungi beberapa RO; ROS inilah yang menjadi acuan baku nomenklatur dan satuan RO ke depan.</div>
+      </div>
+
+      {/* Temuan dari data */}
+      <div className="card p-6 mb-6" style={{borderLeft:"3px solid var(--amber)"}}>
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Temuan dari Data Pemadanan RO TA 2027</span>
+          <span className="pill pill-muted text-[9px]">{temuan.length} temuan · {flagged.length} RO terkait</span>
+        </div>
+        <p className="text-sm text-[var(--text-2)] leading-relaxed max-w-5xl">
+          Secara umum pemadanan TA 2027 sudah kuat: <b className="text-[var(--text)]">{terkunci} dari {total} RO</b> ({(terkunci/total*100).toFixed(1).replace('.',',')}%) telah terkunci dengan persetujuan dua pihak,
+          seluruh <b className="text-[var(--text)]">{berpagu.length} RO berpagu</b> pada Pagu Anggaran TA 2027 sudah tercakup, dan {total} RO terhimpun ke dalam <b className="text-[var(--text)]">{rosList.length} RO Standar</b>.
+          Meski demikian, penelusuran data menemukan beberapa hal yang perlu diseragamkan agar pemadanan ini dapat dipakai sebagai dasar standarisasi RO mulai TA 2027 dan seterusnya.
+        </p>
+
+        <div className="space-y-4 mt-5">
+          {temuan.map((t,i)=>(
+            <div key={t.k} className="rounded-md border border-[var(--border)] p-4">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex items-start gap-3">
+                  <div className="serif text-3xl leading-none" style={{color:PEMADANAN_FLAG_DEF[t.k].color}}>{i+1}</div>
+                  <div>
+                    <div className="text-sm font-medium">{t.judul}</div>
+                    <div className="text-[10px] mono text-[var(--text-3)] mt-0.5">{t.n} RO terkait</div>
+                  </div>
+                </div>
+                <button onClick={()=>{setFFlag(t.k); setTimeout(()=>{const el=document.getElementById('pemadanan-tabel'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});},50);}}
+                  className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] hover:border-[var(--gold-soft)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition">Lihat di tabel →</button>
+              </div>
+              <p className="text-[13px] text-[var(--text-2)] leading-relaxed mt-3">{t.uraian}</p>
+              <div className="mt-3 overflow-x-auto">
+                <table className="w-full text-[11.5px]">
+                  <thead><tr className="text-left text-[9.5px] mono uppercase text-[var(--text-3)] border-b border-[var(--border)]">{t.kolom.map(c=><th key={c} className="py-1.5 pr-3">{c}</th>)}</tr></thead>
+                  <tbody>{t.baris.map((b,j)=>(
+                    <tr key={j} className="border-b border-[var(--border)] align-top">{b.map((c,m)=><td key={m} className={`py-1.5 pr-3 ${m===0?'mono whitespace-nowrap':''}`}>{c}</td>)}</tr>
+                  ))}</tbody>
+                </table>
+              </div>
+              <div className="text-[12px] mt-3 leading-relaxed"><span className="mono text-[10px] uppercase tracking-wider text-[var(--emerald)]">Tindak lanjut · </span><span className="text-[var(--text-2)]">{t.tl}</span></div>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-md p-4 mt-4" style={{background:"rgba(5,150,105,0.06)",border:"1px solid rgba(5,150,105,0.25)"}}>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--emerald)] mb-2">Klarifikasi — bukan temuan</div>
+          <ul className="space-y-1.5 text-[12.5px] text-[var(--text-2)] leading-relaxed list-disc pl-5">
+            <li><b className="text-[var(--text)]">PBB.S002 dan ABB.S002</b> memiliki uraian sama (Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri); perbedaan kode hanya membedakan RO <b>PN</b> dan <b>Non-PN</b>, sehingga pemadanan 3760.PBB → PBB.S002 dan 3762.PBB → ABB.S002 sudah sesuai.</li>
+            <li><b className="text-[var(--text)]">Kode RO terbaru</b> yang dipakai adalah {kodeLama.map((r,i)=><span key={r.key}>{i>0?(i===kodeLama.length-1?" dan ":", "):""}<span className="mono">{r.kodeBaru}</span> (menggantikan <span className="mono">{r.kro}.{r.ro}</span>)</span>)}. Kemiripan nama antara kode lama dan kode terbaru tersebut tidak dihitung sebagai temuan; kode lama tetap tercatat dalam pool pemadanan.</li>
+          </ul>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3">Temuan disusun dari ekspor grid pemadanan RO ↔ ROS ({PEMADANAN_RO_2027_META.diekspor}) dan Pagu Anggaran TA 2027; merupakan bahan kerja internal, bukan koreksi resmi atas hasil pemadanan.</div>
+      </div>
+
+      {/* Tabel rinci */}
+      <div id="pemadanan-tabel" className="card p-5 mb-6" style={{scrollMarginTop:"150px"}}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Pemadanan RO ↔ ROS · {filtered.length} dari {total} RO</div>
+          <div className="flex flex-wrap items-center gap-2">
+            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Cari RO / kode / ROS…" className={sel+" w-52"} />
+            <select value={fKeg} onChange={e=>setFKeg(e.target.value)} className={sel}>
+              <option value="all">Semua kegiatan</option>
+              {kegList.map(k=><option key={k} value={k}>{k}</option>)}
+            </select>
+            <select value={fStatus} onChange={e=>setFStatus(e.target.value)} className={sel}>
+              <option value="all">Semua status</option><option value="Terkunci">Terkunci</option><option value="Diajukan">Diajukan</option>
+            </select>
+            <select value={fPagu} onChange={e=>setFPagu(e.target.value)} className={sel}>
+              <option value="all">Pagu: semua</option><option value="ya">Berpagu 2027</option><option value="tidak">Tanpa pagu 2027</option>
+            </select>
+            <select value={fFlag} onChange={e=>setFFlag(e.target.value)} className={sel}>
+              <option value="all">Catatan: semua</option><option value="any">Ada catatan</option>
+              {Object.entries(PEMADANAN_FLAG_DEF).map(([k,d])=><option key={k} value={k}>{d.label}</option>)}
+            </select>
+            {(fKeg!=="all"||fStatus!=="all"||fPagu!=="all"||fFlag!=="all"||q) && (
+              <button onClick={()=>{setFKeg("all");setFStatus("all");setFPagu("all");setFFlag("all");setQ("");}} className="text-[10px] mono uppercase text-[var(--gold)] hover:underline">Reset</button>
+            )}
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead><tr className="text-left text-[10px] mono uppercase text-[var(--text-3)] border-b border-[var(--border-strong)]">
+              <th className="py-2 pr-2">No</th><th className="py-2 px-2">Kode RO</th><th className="py-2 px-2">Rincian Output</th><th className="py-2 px-2">Satuan</th>
+              <th className="py-2 px-2">ROS</th><th className="py-2 px-2">Uraian RO Standar</th><th className="py-2 px-2">Status</th><th className="py-2 px-2 text-right">Pagu 2027</th><th className="py-2 pl-2">Catatan</th>
+            </tr></thead>
+            <tbody>
+              {filtered.map((r,i)=>{
+                const prev=filtered[i-1]; const newKeg=!prev||prev.keg!==r.keg;
+                return (
+                <React.Fragment key={r.key}>
+                  {newKeg && <tr><td colSpan={9} className="pt-4 pb-1.5 text-[10px] mono uppercase tracking-wider text-[var(--gold)]">{r.keg} · {PEMADANAN_KEG_NAMA[r.keg]}</td></tr>}
+                  <tr className="border-b border-[var(--border)] align-top hover:bg-[rgba(161,98,7,0.04)]">
+                    <td className="py-2 pr-2 mono text-[var(--text-3)]">{r.no}</td>
+                    <td className="py-2 px-2 mono whitespace-nowrap" title={`${r.kodeLengkap} · KRO ${r.kroNama}`}>{r.kro}.{r.ro}</td>
+                    <td className="py-2 px-2 min-w-[200px]">{r.nama}</td>
+                    <td className="py-2 px-2 text-[var(--text-2)] whitespace-nowrap">{r.satuan}</td>
+                    <td className="py-2 px-2 mono text-[var(--gold)] whitespace-nowrap">{r.ros}</td>
+                    <td className="py-2 px-2 text-[var(--text-2)] min-w-[150px]">{r.rosNama}</td>
+                    <td className="py-2 px-2 whitespace-nowrap">{r.status==="Terkunci"
+                      ? <span className="pill pill-emerald text-[9px]">Terkunci</span>
+                      : <span className="pill pill-red text-[9px]">Diajukan</span>}</td>
+                    <td className="py-2 px-2 text-right mono whitespace-nowrap">{r.pagu!=null?<>{fmtRp(r.pagu)}<div className="text-[9px] text-[var(--text-3)]">{r.target}</div></>:<span className="text-[var(--text-3)]">—</span>}</td>
+                    <td className="py-2 pl-2 min-w-[200px] max-w-[260px]">{r.flags.map((f,j)=>(
+                      <div key={j} className="flex items-start gap-1.5 text-[10.5px] text-[var(--text-2)] leading-snug mb-0.5"><span className="mt-1"><FlagDot t={f.t}/></span><span>{f.msg}</span></div>
+                    ))}
+                      {r.kodeBaru && <div className="text-[10.5px] text-[var(--text-3)] leading-snug">Kode lama — digantikan <span className="mono">{r.kodeBaru}</span></div>}
+                      {r.isKodeBaru && <div className="text-[10.5px] leading-snug" style={{color:"var(--emerald-text)"}}>Kode RO terbaru</div>}
+                      {!r.flags.length && !r.kodeBaru && !r.isKodeBaru && <span className="text-[var(--text-3)]">—</span>}</td>
+                  </tr>
+                </React.Fragment>);
+              })}
+              {filtered.length===0 && <tr><td colSpan={9} className="py-8 text-center text-[var(--text-3)]">Tidak ada RO yang cocok dengan filter.</td></tr>}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3">Arahkan kursor ke kode RO untuk kode lengkap (090.07.EF/WA.kegiatan.KRO.RO) dan nama KRO. Seluruh RO pada ekspor bertanda Kunci = "{rows[0].kunci}". Pagu dan target mengacu Pagu Anggaran TA 2027.</div>
+      </div>
+
+      {/* Arah standarisasi */}
+      <div className="card p-6" style={{borderLeft:"3px solid var(--emerald)"}}>
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Arah Standarisasi RO Bappebti · TA 2027 dan seterusnya</div>
+        <ol className="space-y-3 text-sm text-[var(--text-2)] leading-relaxed list-decimal pl-5">
+          <li><b className="text-[var(--text)]">ROS terkunci sebagai acuan baku.</b> {terkunci} dari {total} RO telah terkunci (disetujui dua pihak). Usulan RO pada Renja/RKA-K/L TA 2028 dan seterusnya dimulai dari {rosList.length} ROS dalam katalog ini, bukan dari nomenklatur bebas.</li>
+          <li><b className="text-[var(--text)]">Gunakan kode RO terbaru.</b> Penyusunan dokumen perencanaan memakai {kodeLama.map(r=>r.kodeBaru).join(", ")}; kode lama ({kodeLama.map(r=>r.kro+"."+r.ro).join(", ")}) tidak dipakai lagi untuk usulan baru.</li>
+          <li><b className="text-[var(--text)]">Tindak lanjuti {temuan.length} temuan dari data.</b> Seragamkan kode ROS perizinan lembaga, tuntaskan duplikasi nomenklatur RO (termasuk BDB.001/BDB.004 sebelum pemadanan BDB.004 disetujui), sepakati satu pola pemadanan KRO PN, dan tetapkan satuan baku per ROS.</li>
+          <li><b className="text-[var(--text)]">Jaga pembeda PN / Non-PN tetap konsisten.</b> Pola PBB.S002 / ABB.S002 menjadi contoh pembeda PN dan Non-PN yang sudah tepat; pola serupa diterapkan secara seragam pada RO ber-KRO PN lainnya.</li>
+        </ol>
+      </div>
+    </div>
+  );
+}
+
 function matrixSheets(tab){
   const NUM=(v)=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?v:n;};
   const sheets=[];
@@ -7106,6 +7612,16 @@ function matrixSheets(tab){
     t5.push([]); t5.push(["Jenis PLK","Spot","Forward"]);
     PLK_JENIS.forEach(r=>t5.push([r.asp,r.spot,r.fwd]));
     sheets.push({name:"Info PLK",rows:t5});
+  } else if(tab==='pemadanan'){
+    const FL=PEMADANAN_FLAG_DEF;
+    const m=[["No","Kegiatan","KRO","Kode RO Lengkap","Rincian Output (RO)","Satuan","RO Standar (ROS)","Uraian RO Standar","Status","Kunci","Pagu TA 2027 (Rp)","Target TA 2027","Temuan","Keterangan Kode"]];
+    PEMADANAN_RO_2027.forEach(r=>m.push([r.no,r.keg+" — "+PEMADANAN_KEG_NAMA[r.keg],r.kro+" — "+r.kroNama,r.kodeLengkap,r.nama,r.satuan,r.ros,r.rosNama,r.status==="Terkunci"?"Terkunci (disetujui 2 pihak)":"Diajukan — menunggu persetujuan",r.kunci,r.pagu??"",r.target||"",r.flags.map(f=>FL[f.t].label+": "+f.msg).join("; "), r.kodeBaru?("Kode lama — digantikan "+r.kodeBaru):(r.isKodeBaru?"Kode RO terbaru":"")]));
+    sheets.push({name:"Pemadanan RO 2027",rows:m});
+    const rs={}; PEMADANAN_RO_2027.forEach(r=>{(rs[r.ros]=rs[r.ros]||{nama:r.rosNama,ro:[]}).ro.push(r);});
+    const k=[["No","Kode ROS","Uraian RO Standar","Jumlah RO","RO Berpagu 2027","Daftar Kode RO"]];
+    Object.entries(rs).sort((a,b)=>b[1].ro.length-a[1].ro.length||a[0].localeCompare(b[0])).forEach(([c,v],i)=>k.push([i+1,c,v.nama,v.ro.length,v.ro.filter(x=>x.pagu!=null).length,v.ro.map(x=>x.key).join(", ")]));
+    sheets.push({name:"Katalog ROS",rows:k});
+    sheets.push({name:"Informasi",rows:[["Diekspor (sumber)",PEMADANAN_RO_2027_META.diekspor],["Tahun Anggaran",2027],["K/L Unit",PEMADANAN_RO_2027_META.unit],["Jumlah RO",PEMADANAN_RO_2027.length],["Sumber",PEMADANAN_RO_2027_META.sumber],["Keterangan","Dasar Standarisasi RO Bappebti mulai TA 2027 dan seterusnya. Temuan = hasil penelusuran data, bukan koreksi resmi. PBB.S002/ABB.S002 = pembeda PN/Non-PN (bukan temuan). Kode RO terbaru: PBB.G01, PBB.G02, AAH.F02."]]});
   } else if(tab==='anggaran'||tab==='pn'){
     // Matriks penelaahan RKA TA 2027 (5 kriteria) — rinci per RO, basis Pagu Anggaran resmi
     const pen=[["Kode","Rincian Output","PN","Pagu (Rp)","Jenis Belanja","Biaya Satuan (Rp)","Tematik","K1","K2","K3","K4","K5","Skor","Verdict"]];
@@ -7168,6 +7684,7 @@ function App(){
       {tab==="plk"     && <MenuPLK year={year} />}
       {tab==="pbk"     && <MenuPBK year={year} />}
       {tab==="spbe"    && <MenuSPBE />}
+      {tab==="pemadanan" && <MenuPemadananRO />}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
       <footer className="border-t border-[var(--border)] mt-16">
@@ -7178,7 +7695,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
