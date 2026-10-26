@@ -316,7 +316,7 @@ const META = {
     sumber: "Permendag 34/2025 ttg Renstra Kemendag 2025-2029, Tabel II.2 hal. 110",
   },
   pnAlokasi: 318_000_000,   // Alokasi PN "Melanjutkan Hilirisasi" (Renja REKAP 2A)
-  realisasiPer: "Juni 2026", // periode data realisasi SAKTI (cutoff s.d. akhir Juni; laporan ditarik 15 Juli 2026)
+  realisasiPer: "September 2026", // periode realisasi: Laporan Realisasi SP2D s.d. September 2026 (diterima 26 Okt 2026)
 };
 
 /* ===== SASARAN STRATEGIS KEMENTERIAN (LEVEL 1) — sumber Permendag 34/2025 hal. 110 Tabel II.2 =====
@@ -1164,9 +1164,9 @@ const PROV_AKTIF_RANK = Object.entries(PROV_AKTIF_NAMES)
 
 /* Capaian/Realisasi — TA 2026. REALISASI ANGGARAN s/d Mei 2026 dari SAKTI sudah dimuat.
    Capaian FISIK indikator (pertumbuhan, indeks) belum tersedia — menunggu e-Monev/laporan tahunan. */
-const CURRENT_Q = 2;
+const CURRENT_Q = 3;   // TW III — realisasi SP2D & capaian s.d. September 2026
 const DATA_REALISASI_TERSEDIA = true;  // serapan anggaran tersedia
-const DATA_FISIK_TERSEDIA = true;      // capaian fisik indikator TW II sudah tersedia (kecuali Kegiatan 3760)
+const DATA_FISIK_TERSEDIA = true;      // capaian fisik indikator TW III tersedia (termasuk Kegiatan 3760)
 
 /* Capaian Indikator Kinerja Kegiatan (IKK) — Triwulan I TA 2026.
    Sumber: laporan "Realisasi Indikator Kinerja Triwulan 1 TA 2026" (Satker 412492). */
@@ -1299,6 +1299,112 @@ const CAPAIAN_RO_TW2 = [
   {id:"RO-3758-EBA994",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:2039723403,target:"1",sat:"Layanan",cap:"0",persen:45.84},
   {id:"RO-3758-EBAZ08",keg:"3758",uraian:"Layanan Organisasi dan Tata Kelola Internal",pagu:398370000,real:186933168,target:"1",sat:"Layanan",cap:"0",persen:46.93},
 ];
+/* Capaian per-RO Triwulan III TA 2026 (kumulatif s.d. September 2026).
+   Sumber capaian: Matriks Capaian 26 Okt 2026 (Fahmi) — kolom "Capaian TW III" berisi
+   TAMBAHAN capaian selama TW III, sehingga capaian kumulatif = capaian TW II + tambahan TW III.
+   Khusus EBA.994 & EBA.Z08 (satuan Layanan, target 1) nilai TW III dibaca sebagai PERSEN progres layanan.
+   % Kinerja: nilai SAKTI tidak berubah dari TW II (dikonfirmasi Perencana 26 Okt 2026).
+   Pagu & realisasi: Laporan Realisasi SP2D TA 2026 periode September 2026 (pagu revisi termasuk ABT).
+   sp2d:true = KRO hanya memuat 1 RO sehingga pagu/realisasi RO = pagu/realisasi KRO s.d. September;
+   sp2d:false = KRO memuat >1 RO, pagu/realisasi per RO masih posisi s.d. Juni (TW II). */
+const CAPAIAN_RO_TW3 = [
+  {id:"RO-3759-BIH001",keg:"3759",uraian:"Pengawasan Pelaku Usaha PBK melalui Audit",pagu:173695000,real:155275000,sp2d:false,target:"32",sat:"Badan Usaha",capTW2:"15",tambahTW3:"25",cap:"40",persen:89.40},
+  {id:"RO-3759-BIH002",keg:"3759",uraian:"Pengawasan Pelaku Usaha SRG",pagu:96301000,real:81316000,sp2d:false,target:"6",sat:"Badan Usaha",capTW2:"5",tambahTW3:"8",cap:"13",persen:84.44},
+  {id:"RO-3759-BIH003",keg:"3759",uraian:"Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK",pagu:74406000,real:52796746,sp2d:false,target:"8",sat:"Badan Usaha",capTW2:"5",tambahTW3:"18",cap:"23",persen:70.96},
+  {id:"RO-3760-ACD001",keg:"3760",uraian:"Perizinan Lembaga SRG",pagu:35592000,real:15882900,sp2d:false,target:"2",sat:"Lembaga",capTW2:"1",tambahTW3:"7",cap:"8",persen:45.4},
+  {id:"RO-3760-ACD002",keg:"3760",uraian:"Perizinan Lembaga PLK",pagu:3000000,real:0,sp2d:false,target:"1",sat:"Lembaga",capTW2:"0",tambahTW3:"0",cap:"0",persen:2.4},
+  {id:"RO-3760-AFA001",keg:"3760",uraian:"Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG",pagu:18750000,real:6657500,sp2d:true,target:"1",sat:"NSPK",capTW2:"0",tambahTW3:"3",cap:"3",persen:36.41},
+  {id:"RO-3760-BDB001",keg:"3760",uraian:"Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang",pagu:65524000,real:32691760,sp2d:true,target:"2",sat:"Lembaga",capTW2:"1",tambahTW3:"12",cap:"13",persen:62.3},
+  {id:"RO-3760-BMA001",keg:"3760",uraian:"Data dan Informasi Harga Komoditi di Bidang SRG dan PLK",pagu:9600000,real:3590000,sp2d:true,target:"8",sat:"dokumen",capTW2:"0",tambahTW3:"2",cap:"2",persen:4.4},
+  {id:"RO-3760-FAB001",keg:"3760",uraian:"Sistem Informasi Persetujuan SRG dan PLK",pagu:30000000,real:0,sp2d:true,target:"1",sat:"Sistem Informasi",capTW2:"0",tambahTW3:"0",cap:"0",persen:5.0},
+  {id:"RO-3760-PBBG02",keg:"3760",uraian:"Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK",pagu:24151000,real:23117671,sp2d:true,target:"1",sat:"Rekomendasi Kebijakan",capTW2:"0",tambahTW3:"8",cap:"8",persen:45.3},
+  {id:"RO-3760-PEA001",keg:"3760",uraian:"Koordinasi dengan Pemangku Kepentingan di bidang SRG",pagu:25009000,real:21400078,sp2d:true,target:"1",sat:"kegiatan",capTW2:"0",tambahTW3:"4",cap:"4",persen:55.3},
+  {id:"RO-3760-QDB001",keg:"3760",uraian:"Fasiltasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG",pagu:12600000,real:1450000,sp2d:false,target:"1",sat:"Lembaga",capTW2:"0",tambahTW3:"2",cap:"2",persen:12.5},
+  {id:"RO-3760-QDB002",keg:"3760",uraian:"Fasiltasi dan pembinaan calon pengelola Gudang SRG",pagu:8200000,real:0,sp2d:false,target:"1",sat:"Lembaga",capTW2:"0",tambahTW3:"1",cap:"1",persen:0.6},
+  {id:"RO-3760-QDB003",keg:"3760",uraian:"Pembinaan/pendampingan pengelola gudang SRG dalam mengimplementasikan Warehouse Management System (WMS)",pagu:35153000,real:0,sp2d:false,target:"5",sat:"Lembaga",capTW2:"0",tambahTW3:"2",cap:"2",persen:0.6},
+  {id:"RO-3760-QDC001",keg:"3760",uraian:"Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK",pagu:29305000,real:14225000,sp2d:false,target:"15",sat:"Orang",capTW2:"10",tambahTW3:"5",cap:"15",persen:50.2},
+  {id:"RO-3760-QDC002",keg:"3760",uraian:"Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG",pagu:37532000,real:37160000,sp2d:false,target:"75",sat:"Orang",capTW2:"75",tambahTW3:"1",cap:"76",persen:100.0},
+  {id:"RO-3760-QDC003",keg:"3760",uraian:"Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK",pagu:19280000,real:7036500,sp2d:false,target:"15",sat:"Orang",capTW2:"0",tambahTW3:"4",cap:"4",persen:37.4},
+  {id:"RO-3760-UAB001",keg:"3760",uraian:"Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)",pagu:30000000,real:0,sp2d:false,target:"1",sat:"Sistem Informasi",capTW2:"0",tambahTW3:"0",cap:"0",persen:0.6},
+  {id:"RO-3760-UAB002",keg:"3760",uraian:"Sistem Aplikasi Warehouse Management System (WMS)",pagu:60000000,real:0,sp2d:false,target:"1",sat:"Sistem Informasi",capTW2:"0",tambahTW3:"0",cap:"0",persen:4.0},
+  {id:"RO-3761-AAHF01",keg:"3761",uraian:"Peraturan Bappebti di bidang PBK",pagu:60516000,real:59605100,sp2d:false,target:"4",sat:"peraturan",capTW2:"1",tambahTW3:"10",cap:"11",persen:98.49},
+  {id:"RO-3761-AAHF02",keg:"3761",uraian:"Peraturan Bappebti di bidang SRG dan PLK",pagu:6053000,real:5735480,sp2d:false,target:"1",sat:"peraturan",capTW2:"0",tambahTW3:"4",cap:"4",persen:94.75},
+  {id:"RO-3761-AEA001",keg:"3761",uraian:"Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK",pagu:61650000,real:6248400,sp2d:true,target:"3",sat:"kegiatan",capTW2:"0",tambahTW3:"3",cap:"3",persen:10.67},
+  {id:"RO-3761-BBA001",keg:"3761",uraian:"Layanan Asistensi hukum di bidang PBK, SRG dan PLK",pagu:109142000,real:103702830,sp2d:true,target:"6",sat:"Orang",capTW2:"3",tambahTW3:"14",cap:"17",persen:88.62},
+  {id:"RO-3761-BCB001",keg:"3761",uraian:"Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK",pagu:131250000,real:28485400,sp2d:true,target:"5",sat:"Perkara",capTW2:"2",tambahTW3:"8",cap:"10",persen:81.79},
+  {id:"RO-3762-ACB001",keg:"3762",uraian:"Perizinan Wakil Pialang Berjangka dan Wakil Penasehat Berjangka",pagu:24250000,real:23706800,sp2d:true,target:"500",sat:"Orang",capTW2:"312",tambahTW3:"7",cap:"319",persen:97.10},
+  {id:"RO-3762-ACD001",keg:"3762",uraian:"Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:251139000,real:51087500,sp2d:true,target:"500",sat:"Badan Usaha",capTW2:"208",tambahTW3:"47",cap:"255",persen:75.44},
+  {id:"RO-3762-ADI001",keg:"3762",uraian:"Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka",pagu:127578000,real:37243500,sp2d:true,target:"200",sat:"Orang",capTW2:"84",tambahTW3:"2",cap:"86",persen:23.12},
+  {id:"RO-3762-BMA001",keg:"3762",uraian:"Data dan Informasi Harga Komoditi di Bidang PBK",pagu:20005000,real:16178000,sp2d:true,target:"1",sat:"dokumen",capTW2:"0",tambahTW3:"9",cap:"9",persen:58.72},
+  {id:"RO-3762-FAB002",keg:"3762",uraian:"Sistem Aplikasi Perizinan PBK",pagu:59490000,real:59210000,sp2d:true,target:"1",sat:"Sistem Informasi",capTW2:"0",tambahTW3:"1",cap:"1",persen:13.04},
+  {id:"RO-3762-PBBG01",keg:"3762",uraian:"Rekomendasi Kebijakan Pengembangan Kelembagaan dan Produk di bidang PBK",pagu:94694000,real:80422430,sp2d:true,target:"1",sat:"Rekomendasi Kebijakan",capTW2:"0",tambahTW3:"3",cap:"3",persen:43.51},
+  {id:"RO-3762-QDH001",keg:"3762",uraian:"Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi",pagu:77983000,real:77896600,sp2d:true,target:"60",sat:"Badan usaha",capTW2:"60",tambahTW3:"1",cap:"61",persen:99.80},
+  {id:"RO-3758-CAN001",keg:"3758",uraian:"Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti",pagu:115200000,real:75983007,sp2d:true,target:"1",sat:"Unit",capTW2:"0",tambahTW3:"5",cap:"5",persen:41.22},
+  {id:"RO-3758-EBA994",keg:"3758",uraian:"Layanan Perkantoran",pagu:4449293000,real:2039723403,sp2d:false,target:"1",sat:"Layanan",capTW2:"0",tambahTW3:"82",cap:null,capPct:82.0,persen:45.84},
+  {id:"RO-3758-EBAZ08",keg:"3758",uraian:"Layanan Organisasi dan Tata Kelola Internal",pagu:398370000,real:186933168,sp2d:false,target:"1",sat:"Layanan",capTW2:"0",tambahTW3:"66",cap:null,capPct:66.0,persen:46.93},
+];
+/* Realisasi anggaran s.d. September 2026 — LAPORAN REALISASI SP2D TA 2026 per Program/Kegiatan/Output,
+   Satker 412492. Pagu revisi sudah termasuk Anggaran Belanja Tambahan (ABT). */
+const REALISASI_SP2D_SEP2026 = {
+  periode:"September 2026", sumber:"Laporan Realisasi SP2D TA 2026 — Per Program; Kegiatan; Output, Periode September 2026 (Satker 412492)",
+  pagu:8_051_986_000, realLalu:4_174_361_870, realIni:464_717_816, real:4_639_079_686, sisa:3_412_906_314, pct:57.61,
+  keg:{
+    "3759":{pagu:635_952_000, real:331_162_746, pct:52.07},
+    "3760":{pagu:1_405_062_000, real:209_679_814, pct:14.92},
+    "3761":{pagu:399_049_000, real:204_802_010, pct:51.32},
+    "3762":{pagu:655_139_000, real:345_744_830, pct:52.77},
+    "3758":{pagu:4_956_784_000, real:3_547_690_286, pct:71.57},
+  },
+  kro:[
+    {keg:"3759",kro:"BIH",nama:"Pengawasan dan Pengendalian Badan Usaha",pagu:635952000,paguTW2:344402000,real:331162746,pct:52.07},
+    {keg:"3760",kro:"ACD",nama:"Perizinan Lembaga",pagu:250592000,paguTW2:38592000,real:31249613,pct:12.47},
+    {keg:"3760",kro:"AFA",nama:"Norma, Standard, Prosedur dan Kriteria",pagu:18750000,paguTW2:18750000,real:6657500,pct:35.51},
+    {keg:"3760",kro:"BDB",nama:"Fasilitasi dan Pembinaan Lembaga",pagu:65524000,paguTW2:71380000,real:32691760,pct:49.89},
+    {keg:"3760",kro:"BMA",nama:"Data dan Informasi Publik",pagu:9600000,paguTW2:9600000,real:3590000,pct:37.4},
+    {keg:"3760",kro:"FAB",nama:"Sistem Informasi Pemerintahan",pagu:30000000,paguTW2:30000000,real:0,pct:0.0},
+    {keg:"3760",kro:"PBB",nama:"Kebijakan Bidang Investasi dan Perdagangan",pagu:24151000,paguTW2:24151000,real:23117671,pct:95.72},
+    {keg:"3760",kro:"PEA",nama:"Koordinasi",pagu:25009000,paguTW2:25018000,real:21400078,pct:85.57},
+    {keg:"3760",kro:"QDB",nama:"Fasilitasi dan Pembinaan Lembaga",pagu:235953000,paguTW2:55953000,real:20771680,pct:8.8},
+    {keg:"3760",kro:"QDC",nama:"Fasilitasi dan Pembinaan Masyarakat",pagu:655483000,paguTW2:86117000,real:70201512,pct:10.71},
+    {keg:"3760",kro:"UAB",nama:"Sistem Informasi Pemerintahan",pagu:90000000,paguTW2:90000000,real:0,pct:0.0},
+    {keg:"3761",kro:"AAH",nama:"Peraturan lainnya",pagu:97007000,paguTW2:66569000,real:66365380,pct:68.41},
+    {keg:"3761",kro:"AEA",nama:"Koordinasi",pagu:61650000,paguTW2:37900000,real:6248400,pct:10.14},
+    {keg:"3761",kro:"BBA",nama:"Layanan Bantuan Hukum Perseorangan",pagu:109142000,paguTW2:109142000,real:103702830,pct:95.02},
+    {keg:"3761",kro:"BCB",nama:"Perkara Hukum Lembaga",pagu:131250000,paguTW2:32164000,real:28485400,pct:21.7},
+    {keg:"3762",kro:"ACB",nama:"Perizinan Masyarakat",pagu:24250000,paguTW2:24250000,real:23706800,pct:97.76},
+    {keg:"3762",kro:"ACD",nama:"Perizinan Lembaga",pagu:251139000,paguTW2:60180000,real:51087500,pct:20.34},
+    {keg:"3762",kro:"ADI",nama:"Sertifikasi Profesi dan SDM",pagu:127578000,paguTW2:128078000,real:37243500,pct:29.19},
+    {keg:"3762",kro:"BMA",nama:"Data dan Informasi Publik",pagu:20005000,paguTW2:20505000,real:16178000,pct:80.87},
+    {keg:"3762",kro:"FAB",nama:"Sistem Informasi Pemerintahan",pagu:59490000,paguTW2:59490000,real:59210000,pct:99.53},
+    {keg:"3762",kro:"PBB",nama:"Kebijakan Bidang Investasi dan Perdagangan",pagu:94694000,paguTW2:96438000,real:80422430,pct:84.93},
+    {keg:"3762",kro:"QDH",nama:"Fasilitasi dan Pembinaan Badan Usaha",pagu:77983000,paguTW2:78049000,real:77896600,pct:99.89},
+    {keg:"3758",kro:"CAN",nama:"Sarana Bidang Teknologi Informasi dan Komunikasi",pagu:115200000,paguTW2:115200000,real:75983007,pct:65.96},
+    {keg:"3758",kro:"EBA",nama:"Layanan Dukungan Manajemen Internal",pagu:4841584000,paguTW2:4847663000,real:3471707279,pct:71.71},
+  ],
+};
+/* Capaian IKK Triwulan III TA 2026 (s.d. September 2026). Sumber: Matriks Capaian 26 Okt 2026 (Fahmi),
+   kolom Realisasi/Capaian TW III. Termasuk Kegiatan 3760 (SRG/PLK) yang pada TW II belum memiliki laporan. */
+const CAPAIAN_IKK_TW3 = [
+  {keg:"3758", ind:"Nilai WTA Bappebti", sat:"Predikat", target:"WTA Madya", real:"Madya", cap:100.0},
+  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Bappebti", sat:"Nilai", target:"97", real:"99,66", cap:102.74},
+  {keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)", sat:"Nilai", target:"82", real:"83,08", cap:101.32},
+  {keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", sat:"%", target:"83", real:"84,76", cap:102.12},
+  {keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)", sat:"%", target:"77", real:"76,65", cap:99.55},
+  {keg:"3760", ind:"Pertumbuhan Pengelola Gudang SRG", sat:"%", target:"5", real:"6,97", cap:139.4},
+  {keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas", sat:"%", target:"5", real:"4,15", cap:83.0},
+  {keg:"3760", ind:"% peserta Bimtek SRG/PLK yang meningkat pemahaman", sat:"%", target:"90", real:"88,6", cap:98.44},
+  {keg:"3760", ind:"Indeks kepuasan layanan perizinan SRG/PLK", sat:"Nilai", target:"86", real:"92,5", cap:107.56},
+  {keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti", sat:"%", target:"75", real:"66,67", cap:88.89},
+  {keg:"3761", ind:"Indeks Evaluasi Kemanfaatan Kebijakan (PBK/SRG/PLK)", sat:"Nilai", target:"71", real:"76,66", cap:107.97},
+  {keg:"3761", ind:"Penyelesaian Perselisihan PBK sesuai SLA", sat:"%", target:"91", real:"95,78", cap:105.25},
+  {keg:"3761", ind:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum", sat:"Nilai", target:"83", real:"92,21", cap:111.1},
+  {keg:"3762", ind:"Rekomendasi Kebijakan PBK yang ditindaklanjuti", sat:"%", target:"85", real:"0", cap:0.0},
+  {keg:"3762", ind:"Pertumbuhan Pengguna Layanan Informasi PBK", sat:"%", target:"11", real:"13", cap:118.18},
+  {keg:"3762", ind:"Pertumbuhan Pelaku PBK", sat:"%", target:"4", real:"3,46", cap:86.5},
+  {keg:"3762", ind:"Indeks Kepuasan Layanan Perizinan PBK", sat:"Nilai", target:"93", real:"93,04", cap:100.04},
+  {keg:"3762", ind:"% Peserta Bimtek PBK yang meningkat pemahaman", sat:"%", target:"85", real:"95,55", cap:112.41},
+];
+const CAPAIAN_IKK_TW3_SUMBER = "Matriks Capaian IKK TW III TA 2026 (diterima 26 Oktober 2026)";
 const CAPAIAN_IKSS = [
   { id:"ISP-1", realNow:"70,56% · Real 2,82% dari target 4%", cap:[25,70.56,null,null] },
   { id:"ISP-2", realNow:"45,66% · Real 2,74% dari target 6%", cap:[17,45.66,null,null] },
@@ -1310,17 +1416,19 @@ const CAPAIAN_IKSS = [
 ];
 /* Serapan anggaran per Kegiatan — % terhadap pagu (s/d Juni 2026 / Triwulan II, ditaruh di slot Q2). */
 const SERAPAN = [
-  { id:"K-3759", real:[null,84.0,null,null] },
-  { id:"K-3760", real:[null,27.7,null,null] },
-  { id:"K-3761", real:[null,78.3,null,null] },
-  { id:"K-3762", real:[null,51.0,null,null] },
-  { id:"K-3758", real:[null,45.8,null,null] },
+  { id:"K-3759", real:[null,84.0,52.07,null] },
+  { id:"K-3760", real:[null,27.7,14.92,null] },
+  { id:"K-3761", real:[null,78.3,51.32,null] },
+  { id:"K-3762", real:[null,51.0,52.77,null] },
+  { id:"K-3758", real:[null,45.8,71.57,null] },
 ];
-/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Triwulan II 2026 = 37,85% (Rp3.118.867.903 dari pagu Rp8.239.547.000), slot Q2. */
+/* Kurva-S: rencana vs realisasi anggaran (% kumulatif). Realisasi Triwulan II 2026 = 37,85% (Rp3.118.867.903 dari pagu Rp8.239.547.000), slot Q2.
+   Realisasi Triwulan III 2026 = 57,61% (Rp4.639.079.686 dari pagu revisi termasuk ABT Rp8.051.986.000 — SP2D s.d. September), slot Q3.
+   SERAPAN slot Q3 = % per Kegiatan thd pagu revisi (SP2D September). Capaian fisik Q3 tidak diplot: % Kinerja SAKTI tidak berubah dari TW II. */
 const KURVA_S = [
   { q:"Q1", rencana:22,  anggaran:19,   fisik:26 },
   { q:"Q2", rencana:48,  anggaran:37.85,fisik:53 },
-  { q:"Q3", rencana:76,  anggaran:null, fisik:null },
+  { q:"Q3", rencana:76,  anggaran:57.61,fisik:null },
   { q:"Q4", rencana:100, anggaran:null, fisik:null },
 ];
 
@@ -2670,6 +2778,264 @@ function RenjaSP2025(){
   );
 }
 
+
+/* ======================================================================== */
+/* METODOLOGI PERHITUNGAN IKS & IKP — Renstra Bappebti 2025–2029             */
+/* Sumber: Renstra Bappebti 2025–2029, Bab II (Tabel 2.2–2.5, hal. 61–69).    */
+/* Mesin hitung ini dipakai bersama oleh menu Pohon Kinerja (panel            */
+/* metodologi) dan menu Capaian (capaian IKP per triwulan).                   */
+/* Catatan interpretasi: Renstra mendefinisikan Tt/Pt sebagai komposit        */
+/* "bobot × pertumbuhan" komponen. Bila setiap komponen dinyatakan sebagai     */
+/* indeks terhadap tahun dasarnya sendiri (=100), pertumbuhan komposit sama    */
+/* persis dengan rata-rata tertimbang pertumbuhan komponen — itulah yang        */
+/* dihitung di sini.                                                           */
+/* ======================================================================== */
+const RENSTRA_RUMUS_SUMBER = "Renstra Bappebti 2025–2029, Bab II — Sasaran Strategis & Sasaran Program (hal. 61–69)";
+const numID = (v)=>{ if(v==null) return null; const n=parseFloat(String(v).replace('%','').replace(/\./g,'').replace(',','.')); return isNaN(n)?null:n; };
+const numTarget = (t)=>{ const n=parseFloat(String(t).replace('%','').replace(',','.')); return isNaN(n)?null:n; };
+const fmtN = (v,d=2)=> v==null?"—":v.toFixed(d).replace('.',',');
+
+/* Komponen IKK yang dipakai per IKP (nama persis seperti matriks capaian IKK). */
+const IKK_NM = {
+  pelakuPBK:"Pertumbuhan Pelaku PBK",
+  pelakuPLK:"Pertumbuhan pelaku Pasar Lelang Komoditas",
+  pengelolaGudang:"Pertumbuhan Pengelola Gudang SRG",
+  patuh:"Pelaku Usaha yang patuh (PBK/SRG/PLK)",
+  penanganan:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)",
+  izinSRGPLK:"Indeks kepuasan layanan perizinan SRG/PLK",
+  izinPBK:"Indeks Kepuasan Layanan Perizinan PBK",
+  hukum:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum",
+  ikm:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)",
+};
+const ikkVal = (src, nm)=>{ const r=src.find(x=>x.ind===nm); if(!r || r.cap===0) return null; return numID(r.real); };
+
+/* Definisi rumus IKP (Tabel 2.3 Renstra). */
+const RUMUS_IKP = [
+  { id:"ISP-1", kode:"IKP-1", rumus:"IKP-1 = (Pt − P0) / P0 × 100%",
+    ket:"Pt = 50% pertumbuhan pelaku PBK yang bertransaksi + 50% pertumbuhan pelaku PLK yang bertransaksi (tahun berjalan); P0 = komposit yang sama pada tahun sebelumnya.",
+    catatan:"Pelaku PBK = pialang berjangka, pedagang berjangka & nasabah yang bertransaksi. Pelaku PLK = penjual & pembeli di pasar lelang yang disetujui Bappebti.",
+    sumberData:"Data Registrasi, Laporan Transaksi Resmi, Data Operasional Penyelenggara Pasar" },
+  { id:"ISP-2", kode:"IKP-2", rumus:"IKP-2 = (P_IS − P_IS−1) / P_IS−1 × 100%",
+    ket:"P_IS = jumlah gudang yang mengimplementasikan SRG pada tahun berjalan; P_IS−1 = jumlah pada tahun sebelumnya.",
+    catatan:"Gudang dikategorikan mengimplementasikan SRG bila: (1) terverifikasi/disetujui Bappebti, (2) memenuhi standar operasional pedoman SRG, (3) menerapkan SRG secara konsisten selama periode evaluasi.",
+    sumberData:"Laporan Perkembangan Gudang SRG (Biro Pembinaan & Pengembangan SRG dan PLK)" },
+  { id:"ISP-3", kode:"IKP-3", rumus:"IKP-3 = 60% Ef_was + 40% Ef_ph",
+    ket:"Ef_was = 40% TP_PBK + 40% TP_SRG + 20% TP_PLK (pelaku usaha yang patuh). Ef_ph = 20% TPr + 50% TPk + 30% TPil (TPr = tindak lanjut rekomendasi sanksi; TPk = penanganan kasus pelanggaran hukum; TPil = penanganan praktik PBK ilegal).",
+    catatan:"Kepatuhan PBK: kewajiban transaksi multilateral, operasional keuangan, laporan kegiatan, tindak lanjut audit. SRG: laporan pengelola gudang. PLK: laporan penyelenggaraan lelang.",
+    sumberData:"Laporan Hasil Pengawasan (Biro Pengawasan PBK, SRG, dan PLK)" },
+  { id:"ISP-4", kode:"IKP-4", rumus:"IKL = rata-rata tertimbang (Indeks Layanan Perizinan, Indeks Layanan Informasi Publik, Indeks Layanan Penyelesaian Perselisihan & Konsultasi Hukum)",
+    ket:"Masing-masing indeks = (Total nilai persepsi per unsur / Total unsur terisi) × nilai penimbang — 9 unsur layanan Permenpan RB No. 14/2017. Mutu: A ≥ 88,31 (Sangat Baik), B 76,61–88,30, C 65,00–76,60, D < 65.",
+    catatan:"Survei dilakukan tiga kali dalam satu tahun kepada pengguna layanan PBK, SRG, dan PLK.",
+    sumberData:"Laporan Hasil Survei Pengguna Layanan Publik Bappebti" },
+  { id:"ISP-5", kode:"IKP-5", rumus:"IKP-5 = Indeks hasil Survei Penilaian Integritas (SPI) KPK",
+    ket:"Rentang 0–100. Rentan < 72,90; Waspada 73,00–77,90; Terjaga 78,00–100.",
+    catatan:"Dinilai tahunan oleh KPK terhadap pengguna layanan, ahli, akademisi, dan pegawai.",
+    sumberData:"Survei Penilaian Integritas (SPI) KPK" },
+  { id:"ISP-6", kode:"IKP-6", rumus:"IKP-6 = Nilai SAKIP dari Inspektorat Jenderal Kemendag",
+    ket:"Mengacu Permendag No. 10/2023 tentang Penyelenggaraan SAKIP di Lingkungan Kementerian Perdagangan.",
+    catatan:"Dinilai tahunan pada akhir/awal tahun anggaran.",
+    sumberData:"Laporan Hasil Evaluasi SAKIP — Itjen Kemendag" },
+];
+
+/* Hitung IKP dari matriks capaian IKK (src = CAPAIAN_IKK_TW2 / CAPAIAN_IKK_TW3). */
+function hitungIKP(src){
+  const g = (k)=> ikkVal(src, IKK_NM[k]);
+  const out = {};
+  // IKP-1
+  { const a=g("pelakuPBK"), b=g("pelakuPLK");
+    const real = (a!=null && b!=null) ? 0.5*a+0.5*b : null;
+    out["ISP-1"] = { real, satuan:"%", komponen:[
+      {l:"Pertumbuhan pelaku PBK (IKK 3762)", v:a, w:"50%"},
+      {l:"Pertumbuhan pelaku PLK (IKK 3760)", v:b, w:"50%"} ],
+      langkah: real==null?null:`0,5 × ${fmtN(a)} + 0,5 × ${fmtN(b)} = ${fmtN(real)}%`, proksi:false }; }
+  // IKP-2
+  { const a=g("pengelolaGudang");
+    out["ISP-2"] = { real:a, satuan:"%", komponen:[ {l:"Pertumbuhan pengelola gudang SRG (IKK 3760) — sementara menggantikan jumlah gudang yang mengimplementasikan SRG", v:a, w:"100%"} ],
+      langkah: a==null?null:`(P_IS − P_IS−1)/P_IS−1 ≈ ${fmtN(a)}%`, proksi:true,
+      notaProksi:"Sementara memakai IKK Pertumbuhan Pengelola Gudang SRG (ditetapkan Perencana, 26 Okt 2026) sampai data jumlah gudang yang mengimplementasikan SRG (P_IS, P_IS−1) tersedia." }; }
+  // IKP-3
+  { const p=g("patuh"), h=g("penanganan");
+    const efwas=p, efph=h;
+    const real = (efwas!=null && efph!=null) ? 0.6*efwas+0.4*efph : null;
+    out["ISP-3"] = { real, satuan:"%", komponen:[
+      {l:"Ef_was — pelaku usaha patuh PBK/SRG/PLK (IKK 3759, agregat; bobot internal 40/40/20)", v:efwas, w:"60%"},
+      {l:"Ef_ph — penanganan pelanggaran ketentuan (IKK 3759, agregat; bobot internal 20/50/30)", v:efph, w:"40%"} ],
+      langkah: real==null?null:`0,6 × ${fmtN(efwas)} + 0,4 × ${fmtN(efph)} = ${fmtN(real)}%`, proksi:true,
+      notaProksi:"Sementara memakai angka gabungan IKK 3759 untuk Ef_was dan Ef_ph (ditetapkan Perencana, 26 Okt 2026) sampai rincian TP_PBK/TP_SRG/TP_PLK dan TPr/TPk/TPil tersedia." }; }
+  // IKP-4
+  { const s=g("izinSRGPLK"), p=g("izinPBK"), hk=g("hukum"), ik=g("ikm");
+    const izin = (s!=null && p!=null) ? (s+p)/2 : (s ?? p);
+    const parts=[izin,ik,hk].filter(v=>v!=null);
+    const real = parts.length===3 ? parts.reduce((a,b)=>a+b,0)/3 : null;
+    out["ISP-4"] = { real, satuan:"Nilai", komponen:[
+      {l:"Indeks layanan perizinan = rata-rata perizinan SRG/PLK (IKK 3760) & PBK (IKK 3762)", v:izin, w:"1/3"},
+      {l:"Indeks layanan informasi publik — IKK Survei Kepuasan Masyarakat (3758)", v:ik, w:"1/3"},
+      {l:"Indeks layanan penyelesaian perselisihan & konsultasi hukum (IKK 3761)", v:hk, w:"1/3"} ],
+      langkah: real==null?null:`(${fmtN(izin)} + ${fmtN(ik)} + ${fmtN(hk)}) / 3 = ${fmtN(real)}`, proksi:false,
+      notaKonfirmasi:"Bobot sama (1/3) untuk masing-masing indeks — dikonfirmasi Perencana, 26 Okt 2026." }; }
+  // IKP-5, IKP-6 — tahunan (tidak dihitung dari IKK triwulanan)
+  out["ISP-5"] = { real:null, satuan:"Nilai", komponen:[], langkah:null, tahunan:true };
+  out["ISP-6"] = { real:null, satuan:"Nilai", komponen:[], langkah:null, tahunan:true };
+  Object.entries(out).forEach(([id,o])=>{ const ik=getIKSS(id); const t=ik?numTarget(ik.target):null; o.target=t; o.cap = (o.real!=null && t) ? +(o.real/t*100).toFixed(2) : null; });
+  return out;
+}
+/* Penjelasan bahasa sederhana metode perhitungan (untuk pembaca non-teknis). */
+function penjelasanIKP(id, h, ik){
+  if(!h || h.real==null) return null;
+  const k=h.komponen||[]; const v=(i)=>k[i]?fmtN(k[i].v):"—";
+  if(id==="ISP-2") return [
+    `Apa yang diukur: seberapa besar jumlah gudang yang menjalankan Sistem Resi Gudang bertambah dibanding tahun lalu.`,
+    `Rumus resminya membandingkan jumlah gudang SRG tahun ini dengan tahun lalu. Karena angka jumlah gudang per tahun belum tersedia, untuk sementara dipakai angka pertumbuhan pengelola gudang SRG dari laporan Kegiatan 3760, yaitu ${v(0)}%.`,
+    `Hasilnya ${fmtN(h.real)}% dibandingkan target ${ik.target}, sehingga capaiannya ${fmtN(h.real)} ÷ ${String(ik.target).replace('%','')} × 100% = ${fmtN(h.cap)}%.`,
+  ];
+  if(id==="ISP-3") return [
+    `Apa yang diukur: gabungan dua hal — seberapa patuh pelaku usaha PBK, SRG, dan PLK (bobot 60%) dan seberapa efektif penanganan pelanggaran (bobot 40%).`,
+    `Langkah 1 — Kepatuhan (Ef_was): ${v(0)}%, diambil dari IKK "Pelaku Usaha yang patuh". Langkah 2 — Penegakan hukum (Ef_ph): ${v(1)}%, diambil dari IKK "Penanganan Pelanggaran Ketentuan". Untuk sementara keduanya memakai angka gabungan, karena rincian per bidang (PBK/SRG/PLK) dan per jenis penindakan belum tersedia.`,
+    `Langkah 3 — Gabungkan dengan bobot: 60% × ${v(0)} + 40% × ${v(1)} = ${fmtN(h.real)}%. Dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%.`,
+  ];
+  if(id==="ISP-4") return [
+    `Apa yang diukur: tingkat kepuasan pengguna terhadap tiga jenis layanan Bappebti, masing-masing berbobot sama (1/3).`,
+    `Langkah 1 — Indeks layanan perizinan: rata-rata kepuasan perizinan SRG/PLK dan perizinan PBK = ${v(0)}. Langkah 2 — Indeks layanan informasi publik: ${v(1)} (Survei Kepuasan Masyarakat). Langkah 3 — Indeks layanan penyelesaian perselisihan & konsultasi hukum: ${v(2)}.`,
+    `Langkah 4 — Rata-ratakan ketiganya: (${v(0)} + ${v(1)} + ${v(2)}) ÷ 3 = ${fmtN(h.real)}. Dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%. Nilai ≥ 88,31 termasuk mutu A (Sangat Baik) menurut Permenpan RB No. 14/2017.`,
+  ];
+  return null;
+}
+const statusIKP = (cap)=>{
+  if(cap==null) return {label:"Belum dihitung", color:"#9ca3af", key:"nodata"};
+  if(cap>=100) return {label:"Tercapai", color:"#059669", key:"ontrack"};
+  if(cap>=90)  return {label:"On Track", color:"#059669", key:"ontrack"};
+  if(cap>=70)  return {label:"At Risk",  color:"#d97706", key:"atrisk"};
+  return {label:"Behind", color:"#dc2626", key:"behind"};
+};
+
+/* IKS 1.3 — Pertumbuhan Transaksi PBK, SRG, PLK (Tabel 2.2 Renstra).
+   Pertumbuhan = (Tt − Tt−1)/Tt−1 × 100%, Tt = 20% PBK + 45% SRG + 35% PLK (komposit pertumbuhan nilai transaksi). */
+const BOBOT_IKS = {PBK:0.20, SRG:0.45, PLK:0.35};
+function hitungIKS(){
+  const pbk = (th)=>{ const r=PBK_NILAI_TRANSAKSI.find(x=>x.th===String(th)); return r?r.nilai*1e12:null; };      // Rp
+  const srg = (th)=>{ const r=RESI_GUDANG_TAHUNAN.find(x=>x.th===String(th)); return r?r.nilai:null; };           // Rp
+  const plk = (th)=>{ const r=PLK_TRANSAKSI.find(x=>x.th===String(th)); return r?r.nilai*1e9:null; };              // Rp
+  const gr = (a,b)=> (a!=null && b) ? (a/b-1)*100 : null;
+  const komp = (th, ann)=>{
+    const a = ann||{PBK:1,SRG:1,PLK:1};
+    const rows = [
+      {k:"PBK", l:"Nilai transaksi PBK (Bursa Berjangka)", now:pbk(th), prev:pbk(th-1), ann:a.PBK, per:ann?"s.d. Juli":"", w:BOBOT_IKS.PBK},
+      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)",     now:srg(th), prev:srg(th-1), ann:a.SRG, per:ann?"s.d. 30 Sep":"", w:BOBOT_IKS.SRG},
+      {k:"PLK", l:"Nilai transaksi PLK (penyelenggara lelang)", now:plk(th), prev:plk(th-1), ann:a.PLK, per:ann?"s.d. Sep":"", w:BOBOT_IKS.PLK},
+    ].map(r=>({...r, nowAdj: r.now!=null ? r.now*r.ann : null, g: gr(r.now!=null?r.now*r.ann:null, r.prev)}));
+    const ok = rows.every(r=>r.g!=null);
+    const val = ok ? rows.reduce((s,r)=>s+r.w*r.g,0) : null;
+    return {rows, val};
+  };
+  const y25 = komp(2025);
+  const y26 = komp(2026, {PBK:12/7, SRG:12/9, PLK:12/9});
+  const t25 = numTarget(ISS_KMD.t[2025]), t26 = numTarget(ISS_KMD.t[2026]);
+  return { y25:{...y25, target:t25, cap:(y25.val!=null&&t25)?y25.val/t25*100:null},
+           y26:{...y26, target:t26, cap:(y26.val!=null&&t26)?y26.val/t26*100:null} };
+}
+
+/* Panel Metodologi — ditampilkan di menu Pohon Kinerja. */
+function PanelRumusIKSIKP(){
+  const [open,setOpen] = useState(true);
+  const [showIKS26,setShowIKS26] = useState(false);
+  const ikp3 = hitungIKP(CAPAIAN_IKK_TW3);
+  const ikp2 = hitungIKP(CAPAIAN_IKK_TW2);
+  const iks = hitungIKS();
+  const fmtRpT = (v)=> v==null?"—":fmtRp(v);
+  const IKSRows = ({d})=>(
+    <table className="w-full text-[11.5px]" style={{borderCollapse:"collapse"}}>
+      <thead><tr className="text-[9.5px] mono uppercase text-[var(--text-3)]" style={{borderBottom:"1px solid var(--border)"}}>
+        <th className="text-left py-1.5 pr-2">Komponen</th><th className="text-right py-1.5 px-2">Bobot</th><th className="text-right py-1.5 px-2">Tahun sebelumnya</th><th className="text-right py-1.5 px-2">Tahun berjalan</th><th className="text-right py-1.5 pl-2">Pertumbuhan</th>
+      </tr></thead>
+      <tbody>{d.rows.map(r=>(
+        <tr key={r.k} style={{borderBottom:"1px solid var(--border)"}}>
+          <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.l}</td>
+          <td className="py-1.5 px-2 text-right mono">{Math.round(r.w*100)}%</td>
+          <td className="py-1.5 px-2 text-right mono text-[var(--text-3)]">{fmtRpT(r.prev)}</td>
+          <td className="py-1.5 px-2 text-right mono">{fmtRpT(r.nowAdj)}{r.ann!==1 && <div className="text-[9px] text-[var(--text-3)]">disetahunkan dari {fmtRpT(r.now)} ({r.per})</div>}</td>
+          <td className="py-1.5 pl-2 text-right mono" style={{color:r.g==null?"var(--text-3)":r.g>=0?"var(--emerald)":"var(--red)"}}>{r.g==null?"—":(r.g>=0?"+":"")+fmtN(r.g)+"%"}</td>
+        </tr>))}
+        <tr><td className="py-1.5 pr-2 font-medium" colSpan={4}>IKS = Σ bobot × pertumbuhan</td>
+          <td className="py-1.5 pl-2 text-right mono font-medium" style={{color:d.val>=0?"var(--emerald)":"var(--red)"}}>{d.val==null?"—":fmtN(d.val)+"%"}</td></tr>
+      </tbody>
+    </table>
+  );
+  return (
+    <div className="card p-6 mb-6" style={{borderLeft:"3px solid var(--violet)"}}>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Dasar Perhitungan Capaian Indikator · IKS &amp; IKP</div>
+          <div className="serif text-xl mt-1">Metodologi Perhitungan Renstra Bappebti 2025–2029</div>
+          <div className="text-[11px] text-[var(--text-3)] mt-1">Sumber: {RENSTRA_RUMUS_SUMBER}. Rumus ini dipakai langsung untuk menghitung capaian IKP di menu <b>Capaian</b>.</div>
+        </div>
+        <button onClick={()=>setOpen(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{open?"▾ Tutup":"▸ Buka"}</button>
+      </div>
+      {open && (<>
+        {/* IKS */}
+        <div className="rounded-md border border-[var(--border)] p-4 mt-5">
+          <div className="flex items-center gap-2 flex-wrap mb-2">
+            <span className="pill text-[10px]" style={{background:"rgba(124,45,18,0.10)",color:"var(--amber)",borderColor:"transparent"}}>{ISS_KMD.id} · IKS</span>
+            <span className="text-sm font-medium">{ISS_KMD.nama}</span>
+          </div>
+          <div className="mono text-[12.5px] p-3 rounded" style={{background:"rgba(124,58,237,0.06)"}}>Pertumbuhan Transaksi PBK, SRG, PLK = (T<sub>t</sub> − T<sub>t−1</sub>) / T<sub>t−1</sub> × 100%</div>
+          <p className="text-[12px] text-[var(--text-2)] leading-relaxed mt-2">T<sub>t</sub> = [(<b>20%</b> pertumbuhan nilai transaksi PBK) + (<b>45%</b> pertumbuhan nilai transaksi SRG) + (<b>35%</b> pertumbuhan nilai transaksi PLK)] pada tahun tertentu; T<sub>t−1</sub> = komposit yang sama pada tahun sebelumnya. Prioritas komponen: (1) nilai komoditas yang disimpan di gudang SRG, (2) realisasi transaksi PLK, (3) nilai transaksi PBK. Sumber data: Laporan Transaksi Bursa Berjangka, IS-WARE, Laporan Penyelenggara PLK.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
+            <div>
+              <div className="flex items-center justify-between mb-1"><span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">TA 2025</span>
+                <span className="mono text-[11px]">target {ISS_KMD.t[2025]} · realisasi <b>—</b></span></div>
+              <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Capaian TA 2025 <b>mengikuti angka yang sudah dilaporkan sebelumnya</b> — tidak dihitung ulang dengan rumus ini. Realisasi IKS 2025 belum tercatat di dashboard. Rumus Renstra diterapkan mulai <b>TA 2026</b>.</div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-1"><span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">TA 2026 — indikatif (disetahunkan)</span>
+                <button onClick={()=>setShowIKS26(v=>!v)} className="text-[10px] mono text-[var(--gold)] hover:underline">{showIKS26?"sembunyikan":"tampilkan"}</button></div>
+              {showIKS26 ? <IKSRows d={iks.y26}/> : <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Data 2026 belum setahun penuh (PBK s.d. Juli, SRG s.d. 30 September, PLK s.d. September). Nilai disetahunkan secara linear hanya sebagai indikasi arah — <b>bukan realisasi</b>; IKS resmi dihitung setelah data Desember tersedia. Hasil indikatif: <b style={{color:iks.y26.val>=0?"var(--emerald)":"var(--red)"}}>{iks.y26.val==null?"—":fmtN(iks.y26.val)+"%"}</b> vs target {ISS_KMD.t[2026]}.</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* IKP */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-6 mb-2">Indikator Kinerja Program (IKP) — rumus &amp; hasil hitung TW III TA 2026</div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {RUMUS_IKP.map(rm=>{ const ik=getIKSS(rm.id); const h=ikp3[rm.id]; const h2=ikp2[rm.id]; const st=statusIKP(h.cap); return (
+            <div key={rm.id} className="rounded-md border border-[var(--border)] p-4">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap"><span className="pill pill-blue mono text-[9px]">{rm.id}</span><span className="pill pill-muted mono text-[9px]">{rm.kode}</span>{h.proksi && <span className="pill pill-gold text-[9px]">sementara</span>}{h.notaKonfirmasi && <span className="pill pill-emerald text-[9px]">terkonfirmasi</span>}{h.tahunan && <span className="pill pill-muted text-[9px]">dinilai tahunan</span>}</div>
+                  <div className="text-[13px] font-medium mt-1.5 leading-snug">{ik?ik.nama:""}</div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="serif text-2xl" style={{color:st.color}}>{h.real==null?"—":fmtN(h.real)+(h.satuan==="%"?"%":"")}</div>
+                  <div className="text-[9.5px] mono text-[var(--text-3)]">target {ik?ik.target:"—"} · {h.cap==null?"—":fmtN(h.cap)+"%"}</div>
+                  {ik && ik.baseline && ik.baseline!=="-" && <div className="text-[9.5px] mono text-[var(--text-3)]" title="Capaian TA 2025 mengikuti angka sebelumnya (kolom Baseline), tidak dihitung ulang">2025: {ik.baseline}</div>}
+                </div>
+              </div>
+              <div className="mono text-[11.5px] p-2 rounded mt-2" style={{background:"rgba(124,58,237,0.06)"}}>{rm.rumus}</div>
+              <p className="text-[11.5px] text-[var(--text-2)] leading-relaxed mt-2">{rm.ket}</p>
+              {h.komponen.length>0 && (
+                <div className="mt-2 space-y-1">
+                  {h.komponen.map((k,i)=>(<div key={i} className="flex items-start justify-between gap-3 text-[11px]"><span className="text-[var(--text-2)]">{k.l} <span className="mono text-[var(--text-3)]">· bobot {k.w}</span></span><span className="mono shrink-0">{k.v==null?"—":fmtN(k.v)}</span></div>))}
+                  {h.langkah && <div className="text-[11px] mono text-[var(--violet)] pt-1">= {h.langkah}</div>}
+                </div>
+              )}
+              {h.notaProksi && <div className="text-[10.5px] mt-2 p-2 rounded" style={{background:"rgba(217,119,6,0.07)",color:"var(--text-2)"}}><b>Sementara:</b> {h.notaProksi}</div>}
+              {h.notaKonfirmasi && <div className="text-[10.5px] mt-2 p-2 rounded" style={{background:"rgba(5,150,105,0.07)",color:"var(--text-2)"}}><b>Terkonfirmasi:</b> {h.notaKonfirmasi}</div>}
+              {(()=>{ const pj=penjelasanIKP(rm.id,h,ik); return pj && (
+                <div className="mt-3 pt-3 border-t border-[var(--border)]">
+                  <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Keterangan metode perhitungan</div>
+                  <ul className="space-y-1.5 text-[12px] text-[var(--text-2)] leading-relaxed list-disc pl-4">{pj.map((s,i)=><li key={i}>{s}</li>)}</ul>
+                </div>); })()}
+              <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">{rm.catatan} · Sumber data: {rm.sumberData}.</div>
+            </div>);})}
+        </div>
+        <div className="text-[10.5px] text-[var(--text-3)] mt-4 leading-relaxed">
+          <b>TA 2025:</b> capaian IKP mengikuti angka sebelumnya (kolom Baseline pada Pohon Kinerja: ISP-1 −5,75%; ISP-2 6,3%; ISP-3 75,36%; ISP-4 88,28; ISP-5 74,34; ISP-6 82,56) dan IKS 2025 tidak dihitung ulang; rumus Renstra dipakai mulai TA 2026.
+          Interpretasi: T<sub>t</sub> dan P<sub>t</sub> dalam Renstra adalah komposit tertimbang dari pertumbuhan komponen. Dengan setiap komponen dinyatakan sebagai indeks terhadap tahun dasarnya sendiri, pertumbuhan komposit sama dengan rata-rata tertimbang pertumbuhan komponen — cara ini yang dipakai di dashboard. Capaian = realisasi ÷ target tahunan × 100%. Status: ≥100% Tercapai · ≥90% On Track · ≥70% At Risk · &lt;70% Behind.
+        </div>
+      </>)}
+    </div>
+  );
+}
+
 function PohonKinerja(){
   const year = useYear();
   const [expandedSS,setExpandedSS] = useState(new Set(["SP-01"]));
@@ -2716,6 +3082,9 @@ function PohonKinerja(){
           </div>
         </div>
       </div>
+
+      {/* Metodologi perhitungan IKS & IKP (Renstra) — dasar perhitungan capaian indikator */}
+      {year===2026 && <PanelRumusIKSIKP />}
 
       {/* SS Kementerian (Level 1) — sumber Permendag 34/2025 */}
       <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Sasaran Strategis Kementerian Perdagangan · Level 1</div>
@@ -4983,23 +5352,36 @@ function Capaian(){
 
   const qLabel = `Q${CURRENT_Q} ${META.fy.replace('Tahun Anggaran ','')}`;
   const lastValN = (arr)=>{ for(let i=arr.length-1;i>=0;i--){ if(arr[i]!=null) return arr[i]; } return null; };
+  /* Capaian IKP dihitung dengan rumus Renstra (lihat Pohon Kinerja → Metodologi) dari matriks IKK TW III.
+     IKP tahunan (IPI/SPI, SAKIP) & IKPA tetap memakai nilai terakhir yang dilaporkan. */
+  const IKP3 = hitungIKP(CAPAIAN_IKK_TW3);
   const rows = CAPAIAN_IKSS.map(c=>{
     const ik = getIKSS(c.id);
-    const pct = lastValN(c.cap);
-    const st = pct==null ? {label:"Belum ada data", color:"#9ca3af", key:"nodata"} : statusTW1(pct);
-    return {...c, nama:ik.nama, target:ik.target, ss:ik.ss, pct, st};
+    const h = IKP3[c.id];
+    if(h && h.cap!=null){
+      const realNow = `${fmtN(h.cap)}% · Real ${fmtN(h.real)}${h.satuan==="%"?"%":""} dari target ${ik.target} (rumus Renstra${h.proksi?", data sementara":""})`;
+      const capQ = c.cap.slice(); capQ[2] = Math.round(h.cap*10)/10;
+      return {...c, cap:capQ, nama:ik.nama, target:ik.target, ss:ik.ss, pct:Math.round(h.cap*100)/100, realNow, rumus:h.langkah, penjelasan:penjelasanIKP(c.id,h,ik), proksi:h.proksi, st:statusIKP(h.cap), tw:"TW III"};
+    }
+    let pct = lastValN(c.cap);
+    if(c.id==="ISP-6" && pct===0) pct=null;
+    const st = pct==null ? {label:c.id==="ISP-6"?"Dinilai tahunan":"Belum ada data", color:"#9ca3af", key:"nodata"} : statusIKP(pct);
+    return {...c, nama:ik.nama, target:ik.target, ss:ik.ss, pct, st, tw:pct==null?"—":"TW II"};
   });
   const fisikVals = rows.filter(r=>r.pct!=null);
   const avgFisik = fisikVals.length ? Math.round(fisikVals.reduce((s,r)=>s+r.pct,0)/fisikVals.length) : null;
 
   const serapanRows = SERAPAN.map(s=>{
     const k = getKegiatan(s.id);
-    return {...s, nama:k.nama, kode:k.kode, pagu:k.anggaran, pct:lastValN(s.real)??0};
+    const sp = REALISASI_SP2D_SEP2026.keg[k.kode];
+    return {...s, nama:k.nama, kode:k.kode, pagu:sp?sp.pagu:k.anggaran, realRp:sp?sp.real:null, pct:lastValN(s.real)??0};
   });
   const totalPagu = serapanRows.reduce((s,r)=>s+r.pagu,0);
   const serapanTertimbang = Math.round(serapanRows.reduce((s,r)=>s+r.pagu*r.pct,0)/totalPagu);
-  const avgIKK = Math.round(CAPAIAN_IKK_TW2.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW2.length);
-  const avgFisikRO = Math.round(CAPAIAN_RO_TW2.reduce((s,r)=>s+r.pagu*r.persen,0)/CAPAIAN_RO_TW2.reduce((s,r)=>s+r.pagu,0));
+  const avgIKK = Math.round(CAPAIAN_IKK_TW3.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW3.length);
+  const avgIKK2 = Math.round(CAPAIAN_IKK_TW2.reduce((s,r)=>s+r.cap,0)/CAPAIAN_IKK_TW2.length);
+  const avgFisikRO = Math.round(CAPAIAN_RO_TW3.reduce((s,r)=>s+r.pagu*r.persen,0)/CAPAIAN_RO_TW3.reduce((s,r)=>s+r.pagu,0));
+  const SP = REALISASI_SP2D_SEP2026;
 
   const cntOntrack = rows.filter(r=>r.st.key==="ontrack").length;
   const cntAtrisk  = rows.filter(r=>r.st.key==="atrisk").length;
@@ -5212,12 +5594,12 @@ function Capaian(){
           <div className="flex items-start gap-3">
             <span className="text-[var(--gold)] text-lg leading-none mt-0.5">ⓘ</span>
             <div>
-              <div className="serif text-lg">Capaian indikator kinerja kegiatan (IKK) Triwulan II TA 2026 sudah dimuat</div>
+              <div className="serif text-lg">Capaian Triwulan III TA 2026 (s.d. September) sudah dimuat</div>
               <p className="text-sm text-[var(--text-2)] mt-1 leading-relaxed max-w-3xl">
-                Matriks capaian 18 IKK per Triwulan II ditampilkan di bawah (sumber: PPS TW II — SEKRE, ROWASDAK, RORUN, RONABANG PBK).
-                Indikator <b>Kegiatan 3760 (SRG/PLK)</b> belum ada laporan PPS TW II terpisah, sehingga nilai yang ditampilkan masih mengacu ke TW I
-                sampai laporan resmi tersedia. Indikator <b>Nilai WTA Bappebti</b> masih 0% karena dinilai tahunan pada akhir TA.
-                Capaian level <b>program (ISP/IKP)</b> bersifat agregat tahunan dan menyusul pada laporan kinerja tahunan.
+                <b>Realisasi anggaran</b> mengikuti Laporan Realisasi SP2D s.d. September 2026: <b>{fmtRp(SP.real)}</b> dari pagu revisi <b>{fmtRp(SP.pagu)}</b> (<b>{SP.pct.toFixed(2).replace('.',',')}%</b>) —
+                pagu revisi sudah termasuk <b>Anggaran Belanja Tambahan (ABT)</b>. <b>Capaian 18 IKK TW III</b> sudah dimuat, termasuk Kegiatan 3760 (SRG/PLK) yang pada TW II belum memiliki laporan.
+                <b>Capaian fisik RO</b> dihitung kumulatif (capaian TW II + tambahan TW III); <b>% Kinerja</b> SAKTI tidak berubah dari TW II.
+                Capaian level <b>program (ISP/IKP)</b> masih posisi TW II dan menyusul pada laporan kinerja berikutnya.
               </p>
             </div>
           </div>
@@ -5227,17 +5609,17 @@ function Capaian(){
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Periode Realisasi</div>
           <div className="serif text-3xl mt-2">{META.realisasiPer}</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">sumber SAKTI · update 15 Juli 2026</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">Laporan Realisasi SP2D · diterima 26 Okt 2026</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian Fisik</div>
           <div className="serif text-3xl mt-2" style={{color:statusTW2(avgFisikRO).color}}>{avgFisikRO}%</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">tertimbang pagu · capaian RO s.d. Juni (TW II)</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">tertimbang pagu · % Kinerja RO (tetap sejak TW II)</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Serapan Anggaran</div>
-          <div className="serif text-3xl mt-2" style={{color:statusCapaian(serapanTertimbang).color}}>{serapanTertimbang}%</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">tertimbang pagu · {fmtRp(Object.values(REALISASI_RO).reduce((s,v)=>s+v,0))}</div>
+          <div className="serif text-3xl mt-2" style={{color:statusCapaian(Math.round(SP.pct)).color}}>{SP.pct.toFixed(2).replace('.',',')}%</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{fmtRp(SP.real)} dari {fmtRp(SP.pagu)} (incl. ABT)</div>
         </div>
         <div className="card p-5">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Status ISP</div>
@@ -5256,10 +5638,10 @@ function Capaian(){
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Indikator Kinerja Kegiatan (IKK)</div>
-            <div className="serif text-xl">Capaian Target — Triwulan II TA 2026</div>
+            <div className="serif text-xl">Capaian Target — Triwulan III TA 2026 (s.d. September)</div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_TW2_SUMBER}</span>
+            <span className="text-[10px] mono text-[var(--text-3)]">sumber: {CAPAIAN_IKK_TW3_SUMBER}</span>
             <button onClick={()=>setBukaIKK(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{bukaIKK?"▾ Tutup":"▸ Buka"}</button>
           </div>
         </div>
@@ -5269,28 +5651,32 @@ function Capaian(){
               <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
                 <th className="text-left py-2 px-2">Indikator Kinerja Kegiatan</th>
                 <th className="text-center py-2 px-2" style={{width:"8%"}}>Satuan</th>
-                <th className="text-center py-2 px-2" style={{width:"12%"}}>Target 2026</th>
-                <th className="text-center py-2 px-2" style={{width:"12%"}}>Realisasi TW II</th>
-                <th className="text-center py-2 px-2" style={{width:"10%"}}>Capaian</th>
+                <th className="text-center py-2 px-2" style={{width:"11%"}}>Target 2026</th>
+                <th className="text-center py-2 px-2" style={{width:"10%"}}>Realisasi TW II</th>
+                <th className="text-center py-2 px-2" style={{width:"10%"}}>Realisasi TW III</th>
+                <th className="text-center py-2 px-2" style={{width:"10%"}}>Capaian TW III</th>
                 <th className="text-center py-2 px-2" style={{width:"14%"}}>Status</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(KEG_NAMA_TW1).map(keg=>{
-                const items = CAPAIAN_IKK_TW2.filter(r=>r.keg===keg);
+                const items = CAPAIAN_IKK_TW3.filter(r=>r.keg===keg);
                 return (
                   <React.Fragment key={keg}>
                     <tr style={{background:"rgba(161,98,7,0.07)"}}>
-                      <td colSpan={6} className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
+                      <td colSpan={7} className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
                     </tr>
                     {items.map((r,i)=>{
                       const stt = r.cap===0 ? {label:"Belum diukur",color:"#9ca3af"} : r.cap>=80 ? {label:"Tinggi",color:"#059669"} : r.cap>=40 ? {label:"Sedang",color:"#d97706"} : {label:"Rendah",color:"#dc2626"};
                       const realDisp = r.cap===0 ? "—" : (r.sat==="%"?r.real+"%":r.real);
+                      const p2 = CAPAIAN_IKK_TW2.find(x=>x.keg===r.keg && x.ind===r.ind);
+                      const real2 = !p2||p2.cap===0 ? "—" : (p2.sat==="%"?p2.real+"%":p2.real);
                       return (
                         <tr key={i} style={{borderBottom:"1px solid var(--border)"}}>
                           <td className="py-2 px-2 text-[var(--text-2)] leading-snug">{r.ind}</td>
                           <td className="py-2 px-2 text-center text-[var(--text-3)]">{r.sat}</td>
                           <td className="py-2 px-2 text-center mono">{r.sat==="%"?r.target+"%":r.target}</td>
+                          <td className="py-2 px-2 text-center mono text-[var(--text-3)]">{real2}</td>
                           <td className="py-2 px-2 text-center mono">{realDisp}</td>
                           <td className="py-2 px-2 text-center mono" style={{color:stt.color,fontWeight:600}}>{r.cap+"%"}</td>
                           <td className="py-2 px-2 text-center"><span className="pill text-[9px]" style={{background:stt.color+'1a',color:stt.color,borderColor:stt.color+'55'}}>{stt.label}</span></td>
@@ -5304,7 +5690,7 @@ function Capaian(){
           </table>
         </div>
         <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]" style={{display:bukaIKK?undefined:"none"}}>
-          Capaian dihitung terhadap <b>target tahunan</b>. Indikator Kegiatan 3760 (SRG/PLK) masih menampilkan nilai TW I karena laporan PPS TW II belum tersedia; Nilai WTA Bappebti dinilai tahunan pada akhir TA. Rata-rata capaian 18 IKK pada TW II: <b>{avgIKK}%</b>.
+          Capaian dihitung terhadap <b>target tahunan</b>. Kolom Realisasi TW II ditampilkan sebagai pembanding (sumber PPS TW II). Rata-rata capaian 18 IKK pada TW III: <b>{avgIKK}%</b> (TW II: {avgIKK2}%).
         </div>
       </div>
 
@@ -5313,10 +5699,10 @@ function Capaian(){
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Matriks Capaian Fisik Rincian Output (RO)</div>
-            <div className="serif text-xl">Capaian Fisik Output — Kumulatif s.d. Juni TA 2026 (Triwulan II)</div>
+            <div className="serif text-xl">Capaian Fisik Output — Kumulatif s.d. September TA 2026 (Triwulan III)</div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] mono text-[var(--text-3)]">sumber: Realisasi Rincian Output Bulan Juni 2026 (Satker 412492)</span>
+            <span className="text-[10px] mono text-[var(--text-3)]">sumber: Matriks Capaian TW III (26 Okt 2026) · SP2D s.d. September 2026</span>
             <button onClick={()=>setBukaRO(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{bukaRO?"▾ Tutup":"▸ Buka"}</button>
           </div>
         </div>
@@ -5325,29 +5711,31 @@ function Capaian(){
             <thead>
               <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
                 <th className="text-left py-2 px-2">Rincian Output</th>
-                <th className="text-right py-2 px-2" style={{width:"15%"}}>Pagu</th>
-                <th className="text-right py-2 px-2" style={{width:"15%"}}>Realisasi</th>
-                <th className="text-center py-2 px-2" style={{width:"15%"}}>Capaian / Target</th>
+                <th className="text-right py-2 px-2" style={{width:"12%"}}>Pagu</th>
+                <th className="text-right py-2 px-2" style={{width:"12%"}}>Realisasi</th>
+                <th className="text-center py-2 px-2" style={{width:"10%"}}>Capaian TW II</th>
+                <th className="text-center py-2 px-2" style={{width:"14%"}}>Capaian s.d. TW III / Target</th>
                 <th className="text-center py-2 px-2" style={{width:"9%"}}>% Kinerja</th>
                 <th className="text-center py-2 px-2" style={{width:"11%"}}>Status</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(KEG_NAMA_TW1).map(keg=>{
-                const items=CAPAIAN_RO_TW2.filter(r=>r.keg===keg);
+                const items=CAPAIAN_RO_TW3.filter(r=>r.keg===keg);
                 return (
                   <React.Fragment key={keg}>
                     <tr style={{background:"rgba(161,98,7,0.07)"}}>
-                      <td colSpan={6} className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
+                      <td colSpan={7} className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
                     </tr>
                     {items.map((r,i)=>{
                       const stt = r.persen>=50 ? {label:"Tinggi",color:"#059669"} : r.persen>=20 ? {label:"Sedang",color:"#d97706"} : {label:"Rendah",color:"#dc2626"};
                       return (
                         <tr key={i} style={{borderBottom:"1px solid var(--border)"}}>
                           <td className="py-2 px-2 text-[var(--text-2)] leading-snug">{r.uraian}</td>
-                          <td className="py-2 px-2 text-right mono text-[var(--text-3)]">{fmtRp(r.pagu)}</td>
-                          <td className="py-2 px-2 text-right mono">{fmtRp(r.real)}</td>
-                          <td className="py-2 px-2 text-center mono">{r.cap} / {r.target} <span className="text-[var(--text-3)]">{r.sat}</span></td>
+                          <td className="py-2 px-2 text-right mono text-[var(--text-3)]">{fmtRp(r.pagu)}{!r.sp2d && <div className="text-[9px]" title="KRO memuat lebih dari satu RO; SP2D hanya per KRO. Lihat tabel Realisasi per KRO.">s.d. Juni</div>}</td>
+                          <td className="py-2 px-2 text-right mono">{fmtRp(r.real)}{r.sp2d ? <div className="text-[9px] text-[var(--text-3)]">s.d. Sep · {r.pagu?(r.real/r.pagu*100).toFixed(1).replace('.',','):0}%</div> : <div className="text-[9px] text-[var(--text-3)]">s.d. Juni</div>}</td>
+                          <td className="py-2 px-2 text-center mono text-[var(--text-3)]">{r.capTW2}</td>
+                          <td className="py-2 px-2 text-center mono">{r.cap!=null ? <>{r.cap} / {r.target} <span className="text-[var(--text-3)]">{r.sat}</span><div className="text-[9px] text-[var(--text-3)]">+{r.tambahTW3} di TW III</div></> : <>{r.capPct}% <span className="text-[var(--text-3)]">progres {r.target} {r.sat}</span></>}</td>
                           <td className="py-2 px-2 text-center mono" style={{color:stt.color,fontWeight:600}}>{r.persen.toFixed(2)}%</td>
                           <td className="py-2 px-2 text-center"><span className="pill text-[9px]" style={{background:stt.color+'1a',color:stt.color,borderColor:stt.color+'55'}}>{stt.label}</span></td>
                         </tr>
@@ -5360,7 +5748,75 @@ function Capaian(){
           </table>
         </div>
         <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]" style={{display:bukaRO?undefined:"none"}}>
-          "% Kinerja" mengikuti nilai SAKTI (gabungan realisasi anggaran &amp; capaian output), kumulatif s.d. akhir Juni 2026 (Triwulan II). Ekspektasi linear s.d. titik ini adalah 50% dari target tahunan. Capaian fisik tertimbang (per pagu): <b>{avgFisikRO}%</b>.
+          <b>Capaian s.d. TW III</b> = capaian kumulatif TW II + tambahan capaian selama TW III (kolom kecil "+n di TW III"). Layanan Perkantoran (EBA.994) dan Layanan Organisasi &amp; Tata Kelola Internal (EBA.Z08) ditampilkan sebagai persen progres layanan.
+          <b>"% Kinerja"</b> mengikuti nilai SAKTI dan tidak berubah dari TW II. <b>Pagu/realisasi</b> RO dari SP2D s.d. September (pagu revisi termasuk ABT) bila KRO hanya memuat satu RO; bila KRO memuat beberapa RO, angka per RO masih posisi s.d. Juni (lihat tabel Realisasi per KRO di bawah). Capaian fisik tertimbang (per pagu): <b>{avgFisikRO}%</b>.
+        </div>
+      </div>
+
+      {/* Realisasi per KRO s.d. September 2026 (SP2D) */}
+      <div className="card p-5 mb-6">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Realisasi Anggaran per Kegiatan &amp; KRO</div>
+            <div className="serif text-xl">Realisasi SP2D s.d. September 2026 — pagu revisi termasuk ABT</div>
+          </div>
+          <span className="text-[10px] mono text-[var(--text-3)]">sumber: {SP.sumber}</span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[12px]" style={{borderCollapse:"collapse"}}>
+            <thead>
+              <tr className="text-[var(--text-3)] mono text-[10px] uppercase tracking-wider" style={{borderBottom:"2px solid var(--border-strong)"}}>
+                <th className="text-left py-2 px-2">KRO</th>
+                <th className="text-right py-2 px-2">Pagu TW II</th>
+                <th className="text-right py-2 px-2">Pagu Revisi (incl. ABT)</th>
+                <th className="text-right py-2 px-2">Tambahan</th>
+                <th className="text-right py-2 px-2">Realisasi s.d. Sep</th>
+                <th className="text-right py-2 px-2" style={{minWidth:150}}>Serapan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {["3759","3760","3761","3762","3758"].map(keg=>{
+                const kg=SP.keg[keg];
+                return (
+                  <React.Fragment key={keg}>
+                    <tr style={{background:"rgba(161,98,7,0.07)"}}>
+                      <td className="py-1.5 px-2 mono text-[10px] uppercase tracking-wider text-[var(--gold)]">Kegiatan {keg} — {KEG_NAMA_TW1[keg]}</td>
+                      <td className="py-1.5 px-2 text-right mono text-[10px] text-[var(--text-3)]">{fmtRp(SP.kro.filter(k=>k.keg===keg).reduce((s,k)=>s+k.paguTW2,0))}</td>
+                      <td className="py-1.5 px-2 text-right mono text-[10px]">{fmtRp(kg.pagu)}</td>
+                      <td className="py-1.5 px-2"></td>
+                      <td className="py-1.5 px-2 text-right mono text-[10px]">{fmtRp(kg.real)}</td>
+                      <td className="py-1.5 px-2 text-right mono text-[10px]" style={{color:statusCapaian(Math.round(kg.pct)).color}}>{kg.pct.toFixed(2).replace('.',',')}%</td>
+                    </tr>
+                    {SP.kro.filter(k=>k.keg===keg).map(k=>{ const st=statusCapaian(Math.round(k.pct)); const add=k.pagu-k.paguTW2; return (
+                      <tr key={keg+k.kro} style={{borderBottom:"1px solid var(--border)"}}>
+                        <td className="py-2 px-2 text-[var(--text-2)]"><span className="pill pill-muted mono text-[9px] mr-2">{k.kro}</span>{k.nama}</td>
+                        <td className="py-2 px-2 text-right mono text-[var(--text-3)]">{fmtRp(k.paguTW2)}</td>
+                        <td className="py-2 px-2 text-right mono">{fmtRp(k.pagu)}</td>
+                        <td className="py-2 px-2 text-right mono" style={{color:add>0?"var(--blue)":add<0?"var(--red)":"var(--text-3)"}}>{add===0?"—":(add>0?"+":"−")+fmtRp(Math.abs(add))}</td>
+                        <td className="py-2 px-2 text-right mono">{fmtRp(k.real)}</td>
+                        <td className="py-2 px-2">
+                          <div className="flex items-center gap-2 justify-end">
+                            <div className="impact-bar flex-1"><div className="impact-fill" style={{width:`${Math.min(100,k.pct)}%`,background:st.color}}></div></div>
+                            <span className="mono" style={{color:st.color,minWidth:48,textAlign:"right"}}>{k.pct.toFixed(2).replace('.',',')}%</span>
+                          </div>
+                        </td>
+                      </tr>);})}
+                  </React.Fragment>
+                );
+              })}
+              <tr style={{borderTop:"2px solid var(--border-strong)"}}>
+                <td className="py-2 px-2 serif">TOTAL Bappebti</td>
+                <td className="py-2 px-2 text-right mono text-[var(--text-3)]">{fmtRp(SP.kro.reduce((s,k)=>s+k.paguTW2,0))}</td>
+                <td className="py-2 px-2 text-right mono">{fmtRp(SP.pagu)}</td>
+                <td className="py-2 px-2 text-right mono" style={{color:"var(--blue)"}}>+{fmtRp(SP.pagu-SP.kro.reduce((s,k)=>s+k.paguTW2,0))}</td>
+                <td className="py-2 px-2 text-right mono">{fmtRp(SP.real)}</td>
+                <td className="py-2 px-2 text-right mono" style={{color:statusCapaian(Math.round(SP.pct)).color}}>{SP.pct.toFixed(2).replace('.',',')}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3 pt-3 border-t border-[var(--border)]">
+          "Pagu TW II" = jumlah pagu RO pada matriks capaian TW II; selisih terhadap pagu revisi mencerminkan <b>Anggaran Belanja Tambahan (ABT)</b> dan penyesuaian pagu. Realisasi periode lalu {fmtRp(SP.realLalu)} + periode September {fmtRp(SP.realIni)}; sisa anggaran {fmtRp(SP.sisa)}. Ekspektasi linear s.d. TW III: 75%.
         </div>
       </div>
 
@@ -5414,8 +5870,8 @@ function Capaian(){
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div>
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian per Indikator Kinerja</div>
-            <div className="serif text-lg">Target tahunan vs capaian Triwulan II (TW II) 2026</div>
-            <div className="text-[10px] text-[var(--text-3)] mt-1">Nilai ISP merupakan agregat capaian s.d. Triwulan II. ISP-4 (Indeks Kepuasan Layanan) &amp; ISP-5 (Indeks Integritas/SPI) kini sudah terukur; ISP-6 (Nilai SAKIP) belum dinilai karena dievaluasi tahunan pada akhir TA.</div>
+            <div className="serif text-lg">Target tahunan vs capaian Triwulan III (TW III) 2026 — dihitung dengan rumus Renstra</div>
+            <div className="text-[10px] text-[var(--text-3)] mt-1">ISP-1 s.d. ISP-4 dihitung otomatis dari capaian IKK TW III memakai rumus IKP Renstra Bappebti 2025–2029 (rincian rumus, bobot, dan komponen ada di menu <b>Pohon Kinerja → Metodologi Perhitungan, pilih TA 2026</b>). ISP-5 (IPI/SPI KPK) memakai nilai terakhir; ISP-6 (SAKIP) dinilai tahunan; ISP-7 (IKPA Kemendag) belum diukur. Status: ≥100% Tercapai · ≥90% On Track · ≥70% At Risk · &lt;70% Behind.</div>
           </div>
           <div className="flex items-center gap-3 text-[10px] mono text-[var(--text-3)]">
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full" style={{background:"#059669"}}></span>ON TRACK</span>
@@ -5432,14 +5888,21 @@ function Capaian(){
               </div>
               <div className="text-xs text-[var(--text-2)] leading-snug mb-3" style={{minHeight:'2.5rem'}}>{r.nama}</div>
               <div className="flex items-end justify-between mb-2">
-                <div className="serif text-3xl" style={{color:r.st.color}}>{r.pct==null?"—":r.pct+"%"}</div>
+                <div className="serif text-3xl" style={{color:r.st.color}}>{r.pct==null?"—":(Number.isInteger(r.pct)?r.pct:fmtN(r.pct))+"%"}</div>
                 <div className="text-right">
                   <div className="text-[9px] mono uppercase text-[var(--text-3)] tracking-wider">Realisasi</div>
                   <div className="text-xs mono text-[var(--text)]">{r.realNow}</div>
                 </div>
               </div>
+              {r.rumus && <div className="text-[10px] mono mb-2 px-2 py-1 rounded" style={{background:"rgba(124,58,237,0.06)",color:"var(--violet)"}} title="Rumus IKP Renstra Bappebti 2025–2029">{r.rumus}</div>}
+              {r.penjelasan && (
+                <details className="mb-2 text-[11px] text-[var(--text-2)]">
+                  <summary className="cursor-pointer text-[10px] mono uppercase tracking-wider text-[var(--gold)]">Keterangan metode perhitungan</summary>
+                  <ul className="mt-1.5 space-y-1 leading-relaxed list-disc pl-4">{r.penjelasan.map((s,i)=><li key={i}>{s}</li>)}</ul>
+                </details>
+              )}
               <div className="impact-bar mb-3">
-                <div className="impact-fill" style={{width:`${r.pct==null?0:r.pct}%`,background:r.st.color}}></div>
+                <div className="impact-fill" style={{width:`${r.pct==null?0:Math.min(100,r.pct)}%`,background:r.st.color}}></div>
               </div>
               <div className="flex items-center gap-1.5 mb-2">
                 {r.cap.map((q,i)=>(
@@ -7633,17 +8096,20 @@ function matrixSheets(tab){
   const NUM=(v)=>{const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?v:n;};
   const sheets=[];
   if(tab==='capaian'){
-    const rb={}; Object.entries(REALISASI_RO).forEach(([k,v])=>{const m=k.match(/RO-(\d{4})/);if(m)rb[m[1]]=(rb[m[1]]||0)+v;});
-    let pT=0,rT=0; const a1=[["Kode","Kegiatan","Pagu (Rp)","Realisasi (Rp)","Sisa (Rp)","Serapan %"]];
-    KEGIATAN.forEach(k=>{const pg=k.anggaran,rl=rb[k.kode]||0;pT+=pg;rT+=rl;a1.push([k.kode,k.nama,pg,rl,pg-rl,+(pg?rl/pg*100:0).toFixed(1)]);});
-    a1.push(["","JUMLAH SELURUHNYA",pT,rT,pT-rT,+(pT?rT/pT*100:0).toFixed(1)]);
-    sheets.push({name:"Realisasi Anggaran",rows:a1});
-    const a2=[["Kegiatan","Indikator Kinerja Kegiatan","Satuan","Target 2026","Realisasi TW I","Capaian %"]];
-    CAPAIAN_IKK_TW2.forEach(r=>a2.push([KEG_NAMA_TW1[r.keg],r.ind,r.sat,NUM(r.target),r.cap===0?"-":NUM(r.real),r.cap]));
-    sheets.push({name:"Capaian IKK TW I",rows:a2});
-    const a3=[["Kegiatan","Rincian Output","Pagu (Rp)","Realisasi (Rp)","Target","Capaian","Satuan","% Kinerja"]];
-    CAPAIAN_RO_TW2.forEach(r=>a3.push([KEG_NAMA_TW1[r.keg],r.uraian,r.pagu,r.real,NUM(r.target),NUM(r.cap),r.sat,r.persen]));
-    sheets.push({name:"Capaian RO s.d. Juni",rows:a3});
+    const SP=REALISASI_SP2D_SEP2026;
+    const a1=[["Kode","Kegiatan","Pagu Revisi incl. ABT (Rp)","Realisasi s.d. Sep (Rp)","Sisa (Rp)","Serapan %"]];
+    ["3759","3760","3761","3762","3758"].forEach(k=>{const g=SP.keg[k];a1.push([k,KEG_NAMA_TW1[k],g.pagu,g.real,g.pagu-g.real,g.pct]);});
+    a1.push(["","JUMLAH SELURUHNYA",SP.pagu,SP.real,SP.sisa,SP.pct]);
+    sheets.push({name:"Realisasi Anggaran s.d. Sep",rows:a1});
+    const ak=[["Kegiatan","KRO","Uraian KRO","Pagu TW II (Rp)","Pagu Revisi incl. ABT (Rp)","Realisasi s.d. Sep (Rp)","Serapan %"]];
+    SP.kro.forEach(k=>ak.push([k.keg,k.kro,k.nama,k.paguTW2,k.pagu,k.real,k.pct]));
+    sheets.push({name:"Realisasi per KRO s.d. Sep",rows:ak});
+    const a2=[["Kegiatan","Indikator Kinerja Kegiatan","Satuan","Target 2026","Realisasi TW II","Capaian TW II %","Realisasi TW III","Capaian TW III %"]];
+    CAPAIAN_IKK_TW3.forEach(r=>{const p=CAPAIAN_IKK_TW2.find(x=>x.keg===r.keg&&x.ind===r.ind)||{};a2.push([KEG_NAMA_TW1[r.keg],r.ind,r.sat,NUM(r.target),p.cap===0?"-":NUM(p.real),p.cap??"",NUM(r.real),r.cap]);});
+    sheets.push({name:"Capaian IKK TW II-III",rows:a2});
+    const a3=[["Kegiatan","Rincian Output","Pagu (Rp)","Realisasi (Rp)","Posisi Pagu/Realisasi","Target","Satuan","Capaian TW II","Tambahan TW III","Capaian s.d. TW III","% Kinerja"]];
+    CAPAIAN_RO_TW3.forEach(r=>a3.push([KEG_NAMA_TW1[r.keg],r.uraian,r.pagu,r.real,r.sp2d?"SP2D s.d. Sep":"s.d. Juni (KRO >1 RO)",NUM(r.target),r.sat,NUM(r.capTW2),NUM(r.tambahTW3),r.cap!=null?NUM(r.cap):(r.capPct+"% progres"),r.persen]));
+    sheets.push({name:"Capaian RO s.d. September",rows:a3});
   } else if(tab==='sebaran'){
     const prov=PROVINSI_SRG.map(p=>{const g=p.gudang;return{nama:p.nama,tot:g.length,a:g.filter(x=>x.status==='aktif').length,e:g.filter(x=>x.status==='berakhir').length,b:g.filter(x=>x.status==='belum').length,c:g.filter(x=>x.status==='dicabut').length,kap:g.reduce((s,x)=>s+(x.kapasitas||0),0)};}).sort((x,y)=>y.tot-x.tot);
     const T={tot:0,a:0,e:0,b:0,c:0,kap:0}; const g1=[["No","Provinsi","Total","Aktif","Berakhir","Belum","Dicabut","Kapasitas (Ton)"]];
@@ -7814,7 +8280,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran, PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran · Capaian TW III & realisasi SP2D s.d. September 2026 (incl. ABT) · Rumus IKS/IKP Renstra dipakai menghitung capaian IKP, PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
