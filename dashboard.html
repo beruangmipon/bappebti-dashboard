@@ -7125,7 +7125,9 @@ function MenuPLK({year}){
 /* diekspor 26 Oktober 2026 01:54 WIB (79 RO). Dasar standarisasi RO          */
 /* Bappebti mulai TA 2027 dan seterusnya.                                    */
 /* Format RAW: [kegiatan, KRO, RO, nama RO, satuan, kode ROS, uraian ROS,     */
-/*              status (T=Terkunci disetujui 2 pihak, D=Diajukan), kunci]     */
+/*              status (T=Terkunci disetujui 2 pihak, S=Disetujui Bappenas &  */
+/*              DJA namun belum dikunci, D=Diajukan), kunci]                */
+/* Update 26 Okt 2026: 3760.BDB.004 sudah disetujui Bappenas & DJA, belum dikunci. */
 /* ======================================================================== */
 const PEMADANAN_RO_2027_KRO = {"3759.BIC": "Pengawasan dan Pengendalian Lembaga", "3759.BIH": "Pengawasan dan Pengendalian Badan Usaha", "3759.QIH": "Pengawasan dan Pengendalian Badan Usaha", "3760.ACD": "Perizinan Lembaga", "3760.AFA": "Norma, Standard, Prosedur dan Kriteria", "3760.BDB": "Fasilitasi dan Pembinaan Lembaga", "3760.BMA": "Data dan Informasi Publik", "3760.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3760.PEA": "Koordinasi", "3760.QDB": "Fasilitasi dan Pembinaan Lembaga", "3760.QDC": "Fasilitasi dan Pembinaan Masyarakat", "3760.UAB": "Sistem Informasi Pemerintahan", "3761.AAH": "Peraturan lainnya", "3761.AEA": "Koordinasi", "3761.BBA": "Layanan Bantuan Hukum Perseorangan", "3761.BCB": "Perkara Hukum Lembaga", "3762.ACB": "Perizinan Masyarakat", "3762.ACD": "Perizinan Lembaga", "3762.ADI": "Sertifikasi Profesi dan SDM", "3762.AFA": "Norma, Standard, Prosedur dan Kriteria", "3762.BMA": "Data dan Informasi Publik", "3762.FAB": "Sistem Informasi Pemerintahan", "3762.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3762.QDH": "Fasilitasi dan Pembinaan Badan Usaha", "3758.CAN": "Sarana Bidang Teknologi Informasi dan Komunikasi", "3758.EBA": "Layanan Dukungan Manajemen Internal", "3758.EBC": "Layanan Manajemen SDM Internal", "3758.EBD": "Layanan Manajemen Kinerja Internal"};
 const PEMADANAN_RO_2027_RAW = [
@@ -7149,7 +7151,7 @@ const PEMADANAN_RO_2027_RAW = [
   ["3760", "BDB", "001", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
   ["3760", "BDB", "002", "Pembinaan/pendampingan dalam rangka pembentukan daerah baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
   ["3760", "BDB", "003", "Pelaku Usaha yang mendapatkan pendampingan dalam rangka pembentukan Daerah Baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "BDB", "004", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "D", "Tidak"],
+  ["3760", "BDB", "004", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "S", "Tidak"],
   ["3760", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
   ["3760", "BMA", "003", "Layanan Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
   ["3760", "PBB", "001", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
@@ -7233,7 +7235,7 @@ const PEMADANAN_RO_2027 = (()=>{
     const pg=paguMap[key];
     return { no:i+1, keg, kro, ro, key, kodeLengkap:`090.07.${keg==="3758"?"WA":"EF"}.${key}`,
       kroNama:PEMADANAN_RO_2027_KRO[`${keg}.${kro}`]||"", nama, satuan, ros, rosNama,
-      status: st==="T"?"Terkunci":"Diajukan", kunci, pagu: pg?pg.pagu:null, target: pg?pg.target:null, flags:[] };
+      status: st==="T"?"Terkunci":st==="S"?"Disetujui":"Diajukan", kunci, pagu: pg?pg.pagu:null, target: pg?pg.target:null, flags:[] };
   });
   // Kode RO terbaru (konfirmasi Perencana): kode lama digantikan kode baru — bukan temuan
   const KODE_TERBARU = {"3760.PBB.001":"PBB.G01","3760.PBB.002":"PBB.G02","3761.AAH.002":"AAH.F02"};
@@ -7252,8 +7254,8 @@ const PEMADANAN_RO_2027 = (()=>{
   const satByRos={}; rows.forEach(r=>{ (satByRos[r.ros]=satByRos[r.ros]||new Set()).add(r.satuan.toLowerCase()); });
   const satLabel={}; rows.forEach(r=>{ (satLabel[r.ros]=satLabel[r.ros]||[]); if(!satLabel[r.ros].some(x=>x.toLowerCase()===r.satuan.toLowerCase())) satLabel[r.ros].push(r.satuan); });
   rows.forEach(r=>{ const s=satByRos[r.ros]; if(s.size>1) r.flags.push({t:"D",msg:`Satuan di ROS ${r.ros}: ${satLabel[r.ros].join(" / ")}`}); });
-  // E. Belum terkunci
-  rows.forEach(r=>{ if(r.status!=="Terkunci") r.flags.push({t:"E",msg:"Pemadanan diajukan — menunggu persetujuan"}); });
+  // E. Belum dikunci
+  rows.forEach(r=>{ if(r.status==="Disetujui") r.flags.push({t:"E",msg:"Disetujui Bappenas & DJA — belum dikunci"}); else if(r.status!=="Terkunci") r.flags.push({t:"E",msg:"Pemadanan diajukan — menunggu persetujuan"}); });
   const ord=["3758","3759","3760","3761","3762"];
   return rows.slice().sort((a,b)=>ord.indexOf(a.keg)-ord.indexOf(b.keg)||a.no-b.no).map((r,i)=>({...r,no:i+1}));
 })();
@@ -7262,7 +7264,7 @@ const PEMADANAN_FLAG_DEF = {
   C:{label:"Nama RO identik", color:"var(--blue)", desc:"Lebih dari satu kode RO dengan nomenklatur sama dalam satu kegiatan."},
   A:{label:"Pola KRO PN belum seragam", color:"var(--amber)", desc:"RO ber-KRO PN dipadankan ke ROS berprefiks berbeda, tidak seragam antar-RO sejenis."},
   D:{label:"Satuan berbeda dalam satu ROS", color:"var(--gold)", desc:"RO di bawah ROS yang sama memakai satuan berbeda."},
-  E:{label:"Belum terkunci", color:"var(--red)", desc:"Pemadanan masih diajukan, menunggu persetujuan dua pihak."},
+  E:{label:"Belum dikunci", color:"var(--amber)", desc:"Pemadanan sudah disetujui Bappenas & DJA, namun belum dikunci."},
 };
 
 function MenuPemadananRO(){
@@ -7277,7 +7279,9 @@ function MenuPemadananRO(){
 
   const total = rows.length;
   const terkunci = rows.filter(r=>r.status==="Terkunci").length;
-  const diajukan = total-terkunci;
+  const disetujui = rows.filter(r=>r.status==="Disetujui").length;
+  const diajukan = total-terkunci-disetujui;
+  const belumKunci = total-terkunci;
   const rosList = useMemo(()=>{
     const m={}; rows.forEach(r=>{ (m[r.ros]=m[r.ros]||{kode:r.ros,nama:r.rosNama,ro:[]}).ro.push(r); });
     return Object.values(m).sort((a,b)=>b.ro.length-a.ro.length||a.kode.localeCompare(b.kode));
@@ -7306,10 +7310,10 @@ function MenuPemadananRO(){
       const grp={}; c.forEach(r=>{ const k=r.keg+"|"+r.nama.toLowerCase().replace(/[^a-z0-9]/g,''); (grp[k]=grp[k]||[]).push(r); });
       const gs=Object.values(grp);
       T.push({k:"C", n:c.length, judul:"Nomenklatur RO identik dengan kode berbeda dalam satu kegiatan",
-        uraian:`Ditemukan ${gs.length} pasang RO yang bernama sama namun memiliki kode berbeda: ${gs.map(g=>g.map(r=>r.keg+"."+r.kro+"."+r.ro).join(" dan ")).join("; ")}. Pada pasangan BDB, kode BDB.001 sudah terkunci dan berpagu TA 2027, sedangkan BDB.004 dengan nama yang sama justru masih berstatus diajukan dan menunggu persetujuan. Duplikasi nomenklatur seperti ini berisiko memecah data target dan capaian satu keluaran ke dua kode.`,
+        uraian:`Ditemukan ${gs.length} pasang RO yang bernama sama namun memiliki kode berbeda: ${gs.map(g=>g.map(r=>r.keg+"."+r.kro+"."+r.ro).join(" dan ")).join("; ")}. Pada pasangan BDB, kode BDB.001 sudah terkunci dan berpagu TA 2027, sedangkan BDB.004 dengan nama yang sama telah disetujui Bappenas dan DJA namun belum dikunci. Duplikasi nomenklatur seperti ini berisiko memecah data target dan capaian satu keluaran ke dua kode.`,
         kolom:["Kode RO","Rincian Output","ROS","Status","Pagu 2027"],
         baris:gs.flat().map(r=>[r.keg+"."+r.kro+"."+r.ro, r.nama, r.ros, r.status, rp(r)]),
-        tl:"Tetapkan satu kode baku per keluaran. Untuk BDB.001 dan BDB.004, pertimbangkan konsolidasi ke BDB.001 (terkunci dan berpagu) atau bedakan nomenklatur BDB.004 bila memang lingkupnya berbeda, sebelum persetujuan pemadanan BDB.004 diproses."});
+        tl:"Tetapkan satu kode baku per keluaran. Untuk BDB.001 dan BDB.004, pertimbangkan konsolidasi ke BDB.001 (terkunci dan berpagu) atau bedakan nomenklatur BDB.004 bila memang lingkupnya berbeda, sebelum pemadanan BDB.004 dikunci."});
     }
     const a=by("A");
     if(a.length){
@@ -7383,7 +7387,7 @@ function MenuPemadananRO(){
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         <Stat label="RO Dipadankan" value={total} sub={`${new Set(rows.map(r=>r.keg+"."+r.kro)).size} KRO · 5 kegiatan`} />
         <Stat label="Terkunci" value={terkunci} sub={`${(terkunci/total*100).toFixed(1).replace('.',',')}% · disetujui 2 pihak`} color="var(--emerald)" />
-        <Stat label="Menunggu Persetujuan" value={diajukan} sub="diajukan, belum terkunci" color={diajukan?"var(--red)":"var(--emerald)"} />
+        <Stat label="Disetujui, Belum Dikunci" value={disetujui} sub={diajukan?`+${diajukan} masih diajukan`:"Bappenas & DJA · menunggu penguncian"} color={belumKunci?"var(--amber)":"var(--emerald)"} />
         <Stat label="RO Standar Unik" value={rosList.length} sub={`rasio ${(total/rosList.length).toFixed(1).replace('.',',')} RO per ROS`} />
         <Stat label="RO Berpagu TA 2027" value={<>{berpagu.length}<span className="text-base text-[var(--text-3)]">/{total}</span></>} sub={`${fmtRp(totPagu)} · Pagu Anggaran`} color="var(--blue)" />
         <Stat label="RO Terkait Temuan" value={flagged.length} sub={`dalam ${temuan.length} temuan dari data`} color="var(--amber)" />
@@ -7426,7 +7430,8 @@ function MenuPemadananRO(){
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Cakupan Pemadanan</div>
           {[
             {l:"Terkunci (disetujui 2 pihak)", n:terkunci, c:"var(--emerald)"},
-            {l:"Diajukan — menunggu persetujuan", n:diajukan, c:"var(--red)"},
+            {l:"Disetujui Bappenas & DJA — belum dikunci", n:disetujui, c:"var(--amber)"},
+            ...(diajukan?[{l:"Diajukan — menunggu persetujuan", n:diajukan, c:"var(--red)"}]:[]),
           ].map(x=>(
             <div key={x.l} className="mb-3">
               <div className="flex justify-between text-xs mb-1"><span>{x.l}</span><span className="mono text-[var(--text-3)]">{x.n} RO</span></div>
@@ -7501,7 +7506,7 @@ function MenuPemadananRO(){
           <span className="pill pill-muted text-[9px]">{temuan.length} temuan · {flagged.length} RO terkait</span>
         </div>
         <p className="text-sm text-[var(--text-2)] leading-relaxed max-w-5xl">
-          Secara umum pemadanan TA 2027 sudah kuat: <b className="text-[var(--text)]">{terkunci} dari {total} RO</b> ({(terkunci/total*100).toFixed(1).replace('.',',')}%) telah terkunci dengan persetujuan dua pihak,
+          Secara umum pemadanan TA 2027 sudah kuat: <b className="text-[var(--text)]">{terkunci} dari {total} RO</b> ({(terkunci/total*100).toFixed(1).replace('.',',')}%) telah terkunci dengan persetujuan dua pihak{disetujui?<>, sementara {disetujui} RO lainnya ({rows.filter(r=>r.status==="Disetujui").map(r=>r.keg+"."+r.kro+"."+r.ro).join(", ")}) sudah disetujui Bappenas dan DJA dan tinggal menunggu penguncian</>:null},
           seluruh <b className="text-[var(--text)]">{berpagu.length} RO berpagu</b> pada Pagu Anggaran TA 2027 sudah tercakup, dan {total} RO terhimpun ke dalam <b className="text-[var(--text)]">{rosList.length} RO Standar</b>.
           Meski demikian, penelusuran data menemukan beberapa hal yang perlu diseragamkan agar pemadanan ini dapat dipakai sebagai dasar standarisasi RO mulai TA 2027 dan seterusnya.
         </p>
@@ -7555,7 +7560,7 @@ function MenuPemadananRO(){
               {kegList.map(k=><option key={k} value={k}>{k}</option>)}
             </select>
             <select value={fStatus} onChange={e=>setFStatus(e.target.value)} className={sel}>
-              <option value="all">Semua status</option><option value="Terkunci">Terkunci</option><option value="Diajukan">Diajukan</option>
+              <option value="all">Semua status</option><option value="Terkunci">Terkunci</option><option value="Disetujui">Disetujui, belum dikunci</option><option value="Diajukan">Diajukan</option>
             </select>
             <select value={fPagu} onChange={e=>setFPagu(e.target.value)} className={sel}>
               <option value="all">Pagu: semua</option><option value="ya">Berpagu 2027</option><option value="tidak">Tanpa pagu 2027</option>
@@ -7590,6 +7595,8 @@ function MenuPemadananRO(){
                     <td className="py-2 px-2 text-[var(--text-2)] min-w-[150px]">{r.rosNama}</td>
                     <td className="py-2 px-2 whitespace-nowrap">{r.status==="Terkunci"
                       ? <span className="pill pill-emerald text-[9px]">Terkunci</span>
+                      : r.status==="Disetujui"
+                      ? <span className="pill pill-gold text-[9px]" title="Disetujui Bappenas & DJA, belum dikunci">Disetujui · belum dikunci</span>
                       : <span className="pill pill-red text-[9px]">Diajukan</span>}</td>
                     <td className="py-2 px-2 text-right mono whitespace-nowrap">{r.pagu!=null?<>{fmtRp(r.pagu)}<div className="text-[9px] text-[var(--text-3)]">{r.target}</div></>:<span className="text-[var(--text-3)]">—</span>}</td>
                     <td className="py-2 pl-2 min-w-[200px] max-w-[260px]">{r.flags.map((f,j)=>(
@@ -7614,7 +7621,7 @@ function MenuPemadananRO(){
         <ol className="space-y-3 text-sm text-[var(--text-2)] leading-relaxed list-decimal pl-5">
           <li><b className="text-[var(--text)]">ROS terkunci sebagai acuan baku.</b> {terkunci} dari {total} RO telah terkunci (disetujui dua pihak). Usulan RO pada Renja/RKA-K/L TA 2028 dan seterusnya dimulai dari {rosList.length} ROS dalam katalog ini, bukan dari nomenklatur bebas.</li>
           <li><b className="text-[var(--text)]">Gunakan kode RO terbaru.</b> Penyusunan dokumen perencanaan memakai {kodeLama.map(r=>r.kodeBaru).join(", ")}; kode lama ({kodeLama.map(r=>r.kro+"."+r.ro).join(", ")}) tidak dipakai lagi untuk usulan baru.</li>
-          <li><b className="text-[var(--text)]">Tindak lanjuti {temuan.length} temuan dari data.</b> Seragamkan kode ROS perizinan lembaga, tuntaskan duplikasi nomenklatur RO (termasuk BDB.001/BDB.004 sebelum pemadanan BDB.004 disetujui), sepakati satu pola pemadanan KRO PN, dan tetapkan satuan baku per ROS.</li>
+          <li><b className="text-[var(--text)]">Tindak lanjuti {temuan.length} temuan dari data.</b> Seragamkan kode ROS perizinan lembaga, tuntaskan duplikasi nomenklatur RO (termasuk BDB.001/BDB.004 sebelum pemadanan BDB.004 dikunci), sepakati satu pola pemadanan KRO PN, dan tetapkan satuan baku per ROS.</li>
           <li><b className="text-[var(--text)]">Jaga pembeda PN / Non-PN tetap konsisten.</b> Pola PBB.S002 / ABB.S002 menjadi contoh pembeda PN dan Non-PN yang sudah tepat; pola serupa diterapkan secara seragam pada RO ber-KRO PN lainnya.</li>
         </ol>
       </div>
@@ -7708,7 +7715,7 @@ function matrixSheets(tab){
   } else if(tab==='pemadanan'){
     const FL=PEMADANAN_FLAG_DEF;
     const m=[["No","Kegiatan","KRO","Kode RO Lengkap","Rincian Output (RO)","Satuan","RO Standar (ROS)","Uraian RO Standar","Status","Kunci","Pagu TA 2027 (Rp)","Target TA 2027","Temuan","Keterangan Kode"]];
-    PEMADANAN_RO_2027.forEach(r=>m.push([r.no,r.keg+" — "+PEMADANAN_KEG_NAMA[r.keg],r.kro+" — "+r.kroNama,r.kodeLengkap,r.nama,r.satuan,r.ros,r.rosNama,r.status==="Terkunci"?"Terkunci (disetujui 2 pihak)":"Diajukan — menunggu persetujuan",r.kunci,r.pagu??"",r.target||"",r.flags.map(f=>FL[f.t].label+": "+f.msg).join("; "), r.kodeBaru?("Kode lama — digantikan "+r.kodeBaru):(r.isKodeBaru?"Kode RO terbaru":"")]));
+    PEMADANAN_RO_2027.forEach(r=>m.push([r.no,r.keg+" — "+PEMADANAN_KEG_NAMA[r.keg],r.kro+" — "+r.kroNama,r.kodeLengkap,r.nama,r.satuan,r.ros,r.rosNama,r.status==="Terkunci"?"Terkunci (disetujui 2 pihak)":r.status==="Disetujui"?"Disetujui Bappenas & DJA — belum dikunci":"Diajukan — menunggu persetujuan",r.kunci,r.pagu??"",r.target||"",r.flags.map(f=>FL[f.t].label+": "+f.msg).join("; "), r.kodeBaru?("Kode lama — digantikan "+r.kodeBaru):(r.isKodeBaru?"Kode RO terbaru":"")]));
     sheets.push({name:"Pemadanan RO 2027",rows:m});
     const rs={}; PEMADANAN_RO_2027.forEach(r=>{(rs[r.ros]=rs[r.ros]||{nama:r.rosNama,ro:[]}).ro.push(r);});
     const k=[["No","Kode ROS","Uraian RO Standar","Jumlah RO","RO Berpagu 2027","Daftar Kode RO"]];
