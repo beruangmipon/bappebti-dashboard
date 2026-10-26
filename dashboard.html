@@ -350,12 +350,12 @@ const SS = [
    Program Dukungan Manajemen (SAKIP, Indeks Integritas) & Program Perdagangan Dalam Negeri
    (Pertumbuhan Pelaku, Pertumbuhan Gudang SRG, Kepatuhan & Penegakan Hukum, Indeks Kepuasan Layanan). */
 const IKSS = [
-  { id:"ISP-1", ss:"SP-01", nama:"Pertumbuhan pelaku yang bertransaksi di PBK dan PLK", target:"4%",    t:{2027:"5,5%",2028:"5,5%",2029:"5,5%"},    baseline:"-5,75%" },
-  { id:"ISP-2", ss:"SP-01", nama:"Pertumbuhan Gudang yang mengimplementasikan SRG",     target:"6%",    t:{2027:"6%",2028:"6%",2029:"6%"},    baseline:"6,3%" },
-  { id:"ISP-3", ss:"SP-01", nama:"Tingkat kepatuhan & penegakan hukum Pelaku Usaha PBK, SRG, PLK", target:"82%", t:{2027:"82,6%",2028:"84%",2029:"86%"}, baseline:"75,36%" },
-  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2027:"91",2028:"91",2029:"91"},    baseline:"88,28" },
-  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas Badan Pengawas Perdagangan Berjangka Komoditi", target:"69,79", t:{2027:"70",2028:"74,6",2029:"74,7"},  baseline:"74,34" },
-  { id:"ISP-6", ss:"SP-02", nama:"Nilai SAKIP Badan Pengawas Perdagangan Berjangka Komoditi", target:"82,50", t:{2027:"82,75",2028:"83",2029:"83"}, baseline:"82,56" },
+  { id:"ISP-1", ss:"SP-01", nama:"Pertumbuhan pelaku yang bertransaksi di PBK dan PLK", target:"4%",    t:{2025:"4%",2027:"5,5%",2028:"5,5%",2029:"5,5%"},    baseline:"-5,75%" },
+  { id:"ISP-2", ss:"SP-01", nama:"Pertumbuhan Gudang yang mengimplementasikan SRG",     target:"6%",    t:{2025:"6%",2027:"6%",2028:"6%",2029:"6%"},    baseline:"6,3%" },
+  { id:"ISP-3", ss:"SP-01", nama:"Tingkat kepatuhan & penegakan hukum Pelaku Usaha PBK, SRG, PLK", target:"82%", t:{2025:"78%",2027:"82,6%",2028:"84%",2029:"86%"}, baseline:"75,36%" },
+  { id:"ISP-4", ss:"SP-01", nama:"Indeks Kepuasan Layanan Bidang PBK, SRG, dan PLK",     target:"90",    t:{2025:"81",2027:"91",2028:"91",2029:"91"},    baseline:"88,28" },
+  { id:"ISP-5", ss:"SP-02", nama:"Indeks Penilaian Integritas Badan Pengawas Perdagangan Berjangka Komoditi", target:"69,79", t:{2025:"74,5",2027:"70",2028:"74,6",2029:"74,7"},  baseline:"74,34" },
+  { id:"ISP-6", ss:"SP-02", nama:"Nilai SAKIP Badan Pengawas Perdagangan Berjangka Komoditi", target:"82,50", t:{2025:"82,25",2027:"82,75",2028:"83",2029:"83"}, baseline:"82,56" },
   { id:"ISP-7", ss:"SP-02", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kementerian Perdagangan", target:"93", t:{2025:"93",2026:"93",2027:"94",2028:"94",2029:"94"}, baseline:"-" },
 ];
 
@@ -2966,8 +2966,8 @@ function hitungIKS(){
   const komp = (th, ann)=>{
     const a = ann||{PBK:1,SRG:1,PLK:1};
     const rows = [
-      {k:"PBK", l:"Nilai transaksi PBK (Bursa Berjangka)", now:pbk(th), prev:pbk(th-1), ann:a.PBK, per:ann?"s.d. Juli":"", w:BOBOT_IKS.PBK},
-      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)",     now:srg(th), prev:srg(th-1), ann:a.SRG, per:ann?"s.d. 30 Sep":"", w:BOBOT_IKS.SRG},
+      {k:"PBK", l:"Nilai transaksi PBK (Bursa Berjangka)", now:pbk(th), prev:pbk(th-1), ann:a.PBK, per:ann?"s.d. Agustus":"", w:BOBOT_IKS.PBK},
+      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)",     now:srg(th), prev:srg(th-1), ann:a.SRG, per:ann?"s.d. 20 Okt":"", w:BOBOT_IKS.SRG},
       {k:"PLK", l:"Nilai transaksi PLK (penyelenggara lelang)", now:plk(th), prev:plk(th-1), ann:a.PLK, per:ann?"s.d. Sep":"", w:BOBOT_IKS.PLK},
     ].map(r=>({...r, nowAdj: r.now!=null ? r.now*r.ann : null, g: gr(r.now!=null?r.now*r.ann:null, r.prev)}));
     const ok = rows.every(r=>r.g!=null);
@@ -2975,10 +2975,101 @@ function hitungIKS(){
     return {rows, val};
   };
   const y25 = komp(2025);
-  const y26 = komp(2026, {PBK:12/7, SRG:12/9, PLK:12/9});
+  const y26 = komp(2026, {PBK:12/8, SRG:365/293, PLK:12/9});
   const t25 = numTarget(ISS_KMD.t[2025]), t26 = numTarget(ISS_KMD.t[2026]);
   return { y25:{...y25, target:t25, cap:(y25.val!=null&&t25)?y25.val/t25*100:null},
            y26:{...y26, target:t26, cap:(y26.val!=null&&t26)?y26.val/t26*100:null} };
+}
+
+
+/* ===== CAPAIAN KINERJA TA 2025 — IKS, IKP, IKK =====
+   Sumber: Bahan Penyesuaian Target IK BAPPEBTI 2027 (sheet "Penyesuaian IK-2027", kolom 2025 TARGET & CAPAIAN),
+   diterima 26 Oktober 2026. Menggantikan pemakaian angka baseline sebagai capaian 2025.
+   Capaian (%) = realisasi ÷ target × 100. Format angka mengikuti file yang telah dikoreksi (94,5; 92,53; 83,33%). */
+const CAPAIAN_2025_SUMBER = "Bahan Penyesuaian Target IK BAPPEBTI 2027 — kolom TA 2025 (diterima 26 Okt 2026)";
+const CAPAIAN_IKS_2025 = { id:"IKS 1.3", nama:"Pertumbuhan transaksi PBK, SRG, dan PLK", sat:"%", target:"17", real:"14,14", cap:83.18 };
+const CAPAIAN_IKP_2025 = [
+  { id:"ISP-1", sat:"%",    target:"4",     real:"9,07",  cap:226.75 },
+  { id:"ISP-2", sat:"%",    target:"6",     real:"7,96",  cap:132.67 },
+  { id:"ISP-3", sat:"%",    target:"78",    real:"81,21", cap:104.12 },
+  { id:"ISP-4", sat:"Nilai",target:"81",    real:"89,71", cap:110.75 },
+  { id:"ISP-5", sat:"Nilai",target:"74,5",  real:"69,79", cap:93.68 },
+  { id:"ISP-6", sat:"Nilai",target:"82,25", real:"81,96", cap:99.65 },
+];
+const CAPAIAN_IKK_2025 = [
+  {keg:"3758", ind:"Predikat Penilaian Tertib Administrasi (WTA) Bappebti", sat:"Predikat", target:"WTA Madya", real:"WTA Utama", cap:100, ket:"melampaui target (Utama > Madya)"},
+  {keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Bappebti", sat:"Nilai", target:"92", real:"97,14", cap:105.59},
+  {keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)", sat:"Nilai", target:"79", real:"81,39", cap:103.03},
+  {keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)", sat:"%", target:"81", real:"81", cap:100},
+  {keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)", sat:"%", target:"75", real:"82", cap:109.33},
+  {keg:"3760", ind:"Pertumbuhan Pengelola Gudang SRG", sat:"%", target:"5", real:"5,74", cap:114.8},
+  {keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas", sat:"%", target:"5", real:"17,96", cap:359.2, ket:"target 1.250 pelaku · realisasi 1.405 pelaku"},
+  {keg:"3760", ind:"% peserta Bimtek SRG/PLK yang meningkat pemahaman", sat:"%", target:"90", real:"90,03", cap:100.03},
+  {keg:"3760", ind:"Indeks kepuasan layanan perizinan SRG/PLK", sat:"Nilai", target:"86", real:"90,69", cap:105.45},
+  {keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti", sat:"%", target:"75", real:"83,33", cap:111.11},
+  {keg:"3761", ind:"Indeks Evaluasi Kemanfaatan Kebijakan (PBK/SRG/PLK)", sat:"Nilai", target:"63", real:"70,18", cap:111.40},
+  {keg:"3761", ind:"Penyelesaian Perselisihan PBK sesuai SLA", sat:"%", target:"90", real:"90,69", cap:100.77},
+  {keg:"3761", ind:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum", sat:"Nilai", target:"81", real:"94,5", cap:116.67},
+  {keg:"3762", ind:"Rekomendasi Kebijakan PBK yang ditindaklanjuti", sat:"%", target:"75", real:"83,33", cap:111.11},
+  {keg:"3762", ind:"Pertumbuhan Pengguna Layanan Informasi PBK", sat:"%", target:"10", real:"10,64", cap:106.4},
+  {keg:"3762", ind:"Pertumbuhan Pelaku PBK", sat:"%", target:"3", real:"3,67", cap:122.33},
+  {keg:"3762", ind:"Indeks Kepuasan Layanan Perizinan PBK", sat:"Nilai", target:"80", real:"92,53", cap:115.66},
+  {keg:"3762", ind:"% Peserta Bimtek PBK yang meningkat pemahaman", sat:"%", target:"80", real:"84", cap:105},
+];
+const capIKP2025 = (id)=>CAPAIAN_IKP_2025.find(x=>x.id===id);
+
+/* Panel capaian kinerja TA 2025 (dipakai di menu Capaian saat TA 2025 dipilih). */
+function CapaianKinerja2025(){
+  const unit = (s)=> s==="%"?"%":"";
+  const KEG = {"3758":"Dukungan Manajemen","3759":"Pengawasan & Penindakan","3760":"Pembinaan & Pengembangan SRG/PLK","3761":"Kebijakan & Layanan Hukum","3762":"Pembinaan & Pengembangan PBK"};
+  const stI = statusIKP(CAPAIAN_IKS_2025.cap);
+  const tercapaiIKK = CAPAIAN_IKK_2025.filter(r=>r.cap>=100).length;
+  return (
+    <div className="card p-5 mb-6" style={{borderLeft:"3px solid var(--violet)"}}>
+      <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Capaian Kinerja TA 2025 · IKS · IKP · IKK</div>
+      <div className="serif text-xl mt-1">Realisasi Indikator Kinerja Tahun 2025</div>
+      <div className="text-[11px] text-[var(--text-3)] mt-1 mb-4">Sumber: {CAPAIAN_2025_SUMBER}. Capaian = realisasi ÷ target × 100%.</div>
+
+      <div className="grid grid-cols-2 md:grid-cols-7 gap-3 mb-5">
+        <div className="card-2 p-3" style={{borderTop:"3px solid var(--amber)"}}>
+          <div className="mono text-[10px] font-semibold" style={{color:"var(--amber)"}}>IKS 1.3</div>
+          <div className="text-[10.5px] text-[var(--text-2)] leading-snug mt-1 min-h-[28px]">{CAPAIAN_IKS_2025.nama}</div>
+          <div className="serif text-xl mt-1" style={{color:stI.color}}>{CAPAIAN_IKS_2025.real}%</div>
+          <div className="text-[10px] text-[var(--text-3)]">target {CAPAIAN_IKS_2025.target}% · <b style={{color:stI.color}}>{fmtN(CAPAIAN_IKS_2025.cap)}%</b></div>
+        </div>
+        {CAPAIAN_IKP_2025.map(r=>{ const ik=getIKSS(r.id); const st=statusIKP(r.cap); return (
+          <div key={r.id} className="card-2 p-3" style={{borderTop:`3px solid ${st.color}`}}>
+            <div className="mono text-[10px] font-semibold">{r.id}</div>
+            <div className="text-[10.5px] text-[var(--text-2)] leading-snug mt-1 min-h-[28px]" title={ik?ik.nama:""}>{ik?ik.nama:""}</div>
+            <div className="serif text-xl mt-1" style={{color:st.color}}>{r.real}{unit(r.sat)}</div>
+            <div className="text-[10px] text-[var(--text-3)]">target {r.target}{unit(r.sat)} · <b style={{color:st.color}}>{fmtN(r.cap)}%</b></div>
+          </div>);})}
+      </div>
+
+      <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Indikator Kinerja Kegiatan (IKK) TA 2025</div>
+        <span className="text-[10px] mono text-[var(--text-3)]">{tercapaiIKK} dari {CAPAIAN_IKK_2025.length} IKK mencapai/melampaui target</span>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-[11.5px]" style={{borderCollapse:"collapse"}}>
+          <thead><tr className="text-[9.5px] mono uppercase text-[var(--text-3)]" style={{borderBottom:"1px solid var(--border)"}}>
+            <th className="text-left py-1.5 pr-2">Kegiatan</th><th className="text-left py-1.5 pr-2">Indikator</th><th className="text-right py-1.5 px-2">Target</th><th className="text-right py-1.5 px-2">Realisasi</th><th className="text-right py-1.5 pl-2">Capaian</th>
+          </tr></thead>
+          <tbody>{CAPAIAN_IKK_2025.map((r,i)=>{ const st=statusIKP(r.cap); return (
+            <tr key={i} style={{borderBottom:"1px solid var(--border)"}} className="align-top">
+              <td className="py-1.5 pr-2 whitespace-nowrap"><span className="pill pill-muted mono text-[9px]">{r.keg}</span> <span className="text-[10px] text-[var(--text-3)]">{KEG[r.keg]}</span></td>
+              <td className="py-1.5 pr-2 text-[var(--text-2)]">{r.ind}{r.ket && <div className="text-[10px] text-[var(--text-3)] italic">{r.ket}</div>}</td>
+              <td className="py-1.5 px-2 text-right mono text-[var(--text-3)]">{r.target}{unit(r.sat)}</td>
+              <td className="py-1.5 px-2 text-right mono">{r.real}{unit(r.sat)}</td>
+              <td className="py-1.5 pl-2 text-right mono" style={{color:st.color}}>{fmtN(r.cap)}%</td>
+            </tr>);})}</tbody>
+        </table>
+      </div>
+      <div className="text-[10.5px] text-[var(--text-2)] mt-3 leading-relaxed">
+        <b>Catatan:</b> seluruh IKP Sasaran Program 1 tercapai; IKS 1.3 (14,14% dari target 17%) dan dua IKP Sasaran Program 2 — Indeks Penilaian Integritas (69,79 dari 74,5) dan Nilai SAKIP (81,96 dari 82,25) — di bawah target. Pertumbuhan pelaku PLK (17,96%) jauh melampaui target 5%, ikut mengangkat IKP-1 menjadi 9,07%.
+      </div>
+    </div>
+  );
 }
 
 /* Panel Metodologi — ditampilkan di menu Pohon Kinerja. */
@@ -3029,13 +3120,13 @@ function PanelRumusIKSIKP(){
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
             <div>
               <div className="flex items-center justify-between mb-1"><span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">TA 2025</span>
-                <span className="mono text-[11px]">target {ISS_KMD.t[2025]} · realisasi <b>—</b></span></div>
-              <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Capaian TA 2025 <b>mengikuti angka yang sudah dilaporkan sebelumnya</b> — tidak dihitung ulang dengan rumus ini. Realisasi IKS 2025 belum tercatat di dashboard. Rumus Renstra diterapkan mulai <b>TA 2026</b>.</div>
+                <span className="mono text-[11px]">target {ISS_KMD.t[2025]} · realisasi <b>{CAPAIAN_IKS_2025.real}%</b> · capaian <b>{fmtN(CAPAIAN_IKS_2025.cap)}%</b></span></div>
+              <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Realisasi IKS TA 2025 <b>{CAPAIAN_IKS_2025.real}%</b> dari target {CAPAIAN_IKS_2025.target}% (capaian {fmtN(CAPAIAN_IKS_2025.cap)}%) — mengikuti angka yang dilaporkan pada <i>{CAPAIAN_2025_SUMBER}</i>, tidak dihitung ulang dengan rumus ini. Rumus Renstra diterapkan mulai <b>TA 2026</b>.</div>
             </div>
             <div>
               <div className="flex items-center justify-between mb-1"><span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">TA 2026 — indikatif (disetahunkan)</span>
                 <button onClick={()=>setShowIKS26(v=>!v)} className="text-[10px] mono text-[var(--gold)] hover:underline">{showIKS26?"sembunyikan":"tampilkan"}</button></div>
-              {showIKS26 ? <IKSRows d={iks.y26}/> : <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Data 2026 belum setahun penuh (PBK s.d. Juli, SRG s.d. 30 September, PLK s.d. September). Nilai disetahunkan secara linear hanya sebagai indikasi arah — <b>bukan realisasi</b>; IKS resmi dihitung setelah data Desember tersedia. Hasil indikatif: <b style={{color:iks.y26.val>=0?"var(--emerald)":"var(--red)"}}>{iks.y26.val==null?"—":fmtN(iks.y26.val)+"%"}</b> vs target {ISS_KMD.t[2026]}.</div>}
+              {showIKS26 ? <IKSRows d={iks.y26}/> : <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Data 2026 belum setahun penuh (PBK s.d. Agustus, SRG s.d. 20 Oktober, PLK s.d. September). Nilai disetahunkan secara linear hanya sebagai indikasi arah — <b>bukan realisasi</b>; IKS resmi dihitung setelah data Desember tersedia. Hasil indikatif: <b style={{color:iks.y26.val>=0?"var(--emerald)":"var(--red)"}}>{iks.y26.val==null?"—":fmtN(iks.y26.val)+"%"}</b> vs target {ISS_KMD.t[2026]}.</div>}
             </div>
           </div>
         </div>
@@ -3053,7 +3144,7 @@ function PanelRumusIKSIKP(){
                 <div className="text-right shrink-0">
                   <div className="serif text-2xl" style={{color:st.color}}>{h.real==null?"—":fmtN(h.real)+(h.satuan==="%"?"%":"")}</div>
                   <div className="text-[9.5px] mono text-[var(--text-3)]">target {ik?ik.target:"—"} · {h.cap==null?"—":fmtN(h.cap)+"%"}</div>
-                  {ik && ik.baseline && ik.baseline!=="-" && <div className="text-[9.5px] mono text-[var(--text-3)]" title="Capaian TA 2025 mengikuti angka sebelumnya (kolom Baseline), tidak dihitung ulang">2025: {ik.baseline}</div>}
+                  {capIKP2025(rm.id) && <div className="text-[9.5px] mono text-[var(--text-3)]" title={CAPAIAN_2025_SUMBER}>2025: {capIKP2025(rm.id).real}{capIKP2025(rm.id).sat==="%"?"%":""} ({fmtN(capIKP2025(rm.id).cap)}%)</div>}
                 </div>
               </div>
               <div className="mono text-[11.5px] p-2 rounded mt-2" style={{background:"rgba(124,58,237,0.06)"}}>{rm.rumus}</div>
@@ -3075,7 +3166,7 @@ function PanelRumusIKSIKP(){
             </div>);})}
         </div>
         <div className="text-[10.5px] text-[var(--text-3)] mt-4 leading-relaxed">
-          <b>TA 2025:</b> capaian IKP mengikuti angka sebelumnya (kolom Baseline pada Pohon Kinerja: ISP-1 −5,75%; ISP-2 6,3%; ISP-3 75,36%; ISP-4 88,28; ISP-5 74,34; ISP-6 82,56) dan IKS 2025 tidak dihitung ulang; rumus Renstra dipakai mulai TA 2026.
+          <b>TA 2025:</b> capaian mengikuti Bahan Penyesuaian Target IK 2027 — IKS 14,14%; ISP-1 9,07%; ISP-2 7,96%; ISP-3 81,21%; ISP-4 89,71; ISP-5 (IPI) 69,79; ISP-6 (SAKIP) 81,96 — tidak dihitung ulang; rumus Renstra dipakai mulai TA 2026.
           Interpretasi: T<sub>t</sub> dan P<sub>t</sub> dalam Renstra adalah komposit tertimbang dari pertumbuhan komponen. Dengan setiap komponen dinyatakan sebagai indeks terhadap tahun dasarnya sendiri, pertumbuhan komposit sama dengan rata-rata tertimbang pertumbuhan komponen — cara ini yang dipakai di dashboard. Capaian = realisasi ÷ target tahunan × 100%. Status: ≥100% Tercapai · ≥90% On Track · ≥70% At Risk · &lt;70% Behind.
         </div>
       </>)}
@@ -3210,6 +3301,11 @@ function PohonKinerja(){
                           <div className="text-[10px] text-[var(--text-3)]">Baseline</div>
                           <div className="text-xs mono text-[var(--text-2)]">{i.baseline}</div>
                         </div>
+                        {year===2025 && capIKP2025(i.id) && (()=>{ const c=capIKP2025(i.id); const st=statusIKP(c.cap); return (
+                        <div className="text-right">
+                          <div className="text-[10px] text-[var(--text-3)]">Realisasi 2025</div>
+                          <div className="text-xs mono" style={{color:st.color}}>{c.real}{c.sat==="%"?"%":""} · {fmtN(c.cap,1)}%</div>
+                        </div>);})()}
                       </div>
                     ))}
                   </div>
@@ -4528,49 +4624,155 @@ function IndonesiaChoropleth({year, metrics}){
   );
 }
 
+/* Ringkasan Eksekutif selalu menampilkan TAHUN BERJALAN — tidak ikut pemilih tahun di header. */
+const TAHUN_BERJALAN = 2026;
 function ExecutiveSummary({year}){
-  const srg = RESI_GUDANG_TAHUNAN.filter(d=>Number(d.th)<=year).reduce((a,d)=>({rg:a.rg+d.rg,nilai:a.nilai+d.nilai,biaya:a.biaya+d.nilaiBiaya}),{rg:0,nilai:0,biaya:0});
+  /* Ringkasan Eksekutif — berdiri di luar menu. Disusun mengikuti kerangka kinerja Renstra:
+     IKS 1.3 (Pertumbuhan Transaksi PBK 20% · SRG 45% · PLK 35%) dan IKP-1..IKP-4.
+     2025 = angka sebelumnya (baseline, tidak dihitung ulang); 2026 = rumus Renstra (IKP dari IKK TW III,
+     IKS indikatif disetahunkan); 2027+ = target, realisasi belum ada. */
+  const [open,setOpen] = React.useState(true);
+  const iks = hitungIKS();
+  const ikp = hitungIKP(CAPAIAN_IKK_TW3);
+  const is26 = year===2026, is25 = year<=2025;
+  const tgtYear = (ik)=> is26 ? ik.target : ((ik.t&&ik.t[year]) || ik.target);
+  const pctTxt = (v,d=2)=> v==null?"—":(v>=0?"+":"")+fmtN(v,d)+"%";
+  const gcol = (v)=> v==null?"var(--text-3)":v>=0?"var(--emerald)":"var(--red)";
+
+  /* ---- Kartu kerangka kinerja: IKS + IKP-1..4 ---- */
+  const iksTarget = ISS_KMD.t[year] || "—";
+  const iksCard = is26
+    ? {kode:"IKS 1.3", nama:"Pertumbuhan Transaksi PBK, SRG, PLK", real:pctTxt(iks.y26.val), target:iksTarget, cap:iks.y26.cap, note:"indikatif — disetahunkan, bukan realisasi"}
+    : is25 ? {kode:"IKS 1.3", nama:"Pertumbuhan Transaksi PBK, SRG, PLK", real:CAPAIAN_IKS_2025.real+"%", target:CAPAIAN_IKS_2025.target+"%", cap:CAPAIAN_IKS_2025.cap, note:"realisasi TA 2025"}
+    : {kode:"IKS 1.3", nama:"Pertumbuhan Transaksi PBK, SRG, PLK", real:"—", target:iksTarget, cap:null, note:"realisasi belum tersedia"};
+  const ikpCards = ["ISP-1","ISP-2","ISP-3","ISP-4"].map((id,i)=>{
+    const ik = getIKSS(id); const h = ikp[id];
+    const pendek = ["Pertumbuhan pelaku PBK & PLK","Pertumbuhan gudang SRG","Kepatuhan & penegakan hukum","Indeks kepuasan layanan"][i];
+    const unit = h.satuan==="%"?"%":"";
+    if(is26) return {kode:`IKP-${i+1}`, nama:pendek, real:h.real==null?"—":fmtN(h.real)+unit, target:ik.target, cap:h.cap, note:h.proksi?"TW III · data sementara":"TW III · rumus Renstra"};
+    if(is25){ const c=capIKP2025(id); return {kode:`IKP-${i+1}`, nama:pendek, real:c.real+(c.sat==="%"?"%":""), target:c.target+(c.sat==="%"?"%":""), cap:c.cap, note:"realisasi TA 2025"}; }
+    return {kode:`IKP-${i+1}`, nama:pendek, real:"—", target:tgtYear(ik), cap:null, note:"target TA "+year};
+  });
+  const KCard = ({c,accent})=>{ const st=statusIKP(c.cap); return (
+    <div className="card-2 p-3" style={{borderTop:`3px solid ${accent||st.color}`}}>
+      <div className="flex items-center justify-between gap-1">
+        <span className="mono text-[10px] font-semibold" style={{color:accent||"var(--text-2)"}}>{c.kode}</span>
+        {c.cap!=null && <span className="text-[9px] mono px-1.5 rounded" style={{background:st.color+"1a",color:st.color}}>{st.label}</span>}
+      </div>
+      <div className="text-[11px] text-[var(--text-2)] leading-snug mt-1 min-h-[28px]">{c.nama}</div>
+      <div className="serif text-2xl mt-1" style={{color:c.cap!=null?st.color:"var(--text)"}}>{c.real}</div>
+      <div className="text-[10px] text-[var(--text-3)] mt-0.5">target {c.target}{c.cap!=null && <> · capaian <b style={{color:st.color}}>{c.cap<0?"< 0%":fmtN(c.cap,1)+"%"}</b></>}</div>
+      <div className="text-[9px] text-[var(--text-3)] italic mt-0.5">{c.note}</div>
+    </div>);};
+
+  /* ---- Data per bidang ---- */
+  const iksRow = (k)=> (is26 ? iks.y26 : iks.y25).rows.find(r=>r.k===k);
+  const ikkR = (nm)=> CAPAIAN_IKK_TW3.find(x=>x.ind===nm);
+  const pbkNow = PBK_NILAI_TRANSAKSI.find(d=>d.th===String(year));
+  const pbkVol = PBK_VOL_TRANSAKSI.find(d=>d.th===String(year));
+  const srgAll = RESI_GUDANG_TAHUNAN.filter(d=>Number(d.th)<=year).reduce((a,d)=>({rg:a.rg+d.rg,nilai:a.nilai+d.nilai}),{rg:0,nilai:0});
+  const srgNow = RESI_GUDANG_TAHUNAN.find(d=>d.th===String(year));
   const totalGudang = GUDANG.length, aktif = GUDANG.filter(g=>g.st==='aktif').length;
-  const provArr = year<=2025?PENERBITAN_PROV_2025:PENERBITAN_PROV;
-  const komArr  = year<=2025?PENERBITAN_KOM_2025:PENERBITAN_KOM;
-  const topProv = [...provArr].sort((a,b)=>b.nilai-a.nilai)[0];
-  const topKom  = [...komArr].sort((a,b)=>b.nilai-a.nilai)[0];
-  const idx = PLK_TRANSAKSI.findIndex(d=>d.th===String(year));
-  const plk = idx>=0?PLK_TRANSAKSI[idx]:null, plkPrev = idx>0?PLK_TRANSAKSI[idx-1]:null;
-  const plkYoY = (plk&&plkPrev)?((plk.nilai/plkPrev.nilai-1)*100):null;
-  const fmtMil = n => "Rp "+String(n).replace(".",",")+" M";
-  const tgt = META.ssKemendag.t[year];
-  const kpis = [
-    {l:"Resi Gudang (kumulatif)", v:fmtNumRG(srg.rg), s:`s.d. ${Math.min(year,2026)}`, c:"#a16207"},
-    {l:"Nilai Penerbitan SRG", v:fmtRpRG(srg.nilai), s:`pembiayaan ${fmtRpRG(srg.biaya)}`, c:"#059669"},
-    {l:"Gudang SRG", v:`${aktif}/${totalGudang}`, s:"aktif / total", c:"#ca8a04"},
-    {l:`Transaksi PLK TA ${year}`, v:plk?fmtMil(plk.nilai):"—", s:plk?(plk.p?"s.d. September":(plkYoY!=null?`${plkYoY>=0?"▲":"▼"} ${Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY`:"")):"belum tersedia", c:"#409B56", trend:plk&&!plk.p&&plkYoY!=null?(plkYoY>=0?"up":"down"):null},
+  const komArr = year<=2025?PENERBITAN_KOM_2025:PENERBITAN_KOM;
+  const topKom = [...komArr].sort((a,b)=>b.nilai-a.nilai)[0];
+  const plkNow = PLK_TRANSAKSI.find(d=>d.th===String(year));
+  const fmtT = (n)=> "Rp "+n.toLocaleString('id-ID',{maximumFractionDigits:2})+" T";
+  const fmtM = (n)=> "Rp "+n.toLocaleString('id-ID',{maximumFractionDigits:1})+" M";
+
+  const bidang = [
+    { k:"PBK", judul:"Perdagangan Berjangka Komoditi", warna:"#2563eb", bobot:"20%",
+      transaksi: pbkNow ? fmtT(pbkNow.nilai) : "belum tersedia", periode: pbkNow&&pbkNow.p ? "s.d. "+PBK_UPDATE : null,
+      tambahan: is26 ? `YoY periode sama: ${pctTxt(PBK_YOY_2026.nilai)} nilai · ${pctTxt(PBK_YOY_2026.volume)} volume` : null,
+      ikp: [
+        {l:"IKP-1 · Pertumbuhan pelaku PBK (bobot 50%)", r:ikkR(IKK_NM.pelakuPBK)},
+        {l:"IKP-4 · Indeks kepuasan perizinan PBK", r:ikkR(IKK_NM.izinPBK)},
+        {l:"IKP-4 · Penyelesaian perselisihan PBK sesuai SLA", r:ikkR("Penyelesaian Perselisihan PBK sesuai SLA")},
+      ],
+      fakta: [
+        pbkVol && `Volume ${(pbkVol.total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} juta lot`,
+        is26 && `Emas digital ${pctTxt(PBK_YOY_2026.emasNilai,1)} · REC ${pctTxt(PBK_YOY_2026.recNilai,1)} · CPO ${pctTxt(PBK_YOY_2026.cpoNilai,1)} (nilai YoY)`,
+        `${PBK_KELEMBAGAAN.pialang} pialang · ${PBK_KELEMBAGAAN.bursa} bursa · ${PBK_KELEMBAGAAN.kliring} kliring (per ${PBK_KELEMBAGAAN.per})`,
+        "Transaksi BMKS beralih ke OJK mulai 1 Jan 2027 (POJK 15 & 16/2026)",
+      ].filter(Boolean) },
+    { k:"SRG", judul:"Sistem Resi Gudang", warna:"#a16207", bobot:"45%",
+      transaksi: srgNow ? `${fmtRpRG(srgNow.nilai)} · ${fmtNumRG(srgNow.rg)} RG` : "belum tersedia", periode: srgNow&&year===2026 ? "s.d. "+RG_CUTOFF_2026 : null,
+      tambahan: `Kumulatif s.d. ${Math.min(year,2026)}: ${fmtNumRG(srgAll.rg)} RG · ${fmtRpRG(srgAll.nilai)}`,
+      ikp: [
+        {l:"IKP-2 · Pertumbuhan pengelola gudang SRG (sementara)", r:ikkR(IKK_NM.pengelolaGudang)},
+        {l:"IKP-4 · Indeks kepuasan perizinan SRG/PLK", r:ikkR(IKK_NM.izinSRGPLK)},
+        {l:"Bimtek SRG/PLK — peserta meningkat pemahaman", r:ikkR("% peserta Bimtek SRG/PLK yang meningkat pemahaman")},
+      ],
+      fakta: [
+        `${totalGudang} gudang SRG (${aktif} aktif)`,
+        topKom && `Komoditas nilai terbesar: ${topKom.key}`,
+        "SRG tetap di Kemendag; unit pengelola dalam reposisi (ND BKPerdag 28 Sep 2026)",
+      ].filter(Boolean) },
+    { k:"PLK", judul:"Pasar Lelang Komoditas", warna:"#409B56", bobot:"35%",
+      transaksi: plkNow ? fmtM(plkNow.nilai) : "belum tersedia", periode: plkNow&&plkNow.p ? "s.d. September 2026" : null,
+      tambahan: `${PLK_DAERAH.length} daerah penyelenggara · komoditas dominan Karet`,
+      ikp: [
+        {l:"IKP-1 · Pertumbuhan pelaku PLK (bobot 50%)", r:ikkR(IKK_NM.pelakuPLK)},
+        {l:"IKP-4 · Indeks kepuasan perizinan SRG/PLK", r:ikkR(IKK_NM.izinSRGPLK)},
+        {l:"Rekomendasi kebijakan SRG/PLK ditindaklanjuti", r:ikkR("Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti")},
+      ],
+      fakta: [
+        year===2026 && "TA 2026 PLK tidak dianggarkan — bertumpu pada penyelenggara mandiri (Riau & swasta)",
+        "PLK tetap di Kemendag; unit pengelola dalam reposisi",
+      ].filter(Boolean) },
   ];
+
   return (
     <div className="max-w-[1400px] mx-auto px-8 pt-6">
       <div className="card p-5" style={{borderColor:"var(--gold-soft)"}}>
-        <div className="flex items-center gap-2 mb-3 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="pill pill-gold mono text-[10px]">RINGKASAN EKSEKUTIF</span>
-          <span className="serif text-xl">Ringkasan Kinerja Nasional — TA {year}</span>
-          <span className="text-[10px] mono text-[var(--text-3)] ml-auto">PBK · SRG · PLK</span>
+          <span className="serif text-xl">Kinerja Bappebti — TA {year}</span>
+          <span className="pill text-[9px] mono" style={{background:"rgba(5,150,105,0.1)",color:"var(--emerald)",borderColor:"transparent"}}>TAHUN BERJALAN · IKK TW III · data s.d. {RG_CUTOFF_2026}</span>
+          <span className="text-[10px] mono text-[var(--text-3)]">menurut IKS &amp; IKP Renstra 2025–2029 · PBK · SRG · PLK</span>
+          <button onClick={()=>setOpen(v=>!v)} className="ml-auto px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition no-print">{open?"▾ Ringkas":"▸ Buka"}</button>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          {kpis.map((k,i)=>(
-            <div key={i} className="card-2 p-4">
-              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{k.l}</div>
-              <div className="serif text-2xl mt-1.5" style={{color:k.c}}>{k.v}</div>
-              <div className="text-[10px] mt-1" style={{color:k.trend==="up"?"#059669":k.trend==="down"?"#dc2626":"var(--text-3)"}}>{k.s}</div>
-            </div>
-          ))}
+
+        {open && (<>
+        {/* Kerangka kinerja */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-4 mb-2">Indikator Kinerja Sasaran (Kemendag) &amp; Indikator Kinerja Program (Bappebti)</div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <KCard c={iksCard} accent="var(--amber)" />
+          {ikpCards.map(c=><KCard key={c.kode} c={c} />)}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 text-[12px] text-[var(--text-2)]">
-          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#a16207"}}></span><span>Sistem Resi Gudang: <b>{totalGudang}</b> gudang (<b>{aktif}</b> aktif); <b>{fmtNumRG(srg.rg)}</b> resi diterbitkan kumulatif s.d. {Math.min(year,2026)} senilai <b>{fmtRpRG(srg.nilai)}</b>.</span></div>
-          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#059669"}}></span><span>Provinsi penyumbang penerbitan terbesar: <b>{topProv?topProv.key:"—"}</b> ({topProv?fmtRpRG(topProv.nilai):"—"}); komoditas nilai terbesar: <b>{topKom?topKom.key:"—"}</b>.</span></div>
-          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>Pasar Lelang Komoditas TA {year}: {plk?<><b>{fmtMil(plk.nilai)}</b>{plk.p?" (s.d. September)":""}{plkYoY!=null&&!plk.p?<>, {plkYoY>=0?"naik":"turun"} {Math.abs(plkYoY).toFixed(1).replace(".",",")}% YoY</>:""}</>:<b>belum tersedia</b>}; {PLK_DAERAH.length} daerah penyelenggara; komoditas dominan Karet.</span></div>
-          <div className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#7c3aed"}}></span><span>Sasaran Kemendag <b>SS1 · IKS 1.3</b> (pertumbuhan transaksi PBK/SRG/PLK): target TA {year} <b>{tgt?tgt+"%":"—"}</b>.</span></div>
+
+        {/* Per bidang */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-5 mb-2">Kontribusi per Bidang terhadap IKS &amp; IKP</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {bidang.map(b=>{ const r=iksRow(b.k); return (
+            <div key={b.k} className="card-2 p-4" style={{borderTop:`3px solid ${b.warna}`}}>
+              <div className="flex items-center justify-between gap-2">
+                <div><span className="mono text-[11px] font-bold" style={{color:b.warna}}>{b.k}</span> <span className="text-[12px] font-medium">{b.judul}</span></div>
+                <span className="pill text-[9px] mono" style={{background:b.warna+"1a",color:b.warna,borderColor:"transparent"}}>bobot IKS {b.bobot}</span>
+              </div>
+              <div className="mt-3 text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai transaksi TA {year}{b.periode && <span className="normal-case"> · {b.periode}</span>}</div>
+              <div className="serif text-xl" style={{color:b.warna}}>{b.transaksi}</div>
+              {(is26||is25) && r && <div className="text-[11px] mt-0.5">Pertumbuhan komponen IKS: <b style={{color:gcol(r.g)}}>{pctTxt(r.g)}</b> <span className="text-[var(--text-3)]">{is26?`(disetahunkan, ${r.per}) · sumbangan ${pctTxt(r.g==null?null:r.g*r.w)}`:"(vs 2024)"}</span></div>}
+              {b.tambahan && <div className="text-[10.5px] text-[var(--text-3)] mt-0.5">{b.tambahan}</div>}
+              <div className="mt-3 space-y-1">
+                {is26 && <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Komponen IKP (IKK TW III · realisasi / target)</div>}
+                {is26 && b.ikp.map((x,i)=> x.r && (
+                  <div key={i} className="flex items-center justify-between gap-2 text-[11px] border-t border-[var(--border)] pt-1">
+                    <span className="text-[var(--text-2)] leading-snug">{x.l}</span>
+                    <span className="mono shrink-0" style={{color:statusIKP(x.r.cap).color}}>{x.r.real}{x.r.sat==="%"?"%":""}<span className="text-[var(--text-3)]"> / {x.r.target}{x.r.sat==="%"?"%":""}</span></span>
+                  </div>))}
+                {!is26 && <div className="text-[10.5px] text-[var(--text-3)] italic border-t border-[var(--border)] pt-1">Komponen IKP: {b.ikp.filter(x=>x.l.startsWith("IKP")).map(x=>x.l.split(" · ")[0]).filter((v,i,a)=>a.indexOf(v)===i).join(", ")} — {is25?"TA 2025 mengikuti angka yang dilaporkan sebelumnya (baseline)":`realisasi TA ${year} belum tersedia`}.</div>}
+              </div>
+              <ul className="mt-3 text-[11px] text-[var(--text-2)] list-disc pl-4 leading-relaxed">
+                {b.fakta.map((f,i)=><li key={i}>{f}</li>)}
+              </ul>
+            </div>);})}
         </div>
-        {year===2026 && <div className="text-[10px] text-[var(--text-3)] mt-3 italic" style={{color:"#b45309"}}>Catatan TA 2026: kegiatan PLK tidak dianggarkan Kemendag — penyelenggaraan bertumpu pada penyelenggara mandiri (Riau & swasta murni). Lihat menu PLK.</div>}
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Ringkasan disusun otomatis dari data dashboard (year-aware); angka SRG/PLK mengikuti Tahun Anggaran. Bukan capaian resmi final.</div>
+
+        <div className="text-[10.5px] text-[var(--text-2)] mt-3 leading-relaxed">
+          <b>IKP-3</b> (kepatuhan &amp; penegakan hukum) dan <b>IKP-4</b> (kepuasan layanan) bersifat lintas bidang PBK/SRG/PLK; IKP-1 = 50% pelaku PBK + 50% pelaku PLK; IKS 1.3 = 20% PBK + 45% SRG + 35% PLK. Rincian rumus di menu <b>Pohon Kinerja</b>, rincian capaian di menu <b>Capaian</b>.
+        </div>
+        </>)}
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Selalu menampilkan data tahun berjalan (tidak mengikuti pemilih tahun). {is26?"IKS 2026 indikatif (data belum setahun penuh, disetahunkan linear); IKP dari matriks IKK TW III. ":""}Bukan capaian resmi final.</div>
       </div>
     </div>
   );
@@ -5480,6 +5682,8 @@ function Capaian(){
             <span className="pill pill-blue mono text-[10px]">TA 2025 · REALISASI</span>
             <span className="text-xs text-[var(--text-3)]">Tahun anggaran berakhir — realisasi s/d Desember 2025 (sumber: SAKTI · Laporan Ketersediaan Dana Detail). Pagu valid: RKAKL Rev.9.</span>
           </div>
+
+          <CapaianKinerja2025 />
 
           {/* Catatan metodologi efisiensi/blokir */}
           <div className="card p-5 mb-6" style={{borderColor:"var(--gold-soft)",background:"rgba(212,164,55,0.06)"}}>
@@ -8294,8 +8498,8 @@ function App(){
       <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} activeTab={exportKey} theme={theme} setTheme={setTheme} />
       <Hero />
       <MetricStrip />
+      <ExecutiveSummary year={TAHUN_BERJALAN} />
       <Tabs active={tab} onChange={setTab} />
-      {tab==="pohon"   && <ExecutiveSummary year={year} />}
       {tab==="pohon"   && <PohonKinerja />}
       {tab==="sebab"   && <SubTabs active={sebabSub} onChange={setSebabSub} items={[
         {id:"sebab", label:"Sebab — Akibat", sub:"Rantai RO → IKK → IKP · Bottom-up + AI"},
