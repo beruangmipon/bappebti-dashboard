@@ -2273,13 +2273,12 @@ function SubTabs({active,onChange,items}){
 function Tabs({active,onChange}){
   const tabs = [
     {id:"pohon",   label:"Pohon Kinerja",      sub:"Renstra → RKAKL"},
-    {id:"sebab",   label:"Standarisasi Program", sub:"Sebab — Akibat · PN · Pemadanan RO"},
-    {id:"anggaran",label:"Analisis Anggaran",  sub:"Tagging · Penelaahan RO"},
+    {id:"sebab",   label:"Standarisasi Program", sub:"Sebab-Akibat · PN · Tagging · Pemadanan"},
+    {id:"anggaran",label:"Analisis Anggaran",  sub:"Pagu · Penelaahan RO · SPBE"},
     {id:"capaian", label:"Capaian",            sub:"Target vs Realisasi"},
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang · PSN SRG"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
-    {id:"spbe",    label:"SPBE",               sub:"Clearance TIK"},
   ];
   return (
     <nav className="max-w-[1400px] mx-auto px-8 border-b border-[var(--border)] sticky top-[69px] bg-[var(--bg)]/95 backdrop-blur-md z-10">
@@ -5693,65 +5692,45 @@ function MenuSPBE(){
 /* ======================================================================== */
 /* TAB — ANALISIS ANGGARAN TA 2027 (RANWAL)                                 */
 /* ======================================================================== */
-function AnalisisAnggaran2027(){
+
+/* ======================================================================== */
+/* TAGGING RO — dipindahkan dari Analisis Anggaran ke Standarisasi Program   */
+/* (Identifikasi PKPN Klaster + Tagging Tematik Resmi Ketelusuran)           */
+/* ======================================================================== */
+function MenuTaggingRO(){
   const year = useYear();
   if(year!==2027 && year!==2026){
     return (
       <div className="max-w-[1400px] mx-auto px-8 py-16 text-center">
-        <div className="serif text-xl mb-2">Analisis Anggaran tersedia untuk TA 2026 & 2027</div>
-        <div className="text-sm text-[var(--text-3)]">Pilih <b>TA 2026</b> atau <b>TA 2027</b> pada pemilih tahun di header untuk menampilkan tagging tematik & penelaahan tiap RO.</div>
+        <div className="serif text-xl mb-2">Tagging RO tersedia untuk TA 2026 & 2027</div>
+        <div className="text-sm text-[var(--text-3)]">Pilih <b>TA 2026</b> atau <b>TA 2027</b> pada pemilih tahun di header untuk menampilkan tagging PKPN & tematik tiap RO.</div>
       </div>
     );
   }
   const isRanwal = year===2027;
-  /* Untuk TA 2027, seluruh tab ini (verdict, tagging tematik, PKPN, kontinuitas, tabel per-kegiatan,
-     AI insight) berbasis Pagu Anggaran resmi (KRISNA Rekap 3A) — bukan lagi usulan RANWAL. Kode RO
-     pada Pagu Anggaran sudah konsisten dengan nomenklatur RO TA 2026 (mis. PBB.G01, BDB.001), sehingga
-     KRO-lookup untuk tagging tematik/PKPN dan perbandingan kontinuitas dapat dipakai langsung. */
   const ros = isRanwal
     ? RO_PAGU_ANGGARAN_2027.map(r=>({...r, tel:penelaahan2027(r)}))
     : roForYear(year).map(r=>({...r, tel:penelaahan2027(r), keg:(getKRO(r.kro)||{}).kegiatan}));
-  const total = ros.reduce((s,r)=>s+r.anggaran,0);
   const sumOf = (arr)=> arr.reduce((s,r)=>s+r.anggaran,0);
-  /* Status inisiatif RO: basis Pagu Anggaran resmi (kode selaras RO TA 2026) saat isRanwal,
-     atau RANWAL/RO tahun lain seperti semula. */
-  const getIni = (r)=>{
-    if(isRanwal){
-      const has2026v = !!targetForRO({kro:r.kro, kode:r.kode}, 2026);
-      return has2026v ? {label:"Berlanjut", kind:"cont", pill:"pill-blue"} : {label:"Inisiatif Baru", kind:"new", pill:"pill-emerald"};
-    }
-    return inisiatifStatus(r, year);
-  };
-  const [pkpnCandOpen, setPkpnCandOpen] = useState(false); // (panel kandidat PKPN dihapus — masa pengajuan TA 2027 berakhir; state disisakan tanpa efek)
-  const [openKeg, setOpenKeg] = useState(null); // expand/collapse kartu Pagu Anggaran 2027 per Kegiatan
-  const [showSBKK, setShowSBKK] = useState(true); // tampilkan/sembunyikan kartu Usulan SBKK TA 2027
-  const [showPenelaahanBiro, setShowPenelaahanBiro] = useState(true); // tampilkan/sembunyikan tabel penelaahan per Biro/Kegiatan
-  const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
-  const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
   const pnRos = ros.filter(r=>r.isPN);
-  // Ringkasan tagging tematik RESMI (Ketelusuran kolom Y–AD). Satu RO bisa >1 kategori (overlap).
   const TEMATIK_COLORS = {"Logistik Nasional":"#2563eb","KUP":"#7c3aed","Peningkatan UMKM":"#a16207","Swasembada Pangan/Energi/Air":"#059669","Distribusi & Pemasaran Pangan":"#d97706","Digitalisasi UMKM":"#0891b2","Pengendali Inflasi":"#dc2626"};
   const tematikAgg = TEMATIK_LIST.map(key=>{ const arr=ros.filter(r=>r.tel.tags.includes(key)); return {key, warna:TEMATIK_COLORS[key]||"#7c3aed", pill:"pill-violet", n:arr.length, bud:sumOf(arr)}; }).filter(t=>t.n>0);
   const taggedRO = ros.filter(r=>r.tel.tags.length>0); const nonTema = ros.filter(r=>r.tel.tags.length===0);
   const taggedBud = sumOf(taggedRO);
-  const kegOrder = ["K-3758","K-3759","K-3760","K-3761","K-3762"];
-  const kriteria = [
-    {id:"K1", l:"Kesesuaian Target & Kinerja", d:"Rasionalitas besaran anggaran vs volume keluaran riil"},
-    {id:"K2", l:"Kelayakan Komponen Biaya",    d:"Kewajaran harga satuan vs SBM/SBK (proxy presisi & band biaya)"},
-    {id:"K3", l:"Keterkaitan Isu Prioritas",   d:"Dukungan thd agenda/tematik (PN Hilirisasi, Ketahanan Pangan, dsb.)"},
-    {id:"K4", l:"Kesiapan Pelaksanaan",        d:"Status blokir & kesiapan teknis (a.l. clearance SPBE)"},
-    {id:"K5", l:"Kepatuhan Regulasi",          d:"Kesesuaian jenis belanja (pegawai/barang/modal) dgn tusi & pagu"},
-  ];
-  const avgK = (k)=> Math.round(ros.reduce((s,r)=>s+r.tel[k],0)/ros.length);
-  const ctx = isRanwal ? "Pagu Anggaran resmi TA 2027 (KRISNA Rekap 3A)" : "belanja TA 2026 (RKAKL Rev.5, realisasi berjalan)";
-  const sbkkRosForPrompt = ros.filter(r=>SBKK_2026[r.id]);
-  const sbkkClause = (!isRanwal && sbkkRosForPrompt.length) ? `\n\nKepatuhan SBKK resmi TA 2026 (sumber: Rekapitulasi SBK Kemendag Satker 090.07, ${sbkkRosForPrompt.length} RO bertarif resmi): ${sbkkRosForPrompt.map(r=>`${r.kode} ${r.tel.sbkk.pct}% dari SBKK`).join('; ')}. Seluruhnya berada pada atau di bawah tarif SBK resmi.` : '';
-  const aiPrompt = `Anda penelaah RKA-K/L (DJA/Bappenas) untuk Bappebti, Kemendag. Berikan telaah (maks 7 paragraf, Bahasa Indonesia formal, prosa tanpa bullet) atas ${ctx} per Rincian Output (RO), dinilai dengan 5 kriteria penelaahan (termasuk K3 keterkaitan isu prioritas/budget tagging).\n\nTotal pagu TA ${year}: ${fmtRp(total)} pada ${ros.length} RO (${pnRos.length} RO Prioritas Nasional — tema Hilirisasi).\n\nKomposisi tagging tematik: ${tematikAgg.map(t=>`${t.key} ${t.n} RO (${fmtRp(t.bud)})`).join('; ')}.\n\nVerdict kelayakan: Layak ${byV.Layak.length} RO (${fmtRp(sumOf(byV.Layak))}), Layak Bersyarat ${byV["Layak Bersyarat"].length} RO (${fmtRp(sumOf(byV["Layak Bersyarat"]))}), Perlu Telaah ${byV["Perlu Telaah"].length} RO (${fmtRp(sumOf(byV["Perlu Telaah"]))}).\n\nRata-rata skor per kriteria: K1 Kesesuaian Target ${avgK('K1')}; K2 Kelayakan Biaya/SBM ${avgK('K2')}; K3 Isu Prioritas ${avgK('K3')}; K4 Kesiapan ${avgK('K4')}; K5 Kepatuhan ${avgK('K5')}.\n\nRO "Perlu Telaah" berbiaya terbesar:\n${byV["Perlu Telaah"].slice().sort((a,b)=>b.anggaran-a.anggaran).slice(0,8).map(r=>`- ${r.kode} ${r.nama}: ${fmtRp(r.anggaran)} (skor ${r.tel.skor}; K1 ${r.tel.K1}/K2 ${r.tel.K2}/K3 ${r.tel.K3}/K4 ${r.tel.K4}/K5 ${r.tel.K5})`).join('\n')}${sbkkClause}\n\nFokus telaah berurutan sesuai 5 kriteria: 1) Kesesuaian target & kinerja — soroti RO dengan biaya satuan tak rasional atau angka bulat (indikasi top-down). 2) Kelayakan komponen biaya — mana yang perlu recosting ke SBM/SBK TA ${year}. 3) Budget tagging — apakah RO PN benar mendukung Hilirisasi/Ketahanan Pangan; adakah RO yang seharusnya ditagging tematik (mis. ketahanan pangan, transformasi digital). 4) Kesiapan pelaksanaan — RO TIK/sistem (FAB, UAB, integrasi) terkait clearance SPBE. 5) Kepatuhan regulasi — kesesuaian jenis belanja (mayoritas Barang; Modal pada peralatan/sistem; komponen PNBP pada sertifikasi 3762). ${isRanwal?'Tutup dengan rekomendasi penajaman/realokasi berbasis pagu resmi yang sudah ditetapkan.':'Tutup dengan rekomendasi efisiensi & penajaman tagging untuk siklus berikutnya.'}`;
+  const pkpnAll = isRanwal ? ros.filter(r=>pkpnKlaster(r)) : [];
+  const anyTag = ros.filter(r=>r.isPN || r.tel.tags.length>0 || (isRanwal && pkpnKlaster(r)));
   return (
     <div className="max-w-[1400px] mx-auto px-8 py-8">
       <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span className="pill pill-gold mono text-[10px]">TA {year}{isRanwal?' · Pagu Anggaran Resmi':' · RKAKL Rev.5'}</span>
-        <span className="text-xs text-[var(--text-3)]">{isRanwal?'Penelaahan Pagu Anggaran resmi (KRISNA Rekap 3A) tiap RO berdasarkan 5 kriteria penelaahan RKA-K/L.':'Tagging tematik & telaah belanja TA 2026 (RKAKL Rev.5) tiap RO berdasarkan 5 kriteria.'}</span>
+        <span className="text-xs text-[var(--text-3)]">Tagging prioritas tiap RO — PN, PKPN Klaster RKP, dan tematik resmi Ketelusuran RENSTRA–RENJA–RKAKL.</span>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+        <div className="card p-5"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Total RO</div><div className="serif text-4xl mt-2 text-[var(--gold)]">{ros.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{fmtRp(sumOf(ros))}</div></div>
+        <div className="card p-5"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Prioritas Nasional</div><div className="serif text-4xl mt-2" style={{color:"var(--gold)"}}>{pnRos.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{fmtRp(sumOf(pnRos))}</div></div>
+        <div className="card p-5"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO PKPN Klaster</div><div className="serif text-4xl mt-2" style={{color:"#be185d"}}>{isRanwal?pkpnAll.length:"—"}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{isRanwal?fmtRp(sumOf(pkpnAll)):"khusus TA 2027"}</div></div>
+        <div className="card p-5"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Tematik Resmi</div><div className="serif text-4xl mt-2" style={{color:"var(--violet)"}}>{taggedRO.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">{fmtRp(taggedBud)}</div></div>
       </div>
 
       {isRanwal && (()=>{ const pkpnROs = ros.filter(r=>pkpnKlaster(r)); if(pkpnROs.length===0) return null;
@@ -5823,6 +5802,97 @@ function AnalisisAnggaran2027(){
         </div>
         )}
         <div className="text-[9px] text-[var(--text-3)] mt-2">Sumber: KETELUSURAN RENSTRA–RENJA–RKAKL (REV 28-05-2026), kolom TEMATIK — basis TA 2026{isRanwal?', berlaku langsung untuk TA 2027 karena kode RO Pagu Anggaran resmi identik':''}. Satu RO dapat memiliki lebih dari satu kategori (persentase atas dasar pagu RO ber-tagging). RO di luar daftar tidak dianggap tematik.</div>
+      </div>
+
+
+      {/* Daftar RO bertagging */}
+      <div className="card p-5 mb-5 overflow-x-auto">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Daftar RO Bertagging — {anyTag.length} dari {ros.length} RO</div>
+        <table className="w-full text-xs">
+          <thead><tr className="text-left text-[10px] mono uppercase text-[var(--text-3)] border-b border-[var(--border)]">
+            <th className="py-2 pr-2">Kode</th><th className="py-2 px-2">Rincian Output</th><th className="py-2 px-2 text-right">Pagu</th><th className="py-2 px-2">PN</th>{isRanwal && <th className="py-2 px-2">PKPN Klaster</th>}<th className="py-2 pl-2">Tematik</th>
+          </tr></thead>
+          <tbody>
+            {anyTag.map(r=>{ const pk=isRanwal?pkpnKlaster(r):null; return (
+              <tr key={r.id} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-2 mono whitespace-nowrap">{r.kode}</td>
+                <td className="py-2 px-2">{r.nama}</td>
+                <td className="py-2 px-2 text-right mono whitespace-nowrap">{fmtRp(r.anggaran)}</td>
+                <td className="py-2 px-2">{r.isPN?<span className="pill pill-gold text-[9px]">PN</span>:<span className="text-[var(--text-3)]">—</span>}</td>
+                {isRanwal && <td className="py-2 px-2 text-[11px]" style={{color:pk?"#be185d":"var(--text-3)"}}>{pk?pk.klaster:"—"}</td>}
+                <td className="py-2 pl-2">{r.tel.tags.length?<div className="flex flex-wrap gap-1">{r.tel.tags.map(t=><span key={t} className="pill pill-violet text-[9px]">{t}</span>)}</div>:<span className="text-[var(--text-3)]">—</span>}</td>
+              </tr>);})}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function AnalisisAnggaran2027(){
+  const year = useYear();
+  if(year!==2027 && year!==2026){
+    return (
+      <div className="max-w-[1400px] mx-auto px-8 py-16 text-center">
+        <div className="serif text-xl mb-2">Analisis Anggaran tersedia untuk TA 2026 & 2027</div>
+        <div className="text-sm text-[var(--text-3)]">Pilih <b>TA 2026</b> atau <b>TA 2027</b> pada pemilih tahun di header untuk menampilkan tagging tematik & penelaahan tiap RO.</div>
+      </div>
+    );
+  }
+  const isRanwal = year===2027;
+  /* Untuk TA 2027, seluruh tab ini (verdict, tagging tematik, PKPN, kontinuitas, tabel per-kegiatan,
+     AI insight) berbasis Pagu Anggaran resmi (KRISNA Rekap 3A) — bukan lagi usulan RANWAL. Kode RO
+     pada Pagu Anggaran sudah konsisten dengan nomenklatur RO TA 2026 (mis. PBB.G01, BDB.001), sehingga
+     KRO-lookup untuk tagging tematik/PKPN dan perbandingan kontinuitas dapat dipakai langsung. */
+  const ros = isRanwal
+    ? RO_PAGU_ANGGARAN_2027.map(r=>({...r, tel:penelaahan2027(r)}))
+    : roForYear(year).map(r=>({...r, tel:penelaahan2027(r), keg:(getKRO(r.kro)||{}).kegiatan}));
+  const total = ros.reduce((s,r)=>s+r.anggaran,0);
+  const sumOf = (arr)=> arr.reduce((s,r)=>s+r.anggaran,0);
+  /* Status inisiatif RO: basis Pagu Anggaran resmi (kode selaras RO TA 2026) saat isRanwal,
+     atau RANWAL/RO tahun lain seperti semula. */
+  const getIni = (r)=>{
+    if(isRanwal){
+      const has2026v = !!targetForRO({kro:r.kro, kode:r.kode}, 2026);
+      return has2026v ? {label:"Berlanjut", kind:"cont", pill:"pill-blue"} : {label:"Inisiatif Baru", kind:"new", pill:"pill-emerald"};
+    }
+    return inisiatifStatus(r, year);
+  };
+  const [pkpnCandOpen, setPkpnCandOpen] = useState(false); // (panel kandidat PKPN dihapus — masa pengajuan TA 2027 berakhir; state disisakan tanpa efek)
+  const [openKeg, setOpenKeg] = useState(null); // expand/collapse kartu Pagu Anggaran 2027 per Kegiatan
+  const [showSBKK, setShowSBKK] = useState(true); // tampilkan/sembunyikan kartu Usulan SBKK TA 2027
+  const [showPenelaahanBiro, setShowPenelaahanBiro] = useState(true); // tampilkan/sembunyikan tabel penelaahan per Biro/Kegiatan
+  const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
+  const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
+  const pnRos = ros.filter(r=>r.isPN);
+  // Ringkasan tagging tematik RESMI (Ketelusuran kolom Y–AD). Satu RO bisa >1 kategori (overlap).
+  const TEMATIK_COLORS = {"Logistik Nasional":"#2563eb","KUP":"#7c3aed","Peningkatan UMKM":"#a16207","Swasembada Pangan/Energi/Air":"#059669","Distribusi & Pemasaran Pangan":"#d97706","Digitalisasi UMKM":"#0891b2","Pengendali Inflasi":"#dc2626"};
+  const tematikAgg = TEMATIK_LIST.map(key=>{ const arr=ros.filter(r=>r.tel.tags.includes(key)); return {key, warna:TEMATIK_COLORS[key]||"#7c3aed", pill:"pill-violet", n:arr.length, bud:sumOf(arr)}; }).filter(t=>t.n>0);
+  const taggedRO = ros.filter(r=>r.tel.tags.length>0); const nonTema = ros.filter(r=>r.tel.tags.length===0);
+  const taggedBud = sumOf(taggedRO);
+  const kegOrder = ["K-3758","K-3759","K-3760","K-3761","K-3762"];
+  const kriteria = [
+    {id:"K1", l:"Kesesuaian Target & Kinerja", d:"Rasionalitas besaran anggaran vs volume keluaran riil"},
+    {id:"K2", l:"Kelayakan Komponen Biaya",    d:"Kewajaran harga satuan vs SBM/SBK (proxy presisi & band biaya)"},
+    {id:"K3", l:"Keterkaitan Isu Prioritas",   d:"Dukungan thd agenda/tematik (PN Hilirisasi, Ketahanan Pangan, dsb.)"},
+    {id:"K4", l:"Kesiapan Pelaksanaan",        d:"Status blokir & kesiapan teknis (a.l. clearance SPBE)"},
+    {id:"K5", l:"Kepatuhan Regulasi",          d:"Kesesuaian jenis belanja (pegawai/barang/modal) dgn tusi & pagu"},
+  ];
+  const avgK = (k)=> Math.round(ros.reduce((s,r)=>s+r.tel[k],0)/ros.length);
+  const ctx = isRanwal ? "Pagu Anggaran resmi TA 2027 (KRISNA Rekap 3A)" : "belanja TA 2026 (RKAKL Rev.5, realisasi berjalan)";
+  const sbkkRosForPrompt = ros.filter(r=>SBKK_2026[r.id]);
+  const sbkkClause = (!isRanwal && sbkkRosForPrompt.length) ? `\n\nKepatuhan SBKK resmi TA 2026 (sumber: Rekapitulasi SBK Kemendag Satker 090.07, ${sbkkRosForPrompt.length} RO bertarif resmi): ${sbkkRosForPrompt.map(r=>`${r.kode} ${r.tel.sbkk.pct}% dari SBKK`).join('; ')}. Seluruhnya berada pada atau di bawah tarif SBK resmi.` : '';
+  const aiPrompt = `Anda penelaah RKA-K/L (DJA/Bappenas) untuk Bappebti, Kemendag. Berikan telaah (maks 7 paragraf, Bahasa Indonesia formal, prosa tanpa bullet) atas ${ctx} per Rincian Output (RO), dinilai dengan 5 kriteria penelaahan (termasuk K3 keterkaitan isu prioritas/budget tagging).\n\nTotal pagu TA ${year}: ${fmtRp(total)} pada ${ros.length} RO (${pnRos.length} RO Prioritas Nasional — tema Hilirisasi).\n\nKomposisi tagging tematik: ${tematikAgg.map(t=>`${t.key} ${t.n} RO (${fmtRp(t.bud)})`).join('; ')}.\n\nVerdict kelayakan: Layak ${byV.Layak.length} RO (${fmtRp(sumOf(byV.Layak))}), Layak Bersyarat ${byV["Layak Bersyarat"].length} RO (${fmtRp(sumOf(byV["Layak Bersyarat"]))}), Perlu Telaah ${byV["Perlu Telaah"].length} RO (${fmtRp(sumOf(byV["Perlu Telaah"]))}).\n\nRata-rata skor per kriteria: K1 Kesesuaian Target ${avgK('K1')}; K2 Kelayakan Biaya/SBM ${avgK('K2')}; K3 Isu Prioritas ${avgK('K3')}; K4 Kesiapan ${avgK('K4')}; K5 Kepatuhan ${avgK('K5')}.\n\nRO "Perlu Telaah" berbiaya terbesar:\n${byV["Perlu Telaah"].slice().sort((a,b)=>b.anggaran-a.anggaran).slice(0,8).map(r=>`- ${r.kode} ${r.nama}: ${fmtRp(r.anggaran)} (skor ${r.tel.skor}; K1 ${r.tel.K1}/K2 ${r.tel.K2}/K3 ${r.tel.K3}/K4 ${r.tel.K4}/K5 ${r.tel.K5})`).join('\n')}${sbkkClause}\n\nFokus telaah berurutan sesuai 5 kriteria: 1) Kesesuaian target & kinerja — soroti RO dengan biaya satuan tak rasional atau angka bulat (indikasi top-down). 2) Kelayakan komponen biaya — mana yang perlu recosting ke SBM/SBK TA ${year}. 3) Budget tagging — apakah RO PN benar mendukung Hilirisasi/Ketahanan Pangan; adakah RO yang seharusnya ditagging tematik (mis. ketahanan pangan, transformasi digital). 4) Kesiapan pelaksanaan — RO TIK/sistem (FAB, UAB, integrasi) terkait clearance SPBE. 5) Kepatuhan regulasi — kesesuaian jenis belanja (mayoritas Barang; Modal pada peralatan/sistem; komponen PNBP pada sertifikasi 3762). ${isRanwal?'Tutup dengan rekomendasi penajaman/realokasi berbasis pagu resmi yang sudah ditetapkan.':'Tutup dengan rekomendasi efisiensi & penajaman tagging untuk siklus berikutnya.'}`;
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill pill-gold mono text-[10px]">TA {year}{isRanwal?' · Pagu Anggaran Resmi':' · RKAKL Rev.5'}</span>
+        <span className="text-xs text-[var(--text-3)]">{isRanwal?'Penelaahan Pagu Anggaran resmi (KRISNA Rekap 3A) tiap RO berdasarkan 5 kriteria penelaahan RKA-K/L.':'Tagging tematik & telaah belanja TA 2026 (RKAKL Rev.5) tiap RO berdasarkan 5 kriteria.'}</span>
+      </div>
+
+      <div className="card p-4 mb-5 flex items-center justify-between gap-3 flex-wrap" style={{borderStyle:"dashed"}}>
+        <div className="text-[11px] text-[var(--text-2)]"><b>Tagging RO</b> (Identifikasi PKPN Klaster & Tagging Tematik Resmi) kini berada di menu <b>Standarisasi Program → Tagging RO</b>.</div>
+        <span className="pill pill-violet text-[9px]">{taggedRO.length} RO tematik · {pnRos.length} RO PN</span>
       </div>
 
       {/* Ringkasan verdict */}
@@ -7631,6 +7701,10 @@ function matrixSheets(tab){
     t5.push([]); t5.push(["Jenis PLK","Spot","Forward"]);
     PLK_JENIS.forEach(r=>t5.push([r.asp,r.spot,r.fwd]));
     sheets.push({name:"Info PLK",rows:t5});
+  } else if(tab==='tagging'){
+    const t=[["Kode","Rincian Output","Pagu TA 2027 (Rp)","PN","PKPN Klaster","Tagging Tematik"]];
+    RO_PAGU_ANGGARAN_2027.forEach(r=>{ const tl=penelaahan2027(r); const pk=pkpnKlaster(r); t.push([r.kode,r.nama,r.anggaran,r.isPN?"Ya":"-",pk?pk.klaster:"-",tl.tags.length?tl.tags.join(", "):"-"]); });
+    sheets.push({name:"Tagging RO 2027",rows:t});
   } else if(tab==='pemadanan'){
     const FL=PEMADANAN_FLAG_DEF;
     const m=[["No","Kegiatan","KRO","Kode RO Lengkap","Rincian Output (RO)","Satuan","RO Standar (ROS)","Uraian RO Standar","Status","Kunci","Pagu TA 2027 (Rp)","Target TA 2027","Temuan","Keterangan Kode"]];
@@ -7675,7 +7749,8 @@ function App(){
   const [tab,setTab] = useState("pohon");
   const [sebabSub,setSebabSub] = useState("sebab");
   const [srgSub,setSrgSub] = useState("sebaran");
-  const exportKey = tab==="sebab" ? sebabSub : tab==="sebaran" ? srgSub : tab;
+  const [angSub,setAngSub] = useState("anggaran");
+  const exportKey = tab==="sebab" ? sebabSub : tab==="sebaran" ? srgSub : tab==="anggaran" ? angSub : tab;
   const [year,setYear] = useState(2026);
   const [showSettings,setShowSettings] = useState(false);
   const [proxyUrl,setProxyUrl] = useState(()=>{ try{ return localStorage.getItem('bappebti_ai_proxy')||""; }catch(e){ return ""; } });
@@ -7700,12 +7775,19 @@ function App(){
       {tab==="sebab"   && <SubTabs active={sebabSub} onChange={setSebabSub} items={[
         {id:"sebab", label:"Sebab — Akibat", sub:"Rantai RO → IKK → IKP · Bottom-up + AI"},
         {id:"pn",    label:"Analisa PN",     sub:"PN · PP · KP · ProP"},
+        {id:"tagging", label:"Tagging RO", sub:"PN · PKPN · Tematik"},
         {id:"pemadanan", label:"Pemadanan RO", sub:"RO Standar (ROS) TA 2027"},
       ]} />}
       {tab==="sebab" && sebabSub==="sebab" && <SebabAkibat />}
       {tab==="sebab" && sebabSub==="pn"    && <AnalisaPN />}
+      {tab==="sebab" && sebabSub==="tagging" && <MenuTaggingRO />}
       {tab==="sebab" && sebabSub==="pemadanan" && <MenuPemadananRO />}
-      {tab==="anggaran"&& <AnalisisAnggaran2027 />}
+      {tab==="anggaran"&& <SubTabs active={angSub} onChange={setAngSub} items={[
+        {id:"anggaran", label:"Penelaahan Anggaran", sub:"Pagu · Penelaahan RO · SBKK"},
+        {id:"spbe",     label:"SPBE",                sub:"Clearance TIK"},
+      ]} />}
+      {tab==="anggaran" && angSub==="anggaran" && <AnalisisAnggaran2027 />}
+      {tab==="anggaran" && angSub==="spbe"     && <MenuSPBE />}
       {tab==="capaian" && <Capaian />}
       {tab==="sebaran" && <SubTabs active={srgSub} onChange={setSrgSub} items={[
         {id:"sebaran", label:"Sistem Resi Gudang", sub:"Gudang · Pengelola · Resi Gudang"},
@@ -7715,7 +7797,6 @@ function App(){
       {tab==="sebaran" && srgSub==="psn"     && <MenuPSN />}
       {tab==="plk"     && <MenuPLK year={year} />}
       {tab==="pbk"     && <MenuPBK year={year} />}
-      {tab==="spbe"    && <MenuSPBE />}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
       <footer className="border-t border-[var(--border)] mt-16">
@@ -7726,7 +7807,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Pemadanan RO), PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran, PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
