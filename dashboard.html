@@ -197,6 +197,35 @@
   .tab-label{font-size:1.15rem;line-height:1.5rem;} .tab-sub{font-size:8.5px;}
   @media (max-width:1280px){ .tab-label{font-size:1.02rem;} .tab-sub{font-size:8px;} .tabs-row{column-gap:1rem;} }
   @media (max-width:1180px){ .tabs-row{justify-content:flex-start;column-gap:1.75rem;} }
+  /* ===== Sidebar menu (kiri) ===== */
+  .side-nav{position:sticky;top:0;height:100vh;width:256px;flex-shrink:0;overflow-y:auto;border-right:1px solid var(--border);background:var(--bg);transition:width .2s;z-index:15}
+  .side-nav.collapsed{width:64px}
+  .side-nav::-webkit-scrollbar{width:6px} .side-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  .side-item{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:9px 12px;border-radius:8px;color:var(--text-2);transition:background .15s,color .15s;position:relative}
+  .side-item:hover{background:rgba(161,98,7,0.06);color:var(--text)}
+  .side-item.active{background:rgba(161,98,7,0.10);color:var(--text)}
+  .side-item.active::before{content:"";position:absolute;left:-8px;top:8px;bottom:8px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--red),var(--gold))}
+  .side-item .tab-ico{margin-top:2px}
+  .side-item.active .tab-ico{color:var(--gold)}
+  .side-sub{display:block;width:calc(100% - 22px);text-align:left;padding:6px 10px 6px 12px;margin-left:22px;border-left:1px solid var(--border);font-size:12.5px;color:var(--text-2);transition:color .15s,background .15s;border-radius:0 6px 6px 0}
+  .side-sub:hover{color:var(--text);background:rgba(161,98,7,0.04)}
+  .side-sub.active{color:var(--gold);font-weight:600;border-left:2px solid var(--gold);background:rgba(161,98,7,0.07)}
+  .side-nav.collapsed .side-label,.side-nav.collapsed .side-subs,.side-nav.collapsed .side-cap{display:none}
+  .side-nav.collapsed .side-item{justify-content:center;padding:10px 0}
+  .menu-anchor{scroll-margin-top:12px}
+  .side-foot{position:sticky;bottom:0}
+  .side-logout:hover{background:rgba(220,38,38,0.08);color:var(--red)} .side-logout:hover .tab-ico{color:var(--red)}
+  .side-admin{border:1px solid var(--gold-soft);background:rgba(161,98,7,0.05)}
+  .side-fab{display:none}
+  @media (max-width:1023px){
+    .side-nav{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);transition:transform .2s;box-shadow:0 10px 40px rgba(0,0,0,.25);z-index:60;width:272px!important}
+    .side-nav.open{transform:none}
+    .side-nav.collapsed .side-label,.side-nav.collapsed .side-subs,.side-nav.collapsed .side-cap{display:block}
+    .side-fab{display:inline-flex;position:fixed;left:16px;bottom:18px;z-index:55;align-items:center;gap:6px;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border-radius:999px;background:var(--card);color:var(--gold);border:1px solid var(--gold-soft);box-shadow:0 4px 14px rgba(0,0,0,.15)}
+    .side-scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:58}
+    .side-collapse-btn{display:none!important}
+  }
+  @media print{ .side-nav,.side-fab{display:none!important} }
 </style>
 </head>
 <body>
@@ -2409,7 +2438,7 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
   };
   return (
     <header className="app-header border-b border-[var(--border)] backdrop-blur-md sticky top-0 z-20">
-      <div className="max-w-[1400px] mx-auto px-8 py-5 flex items-end justify-between">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-wrap gap-y-3 items-end justify-between">
         <div>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-md overflow-hidden flex items-center justify-center shrink-0" style={{background:"linear-gradient(135deg,#a16207 0%,#ca8a04 100%)",border:"1px solid var(--border)"}} title="Kementerian Perdagangan">
@@ -2424,7 +2453,7 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <div className="text-right">
             <div className="text-[10px] mono text-[var(--text-3)] uppercase tracking-wider">Tahun Anggaran</div>
             <div className="flex items-center gap-1 mt-1">
@@ -2458,6 +2487,9 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
           {authUser && (
             <div className="no-print flex items-center gap-2 pl-3 ml-1 border-l border-[var(--border)]">
               <span className="text-[10px] mono text-[var(--text-3)] max-w-[140px] truncate" title={authUser.email}>{authUser.nama || authUser.email}</span>
+              {authUser.role==="admin" && <a href="admin.html" title="Panel Admin — persetujuan akun & peran pengguna"
+                className="h-8 px-2.5 flex items-center gap-1.5 rounded-md border border-[var(--gold-soft)] bg-[rgba(161,98,7,0.08)] hover:bg-[rgba(161,98,7,0.16)] text-[10px] mono uppercase tracking-wider text-[var(--gold)] transition">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Admin</a>}
               <button onClick={handleLogout} title="Keluar dari akun"
                 className="w-8 h-8 flex items-center justify-center rounded-md border border-[var(--border-strong)] hover:border-[var(--red)] hover:bg-[rgba(220,38,38,0.08)] text-[var(--text-2)] hover:text-[var(--red)] transition">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -9707,6 +9739,93 @@ async function exportMatrix(tab){
   XLSX.writeFile(wb, `Matriks_${tab}_${tgl}.xlsx`);
 }
 
+/* Menu & submenu di sisi kiri layar. Ringkasan Eksekutif tetap di luar menu (selalu tampil di atas konten). */
+const MENU_SIDE = [
+  {id:"pohon",   label:"Pohon Kinerja",        sub:"Renstra → RKAKL"},
+  {id:"sebab",   label:"Standarisasi Program", sub:"Sebab-Akibat · PN · Tagging · Pemadanan", items:[
+    {id:"sebab", label:"Sebab — Akibat"}, {id:"pn", label:"Analisa PN"}, {id:"tagging", label:"Tagging RO"}, {id:"pemadanan", label:"Pemadanan RO"} ]},
+  {id:"anggaran",label:"Analisis Anggaran",    sub:"Pagu · Penelaahan RO · SPBE", items:[
+    {id:"anggaran", label:"Penelaahan Anggaran"}, {id:"spbe", label:"SPBE"} ]},
+  {id:"capaian", label:"Capaian",              sub:"Target vs Realisasi"},
+  {id:"sebaran", label:"SRG",                  sub:"Sistem Resi Gudang · PSN SRG", items:[
+    {id:"sebaran", label:"Sistem Resi Gudang"}, {id:"psn", label:"PSN SRG"} ]},
+  {id:"plk",     label:"PLK",                  sub:"Pasar Lelang Komoditas"},
+  {id:"pbk",     label:"PBK",                  sub:"Perdagangan Berjangka Komoditi"},
+];
+/* Pengguna login (dari gerbang Firebase: window.__BAPPEBTI_USER__ / event bappebti-auth-ready). */
+function useAuthUser(){
+  const [u,setU] = React.useState(()=> (typeof window!=="undefined" ? window.__BAPPEBTI_USER__ : null) || null);
+  React.useEffect(()=>{
+    const onReady = (e)=> setU(e.detail || (window.__BAPPEBTI_USER__||null));
+    window.addEventListener('bappebti-auth-ready', onReady);
+    if (window.__BAPPEBTI_USER__) setU(window.__BAPPEBTI_USER__);
+    return ()=> window.removeEventListener('bappebti-auth-ready', onReady);
+  },[]);
+  return u;
+}
+const doLogout = ()=>{
+  if (!window.confirm('Keluar dari dashboard?')) return;
+  if (window.bappebtiLogout) window.bappebtiLogout();
+  else window.location.href = 'login.html';
+};
+function SideNav({active, onChange, subs, open, setOpen, collapsed, setCollapsed}){
+  const go = (id, sid)=>{ onChange(id, sid); setOpen(false); };
+  const user = useAuthUser();
+  const isAdmin = !!(user && user.role==="admin");
+  return (<>
+    <aside className={`side-nav no-print flex flex-col ${collapsed?'collapsed':''} ${open?'open':''}`} aria-label="Menu utama">
+      <nav className="p-3 pl-4 flex-1">
+        <div className="flex items-center justify-between mb-2">
+          <span className="side-cap text-[9.5px] mono uppercase tracking-wider text-[var(--text-3)]">Menu</span>
+          <button className="side-collapse-btn text-[11px] mono text-[var(--text-3)] hover:text-[var(--gold)] px-1.5 py-0.5 rounded border border-[var(--border)]" onClick={()=>setCollapsed(c=>!c)} title={collapsed?"Lebarkan menu":"Ciutkan menu"}>{collapsed?"»":"«"}</button>
+        </div>
+        <button className="side-item mb-1" onClick={()=>{ setOpen(false); try{ document.getElementById('ringkasan-eksekutif').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){} }} title="Ringkasan Eksekutif">
+          <span className="tab-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15l3-3 3 2 4-5"/></svg></span>
+          <span className="side-label"><span className="block text-[13.5px] font-medium leading-tight">Ringkasan Eksekutif</span><span className="block text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mt-0.5">TA berjalan · di luar menu</span></span>
+        </button>
+        <div className="my-2 border-t border-[var(--border)]"></div>
+        {MENU_SIDE.map(m=>{ const on = active===m.id; const sb = subs[m.id]; return (
+          <div key={m.id} className="mb-0.5">
+            <button className={`side-item ${on?'active':''}`} onClick={()=>go(m.id, null)} title={m.label}>
+              <span className="tab-ico"><MenuIcon kind={m.id} size={16}/></span>
+              <span className="side-label min-w-0">
+                <span className="serif block text-[14.5px] leading-tight">{m.label}</span>
+                <span className="block text-[8.5px] mono uppercase tracking-wider text-[var(--text-3)] mt-0.5 leading-snug">{m.sub}</span>
+              </span>
+              {m.items && <span className="side-label ml-auto text-[10px] text-[var(--text-3)] mt-1">{on?'▾':'▸'}</span>}
+            </button>
+            {m.items && on && sb && (
+              <div className="side-subs mt-1 mb-2 space-y-0.5">
+                {m.items.map(it=>(
+                  <button key={it.id} className={`side-sub ${sb[0]===it.id?'active':''}`} onClick={()=>go(m.id, it.id)}>{it.label}</button>
+                ))}
+              </div>)}
+          </div>);})}
+      </nav>
+      <div className="side-foot border-t border-[var(--border)] p-3 pl-4 space-y-1.5" style={{background:"var(--bg)"}}>
+        {user && <div className="side-label px-1 pb-1">
+          <div className="text-[12px] font-medium truncate" title={user.email}>{user.nama || user.email}</div>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            {user.nama && <span className="text-[9.5px] mono text-[var(--text-3)] truncate">{user.email}</span>}
+            <span className={`pill text-[8.5px] ${isAdmin?'pill-gold':'pill-muted'}`}>{isAdmin?'admin':'user'}</span>
+          </div>
+        </div>}
+        {isAdmin && (
+          <a href="admin.html" className="side-item side-admin" title="Panel Admin — persetujuan akun & peran pengguna">
+            <span className="tab-ico" style={{color:"var(--gold)"}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <span className="side-label"><span className="block text-[13px] font-medium leading-tight">Panel Admin</span><span className="block text-[8.5px] mono uppercase tracking-wider text-[var(--text-3)] mt-0.5">Persetujuan akun · peran</span></span>
+          </a>)}
+        <button onClick={doLogout} className="side-item side-logout" title="Keluar dari akun">
+          <span className="tab-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+          <span className="side-label"><span className="block text-[13px] font-medium leading-tight">Keluar</span></span>
+        </button>
+      </div>
+    </aside>
+    {open && <div className="side-scrim" onClick={()=>setOpen(false)}></div>}
+    <button className="side-fab no-print" onClick={()=>setOpen(true)}>☰ Menu</button>
+  </>);
+}
+
 function App(){
   const [tab,setTab] = useState("pohon");
   const [sebabSub,setSebabSub] = useState("sebab");
@@ -9720,6 +9839,16 @@ function App(){
   useEffect(()=>{ window.__AI_PROXY_URL__ = proxyUrl; },[proxyUrl]);
   useEffect(()=>{ try{ document.documentElement.setAttribute('data-theme',theme); localStorage.setItem('bappebti_theme',theme); }catch(e){ try{document.documentElement.setAttribute('data-theme',theme);}catch(_){} } },[theme]);
 
+  const [navOpen,setNavOpen] = useState(false);
+  const [navCollapsed,setNavCollapsed] = useState(()=>{ try{ return localStorage.getItem('bappebti_nav_collapsed')==='1'; }catch(e){ return false; } });
+  useEffect(()=>{ try{ localStorage.setItem('bappebti_nav_collapsed', navCollapsed?'1':'0'); }catch(e){} },[navCollapsed]);
+  useEffect(()=>{ const set=()=>{ const h=document.querySelector('header.app-header'); if(h) document.documentElement.style.setProperty('--hdr-h', h.offsetHeight+'px'); }; set(); window.addEventListener('resize',set); return ()=>window.removeEventListener('resize',set); },[]);
+  const subs = { sebab:[sebabSub,setSebabSub], anggaran:[angSub,setAngSub], sebaran:[srgSub,setSrgSub] };
+  const pilihMenu = (id, sid)=>{
+    setTab(id); if(sid && subs[id]) subs[id][1](sid);
+    setTimeout(()=>{ const a=document.getElementById('menu-anchor'); if(a && a.getBoundingClientRect().top<0) a.scrollIntoView({behavior:'smooth',block:'start'}); else if(a && a.getBoundingClientRect().top>window.innerHeight*0.6) a.scrollIntoView({behavior:'smooth',block:'start'}); },30);
+  };
+
   const saveProxy = (u)=>{
     setProxyUrl(u);
     try{ localStorage.setItem('bappebti_ai_proxy', u); }catch(e){}
@@ -9728,35 +9857,25 @@ function App(){
 
   return (
     <YearContext.Provider value={year}>
-      <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} activeTab={exportKey} theme={theme} setTheme={setTheme} />
+      <div className="flex items-start">
+      <SideNav active={tab} onChange={pilihMenu} subs={subs} open={navOpen} setOpen={setNavOpen} collapsed={navCollapsed} setCollapsed={setNavCollapsed} />
+      <main className="flex-1 min-w-0">
+        <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} activeTab={exportKey} theme={theme} setTheme={setTheme} />
       <Hero />
+      <div id="ringkasan-eksekutif" className="menu-anchor"></div>
       <ExecutiveSummary year={TAHUN_BERJALAN} />
-      <Tabs active={tab} onChange={setTab} />
+      <div id="menu-anchor" className="menu-anchor"></div>
       <MenuBanner kind={tab} />
       {tab==="plk" && <InfografisPLK />}
       {tab==="pbk" && <InfografisPBK />}
       {tab==="pohon"   && <AutoFold key={"pohon"+year} keepOpen={1}><PohonKinerja /></AutoFold>}
-      {tab==="sebab"   && <SubTabs active={sebabSub} onChange={setSebabSub} items={[
-        {id:"sebab", label:"Sebab — Akibat", sub:"Rantai RO → IKK → IKP · Bottom-up + AI"},
-        {id:"pn",    label:"Analisa PN",     sub:"PN · PP · KP · ProP"},
-        {id:"tagging", label:"Tagging RO", sub:"PN · PKPN · Tematik"},
-        {id:"pemadanan", label:"Pemadanan RO", sub:"RO Standar (ROS) TA 2027"},
-      ]} />}
       {tab==="sebab" && sebabSub==="sebab" && <AutoFold key={"SebabAkibat"+year}><SebabAkibat /></AutoFold>}
       {tab==="sebab" && sebabSub==="pn"    && <AutoFold key={"AnalisaPN"+year}><AnalisaPN /></AutoFold>}
       {tab==="sebab" && sebabSub==="tagging" && <AutoFold key={"MenuTaggingRO"+year}><MenuTaggingRO /></AutoFold>}
       {tab==="sebab" && sebabSub==="pemadanan" && <AutoFold key={"MenuPemadananRO"+year}><MenuPemadananRO /></AutoFold>}
-      {tab==="anggaran"&& <SubTabs active={angSub} onChange={setAngSub} items={[
-        {id:"anggaran", label:"Penelaahan Anggaran", sub:"Pagu · Penelaahan RO · SBKK"},
-        {id:"spbe",     label:"SPBE",                sub:"Clearance TIK"},
-      ]} />}
       {tab==="anggaran" && angSub==="anggaran" && <AutoFold key={"AnalisisAnggaran2027"+year}><AnalisisAnggaran2027 /></AutoFold>}
       {tab==="anggaran" && angSub==="spbe"     && <AutoFold key={"MenuSPBE"+year}><MenuSPBE /></AutoFold>}
       {tab==="capaian" && <AutoFold key={"Capaian"+year}><Capaian /></AutoFold>}
-      {tab==="sebaran" && <SubTabs active={srgSub} onChange={setSrgSub} items={[
-        {id:"sebaran", label:"Sistem Resi Gudang", sub:"Gudang · Pengelola · Resi Gudang"},
-        {id:"psn",     label:"PSN SRG",            sub:"PSN TA 2027–2029"},
-      ]} />}
       {tab==="sebaran" && srgSub==="sebaran" && <InfografisSRG />}
       {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"SebaranSRG"+year}><SebaranSRG year={year} /></AutoFold>}
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
@@ -9776,6 +9895,8 @@ function App(){
           </div>
         </div>
       </footer>
+      </main>
+      </div>
     </YearContext.Provider>
   );
 }
