@@ -87,6 +87,18 @@
     --gold-text:#e8c468;
     --grid:rgba(255,255,255,0.12);
   }
+  .card[data-fold]{position:relative}
+  .card[data-fold] > :first-child{cursor:pointer}
+  .card[data-fold="closed"] > :not(:first-child){display:none !important}
+  .card[data-fold]::after{content:"▴ lipat";position:absolute;top:6px;right:10px;font:600 9px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);pointer-events:none;opacity:.7}
+  .card[data-fold="closed"]::after{content:"▾ buka detail";color:var(--gold);opacity:1}
+  .card[data-fold="closed"]{padding-top:14px !important;padding-bottom:14px !important;margin-bottom:12px !important}
+  .card[data-fold="closed"]:hover{border-color:var(--gold-soft)}
+  .fold-tools{position:fixed;right:18px;bottom:18px;z-index:30}
+  .fold-tools button{font:600 10px 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;padding:8px 12px;border-radius:999px;background:var(--card);color:var(--gold);border:1px solid var(--gold-soft);box-shadow:0 4px 14px rgba(0,0,0,.12)}
+  .tab-ico{display:inline-flex;color:var(--text-3)}
+  .tab-btn.active .tab-ico{color:var(--gold)}
+  @media print{ .card[data-fold="closed"] > :not(:first-child){display:revert !important} .card[data-fold]::after{display:none} }
   [data-theme="dark"] .card{box-shadow:0 1px 2px rgba(0,0,0,0.4),0 2px 10px rgba(0,0,0,0.28);}
   [data-theme="dark"] .focus-row:hover{background:rgba(255,255,255,0.04);}
   [data-theme="dark"] .scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);}
@@ -1053,7 +1065,7 @@ const PROVINSI_SRG = buildProvinsi();
    diproyeksikan ke viewBox 1000x460 dgn lon 95–141, lat 6→-11). 68 ring, ~9,6 KB. */
 const ID_OUTLINE_D = "M65,37L65,41L71,43L61,62L66,72L62,74L69,99L69,104L60,102L56,85L44,66L33,61L12,36L4,13L13,10L30,22L54,20L63,30L65,37Z M16,88L19,84L33,98L16,88Z M91,203L92,211L84,208L78,195L80,188L85,187L91,203Z M133,208L137,223L131,230L121,198L116,194L115,184L103,163L91,156L98,148L108,148L106,138L114,143L115,153L123,158L126,155L127,171L130,171L150,192L141,208L133,208Z M341,384L327,376L329,370L336,366L337,373L343,374L344,384L341,384Z M81,60L108,82L107,95L109,88L112,94L113,89L117,102L115,113L119,118L117,123L110,125L113,142L105,138L108,148L98,148L91,156L81,120L83,117L69,104L68,87L62,74L66,72L61,62L70,46L68,53L77,54L81,60Z M63,139L63,145L59,147L45,124L54,122L63,135L63,139Z M225,212L228,205L231,204L235,211L233,204L240,206L246,228L258,232L252,241L255,246L238,239L238,229L234,220L230,219L231,215L227,220L220,219L225,212Z M285,248L282,251L279,245L274,250L272,241L275,232L288,237L285,248Z M862,239L852,254L875,264L867,277L862,274L862,270L869,269L859,272L855,267L854,272L851,264L847,267L844,259L844,263L841,262L841,250L844,244L846,247L843,241L840,255L835,253L839,259L835,262L836,257L831,260L835,260L836,267L831,264L835,268L825,273L820,261L825,258L823,252L819,252L812,242L804,241L806,238L803,237L809,234L822,238L831,228L831,231L834,231L831,236L835,237L835,230L837,236L841,231L840,240L841,233L846,236L844,229L848,232L847,218L840,223L841,220L836,219L838,223L836,220L837,223L811,224L805,218L810,215L806,217L806,213L812,211L804,216L806,212L803,211L806,211L804,208L808,205L802,209L804,201L800,206L798,197L794,202L795,196L792,203L790,197L789,203L781,201L788,192L788,185L801,181L813,172L835,182L847,182L854,199L849,208L852,226L858,240L858,231L862,229L862,239Z M770,168L767,165L784,163L790,170L782,172L774,165L781,172L777,174L776,170L773,174L772,169L766,168L770,168Z M775,189L784,188L782,199L775,189Z M765,218L755,213L769,208L771,212L768,214L771,217L765,218Z M404,371L414,368L423,373L420,390L425,400L396,387L384,391L346,384L355,375L351,359L358,362L363,345L372,349L381,347L389,368L397,373L404,371Z M410,348L416,351L402,359L384,354L388,349L410,348Z M303,147L301,140L305,121L314,114L313,111L311,114L312,110L318,106L316,110L319,119L338,139L353,133L367,135L380,120L391,120L391,124L405,129L413,123L417,124L416,131L411,134L408,147L397,156L401,164L396,176L380,182L374,179L361,189L352,203L345,206L348,208L352,235L340,245L340,239L332,242L329,233L334,231L335,225L330,230L329,217L324,212L327,199L316,182L321,178L307,177L308,161L312,163L303,154L303,147Z M424,258L421,255L426,239L441,223L443,201L451,198L446,204L453,227L469,228L468,232L462,231L461,235L466,232L462,244L459,239L458,244L462,247L458,247L461,250L456,260L428,275L424,258Z M458,258L463,249L464,263L459,273L458,258Z M479,194L474,197L473,189L473,194L471,194L473,199L459,211L466,210L462,214L466,213L466,218L460,218L464,220L460,222L465,220L464,225L469,221L469,228L453,227L446,204L453,194L443,184L440,171L441,163L433,167L430,160L438,152L434,142L422,149L415,143L410,144L411,134L416,131L416,125L422,121L438,133L445,133L446,126L455,123L467,95L473,97L484,92L497,100L500,96L502,101L492,103L492,107L521,136L517,141L510,138L508,141L499,135L501,141L495,142L490,151L488,175L479,194Z M285,62L289,62L282,54L287,48L292,58L289,63L285,62Z M235,313L233,322L224,310L221,320L209,311L212,323L208,323L187,295L192,292L194,297L203,294L204,280L218,275L225,263L235,274L237,282L235,313Z M681,262L674,253L676,247L691,245L701,254L700,261L690,267L681,262Z M854,317L859,312L864,324L861,321L854,325L857,319L854,317Z M861,323L865,327L862,335L854,328L861,323Z M853,331L859,341L852,350L849,346L850,337L854,343L850,336L850,329L853,331Z M734,239L740,238L742,243L751,237L762,244L769,243L779,256L779,267L759,253L750,252L751,256L738,253L737,249L727,256L721,245L716,259L714,248L720,245L721,240L734,239Z M788,364L794,356L799,358L789,380L784,375L785,370L789,371L786,370L788,364Z M692,370L684,378L675,376L669,379L673,370L678,371L688,367L692,370Z M708,139L704,129L708,116L716,102L719,103L714,112L718,115L718,127L710,139L715,140L717,133L722,131L722,125L733,120L733,134L722,141L732,147L732,153L737,157L719,149L714,154L718,174L727,187L718,181L711,170L712,154L707,147L708,139Z M710,180L715,185L706,185L703,171L708,171L710,180Z M716,202L721,206L718,209L704,207L705,201L710,198L716,202Z M731,100L723,109L722,101L727,92L732,95L731,100Z M652,209L659,209L659,213L639,217L638,213L639,207L652,209Z M673,214L661,215L659,212L682,211L673,214Z M504,385L507,389L514,387L514,394L517,387L522,387L525,399L517,398L521,401L510,403L509,395L498,404L479,409L472,406L474,393L481,389L490,390L496,398L506,397L493,385L498,381L504,385Z M455,400L458,400L457,391L462,385L472,388L467,401L469,403L457,403L455,400Z M635,437L619,442L625,434L622,434L623,423L631,415L638,419L641,411L655,405L652,423L641,436L635,437Z M618,389L618,386L621,385L621,389L622,385L629,386L621,394L614,394L618,389Z M541,392L553,385L576,395L579,392L587,391L593,396L606,386L603,385L605,381L609,387L604,390L605,395L597,399L579,403L574,400L566,405L546,400L541,402L539,395L541,392Z M610,452L618,446L614,455L605,458L605,454L610,452Z M537,428L526,426L520,420L542,413L549,423L556,425L562,435L553,442L537,428Z M654,388L638,390L642,382L654,383L654,388Z M993,229L994,233L1000,233L1000,333L996,343L1000,349L1000,409L978,384L980,377L977,382L958,382L955,387L953,382L959,367L949,357L966,358L965,355L971,360L975,354L971,359L970,356L968,359L944,334L940,321L947,322L944,318L938,319L944,315L940,314L941,309L936,311L941,305L935,309L938,303L935,311L932,307L937,300L929,308L934,300L929,305L932,299L925,301L928,294L924,302L924,294L922,301L923,295L919,298L923,293L919,298L918,293L917,298L916,292L915,297L915,292L913,296L913,293L907,290L907,294L892,286L893,283L874,283L867,277L875,264L852,254L862,239L864,243L866,240L867,250L880,253L897,232L900,222L919,220L916,210L923,212L920,208L931,202L934,207L938,207L934,204L949,211L973,226L993,229Z M887,191L885,183L884,186L880,182L881,186L877,179L888,181L900,191L894,195L887,191Z M964,357L953,356L947,350L955,347L964,353L964,357Z M895,213L878,206L908,209L911,211L903,214L895,213Z M940,364L951,362L958,367L955,381L945,388L927,391L933,373L940,364Z M150,187L145,188L130,171L127,171L126,155L122,157L115,153L110,126L118,121L118,115L115,113L116,94L123,105L126,106L126,100L132,101L139,116L147,117L155,125L155,132L156,129L161,140L172,143L176,150L161,157L171,156L181,148L190,156L192,163L184,164L184,172L186,168L191,172L183,176L184,183L174,183L166,193L159,187L150,187Z M139,113L140,107L145,105L147,109L144,117L139,113Z M172,141L161,138L168,135L166,138L169,135L175,140L174,144L172,141Z M535,286L536,270L532,263L530,249L535,247L532,237L538,235L535,221L543,215L551,218L552,213L559,222L581,232L583,236L572,245L567,237L565,239L566,232L556,235L548,243L553,251L551,273L553,288L549,302L554,315L550,311L539,317L531,314L529,306L535,286Z M164,275L131,229L137,224L162,245L165,252L174,254L173,259L170,258L166,265L174,271L175,277L184,279L183,285L187,285L191,292L183,294L164,275Z M567,201L579,184L586,189L591,184L608,183L603,180L610,178L619,183L616,191L611,185L604,188L595,203L584,208L580,215L572,211L573,217L574,214L594,241L596,251L589,243L580,241L583,236L581,231L559,222L552,213L551,218L539,218L541,211L538,210L536,201L531,199L534,196L536,182L541,186L539,166L535,163L540,165L538,157L541,156L544,143L550,136L556,142L563,126L575,127L577,134L592,135L572,140L569,144L573,150L554,148L546,157L544,169L546,182L555,189L558,201L567,201Z M611,198L607,206L604,202L607,194L613,193L614,200L617,195L621,197L619,203L614,201L614,207L611,206L611,198Z M657,122L640,150L619,154L619,145L611,138L633,138L643,130L642,126L648,123L652,115L657,122Z M599,312L605,304L606,285L610,281L613,294L609,290L607,302L613,306L606,310L604,317L599,312Z M578,292L575,287L578,272L563,258L567,237L571,245L580,240L589,243L595,255L592,254L591,260L601,268L598,270L602,275L606,274L606,282L601,280L603,284L600,281L589,284L587,295L578,292Z M601,307L593,306L596,300L594,293L602,287L604,295L600,302L601,307Z M439,399L437,401L438,397L426,390L423,381L432,384L439,380L450,389L439,399Z M240,321L243,325L255,326L256,334L248,334L250,345L248,351L239,347L223,347L225,342L228,347L232,338L235,338L240,321Z M596,148L583,151L578,147L573,150L569,144L573,139L597,134L605,141L608,136L611,137L619,145L620,151L616,154L610,148L596,148Z M154,237L142,232L133,213L133,208L141,208L145,203L148,189L159,187L166,193L176,183L184,183L191,191L204,190L206,207L187,212L184,226L179,220L178,225L171,225L165,235L158,233L154,237Z M295,344L301,345L300,355L295,360L300,370L292,374L247,360L251,352L248,351L250,345L248,334L259,335L261,322L268,324L275,331L290,331L295,344Z M363,345L358,362L351,359L355,375L346,385L343,374L337,373L336,366L329,370L326,376L300,370L295,361L295,356L300,355L301,345L336,351L342,336L347,336L351,342L363,345Z M451,198L443,201L441,223L426,239L421,256L415,253L405,256L405,247L399,251L392,243L392,247L382,256L375,252L366,258L363,238L360,244L357,241L347,245L342,243L352,235L348,208L345,206L352,203L361,189L374,179L380,182L396,176L401,164L397,156L410,144L415,143L422,149L434,142L438,152L430,160L433,167L441,163L440,174L443,184L453,194L451,198Z M525,257L520,258L517,246L519,241L516,238L525,229L530,213L528,197L534,186L534,196L531,199L537,202L542,212L535,222L538,235L532,237L535,247L530,249L532,257L525,257Z M216,226L231,227L235,241L240,243L241,250L235,260L238,266L236,275L224,263L218,275L204,280L203,294L194,297L187,285L183,285L184,279L175,277L174,271L166,265L170,258L173,259L174,254L165,252L154,237L158,233L165,235L171,225L178,225L179,220L184,226L187,213L205,206L207,210L203,214L206,214L205,217L215,219L210,227L216,226Z M470,45L484,44L491,49L487,51L496,62L488,63L492,68L485,68L490,73L485,76L492,80L489,83L493,82L491,86L499,96L497,100L484,92L473,97L467,95L455,123L446,126L445,133L438,133L426,123L432,110L431,102L440,95L437,86L447,77L447,56L454,44L458,47L460,44L470,45Z";
 
-/* ===== Sumber Pendanaan Pembangunan Gudang SRG (sumber: Direktori Gudang SRG Bappebti, 309 gudang, per 6 Oktober 2026) =====
+/* ===== Sumber Pendanaan Pembangunan Gudang SRG (sumber: Direktori Gudang SRG Bappebti, 309 gudang, per 27 Oktober 2026) =====
    Empat kategori terpisah: Pemerintah Pusat (Kemendag), Pemkab murni, K/L Lain, Swasta.
    "Pemkab/kota (Kemendag)" = gudang dibangun lewat program pusat Kemendag (mayoritas Dana Stimulus Fiskal sejak 2009);
    "Pemkab" murni = dibangun Pemkab tanpa skema Kemendag. */
@@ -1062,7 +1074,7 @@ const KEPEMILIKAN_DETIL = {"Pemkab/kota (Kemendag)": 123, "Pemkab": 1, "Pemprov"
 const TAHUN_PEMBANGUNAN_PUSAT = [{"tahun": 2009, "n": 41}, {"tahun": 2010, "n": 11}, {"tahun": 2011, "n": 15}, {"tahun": 2012, "n": 14}, {"tahun": 2013, "n": 17}, {"tahun": 2014, "n": 19}, {"tahun": 2015, "n": 2}, {"tahun": 2016, "n": 1}, {"tahun": 2018, "n": 2}, {"tahun": 2019, "n": 1}];
 const KEPEMILIKAN_PROV = {"Aceh": {"p": 7, "m": 0, "k": 0, "s": 6}, "Bali": {"p": 0, "m": 0, "k": 0, "s": 4}, "Banten": {"p": 3, "m": 0, "k": 0, "s": 5}, "Bengkulu": {"p": 1, "m": 0, "k": 0, "s": 3}, "DKI Jakarta": {"p": 0, "m": 0, "k": 0, "s": 4}, "Daerah Istimewa Yogyakarta": {"p": 1, "m": 0, "k": 0, "s": 0}, "Gorontalo": {"p": 3, "m": 0, "k": 0, "s": 1}, "Jawa Barat": {"p": 13, "m": 1, "k": 2, "s": 26}, "Jawa Tengah": {"p": 15, "m": 0, "k": 2, "s": 19}, "Jawa Timur": {"p": 23, "m": 2, "k": 2, "s": 50}, "Kalimantan Barat": {"p": 2, "m": 0, "k": 0, "s": 0}, "Kalimantan Selatan": {"p": 3, "m": 0, "k": 0, "s": 1}, "Kalimantan Tengah": {"p": 2, "m": 0, "k": 0, "s": 0}, "Kalimantan Utara": {"p": 1, "m": 0, "k": 0, "s": 4}, "Kep. Bangka Belitung": {"p": 0, "m": 2, "k": 0, "s": 4}, "Kepulauan Riau": {"p": 0, "m": 0, "k": 0, "s": 1}, "Lampung": {"p": 7, "m": 0, "k": 0, "s": 2}, "Maluku": {"p": 1, "m": 0, "k": 0, "s": 2}, "Maluku Utara": {"p": 0, "m": 0, "k": 0, "s": 1}, "Nusa Tenggara Barat": {"p": 4, "m": 0, "k": 0, "s": 7}, "Nusa Tenggara Timur": {"p": 1, "m": 0, "k": 0, "s": 1}, "Papua": {"p": 1, "m": 0, "k": 0, "s": 1}, "Papua Barat": {"p": 0, "m": 0, "k": 0, "s": 1}, "Sulawesi Barat": {"p": 2, "m": 0, "k": 0, "s": 0}, "Sulawesi Selatan": {"p": 12, "m": 0, "k": 1, "s": 23}, "Sulawesi Tengah": {"p": 2, "m": 0, "k": 0, "s": 0}, "Sulawesi Tenggara": {"p": 5, "m": 0, "k": 0, "s": 1}, "Sulawesi Utara": {"p": 2, "m": 0, "k": 0, "s": 3}, "Sumatera Barat": {"p": 5, "m": 0, "k": 0, "s": 1}, "Sumatera Selatan": {"p": 3, "m": 0, "k": 0, "s": 0}, "Sumatera Utara": {"p": 4, "m": 0, "k": 0, "s": 3}};
 const kepProv = (nama)=> KEPEMILIKAN_PROV[nama] || {p:0,m:0,k:0,s:0};
-const SRG_DATA_UPDATE = "30 September 2026";
+const SRG_DATA_UPDATE = "27 Oktober 2026"; /* Direktori Gudang & Pengelola SRG (ekspor 27 Okt 2026 09:19) — isi sama dengan snapshot sebelumnya */
 
 /* Penerbitan Resi Gudang & Pembiayaan per tahun (2008–2026).
    Sumber: LAPORAN REKAP RESI GUDANG Bappebti (UPDATED 2026), sheet "Annually".
@@ -1114,7 +1126,13 @@ const PENERBITAN_KOM_2025 = [{key:"Gabah",rg:3646,vol:116595,nilai:712398161158}
 const PEMBIAYAAN_BANK_2025 = [{key:"PT KPBI Jakarta",rg:1112,biaya:2167472145225},{key:"Bank BJB",rg:2624,biaya:1767269488541},{key:"Bank Jatim",rg:452,biaya:767138657700},{key:"BRI",rg:549,biaya:316049688793},{key:"PKBL KBI",rg:200,biaya:62558627959},{key:"Bank Jateng",rg:269,biaya:61980149500},{key:"Bank BSI",rg:64,biaya:27948325000},{key:"PT Danareksa Capital",rg:25,biaya:20004250000},{key:"Bank Kalsel",rg:235,biaya:17105873250},{key:"Bank Aceh Syariah",rg:34,biaya:15307000000},{key:"Bank Sulselbar",rg:12,biaya:5195000000},{key:"LPDB KUKM",rg:15,biaya:4970637700},{key:"BSI",rg:9,biaya:4196000000},{key:"BLU LPMUKP",rg:9,biaya:2515573490},{key:"BNI",rg:4,biaya:2000000000},{key:"Bank Sumsel Babel",rg:13,biaya:1419900000},{key:"Bank Lampung",rg:14,biaya:478577750},{key:"BPRS Bangka Belitung",rg:8,biaya:321808000},{key:"BPRS Bina Amanah Satria",rg:3,biaya:130000000}];
 const PEMBIAYAAN_TOTAL_2025 = {nilai:5244061702908,rgBiaya:5651,rgTotal:7173};
 const PENGELOLA_ISSUANCE_2025 = [{pg:"PT. Pabrik Gula Candi Baru",rg:314,nilai:2464770500000,vol:183867,rgBiaya:296,biaya:1549769350000},{pg:"PT. Thara Jaya Niaga",rg:192,nilai:1214772000000,vol:19246,rgBiaya:164,biaya:733631435000},{pg:"PT. BGR Logistik Indonesia",rg:435,nilai:1013894256676,vol:2184,rgBiaya:431,biaya:710570507684},{pg:"PT. Cipta Usaha Agro Niaga",rg:573,nilai:641731482200,vol:34721,rgBiaya:499,biaya:413043310000},{pg:"PT. Bhanda Ghara Reksa (Persero)",rg:533,nilai:483985920750,vol:5738,rgBiaya:336,biaya:353007558266},{pg:"PT. Pertani (Persero)",rg:1454,nilai:338713150600,vol:68317,rgBiaya:1249,biaya:208366000200},{pg:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:100,nilai:298912426001,vol:503,rgBiaya:100,biaya:238725000000},{pg:"PT Siriman Jaya Abadi",rg:108,nilai:264339000000,vol:244,rgBiaya:93,biaya:144421875000},{pg:"PT. Pabrik Gula Rajawali I",rg:71,nilai:237790000000,vol:17667,rgBiaya:45,biaya:146153000000},{pg:"PT. Ketiara",rg:175,nilai:180693000000,vol:2300,rgBiaya:162,biaya:115938100000},{pg:"PT. Wahana Pronatural",rg:92,nilai:163037670000,vol:6548,rgBiaya:65,biaya:61388323500},{pg:"Koperasi Karya Mandiri Tirtayasa",rg:26,nilai:131065425000,vol:5172,rgBiaya:17,biaya:74578805000},{pg:"Koperasi Gunung Luhur Berkah",rg:157,nilai:107951440000,vol:3424,rgBiaya:116,biaya:48131105000},{pg:"Koperasi Cipta Nelayan Sentosa",rg:36,nilai:75920675000,vol:3101,rgBiaya:20,biaya:25806487500},{pg:"Koperasi Niaga Mukti",rg:474,nilai:69247885300,vol:10312,rgBiaya:453,biaya:46139666666},{pg:"PT. Pengayom Tani Sejagad",rg:92,nilai:68684691000,vol:7318,rgBiaya:89,biaya:45331200000},{pg:"KSU Sarana Hidup Sejahtera",rg:196,nilai:58823527000,vol:7042,rgBiaya:167,biaya:32560200000},{pg:"PT. Fiona Pusaka SRG",rg:82,nilai:58232000000,vol:5636,rgBiaya:78,biaya:37480000000},{pg:"PT. Food Station Tjipinang Jaya",rg:116,nilai:56535877000,vol:7600,rgBiaya:59,biaya:21592518800},{pg:"KSU Annisa",rg:317,nilai:46099952500,vol:6530,rgBiaya:304,biaya:29881770000},{pg:"PT Merdeka Bahari Indonesia",rg:25,nilai:38532866000,vol:1547,rgBiaya:23,biaya:26071288700},{pg:"Kospermindo",rg:72,nilai:37502155000,vol:4104,rgBiaya:62,biaya:22813202300},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:48,nilai:33720111000,vol:527,rgBiaya:40,biaya:15737660375},{pg:"PT Atma Mulya Jaya",rg:160,nilai:28430678580,vol:1372,rgBiaya:146,biaya:18215412814},{pg:"KSU Item Reje Gayo",rg:45,nilai:27999147000,vol:289,rgBiaya:43,biaya:18751725000},{pg:"PT Anugrah Pesona Mandiri",rg:33,nilai:24967711600,vol:881,rgBiaya:29,biaya:14498750000},{pg:"PT. Sucofindo (Persero)",rg:33,nilai:22798426687,vol:105,rgBiaya:30,biaya:18179723063},{pg:"Koperasi Basunondo",rg:202,nilai:22510466100,vol:3038,rgBiaya:117,biaya:10310196300},{pg:"PT Ksatria Guna Sejahtera",rg:3,nilai:20691720000,vol:244,rgBiaya:0,biaya:0},{pg:"Koperasi Tani Bontolempengan",rg:28,nilai:20474750000,vol:1300,rgBiaya:16,biaya:10987970000}];  /* kumulatif s.d. TA 2025 */
-const PENGELOLA_SRG = {"total":152,"status":[{"k":"Aktif","n":70},{"k":"Dibatalkan","n":69},{"k":"Terbatalkan","n":12},{"k":"Dibatasi","n":1}],"aktif":70,"badanHukumAktif":[{"k":"PT","n":35},{"k":"Koperasi","n":28},{"k":"BUMD","n":5},{"k":"BUMN","n":2}],"provAktif":[{"prov":"DKI Jakarta","n":14},{"prov":"Jawa Timur","n":14},{"prov":"Jawa Barat","n":8},{"prov":"Jawa Tengah","n":8},{"prov":"Sulawesi Selatan","n":6},{"prov":"Aceh","n":4},{"prov":"Kalimantan Utara","n":3},{"prov":"Sumatera Utara","n":3},{"prov":"Banten","n":2},{"prov":"Kalimantan Selatan","n":2},{"prov":"Sumatera Barat","n":2},{"prov":"Bali","n":1},{"prov":"DI Yogyakarta","n":1},{"prov":"Lampung","n":1}]}; // tanggal data terakhir diperbarui (direktori pengelola per 6 Oktober 2026)
+/* Dinamika registri pengelola sepanjang 2026 (Direktori Pengelola SRG, ekspor 27 Okt 2026) */
+const PENGELOLA_DINAMIKA_2026 = {
+  baru:["Koperasi Konsumen Jaya Barokah Sejahtera (10 Mar)","Koperasi Produsen Surya Abadi Kayumas Tamandadar (12 Mei)","Koperasi Jasa Sibreuh Makmu Beusama (19 Mei)","PT Mitra Untung Cemerlang (9 Jun)","PT ICDX Logistik Berikat (23 Jun)","PT Harta Bahari Indonesia (29 Jul)"],
+  baru2025:6, dibatalkan2026:54, dibatalkanRinci:"Februari 3 · Juli 23 · Agustus 28",
+  dibatasi:"PT Thara Jaya Niaga (sejak 20 Agustus 2026)",
+};
+const PENGELOLA_SRG = {"total":152,"status":[{"k":"Aktif","n":70},{"k":"Dibatalkan","n":69},{"k":"Terbatalkan","n":12},{"k":"Dibatasi","n":1}],"aktif":70,"badanHukumAktif":[{"k":"PT","n":35},{"k":"Koperasi","n":28},{"k":"BUMD","n":5},{"k":"BUMN","n":2}],"provAktif":[{"prov":"DKI Jakarta","n":14},{"prov":"Jawa Timur","n":14},{"prov":"Jawa Barat","n":8},{"prov":"Jawa Tengah","n":8},{"prov":"Sulawesi Selatan","n":6},{"prov":"Aceh","n":4},{"prov":"Kalimantan Utara","n":3},{"prov":"Sumatera Utara","n":3},{"prov":"Banten","n":2},{"prov":"Kalimantan Selatan","n":2},{"prov":"Sumatera Barat","n":2},{"prov":"Bali","n":1},{"prov":"DI Yogyakarta","n":1},{"prov":"Lampung","n":1}]}; // tanggal data terakhir diperbarui (direktori pengelola per 27 Oktober 2026)
 
 /* Komoditas Orientasi Ekspor & Gudang Komoditas Pangan (sumber: LAPORAN REKAP RG UPDATED 2026,
    sheet "Orientasi Ekspor" & "Gudang Komoditas Pangan"; kumulatif s.d. 20 Oktober 2026).
@@ -2445,17 +2463,319 @@ function Header({onSettings, proxySet, year, setYear, activeTab, theme, setTheme
 /* ======================================================================== */
 function Hero(){
   return (
-    <section className="max-w-[1400px] mx-auto px-8 pt-10 pb-6">
-      <div className="text-[11px] mono text-[var(--text-3)] uppercase tracking-[0.2em] mb-3">Performance Intelligence Dashboard</div>
-      <h1 className="serif text-4xl md:text-5xl leading-[1.15] text-balance">
-        Telusur indikator kinerja <span className="gradient-text">BAPPEBTI</span><br/>
-        dari <span className="text-[var(--gold)] border-b border-[var(--gold-soft)]">Renstra</span> hingga <span className="text-[var(--gold)] border-b border-[var(--gold-soft)]">Rincian Output</span>.
-      </h1>
-      <p className="text-sm text-[var(--text-2)] max-w-2xl mt-4 leading-relaxed">
-        Visualisasi pohon kinerja, analisis sebab–akibat bottom-up, dan rekomendasi AI untuk Proyek/Prioritas Nasional —
-        terhubung antara Renstra 2025–2029, Renja Tahunan, dan RKA-K/L.
-      </p>
+    <section className="max-w-[1400px] mx-auto px-8 pt-6 pb-1">
+      <div className="flex items-end justify-between gap-4 flex-wrap">
+        <div>
+          <div className="text-[10px] mono text-[var(--text-3)] uppercase tracking-[0.2em] mb-1">Performance Intelligence Dashboard</div>
+          <h1 className="serif text-2xl md:text-3xl leading-tight">Kinerja <span className="gradient-text">BAPPEBTI</span> dari Renstra hingga Rincian Output</h1>
+        </div>
+        <div className="text-[11px] text-[var(--text-3)] max-w-md">Renstra 2025–2029 · Renja · RKA-K/L · capaian · analisa AI. Klik judul bagian untuk membuka atau melipat detail.</div>
+      </div>
     </section>
+  );
+}
+
+
+/* ======================================================================== */
+/* VISUAL LAYER — ikon menu, banner bergambar, infografis, lipat otomatis    */
+/* ======================================================================== */
+const VS = (c,o)=>({fill:c, fillOpacity:o==null?1:o});
+const VSt = (c,w,o)=>({stroke:c, strokeWidth:w||2, strokeOpacity:o==null?1:o, fill:"none", strokeLinecap:"round", strokeLinejoin:"round"});
+
+/* Ikon garis kecil untuk tab menu */
+function MenuIcon({kind, size=18}){
+  const p = {width:size, height:size, viewBox:"0 0 24 24"};
+  const s = VSt("currentColor",1.7);
+  switch(kind){
+    case "pohon": return (<svg {...p}><circle cx="12" cy="4.5" r="2.2" style={s}/><circle cx="5.5" cy="12" r="2.2" style={s}/><circle cx="18.5" cy="12" r="2.2" style={s}/><circle cx="5.5" cy="19.5" r="1.8" style={s}/><circle cx="12" cy="19.5" r="1.8" style={s}/><circle cx="18.5" cy="19.5" r="1.8" style={s}/><path d="M12 6.7v2.8M12 9.5H5.5v.3M12 9.5h6.5v.3M5.5 14.2v3.5M18.5 14.2v3.5M18.5 15.8H12v1.9" style={s}/></svg>);
+    case "sebab": return (<svg {...p}><rect x="3" y="3.5" width="18" height="4.5" rx="1.2" style={s}/><rect x="3" y="10" width="18" height="4.5" rx="1.2" style={s}/><rect x="3" y="16.5" width="11" height="4.5" rx="1.2" style={s}/><path d="M16.5 18.8l1.8 1.7 3.2-3.6" style={s}/></svg>);
+    case "anggaran": return (<svg {...p}><ellipse cx="9" cy="6" rx="6" ry="2.4" style={s}/><path d="M3 6v4c0 1.3 2.7 2.4 6 2.4s6-1.1 6-2.4V6M3 10v4c0 1.3 2.7 2.4 6 2.4M3 14v4c0 1.3 2.7 2.4 6 2.4" style={s}/><path d="M14 20.5v-5M17.5 20.5v-8M21 20.5v-11" style={s}/></svg>);
+    case "capaian": return (<svg {...p}><circle cx="11" cy="13" r="8" style={s}/><circle cx="11" cy="13" r="4.5" style={s}/><circle cx="11" cy="13" r="1.2" style={VS("currentColor")}/><path d="M11 13L20 4M17 4h3v3" style={s}/></svg>);
+    case "sebaran": return (<svg {...p}><path d="M2.5 10L12 4l9.5 6" style={s}/><path d="M4.5 9v11h15V9" style={s}/><rect x="9" y="13" width="6" height="7" style={s}/><path d="M9 15.3h6M9 17.6h6" style={s}/></svg>);
+    case "plk": return (<svg {...p}><path d="M13.5 3.5l6 6M10.5 6.5l6 6M12 5l6 6" style={s}/><path d="M13.3 9.7L5 18" style={s}/><path d="M3 21h9" style={s}/></svg>);
+    case "pbk": return (<svg {...p}><path d="M3 20.5h18" style={s}/><path d="M6 8v9M10 5v10M14 9v8M18 4v8" style={s}/><rect x="4.6" y="10" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/><rect x="8.6" y="7" width="2.8" height="6" rx=".5" style={VS("currentColor",0.25)}/><rect x="12.6" y="11" width="2.8" height="4" rx=".5" style={VS("currentColor",0.25)}/><rect x="16.6" y="5.5" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/></svg>);
+    default: return null;
+  }
+}
+
+/* Ilustrasi besar per menu (flat, ikut tema terang/gelap) */
+function MenuIllustration({kind}){
+  const g="var(--gold)", e="var(--emerald)", b="var(--blue)", v="var(--violet)", r="var(--red)", t="var(--text-3)";
+  const common = {viewBox:"0 0 260 150", width:"100%", height:"100%", preserveAspectRatio:"xMidYMid meet"};
+  const ground = <path d="M10 132H250" style={VSt(t,1.5,0.35)}/>;
+  switch(kind){
+    case "pohon": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(e,0.07)}/>{ground}
+      <path d="M130 132V96M130 108l-22-16M130 102l24-18" style={VSt("var(--gold-soft)",6)}/>
+      <circle cx="130" cy="58" r="40" style={VS(e,0.22)}/><circle cx="100" cy="74" r="26" style={VS(e,0.3)}/><circle cx="160" cy="72" r="28" style={VS(e,0.3)}/>
+      {[[130,30,"Visi"],[96,62,"SP"],[164,60,"ISP"],[112,86,"IKK"],[150,90,"RO"]].map(([x,y,l],i)=>(<g key={i}><circle cx={x} cy={y} r="11" style={VS("var(--card)")}/><circle cx={x} cy={y} r="11" style={VSt(i?e:g,2)}/><text x={x} y={y+3.5} textAnchor="middle" fontSize="8" fontWeight="700" style={{fill:i?e:g}}>{l}</text></g>))}
+      <path d="M130 41v10M121 37l-17 17M139 37l17 15M104 72l6 7M158 70l-6 10" style={VSt(t,1,0.5)}/>
+    </svg>);
+    case "sebab": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(v,0.07)}/>{ground}
+      {[0,1,2].map(i=>(<g key={i}><rect x={70+i*8} y={38+i*26} width={112-i*16} height="20" rx="4" style={VS("var(--card)")}/><rect x={70+i*8} y={38+i*26} width={112-i*16} height="20" rx="4" style={VSt([v,b,g][i],2)}/><rect x={78+i*8} y={45+i*26} width={36} height="6" rx="3" style={VS([v,b,g][i],0.45)}/><rect x={120+i*8} y={45+i*26} width={22-i*4} height="6" rx="3" style={VS([v,b,g][i],0.2)}/></g>))}
+      <circle cx="186" cy="104" r="16" style={VS(e)}/><path d="M178 104l6 6 10-11" style={VSt("#fff",3)}/>
+      <path d="M50 52h12M50 78h12M50 104h12" style={VSt(t,2,0.4)}/><circle cx="46" cy="52" r="3" style={VS(v)}/><circle cx="46" cy="78" r="3" style={VS(b)}/><circle cx="46" cy="104" r="3" style={VS(g)}/>
+    </svg>);
+    case "anggaran": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(g,0.08)}/>{ground}
+      {[0,1,2,3,4].map(i=>(<g key={i}><ellipse cx="88" cy={122-i*11} rx="26" ry="7" style={VS(g,0.9)}/><ellipse cx="88" cy={119-i*11} rx="26" ry="7" style={VS("var(--gold-soft)")}/></g>))}
+      <text x="88" y="78" textAnchor="middle" fontSize="12" fontWeight="800" style={{fill:"#fff"}}>Rp</text>
+      {[[140,40],[160,62],[180,28],[200,50]].map(([x,h],i)=>(<rect key={i} x={x} y={132-h-30} width="14" height={h+30} rx="3" style={VS([b,e,g,v][i],0.75)}/>))}
+      <path d="M138 70l22-16 20 10 26-26" style={VSt(r,2.5)}/><path d="M198 38h8v8" style={VSt(r,2.5)}/>
+    </svg>);
+    case "capaian": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(e,0.07)}/>{ground}
+      {[44,32,20,9].map((rr,i)=>(<circle key={i} cx="112" cy="76" r={rr} style={VS(i%2?"var(--card)":r, i%2?1:0.8)}/>))}
+      <path d="M112 76l60-42" style={VSt(t,3)}/><path d="M164 30l10 2-2 10" style={VS(t)}/>
+      <circle cx="196" cy="98" r="22" style={VSt("var(--border-strong)",7)}/><circle cx="196" cy="98" r="22" style={{...VSt(e,7),strokeDasharray:"103 138",transform:"rotate(-90deg)",transformOrigin:"196px 98px"}}/>
+      <text x="196" y="102" textAnchor="middle" fontSize="11" fontWeight="800" style={{fill:e}}>75%</text>
+    </svg>);
+    case "sebaran": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(g,0.08)}/>{ground}
+      <path d="M58 72l52-30 52 30" style={VS(r,0.85)}/><rect x="66" y="70" width="88" height="62" style={VS("var(--card)")}/><rect x="66" y="70" width="88" height="62" style={VSt(t,2,0.6)}/>
+      <rect x="94" y="94" width="32" height="38" style={VS(g,0.25)}/>{[100,108,116,124].map(y=>(<path key={y} d={`M94 ${y}h32`} style={VSt(g,1.5,0.7)}/>))}
+      <text x="110" y="86" textAnchor="middle" fontSize="9" fontWeight="800" style={{fill:g}}>GUDANG SRG</text>
+      {[[30,120],[44,120],[37,108]].map(([x,y],i)=>(<rect key={i} x={x} y={y} width="16" height="12" rx="4" style={VS("var(--gold-soft)",0.9)}/>))}
+      <rect x="172" y="44" width="54" height="68" rx="5" style={VS("var(--card)")}/><rect x="172" y="44" width="54" height="68" rx="5" style={VSt(b,2)}/>
+      <text x="199" y="60" textAnchor="middle" fontSize="8" fontWeight="800" style={{fill:b}}>RESI GUDANG</text>
+      {[70,78,86].map(y=>(<path key={y} d={`M180 ${y}h38`} style={VSt(t,2,0.35)}/>))}
+      <circle cx="210" cy="100" r="9" style={VS(e)}/><path d="M205 100l3.5 3.5 6-7" style={VSt("#fff",2)}/>
+    </svg>);
+    case "plk": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(e,0.08)}/>{ground}
+      <rect x="84" y="96" width="92" height="36" rx="4" style={VS(g,0.25)}/><rect x="84" y="96" width="92" height="36" rx="4" style={VSt(g,2)}/>
+      <text x="130" y="119" textAnchor="middle" fontSize="10" fontWeight="800" style={{fill:g}}>LELANG</text>
+      <g transform="rotate(-35 150 52)"><rect x="128" y="36" width="44" height="20" rx="4" style={VS("var(--gold-soft)")}/><rect x="146" y="56" width="8" height="40" rx="3" style={VS(t,0.8)}/></g>
+      <path d="M108 84l14 0" style={VSt(t,3)}/>
+      {[[40,92],[58,82],[202,90],[220,80]].map(([x,y],i)=>(<g key={i}><circle cx={x} cy={y} r="8" style={VS(i<2?b:e,0.8)}/><path d={`M${x-12} ${y+30}c0-14 24-14 24 0`} style={VS(i<2?b:e,0.5)}/></g>))}
+      <rect x="182" y="36" width="44" height="18" rx="9" style={VS(e)}/><text x="204" y="48.5" textAnchor="middle" fontSize="9" fontWeight="800" style={{fill:"#fff"}}>SOLD</text>
+    </svg>);
+    case "pbk": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(b,0.08)}/>{ground}
+      <rect x="54" y="26" width="132" height="92" rx="8" style={VS("var(--card)")}/><rect x="54" y="26" width="132" height="92" rx="8" style={VSt(t,2,0.5)}/>
+      {[[70,70,24,0],[86,62,22,0],[102,72,18,1],[118,52,26,0],[134,44,22,0],[150,56,16,1],[166,36,24,0]].map(([x,y,h,d],i)=>(<g key={i}><path d={`M${x+4} ${y-6}v${h+12}`} style={VSt(d?r:e,1.5)}/><rect x={x} y={y} width="8" height={h} rx="1.5" style={VS(d?r:e)}/></g>))}
+      <path d="M66 98l24-10 22 6 24-18 22 4 22-22" style={VSt(g,2.5)}/>
+      {[0,1,2].map(i=>(<g key={i}><ellipse cx="214" cy={122-i*9} rx="18" ry="6" style={VS(g)}/><ellipse cx="214" cy={119-i*9} rx="18" ry="6" style={VS("var(--gold-soft)")}/></g>))}
+      <text x="214" y="104" textAnchor="middle" fontSize="7" fontWeight="800" style={{fill:"#fff"}}>EMAS</text>
+    </svg>);
+    default: return null;
+  }
+}
+
+/* Banner kepala tiap menu: ilustrasi + 4 angka kunci */
+function MenuBanner({kind}){
+  const year = useYear();
+  const rp = (n)=> n>=1e12?`Rp${(n/1e12).toLocaleString('id-ID',{maximumFractionDigits:2})} T`:`Rp${(n/1e9).toLocaleString('id-ID',{maximumFractionDigits:2})} M`;
+  const ros = roForYear(year);
+  const pagu = year===2025?PAGU_RKAKL_REV9_2025:(year===2027?PAGU_ANGGARAN_2027.totalAll:REALISASI_SP2D_SEP2026.pagu);
+  const C = {
+    pohon:{judul:"Pohon Kinerja", sub:"Visi → Sasaran Program → Indikator → Kegiatan → Rincian Output", warna:"var(--emerald)",
+      k:[{l:"Sasaran Program",v:SS.length},{l:"Indikator Program",v:IKSS.length},{l:"Indikator Kegiatan",v:IKK.length},{l:`Rincian Output TA ${year}`,v:ros.length}]},
+    sebab:{judul:"Standarisasi Program", sub:"Rantai sebab–akibat, Prioritas Nasional, tagging, dan pemadanan RO Standar", warna:"var(--violet)",
+      k:[{l:`RO PN TA ${year}`,v:ros.filter(r=>r.isPN).length},{l:"RO dipadankan (2027)",v:PEMADANAN_RO_2027.length},{l:"Terkunci",v:PEMADANAN_RO_2027.filter(r=>r.status==="Terkunci").length},{l:"RO Standar unik",v:new Set(PEMADANAN_RO_2027.map(r=>r.ros)).size}]},
+    anggaran:{judul:"Analisis Anggaran", sub:year===2027?"Pagu Anggaran TA 2027 · tahap Pagu Alokasi Anggaran (PAA)":year===2025?"Pagu RKAKL Rev.9 TA 2025 · realisasi SAKTI":"DIPA TA 2026 setelah ABT · penelaahan 5 kriteria",warna:"var(--gold)",
+      k:[{l:`Pagu TA ${year}`,v:rp(pagu)},{l:"Rincian Output",v:ros.length},{l:"RO Prioritas Nasional",v:ros.filter(r=>r.isPN).length},{l:year===2026?"Serapan s.d. Sep":year===2025?"Serapan (SAKTI)":"Usulan tambahan PA",v:year===2026?`${fmtN(REALISASI_SP2D_SEP2026.pct)}%`:year===2025?"99,09%":"Rp9,91 M"}]},
+    capaian:{judul:"Capaian Kinerja", sub:year===2027?"Target TA 2027 · realisasi belum berjalan":`Target vs realisasi TA ${year}`,warna:"var(--red)",
+      k: year===2025?[{l:"IKS 1.3",v:"14,14%"},{l:"IKP tercapai",v:"4 dari 4"},{l:"Progress fisik RO",v:"99,26%"},{l:"Serapan (SAKTI)",v:"99,09%"}]
+        : year===2027?[{l:"Target IKS",v:"15%"},{l:"Target ISP-1",v:"5,5%"},{l:"Target ISP-4",v:"91"},{l:"Pagu",v:rp(pagu)}]
+        :[{l:"IKS 1.3 · TW III",v:`${fmtN(CAPAIAN_IKS_2026.real)}%`},{l:"Serapan s.d. Sep",v:`${fmtN(REALISASI_SP2D_SEP2026.pct)}%`},{l:"Progress fisik RO",v:"76,85%"},{l:"IKP-3 kepatuhan",v:"81,52%"}]},
+    sebaran:{judul:"Sistem Resi Gudang", sub:`Gudang, pengelola, penerbitan resi & pembiayaan · data s.d. ${RG_CUTOFF_2026}`, warna:"var(--gold)",
+      k:[{l:"Gudang SRG",v:GUDANG.length},{l:"Gudang aktif",v:GUDANG.filter(x=>x.st==='aktif').length},{l:"Resi gudang (kumulatif)",v:RESI_GUDANG_TOTAL.rg.toLocaleString('id-ID')},{l:"Pembiayaan",v:rp(RESI_GUDANG_TOTAL.nilaiBiaya)}]},
+    plk:{judul:"Pasar Lelang Komoditas", sub:"Lelang fisik terorganisir · data s.d. 20 September 2026", warna:"var(--emerald)",
+      k:[{l:"Transaksi 2026",v:"Rp33,49 M"},{l:"Jumlah lelang",v:"41"},{l:"Penyelenggara aktif",v:"5"},{l:"Peserta",v:"523"}]},
+    pbk:{judul:"Perdagangan Berjangka Komoditi", sub:`Transaksi bursa & ekosistem kelembagaan · data s.d. ${PBK_UPDATE}`, warna:"var(--blue)",
+      k:[{l:"Nilai transaksi 2026",v:`Rp${(PBK_NILAI_TRANSAKSI.find(d=>d.th==="2026").nilai).toLocaleString('id-ID')} T`},{l:"Pertumbuhan YoY",v:`+${fmtN(PBK_YOY_2026.nilai)}%`},{l:"Volume",v:`${(PBK_VOL_TRANSAKSI.find(d=>d.th==="2026").total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} jt lot`},{l:"Pialang berjangka",v:PBK_KELEMBAGAAN.pialang}]},
+  }[kind];
+  if(!C) return null;
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 pt-6">
+      <div className="card overflow-hidden" style={{borderLeft:`4px solid ${C.warna}`}}>
+        <div className="flex flex-col md:flex-row items-stretch">
+          <div className="md:w-[230px] shrink-0 flex items-center justify-center p-3" style={{background:"var(--card-2)"}}>
+            <div className="w-full h-[120px] md:h-[130px]"><MenuIllustration kind={kind}/></div>
+          </div>
+          <div className="flex-1 p-5">
+            <div className="flex items-center gap-2" style={{color:C.warna}}><MenuIcon kind={kind} size={20}/><span className="serif text-2xl" style={{color:"var(--text)"}}>{C.judul}</span></div>
+            <div className="text-[12px] text-[var(--text-3)] mt-1">{C.sub}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+              {C.k.map((x,i)=>(
+                <div key={i} className="rounded-lg px-3 py-2" style={{background:"var(--card-2)"}}>
+                  <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">{x.l}</div>
+                  <div className="serif text-xl mt-0.5" style={{color:i===0?C.warna:"var(--text)"}}>{x.v}</div>
+                </div>))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Kotak alur infografis */
+function FlowNode({icon, judul, angka, ket, warna}){
+  return (
+    <div className="flex-1 min-w-[140px] rounded-xl p-3 text-center" style={{background:"var(--card-2)",border:`1px solid var(--border)`}}>
+      <div className="mx-auto w-11 h-11 rounded-full flex items-center justify-center text-[20px]" style={{background:"var(--card)",border:`2px solid ${warna}`,color:warna}}>{icon}</div>
+      <div className="text-[12px] font-semibold mt-2">{judul}</div>
+      {angka && <div className="serif text-lg mt-0.5" style={{color:warna}}>{angka}</div>}
+      <div className="text-[10.5px] text-[var(--text-3)] leading-snug mt-0.5">{ket}</div>
+    </div>
+  );
+}
+const FlowArrow = ()=>(<div className="flex items-center justify-center text-[var(--text-3)] text-xl px-1 shrink-0 rotate-90 md:rotate-0">→</div>);
+
+function InfografisSRG(){
+  const aktif = GUDANG.filter(x=>x.st==='aktif').length;
+  const T = RESI_GUDANG_TOTAL;
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 pt-4">
+      <div className="card p-5">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Infografis · cara kerja SRG</div>
+        <div className="serif text-lg mb-3">Dari hasil panen menjadi agunan dan akses pasar</div>
+        <div className="flex flex-col md:flex-row items-stretch gap-1">
+          <FlowNode icon="🌾" judul="Petani & pelaku usaha" ket="menyimpan komoditas saat harga panen rendah (tunda jual)" warna="var(--emerald)"/>
+          <FlowArrow/>
+          <FlowNode icon="🏬" judul="Gudang SRG" angka={`${aktif} aktif`} ket={`dari ${GUDANG.length} gudang · ${PENGELOLA_SRG.aktif} pengelola aktif`} warna="var(--gold)"/>
+          <FlowArrow/>
+          <FlowNode icon="📄" judul="Resi Gudang" angka={T.rg.toLocaleString('id-ID')} ket={`resi terbit kumulatif · ${(T.vol/1000).toLocaleString('id-ID',{maximumFractionDigits:0})} rb ton`} warna="var(--blue)"/>
+          <FlowArrow/>
+          <FlowNode icon="🏦" judul="Pembiayaan" angka={`Rp${(T.nilaiBiaya/1e12).toLocaleString('id-ID',{maximumFractionDigits:2})} T`} ket={`${T.rgBiaya.toLocaleString('id-ID')} resi dibiayai (${Math.round(T.rgBiaya/T.rg*100)}%) · bank & S-SRG`} warna="var(--violet)"/>
+          <FlowArrow/>
+          <FlowNode icon="🔨" judul="Jual saat harga baik" ket="melalui pasar lelang (PLK), pembeli langsung, atau ekspor" warna="var(--red)"/>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3">Sumber: Laporan Rekap Resi Gudang Bappebti (s.d. {RG_CUTOFF_2026}) dan registri gudang & pengelola SRG.</div>
+      </div>
+    </div>
+  );
+}
+
+function InfografisPLK(){
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 pt-4">
+      <div className="card p-5">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Infografis · alur pasar lelang komoditas</div>
+        <div className="serif text-lg mb-3">Penjual dan pembeli bertemu dalam lelang yang transparan</div>
+        <div className="flex flex-col md:flex-row items-stretch gap-1">
+          <FlowNode icon="🧑‍🌾" judul="Penjual" angka="130" ket="keikutsertaan penjual 2026 (petani, koperasi, pelaku usaha)" warna="var(--emerald)"/>
+          <FlowArrow/>
+          <FlowNode icon="🏛️" judul="Penyelenggara" angka="5 aktif" ket="dari 14 daerah tercatat · Riau, DKI, Jabar, NTB, Aceh" warna="var(--gold)"/>
+          <FlowArrow/>
+          <FlowNode icon="🔨" judul="Lelang" angka="41" ket="lelang s.d. September 2026 · didukung Sistem Pasar Lelang Terpadu" warna="var(--blue)"/>
+          <FlowArrow/>
+          <FlowNode icon="🤝" judul="Pembeli" angka="393" ket="keikutsertaan pembeli · pabrik, pedagang, eksportir" warna="var(--violet)"/>
+          <FlowArrow/>
+          <FlowNode icon="💰" judul="Transaksi" angka="Rp33,49 M" ket="karet bokar Riau menyumbang 80% nilai" warna="var(--red)"/>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3">Sumber: rekap "Perkembangan Lelang September 2026", Bappebti.</div>
+      </div>
+    </div>
+  );
+}
+
+function InfografisPBK(){
+  const K = PBK_KELEMBAGAAN;
+  const Box = ({t,n,s,w,big})=>(
+    <div className={`rounded-xl px-3 py-2 text-center ${big?'':'min-w-[120px]'}`} style={{background:"var(--card-2)",border:`2px solid ${w}`}}>
+      <div className="serif text-xl" style={{color:w}}>{n}</div>
+      <div className="text-[11.5px] font-semibold leading-tight">{t}</div>
+      {s && <div className="text-[10px] text-[var(--text-3)] leading-tight mt-0.5">{s}</div>}
+    </div>);
+  const Line = ()=>(<div className="mx-auto w-px h-5" style={{background:"var(--border-strong)"}}/>);
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 pt-4">
+      <div className="card p-5">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Infografis · ekosistem kelembagaan PBK (per {K.per})</div>
+        <div className="serif text-lg mb-4">Siapa saja yang bekerja di perdagangan berjangka komoditi</div>
+        <div className="flex justify-center"><div className="rounded-xl px-5 py-2 text-center" style={{background:"var(--blue)",color:"#fff"}}><div className="text-[13px] font-semibold">Bappebti — regulator & pengawas</div><div className="text-[10px] opacity-90">transaksi BMKS beralih ke OJK mulai 1 Jan 2027 (POJK 15 & 16/2026)</div></div></div>
+        <Line/>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="space-y-2">
+            <div className="text-[10px] mono uppercase tracking-wider text-center text-[var(--text-3)]">Infrastruktur pasar</div>
+            <Box t="Bursa Berjangka" n={K.bursa} w="var(--blue)" s="tempat transaksi kontrak"/>
+            <Box t="Lembaga Kliring" n={K.kliring} w="var(--blue)" s="penjaminan & penyelesaian"/>
+            <Box t="Bank Penyimpan Margin" n={K.bankMargin} w="var(--blue)" s="menyimpan dana nasabah"/>
+          </div>
+          <div className="space-y-2">
+            <div className="text-[10px] mono uppercase tracking-wider text-center text-[var(--text-3)]">Perantara & penasihat</div>
+            <Box t="Pialang Berjangka" n={K.pialang} w="var(--gold)" s={`${K.wakilPialang.toLocaleString('id-ID')} wakil pialang`}/>
+            <Box t="Pedagang Penyelenggara SPA" n={K.pedagangSPA} w="var(--gold)" s="sistem perdagangan alternatif"/>
+            <Box t="Penasihat Berjangka" n={K.penasihat} w="var(--gold)" s={`${K.wakilPenasihat} wakil penasihat`}/>
+          </div>
+          <div className="space-y-2">
+            <div className="text-[10px] mono uppercase tracking-wider text-center text-[var(--text-3)]">Pasar fisik emas digital</div>
+            <Box t="Pedagang Fisik Emas Digital" n={K.pedagangEmasDigital} w="var(--emerald)" s="transaksi 2026 naik 641% (nilai)"/>
+            <Box t="Perantara" n={K.perantaraEmasDigital} w="var(--emerald)"/>
+            <Box t="Depository" n={K.depository} w="var(--emerald)" s="penyimpan emas fisik"/>
+          </div>
+        </div>
+        <Line/>
+        <div className="flex justify-center"><div className="rounded-xl px-5 py-2 text-center" style={{background:"var(--card-2)",border:"1px dashed var(--border-strong)"}}><div className="text-[13px] font-semibold">Nasabah</div><div className="text-[10px] text-[var(--text-3)]">bertransaksi melalui pialang · volume 2026: {(PBK_VOL_TRANSAKSI.find(d=>d.th==="2026").total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} juta lot</div></div></div>
+      </div>
+    </div>
+  );
+}
+
+/* Bagan struktur organisasi (dipakai di Perkembangan Kelembagaan Bappebti) */
+function BaganOrg({judul, warna, unit}){
+  return (
+    <div className="rounded-xl p-4" style={{background:"var(--card-2)",borderTop:`4px solid ${warna}`}}>
+      <div className="text-[12px] font-semibold mb-3" style={{color:warna}}>{judul}</div>
+      <div className="space-y-4">
+        {unit.map((u,i)=>(
+          <div key={i}>
+            <div className="mx-auto max-w-[300px] rounded-lg px-3 py-2 text-center text-[12px] font-semibold text-white" style={{background:warna}}>{u.unit}</div>
+            <div className="mx-auto w-px h-3" style={{background:"var(--border-strong)"}}/>
+            <div className="relative pt-3" style={{borderTop:"1px solid var(--border-strong)"}}>
+              <div className="grid gap-2" style={{gridTemplateColumns:`repeat(${Math.min(u.dit.length,3)}, minmax(0,1fr))`}}>
+                {u.dit.map((d,j)=>(
+                  <div key={j} className="rounded-md px-2 py-1.5 text-center text-[10.5px] leading-snug" style={{background:"var(--card)",border:`1px solid ${warna}`}}>Dit. {d}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Lipat otomatis: kartu di dalam menu (setelah N kartu pertama) dilipat menjadi judulnya saja.
+   Klik judul untuk membuka/menutup. Tidak mengubah isi menu; hanya atribut data-fold pada elemen. */
+function AutoFold({children, keepOpen=0, tag}){
+  const ref = React.useRef(null);
+  const [all,setAll] = React.useState(null);
+  const isToggleBtn = (el)=> !!el && [...el.querySelectorAll('button')].some(b=>/tutup|buka|sembunyi|tampil|ringkas|^[\s+−-]+$/i.test(b.textContent.trim()));
+  React.useEffect(()=>{
+    const root = ref.current && ref.current.firstElementChild; if(!root) return;
+    let n=0;
+    [...root.children].forEach(el=>{
+      if(!el.classList.contains('card')) return;
+      const head = el.firstElementChild;
+      if(!head || el.children.length<2 || isToggleBtn(head) || head.tagName==='BUTTON' || el.dataset.nofold!==undefined) return;
+      n++;
+      if(el.dataset.foldInit) return;
+      el.dataset.foldInit = "1";
+      el.dataset.fold = n<=keepOpen ? "open" : "closed";
+      el.addEventListener('click', ev=>{
+        if(ev.target.closest('button,a,input,select,textarea,label,summary')) return;
+        if(ev.target!==el && !head.contains(ev.target)) return;
+        el.dataset.fold = el.dataset.fold==="closed" ? "open" : "closed";
+      });
+    });
+  });
+  React.useEffect(()=>{
+    if(all==null) return;
+    const root = ref.current && ref.current.firstElementChild; if(!root) return;
+    root.querySelectorAll(':scope > [data-fold]').forEach(el=>{ el.dataset.fold = all; });
+  },[all]);
+  return (
+    <div ref={ref}>
+      {children}
+      <div className="fold-tools no-print">
+        <button onClick={()=>setAll(a=>a==="open"?"closed":"open")} title="Buka atau lipat semua bagian">{all==="open"?"▴ Lipat semua bagian":"▾ Buka semua bagian"}</button>
+      </div>
+    </div>
   );
 }
 
@@ -2497,7 +2817,7 @@ function Tabs({active,onChange}){
         {tabs.map(t=>(
           <button key={t.id} onClick={()=>onChange(t.id)} className={`tab-btn ${active===t.id?'active':''}`}>
             <div className="flex flex-col items-start gap-0.5">
-              <span className="serif tab-label">{t.label}</span>
+              <span className="serif tab-label inline-flex items-center gap-1.5"><span className="tab-ico"><MenuIcon kind={t.id} size={16}/></span>{t.label}</span>
               <span className="tab-sub mono uppercase tracking-wider text-[var(--text-3)]">{t.sub}</span>
             </div>
           </button>
@@ -3398,7 +3718,7 @@ function CapaianRO2025(){
 
 /* Panel Metodologi — ditampilkan di menu Pohon Kinerja. */
 function PanelRumusIKSIKP(){
-  const [open,setOpen] = useState(true);
+  const [open,setOpen] = useState(false);
   const [showIKS26,setShowIKS26] = useState(false);
   const ikp3 = hitungIKP(CAPAIAN_IKK_TW3);
   const ikp2 = hitungIKP(CAPAIAN_IKK_TW2);
@@ -4956,7 +5276,7 @@ function ExecutiveSummary({year}){
      IKS 1.3 (Pertumbuhan Transaksi PBK 20% · SRG 45% · PLK 35%) dan IKP-1..IKP-4.
      2025 = angka sebelumnya (baseline, tidak dihitung ulang); 2026 = rumus Renstra (IKP dari IKK TW III,
      IKS = capaian TW III 2026 11,11%); 2027+ = target, realisasi belum ada. */
-  const [open,setOpen] = React.useState(true);
+  const [open,setOpen] = React.useState(false);
   const iks = hitungIKS();
   const ikp = hitungIKP(CAPAIAN_IKK_TW3);
   const is26 = year===2026, is25 = year<=2025;
@@ -5054,10 +5374,9 @@ function ExecutiveSummary({year}){
           <span className="serif text-xl">Kinerja Bappebti — TA {year}</span>
           <span className="pill text-[9px] mono" style={{background:"rgba(5,150,105,0.1)",color:"var(--emerald)",borderColor:"transparent"}}>TAHUN BERJALAN · IKK TW III · data s.d. {RG_CUTOFF_2026}</span>
           <span className="text-[10px] mono text-[var(--text-3)]">menurut IKS &amp; IKP Renstra 2025–2029 · PBK · SRG · PLK</span>
-          <button onClick={()=>setOpen(v=>!v)} className="ml-auto px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition no-print">{open?"▾ Ringkas":"▸ Buka"}</button>
+          <button onClick={()=>setOpen(v=>!v)} className="ml-auto px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] transition no-print">{open?"▴ Sembunyikan per bidang":"▾ Lihat per bidang PBK · SRG · PLK"}</button>
         </div>
 
-        {open && (<>
         {/* Kerangka kinerja */}
         <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-4 mb-2">Indikator Kinerja Sasaran (Kemendag) &amp; Indikator Kinerja Program (Bappebti)</div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -5065,6 +5384,7 @@ function ExecutiveSummary({year}){
           {ikpCards.map(c=><KCard key={c.kode} c={c} />)}
         </div>
 
+        {open && (<>
         {/* Per bidang */}
         <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-5 mb-2">Kontribusi per Bidang terhadap IKS &amp; IKP</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -5659,6 +5979,10 @@ function SebaranSRG({year}){
           ))}
         </div>
 
+        <div className="rounded-lg p-3 mb-4 text-[11.5px] text-[var(--text-2)] leading-relaxed" style={{background:"rgba(161,98,7,0.06)",border:"1px solid var(--border)"}}>
+          <b className="text-[var(--text)]">Dinamika registri 2026:</b> <b style={{color:"var(--emerald)"}}>{PENGELOLA_DINAMIKA_2026.baru.length} pengelola baru</b> disetujui — {PENGELOLA_DINAMIKA_2026.baru.join(", ")} (2025: {PENGELOLA_DINAMIKA_2026.baru2025} pengelola baru). Sebanyak <b style={{color:"var(--red)"}}>{PENGELOLA_DINAMIKA_2026.dibatalkan2026} persetujuan dibatalkan</b> melalui SK tahun 2026 ({PENGELOLA_DINAMIKA_2026.dibatalkanRinci}) sebagai penertiban registri pengelola yang tidak lagi beroperasi, dan 1 pengelola dibatasi: {PENGELOLA_DINAMIKA_2026.dibatasi}.
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card-2 p-3">
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Pengelola Aktif menurut Badan Hukum</div>
@@ -5921,8 +6245,8 @@ function Capaian(){
   const year = useYear();
   const [aiOut,setAIOut] = useState(null);
   const [aiLoading,setAILoading] = useState(false);
-  const [bukaIKK,setBukaIKK] = useState(true);
-  const [bukaRO,setBukaRO] = useState(true);
+  const [bukaIKK,setBukaIKK] = useState(false);
+  const [bukaRO,setBukaRO] = useState(false);
 
   const qLabel = `Q${CURRENT_Q} ${META.fy.replace('Tahun Anggaran ','')}`;
   const lastValN = (arr)=>{ for(let i=arr.length-1;i>=0;i--){ if(arr[i]!=null) return arr[i]; } return null; };
@@ -6925,8 +7249,8 @@ function AnalisisAnggaran2027(){
   };
   const [pkpnCandOpen, setPkpnCandOpen] = useState(false); // (panel kandidat PKPN dihapus — masa pengajuan TA 2027 berakhir; state disisakan tanpa efek)
   const [openKeg, setOpenKeg] = useState(null); // expand/collapse kartu Pagu Anggaran 2027 per Kegiatan
-  const [showSBKK, setShowSBKK] = useState(true); // tampilkan/sembunyikan kartu Usulan SBKK TA 2027
-  const [showPenelaahanBiro, setShowPenelaahanBiro] = useState(true); // tampilkan/sembunyikan tabel penelaahan per Biro/Kegiatan
+  const [showSBKK, setShowSBKK] = useState(false); // tampilkan/sembunyikan kartu Usulan SBKK TA 2027
+  const [showPenelaahanBiro, setShowPenelaahanBiro] = useState(false); // tampilkan/sembunyikan tabel penelaahan per Biro/Kegiatan
   const byV = {Layak:ros.filter(r=>r.tel.verdict.label==="Layak"), "Layak Bersyarat":ros.filter(r=>r.tel.verdict.label==="Layak Bersyarat"), "Perlu Telaah":ros.filter(r=>r.tel.verdict.label==="Perlu Telaah")};
   const verdictMeta = {Layak:{warna:"#059669",pill:"pill-emerald"}, "Layak Bersyarat":{warna:"#a16207",pill:"pill-gold"}, "Perlu Telaah":{warna:"#c8102e",pill:"pill-red"}};
   const pnRos = ros.filter(r=>r.isPN);
@@ -8846,35 +9170,38 @@ function App(){
     <YearContext.Provider value={year}>
       <Header onSettings={()=>setShowSettings(true)} proxySet={!!proxyUrl} year={year} setYear={setYear} activeTab={exportKey} theme={theme} setTheme={setTheme} />
       <Hero />
-      <MetricStrip />
       <ExecutiveSummary year={TAHUN_BERJALAN} />
       <Tabs active={tab} onChange={setTab} />
-      {tab==="pohon"   && <PohonKinerja />}
+      <MenuBanner kind={tab} />
+      {tab==="plk" && <InfografisPLK />}
+      {tab==="pbk" && <InfografisPBK />}
+      {tab==="pohon"   && <AutoFold key={"pohon"+year} keepOpen={1}><PohonKinerja /></AutoFold>}
       {tab==="sebab"   && <SubTabs active={sebabSub} onChange={setSebabSub} items={[
         {id:"sebab", label:"Sebab — Akibat", sub:"Rantai RO → IKK → IKP · Bottom-up + AI"},
         {id:"pn",    label:"Analisa PN",     sub:"PN · PP · KP · ProP"},
         {id:"tagging", label:"Tagging RO", sub:"PN · PKPN · Tematik"},
         {id:"pemadanan", label:"Pemadanan RO", sub:"RO Standar (ROS) TA 2027"},
       ]} />}
-      {tab==="sebab" && sebabSub==="sebab" && <SebabAkibat />}
-      {tab==="sebab" && sebabSub==="pn"    && <AnalisaPN />}
-      {tab==="sebab" && sebabSub==="tagging" && <MenuTaggingRO />}
-      {tab==="sebab" && sebabSub==="pemadanan" && <MenuPemadananRO />}
+      {tab==="sebab" && sebabSub==="sebab" && <AutoFold key={"SebabAkibat"+year}><SebabAkibat /></AutoFold>}
+      {tab==="sebab" && sebabSub==="pn"    && <AutoFold key={"AnalisaPN"+year}><AnalisaPN /></AutoFold>}
+      {tab==="sebab" && sebabSub==="tagging" && <AutoFold key={"MenuTaggingRO"+year}><MenuTaggingRO /></AutoFold>}
+      {tab==="sebab" && sebabSub==="pemadanan" && <AutoFold key={"MenuPemadananRO"+year}><MenuPemadananRO /></AutoFold>}
       {tab==="anggaran"&& <SubTabs active={angSub} onChange={setAngSub} items={[
         {id:"anggaran", label:"Penelaahan Anggaran", sub:"Pagu · Penelaahan RO · SBKK"},
         {id:"spbe",     label:"SPBE",                sub:"Clearance TIK"},
       ]} />}
-      {tab==="anggaran" && angSub==="anggaran" && <AnalisisAnggaran2027 />}
-      {tab==="anggaran" && angSub==="spbe"     && <MenuSPBE />}
-      {tab==="capaian" && <Capaian />}
+      {tab==="anggaran" && angSub==="anggaran" && <AutoFold key={"AnalisisAnggaran2027"+year}><AnalisisAnggaran2027 /></AutoFold>}
+      {tab==="anggaran" && angSub==="spbe"     && <AutoFold key={"MenuSPBE"+year}><MenuSPBE /></AutoFold>}
+      {tab==="capaian" && <AutoFold key={"Capaian"+year}><Capaian /></AutoFold>}
       {tab==="sebaran" && <SubTabs active={srgSub} onChange={setSrgSub} items={[
         {id:"sebaran", label:"Sistem Resi Gudang", sub:"Gudang · Pengelola · Resi Gudang"},
         {id:"psn",     label:"PSN SRG",            sub:"PSN TA 2027–2029"},
       ]} />}
-      {tab==="sebaran" && srgSub==="sebaran" && <SebaranSRG year={year} />}
-      {tab==="sebaran" && srgSub==="psn"     && <MenuPSN />}
-      {tab==="plk"     && <MenuPLK year={year} />}
-      {tab==="pbk"     && <MenuPBK year={year} />}
+      {tab==="sebaran" && srgSub==="sebaran" && <InfografisSRG />}
+      {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"SebaranSRG"+year}><SebaranSRG year={year} /></AutoFold>}
+      {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
+      {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
+      {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
       <footer className="border-t border-[var(--border)] mt-16">
@@ -9113,7 +9440,7 @@ const BAPPEBTI_ISU_TERBUKA = [
 ];
 
 function PerkembanganBappebti(){
-  const [open,setOpen]=React.useState(true);
+  const [open,setOpen]=React.useState(false);
   const R=BAPPEBTI_REPOSISI;
   return (
     <div className="card p-5 mb-6" style={{borderColor:"rgba(161,98,7,0.35)"}}>
@@ -9145,23 +9472,15 @@ function PerkembanganBappebti(){
           ))}
         </div>
 
-        {/* Dua opsi */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-          {[{o:R.opsi1,c:"var(--red)"},{o:R.alt,c:"var(--emerald)"}].map(({o,c},i)=>(
-            <div key={i} className="card-2 p-4" style={{borderTop:`3px solid ${c}`}}>
-              <div className="text-sm font-semibold mb-1" style={{color:c}}>{o.judul}</div>
-              <div className="text-[11px] text-[var(--text-2)] leading-relaxed mb-3">{o.inti}</div>
-              {o.struktur.map((s,j)=>(
-                <div key={j} className="mb-2">
-                  <div className="text-[11px] font-medium">{s.unit}</div>
-                  <ul className="text-[11px] text-[var(--text-2)] list-disc pl-5 leading-relaxed">
-                    {s.dit.map((d,k)=><li key={k}>Dit. {d}</li>)}
-                  </ul>
-                </div>
-              ))}
-              <div className="text-[10px] text-[var(--text-3)] italic mt-2">Pertimbangan: {o.alasan}</div>
-            </div>
-          ))}
+        {/* Dua opsi — bagan struktur organisasi */}
+        <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Bagan Struktur yang Diusulkan</div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-2">
+          <BaganOrg judul={R.opsi1.judul} warna="var(--red)" unit={R.opsi1.struktur}/>
+          <BaganOrg judul={R.alt.judul} warna="var(--emerald)" unit={R.alt.struktur}/>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-5 text-[10.5px] text-[var(--text-3)] italic">
+          <div>{R.opsi1.inti} Pertimbangan: {R.opsi1.alasan}</div>
+          <div>{R.alt.inti} Pertimbangan: {R.alt.alasan}</div>
         </div>
 
         {/* Peta fungsi */}
