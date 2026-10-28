@@ -113,6 +113,18 @@ service cloud.firestore {
       // Ubah status/peran & hapus: hanya admin
       allow update, delete: if isAdmin();
     }
+
+    // Riwayat login: setiap pengguna hanya boleh MENAMBAH catatan miliknya sendiri,
+    // tidak bisa mengubah/menghapus. Hanya admin yang boleh membaca (dan menghapus).
+    match /login_history/{logId} {
+      allow create: if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.waktu == request.time
+        && request.resource.data.aksi in ['login', 'buka dashboard', 'logout', 'ditolak', 'menunggu']
+        && request.resource.data.keys().hasOnly(['uid','email','nama','role','aksi','perangkat','halaman','waktu']);
+      allow read, delete: if isAdmin();
+      allow update: if false;
+    }
   }
 }
 ```

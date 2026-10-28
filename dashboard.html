@@ -273,7 +273,7 @@
   //  sebelum menampilkan dashboard. Tombol "Keluar" di header
   //  memanggil window.bappebtiLogout() yang didefinisikan di sini.
   // ============================================================
-  import { auth, onAuthStateChanged, signOut, getProfil } from './auth.js';
+  import { auth, onAuthStateChanged, signOut, getProfil, catatAktivitas } from './auth.js';
 
   const overlay = document.getElementById('authOverlay');
   const overlayMsg = document.getElementById('authOverlayMsg');
@@ -294,15 +294,24 @@
       }
       window.__BAPPEBTI_USER__ = {
         email: user.email,
-        nama: profil.nama || user.displayName || user.email,
+        nama: profil.nama || profil.name || user.displayName || user.email,
         role: profil.role || 'user'
       };
+      // Riwayat login: catat "buka dashboard" sekali per sesi browser
+      // (login lewat login.html sudah tercatat sebagai "login").
+      try {
+        const k = 'bpi_akses_' + user.uid;
+        if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); catatAktivitas(user, profil, 'buka dashboard'); }
+      } catch (e) { catatAktivitas(user, profil, 'buka dashboard'); }
+      window.__BAPPEBTI_PROFIL__ = profil;
     } catch (e) {
       console.error('Auth check gagal:', e);
       window.location.href = 'login.html';
       return;
     }
     window.bappebtiLogout = async () => {
+      await catatAktivitas(auth.currentUser, window.__BAPPEBTI_PROFIL__, 'logout');
+      try { sessionStorage.removeItem('bpi_akses_' + (auth.currentUser ? auth.currentUser.uid : '')); } catch (e) {}
       try { await signOut(auth); } catch (e) { console.error(e); }
       window.location.href = 'login.html';
     };

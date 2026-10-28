@@ -46,7 +46,7 @@
   </div>
 
   <script type="module">
-    import { auth, signInWithEmailAndPassword, signOut, getProfil, sendPasswordResetEmail } from "./auth.js";
+    import { auth, signInWithEmailAndPassword, signOut, getProfil, sendPasswordResetEmail, catatAktivitas } from "./auth.js";
 
     const $ = (id) => document.getElementById(id);
     const pesan = $("pesan");
@@ -78,12 +78,16 @@
           show("err", "Data akun tidak ditemukan. Hubungi administrator.");
         } else if(profil.status === "approved"){
           show("ok", "Berhasil masuk. Mengalihkan ke dashboard…");
+          await catatAktivitas(cred.user, profil, "login");
+          try{ sessionStorage.setItem("bpi_akses_" + cred.user.uid, "1"); }catch(e){}
           window.location.href = "dashboard.html";
           return;
         } else if(profil.status === "rejected"){
+          await catatAktivitas(cred.user, profil, "ditolak");
           await signOut(auth);
           show("err", "Akun Anda ditolak. Silakan hubungi administrator.");
         } else {
+          await catatAktivitas(cred.user, profil, "menunggu");
           await signOut(auth);
           show("info", "Akun Anda <b>menunggu persetujuan</b> administrator. Silakan coba lagi setelah disetujui.");
         }

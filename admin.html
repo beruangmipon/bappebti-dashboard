@@ -8,6 +8,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+<style>
+  .sec-title{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:30px 0 12px; padding-top:20px; border-top:1px solid var(--border); }
+  .sec-title h2{ font-family:'Chakra Petch',sans-serif; font-size:18px; margin:2px 0 0; }
+  .filters{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+  .filters input, .filters select{ width:auto; padding:8px 11px; font-size:13px; border-radius:9px; margin:0; }
+  .filters input{ min-width:220px; flex:1; }
+  .pill.login{ background:#dcfce7; color:#15803d; } .pill.buka{ background:#e0f2fe; color:#0369a1; }
+  .pill.logout{ background:#f1f5f9; color:#475569; } .pill.ditolak{ background:#fee2e2; color:#b91c1c; } .pill.menunggu{ background:#fef3c7; color:#b45309; }
+  .muted{ color:var(--ink-3); } .small{ font-size:11.5px; }
+  .note{ font-size:11.5px; color:var(--ink-3); margin-top:10px; line-height:1.5; }
+</style>
 </head>
 <body>
   <div class="auth-wrap" style="align-items:flex-start;">
@@ -44,7 +55,7 @@
         <div class="tbl-wrap">
           <table>
             <thead>
-              <tr><th>Nama</th><th>Email</th><th>Status</th><th>Peran</th><th>Tindakan</th></tr>
+              <tr><th>Nama</th><th>Email</th><th>Status</th><th>Peran</th><th>Terakhir aktif</th><th>Tindakan</th></tr>
             </thead>
             <tbody id="rows"></tbody>
           </table>
@@ -53,19 +64,66 @@
           Persetujuan mengubah status akun menjadi <b>approved</b> (boleh masuk) atau <b>rejected</b> (ditolak).
           Memberi peran <b>admin</b> memungkinkan pengguna membuka panel ini.
         </div>
+
+        <!-- ===== Riwayat Login ===== -->
+        <div class="sec-title">
+          <div><div class="eyebrow">Riwayat Login</div><h2>Siapa yang masuk ke dashboard</h2></div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-ghost" id="btnMuatRiwayat">Muat ulang</button>
+            <button class="btn-ghost" id="btnCsv">Unduh CSV</button>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><div class="n" id="hHariIni">0</div><div class="l">Aktivitas hari ini</div></div>
+          <div class="stat"><div class="n" id="hUnikHari" style="color:var(--green)">0</div><div class="l">Pengguna hari ini</div></div>
+          <div class="stat"><div class="n" id="hUnik7">0</div><div class="l">Pengguna 7 hari</div></div>
+          <div class="stat"><div class="n" id="hDitolak" style="color:var(--red)">0</div><div class="l">Ditolak / menunggu (7 hari)</div></div>
+        </div>
+        <div class="filters">
+          <input id="fCari" type="search" placeholder="Cari nama atau email…" />
+          <select id="fPeriode">
+            <option value="1">Hari ini</option>
+            <option value="7" selected>7 hari terakhir</option>
+            <option value="30">30 hari terakhir</option>
+            <option value="0">Semua (500 terakhir)</option>
+          </select>
+          <select id="fAksi">
+            <option value="">Semua aktivitas</option>
+            <option value="login">Login</option>
+            <option value="buka dashboard">Buka dashboard</option>
+            <option value="logout">Logout</option>
+            <option value="ditolak">Ditolak</option>
+            <option value="menunggu">Menunggu persetujuan</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Waktu (WIB)</th><th>Nama</th><th>Email</th><th>Aktivitas</th><th>Perangkat</th></tr></thead>
+            <tbody id="hRows"><tr><td colspan="5" class="muted">Memuat riwayat…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="note" id="hNote">
+          "Login" dicatat saat masuk lewat halaman login; "Buka dashboard" dicatat sekali per sesi browser untuk pengguna yang sesinya masih tersimpan.
+          Alamat IP tidak tercatat (tidak tersedia dari browser tanpa layanan server).
+        </div>
       </div>
     </div>
   </div>
 
   <script type="module">
-    import { auth, db, onAuthStateChanged, signOut, getProfil,
-             doc, updateDoc, collection, getDocs } from "./auth.js";
+    import { auth, db, onAuthStateChanged, signOut, getProfil, catatAktivitas,
+             doc, updateDoc, collection, getDocs, query, orderBy, limit } from "./auth.js";
 
     const $ = (id) => document.getElementById(id);
     const pesan = $("pesan");
     function show(type, html){ pesan.className = "msg " + type; pesan.innerHTML = html; pesan.style.display = "block"; }
 
-    $("btnKeluar").addEventListener("click", async () => { await signOut(auth); window.location.href = "login.html"; });
+    let meProfil = null;
+    $("btnKeluar").addEventListener("click", async () => {
+      await catatAktivitas(auth.currentUser, meProfil, "logout");
+      try{ sessionStorage.removeItem("bpi_akses_" + (auth.currentUser ? auth.currentUser.uid : "")); }catch(e){}
+      await signOut(auth); window.location.href = "login.html";
+    });
 
     function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
@@ -85,8 +143,10 @@
         return;
       }
 
+      meProfil = me;
       $("loading").style.display = "none";
       $("panel").style.display = "block";
+      await muatRiwayat();
       await muat();
     });
 
@@ -117,6 +177,7 @@
           `<td class="mono" style="font-size:12px">${esc(u.email)}</td>`+
           `<td><span class="pill ${st}">${st}</span></td>`+
           `<td><span class="pill ${role}">${role}</span></td>`+
+          `<td class="small">${terakhir[u.id] ? fmtWaktu(terakhir[u.id]) : '<span class="muted">belum tercatat</span>'}</td>`+
           `<td><div class="act">`+
             `<button class="btn-xs ok"  data-act="approve" data-id="${u.id}" ${st==='approved'?'disabled':''}>Setujui</button>`+
             `<button class="btn-xs no"  data-act="reject"  data-id="${u.id}" ${st==='rejected'?'disabled':''}>Tolak</button>`+
@@ -127,6 +188,64 @@
 
       tbody.querySelectorAll("button[data-act]").forEach(b => b.addEventListener("click", aksi));
     }
+
+    // ================= Riwayat Login =================
+    let riwayat = [];          // {id, uid, email, nama, role, aksi, perangkat, waktu: Date}
+    let terakhir = {};         // uid -> Date aktivitas terakhir (login / buka dashboard)
+    const fmtWaktu = (t) => t ? t.toLocaleString("id-ID", { timeZone:"Asia/Jakarta", day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" }) : "—";
+    const awalHariWIB = () => { const now = new Date(); const wib = new Date(now.getTime() + 7*3600e3); wib.setUTCHours(0,0,0,0); return new Date(wib.getTime() - 7*3600e3); };
+    const kelasAksi = (a) => a==="login" ? "login" : a==="buka dashboard" ? "buka" : a==="logout" ? "logout" : a==="ditolak" ? "ditolak" : "menunggu";
+
+    async function muatRiwayat(){
+      const tb = $("hRows");
+      try{
+        const snap = await getDocs(query(collection(db, "login_history"), orderBy("waktu", "desc"), limit(500)));
+        riwayat = []; terakhir = {};
+        snap.forEach(d => { const x = d.data(); const w = x.waktu && x.waktu.toDate ? x.waktu.toDate() : null;
+          riwayat.push({ id:d.id, ...x, waktu:w });
+          if(w && (x.aksi==="login" || x.aksi==="buka dashboard") && !terakhir[x.uid]) terakhir[x.uid] = w; });
+      }catch(e){
+        tb.innerHTML = `<tr><td colspan="5" class="muted">Riwayat belum bisa dibaca. Pastikan Security Rules koleksi <b>login_history</b> sudah dipasang (lihat PANDUAN-SETUP.md).</td></tr>`;
+        return;
+      }
+      ringkas(); tampilkan();
+    }
+    function ringkas(){
+      const h0 = awalHariWIB(), d7 = new Date(Date.now() - 7*864e5);
+      const hari = riwayat.filter(r => r.waktu && r.waktu >= h0);
+      const minggu = riwayat.filter(r => r.waktu && r.waktu >= d7);
+      const masuk = (r) => r.aksi==="login" || r.aksi==="buka dashboard";
+      $("hHariIni").textContent = hari.length;
+      $("hUnikHari").textContent = new Set(hari.filter(masuk).map(r => r.uid)).size;
+      $("hUnik7").textContent = new Set(minggu.filter(masuk).map(r => r.uid)).size;
+      $("hDitolak").textContent = minggu.filter(r => r.aksi==="ditolak" || r.aksi==="menunggu").length;
+    }
+    function tersaring(){
+      const q = $("fCari").value.trim().toLowerCase(), per = +$("fPeriode").value, ak = $("fAksi").value;
+      const batas = per===1 ? awalHariWIB() : per>1 ? new Date(Date.now() - per*864e5) : null;
+      return riwayat.filter(r => (!batas || (r.waktu && r.waktu >= batas)) && (!ak || r.aksi===ak)
+        && (!q || String(r.nama||"").toLowerCase().includes(q) || String(r.email||"").toLowerCase().includes(q)));
+    }
+    function tampilkan(){
+      const list = tersaring(), tb = $("hRows");
+      if(!list.length){ tb.innerHTML = `<tr><td colspan="5" class="muted">Belum ada aktivitas pada filter ini.</td></tr>`; return; }
+      tb.innerHTML = list.map(r =>
+        `<tr><td class="mono small">${esc(fmtWaktu(r.waktu))}</td>`+
+        `<td>${esc(r.nama)||'<span class="muted">—</span>'}${r.role==="admin"?' <span class="pill admin">admin</span>':''}</td>`+
+        `<td class="mono small">${esc(r.email)}</td>`+
+        `<td><span class="pill ${kelasAksi(r.aksi)}">${esc(r.aksi)}</span></td>`+
+        `<td class="small">${esc(r.perangkat)}</td></tr>`).join("");
+    }
+    ["fCari","fPeriode","fAksi"].forEach(id => $(id).addEventListener(id==="fCari"?"input":"change", tampilkan));
+    $("btnMuatRiwayat").addEventListener("click", async () => { await muatRiwayat(); await muat(); });
+    $("btnCsv").addEventListener("click", () => {
+      const rows = [["Waktu (WIB)","Nama","Email","Peran","Aktivitas","Perangkat","Halaman"]]
+        .concat(tersaring().map(r => [fmtWaktu(r.waktu), r.nama, r.email, r.role, r.aksi, r.perangkat, r.halaman]));
+      const csv = rows.map(a => a.map(v => `"${String(v==null?"":v).replace(/"/g,'""')}"`).join(",")).join("\n");
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob(["\ufeff"+csv], {type:"text/csv;charset=utf-8"}));
+      a.download = `riwayat-login-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+    });
 
     async function aksi(ev){
       const b = ev.currentTarget;
