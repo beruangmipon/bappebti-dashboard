@@ -3406,15 +3406,15 @@ function hitungIKP(src){
       notaProksi:"Sementara memakai angka gabungan IKK 3759 untuk Ef_was dan Ef_ph (ditetapkan Perencana, 26 Okt 2026) sampai rincian TP_PBK/TP_SRG/TP_PLK dan TPr/TPk/TPil tersedia." }; }
   // IKP-4
   { const s=g("izinSRGPLK"), p=g("izinPBK"), hk=g("hukum"), ik=g("ikm");
-    const izin = (s!=null && p!=null) ? (s+p)/2 : (s ?? p);
-    const parts=[izin,ik,hk].filter(v=>v!=null);
-    const real = parts.length===3 ? parts.reduce((a,b)=>a+b,0)/3 : null;
+    const parts=[s,p,ik,hk];
+    const real = parts.every(v=>v!=null) ? parts.reduce((a,b)=>a+b,0)/4 : null;
     out["ISP-4"] = { real, satuan:"Nilai", komponen:[
-      {l:"Indeks layanan perizinan = rata-rata perizinan SRG/PLK (IKK 3760) & PBK (IKK 3762)", v:izin, w:"1/3"},
-      {l:"Indeks layanan informasi publik — IKK Survei Kepuasan Masyarakat (3758)", v:ik, w:"1/3"},
-      {l:"Indeks layanan penyelesaian perselisihan & konsultasi hukum (IKK 3761)", v:hk, w:"1/3"} ],
-      langkah: real==null?null:`(${fmtN(izin)} + ${fmtN(ik)} + ${fmtN(hk)}) / 3 = ${fmtN(real)}`, proksi:false,
-      notaKonfirmasi:"Bobot sama (1/3) untuk masing-masing indeks — dikonfirmasi Perencana, 26 Okt 2026." }; }
+      {l:"Indeks kepuasan layanan perizinan SRG/PLK (IKK 3760)", v:s, w:"1/4"},
+      {l:"Indeks kepuasan layanan perizinan PBK (IKK 3762)", v:p, w:"1/4"},
+      {l:"Indeks layanan informasi publik — IKK Survei Kepuasan Masyarakat (3758)", v:ik, w:"1/4"},
+      {l:"Indeks layanan penyelesaian perselisihan & konsultasi hukum (IKK 3761)", v:hk, w:"1/4"} ],
+      langkah: real==null?null:`(${fmtN(s)} + ${fmtN(p)} + ${fmtN(ik)} + ${fmtN(hk)}) / 4 = ${fmtN(real)}`, proksi:false,
+      notaKonfirmasi:"Empat IKK berbobot sama (1/4 masing-masing) — hasilnya sesuai angka yang dilaporkan (90,21); dikonfirmasi Perencana, 29 Okt 2026." }; }
   // IKP-5, IKP-6 — tahunan (tidak dihitung dari IKK triwulanan)
   out["ISP-5"] = { real:null, satuan:"Nilai", komponen:[], langkah:null, tahunan:true };
   out["ISP-6"] = { real:null, satuan:"Nilai", komponen:[], langkah:null, tahunan:true };
@@ -3432,7 +3432,7 @@ function hitungIKP(src){
     if(L["ISP-1"]!=null && out["ISP-1"].langkah){ const o=out["ISP-1"]; const k=o.komponen; o.langkah=`0,5 × ${fmtN(k[0].v)} + 0,5 × ${fmtN(k[1].v)} = ${fmtN(o.real)}%`; }
     if(L["ISP-4"]!=null && out["ISP-4"].langkah){ out["ISP-4"].langkah += ` · dilaporkan ${twL}: ${fmtN(out["ISP-4"].real)}`; }
     if(L["ISP-4"]!=null && out["ISP-4"].hitungIKK!=null){ const o=out["ISP-4"];
-      o.notaLapor=`Angka dilaporkan ${twL} = ${fmtN(o.real)}; rata-rata tiga indeks dari IKK = ${fmtN(o.hitungIKK)}.`; }
+      o.notaLapor=`Angka dilaporkan ${twL} = ${fmtN(o.real)}; rata-rata empat IKK (bobot 1/4) = ${fmtN(o.hitungIKK)}.`; }
     if(L["ISP-1"]!=null && out["ISP-1"].hitungIKK!=null){ const o=out["ISP-1"]; if(Math.abs(o.hitungIKK-o.real)>0.02) o.notaLapor=`Angka dilaporkan ${twL} = ${fmtN(o.real)}%; hasil rumus dari IKK = ${fmtN(o.hitungIKK)}%.`; }
   }
   Object.entries(out).forEach(([id,o])=>{ const ik=getIKSS(id); const t=ik?numTarget(ik.target):null; o.target=t; o.cap = (o.real!=null && t) ? +(o.real/t*100).toFixed(2) : null; });
@@ -3463,11 +3463,11 @@ function penjelasanIKP(id, h, ik){
     `Langkah 3 — Gabungkan dengan bobot: 60% × ${v(0)} + 40% × ${v(1)} = ${fmtN(h.real)}%. Dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%.`,
   ];
   if(id==="ISP-4") return [
-    `Apa yang diukur: tingkat kepuasan pengguna terhadap tiga jenis layanan Bappebti, masing-masing berbobot sama (1/3).`,
-    `Langkah 1 — Indeks layanan perizinan: rata-rata kepuasan perizinan SRG/PLK dan perizinan PBK = ${v(0)}. Langkah 2 — Indeks layanan informasi publik: ${v(1)} (Survei Kepuasan Masyarakat). Langkah 3 — Indeks layanan penyelesaian perselisihan & konsultasi hukum: ${v(2)}.`,
+    `Apa yang diukur: tingkat kepuasan pengguna terhadap empat indeks layanan Bappebti, masing-masing berbobot sama (1/4).`,
+    `Langkah 1 — Indeks kepuasan perizinan SRG/PLK: ${v(0)}. Langkah 2 — Indeks kepuasan perizinan PBK: ${v(1)}. Langkah 3 — Indeks layanan informasi publik: ${v(2)} (Survei Kepuasan Masyarakat). Langkah 4 — Indeks layanan penyelesaian perselisihan & konsultasi hukum: ${v(3)}.`,
     h.dilaporkan
-      ? `Langkah 4 — Rata-rata ketiganya: (${v(0)} + ${v(1)} + ${v(2)}) ÷ 3 = ${fmtN(h.hitungIKK)}. Angka yang dilaporkan ${h.dilaporkan} adalah ${fmtN(h.real)}; dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%. Nilai ≥ 88,31 termasuk mutu A (Sangat Baik) menurut Permenpan RB No. 14/2017.`
-      : `Langkah 4 — Rata-ratakan ketiganya: (${v(0)} + ${v(1)} + ${v(2)}) ÷ 3 = ${fmtN(h.real)}. Dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%. Nilai ≥ 88,31 termasuk mutu A (Sangat Baik) menurut Permenpan RB No. 14/2017.`,
+      ? `Langkah 5 — Rata-rata keempatnya: (${v(0)} + ${v(1)} + ${v(2)} + ${v(3)}) ÷ 4 = ${fmtN(h.hitungIKK)}, sama dengan angka yang dilaporkan. Angka yang dilaporkan ${h.dilaporkan} adalah ${fmtN(h.real)}; dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%. Nilai ≥ 88,31 termasuk mutu A (Sangat Baik) menurut Permenpan RB No. 14/2017.`
+      : `Langkah 5 — Rata-ratakan keempatnya: (${v(0)} + ${v(1)} + ${v(2)} + ${v(3)}) ÷ 4 = ${fmtN(h.real)}. Dibandingkan target ${ik.target}, capaiannya ${fmtN(h.cap)}%. Nilai ≥ 88,31 termasuk mutu A (Sangat Baik) menurut Permenpan RB No. 14/2017.`,
   ];
   return null;
 }
