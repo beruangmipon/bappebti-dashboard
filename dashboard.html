@@ -1534,7 +1534,7 @@ const CAPAIAN_IKSS = [
   { id:"ISP-2", realNow:"45,66% · Real 2,74% dari target 6%", cap:[17,45.66,null,null] },
   { id:"ISP-3", realNow:"95,00% · Real 77,90% dari target 82%", cap:[102,95.00,null,null] },
   { id:"ISP-4", realNow:"100,23% · Real 90,21 dari target 90", cap:[null,100.23,null,null] },
-  { id:"ISP-5", realNow:"100% · Real 69,79 dari target 69,79", cap:[null,100,null,null] },
+  { id:"ISP-5", realNow:"100% · Real 69,79 dari target 69,79 (nilai SPI 2025 dibawa; nilai baru terbit 2027)", cap:[null,100,null,null] },
   { id:"ISP-6", realNow:"100,25% · Real 82,71 dari target 82,50 (TW III)", cap:[38,null,null,null] },
   { id:"ISP-7", realNow:"blm diukur",    cap:[null,null,null,null] },
 ];
@@ -2303,7 +2303,7 @@ Kontrasnya jelas: indikator program tercapai, tetapi IKS (kinerja pasar) tidak. 
 
 Kegiatan 3760 adalah titik kritis: pagunya naik tiga kali lipat melalui ABT (Rp0,45 miliar menjadi Rp1,41 miliar) tetapi realisasinya baru Rp209,7 juta. Empat RO masih nol rupiah — FAB.001 Sistem Informasi Persetujuan (Rp30 juta), UAB.001 SPLT (Rp30 juta), UAB.002 WMS (Rp60 juta), ACD.002 Perizinan PLK (Rp3 juta) — dan RO bernilai besar bergerak lambat: QDB.001 Peningkatan Kompetensi Pengelola (Rp192,6 juta, realisasi Rp3,4 juta, progress 27,7%) dan QDC.003 Asistensi PLK (Rp264,5 juta, realisasi Rp14,2 juta, progress 56,5%).
 
-Capaian indikator TW III yang dilaporkan relatif baik dan seluruhnya naik dari TW II: IKP-1 2,82% → 3,80% (95,0%), IKP-2 2,74% → 5,52% (92,0%), IKP-3 77,90% → 81,52% (99,4%), IKP-4 tetap 90,21 (100,2%); IPI 69,79 dan SAKIP 82,71 (100,3%) memenuhi target. IKS 1.3 naik dari 9,61% pada TW II menjadi 11,11% pada TW III, atau 74,4% dari target 14,93% (status At Risk); sisa 3,82 poin perlu dikejar di triwulan IV, dengan risiko terbesar di komponen SRG (bobot 45%) karena penerbitan resi gudang s.d. 20 Oktober baru Rp443,7 miliar. PBK justru tumbuh kuat (+97,03% nilai s.d. Agustus) dan PLK pulih ke Rp33,49 miliar s.d. September. Di tingkat IKK, yang tertinggal adalah rekomendasi kebijakan PBK (0% dari 85%), rekomendasi kebijakan SRG/PLK (66,67% dari 75%), pelaku PLK (4,15% dari 5%), dan pelaku PBK (3,46% dari 4%).
+Capaian indikator TW III yang dilaporkan relatif baik dan seluruhnya naik dari TW II: IKP-1 2,82% → 3,80% (95,0%), IKP-2 2,74% → 5,52% (92,0%), IKP-3 77,90% → 81,52% (99,4%), IKP-4 tetap 90,21 (100,2%); SAKIP 82,71 (100,3%) memenuhi target; IPI 69,79 adalah nilai survei TA 2025 yang dibawa karena IPI dinilai dua tahun sekali (nilai baru terbit 2027). IKS 1.3 naik dari 9,61% pada TW II menjadi 11,11% pada TW III, atau 74,4% dari target 14,93% (status At Risk); sisa 3,82 poin perlu dikejar di triwulan IV, dengan risiko terbesar di komponen SRG (bobot 45%) karena penerbitan resi gudang s.d. 20 Oktober baru Rp443,7 miliar. PBK justru tumbuh kuat (+97,03% nilai s.d. Agustus) dan PLK pulih ke Rp33,49 miliar s.d. September. Di tingkat IKK, yang tertinggal adalah rekomendasi kebijakan PBK (0% dari 85%), rekomendasi kebijakan SRG/PLK (66,67% dari 75%), pelaku PLK (4,15% dari 5%), dan pelaku PBK (3,46% dari 4%).
 
 Rekomendasi pengendalian TW IV: (1) rapat pengendalian khusus 3760 dengan target kontrak seluruh RO nol rupiah paling lambat pertengahan November dan serapan 3760 minimal 80% di akhir tahun; (2) pertimbangkan revisi pergeseran antar-RO 3760 bila paket QDB/QDC tidak dapat dilaksanakan penuh, daripada menyisakan pagu; (3) dorong penerbitan resi gudang triwulan IV melalui kerja sama dengan lembaga penyalur S-SRG saat musim panen dan stok gula; (4) tuntaskan dua IKK rekomendasi kebijakan lewat forum tindak lanjut resmi agar capaian akhir tahun tidak terkoreksi.`,
 
@@ -3317,12 +3317,12 @@ const RUMUS_IKP = [
     sumberData:"Laporan Hasil Survei Pengguna Layanan Publik Bappebti" },
   { id:"ISP-5", kode:"IKP-5", rumus:"IKP-5 = Indeks hasil Survei Penilaian Integritas (SPI) KPK",
     ket:"Rentang 0–100. Rentan < 72,90; Waspada 73,00–77,90; Terjaga 78,00–100.",
-    catatan:"Dinilai tahunan oleh KPK terhadap pengguna layanan, ahli, akademisi, dan pegawai.",
+    catatan:"Dinilai dua tahun sekali oleh KPK (bukan tahunan) terhadap pengguna layanan, ahli, akademisi, dan pegawai. Nilai terakhir memakai hasil TA 2025 (69,79); survei diasumsikan dilaksanakan kembali pada 2026 sehingga nilai baru terbit pada 2027.",
     sumberData:"Survei Penilaian Integritas (SPI) KPK" },
-  { id:"ISP-6", kode:"IKP-6", rumus:"IKP-6 = Nilai SAKIP dari Inspektorat Jenderal Kemendag",
+  { id:"ISP-6", kode:"IKP-6", rumus:"IKP-6 = Nilai SAKIP hasil penilaian APIP Kemendag (Inspektorat Jenderal)",
     ket:"Mengacu Permendag No. 10/2023 tentang Penyelenggaraan SAKIP di Lingkungan Kementerian Perdagangan.",
-    catatan:"Dinilai tahunan pada akhir/awal tahun anggaran.",
-    sumberData:"Laporan Hasil Evaluasi SAKIP — Itjen Kemendag" },
+    catatan:"Dinilai setahun sekali oleh APIP Kemendag (Inspektorat Jenderal) berdasarkan penilaian WTA.",
+    sumberData:"Laporan Hasil Evaluasi SAKIP — APIP Kemendag (Itjen)" },
 ];
 
 /* Hitung IKP dari matriks capaian IKK (src = CAPAIAN_IKK_TW2 / CAPAIAN_IKK_TW3). */
@@ -3433,6 +3433,8 @@ function hitungIKP(src){
     if(L["ISP-4"]!=null && out["ISP-4"].langkah){ out["ISP-4"].langkah += ` · dilaporkan ${twL}: ${fmtN(out["ISP-4"].real)}`; }
     if(L["ISP-4"]!=null && out["ISP-4"].hitungIKK!=null){ const o=out["ISP-4"];
       o.notaLapor=`Angka dilaporkan ${twL} = ${fmtN(o.real)}; rata-rata empat IKK (bobot 1/4) = ${fmtN(o.hitungIKK)}.`; }
+    if(L["ISP-5"]!=null){ const o=out["ISP-5"]; o.dibawa=true;
+      o.notaLapor=`IPI dinilai dua tahun sekali. Angka ${fmtN(o.real)} pada ${twL} 2026 adalah nilai terakhir hasil survei TA 2025 yang dibawa; survei diasumsikan dilaksanakan pada 2026 dan nilai barunya baru terbit pada 2027.`; }
     if(L["ISP-1"]!=null && out["ISP-1"].hitungIKK!=null){ const o=out["ISP-1"]; if(Math.abs(o.hitungIKK-o.real)>0.02) o.notaLapor=`Angka dilaporkan ${twL} = ${fmtN(o.real)}%; hasil rumus dari IKK = ${fmtN(o.hitungIKK)}%.`; }
   }
   Object.entries(out).forEach(([id,o])=>{ const ik=getIKSS(id); const t=ik?numTarget(ik.target):null; o.target=t; o.cap = (o.real!=null && t) ? +(o.real/t*100).toFixed(2) : null; });
@@ -3486,6 +3488,14 @@ const BOBOT_IKS = {PBK:0.20, SRG:0.45, PLK:0.35};
    TW II 9,61% (Bahan Penyesuaian Target IK 2027). Target 2026 = 14,93% (revisi). */
 const CAPAIAN_IKS_2026 = { real:11.11, per:"TW III 2026", tw2:9.61, target:14.93, cap:+(11.11/14.93*100).toFixed(2),
   sumber:"Capaian IKS TW III TA 2026 (11,11%); TW II 9,61% — Bahan Penyesuaian Target IK BAPPEBTI 2027" };
+/* Nilai transaksi KUMULATIF TRIWULAN III (Jan–Sep) — dasar perbandingan IKS 1.3 TW III 2026 vs TW III 2025.
+   TW III 2025: PBK Rp22.403 T, SRG Rp1,67 T, PLK Rp19,8 M (disampaikan Perencana, 29 Okt 2026; SRG dicocokkan dengan sheet "Triwulan" Laporan Rekap RG: Rp1.677,27 M).
+   TW III 2026: PBK = akumulasi s.d. Agustus 2026 (data September belum tersedia); SRG = penjumlahan resi terbit s.d. 30 Sep 2026 (264 resi, Laporan Rekap RG, tanpa dedup ganda);
+   PLK = rekap lelang s.d. September 2026 (Rp33,49 M). */
+const IKS_TW3 = {
+  2025:{PBK:22403*1e12, SRG:1_677_268_008_300, PLK:19.8e9},
+  2026:{PBK:44026.61*1e12, SRG:414_580_685_080, PLK:33_488_867_545},
+};
 function hitungIKS(){
   const pbk = (th)=>{ const r=PBK_NILAI_TRANSAKSI.find(x=>x.th===String(th)); return r?r.nilai*1e12:null; };      // Rp
   const srg = (th)=>{ const r=RESI_GUDANG_TAHUNAN.find(x=>x.th===String(th)); return r?r.nilai:null; };           // Rp
@@ -3503,7 +3513,12 @@ function hitungIKS(){
     return {rows, val};
   };
   const y25 = komp(2025);
-  const y26 = komp(2026, {PBK:12/8, SRG:365/293, PLK:12/9});
+  const y26 = (()=>{ const rows=[
+      {k:"PBK", l:"Nilai transaksi PBK (Bursa Berjangka)", now:IKS_TW3[2026].PBK, prev:IKS_TW3[2025].PBK, ann:1, per:"TW III · PBK s.d. Agustus", w:BOBOT_IKS.PBK},
+      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)", now:IKS_TW3[2026].SRG, prev:IKS_TW3[2025].SRG, ann:1, per:"TW III · s.d. 30 Sep", w:BOBOT_IKS.SRG},
+      {k:"PLK", l:"Nilai transaksi PLK (penyelenggara lelang)", now:IKS_TW3[2026].PLK, prev:IKS_TW3[2025].PLK, ann:1, per:"TW III · s.d. Sep", w:BOBOT_IKS.PLK},
+    ].map(r=>({...r, nowAdj:r.now, g:gr(r.now,r.prev)}));
+    return {rows, val: rows.reduce((t,r)=>t+r.w*r.g,0)}; })();
   const t25 = numTarget(ISS_KMD.t[2025]), t26 = numTarget(ISS_KMD.t[2026]);
   return { y25:{...y25, target:t25, cap:(y25.val!=null&&t25)?y25.val/t25*100:null},
            y26:{...y26, target:t26, cap:(y26.val!=null&&t26)?y26.val/t26*100:null} };
@@ -3926,6 +3941,7 @@ function PanelRumusIKSIKP(){
               <div className="flex items-center justify-between mb-1"><span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">TA 2026 — capaian {CAPAIAN_IKS_2026.per}</span>
                 <span className="mono text-[11px]">target {ISS_KMD.t[2026]} · realisasi <b>{fmtN(CAPAIAN_IKS_2026.real)}%</b> · capaian <b>{fmtN(CAPAIAN_IKS_2026.cap)}%</b></span></div>
               <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed p-3 rounded border border-dashed border-[var(--border-strong)]">Capaian IKS TA 2026 mengikuti data capaian yang dilaporkan: <b>9,61%</b> pada TW II dan <b>{fmtN(CAPAIAN_IKS_2026.real)}%</b> pada {CAPAIAN_IKS_2026.per} (kumulatif s.d. September), terhadap target {ISS_KMD.t[2026]} (capaian {fmtN(CAPAIAN_IKS_2026.cap)}%). Sumber: <i>{CAPAIAN_IKS_2026.sumber}</i>. Angka akhir tahun dihitung dengan rumus di atas setelah data Desember tersedia.</div>
+              <div className="text-[11px] mt-2 p-2 rounded" style={{background:"rgba(217,119,6,0.10)",color:"var(--text-2)"}}><b>Catatan data SRG:</b> '+NOTE+' Perbandingan TW III 2026 dengan TW III 2025 dari data terbaru: {fmtN(iks.y26.val)}% (angka dilaporkan {fmtN(CAPAIAN_IKS_2026.real)}%).</div>
             </div>
           </div>
         </div>
@@ -5546,7 +5562,7 @@ function ExecutiveSummary({year}){
 
         {open && (<>
         {/* Per bidang */}
-        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-5 mb-2">Kontribusi per Bidang terhadap IKS &amp; IKP</div>
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mt-5 mb-2">Per Bidang: Komponen IKS 1.3 (nilai transaksi) &amp; IKP terkait</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {bidang.map(b=>{ const r=iksRow(b.k); return (
             <div key={b.k} className="card-2 p-4" style={{borderTop:`3px solid ${b.warna}`}}>
@@ -5556,10 +5572,22 @@ function ExecutiveSummary({year}){
               </div>
               <div className="mt-3 text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai transaksi TA {year}{b.periode && <span className="normal-case"> · {b.periode}</span>}</div>
               <div className="serif text-xl" style={{color:b.warna}}>{b.transaksi}</div>
-              {is25 && r && <div className="text-[11px] mt-0.5">Pertumbuhan komponen IKS: <b style={{color:gcol(r.g)}}>{pctTxt(r.g)}</b> <span className="text-[var(--text-3)]">(vs 2024)</span></div>}
+              {(is25||is26) && r && (()=>{ const D=is26?iks.y26:iks.y25; const sum=r.g==null?null:r.w*r.g; const capK=(sum!=null&&D.target)?sum/D.target*100:null; return (
+                <div className="mt-2 p-2 rounded text-[10.5px]" style={{background:b.warna+"0f",border:"1px solid "+b.warna+"33"}}>
+                  <div className="text-[9.5px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Komponen IKS 1.3 · pertumbuhan nilai transaksi {b.k}</div>
+                  <div className="flex justify-between"><span className="text-[var(--text-3)]">{is26?"Nilai TW III 2026 (Jan–Sep)":"Nilai "+year}</span><span className="mono">{r.nowAdj>=1e15?fmtT(r.nowAdj/1e12):fmtRp(r.nowAdj)}</span></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-3)]">{is26?"Nilai TW III 2025 (Jan–Sep)":"Nilai "+(year-1)}</span><span className="mono">{r.prev>=1e15?fmtT(r.prev/1e12):fmtRp(r.prev)}</span></div>
+                  <div className="flex justify-between border-t border-[var(--border)] mt-1 pt-1"><span>Pertumbuhan</span><b className="mono" style={{color:gcol(r.g)}}>{pctTxt(r.g)}</b></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-3)]">Sumbangan ke IKS (bobot {b.bobot} × pertumbuhan)</span><span className="mono" style={{color:gcol(sum)}}>{pctTxt(sum)}</span></div>
+                  <div className="flex justify-between"><span className="text-[var(--text-3)]">Capaian terhadap target IKS {fmtN(D.target,2)}%</span><span className="mono" style={{color:gcol(capK)}}>{capK==null?"—":fmtN(capK,1)+"%"}</span></div>
+                  {is26 && <div className="text-[9px] text-[var(--text-3)] italic mt-1">Perbandingan kumulatif TW III 2026 vs TW III 2025 ({r.k==="PBK"?"data PBK 2026 baru s.d. Agustus — September belum tersedia, jadi pertumbuhan cenderung terlalu rendah":r.k==="SRG"?"resi terbit s.d. 30 September":"lelang s.d. September"}).</div>}
+                  {is26 && r.k==="PLK" && <div className="text-[9.5px] mt-1.5 p-1.5 rounded" style={{background:"rgba(217,119,6,0.10)",color:"var(--text-2)"}}><b>Catatan data PLK:</b> Data transaksi PLK dapat direvisi karena terdapat transaksi yang gagal dilakukan akibat perubahan nilai maupun jumlah yang sebelumnya sudah disepakati dalam lelang.</div>}
+                  {is26 && r.k==="PBK" && <div className="text-[9.5px] mt-1.5 p-1.5 rounded" style={{background:"rgba(217,119,6,0.10)",color:"var(--text-2)"}}><b>Catatan data PBK:</b> Bursa Berjangka melakukan revisi data transaksi PBK walaupun data sebelumnya sudah dikirim ke Bappebti, misalnya karena kesalahan perhitungan jumlah lot atau penyesuaian kurs yang keliru, sehingga nilai transaksi berubah.</div>}
+                  {is26 && r.k==="SRG" && <div className="text-[9.5px] mt-1.5 p-1.5 rounded" style={{background:"rgba(217,119,6,0.10)",color:"var(--text-2)"}}><b>Catatan data SRG:</b> Data transaksi SRG mengalami konfirmasi dan perbaikan data setelah angka capaian dilaporkan, sehingga nilai transaksi SRG pada laporan awal dan pada data terbaru tidak sama. <b>Catatan data PBK:</b> Bursa Berjangka melakukan revisi data transaksi PBK walaupun data sebelumnya sudah dikirim ke Bappebti, misalnya karena kesalahan perhitungan jumlah lot atau penyesuaian kurs yang keliru, sehingga nilai transaksi berubah. <b>Catatan data PLK:</b> Data transaksi PLK dapat direvisi karena terdapat transaksi yang gagal dilakukan akibat perubahan nilai maupun jumlah yang sebelumnya sudah disepakati dalam lelang. Akibatnya capaian IKS yang dilaporkan tidak persis cocok dengan hasil perhitungan ulang dari data terbaru.</div>}
+                </div>); })()}
               {b.tambahan && <div className="text-[10.5px] text-[var(--text-3)] mt-0.5">{b.tambahan}</div>}
               <div className="mt-3 space-y-1">
-                {is26 && <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Komponen IKP (IKK TW III · realisasi / target)</div>}
+                {is26 && <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Indikator program terkait (IKP/IKK TW III · realisasi / target) — bukan komponen IKS</div>}
                 {is26 && b.ikp.map((x,i)=> x.r && (
                   <div key={i} className="flex items-center justify-between gap-2 text-[11px] border-t border-[var(--border)] pt-1">
                     <span className="text-[var(--text-2)] leading-snug">{x.l}</span>
@@ -5574,7 +5602,7 @@ function ExecutiveSummary({year}){
         </div>
 
         <div className="text-[10.5px] text-[var(--text-2)] mt-3 leading-relaxed">
-          <b>IKP-3</b> (kepatuhan &amp; penegakan hukum) dan <b>IKP-4</b> (kepuasan layanan) bersifat lintas bidang PBK/SRG/PLK; IKP-1 = 50% pelaku PBK + 50% pelaku PLK; IKS 1.3 = 20% PBK + 45% SRG + 35% PLK. Rincian rumus di menu <b>Pohon Kinerja</b>, rincian capaian di menu <b>Capaian</b>.
+          <b>IKS 1.3</b> = 20% pertumbuhan nilai transaksi PBK + 45% pertumbuhan nilai transaksi SRG + 35% pertumbuhan nilai transaksi PLK — bersumber dari nilai transaksi masing-masing bidang, bukan dari IKP. {is26?`Hitungan TW III 2026 vs TW III 2025 dari tiga komponen di atas = ${fmtN(iks.y26.val)}%, sedangkan angka resmi yang dilaporkan 11,11% (selisih ${fmtN(CAPAIAN_IKS_2026.real-iks.y26.val)} poin; kemungkinan karena cut-off data PBK/SRG berbeda). Selisih ini sebagian disebabkan konfirmasi dan perbaikan data transaksi SRG revisi data PBK oleh Bursa, serta revisi transaksi PLK akibat transaksi lelang yang gagal setelah angka dilaporkan. Angka resmi tetap dipakai sebagai capaian IKS.`:"Angka resmi TA 2025 yang dilaporkan 14,14% (agregat)."} <b>IKP-3</b> (kepatuhan &amp; penegakan hukum) dan <b>IKP-4</b> (kepuasan layanan) bersifat lintas bidang; IKP-1 = 50% pelaku PBK + 50% pelaku PLK. Rincian rumus di menu <b>Pohon Kinerja</b>, rincian capaian di menu <b>Capaian</b>.
         </div>
         </>)}
         <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Selalu menampilkan data tahun berjalan (tidak mengikuti pemilih tahun). {is26?`IKS 2026 = capaian ${CAPAIAN_IKS_2026.per} (11,11%); IKP = angka dilaporkan TW III 2026 (Bahan Penyesuaian Target IK 2027). `:""}Bukan capaian resmi final.</div>
@@ -6672,7 +6700,7 @@ function Capaian(){
                 <b>Realisasi anggaran</b> mengikuti Laporan Realisasi SP2D s.d. September 2026: <b>{fmtRp(SP.real)}</b> dari pagu revisi <b>{fmtRp(SP.pagu)}</b> (<b>{SP.pct.toFixed(2).replace('.',',')}%</b>) —
                 pagu revisi sudah termasuk <b>Anggaran Belanja Tambahan (ABT)</b>. <b>Capaian 18 IKK TW III</b> sudah dimuat, termasuk Kegiatan 3760 (SRG/PLK) yang pada TW II belum memiliki laporan.
                 <b>Capaian fisik RO</b> s.d. September mengikuti aplikasi <b>MyIntress</b> (Realisasi RO &amp; Progress RO, 34 RO terkonfirmasi), termasuk pagu dan realisasi anggaran per RO.
-                Capaian level <b>program (ISP/IKP)</b> TW II dan TW III mengikuti angka yang dilaporkan pada Bahan Penyesuaian Target IK 2027: IKP-1 3,80%, IKP-2 5,52%, IKP-3 81,52%, IKP-4 90,21, IPI 69,79, SAKIP 82,71.
+                Capaian level <b>program (ISP/IKP)</b> TW II dan TW III mengikuti angka yang dilaporkan pada Bahan Penyesuaian Target IK 2027: IKP-1 3,80%, IKP-2 5,52%, IKP-3 81,52%, IKP-4 90,21, IPI 69,79 (nilai survei TA 2025 yang dibawa; IPI dinilai dua tahun sekali, nilai baru terbit 2027), SAKIP 82,71.
               </p>
             </div>
           </div>
