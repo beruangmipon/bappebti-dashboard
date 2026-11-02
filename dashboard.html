@@ -2651,7 +2651,7 @@ function MenuBanner({kind}){
       k:[{l:"Transaksi 2026",v:"Rp33,49 M"},{l:"Jumlah lelang",v:"41"},{l:"Penyelenggara aktif",v:"5"},{l:"Peserta",v:"523"}]},
     pbk:{judul:"Perdagangan Berjangka Komoditi", sub:`Transaksi bursa & ekosistem kelembagaan · data s.d. ${PBK_UPDATE}`, warna:"var(--blue)",
       k:[{l:"Nilai transaksi 2026",v:`Rp${(PBK_NILAI_TRANSAKSI.find(d=>d.th==="2026").nilai).toLocaleString('id-ID')} T`},{l:"Pertumbuhan YoY",v:`+${fmtN(PBK_YOY_2026.nilai)}%`},{l:"Volume",v:`${(PBK_VOL_TRANSAKSI.find(d=>d.th==="2026").total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} jt lot`},{l:"Pialang berjangka",v:PBK_KELEMBAGAAN.pialang}]},
-    proyeksi:{judul:"Proyeksi Rencana TA 2028", sub:"Usulan rancangan awal Renja TA 2028 · PBK, SRG & PLK sampai tingkat RO", warna:"var(--gold)",
+    proyeksi:{judul:"Proyeksi Rencana Kegiatan", sub:"Rencana pelaksanaan TA 2027 dan usulan rancangan awal Renja TA 2028", warna:"var(--gold)",
       k:[{l:"Usulan pagu 2028",v:`Rp${(PROY_2028_RO.reduce((a,r)=>a+proyP28(r),0)/1e9).toFixed(2).replace('.',',')} M`},{l:"Rincian Output",v:PROY_2028_RO.filter(r=>r.kode!=="\u2014").length},{l:"Unit Eselon II",v:PROY_2028_E2.length},{l:"Indikator 2028",v:PROY_2028_IND.length}]},
   }[kind];
   if(!C) return null;
@@ -2877,7 +2877,7 @@ function Tabs({active,onChange}){
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang · PSN SRG"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
-    {id:"proyeksi",label:"Proyeksi 2028",     sub:"Rencana PBK, SRG & PLK TA 2028"},
+    {id:"proyeksi",label:"Proyeksi",          sub:"Rencana Kegiatan TA 2027 & TA 2028"},
   ];
   return (
     <nav className="max-w-[1400px] mx-auto px-8 border-b border-[var(--border)] sticky top-[69px] bg-[var(--bg)]/95 backdrop-blur-md z-10">
@@ -9778,12 +9778,24 @@ function matrixSheets(tab){
     Object.entries(rs).sort((a,b)=>b[1].ro.length-a[1].ro.length||a[0].localeCompare(b[0])).forEach(([c,v],i)=>k.push([i+1,c,v.nama,v.ro.length,v.ro.filter(x=>x.pagu!=null).length,v.ro.map(x=>x.key).join(", ")]));
     sheets.push({name:"Katalog ROS",rows:k});
     sheets.push({name:"Informasi",rows:[["Diekspor (sumber)",PEMADANAN_RO_2027_META.diekspor],["Tahun Anggaran",2027],["K/L Unit",PEMADANAN_RO_2027_META.unit],["Jumlah RO",PEMADANAN_RO_2027.length],["Sumber",PEMADANAN_RO_2027_META.sumber],["Keterangan","Dasar Standarisasi RO Bappebti mulai TA 2027 dan seterusnya. Temuan = hasil penelusuran data, bukan koreksi resmi. PBB.S002/ABB.S002 = pembeda PN/Non-PN (bukan temuan). Kode RO terbaru: PBB.G01, PBB.G02, AAH.F02."]]});
-  } else if(tab==='proyeksi'){
-    const m=[["Eselon II","Kegiatan","Kode RO","Rumusan RO","Kode ROS","Satuan","Target 2027 (PA)","Pagu 2027 PA (Rp)","Target 2028 (usulan)","Biaya satuan (Rp)","Pagu 2028 usulan (Rp)","Prioritas","Bidang","Indikator terkait","Catatan"]];
+  } else if(tab==='p2027'){
     const PR={1:"Pengunci indikator",2:"Pendukung",3:"Dapat ditunda"};
-    PROY_2028_E2.forEach(g=>{ PROY_2028_RO.filter(r=>r.keg===g.id).forEach(r=>{
-      m.push([g.unit,g.id,r.kode,r.nama,r.ros,r.sat,r.t27||"",r.p27||"",r.t28||"",r.t27?Math.round(r.p27/r.t27):"",proyP28(r),PR[r.prio],r.bidang,r.ind.join(" · "),r.cat]); }); });
-    m.push(["","","","TOTAL USULAN PAGU TA 2028","","","",PROY_2028_RO.reduce((a,r)=>a+r.p27,0),"","",PROY_2028_RO.reduce((a,r)=>a+proyP28(r),0),"","","",""]);
+    const R=proy27Rows();
+    const m=[["Kegiatan","Unit Eselon II","Kode RO","Rincian Output","Pagu Anggaran (Rp)","Pagu Alokasi Anggaran (Rp)","Selisih (Rp)","Target PA","Target PAA","Prioritas","PN","Klaster PKPN","PNBP (Rp)","Jadwal usulan","Risiko"]];
+    R.forEach(r=>m.push([r.keg,r.unit,r.kode,r.nama,r.paguPA,r.pagu,r.dPagu,r.targetPA||r.target,r.target,PR[r.prio],r.tag.pn?"PN":"",r.tag.pkpn?r.tag.pkpn.klaster:"",r.pnbp||"",r.jadwal,r.risiko.join(" · ")]));
+    m.push(["TOTAL","","","",R.reduce((a,r)=>a+r.paguPA,0),R.reduce((a,r)=>a+r.pagu,0),R.reduce((a,r)=>a+r.dPagu,0),"","","","","","","",""]);
+    sheets.push({name:"Rencana RO 2027",rows:m});
+    const u=[["Kegiatan","Kode RO","Rincian Output","Selisih (Rp)","Target PA","Target PAA"]];
+    R.filter(r=>r.dPagu!==0||r.tgBeda).sort((a,b)=>b.dPagu-a.dPagu).forEach(r=>u.push([r.keg,r.kode,r.nama,r.dPagu,r.targetPA||r.target,r.target]));
+    sheets.push({name:"Pergeseran PA ke PAA",rows:u});
+    sheets.push({name:"Kondisi",rows:[["Kondisi","Uraian"]].concat(PROY_2027_KONDISI.map(k=>[k.t,k.d]))});
+    sheets.push({name:"Informasi",rows:[["Judul",PROY_2027_META.judul],["Dasar",PROY_2027_META.dasar],["Disusun",PROY_2027_META.disusun],["Status",PROY_2027_META.status]]});
+  } else if(tab==='p2028'){
+    const m=[["Eselon II","Kegiatan","Kode RO","Rumusan RO","Kode ROS","Satuan","Target 2027 (PA)","Pagu 2027 PA (Rp)","Target 2028 (usulan)","Biaya satuan (Rp)","Pagu 2028 usulan (Rp)","Prioritas","PN","Klaster PKPN","Kandidat Klaster PKPN","Sumber dana","Bidang","Indikator terkait","Catatan"]];
+    const PR={1:"Pengunci indikator",2:"Pendukung",3:"Dapat ditunda"};
+    PROY_2028_E2.forEach(g=>{ PROY_2028_RO.filter(r=>r.keg===g.id).forEach(r=>{ const t=proyTag(r);
+      m.push([g.unit,g.id,r.kode,r.nama,r.ros,r.sat,r.t27||"",r.p27||"",r.t28||"",r.t27?Math.round(r.p27/r.t27):"",proyP28(r),PR[r.prio],t.pn?"PN":"",t.pkpn?t.pkpn.klaster:"",t.kandidat?t.kandidat.klaster:"",r.pnbp?"PNBP + RM":"RM",r.bidang,r.ind.join(" · "),r.cat]); }); });
+    m.push(["","","","TOTAL USULAN PAGU TA 2028","","","",PROY_2028_RO.reduce((a,r)=>a+r.p27,0),"","",PROY_2028_RO.reduce((a,r)=>a+proyP28(r),0),"","","","","","","",""]);
     sheets.push({name:"Proyeksi RO 2028",rows:m});
     const ind=[["Indikator","Uraian","Tingkat","Target 2027","Target 2028","RO pengampu","Catatan"]];
     PROY_2028_IND.forEach(k=>ind.push([k.id,k.nama,k.lvl,k.t27,k.t28,PROY_2028_RO.filter(r=>r.kode!=="—"&&r.ind.includes(k.id)).map(r=>r.kode).join(", "),k.cat||""]));
@@ -9792,6 +9804,7 @@ function matrixSheets(tab){
     [0,10,20,30].forEach(p=>{ const E=proyEfisiensi(p); const pot=E.rows.reduce((a,r)=>a+r.pot,0); ef.push([p+"%",Math.round(E.total),Math.round(E.total-pot),Math.round(pot),Math.round(E.sisaKeProi1)]); });
     sheets.push({name:"Skenario Efisiensi",rows:ef});
     sheets.push({name:"Kelembagaan",rows:[["Aspek","Uraian"]].concat(PROY_2028_KELEMBAGAAN.map(k=>[k.t,k.d]))});
+    sheets.push({name:"PNBP",rows:[["Uraian","Nilai"],["Target PNBP TA 2027 (Rp)",PROY_2028_PNBP.target2027],["Persentase proyeksi TA 2028 (%)",PROY_2028_PNBP.pct],["Pagu PNBP yang dapat dipakai TA 2028 (Rp)",PROY_2028_PNBP.pagu],["RO pengguna","3762 ADI.001 — Layanan Sertifikasi Ujian Profesi Wakil Pialang dan Wakil Penasihat Berjangka"]]});
     sheets.push({name:"Informasi",rows:[["Judul",PROY_2028_META.judul],["Dasar",PROY_2028_META.dasar],["Disusun",PROY_2028_META.disusun],["Status",PROY_2028_META.status]]});
   } else if(tab==='anggaran'||tab==='pn'){
     // Matriks penelaahan RKA TA 2027 (5 kriteria) — rinci per RO, basis Pagu Anggaran resmi
@@ -9839,7 +9852,7 @@ const PROY_2028_E2 = [
   {id:"3762", unit:"Biro Pembinaan dan Pengembangan PBK", peran:"Pengampu utama PBK — perizinan, sertifikasi, dan layanan informasi", pa27:2_006_371_000},
   {id:"3759", unit:"Biro Pengawasan dan Penindakan PBK, SRG, PLK", peran:"Pengawasan dan penindakan pelaku usaha PBK, SRG, dan PLK", pa27:2_033_000_000},
   {id:"3761", unit:"Biro Perundang-undangan PBK, SRG, PLK", peran:"Peraturan, harmonisasi kebijakan, dan layanan hukum", pa27:1_559_250_000},
-  {id:"3758", unit:"Sekretariat Bappebti", peran:"Perencanaan, penganggaran, dan monev", pa27:0},
+  {id:"3758", unit:"Sekretariat Bappebti", peran:"Dukungan manajemen, perencanaan, penganggaran, dan monev", pa27:4_962_863_000},
 ];
 /* prio: 1 = pengunci indikator (dilindungi dari efisiensi), 2 = pendukung, 3 = dapat ditunda */
 const PROY_2028_RO = [
@@ -9908,8 +9921,8 @@ const PROY_2028_RO = [
    t27:605, p27:676_296_000, t28:650, prio:1, ind:["IKK-1","IKK-3","IKS 1.3"],
    cat:"RO perizinan terbesar di PBK; mengunci pertumbuhan pelaku PBK 6% dan indeks kepuasan perizinan 87."},
   {keg:"3762", kode:"ADI.001", nama:"Layanan Sertifikasi Ujian Profesi Wakil Pialang dan Wakil Penasihat Berjangka", ros:"ADI.S009", sat:"Orang", bidang:"PBK",
-   t27:260, p27:222_280_000, t28:300, prio:1, ind:["IKK-1"],
-   cat:"Bersumber PNBP pada TA 2027 (Rp90 juta); penambahan peserta ujian memperbesar pasokan wakil pialang bersertifikat."},
+   t27:260, p27:222_280_000, t28:300, prio:1, ind:["IKK-1"], pnbp:true,
+   cat:"Satu-satunya RO bersumber PNBP. Pagu PNBP TA 2028 diproyeksikan 79,95% dari target PNBP TA 2027 Rp300 juta, yaitu Rp239,85 juta; sisanya dari Rupiah Murni."},
   {keg:"3762", kode:"AFA.001", nama:"SKKNI di Bidang Perdagangan Berjangka Komoditi", ros:"AFA.S005", sat:"NSPK", bidang:"PBK",
    t27:1, p27:266_285_000, t28:1, prio:2, ind:["IKK-1"],
    cat:"Target tetap 1 NSPK; kelanjutan penyusunan standar kompetensi."},
@@ -9960,10 +9973,16 @@ const PROY_2028_RO = [
   {keg:"3761", kode:"BCB.001", nama:"Layanan Penanganan Perkara dan Alternatif Penyelesaian Perselisihan", ros:"BCB.S001", sat:"Perkara", bidang:"Lintas",
    t27:5, p27:210_875_000, t28:5, prio:1, ind:["IKK-14"],
    cat:"Penyelesaian perselisihan PBK sesuai SLA; target naik dari 92% ke 93%."},
-  /* ---- Sekretariat (3758) ---- */
-  {keg:"3758", kode:"—", nama:"Dukungan perencanaan, penganggaran, dan monev SRG/PLK", ros:"EBA.S…", sat:"—", bidang:"Lintas",
-   t27:0, p27:0, t28:0, p28:0, prio:2, ind:["ISP-7"],
-   cat:"Tidak diusulkan RO baru. Melekat pada RO dukungan manajemen (EBA.994 Layanan Perkantoran) agar tidak menambah beban pagu."},
+  /* ---- Sekretariat (3758) — mengikuti pagu TA 2026 setelah ABT (POK Revisi 10) ---- */
+  {keg:"3758", kode:"EBA.994", nama:"Layanan Perkantoran (Operasional dan Pemeliharaan)", ros:"EBA.S001", sat:"Layanan", bidang:"Lintas",
+   t27:1, p27:4_449_293_000, t28:1, prio:1, ind:["ISP-7","IKK-17"],
+   cat:"Belanja operasional wajib. Pagu mengikuti POK Revisi 10 TA 2026 setelah ABT, bukan Pagu Anggaran TA 2027, sesuai perkiraan kebutuhan yang relatif tetap."},
+  {keg:"3758", kode:"EBA.Z08", nama:"Layanan Organisasi dan Tata Kelola Internal", ros:"EBA.S008", sat:"Layanan", bidang:"Lintas",
+   t27:1, p27:398_370_000, t28:1, prio:2, ind:["ISP-6","IKK-16","IKK-18"],
+   cat:"Menopang nilai SAKIP, WTA, dan Survei Kepuasan Masyarakat. Termasuk dukungan perencanaan dan monev RO PBK, SRG, dan PLK."},
+  {keg:"3758", kode:"CAN.001", nama:"Peralatan Teknologi Informasi dan Komunikasi Penunjang Pelaksanaan Tugas Bappebti", ros:"CAN.S001", sat:"Unit", bidang:"Lintas",
+   t27:1, p27:115_200_000, t28:1, prio:3, ind:["IKK-17"],
+   cat:"Belanja modal TIK; dapat ditunda ke TA 2029 bila terjadi efisiensi."},
 ];
 const PROY_2028_IND = [
   {id:"IKS 1.3", nama:"Pertumbuhan transaksi PBK, SRG, dan PLK", t27:"15%", t28:"17%", lvl:"Sasaran Strategis Kemendag",
@@ -9987,6 +10006,11 @@ const PROY_2028_IND = [
   {id:"IKK-13", nama:"Indeks evaluasi kemanfaatan kebijakan PBK, SRG, PLK", t27:"77", t28:"78", lvl:"Indikator Kegiatan"},
   {id:"IKK-14", nama:"Penyelesaian perselisihan PBK sesuai SLA", t27:"92%", t28:"93%", lvl:"Indikator Kegiatan"},
   {id:"IKK-15", nama:"Indeks kepuasan layanan penyelesaian perselisihan & konsultasi hukum", t27:"85", t28:"87", lvl:"Indikator Kegiatan"},
+  {id:"ISP-6", nama:"Nilai SAKIP Bappebti", t27:"82,75", t28:"83", lvl:"Sasaran Program"},
+  {id:"ISP-7", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA)", t27:"94", t28:"94", lvl:"Sasaran Program"},
+  {id:"IKK-16", nama:"Nilai WTA Bappebti", t27:"WTA Madya", t28:"WTA Madya", lvl:"Indikator Kegiatan"},
+  {id:"IKK-17", nama:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Kemendag", t27:"97", t28:"97", lvl:"Indikator Kegiatan"},
+  {id:"IKK-18", nama:"Survei Kepuasan Masyarakat Bidang PBK, SRG, PLK", t27:"83", t28:"80", lvl:"Indikator Kegiatan"},
 ];
 const PROY_2028_KELEMBAGAAN = [
   {t:"Yang tidak perlu berubah", d:"Kode ROS, rumusan RO, satuan, target, dan pagu. Seluruh RO pada rencana ini memakai kode ROS hasil pemadanan TA 2027 yang sudah disetujui, sehingga substansinya tidak bergantung pada unit mana yang mengampu.", c:"var(--emerald)"},
@@ -9996,24 +10020,312 @@ const PROY_2028_KELEMBAGAAN = [
   {t:"Posisi PBK", d:"Reposisi pada ND BKPerdag 28 September 2026 menyangkut SRG, sedangkan PBK tetap pada unit pengawas perdagangan berjangka. Namun RO PBK tetap disusun dengan kode ROS yang sama agar dapat mengikuti bila penataan diperluas, termasuk penyesuaian atas UU No. 4/2026 dan peralihan aset kripto ke OJK.", c:"#1B599B"},
   {t:"Langkah pengamanan", d:"Hindari mencantumkan nama unit pada rumusan RO, pertahankan kode ROS sebagai penanda baku, dan simpan tabel ini sebagai lampiran usulan Renja agar penelaah dapat membaca rencana pada kedua opsi kelembagaan.", c:"var(--text-2)"},
 ];
+/* PNBP: pagu yang dapat dipakai TA 2028 diproyeksikan 79,95% dari target PNBP TA 2027 (Rp300 juta). */
+const PROY_2028_PNBP = {target2027:300_000_000, pct:79.95, ro:"3762|ADI.001"};
+PROY_2028_PNBP.pagu = Math.round(PROY_2028_PNBP.target2027*PROY_2028_PNBP.pct/100);
+/* Alias kode RO yang berganti antara RANWAL dan Pagu Anggaran (dipakai saat mencari tagging PN/PKPN). */
+const PROY_2028_ALIAS = {"3760|BDB.001":"BDB.002","3760|PBB.G01":"PBB.001","3760|PBB.G02":"PBB.002"};
+const proyTag = (r)=>{
+  let pn=false;
+  try{ PAGU_ANGGARAN_2027.keg.forEach(k=>{ if(k.kode!==r.keg) return; k.ro.forEach(x=>{ if(x.kode===r.kode && x.pn) pn=true; }); }); }catch(e){}
+  const al = PROY_2028_ALIAS[r.keg+"|"+r.kode] || r.kode;
+  const off = (typeof PKPN_KLASTER_MAP!=="undefined") ? (PKPN_KLASTER_MAP["K-"+r.keg+"|"+r.kode] || PKPN_KLASTER_MAP["K-"+r.keg+"|"+al] || null) : null;
+  const sug = (!off && typeof SUGGESTED_KLASTER!=="undefined") ? (SUGGESTED_KLASTER["K-"+r.keg+"|"+r.kode] || SUGGESTED_KLASTER["K-"+r.keg+"|"+al] || null) : null;
+  return {pn, pkpn:off, kandidat:sug, prioritas: pn || !!off};
+};
 const proyP28 = (r)=> (r.p28!==undefined ? r.p28 : (r.t27 ? Math.round(r.p27/r.t27*r.t28) : 0));
 const proySatuan = (r)=> (r.t27 ? r.p27/r.t27 : 0);
-/* Efisiensi dibebankan ke prioritas 3 lalu prioritas 2; prioritas 1 dilindungi. */
+/* Efisiensi dibebankan ke prioritas 3 lalu prioritas 2. Dilindungi: RO pengunci indikator,
+   RO Prioritas Nasional (PN), dan RO pendukung Klaster PKPN. */
+const proyLindungi = (r)=> r.prio===1 || (r.tag ? r.tag.prioritas : proyTag(r).prioritas);
 function proyEfisiensi(pct){
-  const rows = PROY_2028_RO.map(r=>({...r, p:proyP28(r), pot:0}));
+  const rows = PROY_2028_RO.map(r=>({...r, p:proyP28(r), pot:0, tag:proyTag(r)}));
   const total = rows.reduce((a,r)=>a+r.p,0);
   let cut = total*pct/100;
   [3,2].forEach(lvl=>{
-    const g = rows.filter(r=>r.prio===lvl && r.p>0);
+    const g = rows.filter(r=>!proyLindungi(r) && r.prio===lvl && r.p>0);
     const cap = g.reduce((a,r)=>a+r.p,0);
     if(cut<=0 || cap<=0) return;
     const take = Math.min(cut, cap);
     g.forEach(r=>{ r.pot += r.p*(take/cap); });
     cut -= take;
   });
-  const kapasitas = rows.filter(r=>r.prio!==1).reduce((a,r)=>a+r.p,0);
-  return {rows, total, sisaKeProi1:cut, kapasitas, kapasitasPct:total?kapasitas/total*100:0};
+  const kapasitas = rows.filter(r=>!proyLindungi(r)).reduce((a,r)=>a+r.p,0);
+  const dilindungi = rows.filter(r=>proyLindungi(r)).reduce((a,r)=>a+r.p,0);
+  const nPN = rows.filter(r=>r.tag.pn).length;
+  const nPKPN = rows.filter(r=>r.tag.pkpn).length;
+  const nKand = rows.filter(r=>r.tag.kandidat).length;
+  return {rows, total, sisaKeProi1:cut, kapasitas, dilindungi, nPN, nPKPN, nKand, kapasitasPct:total?kapasitas/total*100:0};
 }
+/* ======================================================================== */
+/* PROYEKSI RENCANA KEGIATAN TA 2027 — kondisi per 2 November 2026           */
+/* Basis: Pagu Alokasi Anggaran (PAA) TA 2027, RKKS diterima 27 Oktober 2026 */
+/* dibandingkan dengan Pagu Anggaran KRISNA Rekap 3A (17 Agustus 2026).      */
+/* Jadwal dan risiko diturunkan dari aturan di bawah, bukan ditulis manual.  */
+/* ======================================================================== */
+const PROY_2027_META = {
+  judul:"Proyeksi Rencana Kegiatan TA 2027",
+  dasar:"Pagu Alokasi Anggaran TA 2027 (RKKS, 27 Oktober 2026) · Renstra 2025–2029 · capaian TW III 2026",
+  disusun:"2 November 2026",
+  status:"Rencana pelaksanaan, bukan dokumen resmi",
+};
+/* Jadwal usulan diturunkan dari kelompok KRO. */
+const PROY_2027_JADWAL = {
+  ACB:"Sepanjang tahun", ACD:"Sepanjang tahun", ADI:"TW I–IV", AFA:"TW I–III",
+  AAH:"TW I–III", AEA:"TW I–III", BBA:"Sepanjang tahun", BCB:"Sepanjang tahun",
+  BDB:"TW I–III", BIC:"TW II–IV", BIH:"TW II–IV", BMA:"Sepanjang tahun",
+  CAN:"TW I–II", EBA:"Sepanjang tahun", EBC:"TW I–III", EBD:"TW I–IV",
+  FAB:"TW I–II", PBB:"TW I–III", PEA:"TW I–III", QDB:"TW I–III",
+  QDC:"TW I–III", QDH:"TW I–III", QIH:"TW II–IV", UAB:"TW I–II",
+};
+/* RO pengunci indikator TA 2027 (penilaian perencana). Selain ini: pendukung; daftar tunda di bawah. */
+const PROY_2027_PENGUNCI = ["3760|ACD.001","3760|QDB.001","3760|QDB.002","3760|QDB.004","3760|QDC.001","3760|QDC.002","3760|QDC.003","3760|BDB.004","3760|PEA.002","3760|UAB.001","3760|PBB.G01",
+  "3762|ACD.001","3762|ACB.001","3762|ADI.001","3762|QDH.001","3762|PBB.G01",
+  "3759|BIH.001","3759|BIH.004","3759|BIC.001","3759|QIH.001",
+  "3761|AAH.F01","3761|BBA.001","3761|BCB.001","3758|EBA.994"];
+const PROY_2027_TUNDA = ["3758|CAN.001","3758|EBD.Z32","3760|PBB.G02"];
+/* KRO dengan serapan rendah pada TA 2026 (SP2D s.d. September) — dipakai sebagai penanda risiko. */
+const PROY_2027_SERAPAN26 = {QDC:10.71, BDB:49.89, PEA:85.57, ACD:null};
+const PROY_2027_KONDISI = [
+  {t:"Usulan PSN SRG tidak disetujui", d:"Tidak ada belanja modal pembangunan gudang pada TA 2027. Penambahan kapasitas SRG sepenuhnya bertumpu pada RO reguler: kompetensi pengelola, calon pengelola, pendampingan WMS, dan pembiayaan resi gudang.", c:"var(--red,#dc2626)"},
+  {t:"Reposisi kelembagaan belum final", d:"ND BKPerdag 28 September 2026 menempatkan SRG pada Ditjen PDN atau pada Ditjen Pengembangan Sarana Perdagangan Komoditi. Bila keputusan turun di tengah tahun, Kegiatan 3760 berpotensi direvisi pada DIPA berjalan, sehingga kegiatan yang mengunci indikator sebaiknya dituntaskan pada semester I.", c:"var(--violet)"},
+  {t:"Capaian TA 2026 di bawah target", d:"Sampai TW III 2026, IKS 1.3 baru 11,11% dari target 14,93%, pertumbuhan pelaku PLK 4,15% dari target 5%, dan pertumbuhan gudang SRG 5,52% dari target 6%. Target TA 2027 justru naik menjadi 15%, sehingga TA 2027 dimulai dari posisi tertinggal.", c:"var(--gold)"},
+  {t:"Pola pagu awal rendah dan ABT akhir tahun", d:"Pada TA 2026 pagu awal Kegiatan 3760 hanya Rp449,56 juta dari total Rp1.411,31 juta; sisanya masuk melalui ABT. Akibatnya serapan KRO QDC hanya 10,71% karena anggaran turun mendekati akhir tahun. Pada TA 2027 pagu sudah terisi sejak PAA, sehingga tidak ada alasan menunda pelaksanaan ke semester II.", c:"var(--blue)"},
+  {t:"Realokasi antar-RO pada PAA", d:"Total pagu tidak berubah (Rp15,735 M), tetapi dana digeser antar-RO: perizinan PBK dan layanan data dipotong, sementara RO bertanda Prioritas Nasional ditambah. Beberapa RO naik targetnya tanpa tambahan pagu.", c:"var(--emerald)"},
+  {t:"Blokir anggaran", d:"Pada TA 2026 tercatat blokir Rp138,3 juta pada POK dan Rp14,15 juta pada SP2D, terbesar pada KRO BDB dan QDC. Komponen yang rawan blokir perlu diselesaikan dokumen pendukungnya sebelum DIPA berjalan.", c:"var(--text-2)"},
+];
+function proy27Rows(){
+  const out = [];
+  PAGU_ANGGARAN_2027.keg.forEach(k=>{
+    k.ro.forEach(r=>{
+      const key = k.kode+"|"+r.kode;
+      const kro = r.kode.split(".")[0];
+      const paguPA = r.paguPA==null ? r.pagu : r.paguPA;
+      const dPagu = r.pagu - paguPA;
+      const tgBeda = r.targetPA!=null && r.targetPA!==r.target;
+      const numT = (v)=>{ const m=String(v||"").match(/[\d.]+/); return m?parseFloat(m[0].replace(/\./g,"")):null; };
+      const tNaik = tgBeda && numT(r.target)!=null && numT(r.targetPA)!=null && numT(r.target)>numT(r.targetPA);
+      const prio = PROY_2027_PENGUNCI.includes(key) ? 1 : (PROY_2027_TUNDA.includes(key) ? 3 : 2);
+      const tag = proyTag({keg:k.kode, kode:r.kode});
+      const risiko = [];
+      if(tNaik && dPagu<=0) risiko.push("Target naik tanpa tambahan pagu");
+      if(dPagu<0) risiko.push("Pagu turun "+Math.abs(Math.round(dPagu/1e6))+" juta dari Pagu Anggaran");
+      if(PROY_2027_SERAPAN26[kro]) risiko.push("Serapan KRO "+kro+" TA 2026 hanya "+fmtN(PROY_2027_SERAPAN26[kro],2)+"%");
+      if(k.kode==="3760") risiko.push("Terdampak bila reposisi SRG diputuskan di tengah tahun");
+      out.push({keg:k.kode, unit:k.unit, kode:r.kode, nama:r.nama, kro, pagu:r.pagu, paguPA, dPagu,
+        target:r.target, targetPA:r.targetPA, tgBeda, tNaik, prio, tag, risiko,
+        jadwal:PROY_2027_JADWAL[kro]||"TW I–IV", pnbp:r.pnbp||0});
+    });
+  });
+  return out;
+}
+function MenuProyeksi2027(){
+  const [filKeg,setFilKeg] = useState("semua");
+  const [hanyaUbah,setHanyaUbah] = useState(false);
+  const R = proy27Rows();
+  const rp  = (n)=> n==null?"—":"Rp "+Number(Math.round(n)).toLocaleString("id-ID");
+  const jt  = (n)=> (n/1e6).toFixed(1).replace(".",",");
+  const fM  = (n)=> "Rp "+(n/1e9).toFixed(3).replace(".",",")+" M";
+  const total = R.reduce((a,r)=>a+r.pagu,0);
+  const nPN = R.filter(r=>r.tag.pn).length;
+  const nPKPN = R.filter(r=>r.tag.pkpn).length;
+  const ubah = R.filter(r=>r.dPagu!==0 || r.tgBeda);
+  const naik = ubah.filter(r=>r.dPagu>0), turun = ubah.filter(r=>r.dPagu<0);
+  const PRIO = {1:{l:"Pengunci indikator", c:"var(--emerald)"},2:{l:"Pendukung", c:"var(--gold)"},3:{l:"Dapat ditunda", c:"var(--text-3)"}};
+  const kegs = [...new Set(R.map(r=>r.keg))].sort();
+  const tampil = R.filter(r=> (filKeg==="semua"||r.keg===filKeg) && (!hanyaUbah || r.dPagu!==0 || r.tgBeda));
+  const grup = [...new Set(tampil.map(r=>r.keg))].sort();
+  const unduh = ()=>{
+    const head = ["Kegiatan","Unit Eselon II","Kode RO","Rincian Output","Pagu Anggaran (Rp)","Pagu Alokasi Anggaran (Rp)","Selisih (Rp)","Target PA","Target PAA","Prioritas","PN","Klaster PKPN","PNBP (Rp)","Jadwal usulan","Risiko"];
+    const lines = [head];
+    R.forEach(r=>lines.push([r.keg,r.unit,r.kode,r.nama,r.paguPA,r.pagu,r.dPagu,r.targetPA||r.target,r.target,PRIO[r.prio].l,r.tag.pn?"PN":"",r.tag.pkpn?r.tag.pkpn.klaster:"",r.pnbp||"",r.jadwal,r.risiko.join(" · ")]));
+    lines.push([]);
+    lines.push(["TOTAL","","","",R.reduce((a,r)=>a+r.paguPA,0),total,R.reduce((a,r)=>a+r.dPagu,0),"","","","","","","",""]);
+    const csv = lines.map(row=>row.map(c=>{ const s=String(c==null?"":c); return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(";")).join("\n");
+    const blob = new Blob(["﻿"+csv], {type:"text/csv;charset=utf-8;"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Proyeksi_Rencana_Kegiatan_TA2027.csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  };
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill mono text-[10px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",border:"1px solid rgba(161,98,7,0.3)"}}>RENCANA PELAKSANAAN TA 2027</span>
+        <span className="text-xs text-[var(--text-3)]">{PROY_2027_META.dasar} · disusun {PROY_2027_META.disusun}</span>
+      </div>
+      <div className="mb-6">
+        <div className="serif text-3xl">{PROY_2027_META.judul}</div>
+        <div className="text-sm text-[var(--text-2)] mt-1 max-w-4xl leading-relaxed">
+          Pagu TA 2027 sudah terisi sampai tingkat RO pada Pagu Alokasi Anggaran, sehingga yang dibutuhkan bukan lagi usulan pagu melainkan rencana pelaksanaan. Rencana ini menata urutan dan jadwal tiap RO dengan memperhitungkan keadaan sekarang: usulan PSN tidak disetujui, reposisi kelembagaan belum final, dan capaian TA 2026 masih di bawah target.
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="card-2 p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu Alokasi Anggaran 2027</div>
+          <div className="serif text-2xl mt-1" style={{color:"var(--gold)"}}>{fM(total)}</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">sama dengan Pagu Anggaran; komposisinya bergeser</div>
+        </div>
+        <div className="card-2 p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rincian Output</div>
+          <div className="serif text-2xl mt-1">{R.length} RO</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{R.filter(r=>r.prio===1).length} pengunci · {nPN} PN · {nPKPN} PKPN</div>
+        </div>
+        <div className="card-2 p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO Berubah dari PA</div>
+          <div className="serif text-2xl mt-1">{ubah.length}</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{naik.length} naik · {turun.length} turun · {ubah.filter(r=>r.tgBeda).length} target berubah</div>
+        </div>
+        <div className="card-2 p-4">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO dengan Catatan Risiko</div>
+          <div className="serif text-2xl mt-1" style={{color:"var(--red,#dc2626)"}}>{R.filter(r=>r.risiko.length>0).length}</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{R.filter(r=>r.tNaik&&r.dPagu<=0).length} target naik tanpa tambahan pagu</div>
+        </div>
+      </div>
+
+      {/* Kondisi sekarang */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-1">Kondisi yang Mempengaruhi Pelaksanaan TA 2027</div>
+        <div className="text-[11px] text-[var(--text-2)] mb-4">Enam keadaan berikut menjadi dasar penyusunan urutan dan jadwal pelaksanaan.</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {PROY_2027_KONDISI.map((k,i)=>(
+            <div key={i} className="flex items-start gap-3 p-3 rounded border border-[var(--border)]">
+              <span className="w-1.5 self-stretch rounded-full shrink-0" style={{background:k.c}}></span>
+              <div>
+                <div className="text-[12px] font-semibold">{k.t}</div>
+                <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed mt-0.5">{k.d}</div>
+              </div>
+            </div>))}
+        </div>
+      </div>
+
+      {/* Realokasi PA → PAA */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-1">Pergeseran dari Pagu Anggaran ke Pagu Alokasi Anggaran</div>
+        <div className="text-[11.5px] text-[var(--text-2)] mb-4 leading-relaxed">
+          Total pagu tetap {fM(total)}, tetapi {ubah.length} RO berubah. Dana bergeser ke RO bertanda Prioritas Nasional, sedangkan perizinan PBK dan layanan data dipotong. Perubahan ini menentukan apa yang realistis dikerjakan pada TA 2027.
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[11px]">
+            <thead><tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+              <th className="text-left py-2 pr-2">Kegiatan · RO</th><th className="text-left py-2 px-2">Rincian Output</th>
+              <th className="text-right py-2 px-2">Pagu Anggaran</th><th className="text-right py-2 px-2">PAA</th>
+              <th className="text-right py-2 px-2">Selisih</th><th className="text-left py-2 pl-2">Target</th>
+            </tr></thead>
+            <tbody>
+              {ubah.slice().sort((a,b)=>b.dPagu-a.dPagu).map(r=>(
+                <tr key={r.keg+r.kode} className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-2 mono whitespace-nowrap"><b>{r.kode}</b> <span className="text-[var(--text-3)]">{r.keg}</span>
+                    {r.tag.pn && <span className="pill mono text-[8px] ml-1" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",borderColor:"transparent"}}>PN</span>}</td>
+                  <td className="py-2 px-2">{r.nama}</td>
+                  <td className="text-right py-2 px-2 mono text-[var(--text-3)]">{jt(r.paguPA)}</td>
+                  <td className="text-right py-2 px-2 mono font-bold">{jt(r.pagu)}</td>
+                  <td className="text-right py-2 px-2 mono font-bold" style={{color:r.dPagu>0?"var(--emerald)":(r.dPagu<0?"var(--red,#dc2626)":"var(--text-3)")}}>{r.dPagu>0?"+":""}{jt(r.dPagu)}</td>
+                  <td className="py-2 pl-2 text-[10.5px]">{r.tgBeda? <span><span className="text-[var(--text-3)]">{r.targetPA}</span> → <b style={{color:r.tNaik?"var(--emerald)":"var(--red,#dc2626)"}}>{r.target}</b></span> : <span className="text-[var(--text-3)]">tetap · {r.target}</span>}</td>
+                </tr>))}
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Nilai dalam juta rupiah. Pagu Anggaran = KRISNA Rekap 3A 17 Agustus 2026; PAA = Rincian Kertas Kerja Satker 27 Oktober 2026.</div>
+      </div>
+
+      {/* Rencana per Eselon II */}
+      <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rencana pelaksanaan sampai tingkat RO</div>
+          <div className="serif text-xl">Per Unit Eselon II</div>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button onClick={()=>setFilKeg("semua")} className={"pill mono text-[10px] "+(filKeg==="semua"?"pill-gold":"pill-muted")} style={{cursor:"pointer"}}>Semua kegiatan</button>
+          {kegs.map(k=>(<button key={k} onClick={()=>setFilKeg(k)} className={"pill mono text-[10px] "+(filKeg===k?"pill-gold":"pill-muted")} style={{cursor:"pointer"}}>{k}</button>))}
+          <button onClick={()=>setHanyaUbah(!hanyaUbah)} className={"pill mono text-[10px] "+(hanyaUbah?"pill-gold":"pill-muted")} style={{cursor:"pointer"}}>Hanya yang berubah</button>
+          <button onClick={unduh} className="pill mono text-[10px] pill-muted" style={{cursor:"pointer"}}>Unduh CSV</button>
+        </div>
+      </div>
+
+      {grup.map(kg=>{
+        const rows = tampil.filter(r=>r.keg===kg);
+        const sub = rows.reduce((a,r)=>a+r.pagu,0);
+        return (
+          <div key={kg} className="card p-5 mb-5">
+            <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="pill pill-muted mono text-[9px]">KEGIATAN {kg}</span>
+                <div className="serif text-lg">{rows[0].unit}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu PAA</div>
+                <div className="serif text-xl" style={{color:"var(--gold)"}}>{fM(sub)}</div>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[11px]">
+                <thead><tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
+                  <th className="text-left py-2 pr-2">RO</th><th className="text-left py-2 px-2">Rincian Output</th>
+                  <th className="text-left py-2 px-2">Target</th>
+                  <th className="text-right py-2 px-2">Pagu PAA</th>
+                  <th className="text-left py-2 px-2">Jadwal usulan</th>
+                  <th className="text-left py-2 pl-2">Prioritas &amp; risiko</th>
+                </tr></thead>
+                <tbody>
+                  {rows.map(r=>(
+                    <tr key={r.keg+r.kode} className="border-b border-[var(--border)] align-top">
+                      <td className="py-2 pr-2 mono font-bold whitespace-nowrap">{r.kode}</td>
+                      <td className="py-2 px-2">{r.nama}
+                        {r.pnbp>0 && <div className="text-[9px] mono mt-0.5" style={{color:"var(--blue)"}}>PNBP {rp(r.pnbp)}</div>}</td>
+                      <td className="py-2 px-2 text-[10.5px] whitespace-nowrap">{r.target}
+                        {r.tgBeda && <div className="text-[9px] text-[var(--text-3)]">dari {r.targetPA}</div>}</td>
+                      <td className="text-right py-2 px-2 mono font-bold">{jt(r.pagu)}
+                        {r.dPagu!==0 && <div className="text-[9px] mono" style={{color:r.dPagu>0?"var(--emerald)":"var(--red,#dc2626)"}}>{r.dPagu>0?"+":""}{jt(r.dPagu)}</div>}</td>
+                      <td className="py-2 px-2 text-[10.5px] whitespace-nowrap">{r.jadwal}</td>
+                      <td className="py-2 pl-2">
+                        <div className="flex flex-wrap gap-1">
+                          <span className="pill mono text-[8.5px]" style={{background:"transparent",color:PRIO[r.prio].c,border:"1px solid "+PRIO[r.prio].c}}>{PRIO[r.prio].l}</span>
+                          {r.tag.pn && <span className="pill mono text-[8.5px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",borderColor:"transparent"}}>PN</span>}
+                          {r.tag.pkpn && <span className="pill mono text-[8.5px]" style={{background:"rgba(124,58,237,0.14)",color:"var(--violet)",borderColor:"transparent"}}>PKPN</span>}
+                        </div>
+                        {r.tag.pkpn && <div className="text-[9px] mt-1" style={{color:"var(--violet)"}}>Klaster {r.tag.pkpn.klaster}</div>}
+                        {r.risiko.map((x,i)=>(<div key={i} className="text-[9.5px] mt-1" style={{color:"var(--red,#dc2626)"}}>• {x}</div>))}
+                      </td>
+                    </tr>))}
+                </tbody>
+              </table>
+            </div>
+            <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Pagu dalam juta rupiah. Jadwal usulan diturunkan dari kelompok KRO; pembinaan dan fasilitasi diletakkan pada TW I–III karena pengalaman TA 2026, pengawasan pada TW II–IV karena memerlukan data semester I.</div>
+          </div>
+        );
+      })}
+
+      {/* Langkah pengamanan */}
+      <div className="card p-5 mb-6">
+        <div className="serif text-xl mb-3">Langkah Pengamanan Pelaksanaan</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 rounded" style={{background:"rgba(64,155,86,0.10)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Semester I</div>
+            <ul className="text-[11.5px] text-[var(--text-2)] leading-relaxed list-disc pl-4 space-y-0.5">
+              <li>Tuntaskan seluruh RO pembinaan dan fasilitasi SRG/PLK (QDB, QDC, BDB, PEA) sebelum keputusan reposisi kelembagaan turun, karena RO inilah yang mengunci pertumbuhan pengelola gudang dan pelaku PLK.</li>
+              <li>Selesaikan dokumen pendukung komponen yang rawan blokir sebelum DIPA berjalan, terutama pada KRO BDB dan QDC yang terkena blokir pada TA 2026.</li>
+              <li>Mulai pengadaan sistem informasi (UAB.001 SPLT dan UAB.002 WMS) pada TW I agar aplikasinya sempat dipakai pada tahun berjalan.</li>
+              <li>Tetapkan rencana penarikan dana per RO sejak awal tahun untuk menjaga IKPA, karena seluruh pagu sudah terisi sejak PAA.</li>
+            </ul>
+          </div>
+          <div className="p-3 rounded" style={{background:"rgba(217,119,6,0.10)"}}>
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Yang perlu diputuskan lebih dahulu</div>
+            <ul className="text-[11.5px] text-[var(--text-2)] leading-relaxed list-disc pl-4 space-y-0.5">
+              <li>RO yang targetnya naik tanpa tambahan pagu perlu dipastikan masih terjangkau biaya satuannya, atau targetnya disesuaikan pada revisi pertama.</li>
+              <li>Pemotongan pagu perizinan PBK beserta turunnya target dari 605 menjadi 405 badan usaha perlu dicek dampaknya terhadap indeks kepuasan layanan perizinan dan pertumbuhan pelaku PBK.</li>
+              <li>Turunnya target layanan data SRG/PLK dari 15 menjadi 10 dokumen perlu diperiksa terhadap kebutuhan referensi harga, yang menjadi manfaat utama PLK bagi petani.</li>
+              <li>Siapkan konsep revisi kegiatan bila reposisi SRG diputuskan, dengan mempertahankan kode ROS sehingga pemindahan hanya mengubah kode kegiatan dan unit.</li>
+            </ul>
+          </div>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Status: {PROY_2027_META.status}. Jadwal dan prioritas merupakan penilaian perencana, bukan ketetapan.</div>
+      </div>
+    </div>
+  );
+}
+
 function MenuProyeksi2028(){
   const [eff,setEff] = useState(0);
   const [filBid,setFilBid] = useState("semua");
@@ -10030,15 +10342,15 @@ function MenuProyeksi2028(){
   const indRO = (id)=>{ const g=roAktif.filter(r=>r.ind.includes(id));
     return g.map(r=> g.filter(x=>x.kode===r.kode).length>1 ? `${r.kode} (${r.bidang})` : r.kode); };
   const unduh = ()=>{
-    const head = ["Eselon II","Kegiatan","Kode RO","Rumusan RO","Kode ROS","Satuan","Target 2027 (PA)","Pagu 2027 PA (Rp)","Target 2028 (usulan)","Biaya satuan (Rp)","Pagu 2028 usulan (Rp)","Prioritas","Bidang","Indikator terkait","Catatan"];
+    const head = ["Eselon II","Kegiatan","Kode RO","Rumusan RO","Kode ROS","Satuan","Target 2027 (PA)","Pagu 2027 PA (Rp)","Target 2028 (usulan)","Biaya satuan (Rp)","Pagu 2028 usulan (Rp)","Prioritas","PN","Klaster PKPN","Kandidat Klaster PKPN","Sumber dana","Bidang","Indikator terkait","Catatan"];
     const lines = [head];
     PROY_2028_E2.forEach(g=>{
-      PROY_2028_RO.filter(r=>r.keg===g.id).forEach(r=>{
-        lines.push([g.unit, g.id, r.kode, r.nama, r.ros, r.sat, r.t27||"", r.p27||"", r.t28||"", r.t27?Math.round(r.p27/r.t27):"", proyP28(r), PRIO[r.prio].l, r.bidang, r.ind.join(" · "), r.cat]);
+      PROY_2028_RO.filter(r=>r.keg===g.id).forEach(r=>{ const t=proyTag(r);
+        lines.push([g.unit, g.id, r.kode, r.nama, r.ros, r.sat, r.t27||"", r.p27||"", r.t28||"", r.t27?Math.round(r.p27/r.t27):"", proyP28(r), PRIO[r.prio].l, t.pn?"PN":"", t.pkpn?t.pkpn.klaster:"", t.kandidat?t.kandidat.klaster:"", r.pnbp?("PNBP "+PROY_2028_PNBP.pagu+" + RM"):"RM", r.bidang, r.ind.join(" · "), r.cat]);
       });
     });
     lines.push([]);
-    lines.push(["TOTAL USULAN PAGU 2028","","","","","","",PA27,"","",total28,"","","",""]);
+    lines.push(["TOTAL USULAN PAGU 2028","","","","","","",PA27,"","",total28,"","","","","","","",""]);
     const csv = lines.map(row=>row.map(c=>{ const s=String(c==null?"":c); return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(";")).join("\n");
     const blob = new Blob(["﻿"+csv], {type:"text/csv;charset=utf-8;"});
     const a = document.createElement("a");
@@ -10069,17 +10381,17 @@ function MenuProyeksi2028(){
         <div className="card-2 p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu Anggaran TA 2027</div>
           <div className="serif text-2xl mt-1">{fM(PA27)}</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">4 kegiatan teknis · dasar biaya satuan</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">4 kegiatan teknis; 3758 memakai POK Rev.10 TA 2026</div>
         </div>
         <div className="card-2 p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rincian Output</div>
           <div className="serif text-2xl mt-1">{roAktif.length} RO</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">{roAktif.filter(r=>r.prio===1).length} pengunci · {roAktif.filter(r=>r.bidang==="PBK").length} PBK · {roAktif.filter(r=>r.bidang==="SRG").length} SRG · {roAktif.filter(r=>r.bidang==="PLK").length} PLK · {roAktif.filter(r=>r.bidang==="Lintas").length} lintas</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">{roAktif.filter(r=>r.prio===1).length} pengunci · {E.nPN} PN · {E.nPKPN} PKPN · {roAktif.filter(r=>r.bidang==="PBK").length} PBK · {roAktif.filter(r=>r.bidang==="SRG").length} SRG · {roAktif.filter(r=>r.bidang==="PLK").length} PLK</div>
         </div>
         <div className="card-2 p-4">
           <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Unit Eselon II</div>
           <div className="serif text-2xl mt-1">{PROY_2028_E2.length}</div>
-          <div className="text-[10px] text-[var(--text-3)] mt-1">4 kegiatan teknis + dukungan Sekretariat</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-1">4 kegiatan teknis + Sekretariat</div>
         </div>
       </div>
 
@@ -10170,7 +10482,14 @@ function MenuProyeksi2028(){
                       <td className="text-right py-2 px-2 mono font-bold">{r.p?jt(r.p):"—"}</td>
                       {eff>0 && <td className="text-right py-2 px-2 mono" style={{color:r.pot>0?"var(--red,#dc2626)":"var(--text-3)"}}>{r.p?jt(r.p-r.pot):"—"}</td>}
                       <td className="py-2 pl-2">
-                        <span className="pill mono text-[8.5px]" style={{background:"transparent",color:PRIO[r.prio].c,border:"1px solid "+PRIO[r.prio].c}}>{PRIO[r.prio].l}</span>
+                        <div className="flex flex-wrap gap-1">
+                          <span className="pill mono text-[8.5px]" style={{background:"transparent",color:PRIO[r.prio].c,border:"1px solid "+PRIO[r.prio].c}}>{PRIO[r.prio].l}</span>
+                          {r.tag.pn && <span className="pill mono text-[8.5px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",borderColor:"transparent"}}>PN</span>}
+                          {r.tag.pkpn && <span className="pill mono text-[8.5px]" style={{background:"rgba(124,58,237,0.14)",color:"var(--violet)",borderColor:"transparent"}}>PKPN</span>}
+                          {r.pnbp && <span className="pill mono text-[8.5px]" style={{background:"rgba(27,89,155,0.14)",color:"var(--blue)",borderColor:"transparent"}}>PNBP</span>}
+                        </div>
+                        {r.tag.pkpn && <div className="text-[9px] mt-1" style={{color:"var(--violet)"}}>Klaster {r.tag.pkpn.klaster}</div>}
+                        {r.tag.kandidat && <div className="text-[9px] mt-1 text-[var(--text-3)] italic">Kandidat klaster {r.tag.kandidat.klaster}</div>}
                         <div className="text-[9.5px] mono text-[var(--text-3)] mt-1">{r.ind.join(" · ")}</div>
                       </td>
                     </tr>))}
@@ -10182,11 +10501,44 @@ function MenuProyeksi2028(){
         );
       })}
 
+      {/* PNBP */}
+      {(()=>{ const adi = E.rows.find(r=>r.pnbp); if(!adi) return null;
+        const rm = Math.max(adi.p - PROY_2028_PNBP.pagu, 0);
+        return (
+        <div className="card p-5 mb-6">
+          <div className="serif text-xl mb-1">Proyeksi Pagu PNBP TA 2028</div>
+          <div className="text-[11.5px] text-[var(--text-2)] mb-4 leading-relaxed">
+            Pagu PNBP yang dapat dipakai pada TA 2028 diproyeksikan <b>{fmtN(PROY_2028_PNBP.pct,2)}%</b> dari target PNBP TA 2027 sebesar {rp(PROY_2028_PNBP.target2027)}, yaitu <b>{rp(PROY_2028_PNBP.pagu)}</b>. Seluruhnya dialokasikan pada RO layanan sertifikasi ujian profesi, satu-satunya RO bersumber PNBP.
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="card-2 p-4">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Target PNBP TA 2027</div>
+              <div className="serif text-xl mt-1">{rp(PROY_2028_PNBP.target2027)}</div>
+            </div>
+            <div className="card-2 p-4">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Proyeksi dapat dipakai</div>
+              <div className="serif text-xl mt-1" style={{color:"var(--blue)"}}>{rp(PROY_2028_PNBP.pagu)}</div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1">{fmtN(PROY_2028_PNBP.pct,2)}% dari target</div>
+            </div>
+            <div className="card-2 p-4">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">RO pengguna</div>
+              <div className="serif text-base mt-1">{adi.kode}</div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1">usulan {rp(adi.p)} · target {adi.t28} orang</div>
+            </div>
+            <div className="card-2 p-4">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kebutuhan Rupiah Murni</div>
+              <div className="serif text-xl mt-1">{rp(rm)}</div>
+              <div className="text-[10px] text-[var(--text-3)] mt-1">selisih usulan terhadap pagu PNBP</div>
+            </div>
+          </div>
+          <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Pada Pagu Anggaran TA 2027, PNBP pada RO ini tercatat Rp90 juta. Proyeksi {fmtN(PROY_2028_PNBP.pct,2)}% merupakan angka yang disampaikan Perencana dan perlu dikonfirmasi dengan target penerimaan TA 2028.</div>
+        </div>); })()}
+
       {/* Efisiensi & blokir */}
       <div className="card p-5 mb-6">
         <div className="serif text-xl mb-1">Skenario Efisiensi dan Blokir Anggaran</div>
         <div className="text-[11.5px] text-[var(--text-2)] mb-3 leading-relaxed">
-          Efisiensi dibebankan lebih dahulu pada RO berprioritas <b>Dapat ditunda</b>, lalu <b>Pendukung</b>, sedangkan RO <b>Pengunci indikator</b> dilindungi. Dengan komposisi ini, efisiensi sampai <b>{E.kapasitasPct.toFixed(1).replace(".",",")}%</b> ({fM(E.kapasitas)}) masih dapat diserap tanpa menurunkan target indikator TA 2028.
+          Efisiensi dibebankan lebih dahulu pada RO berprioritas <b>Dapat ditunda</b>, lalu <b>Pendukung</b>. Yang dilindungi adalah RO <b>Pengunci indikator</b>, RO bertanda <b>PN</b> (Prioritas Nasional), dan RO pendukung <b>Klaster PKPN</b> — seluruhnya {fM(E.dilindungi)} dari {E.nPN} RO PN dan {E.nPKPN} RO PKPN resmi. Dengan komposisi ini, efisiensi sampai <b>{E.kapasitasPct.toFixed(1).replace(".",",")}%</b> ({fM(E.kapasitas)}) masih dapat diserap tanpa menurunkan target indikator TA 2028 maupun menyentuh RO prioritas.
         </div>
         <div className="flex flex-wrap gap-2 items-center mb-4">
           <span className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tingkat efisiensi</span>
@@ -10203,6 +10555,7 @@ function MenuProyeksi2028(){
                 <div className="text-[10px] mono uppercase tracking-wider" style={{color:PRIO[lv].c}}>{PRIO[lv].l}</div>
                 <div className="serif text-xl mt-1">{fM(p-pot)}</div>
                 <div className="text-[10px] text-[var(--text-3)] mt-1">{g.length} RO · pagu usulan {fM(p)}{pot>0?` · dipotong ${fM(pot)}`:""}</div>
+                {lv!==1 && (()=>{ const lind=g.filter(x=>proyLindungi(x)); return lind.length?<div className="text-[9.5px] mt-1" style={{color:"var(--gold)"}}>{lind.length} RO dilindungi karena PN/PKPN ({fM(lind.reduce((a,x)=>a+x.p,0))})</div>:null; })()}
               </div>);
           })}
         </div>
@@ -10213,8 +10566,8 @@ function MenuProyeksi2028(){
               {eff===0
                 ? "Tanpa efisiensi, seluruh RO berjalan pada pagu usulan dan seluruh target indikator TA 2028 terdukung."
                 : (E.sisaKeProi1>0
-                  ? <>Efisiensi {eff}% melebihi kapasitas RO non-pengunci. Sisa <b>{fM(E.sisaKeProi1)}</b> harus diambil dari RO pengunci indikator, sehingga target yang perlu direvisi lebih dahulu adalah IKK-7 (pertumbuhan pelaku PLK) dan IKS 1.3, karena keduanya paling bergantung pada penambahan daerah baru dan SPLT.</>
-                  : <>Efisiensi {eff}% ({fM(total28*eff/100)}) seluruhnya terserap pada RO pendukung dan RO yang dapat ditunda. Target indikator TA 2028 tetap dapat dipertahankan; yang tertunda adalah penyusunan rekomendasi kebijakan dampak, pengembangan WMS, dan sebagian koordinasi.</>)}
+                  ? <>Efisiensi {eff}% melebihi kapasitas RO yang dapat diefisiensikan. Sisa <b>{fM(E.sisaKeProi1)}</b> harus diambil dari RO pengunci indikator atau RO prioritas (PN/PKPN), sehingga target yang perlu direvisi lebih dahulu adalah IKK-7 (pertumbuhan pelaku PLK) dan IKS 1.3, karena keduanya paling bergantung pada penambahan daerah baru dan SPLT.</>
+                  : <>Efisiensi {eff}% ({fM(total28*eff/100)}) seluruhnya terserap pada RO pendukung dan RO yang dapat ditunda di luar RO prioritas. Target indikator TA 2028 tetap dapat dipertahankan, dan tidak ada RO PN maupun RO Klaster PKPN yang terpotong.</>)}
             </div>
           </div>
           <div className="p-3 rounded border border-dashed border-[var(--border-strong)]">
@@ -10259,10 +10612,11 @@ function MenuProyeksi2028(){
             <li>FAB.003 adalah RO baru yang belum berpagu pada PA 2027; rumusan dan kode ROS-nya sudah ada pada pemadanan RO TA 2027.</li>
           </ul>
           <ul className="text-[11.5px] text-[var(--text-2)] leading-relaxed list-disc pl-4 space-y-1">
-            <li>Sekretariat tidak diusulkan RO baru; dukungan perencanaan dan monev melekat pada RO dukungan manajemen.</li>
+            <li>Kegiatan 3758 (Sekretariat) diproyeksikan sama dengan pagu TA 2026 setelah ABT, yaitu POK Revisi 10 sebesar Rp4,963 M dengan komposisi RO yang sama (EBA.994, EBA.Z08, CAN.001), karena kebutuhan dukungan manajemen relatif tetap. Kolom pagu 2027 pada baris 3758 memuat angka TA 2026 tersebut, bukan Pagu Anggaran TA 2027 (Rp7,075 M).</li>
             <li>Belum memperhitungkan Standar Biaya Masukan TA 2028 yang belum ditetapkan, sehingga pagu masih perlu disesuaikan saat penyusunan RKA.</li>
             <li>Rencana ini tidak memuat belanja modal pembangunan gudang, karena jalur PSN tidak tersedia. Peningkatan kapasitas ditempuh melalui revitalisasi, kompetensi pengelola, dan utilisasi gudang yang ada.</li>
-            <li>PNBP pada ADI.001 (Rp90 juta pada PA 2027) belum diproyeksikan ulang; perlu disesuaikan dengan target penerimaan TA 2028.</li>
+            <li>Pagu PNBP TA 2028 diproyeksikan 79,95% dari target PNBP TA 2027 sebesar Rp300 juta, yaitu Rp239,85 juta, seluruhnya pada ADI.001.</li>
+            <li>Penandaan PN diambil dari flag Prioritas Nasional pada Pagu Anggaran TA 2027; penandaan Klaster PKPN dari identifikasi resmi PKPN RKP 2027, sedangkan kandidat klaster berasal dari analisis kelayakan di menu Tagging RO.</li>
             <li>Status: {PROY_2028_META.status}.</li>
           </ul>
         </div>
@@ -10291,7 +10645,8 @@ const MENU_SIDE = [
     {id:"sebaran", label:"Sistem Resi Gudang"}, {id:"psn", label:"PSN SRG"} ]},
   {id:"plk",     label:"PLK",                  sub:"Pasar Lelang Komoditas"},
   {id:"pbk",     label:"PBK",                  sub:"Perdagangan Berjangka Komoditi"},
-  {id:"proyeksi",label:"Proyeksi 2028",      sub:"Rencana PBK, SRG & PLK TA 2028"},
+  {id:"proyeksi",label:"Proyeksi",           sub:"Rencana Kegiatan TA 2027 & TA 2028", items:[
+    {id:"p2027", label:"Rencana TA 2027"}, {id:"p2028", label:"Rencana TA 2028"} ]},
 ];
 /* Pengguna login (dari gerbang Firebase: window.__BAPPEBTI_USER__ / event bappebti-auth-ready). */
 function useAuthUser(){
@@ -10372,7 +10727,8 @@ function App(){
   const [sebabSub,setSebabSub] = useState("sebab");
   const [srgSub,setSrgSub] = useState("sebaran");
   const [angSub,setAngSub] = useState("anggaran");
-  const exportKey = tab==="sebab" ? sebabSub : tab==="sebaran" ? srgSub : tab==="anggaran" ? angSub : tab;
+  const [proySub,setProySub] = useState("p2027");
+  const exportKey = tab==="sebab" ? sebabSub : tab==="sebaran" ? srgSub : tab==="anggaran" ? angSub : tab==="proyeksi" ? proySub : tab;
   const [year,setYear] = useState(2026);
   const [showSettings,setShowSettings] = useState(false);
   const [proxyUrl,setProxyUrl] = useState(()=>{ try{ return localStorage.getItem('bappebti_ai_proxy')||""; }catch(e){ return ""; } });
@@ -10384,7 +10740,7 @@ function App(){
   const [navCollapsed,setNavCollapsed] = useState(()=>{ try{ return localStorage.getItem('bappebti_nav_collapsed')==='1'; }catch(e){ return false; } });
   useEffect(()=>{ try{ localStorage.setItem('bappebti_nav_collapsed', navCollapsed?'1':'0'); }catch(e){} },[navCollapsed]);
   useEffect(()=>{ const set=()=>{ const h=document.querySelector('header.app-header'); if(h) document.documentElement.style.setProperty('--hdr-h', h.offsetHeight+'px'); }; set(); window.addEventListener('resize',set); return ()=>window.removeEventListener('resize',set); },[]);
-  const subs = { sebab:[sebabSub,setSebabSub], anggaran:[angSub,setAngSub], sebaran:[srgSub,setSrgSub] };
+  const subs = { sebab:[sebabSub,setSebabSub], anggaran:[angSub,setAngSub], sebaran:[srgSub,setSrgSub], proyeksi:[proySub,setProySub] };
   const pilihMenu = (id, sid)=>{
     setTab(id); if(sid && subs[id]) subs[id][1](sid);
     setTimeout(()=>{ const a=document.getElementById('menu-anchor'); if(a && a.getBoundingClientRect().top<0) a.scrollIntoView({behavior:'smooth',block:'start'}); else if(a && a.getBoundingClientRect().top>window.innerHeight*0.6) a.scrollIntoView({behavior:'smooth',block:'start'}); },30);
@@ -10422,7 +10778,8 @@ function App(){
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
-      {tab==="proyeksi" && <AutoFold key={"MenuProyeksi2028"+year}><MenuProyeksi2028 /></AutoFold>}
+      {tab==="proyeksi" && proySub==="p2027" && <AutoFold key={"MenuProyeksi2027"+year}><MenuProyeksi2027 /></AutoFold>}
+      {tab==="proyeksi" && proySub==="p2028" && <AutoFold key={"MenuProyeksi2028"+year}><MenuProyeksi2028 /></AutoFold>}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
       <footer className="border-t border-[var(--border)] mt-16">
