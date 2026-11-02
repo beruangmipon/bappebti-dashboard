@@ -2559,6 +2559,7 @@ function MenuIcon({kind, size=18}){
     case "sebaran": return (<svg {...p}><path d="M2.5 10L12 4l9.5 6" style={s}/><path d="M4.5 9v11h15V9" style={s}/><rect x="9" y="13" width="6" height="7" style={s}/><path d="M9 15.3h6M9 17.6h6" style={s}/></svg>);
     case "plk": return (<svg {...p}><path d="M13.5 3.5l6 6M10.5 6.5l6 6M12 5l6 6" style={s}/><path d="M13.3 9.7L5 18" style={s}/><path d="M3 21h9" style={s}/></svg>);
     case "pbk": return (<svg {...p}><path d="M3 20.5h18" style={s}/><path d="M6 8v9M10 5v10M14 9v8M18 4v8" style={s}/><rect x="4.6" y="10" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/><rect x="8.6" y="7" width="2.8" height="6" rx=".5" style={VS("currentColor",0.25)}/><rect x="12.6" y="11" width="2.8" height="4" rx=".5" style={VS("currentColor",0.25)}/><rect x="16.6" y="5.5" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/></svg>);
+    case "proyeksi": return (<svg {...p}><path d="M3 20.5h18" style={s}/><rect x="4.5" y="13" width="3.6" height="7.5" rx=".6" style={s}/><rect x="10.2" y="9.5" width="3.6" height="11" rx=".6" style={s}/><rect x="15.9" y="6" width="3.6" height="14.5" rx=".6" style={{...s, strokeDasharray:"2.6 2"}}/><path d="M4.2 5.6l6.3-2 5.8 1.4 3.9-2.4" style={s}/></svg>);
     default: return null;
   }
 }
@@ -2575,6 +2576,14 @@ function MenuIllustration({kind}){
       <circle cx="130" cy="58" r="40" style={VS(e,0.22)}/><circle cx="100" cy="74" r="26" style={VS(e,0.3)}/><circle cx="160" cy="72" r="28" style={VS(e,0.3)}/>
       {[[130,30,"Visi"],[96,62,"SP"],[164,60,"ISP"],[112,86,"IKK"],[150,90,"RO"]].map(([x,y,l],i)=>(<g key={i}><circle cx={x} cy={y} r="11" style={VS("var(--card)")}/><circle cx={x} cy={y} r="11" style={VSt(i?e:g,2)}/><text x={x} y={y+3.5} textAnchor="middle" fontSize="8" fontWeight="700" style={{fill:i?e:g}}>{l}</text></g>))}
       <path d="M130 41v10M121 37l-17 17M139 37l17 15M104 72l6 7M158 70l-6 10" style={VSt(t,1,0.5)}/>
+    </svg>);
+    case "proyeksi": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(g,0.08)}/>{ground}
+      {[[60,34],[112,52],[164,62],[206,70]].map(([x,h],i)=>(<rect key={i} x={x} y={132-h} width="26" height={h} rx="4" style={VS([t,b,g,v][i], i===0?0.3:0.7)}/>))}
+      <path d="M73 98L125 80L177 70L219 62" style={VSt(r,2.5,0.9)}/>
+      {[[73,98],[125,80],[177,70],[219,62]].map(([x,y],i)=>(<g key={i}><circle cx={x} cy={y} r="7" style={VS("var(--card)")}/><circle cx={x} cy={y} r="7" style={VSt([t,b,g,v][i],2.2)}/></g>))}
+      {[["26",73],["27",125],["28",177],["29",219]].map(([l,x],i)=>(<text key={i} x={x} y={145} textAnchor="middle" fontSize="9" fontWeight="700" style={{fill:"var(--text-3)"}}>{l}</text>))}
+      <path d="M219 62V36" style={VSt(v,2)}/><path d="M219 36h17l-4.5 6 4.5 6h-17z" style={VS(v,0.85)}/>
     </svg>);
     case "sebab": return (<svg {...common}>
       <circle cx="130" cy="72" r="64" style={VS(v,0.07)}/>{ground}
