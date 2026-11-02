@@ -10981,6 +10981,67 @@ function MenuProyeksi2029(){
   );
 }
 
+/* Infografis menu Proyeksi — alur tiga tahun rencana dan perbandingan pagu per kegiatan. */
+function InfografisProyeksi(){
+  const sum27 = {}, sum28 = {}, sum29 = {};
+  PAGU_ANGGARAN_2027.keg.forEach(k=>{ sum27[k.kode] = k.ro.reduce((a,r)=>a+r.pagu,0); });
+  PROY_2028_RO.forEach(r=>{ sum28[r.keg] = (sum28[r.keg]||0) + proyP28(r); });
+  proy29Rows().forEach(r=>{ sum29[r.keg] = (sum29[r.keg]||0) + r.p29; });
+  const NAMA = {"3758":"3758 Sekretariat","3759":"3759 Wasdak","3760":"3760 SRG/PLK","3761":"3761 Hukum","3762":"3762 PBK"};
+  const data = ["3760","3762","3759","3761","3758"].map(k=>({
+    nama:NAMA[k],
+    "TA 2027":+((sum27[k]||0)/1e9).toFixed(3),
+    "TA 2028":+((sum28[k]||0)/1e9).toFixed(3),
+    "TA 2029":+((sum29[k]||0)/1e9).toFixed(3),
+  }));
+  const t27 = Object.values(sum27).reduce((a,b)=>a+b,0);
+  const t28 = Object.values(sum28).reduce((a,b)=>a+b,0);
+  const t29 = Object.values(sum29).reduce((a,b)=>a+b,0);
+  const fM = (n)=> "Rp"+(n/1e9).toFixed(2).replace(".",",")+" M";
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 pt-4">
+      <div className="card p-5">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Infografis · alur perencanaan tiga tahun ke depan</div>
+        <div className="serif text-lg mb-3">Dari tahun berjalan sampai penutup Renstra 2025–2029</div>
+        <div className="flex flex-col md:flex-row items-stretch gap-1">
+          <FlowNode icon="📍" judul="TA 2026 — berjalan" angka={fM(POK_REV10.total)} ket="POK Revisi 10 · capaian TW III: IKS 11,11% dari target 14,93%" warna="var(--text-3)"/>
+          <FlowArrow/>
+          <FlowNode icon="⚙️" judul="TA 2027 — pelaksanaan" angka={fM(t27)} ket="pagu sudah terisi sampai RO · 18 RO bergeser dari Pagu Anggaran" warna="var(--blue)"/>
+          <FlowArrow/>
+          <FlowNode icon="📝" judul="TA 2028 — usulan Renja" angka={fM(t28)} ket="40 RO · jalur PSN tertutup, sasaran ditempuh lewat RO reguler" warna="var(--gold)"/>
+          <FlowArrow/>
+          <FlowNode icon="🏁" judul="TA 2029 — akhir Renstra" angka={fM(t29)} ket="41 RO · seluruh target lima tahunan harus tercapai" warna="var(--violet)"/>
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-[var(--border)]">
+          <div className="flex items-baseline justify-between flex-wrap gap-2 mb-2">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Pagu per kegiatan · Rp miliar</div>
+            <div className="text-[10px] text-[var(--text-3)]">TA 2027 Pagu Alokasi Anggaran · TA 2028 dan TA 2029 usulan</div>
+          </div>
+          <div style={{width:"100%",height:230}}>
+            <ResponsiveContainer>
+              <BarChart data={data} margin={{top:6,right:8,left:-18,bottom:4}}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false}/>
+                <XAxis dataKey="nama" tick={{fontSize:10,fill:"var(--text-3)"}} axisLine={false} tickLine={false}/>
+                <YAxis tick={{fontSize:10,fill:"var(--text-3)"}} axisLine={false} tickLine={false}/>
+                <Tooltip contentStyle={{fontSize:11,borderRadius:8,border:"1px solid var(--border)",background:"var(--card)"}}
+                  formatter={(v)=>["Rp"+Number(v).toFixed(3).replace(".",",")+" M"]}/>
+                <Legend wrapperStyle={{fontSize:10}}/>
+                <Bar dataKey="TA 2027" fill="#94a3b8" radius={[3,3,0,0]}/>
+                <Bar dataKey="TA 2028" fill="#A16207" radius={[3,3,0,0]}/>
+                <Bar dataKey="TA 2029" fill="#7C3AED" radius={[3,3,0,0]}/>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="text-[10px] text-[var(--text-3)] mt-2 leading-snug">
+            Kegiatan 3758 turun pada TA 2028 dan TA 2029 karena diproyeksikan mengikuti pagu TA 2026 setelah ABT, bukan Pagu Alokasi Anggaran TA 2027. Kegiatan 3760 naik karena penambahan daerah PLK baru dan pengembangan sistem lelang elektronik.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 async function exportMatrix(tab){
   try{ await ensureXLSX(); }catch(e){ alert('Gagal memuat pustaka Excel (perlu koneksi internet). Coba lagi.'); return; }
   const XLSX=window.XLSX; const wb=XLSX.utils.book_new();
@@ -11134,6 +11195,7 @@ function App(){
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
+      {tab==="proyeksi" && <InfografisProyeksi />}
       {tab==="proyeksi" && proySub==="p2027" && <AutoFold key={"MenuProyeksi2027"+year}><MenuProyeksi2027 /></AutoFold>}
       {tab==="proyeksi" && proySub==="p2028" && <AutoFold key={"MenuProyeksi2028"+year}><MenuProyeksi2028 /></AutoFold>}
       {tab==="proyeksi" && proySub==="p2029" && <AutoFold key={"MenuProyeksi2029"+year}><MenuProyeksi2029 /></AutoFold>}
