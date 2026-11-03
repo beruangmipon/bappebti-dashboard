@@ -1119,8 +1119,9 @@ const SRG_DATA_UPDATE = "27 Oktober 2026"; /* Direktori Gudang & Pengelola SRG (
 
 /* Penerbitan Resi Gudang & Pembiayaan per tahun (2008–2026).
    Sumber: LAPORAN REKAP RESI GUDANG Bappebti (UPDATED 2026), sheet "Annually".
-   2025 & 2026 bersifat sementara; 2026 = data s.d. 20 Oktober 2026 (angka sheet "Annually" sudah memuat penerbitan hingga
-   20 Okt 2026 dan sama persis dengan jumlah sheet "Penerbitan Detail": 276 RG · 21.590,04 ton · Rp443.689.267.080).
+   2025 & 2026 bersifat sementara; 2026 = data Januari–Oktober 2026 menurut "Data Bappebti MTF 2026 Sept–Okt"
+   (sheet Penerbitan & Pembiayaan): 288 RG · 29.892,96 ton · Rp564.052.692.080; dibiayai 173 RG · Rp249.497.072.000.
+   Angka 2021–2025 juga direvisi mengikuti file yang sama (sebelumnya dari Laporan Rekap RG per 20 Oktober 2026).
    Field: th=tahun, rg=jumlah resi gudang, vol=volume komoditas (ton),
    nilai=nilai barang (Rp), rgBiaya=jumlah RG dibiayai, nilaiBiaya=nilai pembiayaan (Rp). */
 const RESI_GUDANG_TAHUNAN = [
@@ -1137,20 +1138,20 @@ const RESI_GUDANG_TAHUNAN = [
   {th:"2018",rg:374,vol:8357.3,nilai:99959402266,rgBiaya:240,nilaiBiaya:52531096350},
   {th:"2019",rg:434,vol:11501.4,nilai:111238017050,rgBiaya:292,nilaiBiaya:63822637775},
   {th:"2020",rg:422,vol:9539.1,nilai:191213204732,rgBiaya:298,nilaiBiaya:117724119406},
-  {th:"2021",rg:623,vol:13783.9,nilai:515768828832,rgBiaya:461,nilaiBiaya:356637637067},
-  {th:"2022",rg:659,vol:64441.0,nilai:1244092409002,rgBiaya:525,nilaiBiaya:837385610958},
-  {th:"2023",rg:484,vol:61079.0,nilai:945797109000,rgBiaya:407,nilaiBiaya:631461482700},
-  {th:"2024",rg:1052,vol:75542.6,nilai:2867719709566,rgBiaya:968,nilaiBiaya:1913667307684},
-  {th:"2025",rg:532,vol:92692.5,nilai:1909312256300,rgBiaya:406,nilaiBiaya:966067835375,p:true},
-  {th:"2026",rg:276,vol:21590.0,nilai:443689267080,rgBiaya:167,nilaiBiaya:225152072000,p:true},
+  {th:"2021",rg:623,vol:13684.9,nilai:515768828832,rgBiaya:461,nilaiBiaya:356637637067},
+  {th:"2022",rg:633,vol:64441.0,nilai:1244092409002,rgBiaya:527,nilaiBiaya:837385610958},
+  {th:"2023",rg:476,vol:61079.0,nilai:945797109000,rgBiaya:407,nilaiBiaya:631461482700},
+  {th:"2024",rg:1052,vol:75542.6,nilai:2867719709566,rgBiaya:965,nilaiBiaya:1900756682684},
+  {th:"2025",rg:531,vol:92682.5,nilai:1909217256300,rgBiaya:386,nilaiBiaya:954054343000,p:true},
+  {th:"2026",rg:288,vol:29893.0,nilai:564052692080,rgBiaya:173,nilaiBiaya:249497072000,p:true},
 ];
-const RESI_GUDANG_TOTAL = {rg:7444,vol:449722.8,nilai:8849242514545,rgBiaya:5819,nilaiBiaya:5471713774908};
-const RESI_GUDANG_UPDATE = "20 Oktober 2026";
+const RESI_GUDANG_TOTAL = {rg:7421,vol:457916.7,nilai:8969510939545,rgBiaya:5804,nilaiBiaya:5471134657533};
+const RESI_GUDANG_UPDATE = "31 Oktober 2026";
 
 /* === Data penerbitan Resi Gudang (kumulatif 2008–2026) dari Laporan Rekap RG Bappebti. */
 /* Jumlah RG = jumlah resi unik (akurat). Nilai/volume/pembiayaan diselaraskan ke total resmi rekap tahunan. */
 const PENGELOLA_ISSUANCE = [{pg:"PT. Pabrik Gula Candi Baru",rg:323,nilai:2653270500000,vol:196867,rgBiaya:304,biaya:1671569350000},{pg:"PT. Thara Jaya Niaga",rg:192,nilai:1214772000000,vol:19246,rgBiaya:164,biaya:733631435000},{pg:"PT. BGR Logistik Indonesia",rg:435,nilai:1013894256676,vol:2184,rgBiaya:431,biaya:710570507684},{pg:"PT. Cipta Usaha Agro Niaga",rg:630,nilai:690465226780,vol:37240,rgBiaya:536,biaya:434543310000},{pg:"PT. Bhanda Ghara Reksa (Persero)",rg:533,nilai:483985920750,vol:5738,rgBiaya:336,biaya:353007558266},{pg:"PT. Pertani (Persero)",rg:1454,nilai:338713150600,vol:68317,rgBiaya:1249,biaya:208366000200},{pg:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:100,nilai:298912426001,vol:503,rgBiaya:100,biaya:238725000000},{pg:"PT. Pabrik Gula Rajawali I",rg:75,nilai:266790000000,vol:19667,rgBiaya:46,biaya:148183000000},{pg:"PT Siriman Jaya Abadi",rg:108,nilai:264339000000,vol:244,rgBiaya:93,biaya:144421875000},{pg:"PT. Ketiara",rg:212,nilai:206393000000,vol:2499,rgBiaya:186,biaya:127558100000},{pg:"Koperasi Gunung Luhur Berkah",rg:205,nilai:172781440000,vol:4739,rgBiaya:152,biaya:84241105000},{pg:"PT. Wahana Pronatural",rg:92,nilai:163037670000,vol:6548,rgBiaya:65,biaya:61388323500},{pg:"Koperasi Karya Mandiri Tirtayasa",rg:26,nilai:131065425000,vol:5172,rgBiaya:17,biaya:74578805000},{pg:"Koperasi Cipta Nelayan Sentosa",rg:36,nilai:75920675000,vol:3101,rgBiaya:20,biaya:25806487500},{pg:"PT. Fiona Pusaka SRG",rg:104,nilai:74072000000,vol:6956,rgBiaya:97,biaya:46980000000},{pg:"Koperasi Niaga Mukti",rg:476,nilai:73032903300,vol:10382,rgBiaya:455,biaya:48789179266},{pg:"PT. Pengayom Tani Sejagad",rg:92,nilai:68684691000,vol:7318,rgBiaya:89,biaya:45331200000},{pg:"KSU Sarana Hidup Sejahtera",rg:196,nilai:58823527000,vol:7042,rgBiaya:167,biaya:32560200000},{pg:"PT. Food Station Tjipinang Jaya",rg:116,nilai:56535877000,vol:7600,rgBiaya:59,biaya:21592518800},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:68,nilai:49353911000,vol:784,rgBiaya:47,biaya:18741592375},{pg:"KSU Item Reje Gayo",rg:76,nilai:46399707000,vol:435,rgBiaya:53,biaya:23425725000},{pg:"KSU Annisa",rg:317,nilai:46099952500,vol:6530,rgBiaya:304,biaya:29881770000},{pg:"Kospermindo",rg:77,nilai:39630655000,vol:4356,rgBiaya:65,biaya:23922202300},{pg:"PT Merdeka Bahari Indonesia",rg:25,nilai:38532866000,vol:1547,rgBiaya:23,biaya:26071288700},{pg:"PT Atma Mulya Jaya",rg:160,nilai:28430678580,vol:1372,rgBiaya:146,biaya:18215412814},{pg:"PT Anugrah Pesona Mandiri",rg:36,nilai:27138611600,vol:906,rgBiaya:32,biaya:15943950000},{pg:"PT. Sucofindo (Persero)",rg:35,nilai:26807608687,vol:132,rgBiaya:32,biaya:20986150463},{pg:"Koperasi Basunondo",rg:203,nilai:22556161100,vol:3045,rgBiaya:117,biaya:10310196300},{pg:"PT Ksatria Guna Sejahtera",rg:3,nilai:20691720000,vol:244,rgBiaya:0,biaya:0},{pg:"Koperasi Tani Bontolempengan",rg:28,nilai:20474750000,vol:1300,rgBiaya:16,biaya:10987970000}];
-/* Kumulatif s.d. 20 Oktober 2026 — dihitung ulang dari sheet "Penerbitan Detail" (7.449 baris resi individual),
+/* Rincian per pengelola masih dari sheet "Penerbitan Detail" per 20 Oktober 2026 (7.449 baris resi individual),
    LAPORAN_REKAP_RG_UPDATED_2026.xlsx. Total nilai seluruh pengelola (bukan hanya top-30 di
    atas) mengikuti data detail; total resmi per tahun mengikuti sheet "Annually" (RESI_GUDANG_TOTAL). */
 const PENERBITAN_PROV = [{key:"Jawa Barat",rg:2425,nilai:1248584559780,vol:69466.6},{key:"Jawa Timur",rg:1672,nilai:4253626405180,vol:294982.0},{key:"Kepulauan Bangka Belitung",rg:794,nilai:1767131298246,vol:3892.1},{key:"Jawa Tengah",rg:672,nilai:275080315196,vol:24166.3},{key:"Sulawesi Selatan",rg:600,nilai:644753123300,vol:29878.2},{key:"Kalimantan Selatan",rg:481,nilai:44852849566,vol:6693.4},{key:"Aceh",rg:366,nilai:305990850037,vol:4408.9},{key:"Lampung",rg:145,nilai:80813958086,vol:1793.4},{key:"Nusa Tenggara Barat",rg:103,nilai:57115064054,vol:4947.9},{key:"Banten",rg:80,nilai:143955165000,vol:7323.7},{key:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Sumatera Selatan",rg:15,nilai:4700555000,vol:266.5},{key:"Bali",rg:14,nilai:3795942000,vol:481.9},{key:"Jakarta",rg:9,nilai:2166600000,vol:273.0},{key:"Sumatera Barat",rg:8,nilai:231355800,vol:51.3},{key:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Sumatera Utara",rg:4,nilai:811534000,vol:65.9},{key:"Sulawesi Tenggara",rg:3,nilai:164378800,vol:27.5},{key:"Kalimantan Tengah",rg:3,nilai:328274000,vol:46.0},{key:"Kalimantan Barat",rg:3,nilai:104711000,vol:22.4},{key:"Sulawesi Tengah",rg:2,nilai:95774000,vol:12.2},{key:"Gorontalo",rg:2,nilai:17500000,vol:5.0},{key:"Maluku",rg:2,nilai:2400000,vol:0.2},{key:"Kepulauan Riau",rg:1,nilai:214630000,vol:16.5},{key:"Sulawesi Barat",rg:1,nilai:23000000,vol:5.0}];
@@ -1160,7 +1161,7 @@ const PEMBIAYAAN_BANK = [{key:"PT KPBI Jakarta",rg:1112,biaya:2167472145225},{ke
 const PEMBIAYAAN_TOTAL = {nilai:5471713774908,rgBiaya:5819,rgTotal:7444};
 /* Peringkat penerbitan Resi Gudang per pengelola PER TAHUN (sumber: Penerbitan Detail). Top 8 tiap tahun. */
 const PENGELOLA_BY_YEAR = {"2024":[{pg:"PT. BGR Logistik Indonesia",rg:400,nilai:950377698066,vol:2008,rgBiaya:396,biaya:659775507684},{pg:"PT. Thara Jaya Niaga",rg:76,nilai:646120000000,vol:8763,rgBiaya:67,biaya:429450750000},{pg:"PT. Pabrik Gula Candi Baru",rg:85,nilai:616250000000,vol:42500,rgBiaya:83,biaya:440800000000},{pg:"PT. Cipta Usaha Agro Niaga",rg:248,nilai:311901601000,vol:14558,rgBiaya:235,biaya:210784000000},{pg:"PT Siriman Jaya Abadi",rg:22,nilai:136739000000,vol:120,rgBiaya:14,biaya:64896875000},{pg:"Koperasi Gunung Luhur Berkah",rg:27,nilai:39550000000,vol:530,rgBiaya:18,biaya:22085000000},{pg:"Koperasi Karya Mandiri Tirtayasa",rg:11,nilai:36392250000,vol:1385,rgBiaya:5,biaya:18330000000},{pg:"PT. Wahana Pronatural",rg:20,nilai:26460000000,vol:1348,rgBiaya:16,biaya:15500000000}],"2025":[{pg:"PT. Pabrik Gula Candi Baru",rg:73,nilai:922200000000,vol:63600,rgBiaya:58,biaya:444570000000},{pg:"PT. Thara Jaya Niaga",rg:59,nilai:525313500000,vol:6570,rgBiaya:45,biaya:275470475000},{pg:"PT. Cipta Usaha Agro Niaga",rg:210,nilai:172914730200,vol:7839,rgBiaya:160,biaya:98702000000},{pg:"PT. Pabrik Gula Rajawali I",rg:10,nilai:137750000000,vol:9500,rgBiaya:8,biaya:76125000000},{pg:"Koperasi Gunung Luhur Berkah",rg:35,nilai:36380120000,vol:658,rgBiaya:21,biaya:8152500000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:46,nilai:32722025000,vol:493,rgBiaya:38,biaya:15078660375},{pg:"PT. Fiona Pusaka SRG",rg:32,nilai:23040000000,vol:1920,rgBiaya:30,biaya:15000000000},{pg:"PT Siriman Jaya Abadi",rg:3,nilai:21250000000,vol:25,rgBiaya:3,biaya:14875000000}],"2026":[{pg:"PT. Pabrik Gula Candi Baru",rg:9,nilai:188500000000,vol:13000,rgBiaya:8,biaya:121800000000},{pg:"Koperasi Gunung Luhur Berkah",rg:48,nilai:64830000000,vol:1315,rgBiaya:36,biaya:36110000000},{pg:"PT. Cipta Usaha Agro Niaga",rg:57,nilai:48733744580,vol:2519,rgBiaya:37,biaya:21500000000},{pg:"PT. Pabrik Gula Rajawali I",rg:4,nilai:29000000000,vol:2000,rgBiaya:1,biaya:2030000000},{pg:"PT. Ketiara",rg:37,nilai:25700000000,vol:199,rgBiaya:24,biaya:11620000000},{pg:"KSU Item Reje Gayo",rg:31,nilai:18400560000,vol:147,rgBiaya:10,biaya:4674000000},{pg:"PT. Fiona Pusaka SRG",rg:22,nilai:15840000000,vol:1320,rgBiaya:19,biaya:9500000000},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:20,nilai:15633800000,vol:257,rgBiaya:7,biaya:3003932000}]};
-const RG_CUTOFF_2026 = "20 Oktober 2026";
+const RG_CUTOFF_2026 = "31 Oktober 2026";
 const PENERBITAN_PROV_2025 = [{key:"Jawa Barat",rg:2346,nilai:1157032309780,vol:66609.0},{key:"Jawa Timur",rg:1608,nilai:3990715343100,vol:277607.5},{key:"Kepulauan Bangka Belitung",rg:794,nilai:1767131298246,vol:3892.1},{key:"Jawa Tengah",rg:643,nilai:253746515196,vol:23689.6},{key:"Sulawesi Selatan",rg:587,nilai:636517223300,vol:29602.8},{key:"Kalimantan Selatan",rg:480,nilai:44807154566,vol:6686.4},{key:"Aceh",rg:290,nilai:256390290037,vol:4010.3},{key:"Lampung",rg:145,nilai:80813958086,vol:1793.4},{key:"Nusa Tenggara Barat",rg:89,nilai:47105064054,vol:4747.7},{key:"Banten",rg:80,nilai:143955165000,vol:7323.7},{key:"Yogyakarta",rg:38,nilai:5832436500,vol:770.4},{key:"Sumatera Selatan",rg:15,nilai:4700555000,vol:266.5},{key:"Bali",rg:14,nilai:3795942000,vol:481.9},{key:"Jakarta",rg:9,nilai:2166600000,vol:273.0},{key:"Sumatera Barat",rg:8,nilai:231355800,vol:51.3},{key:"Bengkulu",rg:6,nilai:8849835000,vol:126.5},{key:"Sumatera Utara",rg:4,nilai:811534000,vol:65.9},{key:"Sulawesi Tenggara",rg:3,nilai:164378800,vol:27.5},{key:"Kalimantan Tengah",rg:3,nilai:328274000,vol:46.0},{key:"Kalimantan Barat",rg:3,nilai:104711000,vol:22.4},{key:"Sulawesi Tengah",rg:2,nilai:95774000,vol:12.2},{key:"Gorontalo",rg:2,nilai:17500000,vol:5.0},{key:"Maluku",rg:2,nilai:2400000,vol:0.2},{key:"Kepulauan Riau",rg:1,nilai:214630000,vol:16.5},{key:"Sulawesi Barat",rg:1,nilai:23000000,vol:5.0}];
 const PENERBITAN_KAB_2025 = [{"key":"Subang","prov":"Jawa Barat","rg":737,"nilai":926733835000,"vol":31806},{"key":"Pangkalpinang","prov":"Kepulauan Bangka Belitung","rg":720,"nilai":1735018454926,"vol":3618},{"key":"Indramayu","prov":"Jawa Barat","rg":658,"nilai":89662141300,"vol":16209},{"key":"Cianjur","prov":"Jawa Barat","rg":580,"nilai":84739672800,"vol":12867},{"key":"Probolinggo","prov":"Jawa Timur","rg":571,"nilai":417275236100,"vol":44760},{"key":"Barito Kuala","prov":"Kalimantan Selatan","rg":434,"nilai":41203922100,"vol":6201},{"key":"Malang","prov":"Jawa Timur","rg":260,"nilai":1944485405000,"vol":144775},{"key":"Grobogan","prov":"Jawa Tengah","rg":218,"nilai":70653302000,"vol":8843},{"key":"Makassar","prov":"Sulawesi Selatan","rg":214,"nilai":277889400000,"vol":14100},{"key":"Aceh Tengah","prov":"Aceh","rg":195,"nilai":214577000000,"vol":2875},{"key":"Bekasi","prov":"Jawa Barat","rg":136,"nilai":19322598080,"vol":580},{"key":"Tuban","prov":"Jawa Timur","rg":125,"nilai":153013215000,"vol":2634},{"key":"Ngawi","prov":"Jawa Timur","rg":110,"nilai":52732808500,"vol":6532},{"key":"Takalar","prov":"Sulawesi Selatan","rg":108,"nilai":264339000000,"vol":244},{"key":"Tasikmalaya","prov":"Jawa Barat","rg":105,"nilai":10261567400,"vol":2124},{"key":"Wonogiri","prov":"Jawa Tengah","rg":101,"nilai":69369641000,"vol":7453},{"key":"Jombang","prov":"Jawa Timur","rg":97,"nilai":440935000000,"vol":6797},{"key":"Pasuruan","prov":"Jawa Timur","rg":85,"nilai":98789318000,"vol":1485},{"key":"Kebumen","prov":"Jawa Tengah","rg":84,"nilai":1458498606,"vol":275},{"key":"Madiun","prov":"Jawa Timur","rg":83,"nilai":543424550000,"vol":39840},{"key":"Lampung Selatan","prov":"Lampung","rg":78,"nilai":3886605500,"vol":771},{"key":"Sidrap","prov":"Sulawesi Selatan","rg":77,"nilai":42935117500,"vol":8796},{"key":"Sidoarjo","prov":"Jawa Timur","rg":75,"nilai":244655380300,"vol":18004},{"key":"Bener Meriah","prov":"Aceh","rg":68,"nilai":38064435787,"vol":466},{"key":"Banyuwangi","prov":"Jawa Timur","rg":62,"nilai":17734242700,"vol":3878},{"key":"Luwu Timur","prov":"Sulawesi Selatan","rg":55,"nilai":2358450000,"vol":327},{"key":"Luwu Utara","prov":"Sulawesi Selatan","rg":53,"nilai":2154040000,"vol":419},{"key":"Temanggung","prov":"Jawa Tengah","rg":48,"nilai":33720111000,"vol":527},{"key":"Lombok Timur","prov":"Nusa Tenggara Barat","rg":47,"nilai":28280354054,"vol":986},{"key":"Tapin","prov":"Kalimantan Selatan","rg":46,"nilai":3603232466,"vol":485},{"key":"Pandeglang","prov":"Banten","rg":42,"nilai":5919740000,"vol":1008},{"key":"Karawang","prov":"Jawa Barat","rg":41,"nilai":10244400000,"vol":1164},{"key":"Jepara","prov":"Jawa Tengah","rg":40,"nilai":2319167500,"vol":477},{"key":"Pringsewu","prov":"Lampung","rg":39,"nilai":4327883000,"vol":524},{"key":"Bantul","prov":"Yogyakarta","rg":38,"nilai":5832436500,"vol":770},{"key":"Blitar","prov":"Jawa Timur","rg":38,"nilai":11147342000,"vol":469},{"key":"Gowa","prov":"Sulawesi Selatan","rg":33,"nilai":20613245400,"vol":1367},{"key":"Tangerang","prov":"Banten","rg":30,"nilai":132935425000,"vol":5296},{"key":"Pinrang","prov":"Sulawesi Selatan","rg":28,"nilai":14980687000,"vol":3271},{"key":"Nganjuk","prov":"Jawa Timur","rg":27,"nilai":6548455000,"vol":1353},{"key":"Sumbawa","prov":"Nusa Tenggara Barat","rg":27,"nilai":4533620000,"vol":1163},{"key":"Bangka","prov":"Kepulauan Bangka Belitung","rg":27,"nilai":3961019400,"vol":75},{"key":"Bangka Tengah","prov":"Kepulauan Bangka Belitung","rg":27,"nilai":5615671420,"vol":99},{"key":"Tegal","prov":"Jawa Tengah","rg":25,"nilai":38532866000,"vol":1547},{"key":"Mojokerto","prov":"Jawa Timur","rg":23,"nilai":11508255000,"vol":2382},{"key":"Majalengka","prov":"Jawa Barat","rg":22,"nilai":2372650000,"vol":451},{"key":"Bangka Barat","prov":"Kepulauan Bangka Belitung","rg":20,"nilai":22536152500,"vol":100},{"key":"Sumedang","prov":"Jawa Barat","rg":19,"nilai":2385460000,"vol":257},{"key":"Ciamis","prov":"Jawa Barat","rg":19,"nilai":1654510000,"vol":220},{"key":"Brebes","prov":"Jawa Tengah","rg":19,"nilai":11696500000,"vol":522},{"key":"Kudus","prov":"Jawa Tengah","rg":18,"nilai":1976835500,"vol":270},{"key":"Demak","prov":"Jawa Tengah","rg":16,"nilai":2055109500,"vol":388},{"key":"Lombok Barat","prov":"Nusa Tenggara Barat","rg":15,"nilai":14291090000,"vol":2598},{"key":"Bireuen","prov":"Aceh","rg":15,"nilai":2879004250,"vol":547},{"key":"Tanggamus","prov":"Lampung","rg":14,"nilai":1009480100,"vol":211},{"key":"Purwakarta","prov":"Jawa Barat","rg":14,"nilai":7944775000,"vol":691}];
 const PENERBITAN_KOM_2025 = [{key:"Gabah",rg:3646,vol:116595,nilai:712398161158},{key:"Beras",rg:750,vol:58074,nilai:648658259000},{key:"Timah",rg:744,vol:3756,nilai:1772021703426},{key:"Kopi",rg:455,vol:7552,nilai:1362238140787},{key:"Gula",rg:440,vol:205234,nilai:2741576500000},{key:"Rumput Laut",rg:268,vol:19824,nilai:416358305000},{key:"Tembakau",rg:242,vol:3938,nilai:340209825000},{key:"Ikan",rg:208,vol:2430,nilai:333461774600},{key:"Jagung",rg:165,vol:7773,nilai:28823039594},{key:"Ayam Beku Karkas",rg:145,vol:611,nilai:20230182080},{key:"Lada",rg:54,vol:174,nilai:9576690820},{key:"Bawang Merah",rg:19,vol:522,nilai:11696500000},{key:"Kedelai",rg:13,vol:334,nilai:3796620000},{key:"Garam",rg:10,vol:702,nilai:977498000},{key:"Rotan",rg:3,vol:31,nilai:264548000},{key:"Teh",rg:3,vol:40,nilai:710000000},{key:"Kakao",rg:1,vol:3,nilai:78500000},{key:"Gambir",rg:1,vol:1,nilai:47000000},{key:"Tepung Tapioka",rg:1,vol:540,nilai:2430000000}];
@@ -1176,7 +1177,7 @@ const PENGELOLA_DINAMIKA_2026 = {
 const PENGELOLA_SRG = {"total":152,"status":[{"k":"Aktif","n":70},{"k":"Dibatalkan","n":69},{"k":"Terbatalkan","n":12},{"k":"Dibatasi","n":1}],"aktif":70,"badanHukumAktif":[{"k":"PT","n":35},{"k":"Koperasi","n":28},{"k":"BUMD","n":5},{"k":"BUMN","n":2}],"provAktif":[{"prov":"DKI Jakarta","n":14},{"prov":"Jawa Timur","n":14},{"prov":"Jawa Barat","n":8},{"prov":"Jawa Tengah","n":8},{"prov":"Sulawesi Selatan","n":6},{"prov":"Aceh","n":4},{"prov":"Kalimantan Utara","n":3},{"prov":"Sumatera Utara","n":3},{"prov":"Banten","n":2},{"prov":"Kalimantan Selatan","n":2},{"prov":"Sumatera Barat","n":2},{"prov":"Bali","n":1},{"prov":"DI Yogyakarta","n":1},{"prov":"Lampung","n":1}]}; // tanggal data terakhir diperbarui (direktori pengelola per 27 Oktober 2026)
 
 /* Komoditas Orientasi Ekspor & Gudang Komoditas Pangan (sumber: LAPORAN REKAP RG UPDATED 2026,
-   sheet "Orientasi Ekspor" & "Gudang Komoditas Pangan"; kumulatif s.d. 20 Oktober 2026).
+   sheet "Orientasi Ekspor" & "Gudang Komoditas Pangan"; kumulatif s.d. 20 Oktober 2026 — belum memuat Oktober penuh).
    Gudang Komoditas Pangan: seluruh angka (RG, volume, nilai, pembiayaan 2024–2026) mengikuti sheet "Penerbitan Detail"
    (arahan Perencana 26 Okt 2026). Orientasi Ekspor: mengikuti sheet, kecuali Gudang Bandar Bener Meriah (KSU Item Reje Gayo)
    TA 2026 yang mengikuti "Penerbitan Detail" (31 RG).
@@ -2277,7 +2278,7 @@ Pelajaran: (1) RO PN terbukti mampu menghasilkan output meski dipangkas, sehingg
 
 Realisasi s.d. September 2026 memperlihatkan kesenjangan yang tajam. Serapan 3760 baru 14,92% (Rp209,7 juta). KRO berlabel PN bergerak lambat: QDC 10,7%, QDB 8,8%, UAB nol rupiah (SPLT Rp30 juta dan WMS Rp60 juta). Hanya PBB (95,7%) dan PEA (85,6%) yang sudah hampir tuntas. Progress fisik RO PN pun masih rendah: QDB.001 Peningkatan Kompetensi Pengelola 27,7%, QDB.003 Pendampingan WMS 34,6%, QDC.003 Asistensi PLK 56,5%, UAB.001 12,7%, dan UAB.002 16,1%.
 
-Konteks pasar membuat penundaan ini mahal. Penerbitan resi gudang s.d. 20 Oktober 2026 baru 276 resi senilai Rp443,7 miliar — jauh di bawah 2025 — dan menjadi risiko utama pencapaian IKS 1.3, yang pada TW III 2026 baru 11,11% dari target 14,93%. Sebaliknya PLK menunjukkan tanda pemulihan berbasis kemandirian daerah: s.d. September, 41 lelang senilai Rp33,49 miliar oleh 5 penyelenggara di 5 provinsi, termasuk NTB sebagai provinsi baru dan Aceh, meski kegiatan PLK tidak dianggarkan pusat. Dua RO PBK yang ber-PN tetap relevan: nilai transaksi PBK s.d. Agustus naik 97,03% secara tahunan.
+Konteks pasar membuat penundaan ini mahal. Penerbitan resi gudang Januari–Oktober 2026 baru 288 resi senilai Rp564,05 miliar — jauh di bawah 2025 — dan menjadi risiko utama pencapaian IKS 1.3, yang pada TW III 2026 baru 11,11% dari target 14,93%. Sebaliknya PLK menunjukkan tanda pemulihan berbasis kemandirian daerah: s.d. September, 41 lelang senilai Rp33,49 miliar oleh 5 penyelenggara di 5 provinsi, termasuk NTB sebagai provinsi baru dan Aceh, meski kegiatan PLK tidak dianggarkan pusat. Dua RO PBK yang ber-PN tetap relevan: nilai transaksi PBK s.d. Agustus naik 97,03% secara tahunan.
 
 Rekomendasi eksekusi TW IV: kontrakkan UAB.001, UAB.002, dan FAB.001 sebelum pertengahan November; laksanakan paket QDB/QDC tambahan ABT dalam format terpadu di provinsi dengan gudang aktif dan penyelenggara lelang (Riau, Jawa Barat, Jawa Timur, Aceh, NTB); dan laporkan progres RO PN mingguan hingga akhir Desember. Untuk kandidat PN berikutnya, BDB.001/QDB.004 (Fasilitasi Lembaga Penyalur Skema Subsidi Resi Gudang) tetap layak, karena 5.819 dari 7.444 resi (78%) memperoleh pembiayaan senilai Rp5,47 triliun — pembiayaan adalah mesin utama pemanfaatan SRG.`,
 
@@ -2316,9 +2317,9 @@ Tiga risiko utama 2027. Pertama, risiko kapasitas eksekusi: pengalaman 2026 menu
 Rekomendasi: susun KAK/RAB seluruh RO sebelum DIPA; tetapkan rencana penarikan dana bulanan per kegiatan dengan sasaran serapan TW I minimal 15%; siapkan matriks crosswalk RO dan IKK ke unit penerima untuk kedua opsi reposisi; dan pantau melalui dashboard indikator outcome — penerbitan resi gudang, gudang dan pengelola aktif, penyelenggara PLK aktif, serta transaksi PBK non-BMKS.`,
   },
 
-  sebaran: `Data SRG per 20 Oktober 2026 menghasilkan empat temuan dengan implikasi kebijakan langsung.
+  sebaran: `Data SRG per Oktober 2026 menghasilkan empat temuan dengan implikasi kebijakan langsung.
 
-TEMUAN 1 — Pasar SRG 2026 sedang melemah tajam. Sampai 20 Oktober baru terbit 276 resi gudang (21.590 ton, Rp443,7 miliar), dengan 167 resi dibiayai senilai Rp225,2 miliar. Bandingkan dengan 532 resi/Rp1,91 triliun pada 2025 dan puncak 1.052 resi/Rp2,87 triliun pada 2024. Sebagian penurunan nilai 2026 berasal dari koreksi data dua resi gula di Sidoarjo (dari 3.200 ton/Rp46,4 miliar menjadi 500 ton/Rp7,25 miliar), tetapi trennya tetap turun. Karena SRG berbobot 45% dalam IKS 1.3 — yang pada TW III 2026 baru 11,11% dari target 14,93% — pelemahan ini menjadi risiko utama untuk menutup target akhir tahun.
+TEMUAN 1 — Pasar SRG 2026 sedang melemah tajam. Sampai Oktober baru terbit 288 resi gudang (29.893 ton, Rp564,05 miliar), dengan 173 resi dibiayai senilai Rp225,2 miliar. Bandingkan dengan 532 resi/Rp1,91 triliun pada 2025 dan puncak 1.052 resi/Rp2,87 triliun pada 2024. Sebagian penurunan nilai 2026 berasal dari koreksi data dua resi gula di Sidoarjo (dari 3.200 ton/Rp46,4 miliar menjadi 500 ton/Rp7,25 miliar), tetapi trennya tetap turun. Karena SRG berbobot 45% dalam IKS 1.3 — yang pada TW III 2026 baru 11,11% dari target 14,93% — pelemahan ini menjadi risiko utama untuk menutup target akhir tahun.
 
 TEMUAN 2 — Separuh kapasitas kelembagaan idle. Dari 309 gudang di 32 provinsi (kapasitas 590 ribu ton), hanya 142 yang aktif (46%); 132 berakhir masa berlakunya, 13 dicabut, dan 22 belum memiliki pengelola. Dari 152 pengelola berlisensi hanya 70 yang aktif. Gudang mati karena pengelolanya hilang, bukan karena bangunannya rusak — 123 gudang dibangun Pemerintah Pusat sejak Dana Stimulus Fiskal 2009 dan sebagian besar dapat direaktivasi dengan biaya jauh di bawah pembangunan baru.
 
@@ -2344,7 +2345,7 @@ REKOMENDASI: (1) tambahkan indikator antara yang menjembatani IKP ke IKS, misaln
 
 GAP CLEARANCE-EKSEKUSI: Tiga sistem Kegiatan 3760 yang sudah lolos clearance masih nol rupiah realisasi s.d. September — UAB.002 WMS (Rp60 juta, progress 16,1%), UAB.001 SPLT (Rp30 juta, 12,7%), dan FAB.001 Sistem Informasi Persetujuan SRG/PLK (Rp30 juta, 16%). Total Rp120 juta atau 33% belanja TIK belum bergerak. Sebaliknya FAB.002 Sistem Aplikasi Perizinan PBK sudah tuntas (Rp59,2 juta, 100%) dan CAN.001 Peralatan TIK berjalan dengan progress 74,97%.
 
-Nilai yang ditopang sistem-sistem kecil ini jauh lebih besar dari belanjanya: WMS adalah tulang punggung data stok 142 gudang aktif yang menerbitkan 276 resi senilai Rp443,7 miliar s.d. 20 Oktober 2026, dan SPLT adalah jalur digitalisasi lelang yang kini dijalankan 5 penyelenggara (41 lelang, Rp33,49 miliar s.d. September). Penundaan pengadaan berarti data pasar tetap dikumpulkan manual.
+Nilai yang ditopang sistem-sistem kecil ini jauh lebih besar dari belanjanya: WMS adalah tulang punggung data stok 142 gudang aktif yang menerbitkan 288 resi senilai Rp564,05 miliar s.d. 20 Oktober 2026, dan SPLT adalah jalur digitalisasi lelang yang kini dijalankan 5 penyelenggara (41 lelang, Rp33,49 miliar s.d. September). Penundaan pengadaan berarti data pasar tetap dikumpulkan manual.
 
 REKOMENDASI: (1) Kontrakkan ketiga sistem 3760 paling lambat pertengahan November melalui penunjukan langsung; bila tidak memungkinkan, ajukan pergeseran anggaran agar tidak menjadi sisa pagu. (2) Tetapkan kriteria fungsional per sistem — WMS: gudang aktif melaporkan stok bulanan via sistem; SPLT: seluruh penyelenggara aktif mencatat lelang di platform; FAB: seluruh permohonan persetujuan baru masuk via sistem. (3) Mengingat reposisi kelembagaan, pastikan kepemilikan aplikasi, data, dan hak akses SRG/PLK terdokumentasi sehingga dapat dialihkan ke unit penerima tanpa memutus layanan.`,
 
@@ -2406,7 +2407,7 @@ Rekomendasi: (1) tetapkan BDB.004 sebagai kode baku — kode inilah yang dipakai
 
 Dengan tidak disetujuinya PSN, rencana CAPEX 38 gudang tidak lagi berjalan sebagai proyek multi-tahun dengan fasilitas PSN (multi-year lock, KKPR khusus, akses BMN/BMD). Materi usulan tetap bernilai sebagai bahan perencanaan: revitalisasi gudang yang sudah ada, peningkatan utilisasi, dan penguatan pengelola gudang dapat dilanjutkan melalui kegiatan reguler dan usulan RO TA 2027 secara bertahap.
 
-Data terbaru menunjukkan arah prioritas tersebut. Ekosistem pembiayaan bekerja (78% resi gudang memperoleh kredit, total Rp5,47 triliun) dan kopi Gayo melalui KSU Reje Gayo (31 resi 2026) menunjukkan jalur SRG berorientasi ekspor. Namun penerbitan resi 2026 s.d. 20 Oktober baru 276 resi senilai Rp443,7 miliar, dan 167 dari 309 gudang tidak aktif. Fokus yang masuk akal adalah utilisasi gudang yang ada, pengelola terlatih, dan keterhubungan ke pasar (lelang atau ekspor), dengan KPI nilai resi yang diterbitkan per gudang.
+Data terbaru menunjukkan arah prioritas tersebut. Ekosistem pembiayaan bekerja (78% resi gudang memperoleh kredit, total Rp5,47 triliun) dan kopi Gayo melalui KSU Reje Gayo (31 resi 2026) menunjukkan jalur SRG berorientasi ekspor. Namun penerbitan resi Januari–Oktober 2026 baru 288 resi senilai Rp564,05 miliar, dan 167 dari 309 gudang tidak aktif. Fokus yang masuk akal adalah utilisasi gudang yang ada, pengelola terlatih, dan keterhubungan ke pasar (lelang atau ekspor), dengan KPI nilai resi yang diterbitkan per gudang.
 
 Faktor kelembagaan tetap relevan: ND BKPerdag 28 September 2026 menempatkan SRG di Ditjen PDN (Opsi 1) atau di Ditjen Pengembangan Sarana Perdagangan Komoditi (usulan Bappebti), sehingga kesinambungan pelaksana kegiatan SRG perlu dipastikan pada kedua opsi.`,
 
@@ -2656,8 +2657,8 @@ function MenuBanner({kind}){
         :[{l:"IKS 1.3 · TW III",v:`${fmtN(CAPAIAN_IKS_2026.real)}%`},{l:"Serapan s.d. Sep",v:`${fmtN(REALISASI_SP2D_SEP2026.pct)}%`},{l:"Progress fisik RO",v:"76,85%"},{l:"IKP-3 kepatuhan",v:"81,52%"}]},
     sebaran:{judul:"Sistem Resi Gudang", sub:`Gudang, pengelola, penerbitan resi & pembiayaan · data s.d. ${RG_CUTOFF_2026}`, warna:"var(--gold)",
       k:[{l:"Gudang SRG",v:GUDANG.length},{l:"Gudang aktif",v:GUDANG.filter(x=>x.st==='aktif').length},{l:"Resi gudang (kumulatif)",v:RESI_GUDANG_TOTAL.rg.toLocaleString('id-ID')},{l:"Pembiayaan",v:rp(RESI_GUDANG_TOTAL.nilaiBiaya)}]},
-    plk:{judul:"Pasar Lelang Komoditas", sub:"Lelang fisik terorganisir · data s.d. 20 September 2026", warna:"var(--emerald)",
-      k:[{l:"Transaksi 2026",v:"Rp33,49 M"},{l:"Jumlah lelang",v:"41"},{l:"Penyelenggara aktif",v:"5"},{l:"Peserta",v:"523"}]},
+    plk:{judul:"Pasar Lelang Komoditas", sub:"Lelang fisik terorganisir · nilai transaksi s.d. Oktober 2026", warna:"var(--emerald)",
+      k:[{l:"Transaksi 2026",v:"Rp38,80 M"},{l:"Jumlah lelang",v:"41*"},{l:"Penyelenggara aktif",v:"5"},{l:"Peserta",v:"523"}]},
     pbk:{judul:"Perdagangan Berjangka Komoditi", sub:`Transaksi bursa & ekosistem kelembagaan · data s.d. ${PBK_UPDATE}`, warna:"var(--blue)",
       k:[{l:"Nilai transaksi 2026",v:`Rp${(PBK_NILAI_TRANSAKSI.find(d=>d.th==="2026").nilai).toLocaleString('id-ID')} T`},{l:"Pertumbuhan YoY",v:`+${fmtN(PBK_YOY_2026.nilai)}%`},{l:"Volume",v:`${(PBK_VOL_TRANSAKSI.find(d=>d.th==="2026").total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} jt lot`},{l:"Pialang berjangka",v:PBK_KELEMBAGAAN.pialang}]},
     proyeksi:{judul:"Proyeksi Rencana Kegiatan", sub:"Rencana pelaksanaan TA 2027, usulan Renja TA 2028, dan proyeksi TA 2029", warna:"var(--gold)",
@@ -2737,11 +2738,11 @@ function InfografisPLK(){
           <FlowArrow/>
           <FlowNode icon="🏛️" judul="Penyelenggara" angka="5 aktif" ket="dari 14 daerah tercatat · Riau, DKI, Jabar, NTB, Aceh" warna="var(--gold)"/>
           <FlowArrow/>
-          <FlowNode icon="🔨" judul="Lelang" angka="41" ket="lelang s.d. September 2026 · didukung Sistem Pasar Lelang Terpadu" warna="var(--blue)"/>
+          <FlowNode icon="🔨" judul="Lelang" angka="41" ket="rincian per lelang baru tersedia s.d. September 2026" warna="var(--blue)"/>
           <FlowArrow/>
           <FlowNode icon="🤝" judul="Pembeli" angka="393" ket="keikutsertaan pembeli · pabrik, pedagang, eksportir" warna="var(--violet)"/>
           <FlowArrow/>
-          <FlowNode icon="💰" judul="Transaksi" angka="Rp33,49 M" ket="karet bokar Riau menyumbang 80% nilai" warna="var(--red)"/>
+          <FlowNode icon="💰" judul="Transaksi" angka="Rp38,80 M" ket="Jan–Okt 2026 · vs Rp34,90 M pada Jan–Okt 2025 (+11,2%)" warna="var(--red)"/>
         </div>
         <div className="text-[10px] text-[var(--text-3)] mt-3">Sumber: rekap "Perkembangan Lelang September 2026", Bappebti.</div>
       </div>
@@ -3503,12 +3504,13 @@ const CAPAIAN_IKS_2026 = { real:11.11, per:"TW III 2026", tw2:9.61, target:14.93
 /* Nilai transaksi KUMULATIF TRIWULAN III (Jan–Sep) — dasar perbandingan IKS 1.3 TW III 2026 vs TW III 2025.
    TW III 2025: PBK Rp22.403 T, SRG Rp1,67 T, PLK Rp19,8 M (disampaikan Perencana, 29 Okt 2026; SRG TW III 2025 Rp1.677,27 M; sheet "Triwulan" pada Laporan Rekap RG belum diperbarui sehingga data SRG mengikuti sheet detail (2026 s.d. 20 Okt: Rp443,7 M)).
    TW III 2026: PBK = akumulasi s.d. Agustus 2026 (data September belum tersedia); SRG = penjumlahan resi terbit s.d. 30 Sep 2026 dari sheet "2026" Laporan Rekap RG per 20 Okt 2026 (265 resi; dua resi bernomor sama 09800105260191 bertanggal 5 & 7 Mei dihitung keduanya, sehingga total 276 resi/Rp443,69 M cocok dengan sheet Annually);
-   PLK = rekap lelang s.d. September 2026 (Rp33,49 M). */
-/* Rekap penerbitan resi gudang per triwulan, dihitung dari sheet detail "2025" & "2026" (LAPORAN_REKAP_RG_UPDATED_2026 per 20 Okt 2026).
+   PLK = rekap lelang s.d. September 2026 (Rp33,49 M). Angka tahunan PLK & SRG di luar blok ini mengikuti data Januari–Oktober 2026. */
+/* Rekap penerbitan resi gudang per triwulan. TW I–III dari sheet detail LAPORAN_REKAP_RG_UPDATED_2026 (per 20 Okt 2026);
+   TW IV disetarakan dengan total Januari–Oktober pada "Data Bappebti MTF 2026 Sept–Okt" (selisihnya jatuh di Oktober).
    Sheet "Triwulan" pada file yang sama belum diperbarui (2026 hanya Rp266,6 M) sehingga TIDAK dipakai. nilai = Rp. */
 const SRG_TRIWULAN = {
-  2025:{TW1:{rg:101,nilai:214_632_509_600,vol:4438.35}, TW2:{rg:132,nilai:369_832_382_200,vol:19486.61}, TW3:{rg:181,nilai:1_092_803_116_500,vol:59012.22}, TW4:{rg:118,nilai:232_044_248_000,vol:9755.35}},
-  2026:{TW1:{rg:42, nilai:30_415_265_000,vol:1259.93}, TW2:{rg:104,nilai:111_162_502_580,vol:2918.87}, TW3:{rg:119,nilai:273_690_417_500,vol:15679.80}, TW4:{rg:11,nilai:28_421_082_000,vol:1731.43}}, /* TW4 2026 = 1–20 Okt */
+  2025:{TW1:{rg:101,nilai:214_632_509_600,vol:4438.35}, TW2:{rg:132,nilai:369_832_382_200,vol:19486.61}, TW3:{rg:181,nilai:1_092_803_116_500,vol:59012.22}, TW4:{rg:117,nilai:231_949_248_000,vol:9745.34}},
+  2026:{TW1:{rg:42, nilai:30_415_265_000,vol:1259.93}, TW2:{rg:104,nilai:111_162_502_580,vol:2918.87}, TW3:{rg:119,nilai:273_690_417_500,vol:15679.80}, TW4:{rg:23,nilai:148_784_507_000,vol:10034.36}}, /* TW4 2026 = 1–20 Okt */
 };
 const IKS_TW3 = {
   2025:{PBK:22403*1e12, SRG:1_677_268_008_300, PLK:19.8e9},
@@ -3523,7 +3525,7 @@ function hitungIKS(){
     const a = ann||{PBK:1,SRG:1,PLK:1};
     const rows = [
       {k:"PBK", l:"Nilai transaksi PBK (Bursa Berjangka)", now:pbk(th), prev:pbk(th-1), ann:a.PBK, per:ann?"s.d. Agustus":"", w:BOBOT_IKS.PBK},
-      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)",     now:srg(th), prev:srg(th-1), ann:a.SRG, per:ann?"s.d. 20 Okt":"", w:BOBOT_IKS.SRG},
+      {k:"SRG", l:"Nilai barang resi gudang (IS-WARE)",     now:srg(th), prev:srg(th-1), ann:a.SRG, per:ann?"s.d. Okt":"", w:BOBOT_IKS.SRG},
       {k:"PLK", l:"Nilai transaksi PLK (penyelenggara lelang)", now:plk(th), prev:plk(th-1), ann:a.PLK, per:ann?"s.d. Sep":"", w:BOBOT_IKS.PLK},
     ].map(r=>({...r, nowAdj: r.now!=null ? r.now*r.ann : null, g: gr(r.now!=null?r.now*r.ann:null, r.prev)}));
     const ok = rows.every(r=>r.g!=null);
@@ -5545,12 +5547,13 @@ function ExecutiveSummary({year}){
       ],
       fakta: [
         `${totalGudang} gudang SRG (${aktif} aktif)`,
-        year===2026 && `Penerbitan resi TW III (Jan–Sep): 2026 ${SRG_TRIWULAN[2026].TW1.rg+SRG_TRIWULAN[2026].TW2.rg+SRG_TRIWULAN[2026].TW3.rg} resi · ${fmRp(IKS_TW3[2026].SRG)} vs 2025 ${SRG_TRIWULAN[2025].TW1.rg+SRG_TRIWULAN[2025].TW2.rg+SRG_TRIWULAN[2025].TW3.rg} resi · ${fmRp(IKS_TW3[2025].SRG)} (data per ${RG_CUTOFF_2026})`,
+        year===2026 && `Penerbitan resi TW III (Jan–Sep): 2026 ${SRG_TRIWULAN[2026].TW1.rg+SRG_TRIWULAN[2026].TW2.rg+SRG_TRIWULAN[2026].TW3.rg} resi · ${fmRp(IKS_TW3[2026].SRG)} vs 2025 ${SRG_TRIWULAN[2025].TW1.rg+SRG_TRIWULAN[2025].TW2.rg+SRG_TRIWULAN[2025].TW3.rg} resi · ${fmRp(IKS_TW3[2025].SRG)} (Laporan Rekap RG per 20 Okt 2026)`,
+        year===2026 && `Penerbitan Jan–Okt 2026: ${RESI_GUDANG_TAHUNAN.find(x=>x.th==="2026").rg} resi · ${fmRp(RESI_GUDANG_TAHUNAN.find(x=>x.th==="2026").nilai)} (data per ${RG_CUTOFF_2026})`,
         topKom && `Komoditas nilai terbesar: ${topKom.key}`,
         "SRG tetap di Kemendag; unit pengelola dalam reposisi (ND BKPerdag 28 Sep 2026)",
       ].filter(Boolean) },
     { k:"PLK", judul:"Pasar Lelang Komoditas", warna:"#409B56", bobot:"35%",
-      transaksi: plkNow ? fmtM(plkNow.nilai) : "belum tersedia", periode: plkNow&&plkNow.p ? "s.d. September 2026" : null,
+      transaksi: plkNow ? fmtM(plkNow.nilai) : "belum tersedia", periode: plkNow&&plkNow.p ? "s.d. Oktober 2026" : null,
       tambahan: `${PLK_DAERAH.length} daerah penyelenggara · komoditas dominan Karet`,
       ikp: [
         {l:"IKP-1 · Pertumbuhan pelaku PLK (bobot 50%)", r:ikkR(IKK_NM.pelakuPLK)},
@@ -5558,6 +5561,7 @@ function ExecutiveSummary({year}){
         {l:"Rekomendasi kebijakan SRG/PLK ditindaklanjuti", r:ikkR("Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti")},
       ],
       fakta: [
+        year===2026 && `Nilai transaksi Jan–Okt 2026: Rp${fmtN(PLK_JANOKT[2026],2)} M vs Jan–Okt 2025 Rp${fmtN(PLK_JANOKT[2025],2)} M (${pctTxt((PLK_JANOKT[2026]/PLK_JANOKT[2025]-1)*100)})`,
         year===2026 && "TA 2026 PLK tidak dianggarkan — bertumpu pada penyelenggara mandiri (Riau & swasta)",
         "PLK tetap di Kemendag; unit pengelola dalam reposisi",
       ].filter(Boolean) },
@@ -8621,12 +8625,14 @@ function ensureXLSX(){
 /* ======================================================================== */
 /* MENU PLK — PASAR LELANG KOMODITAS                                         */
 /* Sumber: paparan Bappebti (DPR Feb 2026, Perteknis Riau Apr 2026,          */
-/* Palembang Des 2025, Transaksi PLK s.d. September 2026).                      */
+/* Palembang Des 2025; nilai transaksi PLK s.d. Oktober 2026 (MTF Sept-Okt).   */
 /* ======================================================================== */
 const PLK_TRANSAKSI = [
-  {th:"2021", nilai:85.5}, {th:"2022", nilai:52.5}, {th:"2023", nilai:66.1},
-  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.9}, {th:"2026", nilai:33.5, p:true},
-]; /* Rp Miliar; 2026* = s.d. September 2026 (Rekap "Perkembangan Lelang September 2026", Bappebti — GRAND TOTAL Rp33.488.867.545) */
+  {th:"2021", nilai:84.64}, {th:"2022", nilai:51.74}, {th:"2023", nilai:66.06},
+  {th:"2024", nilai:97.2}, {th:"2025", nilai:111.9}, {th:"2026", nilai:38.8, p:true},
+]; /* Rp Miliar; 2026* = s.d. Oktober 2026 (Data Bappebti MTF 2026 Sept–Okt, sheet "PLK").
+      Nilai 2021–2023 direvisi mengikuti file yang sama. Pembanding setara: 2025 Jan–Okt Rp34,9 M. */
+const PLK_JANOKT = {2025:34.9, 2026:38.8}; /* Rp Miliar — pembanding periode sama (Jan–Okt) */
 const PLK_BULAN_2025 = [
   {b:"Jan",n:1.027},{b:"Feb",n:3.082},{b:"Mar",n:2.217},{b:"Apr",n:1.751},{b:"Mei",n:2.262},{b:"Jun",n:2.453},
   {b:"Jul",n:2.019},{b:"Agu",n:2.957},{b:"Sep",n:1.987},{b:"Okt",n:3.872},{b:"Nov",n:3.971},{b:"Des",n:1.994},
@@ -8667,9 +8673,10 @@ const PLK_KOM_2026 = [
 ]; /* Rp; peringkat komoditas PLK 2026 (s.d. September) — sheet "Perkembangan Lelang September 2026" */
 const PLK_BULAN_2026 = [
   {b:"Jan",n:6.034},{b:"Feb",n:1.877},{b:"Mar",n:2.857},{b:"Apr",n:1.841},
-  {b:"Mei",n:2.961},{b:"Jun",n:4.951},{b:"Jul",n:5.861},{b:"Agu",n:4.286},{b:"Sep",n:2.821},
+  {b:"Mei",n:2.961},{b:"Jun",n:4.951},{b:"Jul",n:5.861},{b:"Agu",n:4.286},{b:"Sep",n:2.821},{b:"Okt",n:5.311},
 ]; /* Rp Miliar; seluruh lelang tercatat Jan–Sep 2026 (5 penyelenggara: Apkarkusi/Riau, KPBN/DKI, KPLJB/Jabar,
-      Disperindag Aceh, Disperindag NTB); total Rp33,49 M, cocok dengan GRAND TOTAL rekap (nilai Juli/NTB memakai penjumlahan baris Rp712,5 jt). */
+      Disperindag Aceh, Disperindag NTB); Jan–Sep total Rp33,49 M, cocok dengan GRAND TOTAL rekap (nilai Juli/NTB memakai penjumlahan baris Rp712,5 jt).
+      Oktober Rp5,31 M = selisih total Jan–Okt Rp38,80 M ("Data Bappebti MTF 2026 Sept–Okt") terhadap Jan–Sep; rincian per lelangnya belum tersedia. */
 const PLK_DAERAH = [
   {prov:"Aceh", kat:"dinas", tx:{2025:{nilai:126100000, kom:"Kopi, coklat", note:"2 lelang 2025 (Dinas Perdagangan Aceh)"},2026:{nilai:73700000, kom:"Kopi Arabika, Kopi Robusta, Coklat", note:"1 lelang, 18 Juni 2026 (Disperindag Aceh)"}}}, {prov:"Sumatera Utara", kat:"dinas"}, {prov:"Riau", kat:"revit", peny:"Koperasi Apkarkusi", tx:{2025:{nilai:27399758377, kom:"Karet Bokar", note:"49 lelang sepanjang 2025 — penyelenggara paling aktif (APKARKUSI)"},2026:{nilai:26702413145, kom:"Karet Bokar", note:"36 lelang Jan–September 2026 (APKARKUSI) — penyelenggara paling aktif & konsisten tiap pekan"}}},
   {prov:"Sumatera Barat", kat:"dinas"}, {prov:"Jambi", kat:"dinas"}, {prov:"Lampung", kat:"revit", peny:"Koperasi Tani Serba Jadi Sukses Bersama"},
@@ -8758,7 +8765,7 @@ const PLK_CRITICAL_PATH = [
    ],
    ind:"Nilai transaksi tumbuh stabil; referensi harga terbentuk & dirujuk pasar"},
 ];
-const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) menunjukkan pemulihan berbasis kemandirian daerah pada 2026. Sampai 20 September 2026, transaksi mencapai Rp33,49 miliar dari 41 lelang oleh 5 penyelenggara di 5 provinsi, dengan 130 penjual, 393 pembeli, dan 523 peserta. Angka ini dicapai tanpa anggaran kegiatan PLK dari Kemendag pada TA 2026.
+const PLK_AI_PRECOMPUTED = `Pasar Lelang Komoditas (PLK) menunjukkan pemulihan berbasis kemandirian daerah pada 2026. Sampai Oktober 2026 nilai transaksi mencapai Rp38,80 miliar, naik 11,2% dari periode sama 2025 (Rp34,90 miliar). Rincian per penyelenggara baru tersedia sampai 20 September 2026, ketika transaksi mencapai Rp33,49 miliar dari 41 lelang oleh 5 penyelenggara di 5 provinsi, dengan 130 penjual, 393 pembeli, dan 523 peserta. Angka ini dicapai tanpa anggaran kegiatan PLK dari Kemendag pada TA 2026.
 
 Strukturnya tetap terkonsentrasi. Koperasi Apkarkusi Riau (karet bokar) menyumbang 36 lelang senilai Rp26,70 miliar — 80% nilai 2026 dan nyaris menyamai setahun penuh 2025 (Rp27,4 miliar dari 49 lelang). Sisanya: PT KPBN DKI Jakarta (teh, 1 lelang, Rp3,80 miliar), KPLJB Jawa Barat (teh dan kakao/kopi, 2 lelang, Rp2,21 miliar), Disperindag NTB (beras premium, biji kakao, pinang, 1 lelang, Rp712,5 juta — provinsi baru), dan Disperindag Aceh (kopi dan cokelat, 1 lelang, Rp73,7 juta). Secara historis, nilai PLK bergerak dari Rp85,5 miliar (2021) ke Rp111,9 miliar (2025), tetapi puncak 2025 ditopang satu transaksi teh KPBN Rp82,29 miliar yang tidak berulang; lelang reguler 2025 hanya sekitar Rp29,6 miliar.
 
@@ -8790,7 +8797,7 @@ function PlkBarChart({sel}){
           <XAxis dataKey="label" tick={{fontSize:11,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={{stroke:"var(--border-strong)"}} tickLine={false}/>
           <YAxis domain={[0, Math.ceil(maxV*1.15/10)*10]} tick={{fontSize:10,fill:"var(--text-3)",fontFamily:"monospace"}} axisLine={false} tickLine={false} width={34}/>
           <Tooltip cursor={{fill:"var(--card-2)"}}
-            formatter={(v,n,p)=>["Rp "+String(v).replace(".",",")+" M"+(p&&p.payload&&p.payload.p?" (s.d. September)":""),"Nilai Transaksi"]}
+            formatter={(v,n,p)=>["Rp "+String(v).replace(".",",")+" M"+(p&&p.payload&&p.payload.p?" (s.d. Oktober)":""),"Nilai Transaksi"]}
             labelFormatter={(l)=>"TA "+String(l).replace("*","")}
             contentStyle={{background:"var(--card)",border:"1px solid var(--border-strong)",borderRadius:10,color:"var(--text)",fontSize:12,boxShadow:"0 4px 14px rgba(0,0,0,0.12)"}}/>
           {avg>0 && <ReferenceLine y={avg} stroke="var(--gold-soft)" strokeDasharray="5 4"
@@ -8859,10 +8866,10 @@ function MenuPLK({year}){
             <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kinerja Pasar Lelang Komoditas</div>
             <div className="serif text-xl">Nilai Transaksi PLK 2021–{Math.min(year,2026)} (Rp Miliar)</div>
           </div>
-          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Bahan DPR RKA Bappebti PA 2027{year>=2026?" · 2026* s.d. September":""}</span>
+          <span className="text-[10px] mono text-[var(--text-3)]">sumber: Data Bappebti MTF 2026 Sept–Okt{year>=2026?" · 2026* s.d. Oktober":""}</span>
         </div>
         <PlkBarChart sel={year}/>
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{year>=2026?"Batang transparan (2026*) = data berjalan s.d. September 2026. ":""}Puncak transaksi pada 2025 (Rp111,9 M, +15,1% YoY), namun sangat terkonsentrasi: DKI Jakarta/PT KPBN Rp84,0 M (termasuk satu transaksi teh Rp82,29 M) dan Riau/karet bokar Rp27,4 M. Tanpa transaksi teh, lelang reguler 2025 hanya Rp29,6 M. Batang bergaris emas menandai TA terpilih.</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{year>=2026?"Batang transparan (2026*) = data berjalan s.d. Oktober 2026; pembanding periode sama 2025 Rp34,90 M. ":""}Puncak transaksi pada 2025 (Rp111,9 M, +15,1% YoY), namun sangat terkonsentrasi: DKI Jakarta/PT KPBN Rp84,0 M (termasuk satu transaksi teh Rp82,29 M) dan Riau/karet bokar Rp27,4 M. Tanpa transaksi teh, lelang reguler 2025 hanya Rp29,6 M. Batang bergaris emas menandai TA terpilih.</div>
       </div>
 
       {/* Rincian bulanan 2025 */}
@@ -8890,7 +8897,7 @@ function MenuPLK({year}){
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{PLK_REK_YR===2026?"Transaksi riil TA 2026 (s.d. 20 September) = Rp33,49 M dari 41 lelang, 5 penyelenggara di 5 provinsi: Apkarkusi/Riau (karet bokar, 36 lelang, Rp26,70 M), KPBN/DKI (teh, 1 lelang, Rp3,80 M), KPLJB/Jabar (teh & kakao-kopi, 2 lelang, Rp2,21 M), Disperindag NTB (beras, biji kakao & pinang, 1 lelang, Rp712,5 jt — provinsi baru), Disperindag Aceh (kopi & coklat, 1 lelang, Rp73,7 jt). Catatan: baris Teh KPBN Rp82,29 M pada Rekap 2025 tidak berulang di 2026. Sumber: rekap \"Perkembangan Lelang September 2026\", Bappebti.":"Rincian lelang reguler per bulan (total Rp29,59 M); puncak November (Rp3,97 M) & Oktober (Rp3,87 M), mayoritas karet bokar mingguan APKARKUSI (Riau). Belum termasuk transaksi teh KPBN Rp82,29 M (tak bertanggal) — total 2025 = Rp111,9 M. Sumber: sheet Rekap, Perkembangan Lelang PLK Desember 2025."}</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">{PLK_REK_YR===2026?"Rincian per penyelenggara baru tersedia s.d. 20 September 2026 = Rp33,49 M dari 41 lelang; nilai transaksi Jan–Okt 2026 Rp38,80 M, 5 penyelenggara di 5 provinsi: Apkarkusi/Riau (karet bokar, 36 lelang, Rp26,70 M), KPBN/DKI (teh, 1 lelang, Rp3,80 M), KPLJB/Jabar (teh & kakao-kopi, 2 lelang, Rp2,21 M), Disperindag NTB (beras, biji kakao & pinang, 1 lelang, Rp712,5 jt — provinsi baru), Disperindag Aceh (kopi & coklat, 1 lelang, Rp73,7 jt). Catatan: baris Teh KPBN Rp82,29 M pada Rekap 2025 tidak berulang di 2026. Sumber: rekap \"Perkembangan Lelang September 2026\", Bappebti.":"Rincian lelang reguler per bulan (total Rp29,59 M); puncak November (Rp3,97 M) & Oktober (Rp3,87 M), mayoritas karet bokar mingguan APKARKUSI (Riau). Belum termasuk transaksi teh KPBN Rp82,29 M (tak bertanggal) — total 2025 = Rp111,9 M. Sumber: sheet Rekap, Perkembangan Lelang PLK Desember 2025."}</div>
       </div>
 
       {/* Rekapitulasi Transaksi PLK 2025 — sheet Rekap */}
@@ -8986,7 +8993,7 @@ function MenuPLK({year}){
               <div className="text-[11px] text-[var(--text-2)] leading-snug">Penyelenggara berbasis <b>Dinas Perdagangan Provinsi</b> ({PLK_DAERAH.filter(d=>d.kat==="dinas").length} daerah) yang pelaksanaan lelangnya bertumpu pada fasilitasi anggaran. Adapun penyelenggara <b>revitalisasi selain Riau</b> (Lampung, Jawa Tengah, Bangka Belitung) bergantung pada tingkat kemandirian pembiayaan masing-masing.</div>
             </div>
           </div>
-          <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Implikasi kinerja: realisasi 2026 (s.d. September Rp33,5 M) berpotensi melandai dibanding puncak 2025 (Rp111,9 M). Mitigasi: percepat kemandirian/revitalisasi penyelenggara, integrasi SRG–PLK, dan digitalisasi lelang agar transaksi tidak bergantung pada anggaran tahunan.</div>
+          <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Implikasi kinerja: realisasi 2026 (s.d. Oktober Rp38,8 M) berpotensi melandai dibanding puncak 2025 (Rp111,9 M). Mitigasi: percepat kemandirian/revitalisasi penyelenggara, integrasi SRG–PLK, dan digitalisasi lelang agar transaksi tidak bergantung pada anggaran tahunan.</div>
         </div>
       )}
 
@@ -9757,7 +9764,7 @@ function matrixSheets(tab){
     sheets.push({name:"Pembiayaan RG",rows:pb});
   } else if(tab==='plk'){
     const t1=[["Tahun","Nilai Transaksi (Rp Miliar)","Keterangan"]];
-    PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. September 2026":""]));
+    PLK_TRANSAKSI.forEach(d=>t1.push([d.th, d.nilai, d.p?"s.d. Oktober 2026":""]));
     sheets.push({name:"Transaksi PLK 2021-2026",rows:t1});
     const KAT={revit:"Revitalisasi (Swasta)",swasta:"Swasta Murni",dinas:"Dinas Perdagangan Provinsi"};
     const t2=[["No","Daerah","Status Penyelenggara","Penyelenggara","Komoditas","Nilai Transaksi TA 2025 (Rp)","Keterangan"]];
@@ -11218,7 +11225,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Analisa AI seluruh menu & sub-menu diperbarui (data s.d. Oktober 2026, POJK 15/16 & reposisi kelembagaan) · Capaian TA 2025 (IKS/IKP/IKK & RO MyIntress) · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran · Capaian TW III & realisasi SP2D s.d. September 2026 (incl. ABT) · Rumus IKS/IKP Renstra dipakai menghitung capaian IKP · Data Resi Gudang SRG per 20 Oktober 2026 (7.444 RG) · PBK: transaksi s.d. Agustus 2026 & ekosistem per 26 Agustus 2026 (Bahan TEI), PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Analisa AI seluruh menu & sub-menu diperbarui (data s.d. Oktober 2026, POJK 15/16 & reposisi kelembagaan) · Capaian TA 2025 (IKS/IKP/IKK & RO MyIntress) · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran · Capaian TW III & realisasi SP2D s.d. September 2026 (incl. ABT) · Rumus IKS/IKP Renstra dipakai menghitung capaian IKP · Data SRG & PLK per Oktober 2026 dari "Data Bappebti MTF 2026 Sept–Okt" (SRG kumulatif 7.421 RG; PLK Jan–Okt Rp38,80 M) · PBK: transaksi s.d. Agustus 2026 & ekosistem per 26 Agustus 2026 (Bahan TEI), PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
