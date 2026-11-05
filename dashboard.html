@@ -9918,12 +9918,17 @@ function matrixSheets(tab){
     sheets.push({name:"Informasi",rows:[["Diekspor (sumber)",PEMADANAN_RO_2027_META.diekspor],["Tahun Anggaran",2027],["K/L Unit",PEMADANAN_RO_2027_META.unit],["Jumlah RO",PEMADANAN_RO_2027.length],["Sumber",PEMADANAN_RO_2027_META.sumber],["Keterangan","Dasar Standarisasi RO Bappebti mulai TA 2027 dan seterusnya. Temuan = hasil penelusuran data, bukan koreksi resmi. PBB.S002/ABB.S002 = pembeda PN/Non-PN (bukan temuan). Kode RO terbaru: PBB.G01, PBB.G02, AAH.F02."]]});
   } else if(tab==='realisasi'){
     const R=realisasi26(); const SP=R.SP;
-    const a=[["Tingkat","Kegiatan","Kode","Uraian","Pagu (Rp)","Lock Pagu (Rp)","Realisasi 3 Nov (Rp)","Realisasi Sep (Rp)","Sisa (Rp)","Serapan (%)","Serapan Sep (%)"]];
-    R.keg.forEach(k=>a.push(["Kegiatan",k.kode,"",k.nama,k.pagu,k.lock||"",k.real,k.realSep,k.sisa,Number(k.pct.toFixed(2)),k.pctSep]));
-    R.kro.forEach(r=>a.push(["KRO",r.keg,r.kro,r.nama,r.pagu,r.lock||"",r.real,r.realSep,r.sisa,Number(r.pct.toFixed(2)),r.pctSep]));
-    R.ro.forEach(r=>a.push(["RO",r.keg,r.kode,r.uraian,r.pagu,r.lock||"",r.real,r.realSep,r.sisa,Number(r.pct.toFixed(2)),""]));
-    a.push(["TOTAL","","","Seluruh kegiatan",SP.pagu,SP.lock,SP.real,R.SEP.real,SP.sisa,Number(SP.pct.toFixed(2)),R.SEP.pct]);
-    sheets.push({name:"Realisasi 2026",rows:a});
+    const mk=(mode)=>{ const a=[["Tingkat","Kegiatan","Kode","Uraian","Pagu (Rp)","Pagu Non-ABT (Rp)","Pagu ABT (Rp)","Lock Pagu (Rp)","Realisasi Non-ABT (Rp)","Realisasi ABT (Rp)","Total realisasi (Rp)","Realisasi Sep (Rp)","Sisa (Rp)","Serapan (%)","Serapan Sep (%)"]];
+      const row=(t,keg,kode,nama,r,sep,pctSep)=>{ const B=belahABT(r.pagu,r.paguAbt,r.real,mode);
+        a.push([t,keg,kode,nama,r.pagu,r.paguNonAbt,r.paguAbt,r.lock||"",Math.round(B.rNon),Math.round(B.rAbt),r.real,sep,r.sisa,Number(r.pct.toFixed(2)),pctSep]); };
+      R.keg.forEach(k=>row("Kegiatan",k.kode,"",k.nama,k,k.realSep,k.pctSep));
+      R.kro.forEach(r=>row("KRO",r.keg,r.kro,r.nama,r,r.realSep,r.pctSep));
+      R.ro.forEach(r=>row("RO",r.keg,r.kode,r.uraian,r,r.realSep,""));
+      const T=realisasiABT(mode).total;
+      a.push(["TOTAL","","","Seluruh kegiatan",SP.pagu,T.paguNonAbt,T.paguAbt,SP.lock,Math.round(T.realNonAbt),Math.round(T.realAbt),SP.real,R.SEP.real,SP.sisa,Number(SP.pct.toFixed(2)),R.SEP.pct]);
+      return a; };
+    sheets.push({name:"Realisasi - pagu awal dulu",rows:mk("awal")});
+    sheets.push({name:"Realisasi - proporsional",rows:mk("proporsional")});
     ["awal","proporsional"].forEach(m=>{ const AB=realisasiABT(m);
       const b=[["Kegiatan","Pagu Non-ABT (Rp)","Realisasi Non-ABT (Rp)","Serapan Non-ABT (%)","Pagu ABT (Rp)","Realisasi ABT (Rp)","Serapan ABT (%)","Total realisasi (Rp)","Total serapan (%)"]];
       AB.baris.forEach(k=>b.push([k.kode,k.paguNonAbt,Math.round(k.realNonAbt),k.pctNonAbt==null?"":Number(k.pctNonAbt.toFixed(2)),k.paguAbt,Math.round(k.realAbt),k.pctAbt==null?"":Number(k.pctAbt.toFixed(2)),k.real,Number(k.pct.toFixed(2))]));
@@ -11200,22 +11205,43 @@ function InfografisProyeksi(){
 /* POK/RKKS Revisi 10 (28 Oktober 2026), dan MyIntress untuk capaian fisik. */
 /* ======================================================================== */
 const REAL26_LINEAR_Q3 = 83.33; /* garis linear s.d. Oktober 2026 = 10/12 dari pagu */
+/* Pembagian realisasi menurut sumber pagu. Laporan tidak memisahkannya, sehingga dipakai salah satu asumsi:
+   "awal" = pagu awal (Base Line) diserap lebih dahulu; "proporsional" = dibagi menurut porsi pagu. */
+function belahABT(pagu, paguAbt, real, mode){
+  const nonAbt = pagu - paguAbt;
+  if(mode==="proporsional"){ const rNon = pagu? real*(nonAbt/pagu) : 0; return {rNon, rAbt:real-rNon}; }
+  return {rNon: Math.min(real, nonAbt), rAbt: Math.max(real-nonAbt, 0)};
+}
 function realisasi26(){
   const SP = REALISASI_NOV2026;
   const SEP = REALISASI_SP2D_SEP2026;
+  /* pagu ABT per RO diambil dari daftar RO TA 2026 (POK/RKKS Revisi 10) */
+  const abtIdx = {}; RO.forEach(r=>{ abtIdx[r.id.split("-")[1]+"|"+r.kode] = r.abt||0; });
+  const abtRO = {}, abtKRO = {}, abtKEG = {};
+  SP.ro.forEach(r=>{ const a = Math.min(abtIdx[r.keg+"|"+r.kode]||0, r.pagu);
+    abtRO[r.keg+"|"+r.kode] = a;
+    const kr = r.kode.split(".")[0];
+    abtKRO[r.keg+"|"+kr] = (abtKRO[r.keg+"|"+kr]||0) + a;
+    abtKEG[r.keg] = (abtKEG[r.keg]||0) + a; });
   const keg = ["3760","3759","3761","3762","3758"].map(k=>{
     const g = SP.keg[k];
     const p = SEP.keg[k] || {real:0, pct:0};
     const K = KEGIATAN.find(x=>x.kode===k) || {};
+    const pa = abtKEG[k]||0;
     return {kode:k, nama:KEG_NAMA_TW1[k]||K.nama||k, unit:K.unit||"", pagu:g.pagu, real:g.real, pct:g.pct,
       sisa:g.sisa!=null?g.sisa:(g.pagu-g.real), dev:g.pct-REAL26_LINEAR_Q3,
-      realSep:p.real, pctSep:p.pct, naik:g.pct-p.pct, tambah:g.real-p.real, lock:g.lock||0};
+      realSep:p.real, pctSep:p.pct, naik:g.pct-p.pct, tambah:g.real-p.real, lock:g.lock||0,
+      paguAbt:pa, paguNonAbt:g.pagu-pa};
   });
   const kro = SP.kro.map(r=>{ const p=SEP.kro.find(x=>x.keg===r.keg && x.kro===r.kro) || {real:0,pct:0};
-    return {...r, sisa:r.pagu-r.real, lock:r.lock||0, realSep:p.real, pctSep:p.pct, naik:r.pct-p.pct}; });
+    const pa = abtKRO[r.keg+"|"+r.kro]||0;
+    return {...r, sisa:r.pagu-r.real, lock:r.lock||0, realSep:p.real, pctSep:p.pct, naik:r.pct-p.pct,
+      paguAbt:pa, paguNonAbt:r.pagu-pa}; });
   const fis = {}; CAPAIAN_RO_TW3.forEach(r=>{ fis[r.id.replace(/^RO-\d+-/,"")]=r; });
   const ro = SP.ro.map(r=>{ const key=r.kode.replace(/\./g,""); const f=fis[key]||{};
-    return {...r, sisa:r.pagu-r.real, lock:r.lock||0, realSep:f.real||0}; });
+    const pa = abtRO[r.keg+"|"+r.kode]||0;
+    return {...r, sisa:r.pagu-r.real, lock:r.lock||0, realSep:f.real||0,
+      paguAbt:pa, paguNonAbt:r.pagu-pa}; });
   const bulan = 10 + 3/30;  /* data per 3 November 2026 */
   const proyeksi = Math.min(SP.real/bulan*12, SP.pagu);
   return {SP, SEP, keg, kro, ro, proyeksi, proyeksiPct:SP.pagu?proyeksi/SP.pagu*100:0};
@@ -11226,19 +11252,9 @@ function realisasi26(){
 function realisasiABT(mode){
   const R = realisasi26();
   const baris = R.keg.map(k=>{
-    const K = KEGIATAN.find(x=>x.kode===k.kode) || {abt:0};
-    const abt = K.abt || 0;
-    const nonAbt = k.pagu - abt;
-    let rNon, rAbt;
-    if(mode==="proporsional"){
-      rNon = k.pagu ? k.real*(nonAbt/k.pagu) : 0;
-      rAbt = k.real - rNon;
-    } else {
-      rNon = Math.min(k.real, nonAbt);
-      rAbt = Math.max(k.real - nonAbt, 0);
-    }
-    return {...k, paguNonAbt:nonAbt, paguAbt:abt, realNonAbt:rNon, realAbt:rAbt,
-      pctNonAbt:nonAbt?rNon/nonAbt*100:null, pctAbt:abt?rAbt/abt*100:null};
+    const {rNon, rAbt} = belahABT(k.pagu, k.paguAbt, k.real, mode);
+    return {...k, realNonAbt:rNon, realAbt:rAbt,
+      pctNonAbt:k.paguNonAbt?rNon/k.paguNonAbt*100:null, pctAbt:k.paguAbt?rAbt/k.paguAbt*100:null};
   });
   const t = baris.reduce((a,b)=>({paguNonAbt:a.paguNonAbt+b.paguNonAbt, paguAbt:a.paguAbt+b.paguAbt,
     realNonAbt:a.realNonAbt+b.realNonAbt, realAbt:a.realAbt+b.realAbt, pagu:a.pagu+b.pagu, real:a.real+b.real}),
@@ -11267,13 +11283,15 @@ function MenuRealisasi2026(){
   const nolRupiah = R.ro.filter(r=>r.real===0);
   const kroNol = R.kro.filter(r=>r.real===0);
   const unduh = ()=>{
-    const head = ["Tingkat","Kegiatan","Kode","Uraian","Pagu (Rp)","Lock Pagu (Rp)","Realisasi s.d. 3 Nov (Rp)","Realisasi s.d. Sep (Rp)","Sisa (Rp)","Serapan (%)","Serapan Sep (%)"];
+    const head = ["Tingkat","Kegiatan","Kode","Uraian","Pagu (Rp)","Pagu Non-ABT (Rp)","Pagu ABT (Rp)","Lock Pagu (Rp)","Realisasi Non-ABT (Rp)","Realisasi ABT (Rp)","Total realisasi (Rp)","Realisasi s.d. Sep (Rp)","Sisa (Rp)","Serapan (%)","Serapan Sep (%)"];
     const lines = [head];
-    R.keg.forEach(k=>lines.push(["Kegiatan",k.kode,"",k.nama,k.pagu,k.lock||"",k.real,k.realSep,k.sisa,k.pct.toFixed(2),k.pctSep]));
-    R.kro.forEach(r=>lines.push(["KRO",r.keg,r.kro,r.nama,r.pagu,r.lock||"",r.real,r.realSep,r.sisa,r.pct.toFixed(2),r.pctSep]));
-    R.ro.forEach(r=>lines.push(["RO",r.keg,r.kode,r.uraian,r.pagu,r.lock||"",r.real,r.realSep,r.sisa,r.pct.toFixed(2),""]));
+    const bar = (t,keg,kode,nama,r,sep,pctSep)=>{ const B=belahABT(r.pagu,r.paguAbt,r.real,modeAbt);
+      lines.push([t,keg,kode,nama,r.pagu,r.paguNonAbt,r.paguAbt,r.lock||"",Math.round(B.rNon),Math.round(B.rAbt),r.real,sep,r.sisa,r.pct.toFixed(2),pctSep]); };
+    R.keg.forEach(k=>bar("Kegiatan",k.kode,"",k.nama,k,k.realSep,k.pctSep));
+    R.kro.forEach(r=>bar("KRO",r.keg,r.kro,r.nama,r,r.realSep,r.pctSep));
+    R.ro.forEach(r=>bar("RO",r.keg,r.kode,r.uraian,r,r.realSep,""));
     lines.push([]);
-    lines.push(["TOTAL","","","Seluruh kegiatan",SP.pagu,SP.lock,SP.real,R.SEP.real,SP.sisa,SP.pct.toFixed(2),R.SEP.pct]);
+    lines.push(["TOTAL","","","Seluruh kegiatan",SP.pagu,AB.total.paguNonAbt,AB.total.paguAbt,SP.lock,Math.round(AB.total.realNonAbt),Math.round(AB.total.realAbt),SP.real,R.SEP.real,SP.sisa,SP.pct.toFixed(2),R.SEP.pct]);
     lines.push([]);
     lines.push([`Pemecahan ABT / Non-ABT (asumsi: ${modeAbt==="awal"?"pagu awal diserap lebih dahulu":"proporsional"})`]);
     lines.push(["Kegiatan","Pagu Non-ABT (Rp)","Realisasi Non-ABT (Rp)","Serapan Non-ABT (%)","Pagu ABT (Rp)","Realisasi ABT (Rp)","Serapan ABT (%)","Total realisasi (Rp)","Total serapan (%)"]);
@@ -11495,8 +11513,10 @@ function MenuRealisasi2026(){
           <table className="w-full text-[11px]">
             <thead><tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
               <th className="text-left py-2 pr-2">KRO</th><th className="text-left py-2 px-2">Nama KRO</th>
-              <th className="text-right py-2 px-2">Pagu</th><th className="text-right py-2 px-2">Lock</th>
-              <th className="text-right py-2 px-2">Realisasi</th><th className="text-right py-2 px-2">Sisa</th>
+              <th className="text-right py-2 px-2">Pagu</th>
+              <th className="text-right py-2 px-2" style={{color:"#409B56"}}>Real. Non-ABT</th>
+              <th className="text-right py-2 px-2" style={{color:"var(--gold)"}}>Real. ABT</th>
+              <th className="text-right py-2 px-2">Total real.</th><th className="text-right py-2 px-2">Sisa</th>
               <th className="text-right py-2 px-2">Serapan</th><th className="text-right py-2 pl-2">Naik sejak Sep</th>
             </tr></thead>
             <tbody>
@@ -11504,8 +11524,15 @@ function MenuRealisasi2026(){
                 <tr key={r.keg+r.kro+r.nama} className="border-b border-[var(--border)]">
                   <td className="py-2 pr-2 mono font-bold whitespace-nowrap">{r.kro}<div className="text-[9px] font-normal text-[var(--text-3)]">{r.keg}</div></td>
                   <td className="py-2 px-2">{r.nama}</td>
-                  <td className="text-right py-2 px-2 mono">{jt(r.pagu)}</td>
-                  <td className="text-right py-2 px-2 mono" style={{color:r.lock?"var(--gold)":"var(--text-3)"}}>{r.lock?jt(r.lock):"—"}</td>
+                  <td className="text-right py-2 px-2 mono">{jt(r.pagu)}
+                    {r.paguAbt>0 && <div className="text-[9px] text-[var(--text-3)]">ABT {jt(r.paguAbt)}</div>}
+                    {r.lock>0 && <div className="text-[9px]" style={{color:"var(--gold)"}}>lock {jt(r.lock)}</div>}</td>
+                  {(()=>{ const B=belahABT(r.pagu,r.paguAbt,r.real,modeAbt); return (<>
+                    <td className="text-right py-2 px-2 mono" style={{color:"#409B56"}}>{jt(B.rNon)}
+                      <div className="text-[9px] text-[var(--text-3)]">{r.paguNonAbt?fmtN(B.rNon/r.paguNonAbt*100,1)+"%":"—"}</div></td>
+                    <td className="text-right py-2 px-2 mono" style={{color:r.paguAbt?"var(--gold)":"var(--text-3)"}}>{r.paguAbt?jt(B.rAbt):"—"}
+                      {r.paguAbt>0 && <div className="text-[9px] text-[var(--text-3)]">{fmtN(B.rAbt/r.paguAbt*100,1)}%</div>}</td>
+                  </>); })()}
                   <td className="text-right py-2 px-2 mono font-bold">{jt(r.real)}</td>
                   <td className="text-right py-2 px-2 mono text-[var(--text-3)]">{jt(r.sisa)}</td>
                   <td className="text-right py-2 px-2 mono font-bold" style={{color:warnaPct(r.pct)}}>{fmtN(r.pct,2)}%</td>
@@ -11522,7 +11549,10 @@ function MenuRealisasi2026(){
           <table className="w-full text-[11px]">
             <thead><tr className="border-b border-[var(--border)] text-[var(--text-3)] mono uppercase text-[9px]">
               <th className="text-left py-2 pr-2">RO</th><th className="text-left py-2 px-2">Rincian Output</th>
-              <th className="text-right py-2 px-2">Pagu</th><th className="text-right py-2 px-2">Realisasi</th>
+              <th className="text-right py-2 px-2">Pagu</th>
+              <th className="text-right py-2 px-2" style={{color:"#409B56"}}>Real. Non-ABT</th>
+              <th className="text-right py-2 px-2" style={{color:"var(--gold)"}}>Real. ABT</th>
+              <th className="text-right py-2 px-2">Total real.</th>
               <th className="text-right py-2 px-2">Serapan</th><th className="text-right py-2 pl-2">Sisa</th>
             </tr></thead>
             <tbody>
@@ -11530,7 +11560,14 @@ function MenuRealisasi2026(){
                 <tr key={r.id} className="border-b border-[var(--border)]">
                   <td className="py-2 pr-2 mono font-bold whitespace-nowrap">{r.kode}<div className="text-[9px] font-normal text-[var(--text-3)]">{r.keg}</div></td>
                   <td className="py-2 px-2">{r.uraian}{r.lock>0 && <span className="pill mono text-[8px] ml-1" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",borderColor:"transparent"}}>LOCK {jt(r.lock)} jt</span>}</td>
-                  <td className="text-right py-2 px-2 mono">{jt(r.pagu)}</td>
+                  <td className="text-right py-2 px-2 mono">{jt(r.pagu)}
+                    {r.paguAbt>0 && <div className="text-[9px] text-[var(--text-3)]">ABT {jt(r.paguAbt)}</div>}</td>
+                  {(()=>{ const B=belahABT(r.pagu,r.paguAbt,r.real,modeAbt); return (<>
+                    <td className="text-right py-2 px-2 mono" style={{color:"#409B56"}}>{jt(B.rNon)}
+                      <div className="text-[9px] text-[var(--text-3)]">{r.paguNonAbt?fmtN(B.rNon/r.paguNonAbt*100,1)+"%":"—"}</div></td>
+                    <td className="text-right py-2 px-2 mono" style={{color:r.paguAbt?"var(--gold)":"var(--text-3)"}}>{r.paguAbt?jt(B.rAbt):"—"}
+                      {r.paguAbt>0 && <div className="text-[9px] text-[var(--text-3)]">{fmtN(B.rAbt/r.paguAbt*100,1)}%</div>}</td>
+                  </>); })()}
                   <td className="text-right py-2 px-2 mono font-bold">{jt(r.real)}</td>
                   <td className="text-right py-2 px-2 mono font-bold" style={{color:warnaPct(r.pct)}}>{fmtN(r.pct,2)}%</td>
                   <td className="text-right py-2 pl-2 mono text-[var(--text-3)]">{jt(r.sisa)}</td>
@@ -11538,7 +11575,7 @@ function MenuRealisasi2026(){
             </tbody>
           </table>
         </div>
-        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Serapan dihitung dari realisasi akrual per 3 November 2026 terhadap pagu RO. Capaian fisik per RO ada di menu Capaian.</div>
+        <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Serapan dihitung dari realisasi akrual per 3 November 2026 terhadap pagu RO. Pemecahan Non-ABT dan ABT mengikuti asumsi yang dipilih pada kartu Realisasi ABT di atas ({modeAbt==="awal"?"pagu awal diserap lebih dahulu":"proporsional"}). Capaian fisik per RO ada di menu Capaian.</div>
       </div>
 
       <div className="card p-5 mb-6">
