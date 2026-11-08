@@ -12259,6 +12259,11 @@ const KAJIAN_PRIORITAS = [
   {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang", dampak:3, rpjmn:3, urgensi:5, ungkit:4, skor:"3,60", peran:"Pemungkin"},
   {kode:"P6", nama:"Pusat Data Stok dan Harga", dampak:3, rpjmn:4, urgensi:3, ungkit:4, skor:"3,45", peran:"Pemungkin"},
 ];
+const KAJIAN_PRIORITAS_KRITERIA = [{"k": "dampak", "nama": "Dampak bagi masyarakat", "bobot": 35, "dasar": "Tujuan akhir kajian (4.7) dan IKSS-B1 manfaat ekonomi langsung; tujuan SRG dalam UU No. 9/2006 jo. UU No. 9/2011 (akses pembiayaan dan posisi tawar pemilik barang); orientasi hasil SAKIP (Perpres 29/2014). Bobot terbesar karena pertanyaan inti kajian adalah apakah SRG–PLK terasa bagi masyarakat.", "tanya": "Seberapa langsung program menambah pendapatan atau menurunkan biaya petani dan pelaku usaha?", "rubrik": ["Menambah pendapatan atau menurunkan biaya petani/kelompok tani secara langsung di sentra produksi", "Berdampak langsung pada harga atau akses pembeli bagi pemilik barang, melalui transaksi pasar", "Tidak langsung: memperbaiki prasyarat (mutu gudang, data) yang baru terasa lewat program lain", "Hanya pada kinerja internal kelembagaan", "Tidak ada jalur dampak yang dapat ditunjukkan"]}, {"k": "rpjmn", "nama": "Keselarasan RPJMN", "bobot": 25, "dasar": "PP No. 17/2017 (sinkronisasi perencanaan dan penganggaran, money follow program) dan Perpres No. 12/2025 (RPJMN 2025–2029, PP 05.05). Program yang menyasar indikator RPJMN lebih kuat dipertahankan saat pembahasan pagu dengan Bappenas dan Kemenkeu.", "tanya": "Seberapa langsung program menyasar indikator RPJMN yang dikuantifikasi?", "rubrik": ["Langsung menyasar indikator PP 05.05 yang dikuantifikasi (nilai perdagangan antarwilayah, KV harga antarwilayah)", "Mendukung indikator RPJMN lain, PKPN/Asta Cita, atau IKSS/IKP Badan turunan PP 05.05", "Mendukung PP lain (mis. PP 05.03 logistik) atau IKP secara tidak langsung", "Hanya selaras dengan Renstra Kemendag", "Tidak terkait"]}, {"k": "urgensi", "nama": "Urgensi dan ketergantungan", "bobot": 20, "dasar": "Peta jalan, milestone M2–M9, dan bottleneck B1–B8 (7.4). Skor tinggi berarti program harus mulai 2027 dan sedikit menunggu prasyarat lain; skor turun bila program tertahan prasyarat.", "tanya": "Seberapa mendesak program harus mulai 2027, dan seberapa sedikit ia menunggu program lain?", "rubrik": ["Harus mulai 2027 dan menjadi prasyarat program lain; dapat dimulai dengan regulasi dan sistem yang sudah ada", "Harus mulai 2027 (milestone atau bottleneck 2027), tetapi sebagian bergantung pada satu prasyarat", "Penting, tetapi skala penuh menunggu prasyarat lain sehingga baru efektif 2028", "Dapat ditunda ke 2029 tanpa menggeser target", "Tidak mendesak"]}, {"k": "ungkit", "nama": "Daya ungkit ke program lain", "bobot": 20, "dasar": "Kaidah holistik dan integratif HTIS (PP No. 17/2017, lihat 4.8) dan rantai indikator (5.5): berapa banyak program lain dan indikator jenjang atas yang ikut bergerak.", "tanya": "Berapa program lain dan indikator jenjang atas yang ikut bergerak bila program ini berjalan?", "rubrik": ["Menggerakkan ≥3 program lain dan indikator dua jalur (SRG dan PLK) sekaligus", "Menggerakkan 2 program lain atau satu IKSS", "Menggerakkan 1 program lain; manfaat terutama pada sasaran sendiri", "Hampir tidak memengaruhi program lain", "Berdiri sendiri"]}];
+const KAJIAN_PRIORITAS_ALASAN = {"P4": {"dampak": "Pemilik resi dapat menjual ke pembeli di provinsi lain tanpa memindahkan barang; manfaat lewat harga lelang, belum langsung bagi petani kecil yang belum memiliki resi", "rpjmn": "Mendukung IKSS porsi antarwilayah dan nilai transaksi PLK (turunan PP 05.05), bukan langsung indikator RPJMN yang dikuantifikasi", "urgensi": "Aturan lelang resi harus masuk harmonisasi Q3 2027 (B6) agar lelang rutin 2028; pelaksanaan rutin bergantung pada mutu gudang (P1)", "ungkit": "Satu-satunya sambungan SRG–PLK: jalan keluar resi dari P1 dan P2, pemasok P5, sarana transaksi koridor P3; menggerakkan IKK-4, IKP resi dimanfaatkan, dan IKSS-B2"}, "P3": {"dampak": "Stok surplus bertemu pembeli di wilayah defisit; harga jual di wilayah surplus membaik, tetapi melalui pedagang dan transaksi", "rpjmn": "Langsung menyasar indikator PP 05.05: nilai perdagangan antarwilayah (Rp3.013 T) dan KV harga antarwilayah", "urgensi": "Bergantung pada field domisili (B5) dan metadata koridor aktif; 2027 baru pilot 1–2 koridor", "ungkit": "Memakai dan memperbesar P4 dan P5; satu-satunya program yang langsung menggerakkan IKSS-B2"}, "P5": {"dampak": "Pedagang dan industri mendapat pasokan rutin dan harga terbentuk terbuka; manfaat lewat pasar", "rpjmn": "Mendukung nilai transaksi PLK dan indikator inflasi pangan bergejolak (kontribusi tidak langsung)", "urgensi": "SPLT dan penyelenggara sudah ada sehingga dapat mulai 2027; kalender lelang dan penyelenggara swasta/BUMD masih dibangun", "ungkit": "Menjadi tempat transaksi bagi P4 dan P3"}, "P2": {"dampak": "Paling dekat dengan petani: menyimpan dekat lahan tanpa biaya angkut besar, lalu mendapat pembiayaan resi", "rpjmn": "Klaster PKPN Ekonomi Kerakyatan dan Desa; Asta Cita 6", "urgensi": "Bergantung pada MoU mitra gudang (B8), sertifikasi SNI dan pengelola yang disetujui, serta RO yang belum ada di PAA 2027 (B2)", "ungkit": "Menambah pasokan resi untuk P4, tetapi manfaat terutama bagi penerima di sentra itu sendiri"}, "P1": {"dampak": "Tidak langsung: mutu gudang dan integrasi WMS–IsWare baru terasa bagi petani lewat kepercayaan bank dan lelang resi", "rpjmn": "Mendukung IKP nilai resi dan PP 05.03 logistik, bukan indikator PP 05.05 yang dikuantifikasi", "urgensi": "Prasyarat resi yang dapat dilelang (P4) dan dijaminkan; dapat mulai 2027 dengan Perba 1 dan 2/2026 yang sudah ada", "ungkit": "Syarat bagi P4 dan P2 (gudang satelit wajib SNI) serta pembiayaan resi (IKK-6)"}, "P6": {"dampak": "Tidak langsung: data harga dan stok membantu petani memilih waktu dan tempat jual setelah dipublikasikan", "rpjmn": "Mendukung KV harga pangan antarwilayah (Bapanas) dan bahan kebijakan stabilisasi harga", "urgensi": "Dasbor penuh menunggu integrasi IsWare–SPLT (P1) dan field domisili (B5); kebutuhan data 2027 (baseline) ditangani tim data dan kinerja Sekretariat (B4)", "ungkit": "Memetakan koridor untuk P3 dan menjadi sumber pengukuran IKSS-B1 dan IKSS-B2"}};
+const KAJIAN_PRIORITAS_METODE = {"judul": "Cara skor tertimbang dihitung", "isi": "Metode penjumlahan berbobot (simple additive weighting): setiap program dinilai 1–5 pada empat kriteria menurut rubrik di bawah, lalu skor tertimbang = 0,35 × Dampak + 0,25 × RPJMN + 0,20 × Urgensi + 0,20 × Daya ungkit. Hasilnya tetap pada skala 1–5.", "bobot": "Bobot tidak ditetapkan oleh peraturan; ditetapkan tim penyusun dengan logika berikut: kriteria hasil (dampak 35% dan RPJMN 25%) mendapat 60%, kriteria pelaksanaan (urgensi 20% dan daya ungkit 20%) mendapat 40%. Dampak diberi bobot terbesar karena menjadi tujuan akhir; RPJMN kedua karena menentukan peluang pendanaan. Empat kriteria ini sejalan dengan kriteria penilaian prioritas RO 2027."};
+const KAJIAN_PRIORITAS_SENS = [{"skenario": "Bobot dasar (35/25/20/20)", "urutan": "P4 4,20 · P3 4,05 · P5 4,00 · P2 3,95 · P1 3,60 · P6 3,45"}, {"skenario": "Bobot sama (25/25/25/25)", "urutan": "P4 4,25 · P3 4,00 · P5 4,00 · P2 3,75 · P1 3,75 · P6 3,50"}, {"skenario": "Dampak 50%, lainnya ±16,7%", "urutan": "P4 4,17 · P2 4,17 · P3 4,00 · P5 4,00 · P1 3,50 · P6 3,33"}, {"skenario": "RPJMN 40% (30/40/15/15)", "urutan": "P3 4,25 · P4 4,15 · P5 4,00 · P2 4,00 · P6 3,55 · P1 3,45"}];
+const KAJIAN_PRIORITAS_SENS_KESIMPULAN = "P4, P3, dan P5 selalu berada di empat besar, dan P6 selalu di dua terbawah, sehingga pembagian kelompok inti dan pemungkin tidak bergantung pada bobot tertentu. Yang peka bobot adalah P2: selisihnya dengan P5 hanya 0,05, dan bila dampak diberi bobot 50% P2 menyamai P4. P2 ditempatkan sebagai pilot bukan karena skornya, tetapi karena prasyaratnya (gudang, pengelola, MoU, RO) belum siap pada 2027. Titik penilaian yang paling dapat diperdebatkan adalah urgensi P6: bila dinilai 4, skornya 3,65 dan melampaui P1.";
 const KAJIAN_PERAN_WARNA = {Inti:"var(--blue)", Pilot:"var(--gold)", Pemungkin:"var(--text-3)"};
 const KAJIAN_IKSS = [
   {kode:"IKSS-B1", nama:"Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", satuan:"Rp miliar", base:"2026 — diukur lewat survei Q1 2027 atas transaksi tahun 2026", y27:"≥ baseline 2026 (dipertahankan, tahun transisi)", y28:"≥+10% dari baseline 2026", y29:"≥+20% dari baseline 2026",
@@ -12497,6 +12502,8 @@ const KAJIAN_PETAJALAN = [
   {fase:"Fase 2 — Akselerasi", rentang:"2028", warna:"var(--blue)", items:["Lelang resi rutin","Perluasan gudang satelit","SPLT nasional","Pemenuhan formasi JF"]},
   {fase:"Fase 3 — Integrasi", rentang:"2029", warna:"var(--emerald)", items:["5–6 koridor aktif","Porsi antarwilayah 12%","Bahan RPJMN 2030–2034"]},
 ];
+const KAJIAN_BOTTLENECK = [{"kode": "B1", "nama": "Persetujuan PANRB dan penetapan Perpres", "fase": "Fase 0", "batas": "31 Des 2026 (M2) – 12 Feb 2027 (M3)", "sumbat": "OTK, revisi DIPA, dan seluruh program; gerbang G1 (Risiko RL1)", "buka": "Naskah kajian kelembagaan lengkap sejak awal; skenario alternatif; harmonisasi dijadwalkan sejak Desember 2026", "pj": "Kepala Badan; Sekretariat; Biro Hukum dan Organisasi Kemendag"}, {"kode": "B2", "nama": "Nomenklatur kegiatan dan revisi DIPA", "fase": "Fase 0", "batas": "30 Apr 2027 (M7)", "sumbat": "RO program yang belum ada di PAA 2027: gudang satelit, koridor, survei (Risiko RL2)", "buka": "Matriks pemetaan RO lama ke baru disiapkan paralel; dua skenario pagu; konsultasi awal dengan DJA dan Bappenas", "pj": "Sekretariat"}, {"kode": "B3", "nama": "Pengisian pejabat dan penempatan pegawai", "fase": "Fase 0", "batas": "31 Mar (M5) – 30 Apr 2027 (M6)", "sumbat": "Perjanjian Kinerja, tim data dan kinerja, pelaksanaan program semester I (Risiko RL3)", "buka": "Plt sejak hari pertama; Anjab–ABK dimulai November 2026; inventarisasi pegawai riil", "pj": "Sekretariat; Biro SDM Kemendag"}, {"kode": "B4", "nama": "Survei manfaat dan rekap data 2026", "fase": "Fase 0", "batas": "31 Mar 2027", "sumbat": "Baseline 2026 IKSS-B1 dan empat indikator retrospektif (Risiko RP6.1, RP6.2)", "buka": "Tim data dan kinerja; RO survei lewat revisi DIPA atau usulan PBB.G02; permintaan data ke mitra sejak Desember 2026", "pj": "Sekretariat"}, {"kode": "B5", "nama": "Field domisili di IsWare dan SPLT", "fase": "Fase 1", "batas": "30 Jun 2027", "sumbat": "IKSS-B2, koridor aktif, dan pilot P3 (Risiko RP3.1)", "buka": "Atribut provinsi asal–tujuan di kedua sistem; metadata koridor aktif disahkan", "pj": "Biro Pengendalian; Biro Pengembangan PLK"}, {"kode": "B6", "nama": "Aturan lelang resi", "fase": "Fase 1", "batas": "Q3 2027 (harmonisasi)", "sumbat": "Lelang resi rutin 2028 dan nilai resi terjual lelang (Risiko RP4.1)", "buka": "Rancangan peraturan masuk program legislasi 2027; uji coba dengan aturan PLK yang ada", "pj": "Biro Perundang-undangan dan Layanan"}, {"kode": "B7", "nama": "Renstra Badan dan Renja/RKA 2028", "fase": "Fase 1", "batas": "30 Jun (M8) – 31 Jul 2027 (M9)", "sumbat": "Gerbang G2 dan akselerasi 2028; RO revitalisasi gudang dan survei tahunan", "buka": "Renstra memakai indikator hasil revisi (baseline 2026); RO gudang dan survei dimasukkan ke Renja 2028", "pj": "Sekretariat"}, {"kode": "B8", "nama": "MoU mitra gudang Pemda/BUMN/KDMP", "fase": "Fase 1", "batas": "Jun 2027", "sumbat": "8 gudang satelit baru pada 2028 (Risiko RP2.1)", "buka": "Daftar kandidat gudang; MoU ditandatangani sebelum Renja 2028 dikunci", "pj": "Biro Pengembangan SRG"}];
+const KAJIAN_BOTTLENECK_FASE = {"Fase 2":"Menunggu B5–B8 tuntas pada 2027", "Fase 3":"Menunggu data 2027–2028 untuk evaluasi paruh waktu G3"};
 const KAJIAN_GERBANG = [
   {kode:"G1", nama:"Perpres berlaku", kriteria:"SOTK terbit; pejabat/Plt ditetapkan; DIPA direvisi; layanan perizinan tetap berjalan", bila:"Program 2027 berjalan dengan pola transisi; pilot koridor P3 ditunda ke semester II"},
   {kode:"G2", nama:"Renstra Badan sah", kriteria:"Renstra dan IKU Badan disahkan; baseline 2026 difinalkan; aturan lelang resi terbit; Anjab/ABK disetujui", bila:"Akselerasi 2028 dibatasi pada program tanpa regulasi baru (P1, P2, P5); P4 menunggu aturan"},
@@ -12660,6 +12667,11 @@ function KajianRingkasan(){
             <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
               <th className="py-1.5 pr-3 font-medium">Kode</th>
               <th className="py-1.5 pr-3 font-medium">Program</th>
+              <th className="py-1.5 pr-2 font-medium text-center">Dampak<br/>35%</th>
+              <th className="py-1.5 pr-2 font-medium text-center">RPJMN<br/>25%</th>
+              <th className="py-1.5 pr-2 font-medium text-center">Urgensi<br/>20%</th>
+              <th className="py-1.5 pr-2 font-medium text-center">Ungkit<br/>20%</th>
+              <th className="py-1.5 pr-3 font-medium">Perhitungan</th>
               <th className="py-1.5 pr-3 font-medium">Skor tertimbang (1–5)</th>
               <th className="py-1.5 font-medium">Peran</th>
             </tr></thead>
@@ -12667,6 +12679,8 @@ function KajianRingkasan(){
               <tr key={i} className="border-b border-[var(--border)]">
                 <td className="py-2 pr-3 font-semibold mono">{r.kode}</td>
                 <td className="py-2 pr-3 text-[var(--text-2)]">{r.nama}</td>
+                {[r.dampak,r.rpjmn,r.urgensi,r.ungkit].map((v,j)=>(<td key={j} className="py-2 pr-2 text-center mono font-semibold">{v}</td>))}
+                <td className="py-2 pr-3 mono text-[9.5px] text-[var(--text-3)]" style={{whiteSpace:"nowrap"}}>{("0,35×"+r.dampak+" + 0,25×"+r.rpjmn+" + 0,20×"+r.urgensi+" + 0,20×"+r.ungkit)}</td>
                 <td className="py-2 pr-3" style={{minWidth:"140px"}}>
                   <div className="flex items-center gap-2">
                     <div style={{width:"80px",height:"6px",background:"var(--border)",borderRadius:"3px",overflow:"hidden"}}>
@@ -12680,7 +12694,61 @@ function KajianRingkasan(){
             ))}</tbody>
           </table>
         </div>
-        <div className="text-[10px] text-[var(--text-3)] mb-2 italic">Kriteria: dampak bagi masyarakat 35%, keselarasan RPJMN 25%, urgensi 20%, daya ungkit 20%. Skor merupakan asumsi sementara tim penyusun dan belum dibahas dengan biro terkait.</div>
+        <div className="text-[10px] text-[var(--text-3)] mb-2 italic">Kriteria: dampak bagi masyarakat 35%, keselarasan RPJMN 25%, urgensi dan ketergantungan 20%, daya ungkit 20%. Skor merupakan asumsi sementara tim penyusun dan belum dibahas dengan biro terkait. Dasar, rubrik, dan alasan setiap skor ada di bawah.</div>
+        <div className="card-2 p-4 mb-4 mt-3" style={{borderLeft:"3px solid var(--blue)"}}>
+          <div className="text-[11px] font-semibold mb-1" style={{color:"var(--blue)"}}>{KAJIAN_PRIORITAS_METODE.judul}</div>
+          <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed mb-1">{KAJIAN_PRIORITAS_METODE.isi}</div>
+          <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">{KAJIAN_PRIORITAS_METODE.bobot}</div>
+        </div>
+        <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">Dasar kriteria dan rubrik skor 1–5</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+          {KAJIAN_PRIORITAS_KRITERIA.map((c,i)=>(
+            <div key={i} className="card-2 p-3">
+              <div className="flex items-baseline justify-between gap-2 mb-1" style={{display:"flex",justifyContent:"space-between"}}>
+                <span className="text-[11.5px] font-semibold text-[var(--text-1)]">{c.nama}</span>
+                <span className="mono text-[11px] font-semibold" style={{color:"var(--blue)"}}>{c.bobot}%</span>
+              </div>
+              <div className="text-[10px] text-[var(--text-3)] italic mb-1">{c.tanya}</div>
+              <div className="text-[10px] text-[var(--text-2)] leading-relaxed mb-2"><span className="font-semibold">Dasar: </span>{c.dasar}</div>
+              {c.rubrik.map((t,j)=>(
+                <div key={j} className="text-[10px] text-[var(--text-2)] leading-snug mb-0.5" style={{display:"flex",gap:"6px"}}>
+                  <span className="mono font-semibold" style={{minWidth:"12px"}}>{5-j}</span><span>{t}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">Alasan skor per program</div>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-[10.5px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Program</th>
+              {KAJIAN_PRIORITAS_KRITERIA.map((c,i)=>(<th key={i} className="py-1.5 pr-3 font-medium">{c.nama} ({c.bobot}%)</th>))}
+            </tr></thead>
+            <tbody>{KAJIAN_PRIORITAS.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-3"><div className="font-semibold mono">{r.kode}</div><div className="text-[var(--text-2)]">{r.nama}</div><div className="mono text-[10px] mt-1" style={{color:KAJIAN_PERAN_WARNA[r.peran]}}>= {r.skor}</div></td>
+                {KAJIAN_PRIORITAS_KRITERIA.map((c,j)=>(
+                  <td key={j} className="py-2 pr-3 text-[var(--text-2)] leading-snug" style={{minWidth:"150px"}}>
+                    <span className="mono font-semibold text-[var(--text-1)]">{r[c.k]} · </span>{KAJIAN_PRIORITAS_ALASAN[r.kode][c.k]}
+                  </td>
+                ))}
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">Uji kepekaan bobot</div>
+        <div className="overflow-x-auto mb-2">
+          <table className="w-full text-[10.5px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Skenario bobot</th><th className="py-1.5 font-medium">Urutan dan skor</th>
+            </tr></thead>
+            <tbody>{KAJIAN_PRIORITAS_SENS.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)]"><td className="py-1.5 pr-3 text-[var(--text-2)]">{r.skenario}</td><td className="py-1.5 mono text-[10px] text-[var(--text-2)]">{r.urutan}</td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed mb-2">{KAJIAN_PRIORITAS_SENS_KESIMPULAN}</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6 mt-3">
           <div className="p-3 rounded" style={{background:"rgba(37,99,235,0.07)"}}>
             <div className="text-[11px] font-semibold mb-1" style={{color:"var(--blue)"}}>Kelompok inti — P4, P3, P5</div>
@@ -13123,6 +13191,15 @@ function KajianRingkasan(){
               <ul className="text-[10.5px] text-[var(--text-2)] list-disc pl-4 leading-relaxed space-y-0.5">
                 {f.items.map((x,j)=><li key={j}>{x}</li>)}
               </ul>
+              {(()=>{ const fk=f.fase.split(" —")[0]; const bs=KAJIAN_BOTTLENECK.filter(b=>b.fase===fk); const tunggu=KAJIAN_BOTTLENECK_FASE[fk]; if(!bs.length && !tunggu) return null; return (
+                <div className="mt-2.5 pt-2 border-t border-[var(--border)]">
+                  <div className="text-[9.5px] font-semibold mb-1" style={{color:"var(--red,#dc2626)"}}>⚠ Bottleneck</div>
+                  {bs.map(b=>(
+                    <div key={b.kode} className="text-[10px] leading-snug text-[var(--text-2)] mb-0.5"><span className="mono font-bold" style={{color:"var(--red,#dc2626)"}}>{b.kode}</span> {b.nama} <span className="mono text-[9px] text-[var(--text-3)]">· {b.batas}</span></div>
+                  ))}
+                  {tunggu && <div className="text-[10px] leading-snug text-[var(--text-3)] italic">{tunggu}</div>}
+                </div>
+              );})()}
             </div>
           ))}
         </div>
@@ -13137,6 +13214,26 @@ function KajianRingkasan(){
               </div>
             </div>
           ))}
+        </div>
+        <SubHeading>Bottleneck pada Peta Jalan</SubHeading>
+        <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed mb-2">Delapan bottleneck menumpuk di Fase 0–1, sebelum gerbang G1 dan G2. Fase 2 dan 3 tidak punya bottleneck baru, tetapi baru bisa berjalan bila B5–B8 tuntas pada 2027.</div>
+        <div className="overflow-x-auto mb-5">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Kode</th><th className="py-1.5 pr-3 font-medium">Bottleneck</th><th className="py-1.5 pr-3 font-medium">Batas waktu</th>
+              <th className="py-1.5 pr-3 font-medium">Yang tersumbat</th><th className="py-1.5 pr-3 font-medium">Cara membuka</th><th className="py-1.5 font-medium">Penanggung jawab</th>
+            </tr></thead>
+            <tbody>{KAJIAN_BOTTLENECK.map((b,i)=>(
+              <tr key={i} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-3 mono font-bold" style={{color:"var(--red,#dc2626)"}}>{b.kode}</td>
+                <td className="py-2 pr-3 text-[var(--text-1)] font-medium">{b.nama}<div className="mono text-[9px] text-[var(--text-3)] font-normal">{b.fase}</div></td>
+                <td className="py-2 pr-3 mono text-[10px] text-[var(--text-2)]">{b.batas}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{b.sumbat}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{b.buka}</td>
+                <td className="py-2 mono text-[9.5px] text-[var(--text-3)]">{b.pj}</td>
+              </tr>
+            ))}</tbody>
+          </table>
         </div>
         <SubHeading>Milestone Jalur Kritis — Fase 0 (Nov 2026 – Jul 2027)</SubHeading>
         <div className="overflow-x-auto mb-2">
