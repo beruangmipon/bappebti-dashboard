@@ -10302,6 +10302,70 @@ function proy27Rows(){
   });
   return out;
 }
+const KAJIAN_PEMETAAN_LAMA = [
+  {lama:"3760 (bagian SRG)", fungsi:"Pembinaan pengelola gudang, WMS, subsidi resi, rekomendasi kebijakan SRG", baru:"Biro Pengembangan SRG"},
+  {lama:"3760 (bagian PLK)", fungsi:"SPLT, pembinaan penyelenggara dan pelaku PLK", baru:"Biro Pengembangan PLK"},
+  {lama:"3761", fungsi:"Penyusunan peraturan, konsultasi hukum, penyelesaian perselisihan", baru:"Biro Perundang-undangan dan Layanan Perdagangan Komoditas"},
+  {lama:"3760 (perizinan) + layanan publik Sekretariat", fungsi:"Perizinan dan persetujuan lembaga SRG/PLK, IKM layanan", baru:"Biro Perundang-undangan dan Layanan Perdagangan Komoditas"},
+  {lama:"3759 (bagian SRG/PLK)", fungsi:"Pemantauan kepatuhan, pemeriksaan gudang, penindakan", baru:"Biro Pengendalian Perdagangan Komoditas"},
+  {lama:"3758", fungsi:"Dukungan manajemen", baru:"Sekretariat Badan"},
+  {lama:"3762 + bagian PBK di 3759/3761", fungsi:"Seluruh fungsi PBK", baru:"Dialihkan ke OJK/BMKS; SDM ditempatkan ulang"},
+];
+const KAJIAN_TAHUN_INFO = {
+  2027: {
+    fase:"Fase 0 → Fase 1 (Transisi → Konsolidasi)", gerbang:"Menuju G1 (Perpres berlaku) dan G2 (Renstra Badan sah)",
+    catatan:"RO eks-PBK (3762 dan bagian PBK di 3759/3761) dihapus saat Perpres berlaku; pagunya diusulkan direalokasi ke RO SRG/PLK bertanda PN. 2027 adalah tahun keluaran (regulasi, baseline, pilot koridor), bukan tahun dampak.",
+    fokus: ["P1 Standardisasi gudang (prasyarat resi dilelang)", "P6 Pusat data (prasyarat pengukuran manfaat)", "P3 pilot 2–3 koridor antarwilayah", "P4 regulasi lelang resi (rutin baru 2028)"],
+  },
+  2028: {
+    fase:"Fase 2 — Akselerasi", gerbang:"Berjalan penuh hanya bila G2 (Renstra Badan sah) tercapai; bila belum, akselerasi dibatasi pada P1, P2, P5",
+    catatan:"Kelompok inti P4, P3, P5 mendapat porsi anggaran terbesar mengikuti prinsip money follow program. Lelang resi mulai rutin; gudang satelit diperluas; SPLT terhubung penuh dengan IsWare.",
+    fokus: ["P4 Lelang resi gudang rutin (12×)", "P3 Perluasan koridor — porsi antarwilayah 15%", "P5 SPLT nasional terhubung IsWare", "P2 Gudang satelit 15 unit"],
+  },
+  2029: {
+    fase:"Fase 3 — Integrasi (akhir Renstra 2025–2029)", gerbang:"Evaluasi paruh waktu G3 (dinilai 2028) menentukan realokasi ke program dengan capaian terbaik",
+    catatan:"Tahun penutup Renstra: seluruh target lima tahunan harus tercapai, termasuk porsi transaksi antarwilayah 25% dan nilai resi Rp4,5 T. Hasilnya menjadi bahan RPJMN 2030–2034.",
+    fokus: ["P3 Koridor skala nasional — porsi antarwilayah 25%", "P2 Gudang satelit 30 unit", "P4/P5 transaksi PLK Rp200 M", "Evaluasi akhir Renstra & bahan RPJMN berikutnya"],
+  },
+};
+function KajianKeselarasan({tahun}){
+  const info = KAJIAN_TAHUN_INFO[tahun];
+  return (
+    <div className="card p-5 mb-6" style={{borderColor:"rgba(37,99,235,0.3)",background:"rgba(37,99,235,0.025)"}}>
+      <div className="flex items-center gap-2 flex-wrap mb-2">
+        <span className="pill text-[9px] mono" style={{background:"rgba(37,99,235,0.12)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.3)"}}>KESELARASAN DENGAN KAJIAN PROGRAM KERJA</span>
+        <span className="pill pill-muted text-[9px] mono">{info.fase}</span>
+      </div>
+      <div className="text-[11.5px] text-[var(--text-2)] leading-relaxed mb-1">{info.catatan}</div>
+      <div className="text-[10.5px] text-[var(--text-3)] mb-4 italic">{info.gerbang}. Lihat ringkasan lengkap di menu <strong>Proyeksi › Analisis Kajian Program Kerja</strong>.</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wide text-[var(--text-3)] mb-2">Program unggulan yang menjadi fokus {tahun}</div>
+          <div className="flex flex-wrap gap-1.5">
+            {info.fokus.map((f,i)=>(<span key={i} className="pill pill-muted text-[10px]" style={{whiteSpace:"normal",textAlign:"left"}}>{f}</span>))}
+          </div>
+        </div>
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wide text-[var(--text-3)] mb-2">Pemetaan kegiatan lama → biro kelembagaan baru</div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[10px]">
+              <tbody>
+                {KAJIAN_PEMETAAN_LAMA.map((m,i)=>(
+                  <tr key={i} className="border-b border-[var(--border)]">
+                    <td className="py-1 pr-2 mono whitespace-nowrap text-[var(--text-3)]">{m.lama}</td>
+                    <td className="py-1 pr-2 text-[var(--text-2)]">→</td>
+                    <td className="py-1 font-medium">{m.baru}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MenuProyeksi2027(){
   const [filKeg,setFilKeg] = useState("semua");
   const [hanyaUbah,setHanyaUbah] = useState(false);
@@ -10343,6 +10407,8 @@ function MenuProyeksi2027(){
           Pagu TA 2027 sudah terisi sampai tingkat RO pada Pagu Alokasi Anggaran, sehingga yang dibutuhkan bukan lagi usulan pagu melainkan rencana pelaksanaan. Rencana ini menata urutan dan jadwal tiap RO dengan memperhitungkan keadaan sekarang: usulan PSN tidak disetujui, reposisi kelembagaan belum final, dan capaian TA 2026 masih di bawah target.
         </div>
       </div>
+
+      <KajianKeselarasan tahun={2027} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <div className="card-2 p-4">
@@ -10554,6 +10620,8 @@ function MenuProyeksi2028(){
           Usulan PSN SRG untuk RKP TA 2027 tidak disetujui, sehingga sasaran SRG dan PLK ditempuh melalui RO reguler. Rencana ini mencakup ketiga bidang — PBK, SRG, dan PLK — disusun sampai tingkat RO beserta pagu dan target, memakai kode RO Standar hasil pemadanan yang sudah disetujui, dan dipilah per unit Eselon II agar tetap terbaca bila struktur kelembagaan berubah.
         </div>
       </div>
+
+      <KajianKeselarasan tahun={2028} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <div className="card-2 p-4">
@@ -10949,6 +11017,8 @@ function MenuProyeksi2029(){
           TA 2029 menutup periode Renstra 2025–2029, sehingga seluruh target lima tahunan harus tercapai pada tahun ini. Rencana ini melanjutkan struktur RO TA 2028 dengan kode ROS yang sama; yang berubah hanya target dan pagu, ditambah satu RO untuk evaluasi akhir Renstra dan penyusunan Renstra berikutnya.
         </div>
       </div>
+
+      <KajianKeselarasan tahun={2029} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <div className="card-2 p-4">
@@ -12128,45 +12198,125 @@ function PerkembanganBappebti(){
 const KAJIAN_INFO = {
   judul: "Analisis Kajian Program Kerja pada Kelembagaan Baru",
   status: "Draft kajian",
-  tanggal: "November 2026",
+  tanggal: "6 November 2026",
+  penyusun: "Nurhadi Panca Wibowo",
   lingkup: "Badan Pengembangan Perdagangan Komoditi — unit eselon I, 4 biro (Pengembangan SRG, Pengembangan PLK, Perundang-undangan dan Layanan Perdagangan Komoditas, Pengendalian Perdagangan Komoditas) + Sekretariat Badan (eselon II). Tidak lagi menangani PBK.",
+  simpulan: "Badan Pengembangan Perdagangan Komoditi dapat menjadi penggerak perdagangan antarwilayah bila SRG dan PLK dihubungkan dalam satu rantai simpul–biaya–jual, diukur dengan manfaat bagi masyarakat, dan didukung kelembagaan yang siap sejak 2027.",
 };
+const KAJIAN_STATS = [
+  {l:"Transaksi SRG+PLK 2024", v:"Rp 3,0 T", s:"< 0,2% perdagangan antarwilayah", c:"var(--text-2)"},
+  {l:"Aspirasi 0,1% PDB", v:"≈ Rp 23,82 T", s:"sekitar 8× kondisi sekarang", c:"var(--gold)"},
+  {l:"Target porsi antarwilayah 2029", v:"25%", s:"baseline ditetapkan 2027", c:"var(--blue)"},
+  {l:"Risiko sangat tinggi", v:"4", s:"dari 23 risiko teridentifikasi (R1–R4, RK1–RK12)", c:"var(--red,#dc2626)"},
+];
 const KAJIAN_TEMUAN = [
   {l:"Kontribusi masih kecil", v:"Transaksi SRG dan PLK sekitar Rp3,0 T (2024), kurang dari 0,2% perdagangan antarwilayah. Aspirasi 0,1% PDB (±Rp23,82 T) berarti kenaikan sekitar delapan kali."},
   {l:"Masalahnya keterhubungan, bukan jumlah gudang", v:"305 gudang terpusat di tiga provinsi; resi hampir tidak pernah dilelang; frekuensi lelang PLK turun dari 103 (2019) ke 87 (2024)."},
   {l:"Ukuran kinerja lama tidak menunjukkan manfaat", v:"IKSS lama mengukur pertumbuhan transaksi termasuk PBK, sehingga kontribusi bagi petani dan konsumen tidak terlihat."},
   {l:"Kelembagaan baru sudah tepat secara desain", v:"Empat biro dan Sekretariat Badan menutup seluruh fungsi SRG dan PLK; risikonya ada pada waktu — Perpres, SOTK, revisi DIPA, dan Renstra Badan."},
 ];
+const KAJIAN_VISIMISI = {
+  visi: "Terwujudnya Perdagangan Komoditas yang Terintegrasi Antarwilayah, Efisien, dan Berkeadilan melalui Sistem Resi Gudang dan Pasar Lelang Komoditas untuk Mendukung Indonesia Emas 2045",
+  misi: [
+    {kode:"M1", isi:"Memperluas pemanfaatan SRG sebagai simpul stok, mutu, dan pembiayaan komoditas di seluruh wilayah", biro:"Biro Pengembangan SRG"},
+    {kode:"M2", isi:"Membangun PLK sebagai pasar fisik nasional yang mempertemukan wilayah surplus dan defisit", biro:"Biro Pengembangan PLK"},
+    {kode:"M3", isi:"Menjamin kepastian hukum, layanan yang cepat, dan kepatuhan pelaku perdagangan komoditas", biro:"Biro Perundang-undangan & Layanan; Biro Pengendalian"},
+    {kode:"M4", isi:"Mewujudkan tata kelola Badan yang akuntabel, adaptif, dan berbasis data", biro:"Sekretariat Badan"},
+  ],
+};
+const KAJIAN_AKARMASALAH = [
+  {akar:"Manfaat tunda jual sering lebih kecil dari biaya simpan, uji mutu, dan asuransi", bukti:"Pembiayaan terpusat pada beberapa komoditas (gula Rp485 M, beras Rp137 M)", akibat:"Petani kecil tetap menjual saat panen dengan harga rendah"},
+  {akar:"Gudang SRG tidak berada di dekat petani", bukti:"305 gudang, terbanyak di Jabar, Jateng, Sulsel; sebagian gudang Pemda tanpa pengelola", akibat:"Biaya angkut ke gudang menghapus keuntungan"},
+  {akar:"Bank memandang resi sebagai agunan berisiko", bukti:"Lembaga Jaminan SRG belum beroperasi; resi jarang diperdagangkan", akibat:"Kredit resi kecil, petani tetap bergantung pada ijon atau tengkulak"},
+  {akar:"SRG dan PLK berjalan terpisah", bukti:"Lelang resi hampir tidak ada; 12 penyelenggara PLK, 87 lelang setahun", akibat:"Barang di gudang tidak menemukan pembeli di wilayah lain"},
+  {akar:"PLK bergantung pada APBN dan acara", bukti:"Frekuensi lelang turun dari 103 (2019) ke 87 (2024)", akibat:"Tidak ada pasar yang bisa diandalkan setiap minggu"},
+  {akar:"Ukuran kinerja hanya berupa pertumbuhan transaksi", bukti:"IKSS lama: pertumbuhan transaksi PBK, SRG, PLK", akibat:"Manfaat bagi petani dan konsumen tidak pernah terlihat, sehingga tidak mendapat prioritas anggaran"},
+];
+const KAJIAN_SWOT = {
+  kekuatan: ["Dasar hukum SRG setingkat UU", "Jaringan 300+ gudang dan pengelola berizin", "Sistem IsWare Next Gen dan SPLT sudah ada", "Pengalaman regulasi dan perizinan"],
+  kelemahan: ["Pagu program kecil dan banyak diblokir", "SDM teknis SRG/PLK terbatas", "Data stok dan harga belum terintegrasi", "Indikator lama berbasis pertumbuhan persentase yang fluktuatif"],
+  peluang: ["PP 05.05 dan target perdagangan antarwilayah Rp3.013 T", "Gudang Pemda dan BUMN di sentra produksi yang belum dimanfaatkan", "Gudang berbasis rel (KBI)", "Integrasi dengan Bapanas, BUMN pangan, dan perbankan"],
+  ancaman: ["Transisi kelembagaan memperlambat layanan", "Tumpang tindih peran dengan Ditjen PDN dan Bapanas", "Harga komoditas volatil menekan minat tunda jual", "Risiko gagal bayar dan kualitas barang di gudang"],
+};
 const KAJIAN_PROGRAM = [
   {pilar:"Simpul stok (SRG)", warna:"var(--blue)", items:[
-    {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang SRG", biro:"Pengembangan SRG"},
-    {kode:"P2", nama:"Gudang SRG di Sentra Produksi", biro:"Pengembangan SRG"},
+    {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang SRG", biro:"Pengembangan SRG", masalah:"Gudang belum sesuai standar; WMS dan IsWare belum terintegrasi", mulai:"2027"},
+    {kode:"P2", nama:"Gudang SRG di Sentra Produksi", biro:"Pengembangan SRG", masalah:"Gudang SRG jauh dari petani; gudang Pemda/BUMN di sentra produksi belum dimanfaatkan", mulai:"2027"},
   ]},
   {pilar:"Jembatan SRG–PLK", warna:"var(--gold)", items:[
-    {kode:"P3", nama:"Koridor Komoditas Antarwilayah SRG–PLK", biro:"Pengembangan SRG & PLK"},
-    {kode:"P4", nama:"Lelang Resi Gudang", biro:"Pengembangan PLK; Perundang-undangan dan Layanan"},
+    {kode:"P3", nama:"Koridor Komoditas Antarwilayah SRG–PLK", biro:"Pengembangan SRG & PLK", masalah:"Stok di wilayah surplus tidak bergerak ke wilayah defisit", mulai:"2027 (pilot 2–3 koridor)"},
+    {kode:"P4", nama:"Lelang Resi Gudang", biro:"Pengembangan PLK; Perundang-undangan & Layanan", masalah:"Resi jarang diperdagangkan; PLK kekurangan pasokan bermutu", mulai:"2027 (regulasi), 2028 (rutin)"},
   ]},
   {pilar:"Pasar nasional (PLK)", warna:"var(--blue)", items:[
-    {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", biro:"Pengembangan PLK"},
+    {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", biro:"Pengembangan PLK", masalah:"Penyelenggara stagnan, lelang tidak terjadwal, bergantung APBN", mulai:"2027"},
   ]},
   {pilar:"Fondasi", warna:"var(--text-3)", items:[
-    {kode:"P6", nama:"Pusat Data Stok dan Harga Komoditas", biro:"Pengendalian; Sekretariat"},
+    {kode:"P6", nama:"Pusat Data Stok dan Harga Komoditas", biro:"Pengendalian; Sekretariat", masalah:"Data SRG/PLK belum dipakai untuk kebijakan distribusi", mulai:"2027"},
   ]},
 ];
 const KAJIAN_PRIORITAS = [
-  {kode:"P4", nama:"Lelang Resi Gudang", skor:"4,20", peran:"Inti"},
-  {kode:"P3", nama:"Koridor Komoditas Antarwilayah", skor:"4,05", peran:"Inti"},
-  {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", skor:"4,00", peran:"Inti"},
-  {kode:"P2", nama:"Gudang SRG di Sentra Produksi", skor:"3,95", peran:"Pilot"},
-  {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang", skor:"3,60", peran:"Pemungkin"},
-  {kode:"P6", nama:"Pusat Data Stok dan Harga", skor:"3,45", peran:"Pemungkin"},
+  {kode:"P4", nama:"Lelang Resi Gudang", dampak:4, rpjmn:4, urgensi:4, ungkit:5, skor:"4,20", peran:"Inti"},
+  {kode:"P3", nama:"Koridor Komoditas Antarwilayah", dampak:4, rpjmn:5, urgensi:3, ungkit:4, skor:"4,05", peran:"Inti"},
+  {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", dampak:4, rpjmn:4, urgensi:4, ungkit:4, skor:"4,00", peran:"Inti"},
+  {kode:"P2", nama:"Gudang SRG di Sentra Produksi", dampak:5, rpjmn:4, urgensi:3, ungkit:3, skor:"3,95", peran:"Pilot"},
+  {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang", dampak:3, rpjmn:3, urgensi:5, ungkit:4, skor:"3,60", peran:"Pemungkin"},
+  {kode:"P6", nama:"Pusat Data Stok dan Harga", dampak:3, rpjmn:4, urgensi:3, ungkit:4, skor:"3,45", peran:"Pemungkin"},
 ];
 const KAJIAN_PERAN_WARNA = {Inti:"var(--blue)", Pilot:"var(--gold)", Pemungkin:"var(--text-3)"};
+const KAJIAN_IKSS = [
+  {kode:"IKSS-B1", nama:"Nilai transaksi SRG dan PLK", satuan:"Rp triliun", base:"±3,0 (2024)", y27:"3,6", y28:"4,3", y29:"5,2"},
+  {kode:"IKSS-B2", nama:"Persentase transaksi SRG/PLK yang bersifat antarwilayah", satuan:"%", base:"belum diukur", y27:"baseline", y28:"15", y29:"25"},
+];
+const KAJIAN_IKP = [
+  {nama:"Nilai resi gudang yang diterbitkan", satuan:"Rp triliun", base:"2,87 (2024)", y27:"3,2", y28:"3,8", y29:"4,5", biro:"Pengembangan SRG"},
+  {nama:"Nilai transaksi PLK", satuan:"Rp miliar", base:"111,9 (2025)", y27:"130", y28:"160", y29:"200", biro:"Pengembangan PLK"},
+  {nama:"Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", satuan:"Rp miliar", base:"belum diukur", y27:"baseline survei", y28:"—", y29:"—", biro:"Seluruh biro"},
+  {nama:"Tingkat kepatuhan pelaku usaha SRG dan PLK", satuan:"%", base:"83 (2026)", y27:"85", y28:"88", y29:"90", biro:"Pengendalian"},
+  {nama:"Indeks kepuasan layanan perdagangan komoditas", satuan:"nilai", base:"82 (2026)", y27:"83", y28:"84", y29:"85", biro:"Perundang-undangan & Layanan"},
+];
 const KAJIAN_INDIKATOR = [
   {lv:"DAMPAK", t:"Manfaat Ekonomi Langsung", s:"Rupiah per tahun yang diterima petani, pelaku usaha, dan konsumen"},
   {lv:"SASARAN PROGRAM", t:"Porsi transaksi antarwilayah", s:"Usulan 25% pada 2029"},
   {lv:"IKP / IKK", t:"Nilai resi, transaksi PLK, gudang aktif, lelang reguler", s:"Ukuran per biro"},
   {lv:"KRO / RO", t:"RO bertagging PN 05 (PP 05.05)", s:"Lolos uji kaidah HTIS — money follow program"},
+];
+const KAJIAN_HTIS = [
+  {k:"Tematik", tanya:"Selaras dengan satu tema prioritas?", jwb:"Seluruh IKSS/IKP/IKK diturunkan dari PP 05.05; satu Sasaran Program untuk keempat biro"},
+  {k:"Holistik", tanya:"Rantai hulu–hilir lengkap?", jwb:"IKK (gudang, pembiayaan, lelang) → IKP (nilai resi, transaksi PLK) → dampak (manfaat masyarakat)"},
+  {k:"Integratif", tanya:"Siapa berbuat apa, dari mana dananya?", jwb:"Kerja sama Ditjen PDN, Bapanas, perbankan; dana APBN, APBD/DAK, SSRG, BUMN, swasta"},
+  {k:"Spasial", tanya:"Di mana lokusnya, wilayah mana terhubung?", jwb:"Porsi antarwilayah (asal≠tujuan); program berbasis koridor surplus–defisit"},
+];
+const KAJIAN_RISIKO = [
+  {kode:"R1", risiko:"Perpres/Permendag SOTK terlambat atau tanpa klausul peralihan — layanan dan Perba lama dipersoalkan", kat:"Transisi, hukum", k:4, d:5, level:20, pemilik:"Biro Perundang-undangan & Layanan; Sekretariat"},
+  {kode:"R2", risiko:"Pagu Badan menyusut karena RO eks-PBK dihapus tanpa realokasi, atau diblokir selama transisi", kat:"Anggaran", k:4, d:4, level:16, pemilik:"Sekretariat"},
+  {kode:"RK1", risiko:"Perpres dan Permendag OTK terlambat terbit karena harmonisasi dan antrean penetapan", kat:"Pembentukan", k:4, d:5, level:20, pemilik:"Kepala Badan; Sekretariat"},
+  {kode:"RK4", risiko:"Revisi DIPA 2027 untuk nomenklatur kegiatan dan RO baru tertunda, anggaran tertahan", kat:"Pembentukan", k:4, d:4, level:16, pemilik:"Sekretariat"},
+  {kode:"R3", risiko:"SDM eks-PBK tidak sesuai kebutuhan SRG/PLK, atau pegawai kunci pindah ke OJK", kat:"SDM", k:3, d:4, level:12, pemilik:"Sekretariat"},
+  {kode:"R4", risiko:"IKSS antarwilayah tidak dapat diukur karena IsWare/SPLT tidak mencatat domisili pihak", kat:"Data, kinerja", k:3, d:4, level:12, pemilik:"Biro Pengendalian; Biro Pengembangan PLK"},
+];
+const KAJIAN_RISIKO_WARNA = (lvl)=> lvl>=16 ? "var(--red,#dc2626)" : lvl>=12 ? "var(--gold)" : "var(--text-3)";
+const KAJIAN_RISIKO_LABEL = (lvl)=> lvl>=16 ? "Sangat tinggi" : lvl>=12 ? "Tinggi" : lvl>=6 ? "Sedang" : "Rendah";
+const KAJIAN_SDM_LANGKAH = [
+  "Bentuk tim Anjab–ABK (Sekretariat Badan + biro organisasi/SDM Kemendag)",
+  "Inventarisasi pegawai yang ada (bezetting), termasuk eks-PBK",
+  "Susun Anjab setiap jabatan pada lima unit eselon II",
+  "Hitung ABK dari target IKK dan RO 2027–2029",
+  "Susun peta jabatan, bandingkan dengan bezetting",
+  "Rencana pemenuhan: penempatan ulang, alih JF, usulan formasi baru",
+  "Penetapan dan pemutakhiran tahunan",
+];
+const KAJIAN_PERENCANA_MADYA = [
+  {keg:"Identifikasi", hasil:"Kajian isu strategis, identifikasi masalah per koridor", vol:20, kontribusi:"0,24", kebutuhan:"1,12"},
+  {keg:"Penyusunan", hasil:"Renstra Badan, Renja, RKA-K/L, rencana program per biro", vol:12, kontribusi:"0,20", kebutuhan:"1,16"},
+  {keg:"Adopsi", hasil:"Pembahasan dan penetapan rencana (trilateral, PK)", vol:10, kontribusi:"0,14", kebutuhan:"0,14"},
+  {keg:"Pelaksanaan", hasil:"Pengendalian pelaksanaan rencana, revisi anggaran, pemantauan RO", vol:60, kontribusi:"0,15", kebutuhan:"0,53"},
+  {keg:"Evaluasi", hasil:"Evaluasi kinerja, laporan kinerja, evaluasi program", vol:12, kontribusi:"0,09", kebutuhan:"0,13"},
+];
+const KAJIAN_PENDANAAN = [
+  {sumber:"Skema Subsidi Resi Gudang", ket:"Pembiayaan petani dan koperasi melalui lembaga penyalur"},
+  {sumber:"APBD dan DAK", ket:"Gudang Pemda serta lelang reguler daerah"},
+  {sumber:"BUMN/BUMD dan swasta", ket:"Pengelola gudang, penyelenggara PLK, pembeli siaga"},
+  {sumber:"Revitalisasi gudang via RO reguler", ket:"Bukan jalur PSN — sejalan dengan proyeksi Renja TA 2028"},
 ];
 const KAJIAN_PETAJALAN = [
   {fase:"Fase 0 — Transisi", rentang:"Nov 2026 – Mar 2027", warna:"var(--red)", items:["Perpres dan SOTK terbit","PBK beralih ke OJK","Revisi DIPA TA 2027","Penempatan ulang SDM"]},
@@ -12175,130 +12325,401 @@ const KAJIAN_PETAJALAN = [
   {fase:"Fase 3 — Integrasi", rentang:"2029", warna:"var(--emerald)", items:["Koridor skala nasional","Porsi antarwilayah 25%","Bahan RPJMN 2030–2034"]},
 ];
 const KAJIAN_GERBANG = [
-  {kode:"G1", nama:"Perpres berlaku", kriteria:"SOTK terbit; pejabat/Plt ditetapkan; DIPA direvisi; layanan perizinan tetap berjalan"},
-  {kode:"G2", nama:"Renstra Badan sah", kriteria:"Renstra dan IKU Badan disahkan; baseline tersedia; aturan lelang resi terbit; Anjab/ABK disetujui"},
-  {kode:"G3", nama:"Evaluasi paruh waktu", kriteria:"Capaian indikator 2028 dinilai terhadap target; risiko utama terkendali"},
+  {kode:"G1", nama:"Perpres berlaku", kriteria:"SOTK terbit; pejabat/Plt ditetapkan; DIPA direvisi; layanan perizinan tetap berjalan", bila:"Program 2027 berjalan dengan pola transisi; pilot koridor P3 ditunda ke semester II"},
+  {kode:"G2", nama:"Renstra Badan sah", kriteria:"Renstra dan IKU Badan disahkan; baseline tersedia; aturan lelang resi terbit; Anjab/ABK disetujui", bila:"Akselerasi 2028 dibatasi pada program tanpa regulasi baru (P1, P2, P5); P4 menunggu aturan"},
+  {kode:"G3", nama:"Evaluasi paruh waktu", kriteria:"Capaian indikator 2028 dinilai terhadap target; risiko utama terkendali", bila:"Target 2029 dikoreksi dan anggaran direalokasi ke program dengan capaian terbaik"},
+];
+const KAJIAN_MILESTONE = [
+  {kode:"M1", nama:"Naskah usulan OTK & kajian kelembagaan final", target:"27 Nov 2026"},
+  {kode:"M2", nama:"Persetujuan Menteri PANRB", target:"31 Des 2026"},
+  {kode:"M3", nama:"Perpres ditetapkan, dengan klausul peralihan", target:"12 Feb 2027"},
+  {kode:"M4", nama:"Permendag OTK ditetapkan", target:"12 Mar 2027"},
+  {kode:"M5", nama:"Pejabat dilantik (definitif/Plt)", target:"31 Mar 2027"},
+  {kode:"M6", nama:"Pegawai ditempatkan sesuai peta jabatan", target:"30 Apr 2027"},
+  {kode:"M7", nama:"Revisi DIPA dengan kegiatan & RO baru", target:"30 Apr 2027"},
+  {kode:"M8", nama:"Renstra Badan hasil revisi ditetapkan", target:"30 Jun 2027"},
+  {kode:"M9", nama:"Renja dan RKA 2028 dengan struktur baru", target:"31 Jul 2027"},
 ];
 const KAJIAN_REKOMENDASI = [
-  {no:1, judul:"Tetapkan satu sasaran program", isi:"Satu sasaran untuk empat biro, diukur dengan Manfaat Ekonomi Langsung dan porsi transaksi antarwilayah."},
-  {no:2, judul:"Prioritaskan P4, P3, P5", isi:"Danai Standardisasi Gudang (P1) dan Pusat Data (P6) sejak 2027 sebagai pemungkin."},
-  {no:3, judul:"Kawal gerbang G1 dan G2", isi:"Agar akselerasi program 2028 tidak tertunda oleh keterlambatan Perpres atau Renstra Badan."},
-  {no:4, judul:"Ajukan formasi JF berbasis Anjab/ABK", isi:"Termasuk tambahan Perencana Ahli Madya (simulasi ABK ±3 orang, perlu dikonfirmasi)."},
+  {no:1, aspek:"Kelembagaan", judul:"Kawal Perpres dan Permendag SOTK", isi:"Siapkan SOP transisi agar layanan tidak terhenti.", pic:"Sekretariat Badan", waktu:"Fase 0"},
+  {no:2, aspek:"Arah kebijakan", judul:"Tetapkan visi, misi, satu sasaran program", isi:"Dituangkan dalam Renstra Badan bersama empat biro.", pic:"Sekretariat & 4 biro", waktu:"Fase 1"},
+  {no:3, aspek:"Program", judul:"Danai P1 dan P6 sejak 2027", isi:"Siapkan aturan lelang resi; jalankan pilot 2–3 koridor.", pic:"Biro SRG, PLK, Perundang-undangan", waktu:"Fase 1"},
+  {no:4, aspek:"Indikator", judul:"Tetapkan baseline manfaat & porsi antarwilayah", isi:"Ajukan RO bertagging PN di KRISNA.", pic:"Sekretariat (fungsi perencanaan)", waktu:"Fase 1"},
+  {no:5, aspek:"SDM", judul:"Ajukan formasi JF berbasis Anjab/ABK", isi:"Termasuk tambahan Perencana Ahli Madya.", pic:"Sekretariat Badan", waktu:"Fase 1"},
+  {no:6, aspek:"Anggaran", judul:"Prioritaskan P4, P3, P5 pada 2028", isi:"Mengikuti prinsip money follow program.", pic:"Sekretariat Badan", waktu:"Fase 2"},
+  {no:7, aspek:"Risiko", judul:"Kawal gerbang G1 dan G2", isi:"Pantau register risiko pembentukan tiap bulan sampai G2 tercapai.", pic:"Sekretariat & Biro Pengendalian", waktu:"Fase 0–1"},
 ];
 
 function KajianRingkasan(){
+  const [tabAktif, setTabAktif] = useState("temuan");
+  const TABS = [
+    {id:"temuan", label:"Temuan & Diagnosis"},
+    {id:"arah", label:"Visi, Misi & SWOT"},
+    {id:"program", label:"Program & Prioritas"},
+    {id:"indikator", label:"Indikator & HTIS"},
+    {id:"kelembagaan", label:"SDM & Pendanaan"},
+    {id:"risiko", label:"Risiko"},
+    {id:"petajalan", label:"Peta Jalan"},
+    {id:"rekomendasi", label:"Rekomendasi"},
+  ];
+  const SubHeading = ({children})=>(
+    <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">{children}</div>
+  );
   return (
     <div className="card p-5 mb-6" style={{borderColor:"rgba(37,99,235,0.3)"}}>
       <div className="flex items-center gap-2 flex-wrap mb-1">
         <div className="serif text-xl">{KAJIAN_INFO.judul}</div>
         <span className="pill text-[9px] mono" style={{background:"rgba(37,99,235,0.12)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.3)"}}>{KAJIAN_INFO.status.toUpperCase()}</span>
         <span className="pill pill-muted text-[9px] mono">{KAJIAN_INFO.tanggal}</span>
+        <span className="pill pill-muted text-[9px] mono">@{KAJIAN_INFO.penyusun}</span>
       </div>
-      <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-5">{KAJIAN_INFO.lingkup}</p>
+      <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-1">{KAJIAN_INFO.lingkup}</p>
+      <p className="text-[12.5px] text-[var(--text-1)] leading-relaxed mb-5 italic" style={{borderLeft:"3px solid var(--blue)",paddingLeft:"10px"}}>{KAJIAN_INFO.simpulan}</p>
 
-      {/* Temuan utama */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Temuan Utama</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-        {KAJIAN_TEMUAN.map((t,i)=>(
+      {/* Stat bar */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        {KAJIAN_STATS.map((s,i)=>(
           <div key={i} className="card-2 p-3.5">
-            <div className="text-[12px] font-semibold text-[var(--text-1)] mb-1">{t.l}</div>
-            <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{t.v}</div>
+            <div className="text-[9.5px] mono uppercase tracking-wider text-[var(--text-3)]">{s.l}</div>
+            <div className="serif text-xl mt-1" style={{color:s.c}}>{s.v}</div>
+            <div className="text-[10px] text-[var(--text-3)] mt-0.5">{s.s}</div>
           </div>
         ))}
       </div>
 
-      {/* Enam program dalam tiga pilar + fondasi */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Enam Program Unggulan</div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
-        {KAJIAN_PROGRAM.map((p,i)=>(
-          <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${p.warna}`}}>
-            <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">{p.pilar}</div>
-            <div className="space-y-2">
-              {p.items.map((it,j)=>(
-                <div key={j}>
-                  <div className="text-[11.5px] text-[var(--text-2)]"><strong className="mono">{it.kode}</strong> {it.nama}</div>
-                  <div className="text-[9.5px] mono text-[var(--text-3)] mt-0.5">{it.biro}</div>
-                </div>
+      {/* Tab selector */}
+      <div className="flex items-center gap-1.5 flex-wrap mb-5 pb-3" style={{borderBottom:"1px solid var(--border)"}}>
+        {TABS.map(t=>(
+          <button key={t.id} onClick={()=>setTabAktif(t.id)}
+            className={"pill mono text-[9.5px] "+(tabAktif===t.id?"pill-gold":"pill-muted")}
+            style={{cursor:"pointer"}}>{t.label}</button>
+        ))}
+      </div>
+
+      {tabAktif==="temuan" && (<>
+        <SubHeading>Temuan Utama</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          {KAJIAN_TEMUAN.map((t,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="text-[12px] font-semibold text-[var(--text-1)] mb-1">{t.l}</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{t.v}</div>
+            </div>
+          ))}
+        </div>
+        <SubHeading>Diagnosis Akar Masalah</SubHeading>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Akar masalah</th>
+              <th className="py-1.5 pr-3 font-medium">Bukti</th>
+              <th className="py-1.5 font-medium">Akibat bagi masyarakat</th>
+            </tr></thead>
+            <tbody>{KAJIAN_AKARMASALAH.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-3 font-medium text-[var(--text-1)]">{r.akar}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{r.bukti}</td>
+                <td className="py-2 text-[var(--text-2)]">{r.akibat}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic">Pembanding: India memakai resi gudang elektronik wajib (e-NWR) sejak 2019, dengan skema penjaminan kredit khusus (CGS-NPF) sejak Des 2024 — skala datang dari resi elektronik yang dapat diperdagangkan, penjaminan kredit, dan sambungan ke pasar daring, bukan dari jumlah gudang semata.</div>
+      </>)}
+
+      {tabAktif==="arah" && (<>
+        <SubHeading>Visi Badan (usulan)</SubHeading>
+        <div className="card-2 p-4 mb-5" style={{borderLeft:"3px solid var(--gold)"}}>
+          <div className="serif text-base leading-snug text-[var(--text-1)]">&ldquo;{KAJIAN_VISIMISI.visi}&rdquo;</div>
+        </div>
+        <SubHeading>Misi Badan dan Biro Pengampu</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          {KAJIAN_VISIMISI.misi.map((m,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="text-[12px] font-semibold text-[var(--text-1)]"><span className="mono text-[var(--gold)]">{m.kode}.</span> {m.isi}</div>
+              <div className="text-[9.5px] mono text-[var(--text-3)] mt-1">{m.biro}</div>
+            </div>
+          ))}
+        </div>
+        <SubHeading>Analisis SWOT</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="card-2 p-3.5" style={{borderTop:"3px solid var(--emerald)"}}>
+            <div className="text-[11px] font-semibold mb-2" style={{color:"var(--emerald)"}}>Kekuatan</div>
+            <ul className="text-[11px] text-[var(--text-2)] list-disc pl-4 space-y-1 leading-relaxed">{KAJIAN_SWOT.kekuatan.map((x,i)=><li key={i}>{x}</li>)}</ul>
+          </div>
+          <div className="card-2 p-3.5" style={{borderTop:"3px solid var(--red,#dc2626)"}}>
+            <div className="text-[11px] font-semibold mb-2" style={{color:"var(--red,#dc2626)"}}>Kelemahan</div>
+            <ul className="text-[11px] text-[var(--text-2)] list-disc pl-4 space-y-1 leading-relaxed">{KAJIAN_SWOT.kelemahan.map((x,i)=><li key={i}>{x}</li>)}</ul>
+          </div>
+          <div className="card-2 p-3.5" style={{borderTop:"3px solid var(--blue)"}}>
+            <div className="text-[11px] font-semibold mb-2" style={{color:"var(--blue)"}}>Peluang</div>
+            <ul className="text-[11px] text-[var(--text-2)] list-disc pl-4 space-y-1 leading-relaxed">{KAJIAN_SWOT.peluang.map((x,i)=><li key={i}>{x}</li>)}</ul>
+          </div>
+          <div className="card-2 p-3.5" style={{borderTop:"3px solid var(--gold)"}}>
+            <div className="text-[11px] font-semibold mb-2" style={{color:"var(--gold)"}}>Ancaman</div>
+            <ul className="text-[11px] text-[var(--text-2)] list-disc pl-4 space-y-1 leading-relaxed">{KAJIAN_SWOT.ancaman.map((x,i)=><li key={i}>{x}</li>)}</ul>
+          </div>
+        </div>
+      </>)}
+
+      {tabAktif==="program" && (<>
+        <SubHeading>Enam Program Unggulan 2027–2029</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
+          {KAJIAN_PROGRAM.map((p,i)=>(
+            <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${p.warna}`}}>
+              <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">{p.pilar}</div>
+              <div className="space-y-2.5">
+                {p.items.map((it,j)=>(
+                  <div key={j}>
+                    <div className="text-[11.5px] text-[var(--text-1)] font-medium"><strong className="mono" style={{color:p.warna}}>{it.kode}</strong> {it.nama}</div>
+                    <div className="text-[10px] text-[var(--text-2)] leading-snug mt-0.5">{it.masalah}</div>
+                    <div className="text-[9.5px] mono text-[var(--text-3)] mt-1">{it.biro} · mulai {it.mulai}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mb-6">Rincian kegiatan utama, biro pengampu, dan indikator RPJMN per program ada di dokumen kajian (Bab 4).</div>
+
+        <SubHeading>Analisis Prioritas Program</SubHeading>
+        <div className="overflow-x-auto mb-1">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Kode</th>
+              <th className="py-1.5 pr-3 font-medium">Program</th>
+              <th className="py-1.5 pr-3 font-medium">Skor tertimbang (1–5)</th>
+              <th className="py-1.5 font-medium">Peran</th>
+            </tr></thead>
+            <tbody>{KAJIAN_PRIORITAS.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)]">
+                <td className="py-2 pr-3 font-semibold mono">{r.kode}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{r.nama}</td>
+                <td className="py-2 pr-3" style={{minWidth:"140px"}}>
+                  <div className="flex items-center gap-2">
+                    <div style={{width:"80px",height:"6px",background:"var(--border)",borderRadius:"3px",overflow:"hidden"}}>
+                      <div style={{width:(parseFloat(r.skor.replace(",","."))/5*100)+"%",height:"100%",background:KAJIAN_PERAN_WARNA[r.peran]}}></div>
+                    </div>
+                    <span className="mono text-[10px] text-[var(--text-2)]">{r.skor}</span>
+                  </div>
+                </td>
+                <td className="py-2 font-medium" style={{color:KAJIAN_PERAN_WARNA[r.peran]}}>{r.peran}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mb-2 italic">Kriteria: dampak bagi masyarakat 35%, keselarasan RPJMN 25%, urgensi 20%, daya ungkit 20%. Skor merupakan asumsi sementara tim penyusun dan belum dibahas dengan biro terkait.</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6 mt-3">
+          <div className="p-3 rounded" style={{background:"rgba(37,99,235,0.07)"}}>
+            <div className="text-[11px] font-semibold mb-1" style={{color:"var(--blue)"}}>Kelompok inti — P4, P3, P5</div>
+            <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">Paling langsung menaikkan porsi transaksi antarwilayah; perlu porsi anggaran terbesar mulai 2028.</div>
+          </div>
+          <div className="p-3 rounded" style={{background:"rgba(161,98,7,0.07)"}}>
+            <div className="text-[11px] font-semibold mb-1" style={{color:"var(--gold)"}}>Pilot — P2</div>
+            <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">Berdampak paling besar bagi petani, tetapi tertahan oleh kesiapan gudang dan pengelola; dimulai sebagai pilot di sentra terpilih.</div>
+          </div>
+          <div className="p-3 rounded" style={{background:"rgba(100,116,139,0.08)"}}>
+            <div className="text-[11px] font-semibold mb-1" style={{color:"var(--text-2)"}}>Pemungkin — P1, P6</div>
+            <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">Skor lebih rendah, tetapi P1 menjadi syarat lelang resi dan kepercayaan bank, P6 menjadi syarat pengukuran manfaat. Keduanya didanai sejak 2027.</div>
+          </div>
+        </div>
+      </>)}
+
+      {tabAktif==="indikator" && (<>
+        <SubHeading>Rantai Indikator — Dari Dampak sampai RO</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-6">
+          {KAJIAN_INDIKATOR.map((k,i)=>(
+            <div key={i} className="card-2 p-3 flex flex-col gap-1">
+              <span className="text-[9px] mono text-[var(--gold)] font-semibold">{k.lv}</span>
+              <span className="text-[12px] font-medium text-[var(--text-1)] leading-snug">{k.t}</span>
+              <span className="text-[10px] text-[var(--text-3)] leading-snug">{k.s}</span>
+            </div>
+          ))}
+        </div>
+        <SubHeading>IKSS — Tingkat Kementerian</SubHeading>
+        <div className="overflow-x-auto mb-5">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Kode</th><th className="py-1.5 pr-3 font-medium">Indikator</th>
+              <th className="py-1.5 pr-3 font-medium">Baseline</th><th className="py-1.5 pr-3 font-medium">2027</th>
+              <th className="py-1.5 pr-3 font-medium">2028</th><th className="py-1.5 font-medium">2029</th>
+            </tr></thead>
+            <tbody>{KAJIAN_IKSS.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)]">
+                <td className="py-2 pr-3 mono font-semibold">{r.kode}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{r.nama} <span className="text-[var(--text-3)]">({r.satuan})</span></td>
+                <td className="py-2 pr-3 text-[var(--text-3)]">{r.base}</td>
+                <td className="py-2 pr-3 font-medium">{r.y27}</td>
+                <td className="py-2 pr-3 font-medium">{r.y28}</td>
+                <td className="py-2 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <SubHeading>IKP — Tingkat Badan (usulan)</SubHeading>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">IKP</th><th className="py-1.5 pr-3 font-medium">Baseline</th>
+              <th className="py-1.5 pr-3 font-medium">2027</th><th className="py-1.5 pr-3 font-medium">2028</th>
+              <th className="py-1.5 pr-3 font-medium">2029</th><th className="py-1.5 font-medium">Biro penyumbang</th>
+            </tr></thead>
+            <tbody>{KAJIAN_IKP.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)]">
+                <td className="py-2 pr-3 text-[var(--text-1)] font-medium">{r.nama} <span className="text-[var(--text-3)] font-normal">({r.satuan})</span></td>
+                <td className="py-2 pr-3 text-[var(--text-3)]">{r.base}</td>
+                <td className="py-2 pr-3">{r.y27}</td>
+                <td className="py-2 pr-3">{r.y28}</td>
+                <td className="py-2 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+                <td className="py-2 mono text-[9.5px] text-[var(--text-3)]">{r.biro}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <SubHeading>Uji Kaidah HTIS (PP No. 17/2017)</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {KAJIAN_HTIS.map((h,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="text-[11px] font-semibold mb-1" style={{color:"var(--blue)"}}>{h.k}</div>
+              <div className="text-[10.5px] text-[var(--text-3)] italic mb-1">{h.tanya}</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{h.jwb}</div>
+            </div>
+          ))}
+        </div>
+      </>)}
+
+      {tabAktif==="kelembagaan" && (<>
+        <SubHeading>Kajian Kebutuhan SDM — Anjab &amp; ABK (Fase 0)</SubHeading>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {KAJIAN_SDM_LANGKAH.map((l,i)=>(
+            <div key={i} className="card-2 px-3 py-2 flex items-center gap-2" style={{minWidth:"200px",flex:"1 1 200px"}}>
+              <span className="serif text-sm shrink-0" style={{color:"var(--gold)"}}>{i+1}</span>
+              <span className="text-[10.5px] text-[var(--text-2)] leading-snug">{l}</span>
+            </div>
+          ))}
+        </div>
+        <SubHeading>Simulasi Kebutuhan Perencana Ahli Madya (contoh — perlu diganti data riil)</SubHeading>
+        <div className="overflow-x-auto mb-2">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Kegiatan perencanaan</th><th className="py-1.5 pr-3 font-medium">Contoh hasil kerja</th>
+              <th className="py-1.5 pr-3 font-medium">Vol/tahun</th><th className="py-1.5 pr-3 font-medium">Kontribusi Madya</th>
+              <th className="py-1.5 font-medium">Kebutuhan</th>
+            </tr></thead>
+            <tbody>
+              {KAJIAN_PERENCANA_MADYA.map((r,i)=>(
+                <tr key={i} className="border-b border-[var(--border)]">
+                  <td className="py-2 pr-3 font-medium">{r.keg}</td>
+                  <td className="py-2 pr-3 text-[var(--text-2)]">{r.hasil}</td>
+                  <td className="py-2 pr-3 mono">{r.vol}</td>
+                  <td className="py-2 pr-3 mono">{r.kontribusi}</td>
+                  <td className="py-2 mono font-semibold">{r.kebutuhan}</td>
+                </tr>
               ))}
+              <tr><td colSpan="4" className="py-2 pr-3 text-right font-semibold">Jumlah</td><td className="py-2 mono font-bold" style={{color:"var(--gold)"}}>3,08 → 3 orang</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] mb-6 italic">Koefisien dari Lampiran I Permen PPN/Bappenas 8/2024; volume bersifat contoh dan wajib diganti hasil inventarisasi riil. Waktu terbaik mengusulkan: Fase 0–1, saat peta jabatan Badan sedang disusun ulang.</div>
+
+        <SubHeading>Kerangka Pendanaan di Luar APBN Rupiah Murni</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {KAJIAN_PENDANAAN.map((p,i)=>(
+            <div key={i} className="card-2 p-3.5 flex items-start gap-2.5">
+              <span className="text-[13px] shrink-0" style={{color:"var(--emerald)"}}>●</span>
+              <div>
+                <div className="text-[11.5px] font-semibold text-[var(--text-1)]">{p.sumber}</div>
+                <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed mt-0.5">{p.ket}</div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="text-[10px] text-[var(--text-3)] mb-6">Rincian kegiatan utama, biro pengampu, dan indikator RPJMN per program ada di dokumen kajian (Bab 4).</div>
+          ))}
+        </div>
+      </>)}
 
-      {/* Prioritas */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Analisis Prioritas Program</div>
-      <div className="overflow-x-auto mb-1">
-        <table className="w-full text-[11px]">
-          <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
-            <th className="py-1.5 pr-3 font-medium">Kode</th>
-            <th className="py-1.5 pr-3 font-medium">Program</th>
-            <th className="py-1.5 pr-3 font-medium">Skor tertimbang (1–5)</th>
-            <th className="py-1.5 font-medium">Peran</th>
-          </tr></thead>
-          <tbody>{KAJIAN_PRIORITAS.map((r,i)=>(
-            <tr key={i} className="border-b border-[var(--border)]">
-              <td className="py-1.5 pr-3 font-semibold mono">{r.kode}</td>
-              <td className="py-1.5 pr-3 text-[var(--text-2)]">{r.nama}</td>
-              <td className="py-1.5 pr-3 text-[var(--text-2)]">{r.skor}</td>
-              <td className="py-1.5 font-medium" style={{color:KAJIAN_PERAN_WARNA[r.peran]}}>{r.peran}</td>
-            </tr>
-          ))}</tbody>
-        </table>
-      </div>
-      <div className="text-[10px] text-[var(--text-3)] mb-6 italic">Kriteria: dampak bagi masyarakat 35%, keselarasan RPJMN 25%, urgensi 20%, daya ungkit 20%. Skor merupakan asumsi sementara tim penyusun dan belum dibahas dengan biro terkait.</div>
-
-      {/* Rantai indikator */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Rantai Indikator — Dari Dampak sampai RO</div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-6">
-        {KAJIAN_INDIKATOR.map((k,i)=>(
-          <div key={i} className="card-2 p-3 flex flex-col gap-1">
-            <span className="text-[9px] mono text-[var(--gold)] font-semibold">{k.lv}</span>
-            <span className="text-[12px] font-medium text-[var(--text-1)] leading-snug">{k.t}</span>
-            <span className="text-[10px] text-[var(--text-3)] leading-snug">{k.s}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Peta jalan kelembagaan */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Peta Jalan Kelembagaan Baru 2026–2029</div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
-        {KAJIAN_PETAJALAN.map((f,i)=>(
-          <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${f.warna}`}}>
-            <div className="text-[12px] font-semibold text-[var(--text-1)]">{f.fase}</div>
-            <div className="text-[10px] mono text-[var(--text-3)] mb-2">{f.rentang}</div>
-            <ul className="text-[10.5px] text-[var(--text-2)] list-disc pl-4 leading-relaxed space-y-0.5">
-              {f.items.map((x,j)=><li key={j}>{x}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-1">
-        {KAJIAN_GERBANG.map((g,i)=>(
-          <div key={i} className="card-2 p-3 flex items-start gap-2">
-            <span className="mono text-[11px] font-bold shrink-0" style={{color:"var(--gold)"}}>{g.kode}</span>
-            <div>
-              <div className="text-[11.5px] font-semibold text-[var(--text-1)]">{g.nama}</div>
-              <div className="text-[10px] text-[var(--text-3)] leading-relaxed mt-0.5">{g.kriteria}</div>
+      {tabAktif==="risiko" && (<>
+        <SubHeading>Risiko Prioritas (Level Tinggi dan Sangat Tinggi)</SubHeading>
+        <div className="space-y-2 mb-3">
+          {KAJIAN_RISIKO.map((r,i)=>(
+            <div key={i} className="card-2 p-3 flex items-start gap-3">
+              <div className="shrink-0 text-center" style={{minWidth:"46px"}}>
+                <div className="mono text-[11px] font-bold" style={{color:KAJIAN_RISIKO_WARNA(r.level)}}>{r.kode}</div>
+                <div className="mono text-[9px]" style={{color:KAJIAN_RISIKO_WARNA(r.level)}}>{r.k}×{r.d}={r.level}</div>
+              </div>
+              <div className="flex-1">
+                <div className="text-[11.5px] text-[var(--text-1)] leading-relaxed">{r.risiko}</div>
+                <div className="text-[9.5px] mono text-[var(--text-3)] mt-1">{r.kat} · pemilik: {r.pemilik}</div>
+              </div>
+              <span className="pill text-[8.5px] mono shrink-0" style={{background:"transparent",color:KAJIAN_RISIKO_WARNA(r.level),border:`1px solid ${KAJIAN_RISIKO_WARNA(r.level)}`}}>{KAJIAN_RISIKO_LABEL(r.level)}</span>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="text-[10px] text-[var(--text-3)] mb-6 italic">Seluruh tanggal pada peta jalan bersifat tentatif dan dapat bergeser mengikuti terbitnya Perpres dan Permendag organisasi.</div>
+          ))}
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic mb-1">Skala Kemungkinan (K) × Dampak (D), 1–5: 1–5 rendah, 6–11 sedang, 12–15 tinggi, 16–25 sangat tinggi. R1–R4 (operasional) dan RK1–RK4 (pembentukan) dipantau mingguan/bulanan selama transisi. Daftar lengkap 11 risiko operasional dan 12 risiko pembentukan ada di dokumen kajian (Bab 7.1–7.2).</div>
+      </>)}
 
-      {/* Rekomendasi */}
-      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Rekomendasi Pokok</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {KAJIAN_REKOMENDASI.map((r,i)=>(
-          <div key={i} className="card-2 p-3.5 flex gap-3">
-            <span className="serif text-2xl shrink-0" style={{color:"var(--gold)"}}>{r.no}</span>
-            <div>
-              <div className="text-[12px] font-semibold text-[var(--text-1)]">{r.judul}</div>
-              <div className="text-[11px] text-[var(--text-2)] leading-relaxed mt-0.5">{r.isi}</div>
+      {tabAktif==="petajalan" && (<>
+        <SubHeading>Peta Jalan Kelembagaan Baru 2026–2029</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
+          {KAJIAN_PETAJALAN.map((f,i)=>(
+            <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${f.warna}`}}>
+              <div className="text-[12px] font-semibold text-[var(--text-1)]">{f.fase}</div>
+              <div className="text-[10px] mono text-[var(--text-3)] mb-2">{f.rentang}</div>
+              <ul className="text-[10.5px] text-[var(--text-2)] list-disc pl-4 leading-relaxed space-y-0.5">
+                {f.items.map((x,j)=><li key={j}>{x}</li>)}
+              </ul>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-5">
+          {KAJIAN_GERBANG.map((g,i)=>(
+            <div key={i} className="card-2 p-3 flex items-start gap-2">
+              <span className="mono text-[11px] font-bold shrink-0" style={{color:"var(--gold)"}}>{g.kode}</span>
+              <div>
+                <div className="text-[11.5px] font-semibold text-[var(--text-1)]">{g.nama}</div>
+                <div className="text-[10px] text-[var(--text-3)] leading-relaxed mt-0.5">{g.kriteria}</div>
+                <div className="text-[10px] mt-1" style={{color:"var(--gold)"}}>Bila belum: {g.bila}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <SubHeading>Milestone Jalur Kritis — Fase 0 (Nov 2026 – Jul 2027)</SubHeading>
+        <div className="overflow-x-auto mb-2">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Milestone</th><th className="py-1.5 pr-3 font-medium">Keterangan</th><th className="py-1.5 font-medium">Target indikatif</th>
+            </tr></thead>
+            <tbody>{KAJIAN_MILESTONE.map((m,i)=>(
+              <tr key={i} className="border-b border-[var(--border)]">
+                <td className="py-1.5 pr-3 mono font-semibold" style={{color:"var(--gold)"}}>{m.kode}</td>
+                <td className="py-1.5 pr-3 text-[var(--text-2)]">{m.nama}</td>
+                <td className="py-1.5 mono text-[var(--text-3)]">{m.target}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic">Tonggak eksternal yang tidak bisa digeser: 1 Januari 2027, saat PBK beralih ke OJK/BMKS. Seluruh tanggal lain pada peta jalan bersifat tentatif dan dapat bergeser mengikuti terbitnya Perpres dan Permendag organisasi.</div>
+      </>)}
+
+      {tabAktif==="rekomendasi" && (<>
+        <SubHeading>Rekomendasi Pokok</SubHeading>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+          {KAJIAN_REKOMENDASI.map((r,i)=>(
+            <div key={i} className="card-2 p-3.5 flex gap-3">
+              <span className="serif text-2xl shrink-0" style={{color:"var(--gold)"}}>{r.no}</span>
+              <div>
+                <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                  <span className="pill pill-muted text-[8.5px] mono">{r.aspek}</span>
+                  <span className="pill pill-muted text-[8.5px] mono">{r.waktu}</span>
+                </div>
+                <div className="text-[12px] font-semibold text-[var(--text-1)]">{r.judul}</div>
+                <div className="text-[11px] text-[var(--text-2)] leading-relaxed mt-0.5">{r.isi}</div>
+                <div className="text-[9.5px] mono text-[var(--text-3)] mt-1">PIC: {r.pic}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[10.5px] text-[var(--text-1)] mt-4 p-3 rounded" style={{background:"rgba(161,98,7,0.07)"}}>
+          <strong>Langkah paling mendesak:</strong> memastikan rancangan Perpres memuat klausul peralihan, lalu menyusun ulang RO TA 2027 sebelum 1 Januari 2027. Keduanya harus selesai lebih dulu, baru program unggulan bisa berjalan.
+        </div>
+      </>)}
     </div>
   );
 }
