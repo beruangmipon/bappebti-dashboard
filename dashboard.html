@@ -12264,11 +12264,11 @@ const KAJIAN_IKSS = [
   {kode:"IKSS-B1", nama:"Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", satuan:"Rp miliar", base:"belum diukur", y27:"baseline survei", y28:"naik dari baseline", y29:"naik dari baseline",
     rumus:"Estimasi selisih harga jual/biaya pembiayaan petani dan pelaku usaha melalui SRG/PLK dibanding tanpa SRG/PLK (survei sampel) × volume transaksi tahun berjalan",
     penting:"Dampak akhir yang sesungguhnya — menghubungkan transaksi SRG/PLK dengan manfaat kesejahteraan riil bagi petani/pelaku usaha/konsumen, bukan sekadar akumulasi nilai transaksi. Menggantikan \"Nilai transaksi SRG dan PLK\" sebagai IKSS-B1 karena indikator lama secara aritmetika persis sama dengan penjumlahan dua IKP di bawahnya (lihat catatan revisi) — tidak menambah informasi baru pada jenjang dampak",
-    kelayakan:"bersyarat"},
+    kelayakan:"bersyarat", alasan:"Konsepnya sudah benar (dampak genuin, tidak redundan dengan IKP) — status bersyarat murni karena pengukurannya bergantung pada survei manfaat ekonomi yang belum pernah dilaksanakan; baseline baru ada setelah survei pertama terlaksana pada 2027 (lihat Risiko R5)."},
   {kode:"IKSS-B2", nama:"Persentase transaksi SRG/PLK yang bersifat antarwilayah", satuan:"%", base:"belum diukur", y27:"baseline", y28:"15", y29:"25",
     rumus:"(Nilai resi dialihkan/diperdagangkan antarprovinsi + Nilai transaksi PLK antarprovinsi) ÷ Nilai transaksi SRG+PLK total × 100%",
     penting:"Pembeda utama kelembagaan baru dari rezim lama — membuktikan Badan membangun koridor surplus–defisit lintas wilayah, bukan hanya mengakumulasi transaksi lokal; jadi penanda keberhasilan integrasi pasar komoditas nasional",
-    kelayakan:"bersyarat"},
+    kelayakan:"bersyarat", alasan:"Rumus dan sumber data sudah jelas (IsWare untuk SRG, SPLT untuk PLK) — status bersyarat karena field domisili pihak belum tersedia di kedua sistem; baseline tidak bisa dihitung sampai prasyarat data ini terpenuhi (Risiko R4)."},
 ];
 const KAJIAN_METODOLOGI_IKSSB1 = {
   judul:"Catatan revisi IKSS-B1 (November 2026) — dari \"Nilai transaksi\" menjadi \"Manfaat Ekonomi Langsung\"",
@@ -12282,51 +12282,47 @@ const KAJIAN_IKP = [
   {nama:"Nilai resi gudang yang dimanfaatkan secara ekonomi", satuan:"Rp triliun", base:"belum diukur", y27:"baseline", y28:"naik dari baseline", y29:"naik dari baseline", biro:"Pengembangan SRG",
     rumus:"Nilai resi gudang dijadikan jaminan pembiayaan (IKK) + Nilai resi gudang terjual melalui lelang (IKK), dijumlahkan langsung per tahun takwim — dua peristiwa manfaat ekonomi yang berbeda dan nyata (modal kerja saat dijaminkan, hasil penjualan saat dilelang), bukan double counting",
     penting:"Menggantikan \"Nilai resi gudang yang diterbitkan\" sebagai IKP — penerbitan resi saja adalah output administratif (dokumen diterbitkan), belum tentu mencerminkan outcome; nilai yang benar-benar dimanfaatkan (dijaminkan atau dijual) baru menunjukkan resi dipakai secara produktif. Komposisi diperkirakan didominasi jalur pembiayaan (resi dijaminkan, barang belum dijual) dibanding jalur lelang — proporsi aktual dilaporkan sebagai rincian pendukung, bukan dibakukan jadi bobot formula",
-    kelayakan:"bersyarat"},
+    kelayakan:"bersyarat", alasan:"Rumus dan dua komponen sumbernya (IKK-6, IKK-4) sudah jelas dan datanya ada di sistem — status bersyarat hanya karena angka gabungan ini belum pernah dihitung secara resmi, sehingga belum ada baseline historis sampai dihitung pertama kali pada 2027."},
   {nama:"Nilai transaksi PLK", satuan:"Rp miliar", base:"111,9 (2025)", y27:"130", y28:"160", y29:"200", biro:"Pengembangan PLK",
     rumus:"Σ nilai kontrak/transaksi yang diselesaikan melalui Pasar Lelang Komoditas, per tahun takwim (data SPLT)",
     penting:"Menunjukkan efektivitas PLK sebagai mekanisme price discovery dan penyerapan hasil komoditas di luar resi gudang — turut menyumbang manfaat ekonomi langsung (IKSS-B1) lewat jalur harga yang lebih baik bagi penjual komoditas",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data rutin tersedia di SPLT, sudah punya baseline nyata (Rp111,9 miliar pada 2025), dan dapat diatribusikan langsung ke kinerja Biro Pengembangan PLK."},
   {nama:"Tingkat kepatuhan pelaku usaha SRG dan PLK", satuan:"%", base:"83 (2026)", y27:"85", y28:"88", y29:"90", biro:"Pengendalian",
     rumus:"Jumlah pelaku usaha SRG/PLK tanpa temuan pelanggaran material pada pengawasan tahun berjalan ÷ Jumlah pelaku usaha yang diawasi × 100%",
     penting:"Menjaga kepercayaan pasar pada sistem SRG/PLK — resi gudang dan kontrak PLK hanya bernilai jika pelaku usaha patuh pada standar mutu, penyimpanan, dan penyelesaian kontrak",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data pengawasan rutin tersedia, baseline 2026 sudah ada (83%), dan hasilnya cukup diskriminatif (tidak struktural mendekati 100%) sehingga benar-benar mencerminkan kinerja pengawasan."},
   {nama:"Indeks kepuasan layanan perdagangan komoditas", satuan:"nilai", base:"82 (2026)", y27:"83", y28:"84", y29:"85", biro:"Perundang-undangan & Layanan",
     rumus:"Rata-rata skor survei kepuasan pemohon perizinan/layanan (skala 1–100), disurvei berkala terhadap pemohon yang telah dilayani",
     penting:"Proksi kualitas layanan dari sisi pengguna — melengkapi rata-rata waktu penyelesaian perizinan dengan persepsi pemohon, bukan hanya kecepatan administratif",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Survei kepuasan sudah rutin dilakukan dengan baseline 2026 ada (82), dan hasilnya dapat diatribusikan ke kualitas layanan Biro Perundang-undangan & Layanan."},
 ];
 const KAJIAN_IKK = [
   {kode:"IKK-1", nama:"Jumlah gudang SNI baru berstandar", satuan:"unit", base:"— (2026)", y27:"5", y28:"8", y29:"6", biro:"Pengembangan SRG", peran:"Pemungkin — menambah kapasitas penerbitan resi",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data konstruksi/sertifikasi gudang dicatat rutin oleh Biro Pengembangan SRG — sederhana dihitung dan langsung diatribusikan."},
   {kode:"IKK-2", nama:"Jumlah gudang satelit berdiri di sentra produksi", satuan:"unit", base:"— (2026)", y27:"8", y28:"12", y29:"10", biro:"Pengembangan SRG", peran:"Pemungkin — mendekatkan akses resi ke petani",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Sama seperti IKK-1 — data pembangunan gudang satelit tercatat rutin dan mudah diverifikasi dari dokumen proyek."},
   {kode:"IKK-3", nama:"Persentase gudang satelit aktif menerbitkan resi", satuan:"%", base:"belum diukur", y27:"baseline", y28:"60", y29:"75", biro:"Pengembangan SRG", peran:"Mengubah IKK-2 dari ukuran fisik menjadi ukuran utilisasi — gudang berdiri tanpa aktivitas tidak menyumbang IKP",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Status aktif/tidak aktif suatu gudang mudah diverifikasi dari sistem IsWare (ada/tidaknya resi diterbitkan dari gudang tersebut) — datanya sudah ada, hanya belum pernah dihitung sebagai rasio."},
   {kode:"IKK-3b", nama:"Nilai resi gudang yang diterbitkan", satuan:"Rp triliun", base:"2,87 (2024)", y27:"3,2", y28:"3,8", y29:"4,5", biro:"Pengembangan SRG", peran:"Pemungkin/prasyarat — diturunkan dari IKP karena penerbitan resi hanyalah output administratif (dokumen diterbitkan), belum membuktikan resi tersebut bernilai ekonomi secara nyata; tetap dipantau sebagai dasar kapasitas penerbitan sebelum resi dimanfaatkan (dijaminkan/dilelang)",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data penerbitan resi tercatat lengkap dan historis di IsWare sejak lama (baseline 2024 sudah ada) — yang berubah hanya jenjangnya (dari IKP ke IKK), bukan ketersediaan datanya."},
   {kode:"IKK-4", nama:"Nilai resi gudang yang terjual melalui lelang", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik dari baseline", y29:"naik dari baseline", biro:"Pengembangan SRG", peran:"Inti — menggantikan \"jumlah lelang resi gudang\" sebagai KPI utama; jumlah lelang diturunkan jadi indikator proses sekunder karena banyak lelang bisa gagal/nilai kecil",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data nilai hasil lelang tercatat di SPLT — menggantikan metrik jumlah lelang yang tidak diskriminatif (bisa tinggi tanpa nilai transaksi riil yang besar)."},
   {kode:"IKK-4s", nama:"(sekunder/proses) Jumlah lelang resi gudang terlaksana", satuan:"kali", base:"— (2026)", y27:"—", y28:"—", y29:"—", biro:"Pengembangan SRG", peran:"Indikator proses, bukan hasil — dipantau internal, tidak dipakai sebagai KPI utama",
-    kelayakan:"proses"},
-  {kode:"IKK-5", nama:"Nilai resi gudang dialihkan/diperdagangkan antarprovinsi", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Komponen SRG dari IKSS-B2 — mensyaratkan field domisili pada IsWare",
-    kelayakan:"bersyarat"},
-  {kode:"IKK-6", nama:"Nilai pembiayaan resi gudang tersalur", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Menunjukkan resi gudang benar dipakai sebagai jaminan kredit, bukan hanya diterbitkan",
-    kelayakan:"layak"},
-  {kode:"IKK-7", nama:"Nilai kredit resi tersalur ke petani kecil dan koperasi", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Menggantikan usulan \"jumlah bank/BPD mitra penyalur kredit resi\" yang ditolak — jumlah bank mitra tidak mencerminkan pertumbuhan penyaluran kredit riil; nilai kredit yang benar-benar tersalur lebih langsung mengukur dampak ke petani",
-    kelayakan:"bersyarat"},
+    kelayakan:"proses", alasan:"Sengaja dipertahankan sebagai metrik proses internal (bukan KPI capaian) — berguna untuk pemantauan operasional penyelenggaraan lelang, tapi tidak dinilai sebagai ukuran hasil."},
+  {kode:"IKK-6", nama:"Nilai pembiayaan/kredit resi gudang tersalur (termasuk rincian porsi ke petani kecil dan koperasi)", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Inti — menggabungkan nilai pembiayaan resi gudang secara umum dengan rincian porsi ke petani kecil/koperasi (sebelumnya dua indikator terpisah yang nyaris sama — digabung agar tabel tidak berulang); menggantikan usulan \"jumlah bank/BPD mitra\" yang ditolak karena jumlah mitra tidak mencerminkan pertumbuhan penyaluran kredit riil",
+    kelayakan:"layak", alasan:"Data total pembiayaan resi tersedia dari mitra penyalur (perbankan/BPD) — rincian porsi ke petani kecil/koperasi memerlukan pencatatan tambahan tapi tidak menghalangi penghitungan angka totalnya."},
   {kode:"IKK-8", nama:"Jumlah penyelenggara PLK aktif", satuan:"lembaga", base:"— (2026)", y27:"tetap", y28:"tetap/naik", y29:"tetap/naik", biro:"Pengembangan PLK", peran:"Pemungkin — menjaga kapasitas penyelenggaraan lelang reguler dan SPLT nasional",
-    kelayakan:"layak"},
-  {kode:"IKK-9", nama:"Nilai/volume transaksi per koridor surplus–defisit aktif", satuan:"Rp miliar / koridor", base:"belum diukur", y27:"baseline 2–3 koridor", y28:"naik, 4–5 koridor", y29:"naik, 6+ koridor", biro:"Pengembangan SRG & PLK (bersama)", peran:"Inti — menerjemahkan P3 (Koridor Komoditas Antarwilayah) menjadi ukuran terukur per koridor, menyumbang langsung ke IKSS-B2",
-    kelayakan:"bersyarat"},
-  {kode:"IKK-11", nama:"Rata-rata waktu penyelesaian perizinan (hari kerja)", satuan:"hari kerja", base:"belum diukur", y27:"baseline", y28:"turun dari baseline", y29:"turun lebih lanjut", biro:"Perundang-undangan & Layanan", peran:"Inti — menggantikan \"persentase perizinan sesuai SLA\" sebagai KPI utama karena kepatuhan pada SLA yang ditetapkan sendiri struktural mendekati 100% dan tidak diskriminatif; waktu proses riil lebih mencerminkan kinerja aktual",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Jumlah lembaga penyelenggara PLK tercatat resmi sebagai bagian proses perizinan — stabil dan mudah diverifikasi."},
+  {kode:"IKK-9", nama:"Nilai/volume transaksi per koridor surplus–defisit aktif (termasuk komponen SRG antarprovinsi)", satuan:"Rp miliar / koridor", base:"belum diukur", y27:"baseline 2–3 koridor", y28:"naik, 4–5 koridor", y29:"naik, 6+ koridor", biro:"Pengembangan SRG & PLK (bersama)", peran:"Inti — menggabungkan indikator SRG antarprovinsi (sebelumnya IKK tersendiri) dengan ukuran per-koridor gabungan SRG+PLK, karena keduanya mensyaratkan data domisili yang sama dan nyaris mengukur hal serupa; menerjemahkan P3 (Koridor Komoditas Antarwilayah) jadi ukuran terukur, menyumbang langsung ke IKSS-B2",
+    kelayakan:"bersyarat", alasan:"Rumus per koridor sudah jelas, tapi mensyaratkan field domisili pihak pada IsWare dan SPLT yang belum tersedia (prasyarat sama seperti IKSS-B2) — baseline belum bisa dihitung sampai prasyarat data ini terpenuhi (Risiko R4)."},
+  {kode:"IKK-11", nama:"Tingkat percepatan penyelesaian perizinan dari baseline", satuan:"% percepatan", base:"belum diukur (rata-rata hari kerja 2026 belum tercatat terpusat)", y27:"baseline (0%)", y28:"≥15% lebih cepat dari baseline", y29:"≥25% lebih cepat dari baseline", biro:"Perundang-undangan & Layanan", peran:"Inti — menggantikan \"persentase perizinan sesuai SLA\" karena SLA sendiri struktural mendekati 100% dan tidak diskriminatif. Dihitung sebagai (rata-rata hari kerja baseline − rata-rata hari kerja tahun berjalan) ÷ rata-rata hari kerja baseline × 100%, sehingga makin cepat prosesnya, makin tinggi persentasenya — arah \"naik = makin baik\" konsisten dengan indikator lain di tabel ini. Rata-rata hari kerja mentah tetap dicatat sebagai data operasional pendukung",
+    kelayakan:"layak", alasan:"Data waktu proses perizinan dapat ditarik langsung dari sistem layanan; dibungkus jadi bentuk persentase percepatan supaya arah kenaikan selalu berarti kinerja makin baik, tanpa mengubah substansi pengukuran waktu proses."},
   {kode:"IKK-11s", nama:"(sekunder) Persentase perizinan sesuai SLA", satuan:"%", base:"tinggi, mendekati 100%", y27:"—", y28:"—", y29:"—", biro:"Perundang-undangan & Layanan", peran:"Diturunkan jadi indikator kepatuhan prosedural sekunder, dipantau internal, tidak dipakai sebagai KPI utama kinerja layanan",
-    kelayakan:"proses"},
+    kelayakan:"proses", alasan:"Dipertahankan sebagai catatan kepatuhan prosedural internal — tidak dipakai sebagai KPI utama karena struktural mendekati 100% dan tidak diskriminatif antarperiode."},
   {kode:"IKK-12", nama:"Indeks kualitas kebijakan", satuan:"nilai", base:"— (2026)", y27:"tetap/naik", y28:"naik", y29:"naik", biro:"Perundang-undangan & Layanan", peran:"Pemungkin — mengukur mutu regulasi turunan (Perba/pedoman teknis) yang mendasari seluruh program SRG/PLK",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Dinilai lewat proses harmonisasi regulasi yang terdokumentasi dan dapat diatribusikan langsung ke Biro Perundang-undangan & Layanan."},
   {kode:"IKK-13", nama:"Persentase penyelesaian sengketa sesuai SLA", satuan:"%", base:"— (2026)", y27:"tetap/naik", y28:"naik", y29:"naik", biro:"Pengendalian", peran:"Berbeda dari IKK-11s — SLA sengketa menilai penyelesaian kasus pihak ketiga (bukan proses administratif internal sendiri), sehingga tetap diskriminatif dan layak sebagai KPI",
-    kelayakan:"layak"},
+    kelayakan:"layak", alasan:"Data penyelesaian sengketa pihak ketiga tercatat formal dan tetap diskriminatif (bisa saja tidak capai 100%, tidak seperti SLA perizinan internal sendiri)."},
 ];
 const KAJIAN_KELAYAKAN_WARNA = {layak:"var(--emerald,#10b981)", bersyarat:"var(--gold)", proses:"var(--text-3)"};
 const KAJIAN_KELAYAKAN_LABEL = {layak:"Layak", bersyarat:"Layak bersyarat", proses:"Proses (sekunder)"};
@@ -12336,29 +12332,25 @@ const KAJIAN_METODOLOGI_SURVEI = {
 };
 const KAJIAN_RANTAI_PENGARUH = [
   {judul:"Rantai 1 — IKSS-B1 (Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat)", rantai:[
-    {lv:0, nama:"IKSS-B1: Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat (Rp miliar)", kelayakan:"bersyarat", catatan:"Dampak akhir yang sesungguhnya — menggantikan \"Nilai transaksi SRG dan PLK\" yang secara aritmetika persis sama dengan penjumlahan dua IKP di bawahnya (redundan, tidak menambah informasi pada jenjang dampak)"},
-    {lv:1, nama:"IKP: Nilai resi gudang yang dimanfaatkan secara ekonomi", kelayakan:"bersyarat", catatan:"Menggantikan \"Nilai resi gudang diterbitkan\" — penerbitan saja adalah output administratif, belum membuktikan outcome; dihitung dari penjumlahan dua jalur pemanfaatan nyata di bawah ini"},
-    {lv:2, nama:"IKK-6: Nilai pembiayaan resi gudang tersalur", kelayakan:"layak", catatan:"Jalur pemanfaatan dominan — resi dijadikan jaminan kredit, petani dapat modal kerja sekarang sambil barang tetap tersimpan"},
-    {lv:2, nama:"IKK-4: Nilai resi gudang terjual melalui lelang", kelayakan:"layak", catatan:"Jalur pemanfaatan kedua — resi dijual, petani dapat hasil penjualan final; nilai terjual (bukan jumlah lelang) yang dihitung"},
-    {lv:2, nama:"IKK-3b: Nilai resi gudang yang diterbitkan", kelayakan:"layak", catatan:"Prasyarat/pemungkin — diturunkan dari IKP ke IKK karena hanya menunjukkan kapasitas penerbitan, bukan pemanfaatan"},
-    {lv:2, nama:"IKK-1 + IKK-2 + IKK-3: Gudang SNI baru, gudang satelit berdiri, dan aktif menerbitkan resi (%)", kelayakan:"layak", catatan:"Pemungkin tingkat lebih dasar — kapasitas fisik dan utilisasi gudang yang mendasari penerbitan resi"},
-    {lv:1, nama:"IKP: Nilai transaksi PLK", kelayakan:"layak", catatan:"Menyumbang manfaat ekonomi lewat jalur price discovery PLK — harga jual komoditas yang lebih baik bagi penjual"},
-    {lv:2, nama:"IKK-8: Jumlah penyelenggara PLK aktif", kelayakan:"layak", catatan:"Pemungkin — kapasitas penyelenggaraan menjaga frekuensi dan volume lelang reguler tetap berjalan"},
-    {lv:1, nama:"IKK-7: Nilai kredit resi tersalur ke petani kecil dan koperasi", kelayakan:"bersyarat", catatan:"Menggantikan usulan \"jumlah bank/BPD mitra\" yang ditolak karena jumlah mitra tidak mencerminkan pertumbuhan penyaluran kredit riil; nilai kredit tersalur langsung menunjukkan manfaat pembiayaan ke petani"},
+    {lv:0, nama:"IKSS-B1: Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat (Rp miliar)", kelayakan:"bersyarat", catatan:"Dampak akhir yang sesungguhnya — menggantikan \"Nilai transaksi SRG dan PLK\" yang secara aritmetika persis sama dengan penjumlahan dua IKP di bawahnya (redundan, tidak menambah informasi pada jenjang dampak). Bersyarat karena bergantung pada survei manfaat ekonomi yang belum pernah dilaksanakan."},
+    {lv:1, nama:"IKP: Nilai resi gudang yang dimanfaatkan secara ekonomi", kelayakan:"bersyarat", catatan:"Menggantikan \"Nilai resi gudang diterbitkan\" — penerbitan saja adalah output administratif, belum membuktikan outcome; dihitung dari penjumlahan dua jalur pemanfaatan nyata di bawah ini. Bersyarat karena angka gabungan ini belum pernah dihitung secara resmi (belum ada baseline historis)."},
+    {lv:2, nama:"IKK-6: Nilai pembiayaan/kredit resi gudang tersalur (+ rincian petani kecil/koperasi)", kelayakan:"layak", catatan:"Jalur pemanfaatan dominan — resi dijadikan jaminan kredit, petani dapat modal kerja sekarang sambil barang tetap tersimpan. Data total pembiayaan tersedia dari mitra penyalur, sehingga dinilai layak."},
+    {lv:2, nama:"IKK-4: Nilai resi gudang terjual melalui lelang", kelayakan:"layak", catatan:"Jalur pemanfaatan kedua — resi dijual, petani dapat hasil penjualan final; nilai terjual (bukan jumlah lelang) yang dihitung. Data tercatat di SPLT, layak dipakai sekarang."},
+    {lv:2, nama:"IKK-3b: Nilai resi gudang yang diterbitkan", kelayakan:"layak", catatan:"Prasyarat/pemungkin — diturunkan dari IKP ke IKK karena hanya menunjukkan kapasitas penerbitan, bukan pemanfaatan. Data historis sudah ada di IsWare sejak 2024, layak dipakai."},
+    {lv:2, nama:"IKK-1 + IKK-2 + IKK-3: Gudang SNI baru, gudang satelit berdiri, dan aktif menerbitkan resi (%)", kelayakan:"layak", catatan:"Pemungkin tingkat lebih dasar — kapasitas fisik dan utilisasi gudang yang mendasari penerbitan resi. Data konstruksi dan status aktif gudang tercatat rutin, layak dipakai."},
+    {lv:1, nama:"IKP: Nilai transaksi PLK", kelayakan:"layak", catatan:"Menyumbang manfaat ekonomi lewat jalur price discovery PLK — harga jual komoditas yang lebih baik bagi penjual. Data rutin tersedia di SPLT dengan baseline nyata (2025), layak dipakai."},
+    {lv:2, nama:"IKK-8: Jumlah penyelenggara PLK aktif", kelayakan:"layak", catatan:"Pemungkin — kapasitas penyelenggaraan menjaga frekuensi dan volume lelang reguler tetap berjalan. Data lembaga penyelenggara tercatat resmi, layak dipakai."},
+    {lv:1, nama:"Pemungkin lintas IKSS: IKP Indeks kepuasan layanan perdagangan komoditas", kelayakan:"layak", catatan:"Bukan komponen hitung langsung IKSS-B1, tapi pemungkin lintas sistem — layanan perizinan/hukum yang cepat dan memuaskan mendorong lebih banyak pelaku usaha berpartisipasi di SRG/PLK, yang pada akhirnya mendorong nilai pemanfaatan resi dan transaksi PLK di atas. Data survei kepuasan sudah rutin dengan baseline 2026, layak dipakai."},
+    {lv:2, nama:"IKK-11: Tingkat percepatan penyelesaian perizinan dari baseline (%)", kelayakan:"layak", catatan:"Menggantikan \"persentase perizinan sesuai SLA\" yang struktural mendekati 100% dan tidak diskriminatif; dihitung sebagai persentase percepatan dari baseline sehingga nilai naik = kinerja makin baik, konsisten dengan arah seluruh indikator lain."},
+    {lv:3, nama:"IKK-11s: (sekunder) Persentase perizinan sesuai SLA", kelayakan:"proses", catatan:"Diturunkan jadi ukuran kepatuhan prosedural internal, tidak lagi dipakai sebagai KPI utama kinerja layanan."},
+    {lv:2, nama:"IKK-12: Indeks kualitas kebijakan", kelayakan:"layak", catatan:"Pemungkin — regulasi turunan yang jelas dan konsisten mengurangi kebingungan pemohon, mendukung kepuasan layanan. Dinilai lewat proses harmonisasi yang terdokumentasi, layak dipakai."},
+    {lv:2, nama:"IKK-13: Persentase penyelesaian sengketa sesuai SLA", kelayakan:"layak", catatan:"Berbeda dari IKK-11s karena menilai penyelesaian kasus pihak ketiga (bukan proses administratif sendiri), sehingga tetap diskriminatif dan relevan bagi kepuasan layanan — layak dipakai."},
     {lv:1, nama:"Prasyarat metodologis", kelayakan:"proses", catatan:KAJIAN_METODOLOGI_SURVEI.isi},
   ]},
   {judul:"Rantai 2 — IKSS-B2 (Persentase transaksi SRG/PLK antarwilayah)", rantai:[
-    {lv:0, nama:"IKSS-B2: Persentase transaksi SRG/PLK antarwilayah (%)", kelayakan:"bersyarat", catatan:"Bersyarat pada ketersediaan field domisili di IsWare dan SPLT (Risiko R4) — baseline belum bisa dihitung sebelum prasyarat data terpenuhi"},
-    {lv:1, nama:"IKK-5: Nilai resi gudang dialihkan/diperdagangkan antarprovinsi", kelayakan:"bersyarat", catatan:"Komponen SRG dari IKSS-B2; bersyarat pada field domisili IsWare"},
-    {lv:1, nama:"IKK-9: Nilai/volume transaksi per koridor surplus–defisit aktif", kelayakan:"bersyarat", catatan:"Komponen gabungan SRG+PLK dari IKSS-B2 — menerjemahkan prioritas P3 (Koridor Komoditas Antarwilayah) jadi ukuran terukur per koridor; jumlah koridor aktif naik bertahap 2–3 → 6+"},
+    {lv:0, nama:"IKSS-B2: Persentase transaksi SRG/PLK antarwilayah (%)", kelayakan:"bersyarat", catatan:"Bersyarat pada ketersediaan field domisili di IsWare dan SPLT (Risiko R4) — baseline belum bisa dihitung sebelum prasyarat data terpenuhi. Rumus dan sumber data sendiri sudah jelas."},
+    {lv:1, nama:"IKK-9: Nilai/volume transaksi per koridor surplus–defisit aktif (termasuk komponen SRG antarprovinsi)", kelayakan:"bersyarat", catatan:"Menggabungkan eks-IKK-5 (SRG antarprovinsi) dengan ukuran per-koridor gabungan SRG+PLK, karena keduanya mensyaratkan data domisili yang sama — menerjemahkan prioritas P3 (Koridor Komoditas Antarwilayah) jadi ukuran terukur; jumlah koridor aktif naik bertahap 2–3 → 6+. Bersyarat pada field domisili IsWare/SPLT yang sama dengan IKSS-B2."},
     {lv:2, nama:"Catatan metodologi", kelayakan:"proses", catatan:KAJIAN_METODOLOGI_B2.isi},
-  ]},
-  {judul:"Rantai 3 — IKP Indeks Kepuasan Layanan Perdagangan Komoditas", rantai:[
-    {lv:0, nama:"IKP: Indeks kepuasan layanan perdagangan komoditas", kelayakan:"layak", catatan:"Melengkapi kecepatan proses (IKK-11) dengan persepsi pemohon — kecepatan tinggi belum tentu memuaskan jika kualitas layanan rendah"},
-    {lv:1, nama:"IKK-11: Rata-rata waktu penyelesaian perizinan (hari kerja)", kelayakan:"layak", catatan:"Menggantikan \"persentase perizinan sesuai SLA\" sebagai KPI utama — SLA yang ditetapkan sendiri struktural mendekati 100% dan tidak diskriminatif antarperiode; waktu proses riil lebih sensitif terhadap perbaikan kinerja"},
-    {lv:2, nama:"IKK-11s: (sekunder) Persentase perizinan sesuai SLA", kelayakan:"proses", catatan:"Diturunkan jadi ukuran kepatuhan prosedural internal, tidak lagi dipakai sebagai KPI utama kinerja layanan"},
-    {lv:1, nama:"IKK-12: Indeks kualitas kebijakan", kelayakan:"layak", catatan:"Pemungkin — regulasi turunan yang jelas dan konsisten mengurangi kebingungan pemohon, mendukung kepuasan layanan"},
-    {lv:1, nama:"IKK-13: Persentase penyelesaian sengketa sesuai SLA", kelayakan:"layak", catatan:"Berbeda dari IKK-11s karena menilai penyelesaian kasus pihak ketiga (bukan proses administratif sendiri), sehingga tetap diskriminatif dan relevan bagi kepuasan layanan"},
   ]},
 ];
 const KAJIAN_INDIKATOR = [
@@ -12648,8 +12640,9 @@ function KajianRingkasan(){
                 <td className="py-2 pr-3 font-medium">{r.y27}</td>
                 <td className="py-2 pr-3 font-medium">{r.y28}</td>
                 <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
-                <td className="py-2">
+                <td className="py-2" style={{minWidth:"160px"}}>
                   <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                  {r.alasan && <div className="text-[9px] text-[var(--text-3)] leading-snug mt-1">{r.alasan}</div>}
                 </td>
               </tr>
             ))}</tbody>
@@ -12695,8 +12688,9 @@ function KajianRingkasan(){
                 <td className="py-2 pr-3">{r.y28}</td>
                 <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
                 <td className="py-2 pr-3 mono text-[9.5px] text-[var(--text-3)]">{r.biro}</td>
-                <td className="py-2">
+                <td className="py-2" style={{minWidth:"160px"}}>
                   <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                  {r.alasan && <div className="text-[9px] text-[var(--text-3)] leading-snug mt-1">{r.alasan}</div>}
                 </td>
               </tr>
             ))}</tbody>
@@ -12734,8 +12728,9 @@ function KajianRingkasan(){
                 <td className="py-2 pr-3">{r.y27}</td>
                 <td className="py-2 pr-3">{r.y28}</td>
                 <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
-                <td className="py-2">
+                <td className="py-2" style={{minWidth:"170px"}}>
                   <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                  {r.alasan && <div className="text-[9px] text-[var(--text-3)] leading-snug mt-1">{r.alasan}</div>}
                 </td>
               </tr>
             ))}</tbody>
@@ -12744,7 +12739,7 @@ function KajianRingkasan(){
 
         <SubHeading>Analisis Pengaruh Antar Indikator — Rantai Sebab-Akibat Berjenjang</SubHeading>
         <div className="text-[10.5px] text-[var(--text-3)] leading-relaxed mb-4">
-          Empat rantai pengaruh IKSS ← IKP ← IKK berikut menunjukkan bagaimana capaian tingkat biro (IKK) mengalir naik membentuk capaian tingkat Badan (IKP) dan akhirnya tingkat Kementerian (IKSS), sesuai hasil telaah kelayakan pada dokumen kajian bagian 5.7.
+          Dua rantai pengaruh berikut — satu dari IKSS-B1 dan satu dari IKSS-B2 — menunjukkan bagaimana capaian tingkat biro (IKK) mengalir naik membentuk capaian tingkat Badan (IKP) dan akhirnya tingkat Kementerian (IKSS), sesuai hasil telaah kelayakan pada dokumen kajian bagian 5.7. Setiap simpul menyertakan alasan kelayakannya (layak / layak bersyarat / proses).
         </div>
         <div className="flex flex-col gap-3 mb-6">
           {KAJIAN_RANTAI_PENGARUH.map((rantai,ri)=>(
