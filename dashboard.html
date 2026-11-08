@@ -12264,15 +12264,104 @@ const KAJIAN_PRIORITAS = [
 ];
 const KAJIAN_PERAN_WARNA = {Inti:"var(--blue)", Pilot:"var(--gold)", Pemungkin:"var(--text-3)"};
 const KAJIAN_IKSS = [
-  {kode:"IKSS-B1", nama:"Nilai transaksi SRG dan PLK", satuan:"Rp triliun", base:"±3,0 (2024)", y27:"3,6", y28:"4,3", y29:"5,2"},
-  {kode:"IKSS-B2", nama:"Persentase transaksi SRG/PLK yang bersifat antarwilayah", satuan:"%", base:"belum diukur", y27:"baseline", y28:"15", y29:"25"},
+  {kode:"IKSS-B1", nama:"Nilai transaksi SRG dan PLK", satuan:"Rp triliun", base:"±3,0 (2024)", y27:"3,6", y28:"4,3", y29:"5,2",
+    rumus:"Nilai resi gudang yang diterbitkan (kumulatif) + Nilai transaksi PLK (kumulatif), per tahun takwim",
+    penting:"Ukuran dampak akhir Program 05.05 — menunjukkan seberapa besar sistem SRG dan PLK benar-benar dipakai sebagai instrumen pembiayaan dan lindung-nilai komoditas, bukan sekadar tersedia secara regulasi",
+    kelayakan:"layak"},
+  {kode:"IKSS-B2", nama:"Persentase transaksi SRG/PLK yang bersifat antarwilayah", satuan:"%", base:"belum diukur", y27:"baseline", y28:"15", y29:"25",
+    rumus:"(Nilai resi dialihkan/diperdagangkan antarprovinsi + Nilai transaksi PLK antarprovinsi) ÷ Nilai transaksi SRG+PLK total × 100%",
+    penting:"Pembeda utama kelembagaan baru dari rezim lama — membuktikan Badan membangun koridor surplus–defisit lintas wilayah, bukan hanya mengakumulasi transaksi lokal; jadi penanda keberhasilan integrasi pasar komoditas nasional",
+    kelayakan:"bersyarat"},
 ];
+const KAJIAN_METODOLOGI_B2 = {
+  judul:"Catatan metodologi IKSS-B2 — bukan data PAW BPS",
+  isi:"PAW (Perdagangan Antar Wilayah) yang dipublikasikan BPS adalah estimasi makro berbasis survei sampel rumah tangga/usaha dan tidak merinci SRG/PLK. IKSS-B2 pada kajian ini adalah indikator administratif internal Badan — dihitung dari data transaksi riil pada sistem IsWare (SRG) dan SPLT (PLK) yang sudah mencatat domisili penerbit/pemilik resi dan pihak transaksi. Dua angka ini TIDAK bisa dibandingkan langsung: PAW BPS mengukur seluruh perdagangan barang dan jasa antarwilayah di ekonomi, sedangkan IKSS-B2 hanya mengukur porsi antarwilayah dari transaksi SRG dan PLK yang tercatat di sistem Badan. Prasyarat: IsWare dan SPLT wajib menambah field domisili pihak sebelum baseline 2027 bisa dihitung (lihat Risiko R4)."
+};
 const KAJIAN_IKP = [
-  {nama:"Nilai resi gudang yang diterbitkan", satuan:"Rp triliun", base:"2,87 (2024)", y27:"3,2", y28:"3,8", y29:"4,5", biro:"Pengembangan SRG"},
-  {nama:"Nilai transaksi PLK", satuan:"Rp miliar", base:"111,9 (2025)", y27:"130", y28:"160", y29:"200", biro:"Pengembangan PLK"},
-  {nama:"Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", satuan:"Rp miliar", base:"belum diukur", y27:"baseline survei", y28:"—", y29:"—", biro:"Seluruh biro"},
-  {nama:"Tingkat kepatuhan pelaku usaha SRG dan PLK", satuan:"%", base:"83 (2026)", y27:"85", y28:"88", y29:"90", biro:"Pengendalian"},
-  {nama:"Indeks kepuasan layanan perdagangan komoditas", satuan:"nilai", base:"82 (2026)", y27:"83", y28:"84", y29:"85", biro:"Perundang-undangan & Layanan"},
+  {nama:"Nilai resi gudang yang diterbitkan", satuan:"Rp triliun", base:"2,87 (2024)", y27:"3,2", y28:"3,8", y29:"4,5", biro:"Pengembangan SRG",
+    rumus:"Σ nilai barang yang dijaminkan pada resi gudang yang diterbitkan dan masih berlaku, per tahun takwim (data IsWare)",
+    penting:"Komponen terbesar IKSS-B1 — mencerminkan seberapa luas petani/UKM memanfaatkan resi gudang sebagai instrumen pembiayaan dan penyimpanan nilai komoditas",
+    kelayakan:"layak"},
+  {nama:"Nilai transaksi PLK", satuan:"Rp miliar", base:"111,9 (2025)", y27:"130", y28:"160", y29:"200", biro:"Pengembangan PLK",
+    rumus:"Σ nilai kontrak/transaksi yang diselesaikan melalui Pasar Lelang Komoditas, per tahun takwim (data SPLT)",
+    penting:"Komponen kedua IKSS-B1 — menunjukkan efektivitas PLK sebagai mekanisme price discovery dan penyerapan hasil komoditas di luar resi gudang",
+    kelayakan:"layak"},
+  {nama:"Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", satuan:"Rp miliar", base:"belum diukur", y27:"baseline survei", y28:"—", y29:"—", biro:"Seluruh biro",
+    rumus:"Estimasi selisih harga jual petani melalui SRG/PLK dibanding harga jual tanpa SRG/PLK (survei sampel), dikalikan volume transaksi tahun berjalan",
+    penting:"Satu-satunya indikator yang menghubungkan transaksi (angka SRG/PLK) dengan dampak nyata ke kesejahteraan petani/pelaku usaha — tanpa ini, nilai transaksi bisa naik tanpa manfaat riil bertambah",
+    kelayakan:"bersyarat"},
+  {nama:"Tingkat kepatuhan pelaku usaha SRG dan PLK", satuan:"%", base:"83 (2026)", y27:"85", y28:"88", y29:"90", biro:"Pengendalian",
+    rumus:"Jumlah pelaku usaha SRG/PLK tanpa temuan pelanggaran material pada pengawasan tahun berjalan ÷ Jumlah pelaku usaha yang diawasi × 100%",
+    penting:"Menjaga kepercayaan pasar pada sistem SRG/PLK — resi gudang dan kontrak PLK hanya bernilai jika pelaku usaha patuh pada standar mutu, penyimpanan, dan penyelesaian kontrak",
+    kelayakan:"layak"},
+  {nama:"Indeks kepuasan layanan perdagangan komoditas", satuan:"nilai", base:"82 (2026)", y27:"83", y28:"84", y29:"85", biro:"Perundang-undangan & Layanan",
+    rumus:"Rata-rata skor survei kepuasan pemohon perizinan/layanan (skala 1–100), disurvei berkala terhadap pemohon yang telah dilayani",
+    penting:"Proksi kualitas layanan dari sisi pengguna — melengkapi rata-rata waktu penyelesaian perizinan dengan persepsi pemohon, bukan hanya kecepatan administratif",
+    kelayakan:"layak"},
+];
+const KAJIAN_IKK = [
+  {kode:"IKK-1", nama:"Jumlah gudang SNI baru berstandar", satuan:"unit", base:"— (2026)", y27:"5", y28:"8", y29:"6", biro:"Pengembangan SRG", peran:"Pemungkin — menambah kapasitas penerbitan resi",
+    kelayakan:"layak"},
+  {kode:"IKK-2", nama:"Jumlah gudang satelit berdiri di sentra produksi", satuan:"unit", base:"— (2026)", y27:"8", y28:"12", y29:"10", biro:"Pengembangan SRG", peran:"Pemungkin — mendekatkan akses resi ke petani",
+    kelayakan:"layak"},
+  {kode:"IKK-3", nama:"Persentase gudang satelit aktif menerbitkan resi", satuan:"%", base:"belum diukur", y27:"baseline", y28:"60", y29:"75", biro:"Pengembangan SRG", peran:"Mengubah IKK-2 dari ukuran fisik menjadi ukuran utilisasi — gudang berdiri tanpa aktivitas tidak menyumbang IKP",
+    kelayakan:"layak"},
+  {kode:"IKK-4", nama:"Nilai resi gudang yang terjual melalui lelang", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik dari baseline", y29:"naik dari baseline", biro:"Pengembangan SRG", peran:"Inti — menggantikan \"jumlah lelang resi gudang\" sebagai KPI utama; jumlah lelang diturunkan jadi indikator proses sekunder karena banyak lelang bisa gagal/nilai kecil",
+    kelayakan:"layak"},
+  {kode:"IKK-4s", nama:"(sekunder/proses) Jumlah lelang resi gudang terlaksana", satuan:"kali", base:"— (2026)", y27:"—", y28:"—", y29:"—", biro:"Pengembangan SRG", peran:"Indikator proses, bukan hasil — dipantau internal, tidak dipakai sebagai KPI utama",
+    kelayakan:"proses"},
+  {kode:"IKK-5", nama:"Nilai resi gudang dialihkan/diperdagangkan antarprovinsi", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Komponen SRG dari IKSS-B2 — mensyaratkan field domisili pada IsWare",
+    kelayakan:"bersyarat"},
+  {kode:"IKK-6", nama:"Nilai pembiayaan resi gudang tersalur", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Menunjukkan resi gudang benar dipakai sebagai jaminan kredit, bukan hanya diterbitkan",
+    kelayakan:"layak"},
+  {kode:"IKK-7", nama:"Nilai kredit resi tersalur ke petani kecil dan koperasi", satuan:"Rp miliar", base:"belum diukur", y27:"baseline", y28:"naik", y29:"naik", biro:"Pengembangan SRG", peran:"Menggantikan usulan \"jumlah bank/BPD mitra penyalur kredit resi\" yang ditolak — jumlah bank mitra tidak mencerminkan pertumbuhan penyaluran kredit riil; nilai kredit yang benar-benar tersalur lebih langsung mengukur dampak ke petani",
+    kelayakan:"bersyarat"},
+  {kode:"IKK-8", nama:"Jumlah penyelenggara PLK aktif", satuan:"lembaga", base:"— (2026)", y27:"tetap", y28:"tetap/naik", y29:"tetap/naik", biro:"Pengembangan PLK", peran:"Pemungkin — menjaga kapasitas penyelenggaraan lelang reguler dan SPLT nasional",
+    kelayakan:"layak"},
+  {kode:"IKK-9", nama:"Nilai/volume transaksi per koridor surplus–defisit aktif", satuan:"Rp miliar / koridor", base:"belum diukur", y27:"baseline 2–3 koridor", y28:"naik, 4–5 koridor", y29:"naik, 6+ koridor", biro:"Pengembangan SRG & PLK (bersama)", peran:"Inti — menerjemahkan P3 (Koridor Komoditas Antarwilayah) menjadi ukuran terukur per koridor, menyumbang langsung ke IKSS-B2",
+    kelayakan:"bersyarat"},
+  {kode:"IKK-10", nama:"Survei manfaat ekonomi langsung terlaksana", satuan:"kali/tahun", base:"0 (2026)", y27:"1 (baseline)", y28:"1", y29:"1", biro:"Seluruh biro (koordinasi Sekretariat)", peran:"Prasyarat metodologis bagi IKP Manfaat Ekonomi Langsung — tanpa survei terlaksana, IKP tersebut tidak bisa dihitung",
+    kelayakan:"bersyarat"},
+  {kode:"IKK-11", nama:"Rata-rata waktu penyelesaian perizinan (hari kerja)", satuan:"hari kerja", base:"belum diukur", y27:"baseline", y28:"turun dari baseline", y29:"turun lebih lanjut", biro:"Perundang-undangan & Layanan", peran:"Inti — menggantikan \"persentase perizinan sesuai SLA\" sebagai KPI utama karena kepatuhan pada SLA yang ditetapkan sendiri struktural mendekati 100% dan tidak diskriminatif; waktu proses riil lebih mencerminkan kinerja aktual",
+    kelayakan:"layak"},
+  {kode:"IKK-11s", nama:"(sekunder) Persentase perizinan sesuai SLA", satuan:"%", base:"tinggi, mendekati 100%", y27:"—", y28:"—", y29:"—", biro:"Perundang-undangan & Layanan", peran:"Diturunkan jadi indikator kepatuhan prosedural sekunder, dipantau internal, tidak dipakai sebagai KPI utama kinerja layanan",
+    kelayakan:"proses"},
+  {kode:"IKK-12", nama:"Indeks kualitas kebijakan", satuan:"nilai", base:"— (2026)", y27:"tetap/naik", y28:"naik", y29:"naik", biro:"Perundang-undangan & Layanan", peran:"Pemungkin — mengukur mutu regulasi turunan (Perba/pedoman teknis) yang mendasari seluruh program SRG/PLK",
+    kelayakan:"layak"},
+  {kode:"IKK-13", nama:"Persentase penyelesaian sengketa sesuai SLA", satuan:"%", base:"— (2026)", y27:"tetap/naik", y28:"naik", y29:"naik", biro:"Pengendalian", peran:"Berbeda dari IKK-11s — SLA sengketa menilai penyelesaian kasus pihak ketiga (bukan proses administratif internal sendiri), sehingga tetap diskriminatif dan layak sebagai KPI",
+    kelayakan:"layak"},
+];
+const KAJIAN_KELAYAKAN_WARNA = {layak:"var(--emerald,#10b981)", bersyarat:"var(--gold)", proses:"var(--text-3)"};
+const KAJIAN_KELAYAKAN_LABEL = {layak:"Layak", bersyarat:"Layak bersyarat", proses:"Proses (sekunder)"};
+const KAJIAN_RANTAI_PENGARUH = [
+  {judul:"Rantai 1 — IKSS-B1 (Nilai transaksi SRG dan PLK)", rantai:[
+    {lv:0, nama:"IKSS-B1: Nilai transaksi SRG dan PLK (Rp triliun)", kelayakan:"layak", catatan:"Dampak akhir — penjumlahan langsung dua IKP di bawahnya; naik jika kedua IKP naik"},
+    {lv:1, nama:"IKP: Nilai resi gudang yang diterbitkan", kelayakan:"layak", catatan:"Komponen SRG dari IKSS-B1"},
+    {lv:2, nama:"IKK-1: Jumlah gudang SNI baru berstandar", kelayakan:"layak", catatan:"Menambah kapasitas fisik penerbitan resi"},
+    {lv:2, nama:"IKK-2 + IKK-3: Gudang satelit berdiri dan aktif menerbitkan resi (%)", kelayakan:"layak", catatan:"Gudang satelit tanpa utilisasi (IKK-3 rendah) tidak menyumbang IKP walau IKK-2 tinggi — dua indikator ini harus dibaca bersama"},
+    {lv:2, nama:"IKK-6: Nilai pembiayaan resi gudang tersalur", kelayakan:"layak", catatan:"Mendorong penerbitan resi baru karena resi lebih bernilai sebagai jaminan kredit"},
+    {lv:1, nama:"IKP: Nilai transaksi PLK", kelayakan:"layak", catatan:"Komponen PLK dari IKSS-B1"},
+    {lv:2, nama:"IKK-4: Nilai resi gudang terjual melalui lelang", kelayakan:"layak", catatan:"Lelang adalah saluran transaksi utama PLK untuk resi gudang — nilai terjual (bukan jumlah lelang) yang mendorong IKP"},
+    {lv:2, nama:"IKK-8: Jumlah penyelenggara PLK aktif", kelayakan:"layak", catatan:"Pemungkin — kapasitas penyelenggaraan menjaga frekuensi dan volume lelang reguler tetap berjalan"},
+  ]},
+  {judul:"Rantai 2 — IKSS-B2 (Persentase transaksi SRG/PLK antarwilayah)", rantai:[
+    {lv:0, nama:"IKSS-B2: Persentase transaksi SRG/PLK antarwilayah (%)", kelayakan:"bersyarat", catatan:"Bersyarat pada ketersediaan field domisili di IsWare dan SPLT (Risiko R4) — baseline belum bisa dihitung sebelum prasyarat data terpenuhi"},
+    {lv:1, nama:"IKK-5: Nilai resi gudang dialihkan/diperdagangkan antarprovinsi", kelayakan:"bersyarat", catatan:"Komponen SRG dari IKSS-B2; bersyarat pada field domisili IsWare"},
+    {lv:1, nama:"IKK-9: Nilai/volume transaksi per koridor surplus–defisit aktif", kelayakan:"bersyarat", catatan:"Komponen gabungan SRG+PLK dari IKSS-B2 — menerjemahkan prioritas P3 (Koridor Komoditas Antarwilayah) jadi ukuran terukur per koridor; jumlah koridor aktif naik bertahap 2–3 → 6+"},
+    {lv:2, nama:"Catatan metodologi", kelayakan:"proses", catatan:KAJIAN_METODOLOGI_B2.isi},
+  ]},
+  {judul:"Rantai 3 — IKP Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat", rantai:[
+    {lv:0, nama:"IKP: Manfaat Ekonomi Langsung SRG–PLK bagi masyarakat (Rp miliar)", kelayakan:"bersyarat", catatan:"Satu-satunya penghubung dari angka transaksi ke dampak kesejahteraan riil — tanpa ini, IKSS-B1 bisa naik tanpa manfaat petani bertambah"},
+    {lv:1, nama:"IKK-10: Survei manfaat ekonomi langsung terlaksana", kelayakan:"bersyarat", catatan:"Prasyarat metodologis — IKP ini hanya bisa dihitung setelah survei baseline terlaksana pada 2027; nilai 2028–2029 bergantung pada kelanjutan survei berkala"},
+    {lv:1, nama:"IKK-7: Nilai kredit resi tersalur ke petani kecil dan koperasi", kelayakan:"bersyarat", catatan:"Menggantikan usulan \"jumlah bank/BPD mitra\" yang ditolak karena jumlah mitra tidak mencerminkan pertumbuhan penyaluran kredit riil; nilai kredit tersalur langsung menunjukkan manfaat pembiayaan ke petani"},
+  ]},
+  {judul:"Rantai 4 — IKP Indeks Kepuasan Layanan Perdagangan Komoditas", rantai:[
+    {lv:0, nama:"IKP: Indeks kepuasan layanan perdagangan komoditas", kelayakan:"layak", catatan:"Melengkapi kecepatan proses (IKK-11) dengan persepsi pemohon — kecepatan tinggi belum tentu memuaskan jika kualitas layanan rendah"},
+    {lv:1, nama:"IKK-11: Rata-rata waktu penyelesaian perizinan (hari kerja)", kelayakan:"layak", catatan:"Menggantikan \"persentase perizinan sesuai SLA\" sebagai KPI utama — SLA yang ditetapkan sendiri struktural mendekati 100% dan tidak diskriminatif antarperiode; waktu proses riil lebih sensitif terhadap perbaikan kinerja"},
+    {lv:2, nama:"IKK-11s: (sekunder) Persentase perizinan sesuai SLA", kelayakan:"proses", catatan:"Diturunkan jadi ukuran kepatuhan prosedural internal, tidak lagi dipakai sebagai KPI utama kinerja layanan"},
+    {lv:1, nama:"IKK-12: Indeks kualitas kebijakan", kelayakan:"layak", catatan:"Pemungkin — regulasi turunan yang jelas dan konsisten mengurangi kebingungan pemohon, mendukung kepuasan layanan"},
+    {lv:1, nama:"IKK-13: Persentase penyelesaian sengketa sesuai SLA", kelayakan:"layak", catatan:"Berbeda dari IKK-11s karena menilai penyelesaian kasus pihak ketiga (bukan proses administratif sendiri), sehingga tetap diskriminatif dan relevan bagi kepuasan layanan"},
+  ]},
 ];
 const KAJIAN_INDIKATOR = [
   {lv:"DAMPAK", t:"Manfaat Ekonomi Langsung", s:"Rupiah per tahun yang diterima petani, pelaku usaha, dan konsumen"},
@@ -12535,46 +12624,146 @@ function KajianRingkasan(){
             </div>
           ))}
         </div>
+
+        <div className="card-2 p-4 mb-6" style={{borderLeft:"3px solid var(--gold)"}}>
+          <div className="text-[11px] font-semibold mb-2" style={{color:"var(--gold)"}}>Hasil Telaah Kelayakan Indikator (November 2026)</div>
+          <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">
+            Tiga indikator usulan awal dikaji ulang karena mengukur <i>aktivitas/proses</i>, bukan <i>hasil</i>: "jumlah lelang resi gudang" (jumlah lelang ≠ nilai transaksi riil), "jumlah bank/BPD mitra penyalur kredit resi" (jumlah mitra ≠ pertumbuhan penyaluran kredit), dan "persentase perizinan sesuai SLA" (SLA ditetapkan sendiri, struktural mendekati 100%, tidak diskriminatif). Ketiganya diganti dengan indikator bernilai (nilai resi terjual lelang, nilai kredit resi tersalur, rata-rata waktu penyelesaian perizinan); indikator lama tetap dipantau sebagai ukuran proses sekunder — lihat badge <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold" style={{background:"color-mix(in srgb, var(--text-3) 18%, transparent)",color:"var(--text-3)"}}>Proses</span> di tabel IKK.
+          </div>
+        </div>
+
         <SubHeading>IKSS — Tingkat Kementerian</SubHeading>
-        <div className="overflow-x-auto mb-5">
+        <div className="overflow-x-auto mb-3">
           <table className="w-full text-[11px]">
             <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
               <th className="py-1.5 pr-3 font-medium">Kode</th><th className="py-1.5 pr-3 font-medium">Indikator</th>
               <th className="py-1.5 pr-3 font-medium">Baseline</th><th className="py-1.5 pr-3 font-medium">2027</th>
-              <th className="py-1.5 pr-3 font-medium">2028</th><th className="py-1.5 font-medium">2029</th>
+              <th className="py-1.5 pr-3 font-medium">2028</th><th className="py-1.5 pr-3 font-medium">2029</th>
+              <th className="py-1.5 font-medium">Kelayakan</th>
             </tr></thead>
             <tbody>{KAJIAN_IKSS.map((r,i)=>(
-              <tr key={i} className="border-b border-[var(--border)]">
+              <tr key={i} className="border-b border-[var(--border)] align-top">
                 <td className="py-2 pr-3 mono font-semibold">{r.kode}</td>
                 <td className="py-2 pr-3 text-[var(--text-2)]">{r.nama} <span className="text-[var(--text-3)]">({r.satuan})</span></td>
                 <td className="py-2 pr-3 text-[var(--text-3)]">{r.base}</td>
                 <td className="py-2 pr-3 font-medium">{r.y27}</td>
                 <td className="py-2 pr-3 font-medium">{r.y28}</td>
-                <td className="py-2 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+                <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+                <td className="py-2">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                </td>
               </tr>
             ))}</tbody>
           </table>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          {KAJIAN_IKSS.map((r,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="text-[10.5px] font-semibold mb-1" style={{color:"var(--blue)"}}>{r.kode} — Rumus</div>
+              <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed mb-2 mono" style={{fontSize:"10px"}}>{r.rumus}</div>
+              <div className="text-[10.5px] font-semibold mb-1" style={{color:"var(--blue)"}}>Mengapa penting &amp; berpengaruh</div>
+              <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">{r.penting}</div>
+            </div>
+          ))}
+        </div>
+        <div className="card-2 p-3.5 mb-6" style={{borderLeft:"3px solid var(--text-3)"}}>
+          <div className="text-[11px] font-semibold mb-1 text-[var(--text-1)]">{KAJIAN_METODOLOGI_B2.judul}</div>
+          <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">{KAJIAN_METODOLOGI_B2.isi}</div>
+        </div>
+
         <SubHeading>IKP — Tingkat Badan (usulan)</SubHeading>
-        <div className="overflow-x-auto mb-6">
+        <div className="overflow-x-auto mb-3">
           <table className="w-full text-[11px]">
             <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
               <th className="py-1.5 pr-3 font-medium">IKP</th><th className="py-1.5 pr-3 font-medium">Baseline</th>
               <th className="py-1.5 pr-3 font-medium">2027</th><th className="py-1.5 pr-3 font-medium">2028</th>
-              <th className="py-1.5 pr-3 font-medium">2029</th><th className="py-1.5 font-medium">Biro penyumbang</th>
+              <th className="py-1.5 pr-3 font-medium">2029</th><th className="py-1.5 pr-3 font-medium">Biro penyumbang</th>
+              <th className="py-1.5 font-medium">Kelayakan</th>
             </tr></thead>
             <tbody>{KAJIAN_IKP.map((r,i)=>(
-              <tr key={i} className="border-b border-[var(--border)]">
+              <tr key={i} className="border-b border-[var(--border)] align-top">
                 <td className="py-2 pr-3 text-[var(--text-1)] font-medium">{r.nama} <span className="text-[var(--text-3)] font-normal">({r.satuan})</span></td>
                 <td className="py-2 pr-3 text-[var(--text-3)]">{r.base}</td>
                 <td className="py-2 pr-3">{r.y27}</td>
                 <td className="py-2 pr-3">{r.y28}</td>
-                <td className="py-2 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
-                <td className="py-2 mono text-[9.5px] text-[var(--text-3)]">{r.biro}</td>
+                <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+                <td className="py-2 pr-3 mono text-[9.5px] text-[var(--text-3)]">{r.biro}</td>
+                <td className="py-2">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                </td>
               </tr>
             ))}</tbody>
           </table>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          {KAJIAN_IKP.map((r,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="text-[10.5px] font-semibold mb-1 text-[var(--text-1)] leading-snug">{r.nama}</div>
+              <div className="text-[10px] mono text-[var(--text-3)] leading-relaxed mb-2">{r.rumus}</div>
+              <div className="text-[10.5px] text-[var(--text-2)] leading-relaxed">{r.penting}</div>
+            </div>
+          ))}
+        </div>
+
+        <SubHeading>IKK — Tingkat Biro (usulan, hasil revisi November 2026)</SubHeading>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Kode</th><th className="py-1.5 pr-3 font-medium">Indikator</th>
+              <th className="py-1.5 pr-3 font-medium">Biro</th>
+              <th className="py-1.5 pr-3 font-medium">Baseline</th><th className="py-1.5 pr-3 font-medium">2027</th>
+              <th className="py-1.5 pr-3 font-medium">2028</th><th className="py-1.5 pr-3 font-medium">2029</th>
+              <th className="py-1.5 font-medium">Kelayakan</th>
+            </tr></thead>
+            <tbody>{KAJIAN_IKK.map((r,i)=>(
+              <tr key={i} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-3 mono font-semibold text-[10px]">{r.kode}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">
+                  <div>{r.nama} <span className="text-[var(--text-3)]">({r.satuan})</span></div>
+                  <div className="text-[9.5px] text-[var(--text-3)] mt-0.5 leading-snug">{r.peran}</div>
+                </td>
+                <td className="py-2 pr-3 mono text-[9.5px] text-[var(--text-3)]">{r.biro}</td>
+                <td className="py-2 pr-3 text-[var(--text-3)]">{r.base}</td>
+                <td className="py-2 pr-3">{r.y27}</td>
+                <td className="py-2 pr-3">{r.y28}</td>
+                <td className="py-2 pr-3 font-medium" style={{color:"var(--gold)"}}>{r.y29}</td>
+                <td className="py-2">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[r.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[r.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[r.kelayakan]}</span>
+                </td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+
+        <SubHeading>Analisis Pengaruh Antar Indikator — Rantai Sebab-Akibat Berjenjang</SubHeading>
+        <div className="text-[10.5px] text-[var(--text-3)] leading-relaxed mb-4">
+          Empat rantai pengaruh IKSS ← IKP ← IKK berikut menunjukkan bagaimana capaian tingkat biro (IKK) mengalir naik membentuk capaian tingkat Badan (IKP) dan akhirnya tingkat Kementerian (IKSS), sesuai hasil telaah kelayakan pada dokumen kajian bagian 5.7.
+        </div>
+        <div className="flex flex-col gap-3 mb-6">
+          {KAJIAN_RANTAI_PENGARUH.map((rantai,ri)=>(
+            <div key={ri} className="card-2 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[11px] font-semibold" style={{color:"var(--blue)"}}>{rantai.judul}</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {rantai.rantai.map((node,ni)=>(
+                  <div key={ni} className="flex items-start gap-2" style={{paddingLeft:(node.lv*16)+"px"}}>
+                    {node.lv>0 && <span className="text-[var(--text-3)] mono text-[10px] shrink-0 mt-0.5">↳</span>}
+                    <div className="flex-1 flex flex-col gap-0.5 border-l pl-2" style={{borderColor:node.lv===0?"var(--gold)":"var(--border)"}}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-[9px] mono font-semibold px-1 rounded" style={{background:"color-mix(in srgb, var(--blue) 15%, transparent)",color:"var(--blue)"}}>{node.lv===0?"IKSS":node.lv===1?"IKP":"IKK"}</span>
+                        <span className="text-[11px] font-medium text-[var(--text-1)]">{node.nama}</span>
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold whitespace-nowrap" style={{background:"color-mix(in srgb, "+KAJIAN_KELAYAKAN_WARNA[node.kelayakan]+" 18%, transparent)",color:KAJIAN_KELAYAKAN_WARNA[node.kelayakan]}}>{KAJIAN_KELAYAKAN_LABEL[node.kelayakan]}</span>
+                      </div>
+                      <div className="text-[10px] text-[var(--text-3)] leading-relaxed">{node.catatan}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
         <SubHeading>Uji Kaidah HTIS (PP No. 17/2017)</SubHeading>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {KAJIAN_HTIS.map((h,i)=>(
