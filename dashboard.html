@@ -2971,7 +2971,7 @@ function Tabs({active,onChange}){
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang · PSN SRG"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
-    {id:"proyeksi",label:"Proyeksi",          sub:"Rencana Kegiatan TA 2027 · 2028 · 2029"},
+    {id:"proyeksi",label:"Proyeksi",          sub:"Rencana Kegiatan TA 2027 · 2028 · 2029 · Kelembagaan Baru"},
   ];
   return (
     <nav className="max-w-[1400px] mx-auto px-8 border-b border-[var(--border)] sticky top-[69px] bg-[var(--bg)]/95 backdrop-blur-md z-10">
@@ -11623,8 +11623,8 @@ const MENU_SIDE = [
     {id:"sebaran", label:"Sistem Resi Gudang"}, {id:"psn", label:"PSN SRG"} ]},
   {id:"plk",     label:"PLK",                  sub:"Pasar Lelang Komoditas"},
   {id:"pbk",     label:"PBK",                  sub:"Perdagangan Berjangka Komoditi"},
-  {id:"proyeksi",label:"Proyeksi",           sub:"Rencana Kegiatan TA 2027 · 2028 · 2029", items:[
-    {id:"p2027", label:"Rencana TA 2027"}, {id:"p2028", label:"Rencana TA 2028"}, {id:"p2029", label:"Rencana TA 2029"} ]},
+  {id:"proyeksi",label:"Proyeksi",           sub:"Rencana Kegiatan TA 2027 · 2028 · 2029 · Kelembagaan Baru", items:[
+    {id:"p2027", label:"Rencana TA 2027"}, {id:"p2028", label:"Rencana TA 2028"}, {id:"p2029", label:"Rencana TA 2029"}, {id:"kelembagaan", label:"Kelembagaan Baru"}, {id:"kajian", label:"Analisis Kajian Program Kerja"} ]},
 ];
 /* Pengguna login (dari gerbang Firebase: window.__BAPPEBTI_USER__ / event bappebti-auth-ready). */
 function useAuthUser(){
@@ -11723,6 +11723,13 @@ function App(){
     setTab(id); if(sid && subs[id]) subs[id][1](sid);
     setTimeout(()=>{ const a=document.getElementById('menu-anchor'); if(a && a.getBoundingClientRect().top<0) a.scrollIntoView({behavior:'smooth',block:'start'}); else if(a && a.getBoundingClientRect().top>window.innerHeight*0.6) a.scrollIntoView({behavior:'smooth',block:'start'}); },30);
   };
+  /* Navigasi lintas-menu dari dalam komponen anak (mis. tombol "lihat di Proyeksi › Kelembagaan Baru").
+     Komponen anak cukup: window.dispatchEvent(new CustomEvent('bappebti-goto',{detail:{tab:'proyeksi',sub:'kelembagaan'}})) */
+  useEffect(()=>{
+    const onGoto=(e)=>{ const d=e.detail||{}; if(d.tab) pilihMenu(d.tab, d.sub||null); };
+    window.addEventListener('bappebti-goto', onGoto);
+    return ()=>window.removeEventListener('bappebti-goto', onGoto);
+  },[]);
 
   const saveProxy = (u)=>{
     setProxyUrl(u);
@@ -11761,6 +11768,8 @@ function App(){
       {tab==="proyeksi" && proySub==="p2027" && <AutoFold key={"MenuProyeksi2027"+year}><MenuProyeksi2027 /></AutoFold>}
       {tab==="proyeksi" && proySub==="p2028" && <AutoFold key={"MenuProyeksi2028"+year}><MenuProyeksi2028 /></AutoFold>}
       {tab==="proyeksi" && proySub==="p2029" && <AutoFold key={"MenuProyeksi2029"+year}><MenuProyeksi2029 /></AutoFold>}
+      {tab==="proyeksi" && proySub==="kelembagaan" && <AutoFold key={"MenuKelembagaanBaru"+year}><MenuKelembagaanBaru /></AutoFold>}
+      {tab==="proyeksi" && proySub==="kajian" && <AutoFold key={"MenuAnalisisKajianProgramKerja"+year}><MenuAnalisisKajianProgramKerja /></AutoFold>}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
 
       <footer className="border-t border-[var(--border)] mt-16">
@@ -12101,6 +12110,233 @@ function PerkembanganBappebti(){
           </div>
         </div>
       </div>)}
+    </div>
+  );
+}
+
+
+/* ======================================================================== */
+/* PROYEKSI — KELEMBAGAAN BARU                                              */
+/* Gabungan: (1) riwayat & analisis reposisi (ND BKPerdag 28 Sep 2026),     */
+/* dipindah dari menu PBK; (2) ringkasan "Analisis Kajian Program Kerja     */
+/* pada Kelembagaan Baru" — draft kajian Badan Pengembangan Perdagangan     */
+/* Komoditi (empat biro + Sekretariat Badan), per info Nov 2026.           */
+/* Target, skor, dan tanggal pada ringkasan ini masih usulan/asumsi         */
+/* sementara dan belum dibahas dengan biro terkait — lihat dokumen kajian  */
+/* lengkap untuk rincian dan sumber.                                       */
+/* ======================================================================== */
+const KAJIAN_INFO = {
+  judul: "Analisis Kajian Program Kerja pada Kelembagaan Baru",
+  status: "Draft kajian",
+  tanggal: "November 2026",
+  lingkup: "Badan Pengembangan Perdagangan Komoditi — unit eselon I, 4 biro (Pengembangan SRG, Pengembangan PLK, Perundang-undangan dan Layanan Perdagangan Komoditas, Pengendalian Perdagangan Komoditas) + Sekretariat Badan (eselon II). Tidak lagi menangani PBK.",
+};
+const KAJIAN_TEMUAN = [
+  {l:"Kontribusi masih kecil", v:"Transaksi SRG dan PLK sekitar Rp3,0 T (2024), kurang dari 0,2% perdagangan antarwilayah. Aspirasi 0,1% PDB (±Rp23,82 T) berarti kenaikan sekitar delapan kali."},
+  {l:"Masalahnya keterhubungan, bukan jumlah gudang", v:"305 gudang terpusat di tiga provinsi; resi hampir tidak pernah dilelang; frekuensi lelang PLK turun dari 103 (2019) ke 87 (2024)."},
+  {l:"Ukuran kinerja lama tidak menunjukkan manfaat", v:"IKSS lama mengukur pertumbuhan transaksi termasuk PBK, sehingga kontribusi bagi petani dan konsumen tidak terlihat."},
+  {l:"Kelembagaan baru sudah tepat secara desain", v:"Empat biro dan Sekretariat Badan menutup seluruh fungsi SRG dan PLK; risikonya ada pada waktu — Perpres, SOTK, revisi DIPA, dan Renstra Badan."},
+];
+const KAJIAN_PROGRAM = [
+  {pilar:"Simpul stok (SRG)", warna:"var(--blue)", items:[
+    {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang SRG", biro:"Pengembangan SRG"},
+    {kode:"P2", nama:"Gudang SRG di Sentra Produksi", biro:"Pengembangan SRG"},
+  ]},
+  {pilar:"Jembatan SRG–PLK", warna:"var(--gold)", items:[
+    {kode:"P3", nama:"Koridor Komoditas Antarwilayah SRG–PLK", biro:"Pengembangan SRG & PLK"},
+    {kode:"P4", nama:"Lelang Resi Gudang", biro:"Pengembangan PLK; Perundang-undangan dan Layanan"},
+  ]},
+  {pilar:"Pasar nasional (PLK)", warna:"var(--blue)", items:[
+    {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", biro:"Pengembangan PLK"},
+  ]},
+  {pilar:"Fondasi", warna:"var(--text-3)", items:[
+    {kode:"P6", nama:"Pusat Data Stok dan Harga Komoditas", biro:"Pengendalian; Sekretariat"},
+  ]},
+];
+const KAJIAN_PRIORITAS = [
+  {kode:"P4", nama:"Lelang Resi Gudang", skor:"4,20", peran:"Inti"},
+  {kode:"P3", nama:"Koridor Komoditas Antarwilayah", skor:"4,05", peran:"Inti"},
+  {kode:"P5", nama:"SPLT Nasional dan Lelang Reguler", skor:"4,00", peran:"Inti"},
+  {kode:"P2", nama:"Gudang SRG di Sentra Produksi", skor:"3,95", peran:"Pilot"},
+  {kode:"P1", nama:"Standardisasi dan Digitalisasi Gudang", skor:"3,60", peran:"Pemungkin"},
+  {kode:"P6", nama:"Pusat Data Stok dan Harga", skor:"3,45", peran:"Pemungkin"},
+];
+const KAJIAN_PERAN_WARNA = {Inti:"var(--blue)", Pilot:"var(--gold)", Pemungkin:"var(--text-3)"};
+const KAJIAN_INDIKATOR = [
+  {lv:"DAMPAK", t:"Manfaat Ekonomi Langsung", s:"Rupiah per tahun yang diterima petani, pelaku usaha, dan konsumen"},
+  {lv:"SASARAN PROGRAM", t:"Porsi transaksi antarwilayah", s:"Usulan 25% pada 2029"},
+  {lv:"IKP / IKK", t:"Nilai resi, transaksi PLK, gudang aktif, lelang reguler", s:"Ukuran per biro"},
+  {lv:"KRO / RO", t:"RO bertagging PN 05 (PP 05.05)", s:"Lolos uji kaidah HTIS — money follow program"},
+];
+const KAJIAN_PETAJALAN = [
+  {fase:"Fase 0 — Transisi", rentang:"Nov 2026 – Mar 2027", warna:"var(--red)", items:["Perpres dan SOTK terbit","PBK beralih ke OJK","Revisi DIPA TA 2027","Penempatan ulang SDM"]},
+  {fase:"Fase 1 — Konsolidasi", rentang:"Apr – Des 2027", warna:"var(--gold)", items:["Renstra Badan dan Anjab/ABK","Baseline indikator","Pilot 2–3 koridor","Aturan lelang resi"]},
+  {fase:"Fase 2 — Akselerasi", rentang:"2028", warna:"var(--blue)", items:["Lelang resi rutin","Perluasan gudang satelit","SPLT nasional","Pemenuhan formasi JF"]},
+  {fase:"Fase 3 — Integrasi", rentang:"2029", warna:"var(--emerald)", items:["Koridor skala nasional","Porsi antarwilayah 25%","Bahan RPJMN 2030–2034"]},
+];
+const KAJIAN_GERBANG = [
+  {kode:"G1", nama:"Perpres berlaku", kriteria:"SOTK terbit; pejabat/Plt ditetapkan; DIPA direvisi; layanan perizinan tetap berjalan"},
+  {kode:"G2", nama:"Renstra Badan sah", kriteria:"Renstra dan IKU Badan disahkan; baseline tersedia; aturan lelang resi terbit; Anjab/ABK disetujui"},
+  {kode:"G3", nama:"Evaluasi paruh waktu", kriteria:"Capaian indikator 2028 dinilai terhadap target; risiko utama terkendali"},
+];
+const KAJIAN_REKOMENDASI = [
+  {no:1, judul:"Tetapkan satu sasaran program", isi:"Satu sasaran untuk empat biro, diukur dengan Manfaat Ekonomi Langsung dan porsi transaksi antarwilayah."},
+  {no:2, judul:"Prioritaskan P4, P3, P5", isi:"Danai Standardisasi Gudang (P1) dan Pusat Data (P6) sejak 2027 sebagai pemungkin."},
+  {no:3, judul:"Kawal gerbang G1 dan G2", isi:"Agar akselerasi program 2028 tidak tertunda oleh keterlambatan Perpres atau Renstra Badan."},
+  {no:4, judul:"Ajukan formasi JF berbasis Anjab/ABK", isi:"Termasuk tambahan Perencana Ahli Madya (simulasi ABK ±3 orang, perlu dikonfirmasi)."},
+];
+
+function KajianRingkasan(){
+  return (
+    <div className="card p-5 mb-6" style={{borderColor:"rgba(37,99,235,0.3)"}}>
+      <div className="flex items-center gap-2 flex-wrap mb-1">
+        <div className="serif text-xl">{KAJIAN_INFO.judul}</div>
+        <span className="pill text-[9px] mono" style={{background:"rgba(37,99,235,0.12)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.3)"}}>{KAJIAN_INFO.status.toUpperCase()}</span>
+        <span className="pill pill-muted text-[9px] mono">{KAJIAN_INFO.tanggal}</span>
+      </div>
+      <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-5">{KAJIAN_INFO.lingkup}</p>
+
+      {/* Temuan utama */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Temuan Utama</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+        {KAJIAN_TEMUAN.map((t,i)=>(
+          <div key={i} className="card-2 p-3.5">
+            <div className="text-[12px] font-semibold text-[var(--text-1)] mb-1">{t.l}</div>
+            <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{t.v}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Enam program dalam tiga pilar + fondasi */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Enam Program Unggulan</div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
+        {KAJIAN_PROGRAM.map((p,i)=>(
+          <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${p.warna}`}}>
+            <div className="text-[11px] font-semibold text-[var(--text-1)] mb-2">{p.pilar}</div>
+            <div className="space-y-2">
+              {p.items.map((it,j)=>(
+                <div key={j}>
+                  <div className="text-[11.5px] text-[var(--text-2)]"><strong className="mono">{it.kode}</strong> {it.nama}</div>
+                  <div className="text-[9.5px] mono text-[var(--text-3)] mt-0.5">{it.biro}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="text-[10px] text-[var(--text-3)] mb-6">Rincian kegiatan utama, biro pengampu, dan indikator RPJMN per program ada di dokumen kajian (Bab 4).</div>
+
+      {/* Prioritas */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Analisis Prioritas Program</div>
+      <div className="overflow-x-auto mb-1">
+        <table className="w-full text-[11px]">
+          <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+            <th className="py-1.5 pr-3 font-medium">Kode</th>
+            <th className="py-1.5 pr-3 font-medium">Program</th>
+            <th className="py-1.5 pr-3 font-medium">Skor tertimbang (1–5)</th>
+            <th className="py-1.5 font-medium">Peran</th>
+          </tr></thead>
+          <tbody>{KAJIAN_PRIORITAS.map((r,i)=>(
+            <tr key={i} className="border-b border-[var(--border)]">
+              <td className="py-1.5 pr-3 font-semibold mono">{r.kode}</td>
+              <td className="py-1.5 pr-3 text-[var(--text-2)]">{r.nama}</td>
+              <td className="py-1.5 pr-3 text-[var(--text-2)]">{r.skor}</td>
+              <td className="py-1.5 font-medium" style={{color:KAJIAN_PERAN_WARNA[r.peran]}}>{r.peran}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <div className="text-[10px] text-[var(--text-3)] mb-6 italic">Kriteria: dampak bagi masyarakat 35%, keselarasan RPJMN 25%, urgensi 20%, daya ungkit 20%. Skor merupakan asumsi sementara tim penyusun dan belum dibahas dengan biro terkait.</div>
+
+      {/* Rantai indikator */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Rantai Indikator — Dari Dampak sampai RO</div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-6">
+        {KAJIAN_INDIKATOR.map((k,i)=>(
+          <div key={i} className="card-2 p-3 flex flex-col gap-1">
+            <span className="text-[9px] mono text-[var(--gold)] font-semibold">{k.lv}</span>
+            <span className="text-[12px] font-medium text-[var(--text-1)] leading-snug">{k.t}</span>
+            <span className="text-[10px] text-[var(--text-3)] leading-snug">{k.s}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Peta jalan kelembagaan */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Peta Jalan Kelembagaan Baru 2026–2029</div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-2">
+        {KAJIAN_PETAJALAN.map((f,i)=>(
+          <div key={i} className="card-2 p-3.5" style={{borderTop:`3px solid ${f.warna}`}}>
+            <div className="text-[12px] font-semibold text-[var(--text-1)]">{f.fase}</div>
+            <div className="text-[10px] mono text-[var(--text-3)] mb-2">{f.rentang}</div>
+            <ul className="text-[10.5px] text-[var(--text-2)] list-disc pl-4 leading-relaxed space-y-0.5">
+              {f.items.map((x,j)=><li key={j}>{x}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-1">
+        {KAJIAN_GERBANG.map((g,i)=>(
+          <div key={i} className="card-2 p-3 flex items-start gap-2">
+            <span className="mono text-[11px] font-bold shrink-0" style={{color:"var(--gold)"}}>{g.kode}</span>
+            <div>
+              <div className="text-[11.5px] font-semibold text-[var(--text-1)]">{g.nama}</div>
+              <div className="text-[10px] text-[var(--text-3)] leading-relaxed mt-0.5">{g.kriteria}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="text-[10px] text-[var(--text-3)] mb-6 italic">Seluruh tanggal pada peta jalan bersifat tentatif dan dapat bergeser mengikuti terbitnya Perpres dan Permendag organisasi.</div>
+
+      {/* Rekomendasi */}
+      <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Rekomendasi Pokok</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {KAJIAN_REKOMENDASI.map((r,i)=>(
+          <div key={i} className="card-2 p-3.5 flex gap-3">
+            <span className="serif text-2xl shrink-0" style={{color:"var(--gold)"}}>{r.no}</span>
+            <div>
+              <div className="text-[12px] font-semibold text-[var(--text-1)]">{r.judul}</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-relaxed mt-0.5">{r.isi}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MenuKelembagaanBaru(){
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill mono text-[10px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold)",border:"1px solid rgba(161,98,7,0.3)"}}>KELEMBAGAAN BARU</span>
+        <span className="text-xs text-[var(--text-3)]">Riwayat dan analisis reposisi Bappebti</span>
+      </div>
+      <div className="mb-6">
+        <div className="serif text-3xl">Kelembagaan Baru</div>
+        <div className="text-sm text-[var(--text-2)] mt-1 max-w-4xl leading-relaxed">
+          Riwayat dan analisis reposisi Bappebti sejak ND BKPerdag 28 September 2026 (sebelumnya tampil di menu PBK) — opsi dan alternatif penataan organisasi menyusul perpindahan fungsi PBK/BMKS ke OJK berdasarkan POJK 15/16 Tahun 2026.
+        </div>
+      </div>
+
+      <PerkembanganBappebti />
+    </div>
+  );
+}
+
+function MenuAnalisisKajianProgramKerja(){
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill mono text-[10px]" style={{background:"rgba(37,99,235,0.14)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.3)"}}>KAJIAN PROGRAM KERJA</span>
+        <span className="text-xs text-[var(--text-3)]">Draft kajian program kerja Badan Pengembangan Perdagangan Komoditi</span>
+      </div>
+      <div className="mb-6">
+        <div className="serif text-3xl">Analisis Kajian Program Kerja Kelembagaan Baru</div>
+        <div className="text-sm text-[var(--text-2)] mt-1 max-w-4xl leading-relaxed">
+          Ringkasan draft kajian program kerja untuk kelembagaan baru — <em>Badan Pengembangan Perdagangan Komoditi</em>, unit eselon I dengan empat biro dan Sekretariat Badan, yang tidak lagi menangani PBK.
+        </div>
+      </div>
+
+      <KajianRingkasan />
     </div>
   );
 }
@@ -14352,7 +14588,7 @@ function MenuPBK({year}){
               DPR mengesahkan <strong>UU No. 4 Tahun 2026</strong> (Perubahan atas UU No. 4/2023 tentang P2SK) yang mengamanatkan pembentukan <strong>Bursa Mineral & Komoditas Strategis (BMKS)</strong> di bawah pengawasan <strong>OJK</strong>, ditargetkan beroperasi <strong>1 Januari 2027</strong>. Wakil Ketua Komisi XI DPR menyebut "<em>kalau ada mineral dan komoditas strategis yang ada di Bappebti, akan ditarik ke sana.</em>" Pengaturan lanjutnya kini telah terbit melalui POJK 15 dan 16 Tahun 2026. Ini melanjutkan peralihan kewenangan aset kripto & derivatif keuangan ke OJK/BI (UU No. 4/2023 Pasal 312 jo. PP 49/2024), yang masa transisinya resmi berakhir 20 Januari 2026.
             </p>
             <p className="text-[12px] text-[var(--text-2)] leading-relaxed mt-2" style={{borderLeft:"3px solid rgba(5,150,105,0.4)",paddingLeft:"10px"}}>
-              <strong style={{color:"var(--emerald)"}}>Bagaimana dengan SRG?</strong> UU No. 4/2026 <strong>tidak</strong> menyentuh Sistem Resi Gudang. SRG tetap berlandaskan <strong>UU No. 9/2006 jo. UU No. 9/2011</strong> dan tetap menjadi kewenangan Bappebti di bawah Kemendag (sebagaimana PLK via Perpres 75/2022). Risiko ke depan bukan pengalihan SRG, melainkan <em>titik singgung kewenangan</em>: bila komoditas yang juga "strategis" (nikel; atau CPO/kakao/kopi untuk ekspor) masuk lingkup BMKS-OJK, fungsi pembiayaan tunda-jual SRG perlu diharmonisasikan agar tidak tumpang tindih dengan fungsi bursa BMKS. Dengan POJK 15 &amp; 16/2026 sudah terbit, demarkasi ini perlu dituntaskan dalam penahapan peralihan sebelum BMKS beroperasi 1 Januari 2027. Catatan: SRG dan PLK tetap di Kemendag, namun unit pengelolanya sedang ditata ulang (lihat Perkembangan Kelembagaan Bappebti di bawah).
+              <strong style={{color:"var(--emerald)"}}>Bagaimana dengan SRG?</strong> UU No. 4/2026 <strong>tidak</strong> menyentuh Sistem Resi Gudang. SRG tetap berlandaskan <strong>UU No. 9/2006 jo. UU No. 9/2011</strong> dan tetap menjadi kewenangan Bappebti di bawah Kemendag (sebagaimana PLK via Perpres 75/2022). Risiko ke depan bukan pengalihan SRG, melainkan <em>titik singgung kewenangan</em>: bila komoditas yang juga "strategis" (nikel; atau CPO/kakao/kopi untuk ekspor) masuk lingkup BMKS-OJK, fungsi pembiayaan tunda-jual SRG perlu diharmonisasikan agar tidak tumpang tindih dengan fungsi bursa BMKS. Dengan POJK 15 &amp; 16/2026 sudah terbit, demarkasi ini perlu dituntaskan dalam penahapan peralihan sebelum BMKS beroperasi 1 Januari 2027. Catatan: SRG dan PLK tetap di Kemendag, namun unit pengelolanya sedang ditata ulang (lihat Proyeksi › Kelembagaan Baru).
             </p>
             <div className="flex gap-3 mt-2 flex-wrap">
               <span className="pill pill-muted text-[9px] mono">Dasar: UU No. 4 Tahun 2026 (4/6/2026)</span>
@@ -14368,8 +14604,35 @@ function MenuPBK({year}){
         </div>
       </div>
 
-      {/* Perkembangan Kelembagaan Bappebti — ND BKPerdag 28 Sep 2026 */}
-      <PerkembanganBappebti />
+      {/* Perkembangan Kelembagaan Bappebti dipindah ke Proyeksi › Kelembagaan Baru / Analisis Kajian Program Kerja */}
+      <button
+        className="card p-4 mb-3 w-full text-left flex items-center justify-between gap-3 hover:brightness-[0.98]"
+        style={{borderColor:"rgba(161,98,7,0.35)",background:"rgba(161,98,7,0.04)"}}
+        onClick={()=>window.dispatchEvent(new CustomEvent('bappebti-goto',{detail:{tab:'proyeksi',sub:'kelembagaan'}}))}
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-lg shrink-0" style={{color:"var(--gold)"}}>→</span>
+          <div>
+            <div className="text-sm font-semibold" style={{color:"var(--gold)"}}>Perkembangan Kelembagaan Bappebti</div>
+            <div className="text-[11px] text-[var(--text-2)] mt-0.5">Riwayat &amp; analisis reposisi (ND BKPerdag 28 Sep 2026) kini ada di menu <strong>Proyeksi › Kelembagaan Baru</strong>.</div>
+          </div>
+        </div>
+        <span className="pill pill-muted text-[9px] mono shrink-0">Buka</span>
+      </button>
+      <button
+        className="card p-4 mb-6 w-full text-left flex items-center justify-between gap-3 hover:brightness-[0.98]"
+        style={{borderColor:"rgba(37,99,235,0.35)",background:"rgba(37,99,235,0.04)"}}
+        onClick={()=>window.dispatchEvent(new CustomEvent('bappebti-goto',{detail:{tab:'proyeksi',sub:'kajian'}}))}
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-lg shrink-0" style={{color:"var(--blue)"}}>→</span>
+          <div>
+            <div className="text-sm font-semibold" style={{color:"var(--blue)"}}>Analisis Kajian Program Kerja Kelembagaan Baru</div>
+            <div className="text-[11px] text-[var(--text-2)] mt-0.5">Draft kajian program kerja Badan Pengembangan Perdagangan Komoditi kini ada di menu <strong>Proyeksi › Analisis Kajian Program Kerja</strong>.</div>
+          </div>
+        </div>
+        <span className="pill pill-muted text-[9px] mono shrink-0">Buka</span>
+      </button>
 
       {/* ALERT: Peralihan Aset Kripto */}
       <div className="card p-4 mb-6" style={{borderColor:"rgba(37,99,235,0.25)",background:"rgba(37,99,235,0.03)"}}>
