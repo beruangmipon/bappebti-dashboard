@@ -11693,8 +11693,8 @@ const MENU_SIDE = [
     {id:"sebaran", label:"Sistem Resi Gudang"}, {id:"psn", label:"PSN SRG"} ]},
   {id:"plk",     label:"PLK",                  sub:"Pasar Lelang Komoditas"},
   {id:"pbk",     label:"PBK",                  sub:"Perdagangan Berjangka Komoditi"},
-  {id:"proyeksi",label:"Proyeksi",           sub:"Rencana Kegiatan TA 2027 · 2028 · 2029 · Kelembagaan Baru", items:[
-    {id:"p2027", label:"Rencana TA 2027"}, {id:"p2028", label:"Rencana TA 2028"}, {id:"p2029", label:"Rencana TA 2029"}, {id:"kelembagaan", label:"Kelembagaan Baru"}, {id:"kajian", label:"Analisis Kajian Program Kerja"} ]},
+  {id:"proyeksi",label:"Proyeksi",           sub:"Kelembagaan Baru · Analisis Kajian Program Kerja", items:[
+    {id:"kelembagaan", label:"Kelembagaan Baru"}, {id:"kajian", label:"Analisis Kajian Program Kerja"} ]},
 ];
 /* Pengguna login (dari gerbang Firebase: window.__BAPPEBTI_USER__ / event bappebti-auth-ready). */
 function useAuthUser(){
@@ -11775,7 +11775,7 @@ function App(){
   const [sebabSub,setSebabSub] = useState("sebab");
   const [srgSub,setSrgSub] = useState("sebaran");
   const [angSub,setAngSub] = useState("anggaran");
-  const [proySub,setProySub] = useState("p2027");
+  const [proySub,setProySub] = useState("kelembagaan");
   const exportKey = tab==="sebab" ? sebabSub : tab==="sebaran" ? srgSub : tab==="anggaran" ? angSub : tab==="proyeksi" ? proySub : tab;
   const [year,setYear] = useState(2026);
   const [showSettings,setShowSettings] = useState(false);
@@ -11835,9 +11835,6 @@ function App(){
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
       {tab==="proyeksi" && <InfografisProyeksi />}
-      {tab==="proyeksi" && proySub==="p2027" && <AutoFold key={"MenuProyeksi2027"+year}><MenuProyeksi2027 /></AutoFold>}
-      {tab==="proyeksi" && proySub==="p2028" && <AutoFold key={"MenuProyeksi2028"+year}><MenuProyeksi2028 /></AutoFold>}
-      {tab==="proyeksi" && proySub==="p2029" && <AutoFold key={"MenuProyeksi2029"+year}><MenuProyeksi2029 /></AutoFold>}
       {tab==="proyeksi" && proySub==="kelembagaan" && <AutoFold key={"MenuKelembagaanBaru"+year}><MenuKelembagaanBaru /></AutoFold>}
       {tab==="proyeksi" && proySub==="kajian" && <AutoFold key={"MenuAnalisisKajianProgramKerja"+year}><MenuAnalisisKajianProgramKerja /></AutoFold>}
       {showSettings && <SettingsModal current={proxyUrl} onSave={saveProxy} onClose={()=>setShowSettings(false)} />}
