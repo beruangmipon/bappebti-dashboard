@@ -11847,7 +11847,7 @@ function App(){
           </div>
           <div className="text-right">
             <div>Dirancang sebagai prototipe</div>
-            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · Analisa AI seluruh menu & sub-menu diperbarui (data s.d. Oktober 2026, POJK 15/16 & reposisi kelembagaan) · Capaian TA 2025 (IKS/IKP/IKK & RO MyIntress) · Usulan Tambahan PA TA 2027 diperbarui ke REV (30 RO · Rp 9,908 M; +RO 3762.ACD.001; EBA.Z08→590jt; AAH.F01/AEA.001/BBA.001/ADI.001 disesuaikan; label "Prioritas Unit") · Analisis Anggaran TA 2027: panel Usulan SBKK + Usulan Tambahan Pagu · PBK: UU No. 4/2026 (Perubahan P2SK) & outlook UU SRG · PSN SRG: Gantt 24×36, kelembagaan ekspor · Pemadanan RO ↔ ROS TA 2027 (79 RO, dasar standarisasi RO) · Menu "Standarisasi Program" (Sebab—Akibat + Analisa PN + Tagging RO + Pemadanan RO) · SPBE digabung ke Analisis Anggaran · Capaian TW III & realisasi SP2D s.d. September 2026 (incl. ABT) · Rumus IKS/IKP Renstra dipakai menghitung capaian IKP · Data SRG & PLK per Oktober 2026 dari "Data Bappebti MTF 2026 Sept–Okt" (SRG kumulatif 7.421 RG; PLK Jan–Okt Rp38,80 M) · PBK: transaksi s.d. Agustus 2026 & ekosistem per 26 Agustus 2026 (Bahan TEI), PSN SRG digabung ke SRG · © 2026 — dibuat oleh beruangmipon</div>
+            <div className="mt-1 text-[var(--text-3)] normal-case tracking-normal">Pembaruan terakhir: {META.lastUpdate} · © 2026 — dibuat oleh beruangmipon</div>
           </div>
         </div>
       </footer>
@@ -12196,7 +12196,6 @@ const KAJIAN_INFO = {
   judul: "Analisis Kajian Program Kerja pada Kelembagaan Baru",
   status: "Draft kajian",
   tanggal: "6 November 2026",
-  penyusun: "Nurhadi Panca Wibowo",
   lingkup: "Badan Pengembangan Perdagangan Komoditi — unit eselon I, 4 biro (Pengembangan SRG, Pengembangan PLK, Perundang-undangan dan Layanan Perdagangan Komoditas, Pengendalian Perdagangan Komoditas) + Sekretariat Badan (eselon II). Tidak lagi menangani PBK.",
   simpulan: "Badan Pengembangan Perdagangan Komoditi dapat menjadi penggerak perdagangan antarwilayah bila SRG dan PLK dihubungkan dalam satu rantai simpul–biaya–jual, diukur dengan manfaat bagi masyarakat, dan didukung kelembagaan yang siap sejak 2027.",
 };
@@ -12451,7 +12450,7 @@ const KAJIAN_SDMDANA_CATATAN = "Asumsi sementara. Analisis ini disusun dengan ke
 const KAJIAN_SDM_ANALISIS = [
   {judul:"Data pegawai riil belum tersedia", isi:"Simulasi Perencana Ahli Madya masih memakai volume contoh; kebutuhan jabatan lain belum dihitung karena bezetting per jabatan, termasuk eks-PBK, belum diinventarisasi."},
   {judul:"Indikasi jumlah pegawai turun separuh", isi:"RO Layanan Manajemen SDM menargetkan 170 orang pada 2025 (realisasi 166), tetapi 80 orang pada PAA 2027 dan Renja 2027–2029. Bila angka 80 mencerminkan jumlah pegawai, rata-ratanya sekitar 16 orang per unit eselon II, sudah termasuk pejabat — tipis untuk mandat baru (koridor, lelang resi, survei, pusat data)."},
-  {judul:"Beban kerja menumpuk di Q1 2027", isi:"Survei manfaat, rekap retrospektif empat data 2026 (pembiayaan, lelang resi, waktu perizinan, sengketa), metadata indikator, field domisili, Anjab–ABK, dan Renstra Badan berjalan bersamaan dengan penempatan ulang pegawai (M6, 30 April 2027) — memperbesar risiko R3."},
+  {judul:"Beban kerja menumpuk di Q1 2027", isi:"Survei manfaat, rekap retrospektif empat data 2026 (pembiayaan, lelang resi, waktu perizinan, sengketa), metadata indikator, field domisili, Anjab–ABK, dan Renstra Badan berjalan bersamaan dengan penempatan ulang pegawai (M6, 30 April 2027) — memperbesar risiko RL3."},
   {judul:"Statistisi belum masuk peta kebutuhan", isi:"Survei manfaat, baseline retrospektif, dan pusat data stok-harga (P6) membutuhkan Statistisi. Diusulkan masuk ke Sekretariat Badan dan Biro Pengendalian."},
 ];
 const KAJIAN_SDM_EKSPBK = [
@@ -12551,7 +12550,6 @@ function KajianRingkasan(){
         <div className="serif text-xl">{KAJIAN_INFO.judul}</div>
         <span className="pill text-[9px] mono" style={{background:"rgba(37,99,235,0.12)",color:"var(--blue)",border:"1px solid rgba(37,99,235,0.3)"}}>{KAJIAN_INFO.status.toUpperCase()}</span>
         <span className="pill pill-muted text-[9px] mono">{KAJIAN_INFO.tanggal}</span>
-        <span className="pill pill-muted text-[9px] mono">@{KAJIAN_INFO.penyusun}</span>
       </div>
       <p className="text-[12px] text-[var(--text-2)] leading-relaxed mb-1">{KAJIAN_INFO.lingkup}</p>
       <p className="text-[12.5px] text-[var(--text-1)] leading-relaxed mb-5 italic" style={{borderLeft:"3px solid var(--blue)",paddingLeft:"10px"}}>{KAJIAN_INFO.simpulan}</p>
