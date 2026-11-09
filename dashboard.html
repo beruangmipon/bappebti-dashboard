@@ -2479,9 +2479,9 @@ Pelajaran TA 2026 relevan: RO berlabel prioritas di 3760 justru paling lambat te
 Faktor kelembagaan: dengan reposisi pasca POJK 15 dan 16 Tahun 2026, RO SRG/PLK ber-PN dan PKPN akan berpindah ke unit penerima. Pastikan label prioritas tercatat pada level RO dan RO Standar — bukan pada level unit — agar ikut berpindah tanpa harus diusulkan ulang.`,
   },
 
-  pemadanan: `Pemadanan RO TA 2027 sudah sangat matang sebagai dasar standarisasi: 79 RO dipadankan ke 34 RO Standar (rasio 2,3 RO per ROS), seluruh 79 RO sudah disetujui pada update terakhir. Seluruh 42 RO berpagu pada Pagu Anggaran TA 2027 sudah tercakup; 37 RO lainnya berada dalam pool tanpa pagu namun siap dipakai pada tahun berikutnya.
+  pemadanan: `Pemadanan RO TA 2027 sudah final sebagai dasar standarisasi: 83 RO dipadankan ke 34 RO Standar (rasio 2,4 RO per ROS), dan seluruh 83 RO sudah terkunci (disetujui dua pihak) pada ekspor 9 November 2026, termasuk empat RO Sekretariat (EBA.Z02, EBA.Z06, EBD.Z26, EBD.Z35) yang sebelumnya masih menunggu. Seluruh 42 RO berpagu pada Pagu Anggaran TA 2027 sudah tercakup; 41 RO lainnya berada dalam pool tanpa pagu namun siap dipakai pada tahun berikutnya.
 
-Empat temuan data (29 RO terkait) perlu diselesaikan sebelum pemadanan menjadi acuan baku. Pertama, perizinan lembaga dipadankan ke dua kode ROS berbeda — ACD.S023 untuk 3760 dan ACD.S041 untuk 3762 — sehingga capaian dan biaya satuan layanan perizinan sulit diagregasi. Kedua, dua pasang RO bernomenklatur identik dengan kode berbeda (EBA.960 dan EBA.Z08; BDB.001 dan BDB.004). Ketiga, pola pemadanan KRO PN belum seragam: QDB.001–003 dipadankan ke BDB.S012 tetapi QDB.004 ke QDB.S012, serta UAB.001 ke FAB.S002 tetapi UAB.002 ke UAB.S002. Keempat, terdapat satuan yang berbeda untuk keluaran sejenis.
+Empat temuan data (30 RO terkait) perlu diselesaikan sebelum pemadanan menjadi acuan baku. Pertama, perizinan lembaga dipadankan ke dua kode ROS berbeda — ACD.S023 untuk 3760 dan ACD.S041 untuk 3762 — sehingga capaian dan biaya satuan layanan perizinan sulit diagregasi. Kedua, dua pasang RO bernomenklatur identik dengan kode berbeda (EBA.960 dan EBA.Z08; BDB.001 dan BDB.004). Ketiga, pola pemadanan KRO PN belum seragam: QDB.001–003 dipadankan ke BDB.S012 tetapi QDB.004 ke QDB.S012, serta UAB.001 ke FAB.S002 tetapi UAB.002 ke UAB.S002. Keempat, terdapat satuan yang berbeda untuk keluaran sejenis.
 
 Pemadanan ini memiliki nilai strategis tambahan dalam konteks reposisi kelembagaan. ROS adalah bahasa baku yang tidak bergantung pada unit organisasi; bila fungsi SRG/PLK berpindah ke Ditjen PDN atau ke Ditjen Pengembangan Sarana Perdagangan Komoditi, RO yang sudah dipadankan ke ROS dapat dialihkan dengan kode RO baru tanpa kehilangan riwayat target, capaian, dan biaya satuan. Data RO 2025 (struktur MyIntress, 70 RO) dan 2026 juga dapat ditelusuri ke ROS yang sama untuk analisis tren.
 
@@ -9327,101 +9327,101 @@ function MenuPLK({year}){
 /* ======================================================================== */
 /* PEMADANAN RO ↔ RO STANDAR (ROS) TA 2027                                   */
 /* Sumber: Ekspor grid pemadanan RO ↔ RO Standar, K/L Unit 090.07,           */
-/* diekspor 26 Oktober 2026 01:54 WIB (79 RO). Dasar standarisasi RO          */
+/* diekspor 9 November 2026 06:58 WIB (83 RO). Dasar standarisasi RO           */
 /* Bappebti mulai TA 2027 dan seterusnya.                                    */
 /* Format RAW: [kegiatan, KRO, RO, nama RO, satuan, kode ROS, uraian ROS,     */
 /*              status asal ekspor (diabaikan), kunci (diabaikan)]           */
-/* Update terakhir 29 Okt 2026: seluruh 79 RO sudah disetujui; status terkunci/belum terkunci tidak lagi ditampilkan. */
+/* Update terakhir 9 Nov 2026: seluruh 83 RO terkunci (disetujui 2 pihak), termasuk EBA.Z02, EBA.Z06, EBD.Z26, EBD.Z35 yang sebelumnya menunggu. */
 /* ======================================================================== */
 const PEMADANAN_RO_2027_KRO = {"3758.CAN": "Sarana Bidang Teknologi Informasi dan Komunikasi", "3758.EBA": "Layanan Dukungan Manajemen Internal", "3758.EBC": "Layanan Manajemen SDM Internal", "3758.EBD": "Layanan Manajemen Kinerja Internal", "3759.BIC": "Pengawasan dan Pengendalian Lembaga", "3759.BIH": "Pengawasan dan Pengendalian Badan Usaha", "3759.QIH": "Pengawasan dan Pengendalian Badan Usaha", "3760.ACD": "Perizinan Lembaga", "3760.AFA": "Norma, Standard, Prosedur dan Kriteria", "3760.BDB": "Fasilitasi dan Pembinaan Lembaga", "3760.BMA": "Data dan Informasi Publik", "3760.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3760.PEA": "Koordinasi", "3760.QDB": "Fasilitasi dan Pembinaan Lembaga", "3760.QDC": "Fasilitasi dan Pembinaan Masyarakat", "3760.UAB": "Sistem Informasi Pemerintahan", "3761.AAH": "Peraturan lainnya", "3761.AEA": "Koordinasi", "3761.BBA": "Layanan Bantuan Hukum Perseorangan", "3761.BCB": "Perkara Hukum Lembaga", "3762.ACB": "Perizinan Masyarakat", "3762.ACD": "Perizinan Lembaga", "3762.ADI": "Sertifikasi Profesi dan SDM", "3762.AFA": "Norma, Standard, Prosedur dan Kriteria", "3762.BMA": "Data dan Informasi Publik", "3762.FAB": "Sistem Informasi Pemerintahan", "3762.PBB": "Kebijakan Bidang Investasi dan Perdagangan", "3762.QDH": "Fasilitasi dan Pembinaan Badan Usaha"};
 const PEMADANAN_RO_2027_RAW = [
-  ["3759", "BIC", "001", "Pengawasan Penyelenggara PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "002", "Kepatuhan APU PPT Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "003", "Kepatuhan Kegiatan dan pelaporan Keuangan Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "004", "Pelaku Usaha PBK yang diaudit", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "005", "Lembaga dan Transaksi SRG yang Diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "006", "Penyelenggara Pasar Lelang Komoditas yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "007", "Pelaku Usaha (Legal/Ilegal) yang ditindak sesuai ketentuan di Bidang PBK/SRG/PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "008", "Mekanisasi Sistem Pengawasan pada Gudang CCTV", "Badan Usaha", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIC", "009", "Penilaian Tingkat Risiko Pelaku Usaha di bidang PBK dan SRG", "Laporan", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIH", "001", "Pengawasan Pelaku Usaha PBK melalui Audit", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIH", "002", "Pengawasan Pelaku Usaha Ilegal/Illegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIH", "003", "Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "BIH", "004", "Pengawasan Pelaku Usaha Legal/Ilegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
-  ["3759", "QIH", "001", "Pengawasan Pelaku Usaha SRG", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Tidak"],
-  ["3760", "ACD", "001", "Perizinan Lembaga SRG", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "ACD", "002", "Perizinan Lembaga PLK", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "AFA", "001", "Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "BDB", "001", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "BDB", "002", "Pembinaan/pendampingan dalam rangka pembentukan daerah baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "BDB", "003", "Pelaku Usaha yang mendapatkan pendampingan dalam rangka pembentukan Daerah Baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
+  ["3759", "BIC", "001", "Pengawasan Penyelenggara PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "002", "Kepatuhan APU PPT Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "003", "Kepatuhan Kegiatan dan pelaporan Keuangan Pelaku Usaha PBK yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "004", "Pelaku Usaha PBK yang diaudit", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "005", "Lembaga dan Transaksi SRG yang Diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "006", "Penyelenggara Pasar Lelang Komoditas yang diawasi", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "007", "Pelaku Usaha (Legal/Ilegal) yang ditindak sesuai ketentuan di Bidang PBK/SRG/PLK", "Lembaga", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "008", "Mekanisasi Sistem Pengawasan pada Gudang CCTV", "Badan Usaha", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIC", "009", "Penilaian Tingkat Risiko Pelaku Usaha di bidang PBK dan SRG", "Laporan", "BIC.S005", "Pengawasan dan Pengendalian Lembaga Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIH", "001", "Pengawasan Pelaku Usaha PBK melalui Audit", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIH", "002", "Pengawasan Pelaku Usaha Ilegal/Illegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIH", "003", "Pengawasan Pelaku Usaha legal/Illegal melalui penindakan di Bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Ya"],
+  ["3759", "BIH", "004", "Pengawasan Pelaku Usaha Legal/Ilegal melalui penindakan di bidang PBK/SRG/PLK", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Ya"],
+  ["3759", "QIH", "001", "Pengawasan Pelaku Usaha SRG", "Badan Usaha", "BIH.S007", "Pengawasan dan Pengendalian Badan Usaha Bidang Perdagangan", "T", "Ya"],
+  ["3760", "ACD", "001", "Perizinan Lembaga SRG", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Ya"],
+  ["3760", "ACD", "002", "Perizinan Lembaga PLK", "Lembaga", "ACD.S023", "Perizinan Lembaga Bidang Perekonomian", "T", "Ya"],
+  ["3760", "AFA", "001", "Rancangan NSPK berupa Standar Kompetensi Kerja Nasional Indonesia (SKKNI) Pengelola Gudang SRG", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Ya"],
+  ["3760", "BDB", "001", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "BDB", "002", "Pembinaan/pendampingan dalam rangka pembentukan daerah baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "BDB", "003", "Pelaku Usaha yang mendapatkan pendampingan dalam rangka pembentukan Daerah Baru yang mengimplementasikan PLK", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
   ["3760", "BDB", "004", "Pembinaan/pendampingan dalam penyiapan implementasi PLK di daerah baru", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
-  ["3760", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "BMA", "003", "Layanan Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "PBB", "001", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3760", "PBB", "002", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3760", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3760", "PBB", "G02", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3760", "PEA", "001", "Koordinasi dengan Pemangku Kepentingan di bidang SRG", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "PEA", "002", "Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
-  ["3760", "QDB", "001", "Fasiltasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "QDB", "002", "Fasiltasi dan pembinaan calon pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "QDB", "003", "Pembinaan/pendampingan pengelola gudang SRG dalam mengimplementasikan Warehouse Management System (WMS)", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "QDB", "004", "Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", "Lembaga", "QDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Tidak"],
-  ["3760", "QDC", "001", "Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
-  ["3760", "QDC", "002", "Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
-  ["3760", "QDC", "003", "Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Tidak"],
-  ["3760", "UAB", "001", "Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3760", "UAB", "002", "Sistem Aplikasi Warehouse Management System (WMS)", "Sistem Informasi", "UAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3761", "AAH", "001", "Peraturan Bappebti di bidang PBK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
-  ["3761", "AAH", "002", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
-  ["3761", "AAH", "F01", "Peraturan Bappebti di bidang PBK, SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
-  ["3761", "AAH", "F02", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Tidak"],
-  ["3761", "AEA", "001", "Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", "kegiatan", "AEA.S005", "Koordinasi Bidang Perekonomian", "T", "Tidak"],
-  ["3761", "BBA", "001", "Layanan Asistensi hukum di bidang PBK, SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Tidak"],
-  ["3761", "BBA", "002", "Layanan penyelesaian perselisihan di bidang PBK, SRG dan PLK", "Orang", "BBA.S002", "Layanan Bantuan Hukum Perseorangan dalam Perkara Perdata", "T", "Tidak"],
-  ["3761", "BBA", "003", "Layanan konsultasi hukum dibidang PBK,SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Tidak"],
-  ["3761", "BCB", "001", "Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK", "Perkara", "BCB.S001", "Perkara Hukum Lembaga Lingkup Peradilan Umum", "T", "Tidak"],
-  ["3762", "ACB", "001", "Perizinan Masyarakat", "Orang", "ACB.S005", "Perizinan Tenaga Kerja Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "ACD", "001", "Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "ACD", "002", "Perizinan Rencana Kerja Anggaran Tahunan Bursa Berjangka Dan Lembaga Kliring Berjangka", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "ADI", "001", "Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "Orang", "ADI.S009", "Sertifikasi Profesi dan SDM Perdagangan dan Industri", "T", "Tidak"],
-  ["3762", "AFA", "001", "SKKNI di Bidang Perdagangan Berjangka Komoditi", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang PBK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "BMA", "002", "Layanan Data dan informasi Pasar Fisik Aset Kripto", "layanan", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Tidak"],
-  ["3762", "FAB", "001", "Sistem Informasi Pendukung Publikasi Informasi PBK", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3762", "FAB", "002", "Sistem Informasi Manajemen Pelaku Usaha Perdagangan Berjangka Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3762", "FAB", "003", "Sistem Informasi Pendukung Layanan Informasi Harga Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3762", "FAB", "005", "Sistem Informasi Pendukung Kebijakan Pimpinan", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Tidak"],
-  ["3762", "PBB", "001", "Analisa pengembangan kelembagaan dan produk di bidang PBK", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3762", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Tidak"],
-  ["3762", "QDH", "001", "Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan usaha", "BDH.S002", "Fasilitasi dan Pembinaan Badan Usaha Bidang Investasi dan Penanaman Modal", "T", "Tidak"],
-  ["3758", "CAN", "001", "Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti", "Unit", "CAN.S001", "Sarana Infrastruktur Teknologi Informasi dan Komunikasi", "T", "Tidak"],
-  ["3758", "EBA", "956", "Layanan BMN", "Layanan", "EBA.S009", "Layanan BMN", "T", "Tidak"],
-  ["3758", "EBA", "958", "Layanan Hubungan Masyarakat dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
-  ["3758", "EBA", "960", "Layanan Organisasi dan Tata Kelola Internal.", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Tidak"],
-  ["3758", "EBA", "963", "Layanan Data dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
-  ["3758", "EBA", "994", "Layanan Perkantoran", "Layanan", "EBA.S001", "Layanan Perkantoran", "T", "Tidak"],
-  ["3758", "EBA", "Z02", "Layanan Hubungan Masyarakat dan Informasi pada Satker Koordinator Tingkat Eselon I", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "D", "Tidak"],
-  ["3758", "EBA", "Z03", "Layanan Hubungan Masyarakat dan Informasi pada Satker Vertikal", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Tidak"],
-  ["3758", "EBA", "Z06", "Layanan BMN pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBA.S009", "Layanan BMN", "D", "Tidak"],
-  ["3758", "EBA", "Z07", "Layanan BMN pada Satker Vertikal", "Layanan", "EBA.S009", "Layanan BMN", "T", "Tidak"],
-  ["3758", "EBA", "Z08", "Layanan Organisasi dan Tata Kelola Internal", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Tidak"],
-  ["3758", "EBC", "954", "Layanan Manajemen SDM", "Orang", "EBC.S001", "Layanan SDM", "T", "Tidak"],
-  ["3758", "EBC", "996", "Layanan Pendidikan dan Pelatihan", "Orang", "EBC.S002", "Layanan Pendidikan dan Pelatihan", "T", "Tidak"],
-  ["3758", "EBC", "Z10", "Layanan Manajemen SDM Lingkup Kementerian/Lembaga tanpa satker vertikal dan tanpa UPT", "Orang", "EBC.S001", "Layanan SDM", "T", "Tidak"],
-  ["3758", "EBD", "952", "Layanan Perencanaan dan Penganggaran", "Dokumen", "EBD.S001", "Layanan Perencanaan dan Penganggaran", "T", "Tidak"],
-  ["3758", "EBD", "953", "Layanan Pemantauan dan Evaluasi", "Dokumen", "EBD.S002", "Layanan Pemantauan, Evaluasi dan Pelaporan", "T", "Tidak"],
-  ["3758", "EBD", "955", "Layanan Manajemen Keuangan", "Dokumen", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Tidak"],
-  ["3758", "EBD", "Z26", "Layanan Manajemen Keuangan pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBD.S003", "Layanan Manajemen Keuangan", "D", "Tidak"],
-  ["3758", "EBD", "Z27", "Layanan Manajemen Keuangan pada Satker Vertikal", "Layanan", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Tidak"],
-  ["3758", "EBD", "Z32", "Layanan Reformasi Kinerja pada Satker Vertikal", "Layanan", "EBD.S005", "Layanan Reformasi Kinerja", "T", "Tidak"],
-  ["3758", "EBD", "Z35", "Layanan Manajemen Kinerja pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBD.S007", "Layanan Manajemen Kinerja", "D", "Tidak"],
-  ["3758", "EBD", "Z36", "Layanan Manajemen Kinerja pada Satker Vertikal", "Layanan", "EBD.S007", "Layanan Manajemen Kinerja", "T", "Tidak"]
+  ["3760", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Ya"],
+  ["3760", "BMA", "003", "Layanan Data dan Informasi Harga Komoditi di Bidang SRG dan PLK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Ya"],
+  ["3760", "PBB", "001", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3760", "PBB", "002", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3760", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3760", "PBB", "G02", "Rekomendasi Kebijakan terhadap Dampak Kebijakan Pengembangan Kelembagaan dan Komoditi SRG/PLK", "Rekomendasi Kebijakan", "PBB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3760", "PEA", "001", "Koordinasi dengan Pemangku Kepentingan di bidang SRG", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Ya"],
+  ["3760", "PEA", "002", "Koordinasi dengan Pemda dan Pelaku Usaha SRG/PLK untuk Penguatan Ekosistem PLK melalui Koneksitas dengan Sistem Resi Gudang", "kegiatan", "PEA.S005", "Koordinasi Bidang Perekonomian", "T", "Ya"],
+  ["3760", "QDB", "001", "Fasiltasi dan Pembinaan dalam rangka Peningkatan Kompetensi Pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "QDB", "002", "Fasiltasi dan pembinaan calon pengelola Gudang SRG", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "QDB", "003", "Pembinaan/pendampingan pengelola gudang SRG dalam mengimplementasikan Warehouse Management System (WMS)", "Lembaga", "BDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "QDB", "004", "Fasilitasi dan Pembinaan Lembaga Penyalur Skema Subsidi Resi Gudang", "Lembaga", "QDB.S012", "Fasilitasi dan Pembinaan Lembaga Bidang Industri dan Perdagangan", "T", "Ya"],
+  ["3760", "QDC", "001", "Pembinaan / Pendampingan pada pertemuan teknis pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Ya"],
+  ["3760", "QDC", "002", "Fasilitasi dan Pembinaan pelaku usaha dan petani di bidang SRG", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Ya"],
+  ["3760", "QDC", "003", "Pembinaan / Pendampingan pada kegiatan Asistensi pelaku usaha PLK", "Orang", "QDC.S009", "Fasilitasi dan Pembinaan Masyarakat Bidang Perdagangan", "T", "Ya"],
+  ["3760", "UAB", "001", "Sistem Aplikasi SPLT (Sistem Pasar lelang Terpadu)", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3760", "UAB", "002", "Sistem Aplikasi Warehouse Management System (WMS)", "Sistem Informasi", "UAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3761", "AAH", "001", "Peraturan Bappebti di bidang PBK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Ya"],
+  ["3761", "AAH", "002", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Ya"],
+  ["3761", "AAH", "F01", "Peraturan Bappebti di bidang PBK, SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Ya"],
+  ["3761", "AAH", "F02", "Peraturan Bappebti di bidang SRG dan PLK", "peraturan", "AAH.S001", "Peraturan Badan/Lembaga", "T", "Ya"],
+  ["3761", "AEA", "001", "Koordinasi dalam rangka uji publik dan harmonisasi Kebijakan PBK, SRG dan PLK", "kegiatan", "AEA.S005", "Koordinasi Bidang Perekonomian", "T", "Ya"],
+  ["3761", "BBA", "001", "Layanan Asistensi hukum di bidang PBK, SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Ya"],
+  ["3761", "BBA", "002", "Layanan penyelesaian perselisihan di bidang PBK, SRG dan PLK", "Orang", "BBA.S002", "Layanan Bantuan Hukum Perseorangan dalam Perkara Perdata", "T", "Ya"],
+  ["3761", "BBA", "003", "Layanan konsultasi hukum dibidang PBK,SRG dan PLK", "Orang", "BBA.S006", "Layanan Bantuan Hukum Perseorangan dalam Perkara Tindak Pidana Khusus", "T", "Ya"],
+  ["3761", "BCB", "001", "Layanan penanganan perkara di badan peradilandan/atau alternatif penyelesaian perselisihan di bidang PBK,SRG dan PLK", "Perkara", "BCB.S001", "Perkara Hukum Lembaga Lingkup Peradilan Umum", "T", "Ya"],
+  ["3762", "ACB", "001", "Perizinan Masyarakat", "Orang", "ACB.S005", "Perizinan Tenaga Kerja Bidang Perekonomian", "T", "Ya"],
+  ["3762", "ACD", "001", "Perizinan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Ya"],
+  ["3762", "ACD", "002", "Perizinan Rencana Kerja Anggaran Tahunan Bursa Berjangka Dan Lembaga Kliring Berjangka", "Badan Usaha", "ACD.S041", "Perizinan Lembaga Bidang Perekonomian", "T", "Ya"],
+  ["3762", "ADI", "001", "Layanan Sertifikasi Ujian Profesi Wakil Pialang Berjangka dan Wakil Penasihat Berjangka", "Orang", "ADI.S009", "Sertifikasi Profesi dan SDM Perdagangan dan Industri", "T", "Ya"],
+  ["3762", "AFA", "001", "SKKNI di Bidang Perdagangan Berjangka Komoditi", "NSPK", "AFA.S005", "NSPK Bidang Perekonomian", "T", "Ya"],
+  ["3762", "BMA", "001", "Data dan Informasi Harga Komoditi di Bidang PBK", "dokumen", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Ya"],
+  ["3762", "BMA", "002", "Layanan Data dan informasi Pasar Fisik Aset Kripto", "layanan", "BMA.S041", "Data dan Informasi Bidang Perekonomian", "T", "Ya"],
+  ["3762", "FAB", "001", "Sistem Informasi Pendukung Publikasi Informasi PBK", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3762", "FAB", "002", "Sistem Informasi Manajemen Pelaku Usaha Perdagangan Berjangka Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3762", "FAB", "003", "Sistem Informasi Pendukung Layanan Informasi Harga Komoditi", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3762", "FAB", "005", "Sistem Informasi Pendukung Kebijakan Pimpinan", "Sistem Informasi", "FAB.S002", "Pengelolaan Sistem Informasi", "T", "Ya"],
+  ["3762", "PBB", "001", "Analisa pengembangan kelembagaan dan produk di bidang PBK", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3762", "PBB", "G01", "Rekomendasi Kebijakan pengembangan kelembagaan dan produk di bidang Perdagangan Berjangka Komoditi", "Rekomendasi Kebijakan", "ABB.S002", "Rekomendasi Kebijakan terkait Perdagangan Domestik/Dalam Negeri", "T", "Ya"],
+  ["3762", "QDH", "001", "Fasilitasi dan Pembinaan Pelaku Usaha Perdagangan Berjangka Komoditi", "Badan usaha", "BDH.S002", "Fasilitasi dan Pembinaan Badan Usaha Bidang Investasi dan Penanaman Modal", "T", "Ya"],
+  ["3758", "CAN", "001", "Peralatan Teknologi Informasi dan komunikasi Penunjang Pelaksanaan Tugas Bappebti", "Unit", "CAN.S001", "Sarana Infrastruktur Teknologi Informasi dan Komunikasi", "T", "Ya"],
+  ["3758", "EBA", "956", "Layanan BMN", "Layanan", "EBA.S009", "Layanan BMN", "T", "Ya"],
+  ["3758", "EBA", "958", "Layanan Hubungan Masyarakat dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Ya"],
+  ["3758", "EBA", "960", "Layanan Organisasi dan Tata Kelola Internal.", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Ya"],
+  ["3758", "EBA", "963", "Layanan Data dan Informasi", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Ya"],
+  ["3758", "EBA", "994", "Layanan Perkantoran", "Layanan", "EBA.S001", "Layanan Perkantoran", "T", "Ya"],
+  ["3758", "EBA", "Z02", "Layanan Hubungan Masyarakat dan Informasi pada Satker Koordinator Tingkat Eselon I", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Ya"],
+  ["3758", "EBA", "Z03", "Layanan Hubungan Masyarakat dan Informasi pada Satker Vertikal", "Layanan", "EBA.S003", "Layanan Hubungan Masyarakat dan Informasi", "T", "Ya"],
+  ["3758", "EBA", "Z06", "Layanan BMN pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBA.S009", "Layanan BMN", "T", "Ya"],
+  ["3758", "EBA", "Z07", "Layanan BMN pada Satker Vertikal", "Layanan", "EBA.S009", "Layanan BMN", "T", "Ya"],
+  ["3758", "EBA", "Z08", "Layanan Organisasi dan Tata Kelola Internal", "Layanan", "EBA.S008", "Layanan Organisasi dan Tata Kelola Internal", "T", "Ya"],
+  ["3758", "EBC", "954", "Layanan Manajemen SDM", "Orang", "EBC.S001", "Layanan SDM", "T", "Ya"],
+  ["3758", "EBC", "996", "Layanan Pendidikan dan Pelatihan", "Orang", "EBC.S002", "Layanan Pendidikan dan Pelatihan", "T", "Ya"],
+  ["3758", "EBC", "Z10", "Layanan Manajemen SDM Lingkup Kementerian/Lembaga tanpa satker vertikal dan tanpa UPT", "Orang", "EBC.S001", "Layanan SDM", "T", "Ya"],
+  ["3758", "EBD", "952", "Layanan Perencanaan dan Penganggaran", "Dokumen", "EBD.S001", "Layanan Perencanaan dan Penganggaran", "T", "Ya"],
+  ["3758", "EBD", "953", "Layanan Pemantauan dan Evaluasi", "Dokumen", "EBD.S002", "Layanan Pemantauan, Evaluasi dan Pelaporan", "T", "Ya"],
+  ["3758", "EBD", "955", "Layanan Manajemen Keuangan", "Dokumen", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Ya"],
+  ["3758", "EBD", "Z26", "Layanan Manajemen Keuangan pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Ya"],
+  ["3758", "EBD", "Z27", "Layanan Manajemen Keuangan pada Satker Vertikal", "Layanan", "EBD.S003", "Layanan Manajemen Keuangan", "T", "Ya"],
+  ["3758", "EBD", "Z32", "Layanan Reformasi Kinerja pada Satker Vertikal", "Layanan", "EBD.S005", "Layanan Reformasi Kinerja", "T", "Ya"],
+  ["3758", "EBD", "Z35", "Layanan Manajemen Kinerja pada Satker Koordinator Tingkat Unit Eselon I", "Layanan", "EBD.S007", "Layanan Manajemen Kinerja", "T", "Ya"],
+  ["3758", "EBD", "Z36", "Layanan Manajemen Kinerja pada Satker Vertikal", "Layanan", "EBD.S007", "Layanan Manajemen Kinerja", "T", "Ya"]
 ];
 
 const PEMADANAN_RO_2027_META = {
-  diekspor: "5 November 2026 23:55 WIB",
+  diekspor: "9 November 2026 06:58 WIB",
   ta: 2027,
   unit: "090.07",
   program: "090.07.EF (teknis) · 090.07.WA (dukungan manajemen)",
@@ -10016,7 +10016,7 @@ function matrixSheets(tab){
 /* Disusun setelah usulan PSN SRG TA 2027 tidak disetujui, sehingga sasaran  */
 /* SRG dan PLK ditempuh melalui RO reguler.                                  */
 /* Dasar:                                                                    */
-/*  - Rumusan & kode RO Standar (ROS) dari pemadanan RO TA 2027 (79 RO,      */
+/*  - Rumusan & kode RO Standar (ROS) dari pemadanan RO TA 2027 (83 RO,      */
 /*    seluruhnya disetujui) — lihat menu Pemadanan RO.                       */
 /*  - Pagu & target TA 2027 dari Pagu Anggaran TA 2027 (KRISNA Rekap 3A).    */
 /*  - Target indikator TA 2028 dari Renstra Bappebti 2025–2029 (IKSS/IKK).   */
@@ -10856,7 +10856,7 @@ function MenuProyeksi2028(){
         <div className="serif text-lg mb-2">Dasar Perhitungan dan Asumsi</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <ul className="text-[11.5px] text-[var(--text-2)] leading-relaxed list-disc pl-4 space-y-1">
-            <li>Rumusan dan kode ROS seluruh RO mengikuti pemadanan RO TA 2027 (79 RO, seluruhnya disetujui).</li>
+            <li>Rumusan dan kode ROS seluruh RO mengikuti pemadanan RO TA 2027 (83 RO, seluruhnya terkunci).</li>
             <li>Biaya satuan = pagu Pagu Anggaran TA 2027 dibagi targetnya, tanpa penambahan inflasi.</li>
             <li>Pagu khusus hanya pada UAB.001 (SPLT) dan UAB.002 (WMS) karena keduanya beralih dari pemeliharaan ke pengembangan. Kedua angka itu asumsi dan perlu kajian biaya.</li>
             <li>RO gabungan AAH.F01 dan AEA.001 pada Kegiatan 3761 dibagi proporsional: 3 peraturan dan 3 kegiatan untuk SRG/PLK, 4 peraturan dan 4 kegiatan untuk PBK.</li>
