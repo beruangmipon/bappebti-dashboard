@@ -2225,10 +2225,12 @@ const PRIORITAS = {
   prop: { kode:"ProP 008",   nama:"Optimalisasi Pemanfaatan Sarana Perdagangan untuk Peningkatan Perdagangan Antardaerah" },
 };
 
-/* Tagging SPBE / belanja TIK. TA 2026 (sumber: Monitoring Proses Clearance RO TIK 2026): 7 RO, clearance & EGA Selesai.
+/* Tagging SPBE / belanja TIK. TA 2026: 8 RO (Monitoring Clearance RO TIK 2026 + belanja TIK PNBP RKA-KL Rev 11).
+   8 RO clearance Selesai (Rp369,7 jt). Belanja TIK PNBP Rev 11 (CAN.001, printer perizinan, Rp7,6 jt) sudah lolos clearance SPBE internal via ND TI.01.00/867 (10 Nov 2026): 3758.CAN.001 sesuai & dapat dilaksanakan.
    TA 2027 (sumber: Rekapitulasi Belanja TIK Clearance Pusat Kemendag TA 2027): 6 RO, Rp929.485.000. */
 const SPBE = [
   { ro:"RO-3758-CAN1", kode:"CAN.001", keg:"3758", nama:"Peralatan TIK Penunjang Tugas Bappebti",   pagu:115_200_000, belanja:"Non Teknis", klasifikasi:"Internal",  clearance:"Internal", proses:"Selesai", ega:"Sudah" },
+  { ro:"RO-3758-CAN1P", kode:"CAN.001", keg:"3758", nama:"Peralatan Pendukung Pemrosesan Perizinan PBK (printer) — PNBP Rev 11", pagu:7_600_000, belanja:"Perangkat", klasifikasi:"Internal",  clearance:"Internal", proses:"Selesai", ega:"Sudah", ref:"ND TI.01.00/867/SJ-DAG.8/ND/11/2026 (10 Nov 2026)" },
   { ro:"RO-3760-BMA1", kode:"BMA.001", keg:"3760", nama:"Data & Informasi Harga Komoditi SRG/PLK",  pagu:29_000_000,  belanja:"Data",       klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Selesai", ega:"Sudah" },
   { ro:"RO-3760-FAB1", kode:"FAB.001", keg:"3760", nama:"Sistem Informasi Persetujuan SRG & PLK",   pagu:30_000_000,  belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Selesai", ega:"Sudah" },
   { ro:"RO-3760-UAB1", kode:"UAB.001", keg:"3760", nama:"Sistem Aplikasi SPLT (Pasar Lelang Terpadu)", pagu:30_000_000, belanja:"Aplikasi", klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Selesai", ega:"Sudah" },
@@ -2414,7 +2416,7 @@ TEMUAN 4 — Pohon kinerja akan diuji oleh reposisi kelembagaan. Dengan BMKS ber
 
 REKOMENDASI: (1) tambahkan indikator antara yang menjembatani IKP ke IKS, misalnya nilai resi gudang yang diterbitkan gudang binaan; (2) tetapkan pengumpulan triwulanan variabel ISP-2 dan ISP-3 seperti yang sudah tersedia untuk 2025; (3) siapkan crosswalk pohon kinerja ke struktur baru untuk kedua opsi reposisi agar target Renstra 2025–2029 tidak terputus.`,
 
-  spbe: `Status clearance SPBE Bappebti TA 2026 lengkap: 7 dari 7 RO TIK (total Rp362,1 juta) telah submit EGA. Namun clearance bukan tujuan — eksekusi dan keberfungsian sistemlah ukurannya, dan per September 2026 di situlah persoalannya.
+  spbe: `Status clearance SPBE Bappebti TA 2026: 8 dari 8 RO TIK (total Rp369,7 juta) telah selesai clearance. Belanja TIK baru dari PNBP RKA-KL Revisi 11 — peralatan pendukung pemrosesan perizinan PBK (printer) Rp7,6 juta pada CAN.001 — telah lolos clearance SPBE internal melalui Nota Dinas TI.01.00/867/SJ-DAG.8/ND/11/2026 (10 November 2026), yang menyatakan Kegiatan Sarana TIK 3758.CAN.001 sudah sesuai dan dapat dilaksanakan. Namun clearance bukan tujuan — eksekusi dan keberfungsian sistemlah ukurannya, dan per September 2026 di situlah persoalannya.
 
 GAP CLEARANCE-EKSEKUSI: Tiga sistem Kegiatan 3760 yang sudah lolos clearance masih nol rupiah realisasi s.d. September — UAB.002 WMS (Rp60 juta, progress 16,1%), UAB.001 SPLT (Rp30 juta, 12,7%), dan FAB.001 Sistem Informasi Persetujuan SRG/PLK (Rp30 juta, 16%). Total Rp120 juta atau 33% belanja TIK belum bergerak. Sebaliknya FAB.002 Sistem Aplikasi Perizinan PBK sudah tuntas (Rp59,2 juta, 100%) dan CAN.001 Peralatan TIK berjalan dengan progress 74,97%.
 
@@ -2727,7 +2729,7 @@ function MenuBanner({kind}){
     capaian:{judul:"Capaian Kinerja", sub:year===2027?"Target TA 2027 · realisasi belum berjalan":`Target vs realisasi TA ${year}`,warna:"var(--red)",
       k: year===2025?[{l:"IKS 1.3",v:"14,14%"},{l:"IKP tercapai",v:"4 dari 4"},{l:"Progress fisik RO",v:"99,26%"},{l:"Serapan (SAKTI)",v:"99,09%"}]
         : year===2027?[{l:"Target IKS",v:"15%"},{l:"Target ISP-1",v:"5,5%"},{l:"Target ISP-4",v:"91"},{l:"Pagu",v:rp(pagu)}]
-        :[{l:"IKS 1.3 · TW III",v:`${fmtN(CAPAIAN_IKS_2026.real)}%`},{l:"Serapan 3 Nov",v:`${fmtN(REALISASI_NOV2026.pct)}%`},{l:"Progress fisik RO",v:"76,85%"},{l:"IKP-3 kepatuhan",v:"81,52%"}]},
+        :[{l:"IKS 1.3 · TW III",v:`${fmtN(CAPAIAN_IKS_2026.real)}%`},{l:"Serapan 16 Nov",v:`${fmtN(REALISASI_NOV2026.pct)}%`},{l:"Progress fisik RO",v:"76,85%"},{l:"IKP-3 kepatuhan",v:"81,52%"}]},
     sebaran:{judul:"Sistem Resi Gudang", sub:`Gudang, pengelola, penerbitan resi & pembiayaan · data s.d. ${RG_CUTOFF_2026}`, warna:"var(--gold)",
       k:[{l:"Gudang SRG",v:GUDANG.length},{l:"Gudang aktif",v:GUDANG.filter(x=>x.st==='aktif').length},{l:"Resi gudang (kumulatif)",v:RESI_GUDANG_TOTAL.rg.toLocaleString('id-ID')},{l:"Pembiayaan",v:rp(RESI_GUDANG_TOTAL.nilaiBiaya)}]},
     plk:{judul:"Pasar Lelang Komoditas", sub:"Lelang fisik terorganisir · nilai transaksi s.d. Oktober 2026", warna:"var(--emerald)",
@@ -7281,7 +7283,7 @@ function MenuSPBE(){
           <div className="serif text-xl mb-2">Data SPBE TA {year} belum tersedia</div>
           <p className="text-sm text-[var(--text-2)] max-w-xl mx-auto">Tagging & proses clearance belanja TIK terekam untuk <b>TA 2026</b> (realisasi) dan <b>TA 2027</b> (rencana). Pilih salah satu tahun tersebut pada pemilih Tahun Anggaran di header.</p>
           <div className="flex items-center justify-center gap-2 mt-4 text-[10px] mono text-[var(--text-3)]">
-            <span className="pill pill-muted">TA 2026 · 7 RO</span>
+            <span className="pill pill-muted">TA 2026 · 8 RO</span>
             <span className="pill pill-muted">TA 2027 · 6 RO</span>
           </div>
         </div>
@@ -11336,6 +11338,93 @@ function realisasiABT(mode){
   t.pct = t.pagu? t.real/t.pagu*100 : null;
   return {baris, total:t};
 }
+/* ===== Penambahan Anggaran PNBP TA 2026 (RKA-KL Revisi 11, 13 Nov 2026) ===== */
+const PNBP_2026 = {
+  total: 149_850_000,
+  sumber: "RKA-KL TA 2026 Revisi 11",
+  tanggal: "13 November 2026",
+  items: [
+    { keg:"3762", kode:"QDH.001", nama:"Forum Konsultasi Teknis Commodity Desk (PBK)",              nilai:110_728_000, jenis:"Layanan / Pembinaan", ket:"Honorarium, jasa profesi narasumber, perjalanan dinas, dan bahan forum" },
+    { keg:"3762", kode:"ADI.001", nama:"Sertifikasi Ujian Profesi Wakil Pialang/Penasihat",         nilai:31_522_000,  jenis:"Sertifikasi",        ket:"Tambahan porsi PNBP pelaksanaan ujian profesi (perjalanan & honor)" },
+    { keg:"3758", kode:"CAN.001", nama:"Peralatan Pendukung Pemrosesan Perizinan PBK (printer)",     nilai:7_600_000,   jenis:"Belanja TIK",        ket:"Clearance SPBE internal SELESAI — ND TI.01.00/867/SJ-DAG.8/ND/11/2026 (10 Nov 2026)" },
+  ],
+  history: [
+    { rev:"Revisi 10", tgl:"28 Okt 2026", total:8_066_133_000, pnbp:0,           delta:0,           ket:"POK awal + ABT; belum ada komponen PNBP pada ketiga RO" },
+    { rev:"Revisi 11", tgl:"13 Nov 2026", total:8_215_983_000, pnbp:149_850_000, delta:149_850_000, ket:"Penambahan 3 komponen PNBP: Forum Commodity Desk, Sertifikasi Ujian, dan Peralatan TIK Perizinan" },
+  ],
+};
+function PNBPCard2026(){
+  const P = PNBP_2026;
+  const maxN = Math.max(...P.items.map(x=>x.nilai));
+  const jtf = (n)=> "Rp "+(n/1e6).toFixed(1).replace(".",",")+" jt";
+  const Mf  = (n)=> "Rp "+(n/1e9).toFixed(3).replace(".",",")+" M";
+  return (
+    <div className="card p-0 overflow-hidden mb-6">
+      <div className="p-5 border-b border-[var(--border)]" style={{background:"linear-gradient(135deg,rgba(212,164,55,0.06) 0%,rgba(16,185,129,0.05) 100%)"}}>
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <span className="pill pill-gold mono text-[10px]">PNBP</span>
+          <span className="pill pill-muted text-[9px] mono">{P.sumber} · {P.tanggal}</span>
+        </div>
+        <div className="flex items-end justify-between flex-wrap gap-3">
+          <div>
+            <div className="serif text-xl">Penambahan Anggaran PNBP TA 2026</div>
+            <div className="text-[12px] text-[var(--text-2)] mt-1 max-w-3xl leading-relaxed">Sumber dana PNBP yang ditambahkan pada Revisi 11, menaikkan pagu dari Rp8,066 M (Rev 10) menjadi Rp8,216 M. Seluruhnya melekat pada tiga RO.</div>
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Total PNBP</div>
+            <div className="serif text-3xl text-[var(--gold)]">{jtf(P.total)}</div>
+          </div>
+        </div>
+      </div>
+      <div className="p-5">
+        {/* Rincian per RO */}
+        <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Rincian per RO</div>
+        <div className="space-y-2.5 mb-6">
+          {P.items.map((x,i)=>(
+            <div key={i} className="card-2 p-3.5">
+              <div className="flex items-center justify-between gap-3 mb-1 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="pill pill-muted mono text-[9px]">Keg {x.keg}</span>
+                  <span className="mono text-[11px] font-semibold text-[var(--text-1)]">{x.kode}</span>
+                  <span className="text-[12px] text-[var(--text-1)]">{x.nama}</span>
+                </div>
+                <span className="serif text-lg text-[var(--gold)]">{jtf(x.nilai)}</span>
+              </div>
+              <div className="h-1.5 rounded-full overflow-hidden mb-1.5" style={{background:"var(--card)"}}>
+                <div className="h-full rounded-full" style={{width:`${(x.nilai/maxN*100).toFixed(0)}%`,background:"var(--gold)"}}></div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="pill text-[8px]" style={{background:"rgba(37,99,235,0.1)",color:"var(--blue)",borderColor:"transparent"}}>{x.jenis}</span>
+                <span className="text-[10.5px] text-[var(--text-3)] leading-relaxed">{x.ket}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Riwayat revisi */}
+        <div className="text-[11px] font-semibold text-[var(--text-2)] mb-2 uppercase tracking-wide">Riwayat revisi pagu</div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[11px]">
+            <thead><tr className="text-left text-[var(--text-3)] border-b border-[var(--border)]">
+              <th className="py-1.5 pr-3 font-medium">Revisi</th><th className="py-1.5 pr-3 font-medium">Tanggal</th><th className="py-1.5 pr-3 font-medium text-right">Pagu Satker</th><th className="py-1.5 pr-3 font-medium text-right">PNBP</th><th className="py-1.5 pr-3 font-medium text-right">Δ PNBP</th><th className="py-1.5 font-medium">Keterangan</th>
+            </tr></thead>
+            <tbody>{P.history.map((h,i)=>(
+              <tr key={i} className="border-b border-[var(--border)] align-top">
+                <td className="py-2 pr-3 font-semibold text-[var(--text-1)]">{h.rev}</td>
+                <td className="py-2 pr-3 text-[var(--text-2)]">{h.tgl}</td>
+                <td className="py-2 pr-3 text-right text-[var(--text-1)]">{Mf(h.total)}</td>
+                <td className="py-2 pr-3 text-right text-[var(--text-2)]">{h.pnbp===0?"—":jtf(h.pnbp)}</td>
+                <td className="py-2 pr-3 text-right" style={{color:h.delta>0?"var(--emerald)":"var(--text-3)"}}>{h.delta>0?"+"+jtf(h.delta):"—"}</td>
+                <td className="py-2 text-[10.5px] text-[var(--text-3)] leading-relaxed">{h.ket}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+        <div className="text-[10px] text-[var(--text-3)] italic mt-3 leading-relaxed">Realisasi akrual (16 Nov 2026) dihitung terhadap pagu Rev 11; porsi PNBP ini termasuk di dalamnya. Belanja TIK CAN.001 (Rp7,6 jt) telah lolos clearance SPBE internal.</div>
+      </div>
+    </div>
+  );
+}
+
 function MenuRealisasi2026(){
   const [filKeg,setFilKeg] = useState("semua");
   const [urut,setUrut] = useState("rendah");
@@ -11415,6 +11504,8 @@ function MenuRealisasi2026(){
           <div className="text-[10px] text-[var(--text-3)] mt-1">dalam proses revisi DIPA/POK (ADI.001)</div>
         </div>
       </div>
+
+      <PNBPCard2026 />
 
       {/* Garis linear & proyeksi */}
       <div className="card p-5 mb-6">
