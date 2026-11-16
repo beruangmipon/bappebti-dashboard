@@ -2225,8 +2225,8 @@ const PRIORITAS = {
   prop: { kode:"ProP 008",   nama:"Optimalisasi Pemanfaatan Sarana Perdagangan untuk Peningkatan Perdagangan Antardaerah" },
 };
 
-/* Tagging SPBE / belanja TIK (sumber: Monitoring Proses Clearance RO TIK 2026).
-   7 RO ber-tagging SPBE; semua clearance & submit EGA SPBE telah Selesai. */
+/* Tagging SPBE / belanja TIK. TA 2026 (sumber: Monitoring Proses Clearance RO TIK 2026): 7 RO, clearance & EGA Selesai.
+   TA 2027 (sumber: Rekapitulasi Belanja TIK Clearance Pusat Kemendag TA 2027): 6 RO, Rp929.485.000. */
 const SPBE = [
   { ro:"RO-3758-CAN1", kode:"CAN.001", keg:"3758", nama:"Peralatan TIK Penunjang Tugas Bappebti",   pagu:115_200_000, belanja:"Non Teknis", klasifikasi:"Internal",  clearance:"Internal", proses:"Selesai", ega:"Sudah" },
   { ro:"RO-3760-BMA1", kode:"BMA.001", keg:"3760", nama:"Data & Informasi Harga Komoditi SRG/PLK",  pagu:29_000_000,  belanja:"Data",       klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Selesai", ega:"Sudah" },
@@ -2241,30 +2241,18 @@ const getSPBE = (roId)=> SPBE.find(s=>s.ro===roId) || null;
 /* SPBE TA 2027 (sumber: Monitoring Proses Clearance RO TIK 2026-2027, sheet 2027).
    Masih tahap usulan anggaran — proses clearance & submit EGA belum selesai. */
 const SPBE_2027 = [
-  { ro:"R27-3758-CAN1", kode:"CAN.001", keg:"3758", nama:"Peralatan TIK Penunjang Tugas Bappebti",            pagu:715_200_000,   belanja:"Non Teknis", klasifikasi:"Internal",  clearance:"Internal", proses:"Belum", ega:"Belum" },
-  { ro:"R27-3759-CCL1", kode:"CCL.001", keg:"3759", nama:"Pemeliharaan Perangkat Pengawasan Gudang SRG di Daerah", pagu:365_740_000, belanja:"Non Teknis", klasifikasi:"Internal",  clearance:"Internal", proses:"Belum", ega:"Belum" },
-  { ro:"R27-3759-FAB1", kode:"FAB.001", keg:"3759", nama:"Sistem Informasi Pengawasan SRG",                   pagu:150_000_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3759-FAB2", kode:"FAB.002", keg:"3759", nama:"Sistem Informasi Pengawasan PLK",                   pagu:30_000_000,    belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3759-FAB3", kode:"FAB.003", keg:"3759", nama:"Sistem Informasi Pengawasan Perdagangan Berjangka Komoditi", pagu:1_000_000_000, belanja:"Aplikasi", klasifikasi:"Eksternal", clearance:"Pusat", proses:"Belum", ega:"Belum" },
-  { ro:"R27-3760-BMA1", kode:"BMA.001", keg:"3760", nama:"Data & Informasi Harga Komoditi SRG/PLK",           pagu:150_000_000,   belanja:"Data",       klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3760-FAB1", kode:"FAB.001", keg:"3760", nama:"Sistem Informasi Persetujuan SRG dan PLK",          pagu:180_000_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3760-UAB1", kode:"UAB.001", keg:"3760", nama:"Sistem Aplikasi SPLT (Pasar Lelang Terpadu)",       pagu:120_000_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3760-UAB2", kode:"UAB.002", keg:"3760", nama:"Sistem Aplikasi WMS (Warehouse Management)",        pagu:120_000_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-BMA1", kode:"BMA.001", keg:"3762", nama:"Data & Informasi Harga Komoditi PBK",               pagu:369_639_000,   belanja:"Data",       klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-BMA2", kode:"BMA.002", keg:"3762", nama:"Data & Informasi Pasar Komoditi Indonesia",         pagu:706_630_000,   belanja:"Data",       klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-CCL1", kode:"CCL.001", keg:"3762", nama:"Pemeliharaan Perangkat TIK Bappebti",               pagu:402_050_000,   belanja:"Non Teknis", klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-FAB1", kode:"FAB.001", keg:"3762", nama:"Sistem Informasi Pendukung Publikasi Informasi PBK", pagu:212_700_000,  belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-FAB2", kode:"FAB.002", keg:"3762", nama:"Sistem Informasi Manajemen Pelaku Usaha PBK",        pagu:163_550_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
-  { ro:"R27-3762-FAB3", kode:"FAB.003", keg:"3762", nama:"Sistem Informasi Pendukung Layanan Informasi Harga", pagu:113_550_000,   belanja:"Aplikasi",   klasifikasi:"Eksternal", clearance:"Pusat",    proses:"Belum", ega:"Belum" },
+  { ro:"R27-3758-CAN1", kode:"CAN.001", keg:"3758", nama:"Peralatan TIK Penunjang Pelaksanaan Tugas Bappebti",   pagu:120_000_000, belanja:"Perangkat", klasifikasi:"Internal",  clearance:"Pusat", proses:"Proses", ega:"Belum" },
+  { ro:"R27-3760-BMA1", kode:"BMA.001", keg:"3760", nama:"Data & Informasi Harga Komoditi SRG dan PLK",         pagu:264_825_000, belanja:"Data",      klasifikasi:"Eksternal", clearance:"Pusat", proses:"Proses", ega:"Belum" },
+  { ro:"R27-3760-UAB1", kode:"UAB.001", keg:"3760", nama:"Sistem Aplikasi SPLT (Pasar Lelang Terpadu)",         pagu:60_000_000,  belanja:"Aplikasi",  klasifikasi:"Eksternal", clearance:"Pusat", proses:"Proses", ega:"Belum" },
+  { ro:"R27-3760-UAB2", kode:"UAB.002", keg:"3760", nama:"Sistem Aplikasi WMS (Warehouse Management System)",   pagu:60_000_000,  belanja:"Aplikasi",  klasifikasi:"Eksternal", clearance:"Pusat", proses:"Proses", ega:"Belum" },
+  { ro:"R27-3762-BMA1", kode:"BMA.001", keg:"3762", nama:"Data & Informasi Harga Komoditi PBK",                 pagu:215_410_000, belanja:"Data",      klasifikasi:"Eksternal", clearance:"Pusat", proses:"Proses", ega:"Belum" },
+  { ro:"R27-3762-FAB2", kode:"FAB.002", keg:"3762", nama:"Sistem Aplikasi Perizinan PBK",                       pagu:209_250_000, belanja:"Aplikasi",  klasifikasi:"Eksternal", clearance:"Pusat", proses:"Proses", ega:"Belum" },
 ];
-/* Selaraskan SPBE TA 2027 dengan Pagu Anggaran resmi (KRISNA Rekap 3A): hanya RO yang ada di Pagu Anggaran
-   yang dipertahankan, dan nilai pagu = pagu RO resmi. RO usulan RANWAL yang tidak masuk Pagu Anggaran dikeluarkan. */
+/* SPBE TA 2027 = Rekapitulasi Belanja TIK Clearance Pusat Kementerian Perdagangan TA 2027 (Satker 412492).
+   6 RO lolos daftar clearance; nilai = belanja TIK per RO (porsi TIK, bisa < pagu RO penuh). Grand total Rp929.485.000.
+   Kolom rekap: CAN (Sarana TIK), BMA (Data & Informasi Publik), FAB & UAB (Sistem Informasi Pemerintahan); QMA & CCL OP nihil. */
 const SPBE_2027_USULAN = SPBE_2027;
-const SPBE_2027_PA = SPBE_2027_USULAN.map(x=>{
-  const k = PAGU_ANGGARAN_2027.keg.find(g=>g.kode===x.keg);
-  const ro = k && k.ro.find(r=>r.kode===x.kode);
-  return ro ? {...x, pagu: ro.pagu} : null;
-}).filter(Boolean);
+const SPBE_2027_PA = SPBE_2027;
 const spbeData = (year)=> year===2027 ? SPBE_2027_PA : (year===2026 ? SPBE : []);
 
 /* Tagging tematik per RO (sumber: file Ketelusuran). */
@@ -2434,7 +2422,7 @@ Nilai yang ditopang sistem-sistem kecil ini jauh lebih besar dari belanjanya: WM
 
 REKOMENDASI: (1) Kontrakkan ketiga sistem 3760 paling lambat pertengahan November melalui penunjukan langsung; bila tidak memungkinkan, ajukan pergeseran anggaran agar tidak menjadi sisa pagu. (2) Tetapkan kriteria fungsional per sistem — WMS: gudang aktif melaporkan stok bulanan via sistem; SPLT: seluruh penyelenggara aktif mencatat lelang di platform; FAB: seluruh permohonan persetujuan baru masuk via sistem. (3) Mengingat reposisi kelembagaan, pastikan kepemilikan aplikasi, data, dan hak akses SRG/PLK terdokumentasi sehingga dapat dialihkan ke unit penerima tanpa memutus layanan.`,
 
-  spbe2027: `Belanja TIK TA 2027 pada Pagu Alokasi Anggaran (PAA, Rincian Kertas Kerja Satker) berjumlah Rp929 juta pada 6 RO — lebih ramping dari Pagu Anggaran KRISNA (Rp1,12 miliar) dan jauh di bawah usulan awal (±Rp4,8 miliar pada 15 RO). Komposisinya: Data dan Informasi Harga Komoditi SRG/PLK (Rp264,8 juta) dan PBK (Rp215,4 juta), Sistem Informasi Manajemen Pelaku Usaha PBK (Rp209,3 juta), CAN.001 (Rp120 juta), serta Sistem Aplikasi SPLT dan WMS masing-masing Rp60 juta (naik dari Rp30 juta).
+  spbe2027: `Belanja TIK TA 2027 pada Pagu Alokasi Anggaran (PAA, Rincian Kertas Kerja Satker) berjumlah Rp929 juta pada 6 RO — lebih ramping dari Pagu Anggaran KRISNA (Rp1,12 miliar) dan jauh di bawah usulan awal (±Rp4,8 miliar pada 15 RO). Komposisinya: Data dan Informasi Harga Komoditi SRG/PLK (Rp264,8 juta) dan PBK (Rp215,4 juta), Sistem Aplikasi Perizinan PBK (Rp209,25 juta), Peralatan/Sarana TIK CAN.001 (Rp120 juta), serta Sistem Aplikasi SPLT dan WMS masing-masing Rp60 juta (naik dari Rp30 juta).
 
 DISIPLIN 1 — Selaraskan nomenklatur dan akun. CAN.001 bernomenklatur "Peralatan TIK" tetapi di PAA dianggarkan sebagai jasa keamanan infrastruktur server (akun 522119), bukan belanja modal. Klasifikasi SPBE dan pencatatan BMN-nya perlu disesuaikan agar tidak menjadi temuan.
 
@@ -7294,7 +7282,7 @@ function MenuSPBE(){
           <p className="text-sm text-[var(--text-2)] max-w-xl mx-auto">Tagging & proses clearance belanja TIK terekam untuk <b>TA 2026</b> (realisasi) dan <b>TA 2027</b> (rencana). Pilih salah satu tahun tersebut pada pemilih Tahun Anggaran di header.</p>
           <div className="flex items-center justify-center gap-2 mt-4 text-[10px] mono text-[var(--text-3)]">
             <span className="pill pill-muted">TA 2026 · 7 RO</span>
-            <span className="pill pill-muted">TA 2027 · 15 RO</span>
+            <span className="pill pill-muted">TA 2027 · 6 RO</span>
           </div>
         </div>
       </div>
@@ -7398,7 +7386,7 @@ function MenuSPBE(){
         <p className="text-xs text-[var(--text-2)] leading-relaxed">
           SPBE (Sistem Pemerintahan Berbasis Elektronik) mewajibkan belanja TIK melewati <b>clearance</b> (internal & EGA pusat) sebelum dieksekusi.
           {year===2027
-            ? ` Rencana belanja TIK TA 2027 melonjak menjadi ${fmtRp(totalPagu)} pada ${rows.length} RO — termasuk sistem pengawasan baru (SRG, PLK, PBK) dan data pasar komoditi. Seluruhnya masih tahap usulan anggaran sehingga proses clearance & submit EGA belum selesai; penyelesaiannya perlu dikawal pada tahap perencanaan agar tidak menghambat eksekusi 2027.`
+            ? ` Belanja TIK TA 2027 hasil Rekapitulasi Clearance Pusat Kemendag berjumlah ${fmtRp(totalPagu)} pada ${rows.length} RO — data & informasi harga (SRG/PLK dan PBK), sistem SPLT dan WMS, aplikasi perizinan PBK, serta sarana TIK. Masih tahap clearance/usulan anggaran sehingga proses clearance & submit EGA belum selesai; penyelesaiannya perlu dikawal pada tahap perencanaan agar tidak menghambat eksekusi 2027.`
             : ` Seluruh ${rows.length} RO TIK Bappebti TA 2026 telah menyelesaikan clearance dan submit EGA. Belanja Aplikasi mendominasi nilai — sejalan dengan pengembangan sistem SRG/PLK (WMS, SPLT) dan PBK (perizinan).`}
         </p>
       </div>
