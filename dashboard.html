@@ -9439,6 +9439,43 @@ const PEMDA_REKOM_OPSI = [
   {k:"Penghapusan", d:"kewenangan sudah tidak relevan atau telah dicabut"},
 ];
 
+/* Analisis ketahanan hukum: dapatkah pengawasan SRG & PLK dilakukan Pemda?
+   Dasar: UU 9/2006 jo. UU 9/2011, Perpres 75/2022, Permendag 33/2024, UU 23/2014. */
+const ANALISIS_PENGAWASAN = {
+  pertanyaan:"Dapatkah pengawasan SRG & PLK di tingkat Provinsi dan Kabupaten/Kota dilakukan oleh Pemerintah Daerah? Apakah usulan yang hanya menempatkan pengawasan pada Pemerintah Pusat menyalahi peraturan?",
+  verdikJudul:"Usulan SAH dan tidak menyalahi peraturan",
+  verdikRingkas:"Pengawasan dalam arti penegakan kepatuhan dan penjatuhan sanksi adalah kewenangan atributif Pemerintah Pusat (Badan Pengawas/Bappebti) dan tidak didesentralisasikan ke daerah. Pemerintah Daerah tetap berperan pada pembinaan, fasilitasi, dan pemantauan operasional yang dikoordinasikan dengan Badan Pengawas. Menempatkan pengawasan hanya di Pusat justru konsisten dengan peraturan.",
+  kolomPusat:{
+    judul:"Pengawasan (kepatuhan + sanksi) — kewenangan Pusat",
+    sub:"Tidak boleh dilaksanakan Pemda",
+    c:"#1B599B",
+    poin:[
+      "SRG: Badan Pengawas SRG adalah unit organisasi di bawah Menteri yang diberi wewenang pembinaan, pengaturan, dan pengawasan pelaksanaan SRG (UU 9/2006 jo. UU 9/2011, Pasal 1).",
+      "Pengawasan lembaga (Pengelola Gudang, LPK, Pusat Registrasi), pengawasan transaksi, dan pengenaan sanksi administratif melekat pada Badan Pengawas (Pasal 21 & 40 UU SRG).",
+      "PLK: pengawasan Penyelenggara Pasar Lelang Komoditas dilaksanakan oleh Bappebti (Perpres 75/2022; Permendag 33/2024 Pasal 29).",
+      "Asas: yang memberikan izin/persetujuan (Pusat) yang berwenang mencabut dan menjatuhkan sanksi — tidak dapat dipecah ke daerah.",
+    ],
+  },
+  kolomDaerah:{
+    judul:"Pembinaan & pemantauan operasional — peran Daerah",
+    sub:"Boleh, dikoordinasikan dengan Badan Pengawas",
+    c:"#059669",
+    poin:[
+      "UU 9/2011 memberi Urusan Pemerintah Daerah di bidang pembinaan SRG (kebijakan daerah, pengembangan komoditas unggulan, penguatan pelaku ekonomi kerakyatan, pemfasilitasian pengembangan SRG & PLK).",
+      "Urusan pembinaan daerah tersebut secara tegas dikoordinasikan dengan Badan Pengawas (UU 9/2011).",
+      "Lingkup daerah: pembinaan, fasilitasi, sosialisasi/literasi, dan pemantauan ekosistem di wilayahnya — bukan penegakan kepatuhan atau penjatuhan sanksi.",
+      "Karena itu nomenklatur daerah pada usulan memakai \"pelaksanaan/fasilitasi/pemantauan\", bukan \"pengawasan\".",
+    ],
+  },
+  alasanSah:[
+    "Lex specialis: UU SRG dan Perpres/Permendag PLK mengatribusikan pengawasan kepada Badan Pengawas (Pusat). UU 23/2014 tidak menghapus atribusi ini; suatu urusan dapat tetap menjadi kewenangan Pusat bila ditentukan undang-undang tersendiri.",
+    "Urusan konkuren perdagangan membagi pembinaan/pengembangan ke daerah, tetapi pengawasan SRG/PLK yang bersifat teknis-nasional tetap pada Pusat agar standar dan sanksi seragam.",
+    "Menempatkan pengawasan hanya di Pusat menghindari dualisme pengawasan dan konflik kewenangan sanksi antar tingkat pemerintahan.",
+    "Peran daerah tidak hilang: daerah tetap membina, memfasilitasi, dan memantau — dikoordinasikan dengan Badan Pengawas — sehingga sinergi Pusat–Daerah tetap terjaga.",
+  ],
+  catatan:"Ringkasan ini merupakan analisis kebijakan/hukum untuk memperkuat dasar usulan, bukan pendapat hukum formal. Rujukan utama: UU 9/2006 jo. UU 9/2011 tentang SRG; Perpres 75/2022 dan Permendag 33/2024 tentang PLK; UU 23/2014 tentang Pemerintahan Daerah.",
+};
+
 /* Kerangka tipologi PP 18/2016: variabel umum 20% + teknis 80%; tiap indikator teknis
    5 kelas (a–e) skala 200/400/600/800/1.000; Skor = Skala × Bobot% / 100. */
 const TIPOLOGI_KERANGKA = {
@@ -9633,6 +9670,50 @@ function MenuKoordinasiPemda(){
             <div key={i} className="flex items-start gap-2 text-[11.5px] text-[var(--text-2)]"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"var(--blue)"}}></span><span>{d}</span></div>
           ))}
         </div>
+      </div>
+
+      {/* Analisis ketahanan hukum — pengawasan di daerah */}
+      <div className="card p-5 mb-8" style={{borderLeft:"3px solid var(--emerald)"}}>
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <span className="pill text-[9px]" style={{background:"rgba(5,150,105,0.14)",color:"#059669",border:"1px solid rgba(5,150,105,0.3)"}}>ANALISIS KETAHANAN HUKUM</span>
+          <span className="serif text-lg">Dapatkah Pengawasan SRG &amp; PLK Dilakukan Pemerintah Daerah?</span>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] italic mb-3">{ANALISIS_PENGAWASAN.pertanyaan}</div>
+
+        <div className="rounded-md p-3 mb-4" style={{background:"rgba(5,150,105,0.07)",border:"1px solid rgba(5,150,105,0.3)"}}>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full" style={{background:"#059669"}}><span className="text-white text-[11px]">✓</span></span>
+            <span className="text-[13px] font-semibold" style={{color:"#047857"}}>{ANALISIS_PENGAWASAN.verdikJudul}</span>
+          </div>
+          <div className="text-[11px] text-[var(--text-2)] leading-relaxed">{ANALISIS_PENGAWASAN.verdikRingkas}</div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-4">
+          {[ANALISIS_PENGAWASAN.kolomPusat, ANALISIS_PENGAWASAN.kolomDaerah].map((col,ci)=>(
+            <div key={ci} className="rounded-md border p-3" style={{borderColor:col.c+"40", background:col.c+"08"}}>
+              <div className="mb-2">
+                <div className="text-[12px] font-semibold" style={{color:col.c}}>{col.judul}</div>
+                <div className="text-[10px] mono uppercase tracking-wider" style={{color:ci===0?"#b45309":"#047857"}}>{col.sub}</div>
+              </div>
+              <ul className="space-y-1.5 text-[10.5px] text-[var(--text-2)] leading-snug">
+                {col.poin.map((p,pi)=>(<li key={pi} className="flex gap-1.5"><span className="shrink-0" style={{color:col.c}}>•</span><span>{p}</span></li>))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-3">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Mengapa Usulan Tidak Menyalahi Peraturan</div>
+          <div className="space-y-2">
+            {ANALISIS_PENGAWASAN.alasanSah.map((a,i)=>(
+              <div key={i} className="flex items-start gap-2.5 text-[11px]">
+                <span className="mono text-[10px] shrink-0 inline-flex items-center justify-center rounded-full" style={{width:18,height:18,background:"rgba(5,150,105,0.14)",color:"#047857",border:"1px solid rgba(5,150,105,0.3)",fontWeight:700}}>{i+1}</span>
+                <span className="text-[var(--text-2)] leading-snug">{a}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] italic border-t border-[var(--border)] pt-2.5">{ANALISIS_PENGAWASAN.catatan}</div>
       </div>
 
       {/* ============ BAGIAN B — Indikator Tipologi PP 18/2016 ============ */}
