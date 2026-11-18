@@ -2636,6 +2636,7 @@ function MenuIcon({kind, size=18}){
     case "plk": return (<svg {...p}><path d="M13.5 3.5l6 6M10.5 6.5l6 6M12 5l6 6" style={s}/><path d="M13.3 9.7L5 18" style={s}/><path d="M3 21h9" style={s}/></svg>);
     case "pbk": return (<svg {...p}><path d="M3 20.5h18" style={s}/><path d="M6 8v9M10 5v10M14 9v8M18 4v8" style={s}/><rect x="4.6" y="10" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/><rect x="8.6" y="7" width="2.8" height="6" rx=".5" style={VS("currentColor",0.25)}/><rect x="12.6" y="11" width="2.8" height="4" rx=".5" style={VS("currentColor",0.25)}/><rect x="16.6" y="5.5" width="2.8" height="5" rx=".5" style={VS("currentColor",0.25)}/></svg>);
     case "proyeksi": return (<svg {...p}><path d="M3 20.5h18" style={s}/><rect x="4.5" y="13" width="3.6" height="7.5" rx=".6" style={s}/><rect x="10.2" y="9.5" width="3.6" height="11" rx=".6" style={s}/><rect x="15.9" y="6" width="3.6" height="14.5" rx=".6" style={{...s, strokeDasharray:"2.6 2"}}/><path d="M4.2 5.6l6.3-2 5.8 1.4 3.9-2.4" style={s}/></svg>);
+    case "pemda": return (<svg {...p}><path d="M3 21h18" style={s}/><path d="M5 21V9.5l5-3 5 3V21" style={s}/><path d="M10 6.5V3.5" style={s}/><path d="M19 21V12l-4-2.5" style={s}/><path d="M8.5 21v-4h3v4" style={s}/><path d="M8.5 11.5h0M11.5 11.5h0M8.5 14h0M11.5 14h0" style={VS("currentColor")}/></svg>);
     default: return null;
   }
 }
@@ -2709,6 +2710,15 @@ function MenuIllustration({kind}){
       {[0,1,2].map(i=>(<g key={i}><ellipse cx="214" cy={122-i*9} rx="18" ry="6" style={VS(g)}/><ellipse cx="214" cy={119-i*9} rx="18" ry="6" style={VS("var(--gold-soft)")}/></g>))}
       <text x="214" y="104" textAnchor="middle" fontSize="7" fontWeight="800" style={{fill:"#fff"}}>EMAS</text>
     </svg>);
+    case "pemda": return (<svg {...common}>
+      <circle cx="130" cy="72" r="64" style={VS(b,0.08)}/>{ground}
+      {/* tiga tingkat pemerintahan */}
+      <rect x="96" y="30" width="68" height="28" rx="5" style={VS("var(--card)")}/><rect x="96" y="30" width="68" height="28" rx="5" style={VSt(b,2)}/><text x="130" y="48" textAnchor="middle" fontSize="9" fontWeight="800" style={{fill:b}}>PUSAT</text>
+      <rect x="40" y="86" width="64" height="26" rx="5" style={VS("var(--card)")}/><rect x="40" y="86" width="64" height="26" rx="5" style={VSt(e,2)}/><text x="72" y="103" textAnchor="middle" fontSize="8" fontWeight="800" style={{fill:e}}>PROVINSI</text>
+      <rect x="156" y="86" width="64" height="26" rx="5" style={VS("var(--card)")}/><rect x="156" y="86" width="64" height="26" rx="5" style={VSt(g,2)}/><text x="188" y="100" textAnchor="middle" fontSize="7.5" fontWeight="800" style={{fill:g}}>KAB/KOTA</text>
+      <path d="M118 58L80 86M142 58l44 28" style={VSt(t,1.8,0.55)}/>
+      <circle cx="130" cy="124" r="10" style={VS(g)}/><path d="M125.5 124l3 3 6-6.5" style={VSt("#fff",2.4)}/>
+    </svg>);
     default: return null;
   }
 }
@@ -2738,6 +2748,8 @@ function MenuBanner({kind}){
       k:[{l:"Nilai transaksi 2026",v:`Rp${(PBK_NILAI_TRANSAKSI.find(d=>d.th==="2026").nilai).toLocaleString('id-ID')} T`},{l:"Pertumbuhan YoY",v:`+${fmtN(PBK_YOY_2026.nilai)}%`},{l:"Volume",v:`${(PBK_VOL_TRANSAKSI.find(d=>d.th==="2026").total/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})} jt lot`},{l:"Pialang berjangka",v:PBK_KELEMBAGAAN.pialang}]},
     proyeksi:{judul:"Proyeksi Rencana Kegiatan", sub:"Rencana pelaksanaan TA 2027, usulan Renja TA 2028, dan proyeksi TA 2029", warna:"var(--gold)",
       k:[{l:"Usulan pagu 2028",v:`Rp${(PROY_2028_RO.reduce((a,r)=>a+proyP28(r),0)/1e9).toFixed(2).replace('.',',')} M`},{l:"Rincian Output",v:PROY_2028_RO.filter(r=>r.kode!=="\u2014").length},{l:"Unit Eselon II",v:PROY_2028_E2.length},{l:"Indikator 2028",v:PROY_2028_IND.length}]},
+    pemda:{judul:"Koordinasi Dukungan Pemerintah Daerah", sub:"Pembagian urusan SRG\u2013PLK (UU 23/2014) \u00b7 tipologi perangkat daerah (PP 18/2016) \u00b7 pemutakhiran nomenklatur (Kemendagri)", warna:"var(--blue)",
+      k:[{l:"Sub-Urusan",v:PEMDA_URUSAN.length},{l:"Indikator Tipologi",v:TIPOLOGI_INDIKATOR.length},{l:"Sub-Keg Nomenklatur",v:MATRIKS_NOMEN.length},{l:"Tingkat Pemerintahan",v:3}]},
   }[kind];
   if(!C) return null;
   return (
@@ -2962,6 +2974,7 @@ function Tabs({active,onChange}){
     {id:"sebaran", label:"SRG",                sub:"Sistem Resi Gudang · PSN SRG"},
     {id:"plk",     label:"PLK",                sub:"Pasar Lelang Komoditas"},
     {id:"pbk",     label:"PBK",                sub:"Perdagangan Berjangka Komoditi"},
+    {id:"pemda",   label:"Dukungan Pemda",     sub:"Koordinasi SRG–PLK · UU 23/2014 · Tipologi Daerah"},
     {id:"proyeksi",label:"Proyeksi",          sub:"Rencana Kegiatan TA 2027 · 2028 · 2029 · Kelembagaan Baru"},
   ];
   return (
@@ -9253,6 +9266,552 @@ function PlkBarChart({sel}){
   );
 }
 
+/* ======================================================================== */
+/* KOORDINASI DUKUNGAN PEMERINTAH DAERAH — SRG & PLK                         */
+/* Sumber (unggahan pengguna, 18 Nov 2026):                                  */
+/*  1) Matriks Penelaahan & Usulan Penyesuaian Pembagian Urusan Pemerintahan  */
+/*     Bidang Perdagangan — Lampiran UU 23/2014 (dokumen final).              */
+/*  2) Matriks Indikator Tipologi (Rev Bappebti) — indikator teknis baru      */
+/*     perangkat daerah, PP 18/2016.                                          */
+/*  3) Penjelasan Dasar Penentuan Kelas Interval/Skala/Bobot/Skor indikator    */
+/*     teknis SRG & PLK — berbasis data capaian TW III 2026 (PDF).            */
+/* Seluruh isi menu ini mengikuti berkas sumber apa adanya.                   */
+/* ======================================================================== */
+const PEMDA_REKOM = { c:"#059669", bg:"rgba(5,150,105,0.12)", bd:"rgba(5,150,105,0.35)", label:"Penambahan" };
+/* Surat Dinas usulan pemutakhiran nomenklatur ke Kemendagri (kanal formal usulan SRG–PLK).
+   Sumber: SD PR.02.00/3823/SJ-DAG.1/SD/09/2026 (17 Sep 2026), Kepala Biro Perencanaan Kemendag.
+   Catatan: matriks rinci berada pada tautan eksternal; hanya lingkup PLK & SRG yang ditampilkan di sini. */
+const USULAN_KEPMENDAGRI = {
+  nomor:"PR.02.00/3823/SJ-DAG.1/SD/09/2026",
+  tanggal:"17 September 2026",
+  sifat:"SEGERA",
+  dari:"Kepala Biro Perencanaan, Kementerian Perdagangan",
+  kepada:"Direktur Sinkronisasi Urusan Pemerintahan Daerah (SUPD) III, Kementerian Dalam Negeri",
+  hal:"Penyampaian Usulan Pemutakhiran Nomenklatur Perencanaan Pembangunan Daerah Bidang Perdagangan",
+  konteks:"Menindaklanjuti permintaan Setditjen Bina Pembangunan Daerah Kemendagri terkait Pemutakhiran Klasifikasi, Kodefikasi, dan Nomenklatur Perencanaan Pembangunan Daerah Tahun 2026 (dibahas dalam Rapat 24 Agustus 2026), untuk penyusunan RKPD Tahun 2028 dan Perubahan RKPD Tahun 2027.",
+  lingkup:[
+    "Penyesuaian nomenklatur subkegiatan, kinerja, indikator, dan satuan di bidang SRG & PLK;",
+    "Penambahan dan/atau penyempurnaan definisi operasional, NSPK, dan Data Statistik Sektoral Daerah (DSSD) terkait SRG & PLK;",
+    "Penghapusan subkegiatan yang tidak lagi relevan atau telah terakomodasi;",
+    "Penambahan subkegiatan baru untuk mendukung kebutuhan kebijakan dan pelaksanaan urusan SRG & PLK di daerah.",
+  ],
+  matriks:"Matriks Usulan Kemendag — tingkat provinsi dan kabupaten/kota (tautan: kemend.ag/matriksperubahannomen3)",
+  tujuan:"Menjadi bahan penelaahan untuk diakomodasi dalam Pemutakhiran Nomenklatur Perencanaan Pembangunan Daerah Tahun 2026, sebagai acuan RKPD 2028 dan Perubahan RKPD 2027.",
+  catatanPLKSRG:"Surat ini merupakan kanal formal penyampaian usulan ke Kemendagri; sejalan dengan penyesuaian pembagian urusan (Bagian A) dan indikator tipologi (Bagian B). Rincian matriks sub-kegiatan SRG & PLK (lama vs usulan) disajikan pada Bagian D.",
+};
+/* Matriks Perubahan Nomenklatur — baris Bappebti (SRG & PLK) saja.
+   Sumber: 5_Matriks_Perubahan_Nomenklatur.xlsx (sheet PROVINSI & KAB KOTA);
+   acuan lama: Kepmendagri No. 900.1.15.5-3406 Tahun 2022. */
+const MATRIKS_NOMEN_REKAP = {
+  acuanLama:"Kepmendagri No. 900.1.15.5-3406 Tahun 2022",
+  bappebtiProv:2, bappebtiKab:2,
+  catatan:"Rekapitulasi matriks: pada lingkungan Bappebti (SRG & PLK) terdapat 2 sub-kegiatan tingkat Provinsi dan 2 sub-kegiatan tingkat Kabupaten/Kota; jumlah sub-kegiatan tetap (tidak ada penghapusan/penambahan pada Bappebti), dengan satu perubahan nomenklatur pada sub-kegiatan PLK Provinsi dan pengisian Definisi Operasional, NSPK, serta DSSD pada seluruhnya.",
+};
+const MATRIKS_NOMEN = [
+  { tingkat:"provinsi", bidang:"PLK", status:"Perubahan", kode:"3.30.03.1.01.0003",
+    nomLama:"Penataan, Pembinaan, dan Pengembangan Pasar Lelang Komoditas",
+    nomBaru:"Pembinaan dan Pengembangan Pasar Lelang Komoditas",
+    kinBaru:"Terselenggaranya kegiatan fasilitasi pemanfaatan Pasar Lelang Komoditas kepada pelaku usaha",
+    kinLama:"Meningkatnya Jumlah Pengguna Pasar Lelang Komoditas",
+    indLama:"Jumlah Pengguna Pasar Lelang Komoditas yang Berpartisipasi",
+    indBaru:"Jumlah Pelaku Usaha yang berpartisipasi dalam kegiatan fasilitasi",
+    satuan:"Orang",
+    perubahan:["Penghilangan frasa \"Penataan\" pada nomenklatur sub-kegiatan","Perubahan sasaran kinerja (dari \"Meningkatnya Jumlah Pengguna PLK\")","Perubahan nomenklatur indikator (dari \"Pengguna pasar lelang\" menjadi \"Pelaku Usaha\")"],
+    defop:"Kegiatan pembinaan dan pengembangan Pasar Lelang Komoditas dilaksanakan untuk meningkatkan partisipasi pengguna pasar lelang komoditas, dapat meliputi: a. Fasilitasi pelatihan dan pendampingan kepada Penyelenggara Pasar Lelang Komoditas; dan/atau b. Sosialisasi serta edukasi kepada masyarakat dan pelaku usaha untuk meningkatkan literasi Pasar Lelang Komoditas.",
+    nspk:["UU No. 7/2014 tentang Perdagangan","Perpres No. 75/2022 tentang Penataan, Pembinaan dan Pengembangan Pasar Lelang Komoditas","Permendag No. 33/2024 tentang Peraturan Pelaksanaan Perpres No. 75/2022"],
+    dssd:["Data produksi komoditas unggulan daerah","Data pelaku usaha komoditas"] },
+  { tingkat:"provinsi", bidang:"SRG", status:"Tetap", kode:"3.30.03.1.01.0004",
+    nomLama:"Pelaksanaan kegiatan fasilitasi dalam rangka implementasi SRG di masing-masing kabupaten/kota dalam provinsi",
+    nomBaru:"Pelaksanaan kegiatan fasilitasi dalam rangka implementasi SRG di masing-masing kabupaten/kota dalam provinsi",
+    kinBaru:"Terselenggaranya kegiatan fasilitasi dalam rangka implementasi Sistem Resi Gudang",
+    indBaru:"Jumlah kegiatan fasilitasi dalam rangka Implementasi Sistem Resi Gudang",
+    satuan:"Kegiatan",
+    perubahan:["Nomenklatur tetap; pengisian Definisi Operasional, NSPK, dan DSSD"],
+    defop:"Kegiatan fasilitasi implementasi SRG dapat meliputi: a. Fasilitasi pelatihan kepada pelaku usaha untuk penyiapan sebagai calon Pengelola Gudang SRG atau penguatan kapasitas kelembagaan SRG; b. Koordinasi dengan pemangku kepentingan di daerah untuk optimalisasi dan percepatan pelaksanaan SRG; c. Sosialisasi dan edukasi kepada petani dan pelaku usaha untuk meningkatkan literasi SRG; d. Pemantauan dan evaluasi implementasi SRG/Skema Subsidi Resi Gudang tingkat daerah; e. Insentif dan kebijakan daerah pendukung pelaksanaan SRG; f. Promosi dan pemasaran komoditas dari gudang SRG.",
+    nspk:["UU No. 9/2006 tentang Sistem Resi Gudang jo. UU No. 9/2011","PP No. 36/2007 tentang Pelaksanaan UU No. 9/2006 jo. PP No. 70/2013"],
+    dssd:["Data produksi komoditas SRG","Data gudang SRG/non-SRG"] },
+  { tingkat:"kabkota", bidang:"SRG", status:"Tetap", kode:"3.30.03.2.01.03",
+    nomLama:"Pelaksanaan fasilitasi terkait Sistem Resi Gudang di wilayah kabupaten/kota",
+    nomBaru:"Pelaksanaan fasilitasi terkait Sistem Resi Gudang di wilayah kabupaten/kota",
+    kinBaru:"Terselenggaranya kegiatan fasilitasi Sistem Resi Gudang",
+    indBaru:"Jumlah Kegiatan fasilitasi Sistem Resi Gudang",
+    satuan:"Kegiatan",
+    perubahan:["Nomenklatur tetap; pengisian Definisi Operasional, NSPK, dan DSSD"],
+    defop:"Kegiatan fasilitasi implementasi SRG dapat meliputi: a. Sosialisasi dan pembinaan kepada petani dan pelaku usaha untuk meningkatkan literasi SRG; b. Koordinasi dengan pemangku kepentingan untuk optimalisasi dan percepatan pelaksanaan SRG; c. Pemantauan dan evaluasi implementasi SRG/Skema Subsidi Resi Gudang tingkat daerah; d. Insentif dan kebijakan daerah pendukung pelaksanaan SRG; e. Penyediaan sarana dan prasarana pendukung gudang SRG.",
+    nspk:["UU No. 9/2006 tentang Sistem Resi Gudang jo. UU No. 9/2011","PP No. 36/2007 jo. PP No. 70/2013","PMK No. 187/PMK.5/2021 tentang Skema Subsidi Resi Gudang","Permendag No. 53/2022 tentang Pelaksanaan Skema Subsidi Resi Gudang"],
+    dssd:["Data produksi komoditas SRG","Data gudang SRG/non-SRG"] },
+  { tingkat:"kabkota", bidang:"SRG", status:"Tetap", kode:"3.30.03.2.01.04",
+    nomLama:"Identifikasi terhadap lembaga dan komoditas potensial Sistem Resi Gudang di wilayah kabupaten/kota",
+    nomBaru:"Identifikasi terhadap lembaga dan komoditas potensial Sistem Resi Gudang di wilayah kabupaten/kota",
+    kinBaru:"Tersedianya informasi terkait lembaga dan komoditas potensial Sistem Resi Gudang",
+    indBaru:"Jumlah laporan identifikasi lembaga dan komoditas potensial Sistem Resi Gudang",
+    satuan:"laporan",
+    perubahan:["Nomenklatur tetap; pengisian Definisi Operasional, NSPK, dan DSSD"],
+    defop:"Kegiatan identifikasi, pengumpulan, verifikasi, dan penyusunan data/informasi oleh pemerintah kabupaten/kota mengenai (1) lembaga-lembaga yang telah maupun berpotensi berperan dalam pelaksanaan SRG di wilayahnya, dan (2) komoditas unggulan daerah yang memenuhi kriteria untuk dijadikan objek Resi Gudang — sebagai bahan dasar perencanaan program fasilitasi dan pengembangan SRG di tingkat daerah.",
+    nspk:["UU No. 9/2006 tentang Sistem Resi Gudang jo. UU No. 9/2011","PP No. 36/2007 jo. PP No. 70/2013"],
+    dssd:["Data produksi komoditas unggulan daerah","Data pelaku usaha komoditas"] },
+];
+const PEMDA_TINGKAT = {
+  pusat:   {label:"Pemerintah Pusat",        c:"#1B599B", short:"PUSAT"},
+  provinsi:{label:"Daerah Provinsi",         c:"#059669", short:"PROVINSI"},
+  kabkota: {label:"Daerah Kabupaten/Kota",   c:"#a16207", short:"KAB/KOTA"},
+};
+/* Matriks pembagian urusan (UU 23/2014). rekom: semua "Penambahan". */
+const PEMDA_URUSAN = [
+  { sub:"Pembinaan dan Pengembangan Pasar Lelang Komoditas", bidang:"PLK", tingkat:[
+    { t:"pusat", kewenangan:[
+      "Penyusunan dan penetapan norma, standar, prosedur, dan kriteria dalam penyelenggaraan PLK;",
+      "Pelaksanaan program kerja yang meliputi peningkatan SDM, literasi dan pendampingan terkait PLK;",
+      "Fasilitasi dan pelayanan pemberian persetujuan di bidang Pasar Lelang Komoditas;",
+      "Pelaksanaan pemantauan dan evaluasi berkala terhadap penyelenggaraan PLK; dan",
+      "Pelaksanaan pengawasan terhadap Penyelenggara Pasar Lelang Komoditas.",
+    ], analisis:"PLK membutuhkan satu ekosistem yang seragam di seluruh Indonesia — standarisasi mutu komoditas, sistem penjaminan, hingga penyelesaian transaksi. Pemerintah Pusat berada pada posisi strategis untuk menciptakan regulasi tunggal agar pasar lelang antar wilayah terintegrasi tanpa ego sektoral kedaerahan; menyelaraskan PLK dengan infrastruktur nasional (SRG dan jaringan logistik); serta menjamin penegakan hukum lintas provinsi (kontrak lelang, penyelesaian sengketa, mitigasi gagal bayar). Pembinaan oleh Pusat bukan menegasikan peran daerah, melainkan menyediakan payung hukum, sistem, dan infrastruktur makro agar daerah dapat mengimplementasikannya optimal." },
+    { t:"provinsi", kewenangan:[
+      "Penguatan koordinasi dan kolaborasi pelaksanaan program kebijakan pembinaan PLK antar sektor terkait di tingkat daerah yang meliputi lebih dari satu Kab/Kota;",
+      "Peningkatan kompetensi SDM di bidang PLK melalui sosialisasi, pelatihan dan pendampingan yang melibatkan lebih dari satu Kab/Kota;",
+      "Perluasan pasar komoditas unggulan daerah melalui promosi dan sinergi kemitraan, SRG, dan PLK yang melibatkan lebih dari satu Kab/Kota;",
+      "Fasilitasi penyelenggaraan PLK dan penguatan ekosistem kepada pelaku usaha yang melibatkan lebih dari satu Kab/Kota;",
+      "Peningkatan daya saing pelaku usaha dan komoditas unggulan daerah yang melibatkan lebih dari satu Kab/Kota;",
+      "Penguatan konektivitas ekosistem PLK antar daerah dalam mendukung perdagangan antar wilayah.",
+    ], analisis:"Provinsi merupakan jembatan strategis antara kebijakan makro nasional (Pusat) dan realitas produksi di lapangan (Kabupaten/Kota) — menangani urusan PLK yang bersifat lintas kabupaten/kota." },
+    { t:"kabkota", kewenangan:[
+      "Peningkatan kompetensi SDM di bidang PLK melalui sosialisasi, pelatihan dan pendampingan dalam lingkup Kab/Kota;",
+      "Perluasan pasar komoditas unggulan daerah melalui promosi dan sinergi kemitraan, SRG, dan PLK;",
+      "Fasilitasi penyelenggaraan PLK dan penguatan ekosistem kepada pelaku usaha dalam lingkup Kab/Kota;",
+      "Peningkatan daya saing pelaku usaha dan komoditas unggulan daerah dalam lingkup Kab/Kota.",
+    ], analisis:"Kabupaten/Kota adalah ujung tombak atas prinsip kedekatan pelayanan — entitas pemerintahan paling dekat dengan petani, peternak, nelayan, serta pelaku UMKM sebagai produsen utama komoditas." },
+  ]},
+  { sub:"Pembinaan dan Pengembangan Sistem Resi Gudang", bidang:"SRG", tingkat:[
+    { t:"pusat", kewenangan:[
+      "Penyusunan kebijakan nasional untuk mempercepat pengembangan SRG;",
+      "Pengoordinasian antar sektor pertanian, keuangan, perbankan, dan sektor terkait untuk pengembangan SRG;",
+      "Pengoordinasian antara SRG dan Perdagangan Berjangka Komoditi;",
+      "Pengembangan standarisasi komoditas dan infrastruktur teknologi informasi;",
+      "Pemberian kemudahan bagi koperasi, UKM, serta kelompok tani di bidang SRG; dan",
+      "Penguatan kelembagaan SRG dan infrastruktur pendukungnya, khususnya sektor keuangan dan pasar lelang komoditas.",
+    ], analisis:"Pembinaan SRG perlu sinergis antara Pusat, Provinsi dan Kab/Kota karena merekalah yang paling memahami peta potensi komoditas unggulan daerah, sebaran petani, dan infrastruktur logistik. Pusat menjaga aspek kebijakan nasional dan standar; daerah membina operasional di lapangan — agar implementasi UU 9/2006 jo. UU 9/2011 berjalan efektif untuk stabilitas harga dan ketahanan pangan nasional." },
+    { t:"provinsi", kewenangan:[
+      "Pembuatan kebijakan daerah untuk mempercepat pelaksanaan SRG;",
+      "Pengembangan komoditas unggulan di daerah;",
+      "Penguatan peran pelaku usaha ekonomi kerakyatan untuk mengembangkan pelaksanaan SRG;",
+      "Pemfasilitasian pengembangan SRG;",
+      "Pelaksanaan pemantauan ekosistem SRG di Provinsi sesuai kewenangannya.",
+    ], analisis:"Provinsi sebagai jembatan mengintegrasikan konektivitas perdagangan antar-wilayah, mendorong hilirisasi komoditas, dan menciptakan ekosistem pasar lelang yang lebih luas." },
+    { t:"kabkota", kewenangan:[
+      "Pembuatan kebijakan daerah untuk mempercepat pelaksanaan SRG;",
+      "Pengembangan komoditas unggulan di daerah;",
+      "Penguatan peran pelaku usaha ekonomi kerakyatan untuk mengembangkan pelaksanaan SRG;",
+      "Pemfasilitasian pengembangan SRG;",
+      "Pelaksanaan pemantauan ekosistem SRG di Kabupaten/Kota sesuai kewenangannya.",
+    ], analisis:"Kab/Kota berperan krusial dalam pembinaan langsung di tingkat petani produsen — pemantauan gudang maupun edukasi kelompok tani." },
+  ]},
+  { sub:"Pengawasan Sistem Resi Gudang", bidang:"SRG", tingkat:[
+    { t:"pusat", kewenangan:[
+      "Pengawasan Lembaga SRG (Pengelola Gudang, Lembaga Penilaian Kesesuaian, Pusat Registrasi);",
+      "Pengawasan Transaksi (Penerbitan Resi Gudang, Pembiayaan Resi Gudang, Laporan Pengelola Gudang SRG);",
+      "Pengenaan Sanksi Administratif.",
+    ], analisis:"Pengawasan SRG perlu sinergis sesuai prinsip desentralisasi (UU 23/2014). Pusat mengawasi aspek kebijakan nasional dan standar penyelenggaraan; daerah mengawasi pelaksanaan operasional di lapangan — saling melengkapi untuk mencegah penyimpangan pengelolaan gudang dan penerbitan Resi Gudang, melindungi pemegang Resi Gudang, serta meningkatkan kepercayaan masyarakat." },
+    { t:"provinsi", kewenangan:[], analisis:"" },
+    { t:"kabkota", kewenangan:[], analisis:"" },
+  ]},
+  { sub:"Pengawasan Pasar Lelang Komoditas", bidang:"PLK", tingkat:[
+    { t:"pusat", kewenangan:[
+      "Pemeriksaan teknis terhadap Penyelenggara Pasar Lelang Komoditas;",
+      "Pemantauan kepatuhan transaksi Spot dan Forward;",
+      "Pengenaan Sanksi Administratif.",
+    ], analisis:"Pengawasan PLK perlu sinergis untuk menjamin penyelenggaraan pasar lelang yang tertib, transparan, akuntabel. Pusat melakukan pengawasan nasional; Provinsi menjalankan koordinasi, pembinaan dan pengawasan lintas kab/kota; Kab/Kota membina dan mengawasi pelaksanaan operasional di wilayahnya." },
+    { t:"provinsi", kewenangan:[], analisis:"" },
+    { t:"kabkota", kewenangan:[], analisis:"" },
+  ]},
+];
+const PEMDA_DASAR_HUKUM = [
+  "UU No. 23 Tahun 2014 tentang Pemerintahan Daerah (objek penyesuaian pembagian urusan)",
+  "UU No. 9 Tahun 2006 jo. UU No. 9 Tahun 2011 tentang Sistem Resi Gudang (Pasal 21, 32, 33, 40)",
+  "UU No. 7 Tahun 2024",
+  "Peraturan Presiden No. 75 Tahun 2022 (Penataan, Pembinaan & Pengembangan PLK)",
+  "Permendag No. 33 Tahun 2024 (Pasal 29 — Pengawasan PLK)",
+  "PP No. 18 Tahun 2016 tentang Perangkat Daerah (kerangka indikator tipologi)",
+];
+const PEMDA_REKOM_OPSI = [
+  {k:"Tetap", d:"substansi kewenangan masih sesuai ketentuan yang berlaku"},
+  {k:"Perubahan", d:"terdapat penyesuaian terhadap substansi kewenangan yang telah diatur"},
+  {k:"Penambahan", d:"diperlukan penambahan kewenangan yang belum diatur dalam Lampiran UU 23/2014", aktif:true},
+  {k:"Penghapusan", d:"kewenangan sudah tidak relevan atau telah dicabut"},
+];
+
+/* Kerangka tipologi PP 18/2016: variabel umum 20% + teknis 80%; tiap indikator teknis
+   5 kelas (a–e) skala 200/400/600/800/1.000; Skor = Skala × Bobot% / 100. */
+const TIPOLOGI_KERANGKA = {
+  variabelUmum: 20, variabelTeknis: 80,
+  skala: [200,400,600,800,1000],
+  bobotBaru: 10,
+  catatan:"Masing-masing indikator baru ditetapkan bobot 10%. Total bobot indikator eksisting sudah 80% (PP 18/2016 Lampiran); dengan penambahan indikator baru menjadi 100%. Redistribusi bobot diperlukan pada tahap amandemen PP.",
+};
+/* Indikator teknis baru untuk perangkat daerah (Matriks Tipologi + PDF kalibrasi). */
+const TIPOLOGI_INDIKATOR = [
+  { no:"Prov-11", nama:"Jumlah Pelaku Usaha yang berpartisipasi dalam kegiatan fasilitasi (PLK)", tingkat:"Provinsi", bidang:"PLK", bobot:10, sumber:"Bappebti",
+    sub:"Pembinaan dan Pengembangan Pasar Lelang Komoditas",
+    kelas:[
+      {k:"a", interval:"≤ 20",      skala:200,  skor:20,  ket:"Provinsi baru mulai / belum aktif"},
+      {k:"b", interval:"21 – 50",   skala:400,  skor:40,  ket:"Jabar (24), Banten (40)"},
+      {k:"c", interval:"51 – 150",  skala:600,  skor:60,  ket:"Aceh (61 peserta)"},
+      {k:"d", interval:"151 – 500", skala:800,  skor:80,  ket:"Menengah (proyeksi pertumbuhan)"},
+      {k:"e", interval:"> 500",     skala:1000, skor:100, ket:"Riau (1.102 — hub karet nasional)"},
+    ]},
+  { no:"Prov-12 / Kab-8", nama:"Jumlah kegiatan fasilitasi dalam rangka Implementasi SRG", tingkat:"Provinsi & Kab/Kota", bidang:"SRG", bobot:10, sumber:"Bappebti",
+    sub:"Pembinaan dan Pengembangan / Fasilitasi SRG",
+    kelas:[
+      {k:"a", interval:"≤ 2",     skala:200,  skor:20,  ket:"Daerah baru mulai / 1–2 kegiatan per tahun"},
+      {k:"b", interval:"3 – 5",   skala:400,  skor:40,  ket:"Fasilitasi rutin dasar"},
+      {k:"c", interval:"6 – 10",  skala:600,  skor:60,  ket:"Aktif fasilitasi berkala"},
+      {k:"d", interval:"11 – 15", skala:800,  skor:80,  ket:"Daerah dengan banyak gudang/stakeholder"},
+      {k:"e", interval:"> 15",    skala:1000, skor:100, ket:"Hub SRG nasional, intensif"},
+    ]},
+  { no:"Kab-9", nama:"Jumlah laporan identifikasi lembaga dan komoditas potensial SRG", tingkat:"Kabupaten/Kota", bidang:"SRG", bobot:10, sumber:"Bappebti",
+    sub:"Identifikasi lembaga & komoditas potensial SRG",
+    kelas:[
+      {k:"a", interval:"≤ 1",   skala:200,  skor:20,  ket:"Daerah dengan sedikit komoditas/gudang potensial"},
+      {k:"b", interval:"2 – 3", skala:400,  skor:40,  ket:"Identifikasi rutin"},
+      {k:"c", interval:"4 – 5", skala:600,  skor:60,  ket:"Daerah sentra komoditas"},
+      {k:"d", interval:"6 – 8", skala:800,  skor:80,  ket:"Daerah multi-komoditas aktif"},
+      {k:"e", interval:"> 8",   skala:1000, skor:100, ket:"Hub SRG nasional"},
+    ]},
+];
+/* Distribusi pelaku PLK per provinsi — dasar kalibrasi kelas (PLK_REKAP_2025: 57 lelang, 1.245 peserta). */
+const TIPOLOGI_DISTRIBUSI = [
+  { prov:"Riau (Kop. Apkarkusi)", penjual:592, pembeli:510, total:1102, kelas:"e" },
+  { prov:"Aceh",                  penjual:29,  pembeli:32,  total:61,   kelas:"c" },
+  { prov:"Banten",                penjual:25,  pembeli:15,  total:40,   kelas:"b" },
+  { prov:"Jawa Barat (KPLJB)",    penjual:5,   pembeli:19,  total:24,   kelas:"b" },
+  { prov:"DKI Jakarta (PT KPBN)", penjual:6,   pembeli:12,  total:18,   kelas:"a" },
+  { prov:"9 provinsi lainnya",    penjual:null,pembeli:null,total:null, kelas:"a", ket:"belum aktif" },
+];
+/* Data capaian TW III 2026 yang dipakai mengkalibrasi kelas interval (dari Dashboard Kinerja Bappebti). */
+const TIPOLOGI_DATA_KALIBRASI = [
+  { l:"Pertumbuhan pelaku PLK (IKK-7)",       v:"4,15%", ket:"target 5%, capaian 83%", src:"CAPAIAN_IKK_TW3" },
+  { l:"Total pelaku PLK bertransaksi 2025",   v:"1.405", ket:"dari 1.191 di 2024", src:"VARIABEL_IKP_2025" },
+  { l:"Pertumbuhan pelaku PLK YoY",           v:"+17,97%", ket:"2024 → 2025", src:"VARIABEL_IKP_2025" },
+  { l:"Jumlah daerah penyelenggara PLK",      v:"14", ket:"provinsi", src:"PLK_DAERAH" },
+  { l:"Nilai transaksi PLK TW3 2026",         v:"Rp33,49 M", ket:"s.d. 20 September", src:"IKS_TW3" },
+  { l:"Nilai transaksi Jan–Okt 2026",         v:"Rp38,8 M", ket:"vs Rp34,9 M (+11,2%)", src:"PLK_JANOKT" },
+  { l:"Pertumbuhan pengelola gudang SRG",     v:"6,97%", ket:"target 5%, capaian 139,4%", src:"CAPAIAN_IKK_TW3" },
+  { l:"Gudang SRG aktif",                     v:"153", ket:"dari 145 di TW3 2025", src:"ISP-2" },
+];
+
+function MenuKoordinasiPemda(){
+  const [buka,setBuka] = useState({});
+  const tog = (k)=> setBuka(s=>({...s, [k]:!s[k]}));
+  const fmtPeserta = (n)=> n==null?"—":n.toLocaleString("id-ID");
+  const KELAS_C = {a:"#6b7280", b:"#2563eb", c:"#0891b2", d:"#a16207", e:"#059669"};
+  const maxTot = Math.max(...TIPOLOGI_DISTRIBUSI.filter(d=>d.total).map(d=>d.total));
+
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
+        <span className="pill mono text-[10px]" style={{background:"rgba(27,89,155,0.14)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.3)"}}>DUKUNGAN PEMDA</span>
+        <span className="text-xs text-[var(--text-3)]">Koordinasi & pembagian urusan SRG–PLK dengan Pemerintah Daerah · sumber: Matriks Penyesuaian UU 23/2014, Matriks Tipologi PP 18/2016, dan kalibrasi indikator berbasis capaian TW III 2026</span>
+      </div>
+
+      <div className="mb-6">
+        <div className="serif text-2xl">Koordinasi Dukungan Pemerintah Daerah</div>
+        <div className="text-sm text-[var(--text-2)] mt-1 max-w-3xl">Usulan penyesuaian <b>pembagian urusan pemerintahan</b> bidang perdagangan (SRG &amp; PLK) antar tingkat pemerintahan dalam Lampiran UU 23/2014, serta <b>indikator tipologi perangkat daerah</b> (PP 18/2016) untuk mengukur intensitas urusan SRG/PLK di daerah.</div>
+      </div>
+
+      {/* Stat callouts */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Sub-Urusan Ditelaah</div><div className="serif text-3xl mt-1" style={{color:"var(--blue)"}}>{PEMDA_URUSAN.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">PLK &amp; SRG</div></div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Rekomendasi</div><div className="serif text-3xl mt-1" style={{color:PEMDA_REKOM.c}}>Penambahan</div><div className="text-[10px] text-[var(--text-3)] mt-1">seluruh sub-urusan</div></div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Tingkat Pemerintahan</div><div className="serif text-3xl mt-1">3</div><div className="text-[10px] text-[var(--text-3)] mt-1">Pusat · Provinsi · Kab/Kota</div></div>
+        <div className="card-2 p-4"><div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Indikator Tipologi Baru</div><div className="serif text-3xl mt-1" style={{color:"var(--gold-text)"}}>{TIPOLOGI_INDIKATOR.length}</div><div className="text-[10px] text-[var(--text-3)] mt-1">bobot 10% · PP 18/2016</div></div>
+      </div>
+
+      {/* Usulan Pemutakhiran Nomenklatur ke Kemendagri — kanal formal */}
+      <div className="card p-5 mb-6" style={{borderLeft:"3px solid var(--blue)"}}>
+        <div className="flex items-start justify-between gap-3 flex-wrap mb-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="pill text-[9px]" style={{background:"rgba(27,89,155,0.14)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.3)"}}>USULAN KE KEMENDAGRI</span>
+            <span className="pill text-[9px]" style={{background:"rgba(180,83,9,0.12)",color:"#b45309",border:"1px solid rgba(180,83,9,0.3)"}}>{USULAN_KEPMENDAGRI.sifat}</span>
+            <span className="serif text-lg">Usulan Pemutakhiran Nomenklatur Perencanaan Pembangunan Daerah</span>
+          </div>
+          <button onClick={()=>tog("sd")} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition shrink-0">{buka["sd"]?"▾ Tutup":"▸ Detail surat"}</button>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] leading-relaxed mb-3">Kanal formal penyampaian usulan nomenklatur <b>SRG &amp; PLK</b> ke Kemendagri agar terakomodasi dalam Pemutakhiran Klasifikasi, Kodefikasi, dan Nomenklatur Perencanaan Pembangunan Daerah — acuan <b>RKPD 2028</b> dan <b>Perubahan RKPD 2027</b>.</div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+          <div className="card-2 p-3 text-[11px] space-y-1">
+            <div><span className="text-[var(--text-3)] mono text-[9px] uppercase tracking-wider">Nomor</span><div className="text-[var(--text-2)] mono text-[10.5px]">{USULAN_KEPMENDAGRI.nomor}</div></div>
+            <div><span className="text-[var(--text-3)] mono text-[9px] uppercase tracking-wider">Tanggal</span><div className="text-[var(--text-2)]">{USULAN_KEPMENDAGRI.tanggal}</div></div>
+            <div><span className="text-[var(--text-3)] mono text-[9px] uppercase tracking-wider">Dari</span><div className="text-[var(--text-2)]">{USULAN_KEPMENDAGRI.dari}</div></div>
+            <div><span className="text-[var(--text-3)] mono text-[9px] uppercase tracking-wider">Kepada</span><div className="text-[var(--text-2)]">{USULAN_KEPMENDAGRI.kepada}</div></div>
+          </div>
+          <div className="card-2 p-3">
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Lingkup Usulan (SRG &amp; PLK)</div>
+            <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">
+              {USULAN_KEPMENDAGRI.lingkup.map((l,i)=>(<li key={i} className="flex gap-1.5"><span className="shrink-0" style={{color:"var(--blue)"}}>•</span><span>{l}</span></li>))}
+            </ul>
+          </div>
+        </div>
+
+        {buka["sd"] && (
+          <div className="space-y-2 text-[11px] text-[var(--text-2)] leading-relaxed border-t border-[var(--border)] pt-3">
+            <div><span className="font-semibold">Hal: </span>{USULAN_KEPMENDAGRI.hal}</div>
+            <div><span className="font-semibold">Konteks: </span>{USULAN_KEPMENDAGRI.konteks}</div>
+            <div><span className="font-semibold">Matriks: </span>{USULAN_KEPMENDAGRI.matriks}</div>
+            <div><span className="font-semibold">Tujuan: </span>{USULAN_KEPMENDAGRI.tujuan}</div>
+          </div>
+        )}
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">{USULAN_KEPMENDAGRI.catatanPLKSRG}</div>
+      </div>
+
+      {/* ============ BAGIAN A — Pembagian Urusan UU 23/2014 ============ */}
+      <div className="flex items-center gap-2 mb-3 mt-2">
+        <span className="w-6 h-6 rounded-full flex items-center justify-center mono text-[11px] font-bold text-white" style={{background:"var(--blue)"}}>A</span>
+        <span className="serif text-xl">Penyesuaian Pembagian Urusan Pemerintahan — Lampiran UU 23/2014</span>
+      </div>
+      <div className="card p-4 mb-4">
+        <div className="text-[11px] text-[var(--text-2)] mb-2">Matriks penelaahan mengusulkan <b>penambahan</b> kewenangan SRG &amp; PLK yang belum diatur dalam Lampiran UU 23/2014, dengan pembagian antar tingkat pemerintahan. Opsi rekomendasi:</div>
+        <div className="flex flex-wrap gap-2">
+          {PEMDA_REKOM_OPSI.map((o,i)=>(
+            <span key={i} className="pill text-[10px]" style={o.aktif?{background:PEMDA_REKOM.bg,color:PEMDA_REKOM.c,border:"1px solid "+PEMDA_REKOM.bd,fontWeight:700}:{background:"var(--card-2)",color:"var(--text-3)",border:"1px solid var(--border)"}} title={o.d}>{o.k}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-6">
+        {PEMDA_URUSAN.map((u,ui)=>{
+          const aktif = u.tingkat.filter(t=>t.kewenangan.length>0);
+          return (
+            <div key={ui} className="card p-0 overflow-hidden">
+              <div className="px-5 py-3 flex items-center justify-between gap-2 flex-wrap" style={{background:"var(--card-2)",borderBottom:"1px solid var(--border)"}}>
+                <div className="flex items-center gap-2 flex-wrap min-w-0">
+                  <span className="pill text-[9px]" style={{background:u.bidang==="PLK"?"rgba(5,150,105,0.14)":"rgba(161,98,7,0.14)",color:u.bidang==="PLK"?"#059669":"#a16207",border:"1px solid "+(u.bidang==="PLK"?"rgba(5,150,105,0.3)":"rgba(161,98,7,0.3)")}}>{u.bidang}</span>
+                  <span className="text-[13px] font-semibold text-[var(--text)]">{u.sub}</span>
+                </div>
+                <span className="pill text-[9px]" style={{background:PEMDA_REKOM.bg,color:PEMDA_REKOM.c,border:"1px solid "+PEMDA_REKOM.bd}}>Penambahan</span>
+              </div>
+              <div className="p-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                  {u.tingkat.map((tg,ti)=>{
+                    const T = PEMDA_TINGKAT[tg.t]; const kosong = tg.kewenangan.length===0;
+                    return (
+                      <div key={ti} className="rounded-md border p-3" style={{borderColor:kosong?"var(--border)":T.c+"55", background:kosong?"transparent":T.c+"08", opacity:kosong?0.55:1}}>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <span className="w-2 h-2 rounded-full" style={{background:T.c}}></span>
+                          <span className="text-[11px] font-semibold" style={{color:T.c}}>{T.label}</span>
+                        </div>
+                        {kosong
+                          ? <div className="text-[10.5px] text-[var(--text-3)] italic">Pengawasan terpusat — tidak ada penambahan kewenangan pada tingkat ini.</div>
+                          : <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">{tg.kewenangan.map((k,ki)=>(<li key={ki} className="flex gap-1.5"><span className="shrink-0" style={{color:T.c}}>•</span><span>{k}</span></li>))}</ul>}
+                      </div>
+                    );
+                  })}
+                </div>
+                {aktif.some(t=>t.analisis) && (
+                  <div className="mt-3">
+                    <button onClick={()=>tog("u"+ui)} className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] hover:text-[var(--gold)] transition">{buka["u"+ui]?"▾ Sembunyikan analisis & dasar hukum":"▸ Analisis & dasar hukum"}</button>
+                    {buka["u"+ui] && (
+                      <div className="mt-2 space-y-2">
+                        {u.tingkat.filter(t=>t.analisis).map((tg,ai)=>(
+                          <div key={ai} className="text-[10.5px] text-[var(--text-2)] leading-relaxed p-2.5 rounded" style={{background:"var(--card-2)"}}>
+                            <span className="font-semibold" style={{color:PEMDA_TINGKAT[tg.t].c}}>{PEMDA_TINGKAT[tg.t].label}: </span>{tg.analisis}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="card p-5 mb-8">
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-3">Dasar Hukum &amp; Klausul Penyesuaian</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+          {PEMDA_DASAR_HUKUM.map((d,i)=>(
+            <div key={i} className="flex items-start gap-2 text-[11.5px] text-[var(--text-2)]"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"var(--blue)"}}></span><span>{d}</span></div>
+          ))}
+        </div>
+      </div>
+
+      {/* ============ BAGIAN B — Indikator Tipologi PP 18/2016 ============ */}
+      <div className="flex items-center gap-2 mb-3">
+        <span className="w-6 h-6 rounded-full flex items-center justify-center mono text-[11px] font-bold text-white" style={{background:"var(--gold)"}}>B</span>
+        <span className="serif text-xl">Indikator Tipologi Perangkat Daerah — PP 18/2016</span>
+      </div>
+      <div className="card p-5 mb-4">
+        <div className="text-[11px] text-[var(--text-2)] leading-relaxed mb-3">Besaran organisasi perangkat daerah ditentukan oleh <b>variabel umum (20%)</b> dan <b>variabel teknis (80%)</b>. Tiap indikator teknis memiliki 5 kelas interval (a–e) dengan skala nilai 200/400/600/800/1.000. <span className="mono" style={{color:"var(--gold-text)"}}>Skor = Skala Nilai × Bobot(%) / 100</span>.</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Variabel Umum</div><div className="serif text-2xl mt-0.5">{TIPOLOGI_KERANGKA.variabelUmum}%</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Variabel Teknis</div><div className="serif text-2xl mt-0.5">{TIPOLOGI_KERANGKA.variabelTeknis}%</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Bobot Indikator Baru</div><div className="serif text-2xl mt-0.5" style={{color:"var(--gold-text)"}}>{TIPOLOGI_KERANGKA.bobotBaru}%</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Rentang Skor</div><div className="serif text-2xl mt-0.5">200–1.000</div></div>
+        </div>
+        <div className="text-[9.5px] text-[var(--text-3)] mt-3 italic">{TIPOLOGI_KERANGKA.catatan}</div>
+      </div>
+
+      <div className="space-y-4 mb-6">
+        {TIPOLOGI_INDIKATOR.map((ind,ii)=>(
+          <div key={ii} className="card p-0 overflow-hidden">
+            <div className="px-5 py-3 flex items-center justify-between gap-2 flex-wrap" style={{background:"var(--card-2)",borderBottom:"1px solid var(--border)"}}>
+              <div className="flex items-center gap-2 flex-wrap min-w-0">
+                <span className="pill mono text-[9px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold-text)",border:"1px solid rgba(161,98,7,0.3)"}}>{ind.no}</span>
+                <span className="pill text-[9px]" style={{background:ind.bidang==="PLK"?"rgba(5,150,105,0.12)":"rgba(161,98,7,0.12)",color:ind.bidang==="PLK"?"#059669":"#a16207",border:"1px solid var(--border)"}}>{ind.bidang}</span>
+                <span className="text-[12.5px] font-semibold text-[var(--text)]">{ind.nama}</span>
+              </div>
+              <span className="text-[10px] mono text-[var(--text-3)]">{ind.tingkat} · bobot {ind.bobot}% · sumber {ind.sumber}</span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[11px] border-collapse">
+                <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b border-[var(--border)]">
+                  <th className="py-2 pl-5 pr-2">Kelas</th><th className="py-2 pr-2">Interval</th>
+                  <th className="py-2 pr-2 text-right">Skala Nilai</th><th className="py-2 pr-2 text-right">Skor (10%)</th><th className="py-2 pr-5">Keterangan</th>
+                </tr></thead>
+                <tbody>
+                  {ind.kelas.map((kl,ki)=>(
+                    <tr key={ki} className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--card-2)] transition-colors">
+                      <td className="py-1.5 pl-5 pr-2"><span className="inline-flex items-center justify-center w-5 h-5 rounded mono text-[10px] font-bold text-white" style={{background:KELAS_C[kl.k]}}>{kl.k}</span></td>
+                      <td className="py-1.5 pr-2 mono text-[var(--text-2)]">{kl.interval}</td>
+                      <td className="py-1.5 pr-2 text-right mono text-[var(--text-2)]">{kl.skala.toLocaleString("id-ID")}</td>
+                      <td className="py-1.5 pr-2 text-right mono font-semibold" style={{color:"var(--gold-text)"}}>{kl.skor}</td>
+                      <td className="py-1.5 pr-5 text-[var(--text-3)]">{kl.ket}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ============ BAGIAN C — Kalibrasi berbasis data TW III 2026 ============ */}
+      <div className="flex items-center gap-2 mb-3">
+        <span className="w-6 h-6 rounded-full flex items-center justify-center mono text-[11px] font-bold text-white" style={{background:"var(--emerald)"}}>C</span>
+        <span className="serif text-xl">Kalibrasi Kelas Interval — Berbasis Capaian TW III 2026</span>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Distribusi pelaku PLK per provinsi */}
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Dasar Kalibrasi Indikator PLK</div>
+          <div className="serif text-lg mb-1">Distribusi Pelaku PLK per Provinsi</div>
+          <div className="text-[10.5px] text-[var(--text-3)] mb-3">PLK_REKAP_2025 — 57 lelang, 1.245 peserta (657 penjual, 588 pembeli) di 14 provinsi.</div>
+          <div className="space-y-2">
+            {TIPOLOGI_DISTRIBUSI.map((d,i)=>(
+              <div key={i} className="flex items-center gap-2.5 text-[11px]">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded mono text-[10px] font-bold text-white shrink-0" style={{background:KELAS_C[d.kelas]}}>{d.kelas}</span>
+                <span className="flex-1 text-[var(--text-2)] min-w-0 truncate">{d.prov}{d.ket?<span className="text-[var(--text-3)]"> · {d.ket}</span>:null}</span>
+                <div className="impact-bar w-20 sm:w-28 shrink-0" style={{height:8}}><div className="impact-fill" style={{width:`${d.total?Math.max(3,Math.round(d.total/maxTot*100)):0}%`,background:KELAS_C[d.kelas]}}></div></div>
+                <span className="mono text-[11px] w-14 text-right shrink-0 font-semibold" style={{color:"var(--text-2)"}}>{fmtPeserta(d.total)}</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Riau mendominasi 88,5% total peserta (hub karet nasional via Kop. Apkarkusi); 9 dari 14 provinsi belum memiliki pelaku aktif. Kelas tertinggi (e) ditetapkan &gt; 500 untuk mengakomodasi outlier Riau; kelas d (151–500) disiapkan mengantisipasi pertumbuhan provinsi baru.</div>
+        </div>
+
+        {/* Data capaian TW3 yang dipakai */}
+        <div className="card p-5">
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Data Kunci yang Digunakan</div>
+          <div className="serif text-lg mb-3">Capaian TW III 2026 — Dasar Penentuan Kelas</div>
+          <div className="space-y-1.5">
+            {TIPOLOGI_DATA_KALIBRASI.map((d,i)=>(
+              <div key={i} className="flex items-center gap-2 text-[11px] py-1.5 px-2 rounded-lg hover:bg-[var(--card-2)] transition-colors border-b border-[var(--border)] last:border-0">
+                <div className="flex-1 min-w-0">
+                  <div className="text-[var(--text-2)] leading-snug">{d.l}</div>
+                  <div className="text-[9px] text-[var(--text-3)]">{d.ket} · <span className="mono">{d.src}</span></div>
+                </div>
+                <span className="mono text-[12px] shrink-0 font-semibold" style={{color:"var(--emerald-text)"}}>{d.v}</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-[9px] text-[var(--text-3)] mt-3 italic">TA 2026 PLK tidak dianggarkan — bertumpu pada penyelenggara mandiri (Riau &amp; swasta), menunjukkan peran pemerintah daerah masih perlu diperkuat melalui variabel teknis ini. Kelas interval dapat disesuaikan pada pembahasan lanjutan bersama K/L terkait dan daerah.</div>
+        </div>
+      </div>
+
+      {/* ============ BAGIAN D — Matriks Perubahan Nomenklatur ============ */}
+      <div className="flex items-center gap-2 mb-3 mt-8">
+        <span className="w-6 h-6 rounded-full flex items-center justify-center mono text-[11px] font-bold text-white" style={{background:"var(--violet)"}}>D</span>
+        <span className="serif text-xl">Matriks Perubahan Nomenklatur Sub-Kegiatan — SRG &amp; PLK</span>
+      </div>
+      <div className="card p-4 mb-4">
+        <div className="text-[11px] text-[var(--text-2)] leading-relaxed">Perbandingan nomenklatur sub-kegiatan <b>lama</b> (acuan: {MATRIKS_NOMEN_REKAP.acuanLama}) terhadap <b>usulan pemutakhiran</b>, khusus lingkungan Bappebti (SRG &amp; PLK). {MATRIKS_NOMEN_REKAP.catatan}</div>
+        <div className="flex flex-wrap gap-2 mt-3">
+          <span className="pill text-[10px]" style={{background:"rgba(27,89,155,0.1)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.25)"}}>Provinsi: {MATRIKS_NOMEN_REKAP.bappebtiProv} sub-kegiatan</span>
+          <span className="pill text-[10px]" style={{background:"rgba(161,98,7,0.1)",color:"#a16207",border:"1px solid rgba(161,98,7,0.25)"}}>Kab/Kota: {MATRIKS_NOMEN_REKAP.bappebtiKab} sub-kegiatan</span>
+        </div>
+      </div>
+
+      <div className="space-y-4 mb-6">
+        {MATRIKS_NOMEN.map((m,mi)=>{
+          const T = PEMDA_TINGKAT[m.tingkat];
+          const berubah = m.status==="Perubahan";
+          const stC = berubah ? "#7c3aed" : "#6b7280";
+          const nomBeda = m.nomLama!==m.nomBaru;
+          const indBeda = m.indLama && m.indLama!==m.indBaru;
+          return (
+            <div key={mi} className="card p-0 overflow-hidden">
+              <div className="px-5 py-3 flex items-center justify-between gap-2 flex-wrap" style={{background:"var(--card-2)",borderBottom:"1px solid var(--border)"}}>
+                <div className="flex items-center gap-2 flex-wrap min-w-0">
+                  <span className="pill mono text-[9px]" style={{background:"var(--card)",color:"var(--text-2)",border:"1px solid var(--border-strong)"}}>{m.kode}</span>
+                  <span className="pill text-[9px]" style={{background:m.bidang==="PLK"?"rgba(5,150,105,0.12)":"rgba(161,98,7,0.12)",color:m.bidang==="PLK"?"#059669":"#a16207",border:"1px solid var(--border)"}}>{m.bidang}</span>
+                  <span className="pill text-[9px]" style={{background:T.c+"18",color:T.c,border:"1px solid "+T.c+"40"}}>{T.label}</span>
+                </div>
+                <span className="pill text-[9px]" style={{background:stC+"1f",color:stC,border:"1px solid "+stC+"55"}}>{m.status}</span>
+              </div>
+              <div className="p-4">
+                {/* Nomenklatur lama → baru */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                  <div className="rounded-md p-3" style={{background:"var(--card-2)",opacity:nomBeda?0.75:1}}>
+                    <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Nomenklatur Lama</div>
+                    <div className="text-[11.5px] text-[var(--text-2)] leading-snug">{m.nomLama}</div>
+                  </div>
+                  <div className="rounded-md p-3" style={{background:nomBeda?"rgba(124,58,237,0.07)":"var(--card-2)",border:nomBeda?"1px solid rgba(124,58,237,0.3)":"1px solid transparent"}}>
+                    <div className="text-[9px] mono uppercase tracking-wider mb-1" style={{color:nomBeda?"var(--violet)":"var(--text-3)"}}>Nomenklatur Usulan</div>
+                    <div className="text-[11.5px] text-[var(--text)] leading-snug font-medium">{m.nomBaru}</div>
+                  </div>
+                </div>
+                {/* Kinerja + Indikator + Satuan */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3 text-[11px]">
+                  <div className="card-2 p-2.5"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-0.5">Sasaran Kinerja</div><div className="text-[var(--text-2)] leading-snug">{m.kinBaru}</div></div>
+                  <div className="card-2 p-2.5"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-0.5">Indikator{indBeda?" (diubah)":""}</div><div className="text-[var(--text-2)] leading-snug">{m.indBaru}</div>{indBeda && <div className="text-[9px] text-[var(--text-3)] line-through mt-0.5">{m.indLama}</div>}</div>
+                  <div className="card-2 p-2.5"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-0.5">Satuan</div><div className="text-[var(--text-2)]">{m.satuan}</div></div>
+                </div>
+                {/* Ringkasan perubahan */}
+                <div className="mb-3">
+                  <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Keterangan Perubahan</div>
+                  <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">{m.perubahan.map((p,pi)=>(<li key={pi} className="flex gap-1.5"><span className="shrink-0" style={{color:stC}}>•</span><span>{p}</span></li>))}</ul>
+                </div>
+                {/* Detail: DEFOP / NSPK / DSSD */}
+                <button onClick={()=>tog("m"+mi)} className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] hover:text-[var(--gold)] transition">{buka["m"+mi]?"▾ Sembunyikan definisi, NSPK & DSSD":"▸ Definisi Operasional · NSPK · DSSD"}</button>
+                {buka["m"+mi] && (
+                  <div className="mt-2 space-y-2 text-[10.5px]">
+                    <div className="p-2.5 rounded" style={{background:"var(--card-2)"}}>
+                      <span className="font-semibold text-[var(--text)]">Definisi Operasional: </span><span className="text-[var(--text-2)] leading-relaxed">{m.defop}</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="p-2.5 rounded" style={{background:"var(--card-2)"}}>
+                        <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">NSPK</div>
+                        <ul className="space-y-0.5 text-[var(--text-2)]">{m.nspk.map((n,ni)=>(<li key={ni} className="flex gap-1.5"><span className="shrink-0 text-[var(--text-3)]">{ni+1}.</span><span>{n}</span></li>))}</ul>
+                      </div>
+                      <div className="p-2.5 rounded" style={{background:"var(--card-2)"}}>
+                        <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1">Data Statistik Sektoral Daerah (DSSD)</div>
+                        <ul className="space-y-0.5 text-[var(--text-2)]">{m.dssd.map((n,ni)=>(<li key={ni} className="flex gap-1.5"><span className="shrink-0 text-[var(--text-3)]">{ni+1}.</span><span>{n}</span></li>))}</ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="text-[10px] text-[var(--text-3)] italic border-t border-[var(--border)] pt-3">Seluruh materi menu ini bersumber dari empat berkas: Matriks Penelaahan &amp; Usulan Penyesuaian Pembagian Urusan Pemerintahan Bidang Perdagangan (Lampiran UU 23/2014); Matriks Indikator Tipologi (Rev Bappebti, PP 18/2016); Penjelasan Dasar Penentuan Kelas Interval/Skala/Bobot/Skor indikator teknis SRG &amp; PLK berbasis capaian TW III 2026; serta Matriks Usulan Pemutakhiran Nomenklatur (Surat Dinas ke Kemendagri + matriks perubahan sub-kegiatan). Hanya baris SRG &amp; PLK (lingkungan Bappebti) yang ditampilkan.</div>
+    </div>
+  );
+}
+
 function MenuPLK({year}){
   const fmtMil = n => "Rp "+String(n).replace(".",",")+" M";
   const idx = PLK_TRANSAKSI.findIndex(d=>d.th===String(year));
@@ -12138,6 +12697,7 @@ const MENU_SIDE = [
     {id:"sebaran", label:"Sistem Resi Gudang"}, {id:"psn", label:"PSN SRG"} ]},
   {id:"plk",     label:"PLK",                  sub:"Pasar Lelang Komoditas"},
   {id:"pbk",     label:"PBK",                  sub:"Perdagangan Berjangka Komoditi"},
+  {id:"pemda",   label:"Dukungan Pemda",       sub:"Koordinasi SRG–PLK · UU 23/2014 · Tipologi Daerah"},
   {id:"proyeksi",label:"Proyeksi",           sub:"Kelembagaan Baru · Analisis Kajian Program Kerja", items:[
     {id:"kelembagaan", label:"Kelembagaan Baru"}, {id:"kajian", label:"Analisis Kajian Program Kerja"} ]},
 ];
@@ -12279,6 +12839,7 @@ function App(){
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
+      {tab==="pemda"   && <AutoFold key={"MenuKoordinasiPemda"+year}><MenuKoordinasiPemda /></AutoFold>}
       {tab==="proyeksi" && <InfografisProyeksi />}
       {tab==="proyeksi" && proySub==="kelembagaan" && <AutoFold key={"MenuKelembagaanBaru"+year}><MenuKelembagaanBaru /></AutoFold>}
       {tab==="proyeksi" && proySub==="kajian" && <AutoFold key={"MenuAnalisisKajianProgramKerja"+year}><MenuAnalisisKajianProgramKerja /></AutoFold>}
