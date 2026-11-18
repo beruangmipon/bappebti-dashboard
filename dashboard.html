@@ -3468,6 +3468,100 @@ const VARIABEL_IKP_2026 = {
   },
 };
 
+/* ======================================================================== */
+/* PETA TRANSMISI IKK → IKP                                                  */
+/* Membedakan IKK yang benar-benar menjadi variabel rumus IKP dari IKK yang   */
+/* hanya terhubung secara logis. Dasar: RUMUS_IKP (Renstra Tabel 2.3) vs      */
+/* relasi ikpLinked pada daftar IKK.                                          */
+/*   variabel   = masuk rumus IKP, punya bobot aritmetik                      */
+/*   proksi     = dipakai sebagai pengganti sementara; satuan/unit berbeda     */
+/*   penunjang  = terhubung secara logis, TIDAK masuk rumus (kontribusi nol)   */
+/*   cakupan    = indikator serupa tetapi ruang lingkupnya berbeda             */
+/* ======================================================================== */
+const PERAN_IKK = {
+  variabel : {label:"Variabel rumus",   c:"#059669", bg:"rgba(5,150,105,0.12)",   bd:"rgba(5,150,105,0.35)"},
+  proksi   : {label:"Proksi",            c:"#a16207", bg:"rgba(161,98,7,0.12)",    bd:"rgba(161,98,7,0.35)"},
+  penunjang: {label:"Penunjang",         c:"#6b7280", bg:"rgba(107,114,128,0.12)", bd:"rgba(107,114,128,0.30)"},
+  cakupan  : {label:"Beda cakupan",      c:"#b45309", bg:"rgba(180,83,9,0.12)",    bd:"rgba(180,83,9,0.35)"},
+};
+/* ind = nama indikator persis seperti pada matriks capaian IKK (CAPAIAN_IKK_TW3). */
+const PETA_IKK_IKP = [
+  {ikk:"IKK-1",  keg:"3762", ind:"Pertumbuhan Pelaku PBK",                                      ikp:"ISP-1", peran:"variabel",  bobot:"50%", ket:"Komponen 50% rumus IKP-1."},
+  {ikk:"IKK-7",  keg:"3760", ind:"Pertumbuhan pelaku Pasar Lelang Komoditas",                   ikp:"ISP-1", peran:"variabel",  bobot:"50%", ket:"Komponen 50% rumus IKP-1."},
+  {ikk:"IKK-2",  keg:"3762", ind:"Rekomendasi Kebijakan PBK yang ditindaklanjuti",              ikp:"ISP-1", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-1; capaian 0% tidak memukul angka IKP."},
+  {ikk:"IKK-4",  keg:"3762", ind:"% Peserta Bimtek PBK yang meningkat pemahaman",               ikp:"ISP-1", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-1; melampaui target tanpa kontribusi aritmetik."},
+  {ikk:"IKK-5",  keg:"3762", ind:"Pertumbuhan Pengguna Layanan Informasi PBK",                  ikp:"ISP-1", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-1; melampaui target tanpa kontribusi aritmetik."},
+  {ikk:"IKK-6",  keg:"3760", ind:"Pertumbuhan Pengelola Gudang SRG",                            ikp:"ISP-2", peran:"proksi",    bobot:"100%",ket:"IKK mengukur pertumbuhan PENGELOLA GUDANG (lembaga); IKP-2 mengukur pertumbuhan GUDANG yang mengimplementasikan SRG (fasilitas). Satuan berbeda — tidak ada transmisi 1:1."},
+  {ikk:"IKK-8",  keg:"3760", ind:"Rekomendasi Kebijakan SRG/PLK yang ditindaklanjuti",          ikp:"ISP-2", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-2."},
+  {ikk:"IKK-10", keg:"3760", ind:"% peserta Bimtek SRG/PLK yang meningkat pemahaman",           ikp:"ISP-2", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-2."},
+  {ikk:"IKK-11", keg:"3759", ind:"Pelaku Usaha yang patuh (PBK/SRG/PLK)",                       ikp:"ISP-3", peran:"variabel",  bobot:"60%", ket:"Sama dengan Ef_was pada rumus IKP-3 (bobot 60%)."},
+  {ikk:"IKK-12", keg:"3759", ind:"Penanganan Pelanggaran Ketentuan (PBK/SRG/PLK)",              ikp:"ISP-3", peran:"variabel",  bobot:"40%", ket:"Sama dengan Ef_ph pada rumus IKP-3 (bobot 40%)."},
+  {ikk:"IKK-13", keg:"3761", ind:"Indeks Evaluasi Kemanfaatan Kebijakan (SRG/PLK)",             ikp:"ISP-3", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-3; melampaui target tanpa kontribusi aritmetik."},
+  {ikk:"IKK-14", keg:"3761", ind:"Tingkat Penyelesaian Sengketa Perdagangan Komoditas",         ikp:"ISP-3", peran:"penunjang", bobot:"—",   ket:"Tidak masuk rumus IKP-3; melampaui target tanpa kontribusi aritmetik."},
+  {ikk:"IKK-3",  keg:"3762", ind:"Indeks Kepuasan Layanan Perizinan PBK",                       ikp:"ISP-4", peran:"variabel",  bobot:"komponen perizinan", ket:"Salah satu penyusun Indeks Layanan Perizinan pada rumus IKL."},
+  {ikk:"IKK-9",  keg:"3760", ind:"Indeks kepuasan layanan perizinan SRG/PLK",                   ikp:"ISP-4", peran:"variabel",  bobot:"komponen perizinan", ket:"Salah satu penyusun Indeks Layanan Perizinan pada rumus IKL."},
+  {ikk:"IKK-15", keg:"3761", ind:"Indeks kepuasan Penyelesaian Perselisihan & Konsultasi Hukum",ikp:"ISP-4", peran:"variabel",  bobot:"komponen hukum",     ket:"Komponen Indeks Layanan Penyelesaian Perselisihan & Konsultasi Hukum."},
+  {ikk:"IKK-18", keg:"3758", ind:"Survei Kepuasan Masyarakat (PBK/SRG/PLK)",                    ikp:"ISP-5", peran:"cakupan",   bobot:"—",   ket:"IKP-5 bersumber dari Survei Penilaian Integritas (SPI) KPK — dinilai dua tahun sekali, bukan dari SKM internal."},
+  {ikk:"IKK-16", keg:"3758", ind:"Nilai WTA Bappebti",                                          ikp:"ISP-6", peran:"cakupan",   bobot:"—",   ket:"IKP-6 adalah nilai SAKIP hasil penilaian APIP/Itjen Kemendag; WTA menjadi salah satu basis penilaian, bukan rumus aritmetik."},
+  {ikk:"IKK-17", keg:"3758", ind:"Indikator Kinerja Pelaksanaan Anggaran (IKPA) Bappebti",      ikp:"ISP-7", peran:"cakupan",   bobot:"—",   ket:"IKK mengukur IKPA satker Bappebti; IKP-7 mengukur IKPA seluruh Kementerian Perdagangan — di luar kendali Bappebti."},
+];
+
+/* ======================================================================== */
+/* UJI KONSISTENSI KASKADE TARGET                                            */
+/* Pertanyaan yang diuji: bila SELURUH IKK pembentuk tepat memenuhi targetnya, */
+/* apakah target IKP di atasnya otomatis tercapai? Bila tidak, target IKP      */
+/* tidak dapat dicapai secara matematis — cacat desain target, bukan kinerja.  */
+/* targetMatriks = target pada Matriks Capaian IKK TW III TA 2026;             */
+/* targetRenstra = target kolom 2026 pada Renstra 2025–2029 (bila berbeda).    */
+/* ======================================================================== */
+const UJI_KASKADE = [
+  { ikp:"ISP-3", targetIKP:82, satuan:"%", realIKP:81.52, ujiPenuh:true,
+    rumus:"IKP-3 = 60% × Ef_was + 40% × Ef_ph",
+    komp:[
+      {l:"IKK-11 Pelaku usaha patuh (Ef_was)",      w:0.6, tM:83, tR:83, real:84.76},
+      {l:"IKK-12 Penanganan pelanggaran (Ef_ph)",   w:0.4, tM:77, tR:77, real:76.65},
+    ],
+    nota:"Bila kedua IKK tepat memenuhi target (83% dan 77%), IKP-3 hanya mencapai 80,60% — selalu 1,40 poin di bawah target 82%. Agar IKP-3 = 82% dengan Ef_ph aktual 76,65%, Ef_was harus 85,57% (bukan 83%)." },
+  { ikp:"ISP-1", targetIKP:4, satuan:"%", realIKP:3.80, ujiPenuh:true,
+    rumus:"IKP-1 = 50% × pertumbuhan pelaku PBK + 50% × pertumbuhan pelaku PLK",
+    komp:[
+      {l:"IKK-1 Pertumbuhan Pelaku PBK", w:0.5, tM:4, tR:3, real:3.46},
+      {l:"IKK-7 Pertumbuhan pelaku PLK", w:0.5, tM:5, tR:5, real:4.15},
+    ],
+    nota:"Target IKK memadai: dengan target matriks menghasilkan 4,50% (margin +0,50 poin), dengan target Renstra pas 4,00% (margin nol). Kegagalan TW III murni karena kedua variabel di bawah target, bukan cacat desain — namun margin nol pada versi Renstra menyisakan risiko." },
+  { ikp:"ISP-2", targetIKP:6, satuan:"%", realIKP:5.52, ujiPenuh:true,
+    rumus:"IKP-2 = (P_IS − P_IS−1) / P_IS−1 × 100% — diproksikan oleh IKK-6",
+    komp:[
+      {l:"IKK-6 Pertumbuhan Pengelola Gudang SRG (proksi)", w:1.0, tM:5, tR:5, real:6.97},
+    ],
+    nota:"Target IKK (5%) lebih rendah dari target IKP (6%) untuk hubungan proksi 1:1 — gap 1,00 poin. Selain itu satuannya berbeda: IKK menghitung pengelola gudang, IKP menghitung gudang yang mengimplementasikan SRG (145 → 153 gudang = 5,52%). Dua angka berbeda untuk indikator yang sama." },
+  { ikp:"ISP-4", targetIKP:90, satuan:"nilai", realIKP:90.21, ujiPenuh:false,
+    rumus:"IKL = rata-rata tertimbang (Indeks Layanan Perizinan, Indeks Layanan Informasi Publik, Indeks Layanan Penyelesaian Perselisihan & Konsultasi Hukum)",
+    komp:[
+      {l:"IKK-3 Indeks kepuasan perizinan PBK",      w:null, tM:93, tR:82, real:93.04},
+      {l:"IKK-9 Indeks kepuasan perizinan SRG/PLK",  w:null, tM:86, tR:86, real:92.50},
+      {l:"IKK-15 Indeks kepuasan hukum",             w:null, tM:83, tR:83, real:92.21},
+      {l:"Indeks Layanan Informasi Publik — tanpa padanan IKK", w:null, tM:null, tR:null, real:null},
+    ],
+    nota:"Tidak dapat diuji penuh: satu komponen rumus (Indeks Layanan Informasi Publik) tidak punya padanan IKK sehingga tidak ada targetnya di tingkat kegiatan. Dengan asumsi bobot sama rata, nilai komponen itu tersirat ≈ 85,7 — menarik IKP (90,21) ke bawah nilai seluruh IKK penyusunnya (92,21–93,04). Bila komponen perizinan & hukum hanya memenuhi target IKK, Indeks Layanan Informasi Publik harus ≥ 97,5 agar IKP-4 mencapai 90. IKP-4 tercapai karena IKK jauh melampaui target, bukan karena target IKK memadai." },
+  { ikp:"ISP-5", targetIKP:69.79, satuan:"nilai", realIKP:69.79, ujiPenuh:false, komp:[],
+    rumus:"IKP-5 = Indeks hasil Survei Penilaian Integritas (SPI) KPK",
+    nota:"Tidak dapat diuji: IKP tidak dibentuk dari IKK mana pun. SPI dinilai KPK dua tahun sekali; nilai 69,79 adalah hasil TA 2025 yang dibawa ke 2026, sehingga tidak ada mekanisme transmisi dari IKK dalam tahun berjalan." },
+  { ikp:"ISP-6", targetIKP:82.50, satuan:"nilai", realIKP:82.71, ujiPenuh:false, komp:[],
+    rumus:"IKP-6 = Nilai SAKIP hasil penilaian APIP Kemendag (Itjen)",
+    nota:"Tidak dapat diuji: penilaian dilakukan pihak eksternal (Itjen) setahun sekali, bukan agregasi IKK." },
+  { ikp:"ISP-7", targetIKP:93, satuan:"nilai", realIKP:null, ujiPenuh:false, komp:[],
+    rumus:"IKP-7 = IKPA Kementerian Perdagangan",
+    nota:"Tidak dapat diuji: IKK-17 mengukur IKPA satker Bappebti (99,76), sedangkan IKP-7 mengukur IKPA seluruh Kemendag. Bappebti hanya salah satu dari banyak satker — capaian IKP di luar kendali unit. Capaian IKP-7 TW III belum dilaporkan." },
+];
+/* Hasil uji: Σ bobot × target komponen, dibandingkan terhadap target IKP. */
+function ujiKaskade(u, pakai){
+  if(!u.ujiPenuh || !u.komp.length) return null;
+  let s=0; for(const k of u.komp){ const t = pakai==="renstra" ? k.tR : k.tM; if(t==null||k.w==null) return null; s += k.w*t; }
+  const gap = s - u.targetIKP;
+  return { hasil:s, gap, cukup: gap >= 0 };
+}
+
 function hitungIKP(src){
   const g = (k)=> ikkVal(src, IKK_NM[k]);
   const out = {};
@@ -6567,6 +6661,198 @@ function SebaranSRG({year}){
 /* ======================================================================== */
 /* TAB 5 — CAPAIAN / REALISASI                                              */
 /* ======================================================================== */
+/* Kartu 1 — Peta Transmisi IKK → IKP: memisahkan IKK variabel rumus dari IKK penunjang. */
+function PetaTransmisiIKK(){
+  const [buka,setBuka] = useState(false);
+  const capOf = (ind)=>{ const r = CAPAIAN_IKK_TW3.find(x=>x.ind===ind); return r ? r.cap : null; };
+  const ikpIds = [...new Set(PETA_IKK_IKP.map(p=>p.ikp))];
+  const n = (k)=>PETA_IKK_IKP.filter(p=>p.peran===k).length;
+  const lampaui = PETA_IKK_IKP.filter(p=>{ const c=capOf(p.ind); return c!=null && c>=100; });
+  const lampauiVar = lampaui.filter(p=>p.peran==="variabel").length;
+
+  return (
+    <div className="card p-5 mb-6" style={{borderLeft:"3px solid var(--violet)"}}>
+      <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Kaskade Kinerja · TW III TA 2026</div>
+          <div className="serif text-xl mt-0.5">Peta Transmisi IKK → IKP</div>
+          <div className="text-[11px] text-[var(--text-2)] mt-1 max-w-3xl">Relasi <span className="mono">ikpLinked</span> mencampur dua hal: IKK yang benar-benar menjadi <b>variabel rumus</b> IKP, dan IKK yang hanya terhubung secara logis. Kartu ini memisahkannya, sehingga terlihat IKK mana yang angkanya betul-betul menggerakkan IKP di atasnya.</div>
+        </div>
+        <button onClick={()=>setBuka(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition shrink-0">{buka?"▾ Tutup":"▸ Buka"}</button>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+        {[["variabel",n("variabel")],["proksi",n("proksi")],["penunjang",n("penunjang")],["cakupan",n("cakupan")]].map(([k,v])=>{
+          const P=PERAN_IKK[k];
+          return (<div key={k} className="card-2 p-3" style={{borderLeft:`3px solid ${P.c}`}}>
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">{P.label}</div>
+            <div className="serif text-2xl mt-0.5" style={{color:P.c}}>{v}</div>
+            <div className="text-[9px] text-[var(--text-3)]">dari {PETA_IKK_IKP.length} IKK</div>
+          </div>);
+        })}
+      </div>
+
+      <div className="text-[11px] p-3 rounded-md mb-3" style={{background:"rgba(217,119,6,0.08)",border:"1px solid rgba(217,119,6,0.3)"}}>
+        <b>Temuan inti:</b> {lampaui.length} IKK sudah mencapai/melampaui target pada TW III, tetapi hanya <b>{lampauiVar}</b> di antaranya yang merupakan variabel rumus IKP. Sisanya melampaui target dengan <b>kontribusi aritmetik nol</b> terhadap IKP di atasnya — inilah sebab utama capaian IKK terlihat baik sementara IKP belum tercapai.
+      </div>
+
+      <div style={{display:buka?undefined:"none"}} className="space-y-4">
+        {ikpIds.map(id=>{
+          const ik = getIKSS(id);
+          const lap = CAPAIAN_IKP_2026.TW3[id];
+          const tgt = numTarget(ik.target);
+          const cap = (lap!=null && tgt) ? lap/tgt*100 : null;
+          const st = statusIKP(cap);
+          const anak = PETA_IKK_IKP.filter(p=>p.ikp===id);
+          return (
+            <div key={id} className="rounded-md border border-[var(--border)] overflow-hidden">
+              <div className="px-3 py-2 flex items-center justify-between gap-2 flex-wrap" style={{background:"var(--card-2)"}}>
+                <div className="flex items-center gap-2 flex-wrap min-w-0">
+                  <span className="pill mono text-[9px]" style={{background:"rgba(124,58,237,0.12)",color:"var(--violet)",border:"1px solid rgba(124,58,237,0.3)"}}>{id}</span>
+                  <span className="text-[12px] font-semibold text-[var(--text)]">{ik.nama}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="mono text-[10px] text-[var(--text-3)]">target {ik.target} · realisasi {lap==null?"—":fmtN(lap)}</span>
+                  <span className="pill text-[9px]" style={{background:st.color+"1f",color:st.color,border:"1px solid "+st.color+"55"}}>{cap==null?"—":fmtN(cap,1)+"% · "+st.label}</span>
+                </div>
+              </div>
+              <div className="divide-y divide-[var(--border)]">
+                {anak.map(p=>{
+                  const P = PERAN_IKK[p.peran]; const c = capOf(p.ind);
+                  const cs = c==null?"var(--text-3)":(c>=100?"#059669":(c>=90?"#d97706":"#dc2626"));
+                  return (
+                    <div key={p.ikk} className="px-3 py-2 flex items-start gap-3 text-[11px] hover:bg-[var(--card-2)] transition-colors">
+                      <span className="mono text-[9px] shrink-0 w-12 text-[var(--text-3)] pt-0.5">{p.ikk}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[var(--text)]">{p.ind}</span>
+                          <span className="mono text-[9px] text-[var(--text-3)]">keg {p.keg}</span>
+                        </div>
+                        <div className="text-[10px] text-[var(--text-3)] leading-snug mt-0.5">{p.ket}</div>
+                      </div>
+                      <span className="pill text-[8px] shrink-0" style={{background:P.bg,color:P.c,border:"1px solid "+P.bd}}>{P.label}{p.peran==="variabel"&&p.bobot!=="—"?` · ${p.bobot}`:""}</span>
+                      <span className="mono text-[11px] w-16 text-right shrink-0 font-semibold" style={{color:cs}}>{c==null?"—":fmtN(c,1)+"%"}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+        <div className="text-[9px] text-[var(--text-3)] italic leading-relaxed">
+          Peran ditetapkan dengan membandingkan rumus IKP (Renstra Tabel 2.3) terhadap relasi <span className="mono">ikpLinked</span> pada daftar IKK. <b className="not-italic">Variabel rumus</b> = angkanya masuk perhitungan IKP dengan bobot tertentu. <b className="not-italic">Proksi</b> = dipakai sebagai pengganti sementara, satuan berbeda. <b className="not-italic">Penunjang</b> = terhubung secara logis sebagai pengungkit, tetapi tidak masuk rumus. <b className="not-italic">Beda cakupan</b> = indikator serupa dengan ruang lingkup berbeda. Capaian = kolom TW III matriks capaian IKK.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Kartu 2 — Uji Konsistensi Kaskade Target: apakah target IKK cukup untuk target IKP. */
+function UjiKaskadeTarget(){
+  const [buka,setBuka] = useState(false);
+  const [pakai,setPakai] = useState("matriks");
+  const hasil = UJI_KASKADE.map(u=>({u, r:ujiKaskade(u,pakai)}));
+  const cacat = hasil.filter(h=>h.r && !h.r.cukup);
+  const takDiuji = hasil.filter(h=>!h.r);
+
+  return (
+    <div className="card p-5 mb-6" style={{borderLeft:"3px solid #dc2626"}}>
+      <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
+        <div>
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)]">Diagnostik Desain Target · TA 2026</div>
+          <div className="serif text-xl mt-0.5">Uji Konsistensi Kaskade Target</div>
+          <div className="text-[11px] text-[var(--text-2)] mt-1 max-w-3xl">Pertanyaan yang diuji: <b>bila seluruh IKK pembentuk tepat memenuhi targetnya, apakah target IKP di atasnya otomatis tercapai?</b> Bila tidak, target IKP mustahil dicapai secara matematis — ini cacat desain target, bukan cacat kinerja.</div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex rounded-md overflow-hidden border border-[var(--border-strong)]">
+            {[["matriks","Target matriks"],["renstra","Target Renstra"]].map(([k,l])=>(
+              <button key={k} onClick={()=>setPakai(k)} className="px-2 py-1 text-[9px] mono uppercase tracking-wider transition" style={pakai===k?{background:"var(--gold-soft)",color:"#fff"}:{color:"var(--text-3)"}}>{l}</button>
+            ))}
+          </div>
+          <button onClick={()=>setBuka(v=>!v)} className="px-2.5 py-1 rounded-md border border-[var(--border-strong)] text-[10px] mono uppercase tracking-wider text-[var(--text-2)] hover:text-[var(--gold)] hover:border-[var(--gold-soft)] transition">{buka?"▾ Tutup":"▸ Buka"}</button>
+        </div>
+      </div>
+
+      <div className="text-[11px] p-3 rounded-md mb-3" style={{background:cacat.length?"rgba(220,38,38,0.07)":"rgba(5,150,105,0.07)",border:`1px solid ${cacat.length?"rgba(220,38,38,0.3)":"rgba(5,150,105,0.3)"}`}}>
+        <b>{cacat.length} dari {hasil.length - takDiuji.length} IKP yang dapat diuji memiliki target yang tidak konsisten</b>{cacat.length?`: ${cacat.map(h=>h.u.ikp).join(", ")}. `:". "}
+        {takDiuji.length} IKP lainnya tidak dapat diuji karena tidak dibentuk dari IKK atau punya komponen tanpa padanan IKK. Perlu diperbaiki pada penyesuaian target 2027.
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-[11px] border-collapse">
+          <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left border-b-2 border-[var(--border-strong)]" style={{background:"var(--card-2)"}}>
+            <th className="py-2 pl-2 pr-2">IKP</th>
+            <th className="py-2 pr-2 text-right">Target IKP</th>
+            <th className="py-2 pr-2 text-right">Hasil bila IKK pas target</th>
+            <th className="py-2 pr-2 text-right">Selisih</th>
+            <th className="py-2 pr-2 text-right">Realisasi TW III</th>
+            <th className="py-2 pr-2">Putusan</th>
+          </tr></thead>
+          <tbody>
+            {hasil.map(({u,r})=>{
+              const ik = getIKSS(u.ikp);
+              const vonis = !r ? {l:"Tidak dapat diuji", c:"#6b7280"} : (r.cukup ? {l:"Konsisten", c:"#059669"} : {l:"Tidak konsisten", c:"#dc2626"});
+              return (
+                <tr key={u.ikp} className="border-b border-[var(--border)] align-top hover:bg-[var(--card-2)] transition-colors">
+                  <td className="py-2 pl-2 pr-2">
+                    <span className="mono text-[10px] font-semibold text-[var(--text)]">{u.ikp}</span>
+                    <div className="text-[10px] text-[var(--text-3)] leading-snug max-w-[260px]">{ik.nama}</div>
+                  </td>
+                  <td className="py-2 pr-2 text-right mono text-[var(--text-2)]">{fmtN(u.targetIKP, u.targetIKP%1?2:0)}{u.satuan==="%"?"%":""}</td>
+                  <td className="py-2 pr-2 text-right mono" style={{color:r?"var(--text)":"var(--text-3)"}}>{r?fmtN(r.hasil)+(u.satuan==="%"?"%":""):"—"}</td>
+                  <td className="py-2 pr-2 text-right mono font-semibold" style={{color:!r?"var(--text-3)":(r.cukup?"#059669":"#dc2626")}}>{r?(r.gap>=0?"+":"")+fmtN(r.gap)+" poin":"—"}</td>
+                  <td className="py-2 pr-2 text-right mono text-[var(--text-2)]">{u.realIKP==null?"—":fmtN(u.realIKP)+(u.satuan==="%"?"%":"")}</td>
+                  <td className="py-2 pr-2"><span className="pill text-[8px]" style={{background:vonis.c+"1f",color:vonis.c,border:"1px solid "+vonis.c+"55"}}>{vonis.l}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{display:buka?undefined:"none"}} className="space-y-3 mt-4">
+        {hasil.map(({u,r})=>(
+          <div key={u.ikp} className="rounded-md border border-[var(--border)] p-3">
+            <div className="flex items-center gap-2 flex-wrap mb-1.5">
+              <span className="pill mono text-[9px]" style={{background:"rgba(124,58,237,0.12)",color:"var(--violet)",border:"1px solid rgba(124,58,237,0.3)"}}>{u.ikp}</span>
+              <span className="mono text-[10.5px] text-[var(--text-2)]">{u.rumus}</span>
+            </div>
+            {u.komp.length>0 && (
+              <table className="w-full text-[10.5px] mb-2">
+                <thead><tr className="text-[9px] mono uppercase text-[var(--text-3)] text-left border-b border-[var(--border)]">
+                  <th className="py-1 pr-2">Komponen</th><th className="py-1 pr-2 text-right">Bobot</th>
+                  <th className="py-1 pr-2 text-right">Target {pakai==="renstra"?"Renstra":"matriks"}</th><th className="py-1 pr-2 text-right">Realisasi TW III</th>
+                </tr></thead>
+                <tbody>
+                  {u.komp.map((k,i)=>{ const t = pakai==="renstra"?k.tR:k.tM; return (
+                    <tr key={i} className="border-b border-[var(--border)] last:border-0">
+                      <td className="py-1 pr-2 text-[var(--text-2)]">{k.l}</td>
+                      <td className="py-1 pr-2 text-right mono text-[var(--text-3)]">{k.w==null?"—":Math.round(k.w*100)+"%"}</td>
+                      <td className="py-1 pr-2 text-right mono">{t==null?"—":fmtN(t, t%1?2:0)}</td>
+                      <td className="py-1 pr-2 text-right mono" style={{color:k.real==null?"var(--text-3)":(t!=null&&k.real>=t?"#059669":"#dc2626")}}>{k.real==null?"—":fmtN(k.real)}</td>
+                    </tr>
+                  );})}
+                  {r && (
+                    <tr style={{background:"var(--card-2)"}}>
+                      <td className="py-1.5 pr-2 font-semibold" colSpan={2}>Σ bobot × target = hasil IKP bila semua IKK pas target</td>
+                      <td className="py-1.5 pr-2 text-right mono font-semibold">{fmtN(r.hasil)}</td>
+                      <td className="py-1.5 pr-2 text-right mono font-semibold" style={{color:r.cukup?"#059669":"#dc2626"}}>vs target {fmtN(u.targetIKP, u.targetIKP%1?2:0)}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
+            <div className="text-[10px] text-[var(--text-2)] leading-relaxed italic">{u.nota}</div>
+          </div>
+        ))}
+        <div className="text-[9px] text-[var(--text-3)] italic leading-relaxed">
+          <b className="not-italic">Target matriks</b> = target pada Matriks Capaian IKK TW III TA 2026; <b className="not-italic">Target Renstra</b> = target kolom 2026 pada Renstra 2025–2029. Keduanya berbeda untuk beberapa IKK (a.l. IKK-1, IKK-3, IKK-4, IKK-13, IKK-17, IKK-18) — perlu dipastikan mana yang mengikat dalam Perjanjian Kinerja 2026, karena pilihan ini mengubah seluruh hitungan capaian. <i>Asumsi sementara karena keterbatasan data.</i>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Capaian(){
   const year = useYear();
   const [aiOut,setAIOut] = useState(null);
@@ -6937,6 +7223,10 @@ function Capaian(){
           Capaian dihitung terhadap <b>target tahunan</b>. Kolom TW I mengikuti <b>Matriks Capaian IKK (file 26 Okt 2026)</b>; kolom TW II dan TW III mengikuti <b>Bahan Penyesuaian Target IK 2027 (27 Okt 2026)</b> — realisasi TW I, TW II, dan TW III bersifat <b>kumulatif</b>; bila TW III sama dengan TW II, artinya belum ada perubahan capaian pada TW III. Rata-rata capaian 18 IKK pada TW III: <b>{avgIKK}%</b> (TW II: {avgIKK2}%).
         </div>
       </div>
+
+      {/* Kaskade IKK → IKP: peta transmisi + uji konsistensi target */}
+      <PetaTransmisiIKK />
+      <UjiKaskadeTarget />
 
       {/* Matriks Capaian Fisik RO — s.d. Juni (TW II) 2026 */}
       <div className="card p-5 mb-6">
@@ -8823,6 +9113,35 @@ const PLK_DASAR_HUKUM = [
   "UU No. 23 Tahun 2014 (Pemerintahan Daerah)",
   "PP No. 19 Tahun 2022 (Dekonsentrasi & Tugas Pembantuan)",
 ];
+/* Kegiatan Asistensi & Literasi PLK — Semarang, Jawa Tengah, 4 November 2026.
+   Sumber: Nota Dinas SP.05/205/BAPPEBTI.5/ND/11/2026 (11 Nov 2026),
+   Kepala Biro Pembinaan dan Pengembangan SRG dan PLK. */
+const PLK_KEGIATAN_2026 = {
+  judul: "Asistensi & Literasi Pasar Lelang Komoditas",
+  tema: "Penguatan Ekosistem dan Perluasan Akses Pasar Komoditas",
+  lokasi: "Kota Semarang, Provinsi Jawa Tengah",
+  tanggal: "4 November 2026",
+  dasar: "Nota Dinas SP.05/205/BAPPEBTI.5/ND/11/2026 (11 November 2026)",
+  tujuan: "Koordinasi dan sosialisasi kebijakan PLK, pengembangan pelaksanaan PLK di daerah, serta merumuskan langkah strategis untuk membangun ekosistem PLK di Jawa Tengah.",
+  peserta: [
+    "Kepala Dinas Perindustrian dan Perdagangan Prov. Jawa Tengah beserta jajaran",
+    "Perwakilan dinas yang membidangi perdagangan Kabupaten/Kota se-Jawa Tengah",
+    "Perwakilan asosiasi pelaku usaha, pelaku usaha dan UMKM",
+    "Pemangku kepentingan terkait",
+  ],
+  mou: {
+    pihak: "Asosiasi Pengelola Gudang SRG Indonesia (Sinnergi) ⟷ PT ACM Mercantile Exchange",
+    isi: "Penandatanganan Nota Kesepahaman untuk membangun kolaborasi perluasan pasar komoditas SRG (diwakili Sinnergi) melalui platform lelang yang dikelola PT ACM selaku Penyelenggara PLK — menuju ekosistem SRG–PLK yang integratif.",
+  },
+  poin: [
+    {t:"Relevansi skema PLK–SRG di Jawa Tengah", d:"Potensi komoditas unggulan beragam: sektor pertanian (padi, jagung) dan perkebunan (kopi, tembakau, tebu) mendukung tata niaga yang efisien, transparan, dan inklusif."},
+    {t:"Tren historis & tantangan sejak 2024", d:"2015–2023 PLK Jateng pernah tren positif (beras, jagung, bawang merah, kopi); sejak 2024 stagnan karena keterbatasan dukungan anggaran (APBN/APBD), perubahan struktur organisasi & SDM penyelenggara, dan menurunnya partisipasi pelaku usaha."},
+    {t:"Perubahan strategi pengembangan", d:"Dorong keterlibatan aktif sektor swasta, penguatan peran Pengelola Gudang SRG untuk kontinuitas pasokan, serta koneksitas antar-penyelenggara PLK (dalam & luar Jateng) untuk perluasan pasar."},
+    {t:"Kolaborasi Pusat–Daerah", d:"Dilaksanakan sinergis & berkelanjutan sesuai pembagian kewenangan dalam Perpres 75/2022 beserta aturan turunannya agar kebijakan tepat sasaran."},
+    {t:"Tindak lanjut MoU Sinnergi–PT ACM", d:"Menjadi awal penguatan ekosistem terintegrasi SRG–PLK; perlu ditindaklanjuti dengan rencana kerja konkret bertarget operasional terukur."},
+  ],
+  komitmen: "Bappebti berkomitmen terus memberikan pembinaan, pendampingan, serta pengawasan aktif agar implementasi PLK berjalan berkelanjutan dan akuntabel.",
+};
 const PLK_JENIS = [
   {asp:"Penyerahan komoditas", spot:"Segera", fwd:"Kemudian"},
   {asp:"Jangka waktu penyerahan", spot:"2 – 7 hari", fwd:"7 hari – 3 bulan (sesuai kesepakatan)"},
@@ -9110,6 +9429,49 @@ function MenuPLK({year}){
             </div>
           </div>
           <div className="text-[10px] text-[var(--text-3)] mt-3 italic">Implikasi kinerja: realisasi 2026 (s.d. Oktober Rp38,8 M) berpotensi melandai dibanding puncak 2025 (Rp111,9 M). Mitigasi: percepat kemandirian/revitalisasi penyelenggara, integrasi SRG–PLK, dan digitalisasi lelang agar transaksi tidak bergantung pada anggaran tahunan.</div>
+        </div>
+      )}
+
+      {/* Kegiatan Asistensi & Literasi PLK — Semarang 2026 */}
+      {year===2026 && (
+        <div className="card p-5 mb-6" style={{borderColor:"rgba(64,155,86,0.4)"}}>
+          <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="pill text-[9px]" style={{background:"rgba(64,155,86,0.14)",color:"var(--emerald)",border:"1px solid rgba(64,155,86,0.3)"}}>KEGIATAN PLK 2026</span>
+              <span className="serif text-lg">{PLK_KEGIATAN_2026.judul}</span>
+            </div>
+            <span className="text-[10px] mono text-[var(--text-3)]">{PLK_KEGIATAN_2026.lokasi} · {PLK_KEGIATAN_2026.tanggal}</span>
+          </div>
+          <div className="text-[11px] text-[var(--text-2)] mb-3">Tema: <b>"{PLK_KEGIATAN_2026.tema}"</b> — di tengah TA 2026 tanpa anggaran kegiatan PLK, asistensi ini menegaskan arah penguatan ekosistem lewat sinergi SRG–PLK dan sektor swasta. <span className="text-[var(--text-3)]">Dasar: {PLK_KEGIATAN_2026.dasar}.</span></div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <div className="card-2 p-3">
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Tujuan</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-snug mb-2">{PLK_KEGIATAN_2026.tujuan}</div>
+              <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5 mt-3">Dihadiri</div>
+              <div className="space-y-1 text-[11px] text-[var(--text-2)]">
+                {PLK_KEGIATAN_2026.peserta.map((p,i)=>(
+                  <div key={i} className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{background:"#409B56"}}></span><span>{p}</span></div>
+                ))}
+              </div>
+            </div>
+            <div className="card-2 p-3" style={{borderLeft:"3px solid #1B599B"}}>
+              <div className="text-[10px] mono uppercase tracking-wider mb-1.5" style={{color:"var(--blue)"}}>Nota Kesepahaman (MoU)</div>
+              <div className="text-[12px] font-semibold text-[var(--text)] leading-snug mb-1.5">{PLK_KEGIATAN_2026.mou.pihak}</div>
+              <div className="text-[11px] text-[var(--text-2)] leading-snug">{PLK_KEGIATAN_2026.mou.isi}</div>
+            </div>
+          </div>
+
+          <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Poin Strategis yang Dibahas</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3">
+            {PLK_KEGIATAN_2026.poin.map((p,i)=>(
+              <div key={i} className="flex items-start gap-2.5 text-[11px]">
+                <span className="mono text-[10px] shrink-0 inline-flex items-center justify-center rounded-full" style={{width:18,height:18,background:"var(--card-2)",color:"var(--text-3)",border:"1px solid var(--border)",fontWeight:700}}>{i+1}</span>
+                <div><div className="text-[var(--text)] font-semibold leading-snug">{p.t}</div><div className="text-[var(--text-3)] leading-snug mt-0.5">{p.d}</div></div>
+              </div>
+            ))}
+          </div>
+          <div className="text-[10px] text-[var(--text-3)] italic leading-snug" style={{borderTop:"1px solid var(--border)",paddingTop:8}}>{PLK_KEGIATAN_2026.komitmen}</div>
         </div>
       )}
 
