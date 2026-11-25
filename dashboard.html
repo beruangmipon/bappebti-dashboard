@@ -1143,11 +1143,52 @@ const RESI_GUDANG_TAHUNAN = [
   {th:"2022",rg:633,vol:64441.0,nilai:1244092409002,rgBiaya:527,nilaiBiaya:837385610958},
   {th:"2023",rg:476,vol:61079.0,nilai:945797109000,rgBiaya:407,nilaiBiaya:631461482700},
   {th:"2024",rg:1052,vol:75542.6,nilai:2867719709566,rgBiaya:965,nilaiBiaya:1900756682684},
-  {th:"2025",rg:531,vol:92682.5,nilai:1909217256300,rgBiaya:386,nilaiBiaya:954054343000,p:true},
-  {th:"2026",rg:288,vol:29893.0,nilai:564052692080,rgBiaya:173,nilaiBiaya:249497072000,p:true},
+  {th:"2025",rg:532,vol:92692.5,nilai:1909312256300,rgBiaya:406,nilaiBiaya:966067835375,p:true},
+  {th:"2026",rg:293,vol:30013.0,nilai:567602692080,rgBiaya:194,nilaiBiaya:269288072000,p:true},
 ];
-const RESI_GUDANG_TOTAL = {rg:7421,vol:457916.7,nilai:8969510939545,rgBiaya:5804,nilaiBiaya:5471134657533};
-const RESI_GUDANG_UPDATE = "31 Oktober 2026";
+const RESI_GUDANG_TOTAL = {rg:7461,vol:458145.7,nilai:8973155939545,rgBiaya:5846,nilaiBiaya:5515849774908};
+const RESI_GUDANG_UPDATE = "30 Oktober 2026";
+
+/* === Gudang SRG ber-WMS (Warehouse Management System) — Monev Perpres 41/2026 ===
+   Sumber: "Rev Permintaan Data Evaluasi Pengisian Monev Perpres 41 Tahun 2026" (Bappebti),
+   Program 2 — Pemanfaatan Sarana Perdagangan, Sasaran 2.1, Kegiatan 2.1.1 (Penerapan Sistem
+   Manajemen Pergudangan Berbasis Teknologi). Target tahunan Perpres 41/2026: 2025=2, 2026=3,
+   2027=3, 2028=4, 2029=4 gudang SRG ber-WMS. Nilai = nilai barang tercatat di RG (Rp). */
+const WMS_TARGET = {2025:2, 2026:3, 2027:3, 2028:4, 2029:4};
+const WMS_GUDANG = {
+  2025: {
+    target:2, realisasi:2,
+    tantangan:["Sistem WMS belum sepenuhnya sesuai kebutuhan & karakteristik tiap gudang","Perlu penguatan kebiasaan & budaya kerja agar penggunaan WMS konsisten","Anggaran pemeliharaan belum pasti","Kesiapan SDM pengelola gudang"],
+    list:[
+      {g:"Gudang Bantul", pg:"KUD Tani Harjo", lok:"Bantul, DIY", kom:"Kedelai", masuk:"140 ton", nilai:null},
+      {g:"Gudang Makassar (Pergudangan Pattene)", pg:"PT Wahana Pro Natural", lok:"Makassar, Sulsel", kom:"Rumput Laut", masuk:"400 ton", nilai:7200000000},
+      {g:"Gudang Kraksaan II", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Beras & Gabah", masuk:"1.891 ton", nilai:20788960000},
+      {g:"Gudang Pemkab Lombok Timur", pg:"PT Cipta Usaha Agro Niaga", lok:"Lombok Timur, NTB", kom:"Tembakau", masuk:"378 ton", nilai:17010000000},
+      {g:"Gudang Sikur Lombok Timur", pg:"PT Cipta Usaha Agro Niaga", lok:"Lombok Timur, NTB", kom:"Tembakau", masuk:"200 ton", nilai:10000000000},
+      {g:"Gudang UD Ratna Jaya", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Beras & Gabah", masuk:"1.293 ton", nilai:14298540000},
+      {g:"Gudang Putra Gunung", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Beras", masuk:"972 ton", nilai:12155000000},
+      {g:"Gudang UD Murah Rejeki", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Gabah", masuk:"1.802 ton", nilai:17009639500},
+      {g:"Gudang CV Bee Jay", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Ikan", masuk:"27 ton", nilai:1428980700},
+      {g:"Gudang CV Santoso Jaya Tembakau", pg:"PT Cipta Usaha Agro Niaga", lok:"Pasuruan, Jatim", kom:"Tembakau", masuk:"426 ton", nilai:41561640000},
+      {g:"Gudang B UD Waja Dwi Abadi", pg:"PT Cipta Usaha Agro Niaga", lok:"Tuban, Jatim", kom:"Tembakau", masuk:"325 ton", nilai:32941760000},
+      {g:"Gudang UD Maju Bersama", pg:"PT Cipta Usaha Agro Niaga", lok:"Probolinggo, Jatim", kom:"Gabah & Beras", masuk:"524 ton", nilai:5720210000},
+    ],
+  },
+  2026: {
+    target:3, realisasi:3, pengelolaUtama:["PT Fiona Pusaka SRG","Koperasi Gunung Luhur Berkah","PT Cipta Usaha Agro Niaga (CUAN)"],
+    tantangan:["Sistem WMS sudah menyesuaikan proses tiap gudang, namun perlu pendampingan agar pemanfaatannya optimal & berkelanjutan","Anggaran pemeliharaan belum pasti","Kesiapan SDM pengelola gudang"],
+    list:[
+      {g:"Gudang Subang (Pusakajaya)", pg:"PT Fiona Pusaka SRG", lok:"Subang, Jabar", kom:"Gabah", masuk:"180 ton", nilai:null},
+      {g:"Gudang Subang (CV Mitra Tani Sejahtera)", pg:"PT Fiona Pusaka SRG", lok:"Subang, Jabar", kom:"Gabah", masuk:"720 ton", nilai:8640000000},
+      {g:"Gudang Warga Mandiri", pg:"PT Fiona Pusaka SRG", lok:"Subang, Jabar", kom:"Gabah", masuk:"420 ton", nilai:5040000000},
+      {g:"Gudang CV Fiona Benih Mandiri II", pg:"PT Fiona Pusaka SRG", lok:"Subang, Jabar", kom:"Gabah", masuk:"300 ton", nilai:3600000000},
+      {g:"Gudang Subang (Cisalak)", pg:"Koperasi Gunung Luhur Berkah", lok:"Subang, Jabar", kom:"Kopi", masuk:"625 ton", nilai:47580000000},
+      {g:"Gudang Pemkab Subang", pg:"Koperasi Gunung Luhur Berkah", lok:"Subang, Jabar", kom:"Beras", masuk:"690 ton", nilai:17250000000},
+      {g:"Gudang 5 PT Samudera Indo Pangan", pg:"PT Cipta Usaha Agro Niaga", lok:"Bondowoso, Jatim", kom:"Beras", masuk:"343 ton", nilai:4290000000},
+      {g:"Gudang 2 PT Santoso Jaya Tembakau", pg:"PT Cipta Usaha Agro Niaga", lok:"Pasuruan, Jatim", kom:"Tembakau", masuk:"67 ton", nilai:5040000000},
+    ],
+  },
+};
 
 /* === Data penerbitan Resi Gudang (kumulatif 2008–2026) dari Laporan Rekap RG Bappebti. */
 /* Jumlah RG = jumlah resi unik (akurat). Nilai/volume/pembiayaan diselaraskan ke total resmi rekap tahunan. */
@@ -2788,6 +2829,95 @@ function FlowNode({icon, judul, angka, ket, warna}){
   );
 }
 const FlowArrow = ()=>(<div className="flex items-center justify-center text-[var(--text-3)] text-xl px-1 shrink-0 rotate-90 md:rotate-0">→</div>);
+
+/* Gudang SRG ber-WMS (Monev Perpres 41/2026) — daftar implementasi 2025 & 2026. */
+function MenuWMS(){
+  const [yr,setYr] = useState(2026);
+  const d = WMS_GUDANG[yr];
+  const years = [2025,2026];
+  const fmtNilai = (n)=> n==null ? "—" : (n>=1e9 ? "Rp"+(n/1e9).toFixed(2).replace(".",",")+" M" : "Rp"+(n/1e6).toFixed(0)+" jt");
+  const totNilai = d.list.reduce((a,x)=>a+(x.nilai||0),0);
+  const pengelolaSet = [...new Set(d.list.map(x=>x.pg))];
+  const lokProv = [...new Set(d.list.map(x=>x.lok.split(", ").pop()))];
+  const KOM_C = {"Gabah":"#a16207","Beras":"#a16207","Beras & Gabah":"#a16207","Gabah & Beras":"#a16207","Tembakau":"#15803d","Kopi":"#7c3aed","Rumput Laut":"#0891b2","Ikan":"#2563eb","Kedelai":"#ca8a04"};
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 mt-6">
+      <div className="card p-5" style={{borderLeft:"3px solid var(--blue)"}}>
+        <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="pill text-[9px]" style={{background:"rgba(27,89,155,0.14)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.3)"}}>PERPRES 41/2026 · WMS</span>
+              <span className="serif text-xl">Gudang SRG ber-WMS yang Dikembangkan</span>
+            </div>
+            <div className="text-[11px] text-[var(--text-2)] mt-1 max-w-3xl">Implementasi <b>Warehouse Management System (WMS)</b> pada gudang SRG — Program 2 (Pemanfaatan Sarana Perdagangan), Kegiatan 2.1.1 Perpres 41/2026 Penguatan Sistem Logistik Nasional. Bappebti sebagai penanggung jawab. Sumber bukti dukung: monev operasional gudang ber-WMS (data ISWARE).</div>
+          </div>
+          <div className="flex rounded-md overflow-hidden border border-[var(--border-strong)] shrink-0">
+            {years.map(y=>(
+              <button key={y} onClick={()=>setYr(y)} className="px-3 py-1 text-[11px] mono transition" style={yr===y?{background:"var(--blue)",color:"#fff"}:{color:"var(--text-3)"}}>{y}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Target vs realisasi + ringkas */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Target {yr}</div><div className="serif text-2xl mt-0.5">{WMS_TARGET[yr]} <span className="text-[11px] text-[var(--text-3)]">gudang</span></div></div>
+          <div className="card-2 p-3" style={{borderLeft:"3px solid #059669"}}><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Realisasi</div><div className="serif text-2xl mt-0.5" style={{color:"#059669"}}>Tercapai <span className="text-[11px]">✓</span></div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Gudang Operasional ber-WMS</div><div className="serif text-2xl mt-0.5">{d.list.length}</div><div className="text-[9px] text-[var(--text-3)]">{pengelolaSet.length} pengelola · {lokProv.length} provinsi</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Barang di RG</div><div className="serif text-2xl mt-0.5" style={{color:"var(--emerald-text)"}}>{fmtNilai(totNilai)}</div></div>
+        </div>
+
+        {yr===2026 && d.pengelolaUtama && (
+          <div className="text-[11px] p-3 rounded-md mb-4" style={{background:"rgba(5,150,105,0.07)",border:"1px solid rgba(5,150,105,0.25)"}}>
+            <b>Capaian target 3 gudang SRG 2026</b> dipenuhi oleh 3 pengelola: {d.pengelolaUtama.join(" · ")}. Delapan gudang di bawahnya telah mengoperasikan WMS dengan data operasional tercatat.
+          </div>
+        )}
+
+        {/* Tabel gudang ber-WMS */}
+        <div className="overflow-x-auto rounded-md border border-[var(--border)]">
+          <table className="w-full text-[11px] border-collapse">
+            <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{background:"var(--card-2)"}}>
+              <th className="py-2 pl-3 pr-2">#</th><th className="py-2 pr-2">Gudang</th><th className="py-2 pr-2">Pengelola</th>
+              <th className="py-2 pr-2">Lokasi</th><th className="py-2 pr-2">Komoditas</th><th className="py-2 pr-2 text-right">Komoditas Masuk</th><th className="py-2 pr-3 text-right">Nilai Barang di RG</th>
+            </tr></thead>
+            <tbody>
+              {d.list.map((x,i)=>(
+                <tr key={i} className="border-t border-[var(--border)] hover:bg-[var(--card-2)] transition-colors">
+                  <td className="py-1.5 pl-3 pr-2 mono text-[10px] text-[var(--text-3)]">{i+1}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text)]">{x.g}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-2)]">{x.pg}</td>
+                  <td className="py-1.5 pr-2 text-[var(--text-3)]">{x.lok}</td>
+                  <td className="py-1.5 pr-2"><span className="pill text-[8px]" style={{background:(KOM_C[x.kom]||"#6b7280")+"1f",color:KOM_C[x.kom]||"#6b7280",border:"1px solid "+(KOM_C[x.kom]||"#6b7280")+"44"}}>{x.kom}</span></td>
+                  <td className="py-1.5 pr-2 text-right mono text-[var(--text-2)]">{x.masuk}</td>
+                  <td className="py-1.5 pr-3 text-right mono font-semibold" style={{color:"var(--emerald-text)"}}>{fmtNilai(x.nilai)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Dampak + tantangan */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-4">
+          <div className="card-2 p-3">
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Dampak Efisiensi & Efektivitas</div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              {[["Penerbitan RG","Lebih Efisien"],["Akurasi Stok","Lebih Akurat"],["Masuk/Keluar Barang","Lebih Cepat"]].map(([k,v],i)=>(
+                <div key={i} className="rounded p-2" style={{background:"rgba(5,150,105,0.08)"}}><div className="text-[9px] text-[var(--text-3)]">{k}</div><div className="text-[11px] font-semibold" style={{color:"#047857"}}>{v}</div></div>
+              ))}
+            </div>
+            <div className="text-[9px] text-[var(--text-3)] mt-2 italic">Dibanding sebelum WMS; penghematan biaya operasional belum terukur ("Tidak Ada" data estimasi pada monev).</div>
+          </div>
+          <div className="card-2 p-3">
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Tantangan & Kendala</div>
+            <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">
+              {d.tantangan.map((t,i)=>(<li key={i} className="flex gap-1.5"><span className="shrink-0" style={{color:"#b45309"}}>•</span><span>{t}</span></li>))}
+            </ul>
+          </div>
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Target tahunan Perpres 41/2026: 2025 = 2 gudang · 2026 = 3 · 2027 = 3 · 2028 = 4 · 2029 = 4. Catatan: belum ada Dokumen/SK penetapan khusus gudang sebagai "gudang SRG ber-WMS"; status dinilai dari operasionalisasi WMS pada gudang. Sumber: Monev Perpres 41/2026, Bappebti.</div>
+      </div>
+    </div>
+  );
+}
 
 function InfografisSRG(){
   const aktif = GUDANG.filter(x=>x.st==='aktif').length;
@@ -12918,6 +13048,7 @@ function App(){
       {tab==="capaian" && <AutoFold key={"Capaian"+year}><Capaian /></AutoFold>}
       {tab==="sebaran" && srgSub==="sebaran" && <InfografisSRG />}
       {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"SebaranSRG"+year}><SebaranSRG year={year} /></AutoFold>}
+      {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"MenuWMS"+year}><MenuWMS /></AutoFold>}
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
