@@ -1190,6 +1190,64 @@ const WMS_GUDANG = {
   },
 };
 
+/* === Evaluasi Penyaluran Pembiayaan Skema Subsidi Resi Gudang (SSRG) TA 2026 ===
+   Sumber: ND SP.06/216/BAPPEBTI.5/ND/11/2026 (23 Nov 2026) — Evaluasi SSRG 18 Nov 2026,
+   Hotel Ibis Senen, Jakarta Pusat. Dasar skema: PMK 187/PMK.5/2021. */
+const SSRG_2026 = {
+  event:"Evaluasi Penyaluran Pembiayaan SSRG TA 2026 · 18 November 2026",
+  dasar:"PMK No. 187/PMK.05/2021",
+  paguSubsidi:5753771000, realisasiSubsidi:4082505027, pctSubsidi:70.95,
+  pctPenyaluranPlafon:36.36,
+  bankPenyalur:8, bankAktif2026:7,
+  banks:[
+    {b:"Bank Jatim",        pct:100.0, aktif:true},
+    {b:"Bank Sulselbar",    pct:91.3,  aktif:true},
+    {b:"Bank Aceh Syariah", pct:40.24, aktif:true},
+    {b:"Bank BRI",          pct:23.14, aktif:true},
+    {b:"Bank BJB",          pct:21.22, aktif:true},
+    {b:"Bank Jateng",       pct:17.85, aktif:true},
+    {b:"Bank BSI",          pct:9.28,  aktif:true},
+    {b:"Bank Kalsel",       pct:0,     aktif:false, note:"Belum menyalurkan — pengelola gudang di Kalsel belum menerbitkan resi; PKS Pemkab–Pengelola Gudang habis & dalam transisi pergantian pengelola"},
+  ],
+  pkpBerakhir:["Bank Sulselbar","Bank Aceh Syariah","Bank Jateng"],
+  komoditasBaru:"Minyak Nilam — ditetapkan layak via Kepmendag No. 2055 Tahun 2026 (Perubahan Barang yang Dapat Disimpan di Gudang SRG)",
+  sebabTurun:[
+    "Harga beberapa komoditas (Gabah/Beras, Rumput Laut) relatif tinggi sepanjang tahun — petani menjual langsung tanpa menyimpan di Gudang SRG",
+    "Beberapa bank penyalur melakukan audit internal & evaluasi prosedur SSRG, sehingga membatasi penyaluran & memperketat persyaratan",
+    "Bank belum dapat one day service dalam pencairan — perlu prosedur kehati-hatian tambahan",
+  ],
+  tindakLanjut:[
+    "Sosialisasi pemanfaatan SSRG untuk memperluas cakupan daerah penerima subsidi",
+    "Pembinaan karakteristik kelembagaan SRG; mitigasi risiko wanprestasi via asuransi jaminan pelaksanaan SRG",
+    "Koordinasi dengan Biro Pengawasan untuk pemeringkatan (rating) kelembagaan SRG",
+    "Koordinasi dengan Pemda pemilik aset gudang + SINNERGI untuk mengoperasikan gudang yang idle",
+    "Penguatan ekosistem SRG bersama Pusat Registrasi (PT KBI), Bank Penyalur, dan SINNERGI",
+  ],
+  interkoneksi:"Host to Host SIKP–SIRG: SIT/UAT selesai, tahap berikutnya production (SITP sedang proses clearing)",
+};
+
+/* === Pengawasan Transaksi & Lembaga SRG — Oktober/November 2026 ===
+   Sumber: ND PF.03.00/349/BAPPEBTI.3/ND/11/2026 (23 Nov 2026), Biro Pengawasan & Penindakan.
+   Data transaksi ditarik dari Isware (PT KBI) 23 Nov 2026 jam 10:22 WIB. */
+const WAS_SRG_TX_OKT = [
+  {kom:"Gula Kristal Putih", rg:8, kg:9500000, terbit:137750000000, biaya:35525000000},
+  {kom:"Kopi",              rg:5, kg:41728,   terbit:6109182000,   biaya:4276427400},
+  {kom:"Gabah",             rg:7, kg:420000,  terbit:5040000000,   biaya:3500000000},
+  {kom:"Beras",             rg:2, kg:60000,   terbit:1500000000,   biaya:1000000000},
+  {kom:"Bawang Merah",      rg:2, kg:60000,   terbit:1500000000,   biaya:0},
+  {kom:"Ikan",              rg:1, kg:2925,    terbit:763425000,    biaya:500000000},
+  {kom:"Rumput Laut",       rg:1, kg:27000,   terbit:216000000,    biaya:141000000},
+];
+const WAS_SRG_TOTAL = {rg:26, kg:10111653, terbit:152878607000, biaya:44942427400, pengelola:9, periode:"Oktober 2026"};
+const WAS_SRG_JATUHTEMPO = {rg:1, terbit:7000000, biaya:490000000, periode:"November 2026", status:"Aktif, dalam penjaminan"};
+const WAS_SRG_KASUS = [
+  {pg:"Koperasi Karya Mandiri Tirtayasa (KMT)", lok:"Tangerang, Banten", kom:"Rumput Laut", status:"Bank BJB siap melakukan penjualan langsung komoditi (surat No. 5086/TEG-KOM/2026); resi dinyatakan siap dijual langsung sesuai ketentuan", bank:"Bank BJB"},
+  {pg:"PT Merdeka Bahari Indonesia (MBI)", lok:"Tegal, Jawa Tengah", kom:"—", status:"Tetap berkomitmen menyelesaikan resi; rencana menjual saham perusahaan + hasil usaha pupuk hingga akhir Desember 2026", bank:"Bank BJB"},
+  {pg:"Dinas Kabupaten Pagar Alam", lok:"Pagar Alam, Sumatera Selatan", kom:"—", status:"Gudang SRG sangat tidak terawat (tanaman liar, beberapa atap hilang, bangunan kantor terbengkalai) — perlu ditindaklanjuti pemanfaatannya", bank:null},
+  {pg:"Koperasi Cipta Nelayan Sentosa (Kospermindo)", lok:"Makassar, Sulawesi Selatan", kom:"Rumput Laut", status:"Tagihan biaya pindah & sewa gudang 7 bulan; rencana jual komoditas untuk meringankan Bank BJB & BRI; 13 Nov 2026 sebagian rumput laut dikeluarkan — menunggu surat resmi bank", bank:"Bank BJB & BRI"},
+  {pg:"PT Thara Jaya Niaga (TJN)", lok:"Subang, Jawa Barat", kom:"—", status:"Wanprestasi; penyelesaian via Acte Van Dadding No.68/Pdt.G/2026/PN Jkt.Pst; KPBI minta dukungan Bappebti untuk lelang/penjualan langsung & verifikasi barang", bank:null},
+];
+
 /* === Data penerbitan Resi Gudang (kumulatif 2008–2026) dari Laporan Rekap RG Bappebti. */
 /* Jumlah RG = jumlah resi unik (akurat). Nilai/volume/pembiayaan diselaraskan ke total resmi rekap tahunan. */
 const PENGELOLA_ISSUANCE = [{pg:"PT. Pabrik Gula Candi Baru",rg:323,nilai:2653270500000,vol:196867,rgBiaya:304,biaya:1671569350000},{pg:"PT. Thara Jaya Niaga",rg:192,nilai:1214772000000,vol:19246,rgBiaya:164,biaya:733631435000},{pg:"PT. BGR Logistik Indonesia",rg:435,nilai:1013894256676,vol:2184,rgBiaya:431,biaya:710570507684},{pg:"PT. Cipta Usaha Agro Niaga",rg:630,nilai:690465226780,vol:37240,rgBiaya:536,biaya:434543310000},{pg:"PT. Bhanda Ghara Reksa (Persero)",rg:533,nilai:483985920750,vol:5738,rgBiaya:336,biaya:353007558266},{pg:"PT. Pertani (Persero)",rg:1454,nilai:338713150600,vol:68317,rgBiaya:1249,biaya:208366000200},{pg:"PT. Perusahaan Perdagangan Indonesia (Persero)",rg:100,nilai:298912426001,vol:503,rgBiaya:100,biaya:238725000000},{pg:"PT. Pabrik Gula Rajawali I",rg:75,nilai:266790000000,vol:19667,rgBiaya:46,biaya:148183000000},{pg:"PT Siriman Jaya Abadi",rg:108,nilai:264339000000,vol:244,rgBiaya:93,biaya:144421875000},{pg:"PT. Ketiara",rg:212,nilai:206393000000,vol:2499,rgBiaya:186,biaya:127558100000},{pg:"Koperasi Gunung Luhur Berkah",rg:205,nilai:172781440000,vol:4739,rgBiaya:152,biaya:84241105000},{pg:"PT. Wahana Pronatural",rg:92,nilai:163037670000,vol:6548,rgBiaya:65,biaya:61388323500},{pg:"Koperasi Karya Mandiri Tirtayasa",rg:26,nilai:131065425000,vol:5172,rgBiaya:17,biaya:74578805000},{pg:"Koperasi Cipta Nelayan Sentosa",rg:36,nilai:75920675000,vol:3101,rgBiaya:20,biaya:25806487500},{pg:"PT. Fiona Pusaka SRG",rg:104,nilai:74072000000,vol:6956,rgBiaya:97,biaya:46980000000},{pg:"Koperasi Niaga Mukti",rg:476,nilai:73032903300,vol:10382,rgBiaya:455,biaya:48789179266},{pg:"PT. Pengayom Tani Sejagad",rg:92,nilai:68684691000,vol:7318,rgBiaya:89,biaya:45331200000},{pg:"KSU Sarana Hidup Sejahtera",rg:196,nilai:58823527000,vol:7042,rgBiaya:167,biaya:32560200000},{pg:"PT. Food Station Tjipinang Jaya",rg:116,nilai:56535877000,vol:7600,rgBiaya:59,biaya:21592518800},{pg:"PT Sejahtera Pangan Selaras Indonesia",rg:68,nilai:49353911000,vol:784,rgBiaya:47,biaya:18741592375},{pg:"KSU Item Reje Gayo",rg:76,nilai:46399707000,vol:435,rgBiaya:53,biaya:23425725000},{pg:"KSU Annisa",rg:317,nilai:46099952500,vol:6530,rgBiaya:304,biaya:29881770000},{pg:"Kospermindo",rg:77,nilai:39630655000,vol:4356,rgBiaya:65,biaya:23922202300},{pg:"PT Merdeka Bahari Indonesia",rg:25,nilai:38532866000,vol:1547,rgBiaya:23,biaya:26071288700},{pg:"PT Atma Mulya Jaya",rg:160,nilai:28430678580,vol:1372,rgBiaya:146,biaya:18215412814},{pg:"PT Anugrah Pesona Mandiri",rg:36,nilai:27138611600,vol:906,rgBiaya:32,biaya:15943950000},{pg:"PT. Sucofindo (Persero)",rg:35,nilai:26807608687,vol:132,rgBiaya:32,biaya:20986150463},{pg:"Koperasi Basunondo",rg:203,nilai:22556161100,vol:3045,rgBiaya:117,biaya:10310196300},{pg:"PT Ksatria Guna Sejahtera",rg:3,nilai:20691720000,vol:244,rgBiaya:0,biaya:0},{pg:"Koperasi Tani Bontolempengan",rg:28,nilai:20474750000,vol:1300,rgBiaya:16,biaya:10987970000}];
@@ -2829,6 +2887,137 @@ function FlowNode({icon, judul, angka, ket, warna}){
   );
 }
 const FlowArrow = ()=>(<div className="flex items-center justify-center text-[var(--text-3)] text-xl px-1 shrink-0 rotate-90 md:rotate-0">→</div>);
+
+/* Evaluasi Subsidi Resi Gudang (SSRG) TA 2026. */
+function MenuSSRG(){
+  const s = SSRG_2026;
+  const rpM = (n)=> "Rp"+(n/1e9).toFixed(3).replace(".",",")+" M";
+  const barC = (p)=> p>=80?"#059669":(p>=40?"#d97706":(p>0?"#dc2626":"#9ca3af"));
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 mt-6">
+      <div className="card p-5" style={{borderLeft:"3px solid var(--gold)"}}>
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <span className="pill text-[9px]" style={{background:"rgba(161,98,7,0.14)",color:"var(--gold-text)",border:"1px solid rgba(161,98,7,0.3)"}}>SUBSIDI RESI GUDANG · TA 2026</span>
+          <span className="serif text-xl">Evaluasi Penyaluran Pembiayaan SSRG</span>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mb-4 max-w-3xl">Hasil Evaluasi Penyaluran Pembiayaan Skema Subsidi Resi Gudang TA 2026 (18 Nov 2026) bersama Kemenkeu, 8 bank penyalur, PT KBI, dan SINNERGI. Dasar skema: {s.dasar}.</div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Realisasi Subsidi Bunga/Margin</div><div className="serif text-2xl mt-0.5" style={{color:"var(--gold-text)"}}>{s.pctSubsidi.toFixed(2).replace(".",",")}%</div><div className="text-[9px] text-[var(--text-3)]">{rpM(s.realisasiSubsidi)} / {rpM(s.paguSubsidi)}</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Realisasi Penyaluran vs Plafon</div><div className="serif text-2xl mt-0.5">{s.pctPenyaluranPlafon.toFixed(2).replace(".",",")}%</div><div className="text-[9px] text-[var(--text-3)]">lebih rendah dari tahun lalu</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Bank Penyalur</div><div className="serif text-2xl mt-0.5">{s.bankAktif2026}<span className="text-[13px] text-[var(--text-3)]">/{s.bankPenyalur}</span></div><div className="text-[9px] text-[var(--text-3)]">menyalurkan di 2026</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Komoditas Baru</div><div className="serif text-lg mt-0.5" style={{color:"var(--emerald-text)"}}>Minyak Nilam</div><div className="text-[9px] text-[var(--text-3)]">Kepmendag 2055/2026</div></div>
+        </div>
+
+        {/* Capaian per bank */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Capaian Penyaluran per Bank (atas plafon)</div>
+        <div className="space-y-1.5 mb-4">
+          {s.banks.map((bk,i)=>(
+            <div key={i} className="flex items-center gap-2.5 text-[11px]">
+              <span className="w-32 shrink-0 text-[var(--text-2)]">{bk.b}</span>
+              <div className="flex-1 impact-bar" style={{height:9}}><div className="impact-fill" style={{width:`${Math.max(bk.pct,1.5)}%`,background:barC(bk.pct)}}></div></div>
+              <span className="mono text-[11px] w-14 text-right shrink-0 font-semibold" style={{color:barC(bk.pct)}}>{bk.aktif?bk.pct.toFixed(2).replace(".",",")+"%":"Belum"}</span>
+            </div>
+          ))}
+        </div>
+        {s.banks.filter(b=>b.note).map((b,i)=>(<div key={i} className="text-[9px] text-[var(--text-3)] italic mb-3">{b.b}: {b.note}</div>))}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <div className="card-2 p-3">
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Penyebab Penyaluran Menurun</div>
+            <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">{s.sebabTurun.map((x,i)=>(<li key={i} className="flex gap-1.5"><span className="shrink-0" style={{color:"#b45309"}}>•</span><span>{x}</span></li>))}</ul>
+          </div>
+          <div className="card-2 p-3">
+            <div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] mb-1.5">Tindak Lanjut</div>
+            <ul className="space-y-1 text-[10.5px] text-[var(--text-2)] leading-snug">{s.tindakLanjut.map((x,i)=>(<li key={i} className="flex gap-1.5"><span className="shrink-0" style={{color:"#059669"}}>→</span><span>{x}</span></li>))}</ul>
+          </div>
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Interkoneksi {s.interkoneksi}. PKP berakhir 31 Des 2026: {s.pkpBerakhir.join(", ")}. Sumber: {s.event}; ND SP.06/216/BAPPEBTI.5/ND/11/2026.</div>
+      </div>
+    </div>
+  );
+}
+
+/* Pengawasan Transaksi & Lembaga SRG — Oktober 2026 + status kasus. */
+function MenuPengawasanSRG(){
+  const rpF = (n)=> n===0?"—":(n>=1e9?"Rp"+(n/1e9).toFixed(2).replace(".",",")+" M":"Rp"+(n/1e6).toFixed(0)+" jt");
+  const maxT = Math.max(...WAS_SRG_TX_OKT.map(x=>x.terbit));
+  const T = WAS_SRG_TOTAL, JT = WAS_SRG_JATUHTEMPO;
+  return (
+    <div className="max-w-[1400px] mx-auto px-8 mt-6 mb-10">
+      <div className="card p-5" style={{borderLeft:"3px solid var(--violet)"}}>
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <span className="pill text-[9px]" style={{background:"rgba(124,58,237,0.14)",color:"var(--violet)",border:"1px solid rgba(124,58,237,0.3)"}}>PENGAWASAN TRANSAKSI SRG</span>
+          <span className="serif text-xl">Transaksi Resi Gudang — Oktober 2026 & Status Kasus</span>
+        </div>
+        <div className="text-[11px] text-[var(--text-2)] mb-4 max-w-3xl">Hasil pengawasan transaksi & lembaga SRG secara online melalui Isware (PT KBI) dan Epact (PT ICH). Pada Oktober 2026 penerbitan dilakukan {T.pengelola} pengelola gudang.</div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Resi Gudang Terbit (Okt)</div><div className="serif text-2xl mt-0.5">{T.rg}</div><div className="text-[9px] text-[var(--text-3)]">{(T.kg/1000).toLocaleString("id-ID",{maximumFractionDigits:1})} ton</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Penerbitan</div><div className="serif text-2xl mt-0.5" style={{color:"var(--emerald-text)"}}>Rp152,88 M</div></div>
+          <div className="card-2 p-3"><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Nilai Pembiayaan</div><div className="serif text-2xl mt-0.5">Rp44,94 M</div></div>
+          <div className="card-2 p-3" style={{borderLeft:"3px solid var(--red)"}}><div className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)]">Jatuh Tempo Nov</div><div className="serif text-2xl mt-0.5">{JT.rg} RG</div><div className="text-[9px] text-[var(--text-3)]">pembiayaan {rpF(JT.biaya)} · {JT.status}</div></div>
+        </div>
+
+        {/* Per komoditas */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Penerbitan per Komoditas — Oktober 2026</div>
+        <div className="overflow-x-auto rounded-md border border-[var(--border)] mb-4">
+          <table className="w-full text-[11px] border-collapse">
+            <thead><tr className="text-[9px] mono uppercase tracking-wider text-[var(--text-3)] text-left" style={{background:"var(--card-2)"}}>
+              <th className="py-2 pl-3 pr-2">Komoditas</th><th className="py-2 pr-2 text-right">RG</th><th className="py-2 pr-2 text-right">Volume (kg)</th>
+              <th className="py-2 pr-2">Nilai Penerbitan</th><th className="py-2 pr-3 text-right">Pembiayaan</th>
+            </tr></thead>
+            <tbody>
+              {WAS_SRG_TX_OKT.map((x,i)=>(
+                <tr key={i} className="border-t border-[var(--border)] hover:bg-[var(--card-2)] transition-colors">
+                  <td className="py-1.5 pl-3 pr-2 text-[var(--text)]">{x.kom}</td>
+                  <td className="py-1.5 pr-2 text-right mono text-[var(--text-2)]">{x.rg}</td>
+                  <td className="py-1.5 pr-2 text-right mono text-[var(--text-3)]">{x.kg.toLocaleString("id-ID")}</td>
+                  <td className="py-1.5 pr-2">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 impact-bar" style={{height:7,minWidth:40}}><div className="impact-fill" style={{width:`${Math.max(3,Math.round(x.terbit/maxT*100))}%`,background:"var(--emerald)"}}></div></div>
+                      <span className="mono text-[10px] w-20 text-right shrink-0">{rpF(x.terbit)}</span>
+                    </div>
+                  </td>
+                  <td className="py-1.5 pr-3 text-right mono text-[var(--text-2)]">{rpF(x.biaya)}</td>
+                </tr>
+              ))}
+              <tr className="border-t-2 border-[var(--border-strong)] font-semibold" style={{background:"var(--card-2)"}}>
+                <td className="py-1.5 pl-3 pr-2">Grand Total</td>
+                <td className="py-1.5 pr-2 text-right mono">{T.rg}</td>
+                <td className="py-1.5 pr-2 text-right mono">{T.kg.toLocaleString("id-ID")}</td>
+                <td className="py-1.5 pr-2 mono text-[10px]">Rp152,88 M</td>
+                <td className="py-1.5 pr-3 text-right mono">Rp44,94 M</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Kasus */}
+        <div className="text-[10px] mono uppercase tracking-wider text-[var(--text-3)] mb-2">Status Permasalahan Kelembagaan SRG ({WAS_SRG_KASUS.length} kasus)</div>
+        <div className="space-y-2">
+          {WAS_SRG_KASUS.map((k,i)=>(
+            <div key={i} className="rounded-md border border-[var(--border)] p-3 hover:bg-[var(--card-2)] transition-colors">
+              <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full mono text-[10px] font-bold text-white shrink-0" style={{background:"var(--violet)"}}>{i+1}</span>
+                  <span className="text-[12px] font-semibold text-[var(--text)]">{k.pg}</span>
+                  <span className="text-[10px] mono text-[var(--text-3)]">{k.lok}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {k.kom!=="—" && <span className="pill text-[8px]" style={{background:"var(--card-2)",color:"var(--text-2)",border:"1px solid var(--border)"}}>{k.kom}</span>}
+                  {k.bank && <span className="pill text-[8px]" style={{background:"rgba(27,89,155,0.1)",color:"var(--blue)",border:"1px solid rgba(27,89,155,0.25)"}}>{k.bank}</span>}
+                </div>
+              </div>
+              <div className="text-[10.5px] text-[var(--text-2)] leading-snug pl-7">{k.status}</div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[9px] text-[var(--text-3)] mt-3 italic">Data transaksi ditarik dari Isware (PT KBI) 23 November 2026; Epact (PT ICH) Oktober 2026 nihil penerbitan. Sumber: ND PF.03.00/349/BAPPEBTI.3/ND/11/2026.</div>
+      </div>
+    </div>
+  );
+}
 
 /* Gudang SRG ber-WMS (Monev Perpres 41/2026) — daftar implementasi 2025 & 2026. */
 function MenuWMS(){
@@ -13049,6 +13238,8 @@ function App(){
       {tab==="sebaran" && srgSub==="sebaran" && <InfografisSRG />}
       {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"SebaranSRG"+year}><SebaranSRG year={year} /></AutoFold>}
       {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"MenuWMS"+year}><MenuWMS /></AutoFold>}
+      {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"MenuSSRG"+year}><MenuSSRG /></AutoFold>}
+      {tab==="sebaran" && srgSub==="sebaran" && <AutoFold key={"MenuPengawasanSRG"+year}><MenuPengawasanSRG /></AutoFold>}
       {tab==="sebaran" && srgSub==="psn"     && <AutoFold key={"MenuPSN"+year}><MenuPSN /></AutoFold>}
       {tab==="plk"     && <AutoFold key={"MenuPLK"+year}><MenuPLK year={year} /></AutoFold>}
       {tab==="pbk"     && <AutoFold key={"MenuPBK"+year}><MenuPBK year={year} /></AutoFold>}
